@@ -1,0 +1,23 @@
+// Recording one definition, and the order the whole run happens in.
+
+// A declaration that is not a definition still has to be stepped over, or the
+// loop above it never reaches "eof".
+tu_body(int[] pos, string name, int isf) {
+  if(isf > 0) {
+    int b = parse_stmt(pos);
+    tu_add(name, b);
+  } else {
+    advance(pos);
+  }
+} return void;
+
+tu_add(string name, int b) {
+  push((import fnames), name);
+  push((import fbodies), b);
+} return void;
+
+drive() {
+  int[] pos = [0];
+  parse_unit(pos);
+  emit_all();
+} return void;

@@ -1,0 +1,21 @@
+// One function's blocks, written as the tagged stream tools/c2id.sh splits.
+
+emit_blocks(int fn, int body) {
+  cfg_build(body);
+  int n = cfg_nblocks();
+  emit_nb(fn, n);
+} return void;
+
+emit_nb(int fn, int n) {
+  int b = 0;
+  while(b < n) {
+    emit_blk(fn, b);
+    b = b + 1;
+  }
+} return void;
+
+emit_blk(int fn, int b) {
+  string p = func_path(fn);
+  print("==== FILE " + p);
+  print("blk" + b + "(word fp) { } return word 0;");
+} return void;

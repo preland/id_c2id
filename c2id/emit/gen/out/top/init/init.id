@@ -1,0 +1,19 @@
+// The first half of the init chain: nodes are done, tokens and types next.
+
+boot_b() {
+  init_tokens();
+  ty_setup();
+  boot_c();
+} return void;
+
+boot_c() {
+  init_frame();
+  init_frame2();
+  boot_d();
+} return void;
+
+boot_d() {
+  init_cfg();
+  init_cfg2();
+  boot_e();
+} return void;

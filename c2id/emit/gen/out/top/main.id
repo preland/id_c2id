@@ -1,0 +1,26 @@
+// The driver: read, lex, parse, emit.
+//
+// `main` lives here because the program *is* its final stage -- NOTES.md
+// section 2. Everything above this directory is a library that never decides
+// anything; this is the only file that knows the order the stages run in.
+
+main(int argc, string[] argv) {
+  boot_a();
+  boot_b();
+  run();
+} return int 0;
+
+// Every stage keeps its own exported lists and none of the init functions call
+// each other, so all fourteen have to be named somewhere. Three actions to a
+// block makes that a chain rather than a list.
+boot_a() {
+  init_nodes();
+  init_nodes2();
+  init_nodes3();
+} return void;
+
+run() {
+  string src = read_all();
+  lex_all(src);
+  drive();
+} return void;

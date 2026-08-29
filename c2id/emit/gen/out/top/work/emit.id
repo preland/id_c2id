@@ -1,0 +1,23 @@
+// Walking the functions the translation unit collected.
+//
+// Nothing above this ever called into emit/. The 239 functions there compiled
+// and type-checked, but no path reached them, which is why "the back end is
+// written" and "the back end runs" were two different claims.
+
+emit_all() {
+  int n = len((import fnames));
+  emit_loop(0, n);
+} return void;
+
+emit_loop(int i, int n) {
+  while(i < n) {
+    emit_one(i);
+    i = i + 1;
+  }
+} return void;
+
+emit_one(int i) {
+  int body = (import fbodies)[i];
+  txt_reset();
+  emit_blocks(i, body);
+} return void;

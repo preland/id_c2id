@@ -1,0 +1,21 @@
+// The second half: the rest of the CFG store, then the text emitter, which
+// emit/gen/txt/README.md requires be set up after nodes, types and frames.
+
+boot_e() {
+  init_cfg3();
+  init_cfg4();
+  boot_f();
+} return void;
+
+boot_f() {
+  init_cfg5();
+  txt_setup();
+  init_tu();
+} return void;
+
+// What the translation unit collected: one name and one body node per function
+// definition, kept parallel the way every other store in this compiler is.
+init_tu() {
+  export string[] fnames = [];
+  export int[] fbodies = [];
+} return void;

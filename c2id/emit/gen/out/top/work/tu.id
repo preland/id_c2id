@@ -1,0 +1,25 @@
+// The translation unit: a sequence of external declarations.
+//
+// The parser below this knows statements, expressions, declarators and types,
+// but nothing knew what a *file* looked like -- there was no loop over
+// top-level declarations and no record of a function definition. This is that
+// loop, and it is deliberately the smallest one that can tell a definition
+// from a declaration: specifiers, a declarator, then a body if `{` follows.
+
+parse_unit(int[] pos) {
+  while(cur_kind(pos) != "eof") {
+    parse_one(pos);
+  }
+} return void;
+
+parse_one(int[] pos) {
+  parse_specs(pos);
+  parse_declarator(pos, 0);
+  tu_take(pos);
+} return void;
+
+tu_take(int[] pos) {
+  string name = decl_name();
+  int isf = at_text(pos, "{");
+  tu_body(pos, name, isf);
+} return void;
