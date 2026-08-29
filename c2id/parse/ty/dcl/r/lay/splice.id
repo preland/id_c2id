@@ -19,7 +19,7 @@ un_zero(int ty, int n) {
 } return int v;
 
 splice(int ty, int[] lay, int inner) {
-  lset(lay, 2, max_int(lay[2], type_align(inner)));
+  lset(lay, 2, fx_max(lay[2], type_align(inner)));
   int n = place_ws(ty, lay, inner);
   splice_all(ty, inner, n);
 } return void;

@@ -208,7 +208,7 @@ tab/                        registries, sizes, printing, constant expressions
     sy/col/memcol.id        sy_push sy_col1 sy_col2
     sy/col/row.id           sy_row member_count
     mb/find.id              mem_find mem_hit member_off
-    mb/num.id               member_type max_int align_up
+    mb/num.id               member_type align_up
     mb/size.id              type_size arr_size tsize2
   val/
     num/align.id            type_align talign2 talign3

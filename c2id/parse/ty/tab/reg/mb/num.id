@@ -1,5 +1,5 @@
 
-// The type of a member, and the two arithmetic helpers layout needs.
+// The type of a member, and the one arithmetic helper layout needs.
 
 // type node of member `name` inside record `ty`, or -1
 member_type(int ty, string name) {
@@ -9,13 +9,6 @@ member_type(int ty, string name) {
     r = (import syids)[i];
   }
 } return int r;
-
-max_int(int a, int b) {
-  int n = a;
-  if(b > a) {
-    n = b;
-  }
-} return int n;
 
 // An alignment of 0 is possible -- a void type has one -- so the guard is not
 // decoration: without it this divides by zero.

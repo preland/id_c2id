@@ -1,21 +1,9 @@
-// The two imported-list store helpers, and the token-store append.
+// The token-store append. The two imported-list store helpers (`lset` and
+// `sset`) come from the standard library.
 //
-// `(import xs)[i] = v` parses as a comparison and silently does nothing
-// (NOTES.md section 6). Passing the list as a parameter makes the assignment
-// target a plain identifier again, and lists are reference-semantic, so the
-// store lands in the global. These two are defined exactly once in the whole
-// project; everything else in c2id calls them.
+// The append keeps the three lists parallel because it is the only thing
+// that pushes to them.
 
-lset(int[] xs, int i, int v) {
-  xs[i] = v;
-} return void;
-
-sset(string[] names, int i, string s) {
-  names[i] = s;
-} return void;
-
-// Append one token. The three lists stay parallel because this is the only
-// thing that pushes to them.
 add_tok(string kind, string txt) {
   push((import tkind), kind);
   push((import ttext), txt);

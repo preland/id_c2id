@@ -13,11 +13,11 @@ parse_str(int[] pos) {
 
 str_more(int[] pos, string s) {
   while(cur_kind(pos) == "str") {
-    s = str_join(pos, s);
+    s = str_glue(pos, s);
   }
 } return int newleaf("str", 0, 0, s, "");
 
-str_join(int[] pos, string s) {
+str_glue(int[] pos, string s) {
   string out = s + cur_text(pos);
   advance(pos);
 } return string out;

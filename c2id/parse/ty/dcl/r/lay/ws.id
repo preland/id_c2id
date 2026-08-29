@@ -6,7 +6,7 @@
 place_ws(int ty, int[] lay, int r) {
   int n = un_zero(ty, align_up(lay[0], 8 * type_align(r)));
   lset(lay, 0, n + 8 * type_size(r));
-  lset(lay, 1, max_int(lay[1], type_size(r)));
+  lset(lay, 1, fx_max(lay[1], type_size(r)));
 } return int n;
 
 // A bitfield goes at the cursor if it still fits in the storage unit of its
@@ -15,7 +15,7 @@ place_ws(int ty, int[] lay, int r) {
 place_bf(int ty, int[] lay, int r, int w) {
   int n = un_zero(ty, bf_pos(lay[0], type_size(r), w));
   lset(lay, 0, n + w);
-  lset(lay, 1, max_int(lay[1], type_size(r)));
+  lset(lay, 1, fx_max(lay[1], type_size(r)));
 } return int n;
 
 bf_pos(int n, int sz, int w) {

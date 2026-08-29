@@ -90,7 +90,7 @@ ex/
         q2.id     primary4  parse_var  parse_const
         str/
           q3.id     const_val  prim_paren  prim_bad
-          str.id    parse_str  str_more  str_join
+          str.id    parse_str  str_more  str_glue
       lit/
         dig.id    dig_val  alpha_dig  upper_dig
         num/
