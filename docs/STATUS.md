@@ -105,39 +105,44 @@ parser, expression parser, statement parser, frame layout and the project
 layout scheme all coexist. Casts, declarations, function-pointer declarators
 and kernel-shaped pointer chains all parse with no diagnostics.
 
-**But `tests/run.sh` case `frontend-integration` currently fails**, because
-that harness builds the front end alongside `idstd` (implicitly imported —
-see `docs/ID_CHEATSHEET.md`), and `c2id`'s own `lset` collides with the
-library's. See "Known gaps in what is built" below for the exact evidence.
+`tests/run.sh` case `frontend-integration` **passes**. It builds the front end
+alongside `idstd` (implicitly imported — see `docs/ID_CHEATSHEET.md`), which
+used to fail on four names this repository defined for itself and the library
+already owned; they are gone. See "Known gaps in what is built" below.
 
-**Nothing is emitted yet.** The back end (`emit/cfg/`, `emit/gen/`) is fully
-specified in `docs/EMITTER.md` but not written, so no C compiles to `id` and
-the differential cases in `tests/c/` still report SKIP. See
-`docs/CONTINUING.md`.
+**The back end is written, compiles, and emits stubs.** This paragraph used to
+say it was "not written"; that was wrong. `emit/cfg/` and `emit/gen/` hold 83
+files and 239 functions, and compiling them together with `lex/` and `parse/`
+succeeds — measured: exit 0, a 91 672-byte binary, no diagnostics. That is
+worth something rather than nothing, because `idc.py` checks dead code (it was
+deliberately changed to "check and generate everything; only emission is
+filtered"), so all 239 have passed the type, name, access and uniqueness rules.
+
+What was missing was never the back end but the **driver**: no `main`, no loop
+over a translation unit, and no call from `lex/` or `parse/` into `emit/` at
+all. `emit/gen/out/top/` is that layer now, and the pipeline runs end to end —
+`tools/c2id.sh tests/c/010_arith.c` preprocesses, lexes, parses and writes 8
+generated files beside `crt/`.
+
+**No C compiles to `id` yet**, for three reasons that are now specific rather
+than general: `emit_blk` prints a stub block instead of calling `st_txt` and
+`ex_txt`; `func_path` is handed the C function's number where it wants the
+block function's, so blocks collide onto one file; and the expression parser
+rejects `&&`. The `tests/c/` cases therefore report FAIL rather than SKIP —
+they ran. See `docs/CONTINUING.md`.
 
 ## Known gaps in what is built
 
 Recorded here rather than left to be discovered:
 
-* **`c2id`'s own `lset` collides with `idstd`'s.** `tests/frontend/build.sh`
-  builds `c2id/lex` and `c2id/parse` together with the harness in
-  `tests/frontend/harn`, and `idstd` is implicitly imported into every `id`
-  project. `c2id/lex/drv/st/store.id:9` defines `lset(int[] xs, int i, int
-  v)` — needed because `(import xs)[i] = v` silently does nothing (see
-  `c2id/NOTES.md` §6) — and `../idstd/core/data/lst/lst.id:21` defines the
-  same name for the same reason. The build fails with:
-  ```
-  error: function 'lset' already defined at
-  /home/preland/git/id_development/c2id/build/frontend/src/c2id/lex/drv/st/store.id:9
-  ```
-  This is the exact state `id_development`'s `tests/idstd_expect.txt` calls
-  `broken`: a private copy of a name the standard library already defines,
-  same class of problem the compiler's own `lex`/`parse` stages had before
-  they were switched to call idstd's `lset` instead of defining their own
-  (see that file). The fix here is the same one, not attempted in this pass.
-  Measured this session: `tools/check.sh` → 2 passed, 1 failed
-  (`frontend-integration`), 0 skipped; `tests/run.sh` → 2 passed, 1 failed,
-  7 skipped.
+* **Four names this repository defined and `idstd` already owned** — fixed.
+  `lset` and `sset` were byte-identical to the library's, `max_int` was
+  `fx_max` with its locals spelled differently, and `str_join` merely shared a
+  name with an unrelated library function, so it became `str_glue`. Only the
+  first was ever reported, because the compiler stops at the first collision;
+  the rest were found by fingerprinting every function in both trees the way
+  the uniqueness rule does. Measured after: `tools/check.sh` → 3 passed,
+  0 failed, 0 skipped.
 * **Large integer literals truncate in the C parser.** `c2id`'s AST stores a
   numeric literal's value in an `int[]` field, and `id`'s `int` is 32 bits, so
   `0x0123456789abcdefUL` reaches the emitter as `-1985229329`. Found by
