@@ -1,0 +1,26 @@
+// Which file a block function lands in, and the head of the function itself.
+//
+// The number that decides the path is the *block function's*, counted across
+// the whole program, not the C function's -- three block functions share a
+// file (EMITTER.md 5). Getting that wrong is not a cosmetic error: the splitter
+// opens each path with "w", so two functions claiming one path means the first
+// is overwritten and silently lost.
+
+emit_mark() {
+  int g = (import gfn)[0];
+  emit_mark2(g);
+  lset((import gfn), 0, g + 1);
+} return void;
+
+emit_mark2(int g) {
+  int k = g % funcs_per_file();
+  if(k == 0) {
+    string p = func_path(g);
+    print("==== FILE " + p);
+  }
+} return void;
+
+emit_open(int b) {
+  print("blk" + b + "(word fp) {");
+  emit_stmts(b);
+} return void;

@@ -1,0 +1,21 @@
+// A two-way branch, written as the false edge assigned first and the true edge
+// assigned over it, so the block stays straight-line and one level deep.
+
+emit_ret(int e) {
+  if(e >= 0) {
+    string txt = ex_txt(e);
+    print("  poke64(fp, " + txt + ");");
+  }
+} return void;
+
+emit_cond(int b) {
+  int a = cfg_alt(b);
+  print("  word nxt = " + a + ";");
+  emit_cond2(b);
+} return void;
+
+emit_cond2(int b) {
+  int e = cfg_expr(b);
+  string txt = ex_txt(e);
+  emit_cond3(b, txt);
+} return void;

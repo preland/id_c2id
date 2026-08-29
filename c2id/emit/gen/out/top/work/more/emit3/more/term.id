@@ -1,0 +1,27 @@
+// How a block ends. Three terminators, and each has one shape (cfg/README.md).
+
+emit_term(int b) {
+  string kind = cfg_term(b);
+  if(kind == "jmp") {
+    int blk = cfg_succ(b);
+    print("} return word " + blk + ";");
+  } else {
+    emit_term2(b, kind);
+  }
+} return void;
+
+emit_term2(int b, string kind) {
+  if(kind == "end") {
+    emit_end(b);
+  } else {
+    emit_cond(b);
+  }
+} return void;
+
+// A return with no value is -1 for the expression, which is why the poke is
+// conditional rather than unconditional.
+emit_end(int b) {
+  int e = cfg_expr(b);
+  emit_ret(e);
+  print("} return word 0 - 1;");
+} return void;

@@ -1,0 +1,8 @@
+// The true edge and the close, split out because assigning it is three actions
+// once the successor has been named.
+
+emit_cond3(int b, string txt) {
+  int blk = cfg_succ(b);
+  print("  if(" + txt + ") { nxt = " + blk + "; }");
+  print("} return word nxt;");
+} return void;
