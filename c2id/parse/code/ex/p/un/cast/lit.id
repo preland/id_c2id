@@ -1,0 +1,27 @@
+// A parenthesised expression, and compound literals.
+
+// '(' has been consumed and the contents are an expression. Consume the ')'
+// and then let the postfix suffixes run, so `(a).b`, `(f)(x)` and `(*p)[i]`
+// all chain correctly.
+paren_expr(int[] pos) {
+  int a = parse_expr(pos);
+  advance(pos);
+} return int postfix_tail(pos, a);
+
+// `(T){ a, b }`. NOTES.md section 4 has no node kind for a brace initialiser,
+// so this is a `cast` whose operand is a `call` node with callee -1: -1 is
+// never a node id, and the ABI already spells "absent" that way (see `decl`,
+// `case`, `return`). Nested braces are not flattened -- an inner `{` is parsed
+// by parse_assign, which does not know about it. See README.md.
+compound_lit(int[] pos, int ty) {
+  int[] ids = [];
+  scan_inits(pos, ids);
+  int a = newlist("call", 0 - 1, 0, "", ids);
+} return int newleaf("cast", a, ty, "", "");
+
+// '{' element, element ... '}'
+scan_inits(int[] pos, int[] ids) {
+  advance(pos);
+  fill_list(pos, ids, "}");
+  advance(pos);
+} return void;

@@ -1,0 +1,26 @@
+
+// Declaration specifiers. C lets them appear in any order and repeat
+// (`long unsigned long int const`), so they are *counted* into a small array
+// and only turned into a type at the end.
+//
+//   sp[0..9]  how many times void char short int long float double signed
+//             unsigned _Bool were seen (the order of spec_words())
+//   sp[10]    the type node named by a struct/union/enum body or a typedef
+//             name, or -1
+
+spec_init() {
+  int[] sp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  lset(sp, 10, 0 - 1);
+} return int[] sp;
+
+parse_specs(int[] pos) {
+  int[] sp = spec_init();
+  scan_specs(pos, sp);
+} return int spec_type(sp);
+
+scan_specs(int[] pos, int[] sp) {
+  int ok = 1;
+  while(ok == 1) {
+    ok = spec_step(pos, sp);
+  }
+} return void;

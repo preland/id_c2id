@@ -1,0 +1,26 @@
+parse_stmt10(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "continue")) {
+    id = parse_continue(pos);
+  } else {
+    id = parse_stmt11(pos);
+  }
+} return int id;
+
+parse_stmt11(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "case")) {
+    id = parse_case(pos);
+  } else {
+    id = parse_stmt12(pos);
+  }
+} return int id;
+
+parse_stmt12(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "default")) {
+    id = parse_default(pos);
+  } else {
+    id = parse_stmt13(pos);
+  }
+} return int id;

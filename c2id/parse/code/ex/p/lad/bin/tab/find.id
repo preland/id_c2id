@@ -1,0 +1,15 @@
+// One step of the table search, and the else arm of `?:`.
+
+match_op(string[] ops, int i, string s, int found) {
+  int n = found;
+  if(ops[i] == s) {
+    n = i;
+  }
+} return int n;
+
+// ':' is current. The else arm is a conditional-expression, not an assignment
+// expression -- that is what C says, and it is what makes
+// `a ? b : c ? d : e` group as `a ? b : (c ? d : e)`.
+cond_else(int[] pos) {
+  advance(pos);
+} return int parse_cond(pos);

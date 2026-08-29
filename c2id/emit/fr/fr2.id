@@ -1,0 +1,18 @@
+// align_up lives in ../../parse/ty/tab/reg/mb/num.id -- struct members and
+// frame slots round up the same way, and id rejects a second function with
+// the same logic. C requires each local to sit at a multiple of its own
+// alignment; the emitted peek/poke would not care, since the store is
+// byte-addressed, but matching C's layout exactly is what lets a translated
+// struct be compared against the real one.
+
+// Give `name` a slot big enough for type `t`, and return its offset.
+frame_add(string name, int t) {
+  int off = align_up(frame_size(), type_align(t));
+  add_slot(name, off, type_size(t));
+} return int off;
+
+add_slot(string name, int off, int sz) {
+  push((import lvnames), name);
+  push((import lvoff), off);
+  bump_size(off, sz);
+} return void;

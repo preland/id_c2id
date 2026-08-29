@@ -1,0 +1,24 @@
+
+// Placing one member: widen the record's alignment to hold it, work out
+// where it goes, and record the row.
+
+mem_anon(int ty, int[] lay, int inner) {
+  if(k_of(inner) == "rec") {
+    splice(ty, lay, inner);
+  }
+} return void;
+
+place(int ty, int[] lay, int r, string name, int w) {
+  lset(lay, 2, max_int(lay[2], type_align(r)));
+  int n = place_at(ty, lay, r, w);
+  sy_push(ty, name, r, n, w);
+} return void;
+
+place_at(int ty, int[] lay, int r, int w) {
+  int n = 0;
+  if(w < 0) {
+    n = place_ws(ty, lay, r);
+  } else {
+    n = place_bf(ty, lay, r, w);
+  }
+} return int n;

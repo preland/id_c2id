@@ -1,0 +1,27 @@
+// Block-comment pieces, and the one-byte advance that keeps the line counter
+// honest.
+
+// 1 while the block comment continues -- i.e. we are not looking at `*/`.
+cmt_more(word base, int i) {
+  int ok = 1;
+  if(peek8(base + i) == 42 && peek8(base + i + 1) == 47) {
+    ok = 0;
+  }
+} return int ok;
+
+// Step over the closing `*/`, or stay put if the input ended first.
+cmt_stop(word base, int i) {
+  int ni = i;
+  if(peek8(base + i) == 42) {
+    ni = i + 2;
+  }
+} return int ni;
+
+// Consume one byte, counting it if it is a newline. Used both for ordinary
+// whitespace and for the interior of a block comment, so a comment spanning
+// lines advances `tline` exactly as the same lines outside one would.
+adv_nl(word base, int i) {
+  if(peek8(base + i) == ch_nl()) {
+    bump_line();
+  }
+} return int i + 1;

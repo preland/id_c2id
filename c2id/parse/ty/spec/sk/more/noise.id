@@ -1,0 +1,29 @@
+
+// One token (or one attribute group) of qualifier noise, consumed and
+// discarded. Returns 1 if anything was eaten, so the specifier loop knows
+// whether to keep going.
+
+close_delta(string s) {
+  int n = 0;
+  if(s == ")") {
+    n = 0 - 1;
+  }
+} return int n;
+
+skip_noise(int[] pos) {
+  int ok = 0;
+  if(is_qual(cur_text(pos))) {
+    advance(pos);
+    ok = 1;
+  } else {
+    ok = skip_attr_ok(pos);
+  }
+} return int ok;
+
+skip_attr_ok(int[] pos) {
+  int ok = 0;
+  if(is_attr(cur_text(pos))) {
+    skip_attr(pos);
+    ok = 1;
+  }
+} return int ok;

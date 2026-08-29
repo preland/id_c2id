@@ -1,0 +1,46 @@
+// ex_txt -- the `id` source text that evaluates a C expression.
+//
+// Every emitted expression is a `word` holding the C value in one canonical
+// form: a signed type narrower than 64 bits arrives sign-extended, an
+// unsigned one zero-extended, an 8-byte type as its 64 raw bits. Holding to
+// that everywhere is what lets the operators below be chosen from the type
+// alone -- there is never a question of what state a subexpression left its
+// value in.
+//
+// The dispatch is the same lazy chain as ex_ty's, and for the same reason.
+//
+// What does *not* live here: `&&`, `||` and `?:` short-circuit, so they are
+// not expressions at all in the lowering -- they become extra basic blocks
+// with a frame temporary, which only the CFG builder can make. They emit an
+// identifier that no generated project defines, so a program that reaches one
+// fails to compile rather than quietly computing the wrong thing.
+
+ex_txt(int id) {
+  string s = "";
+  if(k_of(id) == "num") {
+    s = num_txt(id);
+  } else {
+    s = ex2(id);
+  }
+} return string s;
+
+// The three lvalue kinds. All of them are "compute an address, then load it",
+// which is one function; what differs between them is only how the address is
+// built, which is ex/a/.
+ex2(int id) {
+  string s = "";
+  if(k_of(id) == "var" || k_of(id) == "idx" || k_of(id) == "mem") {
+    s = lval_txt(id);
+  } else {
+    s = ex3(id);
+  }
+} return string s;
+
+ex3(int id) {
+  string s = "";
+  if(k_of(id) == "bin") {
+    s = bin_txt(id);
+  } else {
+    s = ex4(id);
+  }
+} return string s;

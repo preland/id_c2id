@@ -1,0 +1,28 @@
+// Character-class predicates over byte codes. Every byte comes from
+// `peek8(base + i)` (see lex/README.md for why the source lives in the flat
+// store and not in a `string`), so a byte past the end of the input reads as
+// 0 -- the NUL terminator `mem_of_str` copied, plus the zeroed pad block.
+// None of these predicates accept 0, so every scanning loop stops there
+// without a separate end-of-input test.
+
+is_space(int c) {
+  int ok = 0;
+  if(c == 32 || c == 9 || c == 10 || c == 13) {
+    ok = 1;
+  }
+} return int ok;
+
+is_digit(int c) {
+  int ok = 0;
+  if(c >= 48 && c <= 57) {
+    ok = 1;
+  }
+} return int ok;
+
+// C identifier start: a letter or an underscore. `_` is 95.
+is_alpha(int c) {
+  int ok = 0;
+  if((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || c == 95) {
+    ok = 1;
+  }
+} return int ok;

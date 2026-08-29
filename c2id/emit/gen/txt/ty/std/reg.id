@@ -1,0 +1,34 @@
+// The emitter's own registries.
+//
+// Two things the rest of emit/gen/txt/ needs and cannot get anywhere else:
+//
+//   stdty   the handful of C types the emitter has to *name* rather than read
+//           out of the source -- the type of an integer literal, of a string
+//           literal, of sizeof. Built once, so that ex_ty can hand back a
+//           node id without allocating one per call.
+//   lvtys   the C type of each local, running parallel to emit/fr's
+//           lvnames / lvoff / lvwid. fr records where a local lives and how
+//           wide it is, which is all a frame needs; it does not record
+//           signedness, and the emitter cannot do without it -- a 4-byte slot
+//           is peek32 either way, but `unsigned` divides with udiv and `int`
+//           with `/`. bind_local is therefore the way to create a slot once
+//           this module is in play; it feeds fr and this list together, so
+//           find_local's index is valid in both.
+
+txt_setup() {
+  export int[] stdty = [];
+  export int[] lvtys = [];
+  fill_std();
+} return void;
+
+fill_std() {
+  push((import stdty), newleaf("prim", 4, 1, "int", ""));
+  push((import stdty), newleaf("prim", 4, 0, "unsigned int", ""));
+  fill_std2();
+} return void;
+
+fill_std2() {
+  push((import stdty), newleaf("prim", 8, 1, "long", ""));
+  push((import stdty), newleaf("prim", 8, 0, "unsigned long", ""));
+  push((import stdty), newleaf("ptr", newleaf("prim", 1, 1, "char", ""), 0, "", ""));
+} return void;

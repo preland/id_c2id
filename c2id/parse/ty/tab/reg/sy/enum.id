@@ -1,0 +1,26 @@
+
+// Enumerator constants. An `enum` is just `int`, but its enumerators have to
+// survive for the expression parser to resolve, and for array bounds and
+// bitfield widths here.
+
+en_add(string name, int v) {
+  push((import ecnames), name);
+  push((import ecvals), v);
+} return void;
+
+has_enum(string name) {
+  int ok = 0;
+  if(find_str((import ecnames), name) >= 0) {
+    ok = 1;
+  }
+} return int ok;
+
+// the value of enumerator `name`, or 0 when there is no such enumerator --
+// callers that need to tell those apart ask has_enum first.
+enum_val(string name) {
+  int i = find_str((import ecnames), name);
+  int v = 0;
+  if(i >= 0) {
+    v = (import ecvals)[i];
+  }
+} return int v;

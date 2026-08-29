@@ -1,0 +1,26 @@
+// Walk the implicit list from the first block until a free block is big
+// enough. `r` is both the answer and the early-exit flag.
+find_fit(word need) {
+  word h = (import crt_heap) + 16;
+  word r = 0;
+  while(r == 0 && h != 0) {
+    r = fit_at(h, need);
+    h = walk_next(h);
+  }
+} return word r;
+
+fit_at(word h, word need) {
+  word r = 0;
+  if(bused(h) == 0 && need <= bsize(h)) {
+    r = h;
+  }
+} return word r;
+
+// The block after `h` in address order, or 0 if `h` is the last one.
+walk_next(word h) {
+  word nx = h + bsize(h);
+  word r = 0;
+  if(nx < heap_end()) {
+    r = nx;
+  }
+} return word r;

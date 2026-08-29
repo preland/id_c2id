@@ -1,0 +1,17 @@
+// memset. Only the low byte of `v` is used, which poke8 does for us.
+c_memset(word dst, word v, word n) {
+  word i = 0;
+  while(ult(i, n) != 0) {
+    i = set_byte(dst, v, i);
+  }
+} return word dst;
+
+set_byte(word dst, word v, word i) {
+  poke8(dst + i, v);
+} return word i + 1;
+
+// The difference of two bytes, read as unsigned. It is both the value
+// memcmp/strcmp return and the "keep going" flag of their loops, which is
+// how a two-statement comparison body fits under the action limit.
+cmp_byte(word a, word b, word i) {
+} return word peek8(a + i) - peek8(b + i);

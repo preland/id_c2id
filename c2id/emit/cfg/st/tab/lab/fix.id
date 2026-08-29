@@ -1,0 +1,22 @@
+// Park a goto whose target block came out as -1.
+need_fix(int blk, string name, int nxt) {
+  if(nxt < 0) {
+    fix_add(blk, name);
+  }
+} return void;
+
+// Run after the body is walked, when every label is in the table.
+run_fixes() {
+  int i = 0;
+  while(i < len((import fixb))) {
+    fix_one(i);
+    i = i + 1;
+  }
+} return void;
+
+// A goto naming a label that does not exist stays at -1, which is invalid C
+// and shows up in the printed graph as an edge to b-1 rather than as silently
+// wrong control flow.
+fix_one(int i) {
+  set_sa((import fixb)[i], label_blk((import fixs)[i]));
+} return void;

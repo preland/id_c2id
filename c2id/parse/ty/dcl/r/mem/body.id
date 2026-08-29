@@ -1,0 +1,20 @@
+
+// The body, if there is one -- `struct foo x;` names a record without
+// opening one.
+
+su_reg(int un, string name, int ty) {
+  if(name != "") {
+    ty_add(su_key(un, name), ty);
+  }
+} return void;
+
+fill_rec(int[] pos, int ty) {
+  if(at_text(pos, "{")) {
+    rec_members(pos, ty);
+  }
+} return void;
+
+rec_members(int[] pos, int ty) {
+  advance(pos);
+  scan_members(pos, ty);
+} return void;

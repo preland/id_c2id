@@ -1,0 +1,23 @@
+walk_stmt9(int id) {
+  if(k_of(id) == "goto") {
+    do_goto(id);
+  } else {
+    walk_stmt10(id);
+  }
+} return void;
+
+walk_stmt10(int id) {
+  if(k_of(id) == "return") {
+    do_return(id);
+  } else {
+    walk_stmt11(id);
+  }
+} return void;
+
+walk_stmt11(int id) {
+  if(k_of(id) == "break") {
+    do_break();
+  } else {
+    walk_stmt12(id);
+  }
+} return void;

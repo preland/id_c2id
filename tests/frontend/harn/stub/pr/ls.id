@@ -1,0 +1,8 @@
+list_str(int[] ids) {
+  string s = "";
+  int i = 0;
+  while(i < len(ids)) {
+    s = s + " " + st_str(ids[i]);
+    i = i + 1;
+  }
+} return string s;

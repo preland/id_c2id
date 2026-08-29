@@ -1,0 +1,27 @@
+
+// The type of a member, and the two arithmetic helpers layout needs.
+
+// type node of member `name` inside record `ty`, or -1
+member_type(int ty, string name) {
+  int i = mem_find(ty, name);
+  int r = 0 - 1;
+  if(i >= 0) {
+    r = (import syids)[i];
+  }
+} return int r;
+
+max_int(int a, int b) {
+  int n = a;
+  if(b > a) {
+    n = b;
+  }
+} return int n;
+
+// An alignment of 0 is possible -- a void type has one -- so the guard is not
+// decoration: without it this divides by zero.
+align_up(int n, int a) {
+  int r = n;
+  if(a > 0) {
+    r = ((n + a - 1) / a) * a;
+  }
+} return int r;

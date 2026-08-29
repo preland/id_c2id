@@ -1,0 +1,21 @@
+// Running off the end of the last case is the same as `break`.
+sw_close(int id, int blk, int alt, int mark) {
+  term_jmp(cur_blk(), alt);
+  pop_brk();
+  sw_disp(id, blk, alt, mark);
+} return void;
+
+// The chain is built backwards from its tail -- the default block, or the
+// exit when there is no `default` -- so each test knows the block to fall to
+// when it does not match.
+sw_disp(int id, int blk, int alt, int mark) {
+  int nxt = sw_default(mark, alt);
+  nxt = sw_chain(id, mark, nxt);
+  sw_done(blk, nxt, mark, alt);
+} return void;
+
+sw_done(int blk, int nxt, int mark, int alt) {
+  term_jmp(blk, nxt);
+  drop_cases(mark);
+  set_cur(alt);
+} return void;

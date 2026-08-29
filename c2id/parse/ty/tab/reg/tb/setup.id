@@ -1,0 +1,31 @@
+
+// The type module's global state. An `export` is a statement, so these lists
+// come into being when ty_setup() runs; the driver must call it once, before
+// anything else in parse/ty/ is touched.
+//
+//   tynames / tyids   name -> type node. A typedef name is stored under its
+//                     own spelling; a struct or union tag under "struct T" /
+//                     "union T", which no identifier can collide with.
+//   synames/syoff/sysz/sybit/sywid/syids   the struct member table: one row
+//                     per member of every record ever laid out. A `rec` node's
+//                     nm field is [first row, row count, alignment].
+//   ecnames / ecvals  enumerator name -> constant value.
+//   dname             one cell: the name the last declarator declared.
+
+ty_setup() {
+  export string[] dname = [""];
+  ty_init1();
+  ty_init2();
+} return void;
+
+ty_init1() {
+  export string[] tynames = [];
+  export int[] tyids = [];
+  ty_init3();
+} return void;
+
+ty_init2() {
+  export string[] synames = [];
+  export int[] syoff = [];
+  export int[] sysz = [];
+} return void;

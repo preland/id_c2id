@@ -1,0 +1,29 @@
+// One character's value as a digit, or -1. Shared by decimal, octal and hex,
+// and by the \xNN and \NNN character escapes.
+//
+//   48-57 '0'-'9'   97-102 'a'-'f'   65-70 'A'-'F'
+
+dig_val(int c) {
+  int n = 0 - 1;
+  if(c >= 48 && c <= 57) {
+    n = c - 48;
+  } else {
+    n = alpha_dig(c);
+  }
+} return int n;
+
+alpha_dig(int c) {
+  int n = 0 - 1;
+  if(c >= 97 && c <= 102) {
+    n = c - 87;
+  } else {
+    n = upper_dig(c);
+  }
+} return int n;
+
+upper_dig(int c) {
+  int n = 0 - 1;
+  if(c >= 65 && c <= 70) {
+    n = c - 55;
+  }
+} return int n;

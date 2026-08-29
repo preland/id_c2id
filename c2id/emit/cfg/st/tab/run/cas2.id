@@ -1,0 +1,16 @@
+case_add(int a, int blk) {
+  push((import casv), a);
+  push((import casb), blk);
+  set_cur(blk);
+} return void;
+
+pop_case() {
+  pop((import casv));
+  pop((import casb));
+} return void;
+
+drop_cases(int mark) {
+  while(case_mark() > mark) {
+    pop_case();
+  }
+} return void;

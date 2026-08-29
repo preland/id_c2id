@@ -1,0 +1,26 @@
+// Declarations and `return`.
+
+// A declaration is a store into a slot that already exists -- the frame pass
+// assigned every local an offset before any block was emitted, because C's
+// block scoping is a naming rule and the naming is resolved by now. A
+// declaration with no initialiser generates no code at all, only a comment
+// saying where the slot is, which is the one piece of the frame layout a
+// reader of the generated project would otherwise have to reconstruct.
+decl_st(int id) {
+  int off = decl_slot(s_of(id), b_of(id));
+  string s = "// " + s_of(id) + ": fp + " + off + ", " + type_size(b_of(id)) + " bytes";
+  if(a_of(id) >= 0) {
+    s = store_txt(b_of(id), "fp + " + off, ex_txt(a_of(id))) + ";";
+  }
+} return string s;
+
+// `return e` stores to fp + 0 -- always 8 bytes, whatever the C return type,
+// because the value has already been converted to its canonical 64-bit form
+// and the caller reads it back with peek64. The *edge* to the end marker is
+// the CFG builder's; this is only the store.
+ret_st(int id) {
+  string s = "poke64(fp, 0);";
+  if(a_of(id) >= 0) {
+    s = "poke64(fp, " + ex_txt(a_of(id)) + ");";
+  }
+} return string s;

@@ -1,0 +1,28 @@
+// Horizontal-whitespace runs (used only inside line markers), and the
+// preprocessing-number scanner.
+
+skip_h(word base, int i) {
+  while(is_hspace(peek8(base + i))) {
+    i = i + 1;
+  }
+} return int i;
+
+// A C preprocessing number: the caller has checked that the first character
+// starts one (a digit, or `.` followed by a digit). Everything after that is
+// the continuation set plus signed exponents, which is exactly what makes
+// 0x1fUL, 1.5f, 1e10, 077, 3.14e-5 and 0x1p-3 each a single token whose text
+// is the untouched source spelling.
+num_end(word base, int i) {
+  while(is_numcont(peek8(base + i))) {
+    i = num_step(base, i);
+  }
+} return int i;
+
+// One step of that scan: two characters when an exponent letter is followed
+// by a sign, so the `+` in `1e+10` does not end the number.
+num_step(word base, int i) {
+  int ni = i + 1;
+  if(is_exp(peek8(base + i)) && is_expsign(peek8(base + i + 1))) {
+    ni = i + 2;
+  }
+} return int ni;

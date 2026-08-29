@@ -1,0 +1,28 @@
+// Argument lists.
+
+// A `call` with callee -1 is a brace initialiser, not a call -- see
+// ../../p/un/cast/lit.id. Printing it as `{...}` keeps a compound literal
+// distinguishable from `f(...)` and, more importantly, keeps expr_str from
+// walking to node -1.
+call_str(int id) {
+  string s = "{" + args_str(l_of(id)) + "}";
+  if(a_of(id) >= 0) {
+    s = expr_str(a_of(id)) + "(" + args_str(l_of(id)) + ")";
+  }
+} return string s;
+
+args_str(int[] ids) {
+  string out = "";
+  int i = 0;
+  while(i < len(ids)) {
+    out = out + arg_sep(i) + expr_str(ids[i]);
+    i = i + 1;
+  }
+} return string out;
+
+arg_sep(int i) {
+  string s = "";
+  if(i > 0) {
+    s = ", ";
+  }
+} return string s;

@@ -1,0 +1,22 @@
+
+// An identifier resolves to its enumerator value, or 0. Anything else is
+// skipped -- a constant expression this evaluator does not understand
+// contributes 0 rather than hanging the parser.
+
+ce_name2(int[] pos) {
+  int v = 0;
+  if(cur_kind(pos) == "id") {
+    v = ce_ident(pos);
+  } else {
+    v = ce_skip(pos);
+  }
+} return int v;
+
+ce_ident(int[] pos) {
+  int v = enum_val(cur_text(pos));
+  advance(pos);
+} return int v;
+
+ce_skip(int[] pos) {
+  advance(pos);
+} return int 0;

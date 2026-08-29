@@ -1,0 +1,18 @@
+// Integration: the real lexer feeding the real statement parser.
+main(int argc, string[] argv) {
+  init_nodes();
+  init_nodes2();
+  boot();
+} return int 0;
+
+boot() {
+  init_nodes3();
+  init_lex();
+  go();
+} return void;
+
+init_lex() {
+  init_tokens();
+  init_lines();
+  ty_setup();
+} return void;

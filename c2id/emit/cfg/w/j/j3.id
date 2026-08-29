@@ -1,0 +1,16 @@
+// A label starts a block, and the statements before it fall into it -- code
+// can reach a label both by falling through and by jumping.
+do_label(int id) {
+  int blk = new_block();
+  term_jmp(cur_blk(), blk);
+  lab_add(s_of(id), blk);
+} return void;
+
+// A `case` is the same thing with a different table: the fall-through edge
+// from the previous case is what makes C's fallthrough work with no effort at
+// all. do_switch turns the table into the dispatch chain afterwards.
+do_case(int id) {
+  int blk = new_block();
+  term_jmp(cur_blk(), blk);
+  case_add(a_of(id), blk);
+} return void;

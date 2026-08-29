@@ -1,0 +1,21 @@
+// An lvalue's *value*, given its type and its address.
+//
+// A scalar or a pointer is loaded. A struct or an array is not: its value is
+// its own address, which is C's array-to-pointer decay and, for a record, the
+// only thing the flat-store model can mean by "the value of a struct" without
+// copying it.
+//
+// The parentheses matter. A frame address emits as `fp + 24`, which is safe
+// inside `peek32(...)` and safe as the left operand of anything, but wrong as
+// the right operand of a subtraction: `q - p` on two decayed arrays would
+// otherwise read `fp + 32 - fp + 8`, which is 32, not 24. Parenthesising here
+// rather than in var_addr keeps every `peek32(fp + 24)` in the generated
+// project spelled the way the reference lowering in tests/lowering/ spells it,
+// and pays the extra brackets only where an address actually escapes as a
+// value.
+val_txt(int ty, string s) {
+  string out = "(" + s + ")";
+  if(k_of(ty) == "prim" || k_of(ty) == "ptr") {
+    out = load_txt(ty, s);
+  }
+} return string out;

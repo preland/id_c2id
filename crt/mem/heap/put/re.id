@@ -1,0 +1,25 @@
+// krealloc. Resizing to 0 frees and yields 0; a null `p` allocates. If the
+// new block cannot be had, the old one is left alone and 0 is returned, so
+// the caller can still free what it had.
+krealloc(word p, word n) {
+  word r = 0;
+  if(n != 0) {
+    r = re_grow(p, n);
+  } else {
+    kfree(p);
+  }
+} return word r;
+
+re_grow(word p, word n) {
+  word q = kmalloc(n);
+  if(q != 0) {
+    q = re_move(q, p, n);
+  }
+} return word q;
+
+// Always copies to a fresh block; there is no in-place grow. Correct, and
+// the shrink case still gets a smaller block back.
+re_move(word q, word p, word n) {
+  c_memcpy(q, p, re_len(p, n));
+  kfree(p);
+} return word q;

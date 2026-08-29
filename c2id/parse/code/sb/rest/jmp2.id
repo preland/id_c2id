@@ -1,0 +1,16 @@
+goto_done(int[] pos, string name) {
+  skip_semi(pos);
+} return int newleaf("goto", 0, 0, name, "");
+
+// break and continue carry no operand; they differ from each other only in
+// the node kind, which -- being a literal -- is exactly what `id`'s
+// duplicate-logic rule counts as a real difference.
+parse_break(int[] pos) {
+  advance(pos);
+  skip_semi(pos);
+} return int newleaf("break", 0, 0, "", "");
+
+parse_continue(int[] pos) {
+  advance(pos);
+  skip_semi(pos);
+} return int newleaf("continue", 0, 0, "", "");

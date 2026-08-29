@@ -1,0 +1,12 @@
+// The named-escape table: esc_chars[i] means esc_vals[i]. Same shape as the
+// precedence table, same linear search.
+//
+//   \a 7  \b 8  \t 9  \n 10  \v 11  \f 12  \r 13  \" 34  \' 39  \? 63  \\ 92
+
+esc_chars() {
+  string[] ops = ["a", "b", "t", "n", "v", "f", "r", "\"", "'", "?", "\\"];
+} return string[] ops;
+
+esc_vals() {
+  int[] lvls = [7, 8, 9, 10, 11, 12, 13, 34, 39, 63, 92];
+} return int[] lvls;

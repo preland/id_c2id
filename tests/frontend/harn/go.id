@@ -1,0 +1,17 @@
+// Stress: parse a whole sequence of statements, reporting how far it gets.
+go() {
+  lex_all(read_all());
+  int[] pos = [0];
+  drain(pos, 0);
+} return void;
+
+drain(int[] pos, int n) {
+  while(cur_kind(pos) != "eof") {
+    n = one_more(pos, n);
+  }
+} return void;
+
+one_more(int[] pos, int n) {
+  int id = parse_stmt(pos);
+  print("" + n + ": " + st_str(id));
+} return int n + 1;

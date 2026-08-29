@@ -1,0 +1,17 @@
+// The case table of the switch being walked: casv[i] is the case value's
+// expression node (-1 for `default`, which the parser spells as a case whose
+// value is -1), casb[i] is the block that case starts.
+//
+// It is a stack, not a table: a switch records the length on entry as its
+// mark, appends while it walks its body, builds its dispatch chain from
+// [mark, len), then drops back to the mark. Nested switches therefore work
+// without a second structure.
+
+case_mark() {
+} return int len((import casv));
+
+case_val(int i) {
+} return int (import casv)[i];
+
+case_blk(int i) {
+} return int (import casb)[i];

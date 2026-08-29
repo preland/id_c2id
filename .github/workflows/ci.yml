@@ -1,0 +1,131 @@
+name: ci
+
+# What this workflow can and cannot check, stated up front, because a green
+# tick that means less than it looks like is worse than no tick.
+#
+# It CAN check, on a bare Ubuntu runner with only `cc` and `python3`:
+#   * id's structural rules over c2id/ and crt/          (tools/lint3.sh)
+#   * that docs/STATUS.md's kernel table still matches the recorded
+#     measurement                                        (tools/statusgen.py)
+#   * the differential harness                           (tests/run.sh)
+#   * that the developer entry point works               (tools/check.sh)
+#
+# It CANNOT check anything that needs the kernel:
+#   * vendor/ is gitignored and is a ~1.5 GB tree, so there is no kernel source
+#     here. Everything downstream of preprocessing -- tools/kprepare.sh,
+#     tools/kcpp.sh, tools/kcorpus.sh -- is therefore skipped, and skipped
+#     loudly. Those also need flex, bison and libelf, which is what
+#     tools/nixrun.sh supplies on the development machine; this workflow does
+#     not install them because without a tree there is nothing to build.
+#
+# And one dependency it can only try for:
+#   * tests/run.sh compiles real `id`, so it needs the id compiler from the
+#     separate id_development repository, on the branch that carries the
+#     systems extensions (docs/ID_EXTENSIONS.md). If that branch is not
+#     reachable, tests/run.sh is skipped with a notice rather than failed --
+#     an unpublished dependency is not a regression in this repository.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # The id compiler lives in a sibling repository; the port's scripts default
+  # to ../id_development relative to this checkout.
+  ID_REPO: https://github.com/preland/id_development.git
+  ID_REF: kernel-port/systems-extensions
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the port
+        uses: actions/checkout@v4
+        with:
+          path: linux_id
+
+      - name: Report the toolchain
+        working-directory: linux_id
+        run: |
+          echo "cc:      $(cc --version | head -1)"
+          echo "python3: $(python3 --version)"
+
+      # Optional, and deliberately non-fatal: clone the id compiler only if the
+      # exact branch the port needs is published. Falling back to the default
+      # branch would give a compiler without `word`/`alloc`/`peek*`, which
+      # fails in a way that looks like this repository is broken.
+      - name: Fetch the id toolchain (optional)
+        run: |
+          if git ls-remote --exit-code --heads "$ID_REPO" "$ID_REF" >/dev/null 2>&1; then
+            git clone --quiet --depth 1 --branch "$ID_REF" "$ID_REPO" id_development
+            echo "cloned $ID_REF"
+          else
+            echo "::notice title=id toolchain unavailable::branch $ID_REF is not published at $ID_REPO; tests/run.sh will be skipped"
+          fi
+
+      # ---- checks that need nothing but the checkout ----
+
+      - name: id's rule of 3 (tools/lint3.sh)
+        working-directory: linux_id
+        run: ./tools/lint3.sh
+
+      - name: docs/STATUS.md is not stale (tools/statusgen.py --check)
+        working-directory: linux_id
+        run: ./tools/statusgen.py --check
+
+      # ---- checks that need the id compiler ----
+
+      - name: Probe the id toolchain (tools/idprobe.sh)
+        id: idprobe
+        working-directory: linux_id
+        run: |
+          if ./tools/idprobe.sh -v; then
+            echo "usable=yes" >> "$GITHUB_OUTPUT"
+          else
+            rc=$?
+            echo "usable=no" >> "$GITHUB_OUTPUT"
+            if [ "$rc" -eq 1 ]; then
+              echo "::error title=id toolchain is present but unusable::the checked-out id compiler does not have the systems extensions"
+              exit 1
+            fi
+            echo "::notice title=tests/run.sh skipped::no id compiler available on this runner"
+          fi
+
+      - name: The differential harness (tests/run.sh)
+        if: steps.idprobe.outputs.usable == 'yes'
+        working-directory: linux_id
+        run: ./tests/run.sh
+
+      # ---- checks that need the kernel, i.e. none of them, here ----
+
+      # This step exists to prove the skip is clean rather than to measure
+      # anything: with no vendor/ tree, kcorpus must decline (exit 3), say why,
+      # and leave the recorded status untouched.
+      - name: Kernel corpus (tools/kcorpus.sh -- expected to skip)
+        working-directory: linux_id
+        run: |
+          set +e
+          ./tools/kcorpus.sh
+          rc=$?
+          set -e
+          case $rc in
+            0) echo "corpus measured (a kernel tree was present)" ;;
+            3) echo "::notice title=kernel corpus skipped::no kernel tree in vendor/, as expected on CI" ;;
+            *) echo "::error title=kernel corpus driver failed::exit $rc"; exit 1 ;;
+          esac
+          git diff --quiet -- tests/corpus/status.json \
+            || { echo "::error::a skipped corpus run modified tests/corpus/status.json"; exit 1; }
+
+      # ---- the entry point developers actually use ----
+
+      # Runs last so it cannot mask a more specific failure above. Skipped
+      # steps are expected here; --require-all is deliberately not passed,
+      # because on this runner the kernel tree and possibly the id compiler
+      # are legitimately absent.
+      - name: Developer entry point (tools/check.sh)
+        working-directory: linux_id
+        run: ./tools/check.sh --with-corpus

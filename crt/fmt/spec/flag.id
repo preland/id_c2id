@@ -1,0 +1,20 @@
+scan_flags(word fmt, word[] st, word[] fs) {
+  while(is_flag(peek8(fmt + st[0])) != 0) {
+    take_flag(peek8(fmt + st[0]), st, fs);
+  }
+} return void;
+
+// '-' and '0'. C's other flags ('+', ' ', '#') are not implemented; they are
+// not recognised here, so they fall through to the conversion character and
+// come out echoed literally rather than silently ignored.
+is_flag(word c) {
+  int go = 0;
+  if(c == 45 || c == 48) {
+    go = 1;
+  }
+} return int go;
+
+take_flag(word c, word[] st, word[] fs) {
+  set_flag(c, fs);
+  lsetw(st, 0, st[0] + 1);
+} return void;

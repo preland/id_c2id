@@ -1,0 +1,21 @@
+// Struct member access. `s.f` and `p->f` differ in exactly one way -- whether
+// the base is the record or a pointer to it -- so the record type is asked
+// for once, here, and the address side is asked for once, in ex/a/.
+
+rec_of(int id) {
+  int ty = ex_ty(a_of(id));
+  if(t_of(id) == "->") {
+    ty = elem_ty(ty);
+  }
+} return int ty;
+
+// member_type answers -1 for a member the layout pass never saw, which
+// happens when the base's type could not be worked out. `int` keeps the
+// emitter walking; the wrong offset would already have been emitted by then,
+// so this is not the place the mistake is caught.
+mem_ty(int id) {
+  int ty = member_type(rec_of(id), s_of(id));
+  if(ty < 0) {
+    ty = ty_int();
+  }
+} return int ty;

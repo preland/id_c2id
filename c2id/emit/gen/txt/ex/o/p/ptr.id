@@ -1,0 +1,29 @@
+// Pointer arithmetic. C counts in elements and the flat store counts in
+// bytes, so every one of these is a scaling by the pointee's size -- which is
+// a translation-time constant, so it costs nothing at run time.
+
+ptr_bin(int id) {
+  string s = "";
+  if(is_ptr(ex_ty(a_of(id))) == 1 && is_ptr(ex_ty(b_of(id))) == 1) {
+    s = ptr_diff(id);
+  } else {
+    s = ptr_off(id);
+  }
+} return string s;
+
+// The pointer may be on either side of a `+`. Naming which operand is which
+// here is what lets ptr_off2 be written once.
+ptr_off(int id) {
+  string s = "";
+  if(is_ptr(ex_ty(a_of(id))) == 1) {
+    s = ptr_off2(a_of(id), b_of(id), s_of(id));
+  } else {
+    s = ptr_off2(b_of(id), a_of(id), s_of(id));
+  }
+} return string s;
+
+// No conv_txt: the result is an address, already 64 bits, and narrowing it
+// would be wrong.
+ptr_off2(int a, int b, string op) {
+  int sz = type_size(elem_ty(ex_ty(a)));
+} return string "(" + ex_txt(a) + " " + op + " " + scale_txt(ex_txt(b), sz, "*") + ")";

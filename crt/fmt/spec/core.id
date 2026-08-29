@@ -1,0 +1,31 @@
+// Parsing one conversion specification. On entry st[0] is just past the
+// '%'. The parse state is a 5-element word list:
+//
+//     fs[0]  index of the '%' in the format string (for echoing it back)
+//     fs[1]  '-' seen (left justify)
+//     fs[2]  '0' seen (zero pad)
+//     fs[3]  minimum field width
+//     fs[4]  length code: 0 = int, 1 = hh, 2 = h, 3 = l/ll/z
+//
+// and it is allocated per specifier, so nothing is carried between them.
+fmt_spec(word fmt, word[] args, word[] st) {
+  word[] fs = [st[0] - 1, wzero(), wzero(), wzero(), wzero()];
+  scan_flags(fmt, st, fs);
+  scan_width(fmt, st, fs);
+} return string fmt_conv(fmt, args, st, fs);
+
+// Length modifiers, then the conversion character itself.
+fmt_conv(word fmt, word[] args, word[] st, word[] fs) {
+  scan_len(fmt, st, fs);
+  word c = peek8(fmt + st[0]);
+  adv_nz(st, c);
+} return string conv_do(fmt, c, args, st, fs);
+
+// Step over the conversion character -- unless it is the terminator, i.e.
+// the format ended in a dangling '%'. Stepping over the NUL would send the
+// outer loop past the end of the allocation, and the store would trap.
+adv_nz(word[] st, word c) {
+  if(c != 0) {
+    lsetw(st, 0, st[0] + 1);
+  }
+} return void;

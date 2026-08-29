@@ -1,0 +1,29 @@
+// The type of an integer literal, which C decides from the suffix and, when
+// there is none, from the magnitude. It matters: `4000000000u * 3u` wraps at
+// 32 bits and `4000000000L * 3` does not, and the two disagree.
+//
+// The expression parser drops the suffix while decoding the value but keeps
+// the whole spelling in ns, so it is still there to be read.
+
+num_ty(int id) {
+  int ty = num_sty(id);
+  if(has_ch(s_of(id), 117, 85) == 1) {
+    ty = num_uty(id);
+  }
+} return int ty;
+
+// suffixed u/U: unsigned int, or unsigned long if it says so or is too big
+num_uty(int id) {
+  int ty = ty_uint();
+  if(has_ch(s_of(id), 108, 76) == 1 || a_of(id) > 4294967295) {
+    ty = ty_ulong();
+  }
+} return int ty;
+
+// no u/U: int, or long if it says so or does not fit in one
+num_sty(int id) {
+  int ty = ty_int();
+  if(has_ch(s_of(id), 108, 76) == 1 || a_of(id) > 2147483647) {
+    ty = ty_long();
+  }
+} return int ty;

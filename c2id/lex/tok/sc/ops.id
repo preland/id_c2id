@@ -1,0 +1,23 @@
+// Operators and punctuation, longest match first.
+
+// Try two characters, then hand the answer to op_len3, which lets three
+// characters override it. Splitting it this way keeps each block at two
+// actions and each decision in its own function.
+op_len(word base, int i) {
+  int w = 1;
+  if(is_op2(sub2(base, i))) {
+    w = 2;
+  }
+} return int op_len3(base, i, w);
+
+op_len3(word base, int i, int w) {
+  int ni = w;
+  if(is_op3(sub3(base, i))) {
+    ni = 3;
+  }
+} return int ni;
+
+scan_op(word base, int i) {
+  int ne = i + op_len(base, i);
+  add_tok("op", slice(base, i, ne));
+} return int ne;

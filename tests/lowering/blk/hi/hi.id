@@ -1,0 +1,18 @@
+disp_hi(word fp, word pc) {
+  word nxt = 0 - 1;
+  if(pc == 3) {
+    nxt = blk3(fp);
+  } else {
+    nxt = blk4(fp);
+  }
+} return word nxt;
+
+// the `for` step: i++
+blk3(word fp) {
+  poke32(fp + 24, peek32(fp + 24) + 1);
+} return word 1;
+
+// return t
+blk4(word fp) {
+  poke64(fp, peek32(fp + 16));
+} return word 0 - 1;

@@ -1,0 +1,26 @@
+ex4(int id) {
+  string s = "";
+  if(k_of(id) == "un") {
+    s = un_txt(id);
+  } else {
+    s = ex5(id);
+  }
+} return string s;
+
+ex5(int id) {
+  string s = "";
+  if(k_of(id) == "assign") {
+    s = assign_txt(id);
+  } else {
+    s = ex6(id);
+  }
+} return string s;
+
+ex6(int id) {
+  string s = "";
+  if(k_of(id) == "call") {
+    s = call_txt(id);
+  } else {
+    s = ex7(id);
+  }
+} return string s;

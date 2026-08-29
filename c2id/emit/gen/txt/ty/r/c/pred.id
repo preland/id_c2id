@@ -1,0 +1,29 @@
+// The three questions the conversion rules keep asking.
+
+// Anything that behaves like an address in an expression. An array is
+// included deliberately: C decays it to a pointer to its first element in
+// every context the emitter cares about, and treating the two alike here is
+// what makes `a + 1` and `p + 1` one code path.
+is_ptr(int ty) {
+  int ok = 0;
+  if(k_of(ty) == "ptr" || k_of(ty) == "arr") {
+    ok = 1;
+  }
+} return int ok;
+
+// What `*p` and `a[i]` yield, and the unit pointer arithmetic scales by.
+elem_ty(int ty) {
+  int r = ty_int();
+  if(is_ptr(ty) == 1) {
+    r = a_of(ty);
+  }
+} return int r;
+
+// The relational and equality operators, whose result is int 0 or 1 rather
+// than either operand's type.
+is_cmp_op(string op) {
+  int ok = 0;
+  if(op == "<" || op == ">" || op == "<=" || op == ">=" || op == "==" || op == "!=") {
+    ok = 1;
+  }
+} return int ok;

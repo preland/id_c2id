@@ -1,0 +1,28 @@
+// Widths. The store's primitives are named by bit count and C's types are
+// measured in bytes, so every one of these is that one multiplication -- once,
+// here, rather than in four spelled-out chains of peek8/peek16/peek32/peek64.
+
+wid_bits(int w) {
+} return string "" + (w * 8);
+
+// The access width for a C type. A struct or an array is never loaded whole
+// -- lval_txt yields its address instead -- so anything that is not 1, 2 or 4
+// bytes is treated as a machine word, which is right for every pointer, long
+// and long long and harmless for the rest.
+load_wid(int ty) {
+  int w = type_size(ty);
+  if(w != 1 && w != 2 && w != 4) {
+    w = 8;
+  }
+} return int w;
+
+// sx8 / sx16 / sx32 for a signed type, zx8 / zx16 / zx32 for an unsigned one.
+// This is the single most likely source of a silently wrong answer in the
+// whole emitter: a missing sx32 gives 4294967295 where C gives -1, and every
+// small test still passes.
+cvt_name(int ty) {
+  string s = "zx";
+  if(ty_signed(ty) == 1) {
+    s = "sx";
+  }
+} return string s + wid_bits(load_wid(ty));

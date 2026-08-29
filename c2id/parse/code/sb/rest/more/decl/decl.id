@@ -1,0 +1,27 @@
+// A declaration statement. `int a = 1, *b, c[3];` is one C declaration with
+// three declarators sharing one specifier list, so it becomes a block of decl
+// nodes -- which means nothing downstream needs a multi-declarator case.
+//
+// INTEGRATION CONTRACT with c2id/parse/ty/:
+//   parse_specs(int[] pos)        -> int   base type node from the specifiers
+//   parse_declarator(int[] pos, int t) -> int full type node
+//   decl_name()                      -> string  name from the last declarator
+parse_decl_stmt(int[] pos) {
+  int t = parse_specs(pos);
+  int[] l = [];
+  fill_decls(pos, t, l);
+} return int newlist("block", 0, 0, "", l);
+
+fill_decls(int[] pos, int t, int[] l) {
+  while(at_text(pos, ";") == 0 && cur_kind(pos) != "eof") {
+    push(l, one_decl(pos, t));
+    skip_comma(pos);
+  }
+  skip_semi(pos);
+} return void;
+
+one_decl(int[] pos, int t) {
+  int b = parse_declarator(pos, t);
+  string name = decl_name();
+  int a = decl_init(pos);
+} return int newleaf("decl", a, b, name, "");

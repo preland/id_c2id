@@ -1,0 +1,36 @@
+// The dispatch chain, part 1. One decision per function, each returning the
+// index just past whatever it consumed:
+//
+//   scan_one -> scan_hash -> scan_word -> scan_numop -> scan_strop -> scan_quop
+//   whitespace  line marker  comment      identifier    number        literal / operator
+
+scan_one(word base, int i) {
+  int ni = 0;
+  if(is_space(peek8(base + i))) {
+    ni = adv_nl(base, i);
+  } else {
+    ni = scan_hash(base, i);
+  }
+} return int ni;
+
+// `#` (35) is a line marker only when nothing but horizontal whitespace
+// precedes it on the line; anywhere else it is the `#` operator, and `##`
+// still lexes as one operator token via op_len.
+scan_hash(word base, int i) {
+  int ni = 0;
+  if(peek8(base + i) == 35 && at_bol(base, i)) {
+    ni = scan_marker(base, i);
+  } else {
+    ni = scan_word(base, i);
+  }
+} return int ni;
+
+// `/` followed by `/` (47) or `*` (42).
+scan_word(word base, int i) {
+  int ni = 0;
+  if(peek8(base + i) == 47 && (peek8(base + i + 1) == 47 || peek8(base + i + 1) == 42)) {
+    ni = scan_cmt(base, i);
+  } else {
+    ni = scan_numop(base, i);
+  }
+} return int ni;

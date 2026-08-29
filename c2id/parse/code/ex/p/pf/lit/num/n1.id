@@ -1,0 +1,31 @@
+// Decoding a C integer literal. `id`'s to_int builtin only knows decimal and
+// would silently mistranslate `0x20`, `010` and `42u`, so the whole job is
+// done here.
+//
+// Handled: decimal, hex `0x..`/`0X..`, octal `0..`, and any tail of u/U/l/L
+// suffixes (the scan simply stops at the first character that is not a digit
+// in the chosen radix). Floating literals are recognised and yield 0 -- the
+// spelling is kept in `ns`; see README.md.
+
+to_num(string s) {
+  int n = 0;
+  if(is_float_lit(s) == 0) {
+    n = int_val(s);
+  }
+} return int n;
+
+// A '.', 'e' or 'E' means floating point -- unless the literal is hex, where
+// 'e' and 'E' are digits. Hex floats (`0x1p3`) are not recognised.
+is_float_lit(string s) {
+  int ok = 0;
+  if(is_hex_lit(s) == 0 && has_float_ch(s)) {
+    ok = 1;
+  }
+} return int ok;
+
+is_hex_lit(string s) {
+  int ok = 0;
+  if(len(s) > 1 && charat(s, 0) == 48 && (charat(s, 1) == 120 || charat(s, 1) == 88)) {
+    ok = 1;
+  }
+} return int ok;

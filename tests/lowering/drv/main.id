@@ -1,0 +1,19 @@
+// Hand-written in the exact shape c2id must generate, for:
+//     int sum_to(int n) { int t = 0; for (int i = 1; i <= n; i++) t += i;
+//                         return t; }
+// Frame: fp+0 return value, fp+8 param n, fp+16 local t, fp+24 local i.
+main(int argc, string[] argv) {
+  word fp = alloc(32);
+  poke64(fp + 8, 10);
+  print("" + c_sum_to(fp));
+} return int 0;
+
+// The driver loop: run blocks until one returns the end marker. Blocks return
+// to here rather than tail-calling each other, so a loop of any length runs in
+// constant stack.
+c_sum_to(word fp) {
+  word pc = 0;
+  while(pc != 0 - 1) {
+    pc = disp_sum_to(fp, pc);
+  }
+} return word peek64(fp);

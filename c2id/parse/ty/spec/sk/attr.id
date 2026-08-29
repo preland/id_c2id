@@ -1,0 +1,22 @@
+
+// Discarding a GCC attribute. `__attribute__((packed))` is four tokens of
+// parentheses; `__attribute__((section(".text"), aligned(64)))` nests. Both
+// are handled by consuming the first `(` and then skipping to its match.
+
+skip_attrs(int[] pos) {
+  while(is_attr(cur_text(pos))) {
+    skip_attr(pos);
+  }
+} return void;
+
+skip_attr(int[] pos) {
+  advance(pos);
+  skip_paren(pos);
+} return void;
+
+skip_paren(int[] pos) {
+  if(at_text(pos, "(")) {
+    advance(pos);
+    skip_bal(pos);
+  }
+} return void;

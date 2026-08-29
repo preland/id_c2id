@@ -1,0 +1,25 @@
+// The end of the chain, and the two simplest emitters.
+
+ex10(int id) {
+  string s = "NEEDS_CFG_" + k_of(id);
+  if(k_of(id) == "str") {
+    s = str_txt(id);
+  }
+} return string s;
+
+// Reading an lvalue: build its address, then load the C type's width from it.
+// A struct or an array is not loaded at all -- its value *is* its address,
+// which is what makes `a[i]` on a local array and on a pointer parameter the
+// same code, and what makes `s.f.g` work without materialising `s.f`.
+lval_txt(int id) {
+} return string val_txt(ex_ty(id), addr_txt(id));
+
+// `id` has no unary minus, so a literal that decoded to a negative value --
+// only reachable from a constant with bit 63 set -- has to be written as a
+// subtraction.
+num_txt(int id) {
+  string s = "" + a_of(id);
+  if(a_of(id) < 0) {
+    s = "(0 - " + (0 - a_of(id)) + ")";
+  }
+} return string s;

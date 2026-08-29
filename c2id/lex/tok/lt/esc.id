@@ -1,0 +1,30 @@
+// Finding the end of a quoted run, honouring backslash escapes so that a
+// `\"` inside a string and a `'\''` character constant do not terminate
+// early.
+
+// Advance one byte, or two when this byte is a backslash (92) -- the escaped
+// character is then skipped without ever being examined.
+adv_esc(word base, int i) {
+  int ni = i + 1;
+  if(peek8(base + i) == 92) {
+    ni = i + 2;
+  }
+} return int ni;
+
+// `i` is the index just past the opening quote and `c` is the quote byte.
+// Returns the index just past the closing quote. A newline also stops the
+// scan: an unterminated literal then costs one bad token instead of eating
+// the rest of the file.
+quote_end(word base, int i, int c) {
+  while(peek8(base + i) != c && peek8(base + i) != ch_eof() && peek8(base + i) != ch_nl()) {
+    i = adv_esc(base, i);
+  }
+} return int quote_stop(base, i);
+
+// Step over the terminator, but only if it really was a quote.
+quote_stop(word base, int i) {
+  int ni = i;
+  if(peek8(base + i) == ch_dq() || peek8(base + i) == ch_sq()) {
+    ni = i + 1;
+  }
+} return int ni;

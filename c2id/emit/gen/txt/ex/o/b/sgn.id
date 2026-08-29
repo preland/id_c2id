@@ -1,0 +1,26 @@
+// The three operators where signedness changes the operation, not just the
+// width of the answer.
+//
+// `id`'s `/ % >>` are the signed ones; `udiv`, `umod` and `ushr` are the
+// unsigned ones. Choosing wrongly is the failure mode this module was written
+// to make impossible to reach by accident: `-7 / 2` is -3 and
+// `udiv(-7, 2)` is 9223372036854775804, and no test with small positive
+// inputs can tell the two apart.
+
+sgn_txt(int id) {
+  string s = "";
+  if(ty_signed(ex_ty(id)) == 1) {
+    s = plain_txt(id);
+  } else {
+    s = uop_txt(id);
+  }
+} return string s;
+
+uop_txt(int id) {
+  string s = ufn_name(s_of(id)) + "(" + ex_txt(a_of(id)) + ", " + ex_txt(b_of(id)) + ")";
+} return string conv_txt(ex_ty(id), s);
+
+ufn_name(string op) {
+  string[] words = ["/", "%", ">>"];
+  string[] names = ["udiv", "umod", "ushr"];
+} return string names[find_str(words, op)];

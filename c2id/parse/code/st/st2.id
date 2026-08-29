@@ -1,0 +1,26 @@
+parse_stmt4(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "do")) {
+    id = parse_do(pos);
+  } else {
+    id = parse_stmt5(pos);
+  }
+} return int id;
+
+parse_stmt5(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "for")) {
+    id = parse_for(pos);
+  } else {
+    id = parse_stmt6(pos);
+  }
+} return int id;
+
+parse_stmt6(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "switch")) {
+    id = parse_switch(pos);
+  } else {
+    id = parse_stmt7(pos);
+  }
+} return int id;

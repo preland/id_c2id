@@ -1,0 +1,23 @@
+walk_stmt6(int id) {
+  if(k_of(id) == "switch") {
+    do_switch(id);
+  } else {
+    walk_stmt7(id);
+  }
+} return void;
+
+walk_stmt7(int id) {
+  if(k_of(id) == "case") {
+    do_case(id);
+  } else {
+    walk_stmt8(id);
+  }
+} return void;
+
+walk_stmt8(int id) {
+  if(k_of(id) == "label") {
+    do_label(id);
+  } else {
+    walk_stmt9(id);
+  }
+} return void;

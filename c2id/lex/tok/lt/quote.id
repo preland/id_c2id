@@ -1,0 +1,18 @@
+// Emitting a string or character literal. One function serves both, and also
+// serves the prefixed forms, because the token start and the quote position
+// are separate parameters: `"x"` arrives as (i, i) and `u8"x"` as (i, i + 2).
+
+quote_kind(int c) {
+  string kind = "chr";
+  if(c == ch_dq()) {
+    kind = "str";
+  }
+} return string kind;
+
+// `i` is where the token text starts (at the prefix, if there is one) and
+// `e` is the index of the opening quote. The emitted text is the raw source
+// spelling, quotes, prefix, escapes and all.
+scan_quoted(word base, int i, int e) {
+  int ne = quote_end(base, e + 1, peek8(base + e));
+  add_tok(quote_kind(peek8(base + e)), slice(base, i, ne));
+} return int ne;

@@ -1,0 +1,21 @@
+
+// A named member, possibly a bitfield.
+
+mem_named(int[] pos, int ty, int[] lay, int inner) {
+  int r = parse_declarator(pos, inner);
+  string name = decl_name();
+} return int mem_place(pos, ty, lay, r, name);
+
+mem_place(int[] pos, int ty, int[] lay, int r, string name) {
+  int w = mem_width(pos);
+  place(ty, lay, r, name, w);
+} return int r;
+
+// `unsigned int x : 3` -- width in bits, or -1 for an ordinary member
+mem_width(int[] pos) {
+  int w = 0 - 1;
+  if(at_text(pos, ":")) {
+    advance(pos);
+    w = ce_expr(pos);
+  }
+} return int w;

@@ -1,0 +1,24 @@
+// One fold step, and the operator -> level lookup that drives the ladder.
+
+// The current token is a binary operator of level `lvl`. Consume it and parse
+// the right operand one level tighter -- that, and only that, is what makes
+// every binary level left-associative.
+fold_bin(int[] pos, int lvl, int left) {
+  string op = cur_text(pos);
+  advance(pos);
+  int right = parse_next(pos, lvl);
+} return int newleaf("bin", left, right, op, "");
+
+// The precedence level of a binary operator token, or -1 for anything else --
+// so `)`, `;`, `?`, `:` and `,` all fall out of the ladder on their own.
+op_level(string s) {
+  int i = find_op(op_names(), s);
+} return int level_at(i);
+
+level_at(int i) {
+  int[] lvls = op_levels();
+  int n = 0 - 1;
+  if(i >= 0) {
+    n = lvls[i];
+  }
+} return int n;

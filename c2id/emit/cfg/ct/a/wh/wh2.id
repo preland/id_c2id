@@ -1,0 +1,26 @@
+wh_end(int id, int nxt, int blk, int alt) {
+  set_cur(blk);
+  walk_list(l_of(id));
+  loop_close(nxt, alt);
+} return void;
+
+// `do B while (c)`:
+//
+//   cur:   ...   jmp  -> body
+//   body:  B     jmp  -> cond
+//   cond:        cond c -> body / exit
+//   exit:  (filling continues here)
+//
+// break -> exit, continue -> cond, which is what makes `continue` in a
+// do/while re-test the condition rather than restart the body.
+do_dowhile(int id) {
+  int blk = new_block();
+  term_jmp(cur_blk(), blk);
+  dw_run(id, blk);
+} return void;
+
+dw_run(int id, int blk) {
+  int nxt = new_block();
+  int alt = new_block();
+  dw_body(id, blk, nxt, alt);
+} return void;

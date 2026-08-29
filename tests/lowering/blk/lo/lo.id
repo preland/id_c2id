@@ -1,0 +1,23 @@
+disp_lo(word fp, word pc) {
+  word nxt = 0 - 1;
+  if(pc == 0) {
+    nxt = blk0(fp);
+  } else {
+    nxt = disp_lo2(fp, pc);
+  }
+} return word nxt;
+
+disp_lo2(word fp, word pc) {
+  word nxt = 0 - 1;
+  if(pc == 1) {
+    nxt = blk1(fp);
+  } else {
+    nxt = blk2(fp);
+  }
+} return word nxt;
+
+// t = 0; i = 1;
+blk0(word fp) {
+  poke32(fp + 16, 0);
+  poke32(fp + 24, 1);
+} return word 1;

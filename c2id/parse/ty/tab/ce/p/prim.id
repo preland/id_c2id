@@ -1,0 +1,22 @@
+
+// Primaries: a numeric literal, a parenthesised expression, sizeof, or an
+// identifier (which can only be an enumerator by the time the preprocessor
+// has run).
+
+ce_neg(int[] pos) {
+  advance(pos);
+} return int 0 - ce_un(pos);
+
+ce_prim(int[] pos) {
+  int v = 0;
+  if(cur_kind(pos) == "num") {
+    v = ce_num(pos);
+  } else {
+    v = ce_prim2(pos);
+  }
+} return int v;
+
+ce_num(int[] pos) {
+  int v = num_val(cur_text(pos));
+  advance(pos);
+} return int v;

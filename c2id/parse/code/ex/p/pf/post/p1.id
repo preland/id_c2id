@@ -1,0 +1,23 @@
+// postfix-expression: primary ( '(' args ')' | '[' expr ']' | '.' id
+//                              | '->' id | '++' | '--' )*
+//
+// One left-fold loop, exactly like a binary level: each suffix wraps the node
+// built so far, which is what makes `p->x[i].y` chain left to right.
+
+parse_postfix(int[] pos) {
+  int a = parse_primary(pos);
+} return int postfix_tail(pos, a);
+
+// Public: paren_expr re-enters here after `(expr)`, so `(*p)[i]` works.
+postfix_tail(int[] pos, int a) {
+  while(is_postfix_start(cur_text(pos))) {
+    a = postfix_one(pos, a);
+  }
+} return int a;
+
+is_postfix_start(string s) {
+  int ok = 0;
+  if(s == "(" || s == "[" || s == "." || s == "->" || s == "++" || s == "--") {
+    ok = 1;
+  }
+} return int ok;

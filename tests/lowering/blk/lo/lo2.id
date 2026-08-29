@@ -1,0 +1,12 @@
+// the `for` condition: i <= n
+blk1(word fp) {
+  word nxt = 4;
+  if(peek32(fp + 24) <= peek32(fp + 8)) {
+    nxt = 2;
+  }
+} return word nxt;
+
+// t = t + i
+blk2(word fp) {
+  poke32(fp + 16, peek32(fp + 16) + peek32(fp + 24));
+} return word 3;

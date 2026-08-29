@@ -1,0 +1,26 @@
+rep_ch(string ch, int k) {
+  string txt = "";
+  while(k > 0) {
+    txt = txt + ch;
+    k = k - 1;
+  }
+} return string txt;
+
+// Zero padding goes *after* a minus sign, so "%05d" of -42 is "-0042" and
+// not "000-42".
+zero_pad(string t, int k) {
+  string txt = rep_ch("0", k) + t;
+  if(charat(t, 0) == 45) {
+    txt = "-" + rep_ch("0", k) + tail1(t);
+  }
+} return string txt;
+
+// Everything but the first character. `id` has no substring builtin.
+tail1(string t) {
+  string txt = "";
+  int k = 1;
+  while(k < len(t)) {
+    txt = txt + ch_of(charat(t, k));
+    k = k + 1;
+  }
+} return string txt;

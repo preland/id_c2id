@@ -1,0 +1,29 @@
+// String literals, casts, sizeof.
+
+// A string literal is an address, so it has to exist in the flat store.
+// mem_of_str copies the text in and hands back the address, which is
+// precisely C's semantics apart from the lifetime. The spelling is passed
+// through unchanged, escapes and all -- the lexer kept the raw text between
+// the quotes, and the two languages agree on the escapes that appear in
+// practice. chr(34) rather than a quote character because writing one inside
+// an `id` string would need an escape this program would then have to know.
+str_txt(int id) {
+} return string "mem_of_str(" + chr(34) + s_of(id) + chr(34) + ")";
+
+// A cast is exactly the width conversion, which is the same operation an
+// assignment or a load performs; casting to a pointer or to any 8-byte type
+// is then nothing at all, because the value is already 64 bits wide.
+cast_txt(int id) {
+} return string conv_txt(b_of(id), ex_txt(a_of(id)));
+
+// sizeof is answered at translation time -- it is the one C operator that
+// never survives into the output. nb holds the type node for `sizeof(T)`;
+// otherwise the operand's type is inferred and measured.
+sizeof_txt(int id) {
+  int sz = 8;
+  if(b_of(id) != 0) {
+    sz = type_size(b_of(id));
+  } else {
+    sz = type_size(ex_ty(a_of(id)));
+  }
+} return string "" + sz;

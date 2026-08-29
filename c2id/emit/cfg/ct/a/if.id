@@ -1,0 +1,34 @@
+// `if (c) A else B`:
+//
+//   cur:   ... cond c -> then / else
+//   then:  A            jmp -> join
+//   else:  B            jmp -> join
+//   join:  (filling continues here)
+//
+// The else block exists even when C wrote no `else`; it is then empty and
+// jumps straight to the join, which costs one block and removes every special
+// case. A dead-block pass in the emitter can fold it away later if it matters.
+//
+// Split across five functions because the construction is nine steps and a
+// block gets three: the state is threaded forward, `id`'s standard shape.
+
+do_if(int id) {
+  int nxt = new_block();
+  int alt = new_block();
+  ifs_cond(id, nxt, alt);
+} return void;
+
+ifs_cond(int id, int nxt, int alt) {
+  term_cond(cur_blk(), a_of(id), nxt, alt);
+  set_cur(nxt);
+  ifs_then(id, alt);
+} return void;
+
+// cur_blk() is read *after* the branch is walked: the branch may have ended
+// somewhere else entirely (a nested if, a loop, a return), and it is that
+// block, not the branch's entry, that has to reach the join.
+ifs_then(int id, int alt) {
+  walk_list(l_of(id));
+  int blk = cur_blk();
+  ifs_else(id, alt, blk);
+} return void;

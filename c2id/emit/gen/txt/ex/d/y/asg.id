@@ -1,0 +1,33 @@
+// Compound assignment and ++/--, both of which are "read, operate, write
+// back" and neither of which needs a separate operator emitter: a synthetic
+// `bin` node is built and handed to ex_txt, so pointer scaling, the unsigned
+// builtins and 32-bit wrapping all apply exactly as they do to the spelled-out
+// form. `p += 2` and `p = p + 2` therefore emit the same text by construction
+// rather than by two code paths agreeing.
+//
+// The target's address is emitted twice, once to read and once to write. That
+// is free for a local (`fp + 24`), and duplicates the subscript arithmetic for
+// `a[i] += 1`. It is only wrong when the address expression has a side effect
+// -- `*p++ += 1` -- which needs a frame temporary and so belongs with the
+// other temporaries in emit/cfg/.
+
+comp_asg(int a, int b, string op) {
+  int id = newleaf("bin", a, b, op, "");
+} return string store_txt(ex_ty(a), addr_txt(a), ex_txt(id));
+
+// `x++` is `x += 1`, and on a pointer the 1 is scaled, which comp_asg gets
+// right because it goes through the ordinary binary path. The operator is the
+// first byte of "++" or "--".
+step_txt(int a, string op) {
+  int b = newleaf("num", 1, 0, "1", "");
+} return string comp_asg(a, b, chr(charat(op, 0)));
+
+// "+=" -> "+", "<<=" -> "<<". Everything up to the final `=`.
+op_head(string op) {
+  string s = "";
+  int i = 0;
+  while(i < len(op) - 1) {
+    s = s + chr(charat(op, i));
+    i = i + 1;
+  }
+} return string s;

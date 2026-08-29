@@ -1,0 +1,25 @@
+
+// Which words can appear in a declaration specifier list. Three families:
+// the ten built-in type words, the qualifiers and storage classes (parsed
+// and thrown away), and struct/union/enum.
+
+is_base_kw(string s) {
+  int ok = 0;
+  if(s == "void" || s == "char" || s == "short" || s == "int" || s == "long" || s == "float" || s == "double" || s == "signed" || s == "unsigned" || s == "_Bool") {
+    ok = 1;
+  }
+} return int ok;
+
+is_qual(string s) {
+  int ok = is_qual2(s);
+  if(ok == 0) {
+    ok = is_qual3(s);
+  }
+} return int ok;
+
+is_qual2(string s) {
+  int ok = 0;
+  if(s == "const" || s == "volatile" || s == "restrict" || s == "static" || s == "extern" || s == "inline" || s == "register" || s == "auto" || s == "typedef" || s == "_Atomic") {
+    ok = 1;
+  }
+} return int ok;

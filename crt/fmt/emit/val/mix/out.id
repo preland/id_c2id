@@ -1,0 +1,8 @@
+// printk: format and write, with no newline added -- the format string says
+// whether there is one, exactly as with C's printf. The flush matters
+// because `put` is buffered and kernel-style logging is interleaved with
+// whatever else the program prints.
+c_printk(word fmt, word[] args) {
+  put(c_format(fmt, args));
+  flush();
+} return void;

@@ -1,0 +1,31 @@
+// %c. pad_str, not pad_out: the '0' flag does not apply to a character.
+conv_cs(word fmt, word c, word[] args, word[] st, word[] fs) {
+  string txt = "";
+  if(c == 99) {
+    txt = pad_str(ch_of(next_arg(args, st)), fs);
+  } else {
+    txt = conv_sp(fmt, c, args, st, fs);
+  }
+} return string txt;
+
+// %s. The argument is a store address of a NUL-terminated string.
+conv_sp(word fmt, word c, word[] args, word[] st, word[] fs) {
+  string txt = "";
+  if(c == 115) {
+    txt = pad_str(str_at(next_arg(args, st)), fs);
+  } else {
+    txt = conv_p(fmt, c, args, st, fs);
+  }
+} return string txt;
+
+// %p, and then the end of the chain: anything unrecognised is echoed
+// verbatim, so a specifier this runtime does not implement shows up in the
+// output as a visible gap instead of vanishing.
+conv_p(word fmt, word c, word[] args, word[] st, word[] fs) {
+  string txt = "";
+  if(c == 112) {
+    txt = pad_out(ptr_str(next_arg(args, st)), fs);
+  } else {
+    txt = spec_txt(fmt, st, fs);
+  }
+} return string txt;

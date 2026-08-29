@@ -1,0 +1,19 @@
+
+// One parameter, or the `...` of a variadic list (which contributes no type).
+
+param_body(int[] pos, int[] ps) {
+  int ok = param_dots(pos);
+  if(ok == 0) {
+    param_real(pos, ps);
+  }
+  skip_tok(pos, ",");
+} return void;
+
+param_dots(int[] pos) {
+} return int take_tok(pos, "...");
+
+param_real(int[] pos, int[] ps) {
+  int inner = parse_specs(pos);
+  int r = parse_declarator(pos, inner);
+  param_push(ps, r);
+} return void;

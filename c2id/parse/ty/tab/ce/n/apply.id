@@ -1,0 +1,30 @@
+
+// Applying an operator. A block holds three actions, and a declaration plus
+// an `if` plus an `else if` is already three -- so the fall-through is the
+// declaration's own initialiser and the chain is evaluated eagerly. That is
+// safe here because every arm is pure arithmetic.
+
+ce_apply(string s, int a, int b) {
+  int v = ce_ap2(s, a, b);
+  if(s == "+") {
+    v = a + b;
+  } else if(s == "-") {
+    v = a - b;
+  }
+} return int v;
+
+ce_ap2(string s, int a, int b) {
+  int v = ce_ap3(s, a, b);
+  if(s == "*") {
+    v = a * b;
+  } else if(s == "/") {
+    v = ce_div(a, b);
+  }
+} return int v;
+
+ce_div(int a, int b) {
+  int v = 0;
+  if(b != 0) {
+    v = a / b;
+  }
+} return int v;

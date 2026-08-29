@@ -1,0 +1,18 @@
+// `m` is the else branch: an empty list when there was no `else`, in which
+// case walk_list does nothing and the block falls to the join.
+ifs_else(int id, int alt, int blk) {
+  set_cur(alt);
+  walk_list(m_of(id));
+  ifs_join(blk, cur_blk());
+} return void;
+
+ifs_join(int blk, int nxt) {
+  int alt = new_block();
+  term_jmp(blk, alt);
+  join_at(nxt, alt);
+} return void;
+
+join_at(int nxt, int alt) {
+  term_jmp(nxt, alt);
+  set_cur(alt);
+} return void;

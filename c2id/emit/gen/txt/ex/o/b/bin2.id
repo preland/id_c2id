@@ -1,0 +1,35 @@
+// The arithmetic operators themselves.
+
+// Three of C's operators mean different machine instructions depending on
+// signedness. The rest -- `+ - * & | ^ <<` -- are the same operation on the
+// same bits either way, and only the *result* has to be narrowed differently.
+bin3(int id) {
+  string s = "";
+  if(s_of(id) == "/" || s_of(id) == "%" || s_of(id) == ">>") {
+    s = sgn_txt(id);
+  } else {
+    s = plain_txt(id);
+  }
+} return string s;
+
+// Fully parenthesised, so `id`'s precedence never has to be reasoned about --
+// notably that its bitwise operators bind tighter than its comparisons, which
+// is the opposite of C. conv_txt is what makes an `int` result wrap at 32
+// bits and an `unsigned` one at 32 bits unsigned.
+plain_txt(int id) {
+  string s = "(" + shl_arg(a_of(id), s_of(id)) + " " + s_of(id) + " " + ex_txt(b_of(id)) + ")";
+} return string conv_txt(ex_ty(id), s);
+
+// `id`'s `<<` is 32-bit when both operands are `int`-typed and 64-bit as soon
+// as either is a `word`: `1 << 40` is 0, `sx_bits(1, 64) << 40` is
+// 1099511627776. Everything loaded from the store is already a word, so this
+// only bites when the left operand is a constant or is built out of
+// constants -- `1UL << 40`, which is how the kernel spells every mask it has.
+// sx_bits(v, 64) is the identity on the value and changes only its type, so
+// applying it where it was not needed costs nothing.
+shl_arg(int a, string op) {
+  string s = ex_txt(a);
+  if(op == "<<" && (k_of(a) == "num" || k_of(a) == "un" || k_of(a) == "bin")) {
+    s = "sx_bits(" + s + ", 64)";
+  }
+} return string s;

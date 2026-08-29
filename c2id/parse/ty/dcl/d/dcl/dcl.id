@@ -1,0 +1,34 @@
+
+// Declarators: the recursive half of a C declaration, and the part that
+// actually needs care.
+//
+//   declarator      : pointer* direct-declarator
+//   direct          : name? suffix*
+//                   | '(' declarator ')' suffix*
+//   suffix          : '[' const-expr? ']'  |  '(' params ')'
+//
+// The type is built from the inside out: a pointer prefix applies to
+// whatever the direct-declarator turns out to be, so parse_declarator wraps
+// `inner` -- the type the specifiers produced -- in ptr nodes *first* and
+// hands the result down.
+//
+// The declared name is reported through the exported one-cell list `dname`;
+// read it with decl_name() straight after the call. parse_declarator sets it
+// last, after any parameter declarators have had their turn, so a nested
+// parameter name can never overwrite the outer one.
+
+parse_declarator(int[] pos, int inner) {
+  int r = apply_stars(pos, inner);
+} return int dcl_direct(pos, r);
+
+apply_stars(int[] pos, int inner) {
+  int r = inner;
+  while(at_text(pos, "*")) {
+    r = star_step(pos, r);
+  }
+} return int r;
+
+star_step(int[] pos, int inner) {
+  advance(pos);
+  star_quals(pos);
+} return int newleaf("ptr", inner, 0, "", "");

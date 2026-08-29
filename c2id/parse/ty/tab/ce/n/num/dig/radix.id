@@ -1,0 +1,24 @@
+
+// Where the digits start, and the digit fold itself.
+
+hex_start(string s) {
+  int i = 0;
+  if(len(s) > 1 && charat(s, 0) == 48 && is_xch(charat(s, 1))) {
+    i = 2;
+  }
+} return int i;
+
+is_xch(int c) {
+  int ok = 0;
+  if(c == 120 || c == 88) {
+    ok = 1;
+  }
+} return int ok;
+
+radix_val(string s, int i, int n) {
+  int v = 0;
+  while(i < len(s) && dig_ok(charat(s, i), n)) {
+    v = v * n + dig_val(charat(s, i));
+    i = i + 1;
+  }
+} return int v;

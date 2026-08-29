@@ -1,0 +1,21 @@
+// The rest of the globals. curb is a one-element list rather than a scalar
+// because only the declaring function may assign an exported scalar, and the
+// current block is moved by half the walker.
+
+init_cfg2() {
+  export int[] bsb = [];
+  export int[] bex = [];
+  export int[] curb = [0];
+} return void;
+
+init_cfg3() {
+  export int[] btgt = [];
+  export int[] ctgt = [];
+  export string[] lbls = [];
+} return void;
+
+init_cfg4() {
+  export int[] labb = [];
+  export string[] fixs = [];
+  export int[] fixb = [];
+} return void;

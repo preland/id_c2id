@@ -1,0 +1,33 @@
+// `for (i; c; s) B`:
+//
+//   cur:   i     jmp  -> cond          (the init runs in the current block)
+//   cond:        cond c -> body / exit
+//   body:  B     jmp  -> step
+//   step:  s     jmp  -> cond          (the back-edge)
+//   exit:  (filling continues here)
+//
+// break -> exit, continue -> **step**. That last edge is the whole reason
+// `for` is not just sugar for `while`: a mechanical translation that sends
+// `continue` to the condition skips the step clause and either loops forever
+// or produces a wrong count, silently. tests/c/030_control.c covers it.
+//
+// A missing condition (`for (;;)`) leaves the cond block with an
+// unconditional edge to the body, so only a `break` leaves the loop.
+
+do_for(int id) {
+  walk_list(l_of(id));
+  int nxt = new_block();
+  fo_cond(id, nxt);
+} return void;
+
+fo_cond(int id, int nxt) {
+  term_jmp(cur_blk(), nxt);
+  int blk = new_block();
+  fo_body(id, nxt, blk);
+} return void;
+
+fo_body(int id, int nxt, int blk) {
+  int stp = new_block();
+  int alt = new_block();
+  fo_run(id, nxt, stp, blk, alt);
+} return void;

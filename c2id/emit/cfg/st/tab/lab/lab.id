@@ -1,0 +1,27 @@
+// The label table and the goto fix-up list.
+//
+// A label starts a block and records its number. A `goto` that names a label
+// already seen gets its edge immediately; one that names a label further down
+// the function is parked in the fix-up list and resolved once the whole body
+// has been walked. Both directions are common in kernel C -- forward for
+// `goto err`, backward for retry loops.
+
+lab_add(string name, int blk) {
+  push((import lbls), name);
+  push((import labb), blk);
+  set_cur(blk);
+} return void;
+
+// The block a label names, or -1 if it has not been seen yet.
+label_blk(string name) {
+  int i = find_str((import lbls), name);
+  int blk = 0 - 1;
+  if(i >= 0) {
+    blk = (import labb)[i];
+  }
+} return int blk;
+
+fix_add(int blk, string name) {
+  push((import fixb), blk);
+  push((import fixs), name);
+} return void;

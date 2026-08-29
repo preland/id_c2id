@@ -1,0 +1,24 @@
+coal_next(word h) {
+  word nx = walk_next(h);
+  if(nx != 0 && bused(nx) == 0) {
+    merge_blk(h, nx);
+  }
+} return void;
+
+// The back link is read directly rather than through an accessor: it is the
+// only reader, and the heap's function budget is spent elsewhere.
+coal_prev(word h) {
+  word pv = peek64(h + 8);
+  if(pv != 0 && bused(pv) == 0) {
+    merge_blk(pv, h);
+  }
+} return void;
+
+// How many bytes of an existing allocation are still meaningful after a
+// resize to `n`: the smaller of the old payload and the new size.
+re_len(word p, word n) {
+  word cn = 0;
+  if(p != 0) {
+    cn = re_min(bsize(p - 16) - 16, n);
+  }
+} return word cn;

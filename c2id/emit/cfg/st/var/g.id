@@ -1,0 +1,36 @@
+// The CFG store. A basic block is one row across five parallel lists, because
+// `id` has no records:
+//
+//   bstmt[b]  the straight-line statement node ids in block b
+//   bkind[b]  the terminator: "jmp", "cond", "end" (or "none" while filling)
+//   bsa[b]    successor A -- the jump target, or the true edge of a "cond"
+//   bsb[b]    successor B -- the false edge of a "cond", else -1
+//   bex[b]    the terminator's expression node: the "cond" condition, the
+//             "end" return value, or -1
+//
+// The walker's own state lives beside it: curb (the block being filled),
+// btgt/ctgt (the break and continue target stacks), labs/labb (the label
+// table), fixs/fixb (gotos whose label had not been seen yet) and casv/casb
+// (the case table of the switch being walked).
+//
+// An `export` is a statement, so re-running these functions rebinds every
+// global to a fresh empty list -- which is exactly what starting a new
+// function needs, and is why there is no separate reset chain.
+
+cfg_init() {
+  init_cfg();
+  init_cfg2();
+  cfg_init2();
+} return void;
+
+cfg_init2() {
+  init_cfg3();
+  init_cfg4();
+  init_cfg5();
+} return void;
+
+init_cfg() {
+  export int[][] bstmt = [];
+  export string[] bkind = [];
+  export int[] bsa = [];
+} return void;

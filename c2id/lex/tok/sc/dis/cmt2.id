@@ -1,0 +1,26 @@
+// Comments (both forms) and numbers -- the two scanners that produce either
+// nothing at all or exactly one token.
+
+// The interior of a block comment: `i` is the index just past `/*`.
+cmt_end(word base, int i) {
+  while(peek8(base + i) != ch_eof() && cmt_more(base, i)) {
+    i = adv_nl(base, i);
+  }
+} return int cmt_stop(base, i);
+
+// `//` or `/*`. The default (a line comment, ending at the LF, which the
+// whitespace path then counts) is the safe one and has no side effects, so
+// the eager form is fine here.
+scan_cmt(word base, int i) {
+  int ni = eol_pos(base, i);
+  if(peek8(base + i + 1) == 42) {
+    ni = cmt_end(base, i + 2);
+  }
+} return int ni;
+
+// Kind `num`, text = the exact spelling: prefix, digits, dot, exponent and
+// suffix, unconverted.
+scan_num(word base, int i) {
+  int ne = num_end(base, i);
+  add_tok("num", slice(base, i, ne));
+} return int ne;

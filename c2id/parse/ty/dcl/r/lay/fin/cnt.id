@@ -1,0 +1,10 @@
+
+// The record's size before the final round-up: a struct ends where its last
+// member ended, a union is as wide as its widest.
+
+rec_bytes(int ty, int[] lay) {
+  int n = lay[1];
+  if(b_of(ty) == 0) {
+    n = (lay[0] + 7) / 8;
+  }
+} return int n;

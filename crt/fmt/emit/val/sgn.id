@@ -1,0 +1,26 @@
+dec_of(word v, word[] fs) {
+} return string sdec(narrow_s(v, fs[4]));
+
+// Signed decimal. The negation of the most negative value wraps back to
+// itself, and str_of_base reads that as unsigned -- which is exactly the
+// right answer, 9223372036854775808.
+sdec(word v) {
+  string txt = "";
+  if(v < 0) {
+    txt = "-" + str_of_base(0 - v, 10, 0);
+  } else {
+    txt = str_of_base(v, 10, 0);
+  }
+} return string txt;
+
+// Reduce an argument to the signed value the length modifier describes:
+// code 0 is C's default `int`, so a bare %d of a 64-bit word prints the low
+// 32 bits, sign-extended, just as C would.
+narrow_s(word v, word lm) {
+  word r = v;
+  if(lm == 0) {
+    r = sx32(v);
+  } else {
+    r = narrow_s2(v, lm);
+  }
+} return word r;

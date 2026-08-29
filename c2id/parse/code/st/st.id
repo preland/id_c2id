@@ -1,0 +1,35 @@
+// Statement dispatch. C has fifteen statement forms and `id` allows three
+// actions per block, so the choice is made one question at a time down a chain
+// of functions -- the standard `id` shape for what would be a switch. Each
+// link asks about exactly one keyword and hands the rest to the next.
+//
+// These look like copies of each other, but each names a different string
+// literal and a different callee, which is what makes them distinct functions
+// under `id`'s duplicate-logic rule.
+
+parse_stmt(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "{")) {
+    id = parse_block(pos);
+  } else {
+    id = parse_stmt2(pos);
+  }
+} return int id;
+
+parse_stmt2(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "if")) {
+    id = parse_if(pos);
+  } else {
+    id = parse_stmt3(pos);
+  }
+} return int id;
+
+parse_stmt3(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "while")) {
+    id = parse_while(pos);
+  } else {
+    id = parse_stmt4(pos);
+  }
+} return int id;

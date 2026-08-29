@@ -1,0 +1,18 @@
+// Sign-extension. C's integer types are all `word`s carrying a narrower
+// value, so widening one back to 64 bits is an explicit operation here.
+//
+// The trick is the same one every compiler uses: shift the sign bit up to
+// bit 63, then shift back arithmetically. `>>` on a word is the *signed*
+// shift (`ushr` is the unsigned one), so the vacated bits are copies of the
+// sign bit -- exactly what sign-extension means.
+sx_bits(word v, int bits) {
+  int sh = 64 - bits;
+} return word (v << sh) >> sh;
+
+// sx8(0xff) = -1, sx8(0x7f) = 127
+sx8(word v) {
+} return word sx_bits(v, 8);
+
+// sx16(0xffff) = -1, sx16(0x8000) = -32768
+sx16(word v) {
+} return word sx_bits(v, 16);

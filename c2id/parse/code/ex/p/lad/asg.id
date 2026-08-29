@@ -1,0 +1,32 @@
+// The assignment tail, the set of assignment operators, and the conditional
+// level.
+
+assign_tail(int[] pos, int left) {
+  string op = cur_text(pos);
+  advance(pos);
+  int right = parse_assign(pos);
+} return int newleaf("assign", left, right, op, "");
+
+// The eleven C assignment operators. One `if` with one big boolean is a single
+// action however many terms it has.
+is_assignop(string s) {
+  int ok = 0;
+  if(s == "=" || s == "+=" || s == "-=" || s == "*=" || s == "/=" || s == "%=" || s == "<<=" || s == ">>=" || s == "&=" || s == "^=" || s == "|=") {
+    ok = 1;
+  }
+} return int ok;
+
+// conditional-expression:
+//     logical-OR-expression
+//   | logical-OR-expression '?' expression ':' conditional-expression
+//
+// Level 0 of the binary ladder is logical-or, so parse_bin(pos, 0) is exactly
+// the left operand C asks for. Public: a C constant-expression is a
+// conditional-expression.
+parse_cond(int[] pos) {
+  int left = parse_bin(pos, 0);
+  int node = left;
+  if(at_text(pos, "?")) {
+    node = cond_tail(pos, left);
+  }
+} return int node;

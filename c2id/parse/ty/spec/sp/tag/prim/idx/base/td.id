@@ -1,0 +1,27 @@
+
+// A canonical `int` node, used for enums; and `typedef`, the one declaration
+// form this module owns outright, because it is what fills the typedef table
+// that is_type_start depends on.
+//
+//   typedef unsigned long size_t, *size_p;
+//
+// registers both names. The specifiers have already been read when td_names
+// runs, so each declarator in the list is applied to the same inner type.
+
+pick_one(int[] sp, int[] xs, int i) {
+  int n = 0 - 1;
+  if(sp[i] > 0) {
+    n = xs[i];
+  }
+} return int n;
+
+int_type() {
+  int[] sp = spec_init();
+  lset(sp, 3, 1);
+} return int mk_prim(sp);
+
+parse_typedef(int[] pos) {
+  advance(pos);
+  int inner = parse_specs(pos);
+  td_names(pos, inner);
+} return void;

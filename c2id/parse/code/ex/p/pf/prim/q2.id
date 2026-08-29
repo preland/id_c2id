@@ -1,0 +1,28 @@
+// The parenthesis case, identifiers, and numeric/character constants.
+//
+// parse_cast normally intercepts a '(' before the unary levels are reached, so
+// this link only fires on the paths that skip it -- `++(*p)`, and the operand
+// of `sizeof x`.
+
+primary4(int[] pos) {
+  int node = 0;
+  if(at_text(pos, "(")) {
+    node = prim_paren(pos);
+  } else {
+    node = prim_bad(pos);
+  }
+} return int node;
+
+parse_var(int[] pos) {
+  string name = cur_text(pos);
+  advance(pos);
+} return int newleaf("var", 0, 0, name, "");
+
+// An integer, floating or character constant. `na` is the value, `ns` is the
+// exact spelling -- the emitter reprints the spelling, the type pass and the
+// constant folder read the value.
+parse_const(int[] pos) {
+  string kind = cur_kind(pos);
+  string s = cur_text(pos);
+  advance(pos);
+} return int newleaf("num", const_val(kind, s), 0, s, "");

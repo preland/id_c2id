@@ -1,0 +1,12 @@
+// The successor of a "jmp", or the true edge of a "cond".
+cfg_succ(int blk) {
+} return int (import bsa)[blk];
+
+// The false edge of a "cond", -1 otherwise.
+cfg_alt(int blk) {
+} return int (import bsb)[blk];
+
+// The condition of a "cond", the returned value of an "end" (-1 for a bare
+// `return;` or a fallen-off-the-end block), -1 for a "jmp".
+cfg_expr(int blk) {
+} return int (import bex)[blk];

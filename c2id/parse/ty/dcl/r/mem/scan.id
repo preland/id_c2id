@@ -1,0 +1,27 @@
+
+// Laying out the members. `lay` is the running layout state:
+//
+//   lay[0]  the next free bit, measured from the start of the record
+//   lay[1]  the largest member seen, in bytes -- a union's size
+//   lay[2]  the record's alignment so far
+//
+// Bits rather than bytes, because that is the only unit in which an ordinary
+// member and a bitfield can be placed by the same code.
+
+scan_members(int[] pos, int ty) {
+  int[] lay = [0, 0, 1];
+  fill_members(pos, ty, lay);
+  rec_end(pos, ty, lay);
+} return void;
+
+fill_members(int[] pos, int ty, int[] lay) {
+  while(cur_kind(pos) != "eof" && at_text(pos, "}") == 0) {
+    member_step(pos, ty, lay);
+  }
+} return void;
+
+member_step(int[] pos, int ty, int[] lay) {
+  int i = pos[0];
+  member_decl(pos, ty, lay);
+  unstick(pos, i);
+} return void;

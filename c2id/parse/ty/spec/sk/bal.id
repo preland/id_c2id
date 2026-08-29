@@ -1,0 +1,25 @@
+
+// Skip to just past the `)` matching an already-consumed `(`. Also used by
+// the declarator parser, which has to jump over a parenthesised group before
+// it can know what type that group applies to.
+
+skip_bal(int[] pos) {
+  int depth = 1;
+  while(depth > 0 && cur_kind(pos) != "eof") {
+    depth = bal_step(pos, depth);
+  }
+} return void;
+
+bal_step(int[] pos, int depth) {
+  int n = depth + bal_delta(cur_text(pos));
+  advance(pos);
+} return int n;
+
+bal_delta(string s) {
+  int n = 0;
+  if(s == "(") {
+    n = 1;
+  } else {
+    n = close_delta(s);
+  }
+} return int n;

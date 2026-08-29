@@ -1,0 +1,22 @@
+take_digit(word c, word[] st, word[] fs) {
+  lsetw(fs, 3, fs[3] * 10 + c - 48);
+  lsetw(st, 0, st[0] + 1);
+} return void;
+
+// Length modifiers. Written as a loop so that the two-letter ones ("ll",
+// "hh") need no lookahead: each letter updates the code, and "hh" is
+// recognised as "h seen twice".
+scan_len(word fmt, word[] st, word[] fs) {
+  while(is_lenc(peek8(fmt + st[0])) != 0) {
+    take_len(peek8(fmt + st[0]), st, fs);
+  }
+} return void;
+
+// 'l', 'h', 'z'. glibc also accepts 'j', 't' and the BSD 'q'; those are not
+// implemented, so they are echoed rather than silently treated as 'll'.
+is_lenc(word c) {
+  int go = 0;
+  if(c == 108 || c == 104 || c == 122) {
+    go = 1;
+  }
+} return int go;

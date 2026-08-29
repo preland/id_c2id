@@ -1,0 +1,17 @@
+// A two-way edge on expression `a`: true to `nxt`, false to `alt`.
+term_cond(int blk, int a, int nxt, int alt) {
+  set_kind(blk, "cond");
+  set_ex(blk, a);
+  cond_edges(blk, nxt, alt);
+} return void;
+
+cond_edges(int blk, int nxt, int alt) {
+  set_sa(blk, nxt);
+  set_sb(blk, alt);
+} return void;
+
+// A `for` step clause is an expression in the AST but a statement in a block,
+// so it is wrapped in the same `expr` node the parser would have built for
+// `step;` written on its own line. The emitter then needs no special case.
+expr_stmt(int a) {
+} return int newleaf("expr", a, 0, "", "");

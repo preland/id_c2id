@@ -1,0 +1,23 @@
+// A one-character string. Note that ch_of(0) is the *empty* string: an `id`
+// string is NUL-terminated, so it cannot carry an embedded NUL the way C's
+// printf("%c", 0) writes one.
+ch_of(int cc) {
+} return string chr(cc);
+
+// A NUL-terminated string in the store, as an `id` string. A null pointer
+// prints as "(null)", which is what glibc does for %s.
+str_at(word s) {
+  string txt = "(null)";
+  if(s != 0) {
+    txt = str_of_mem(s, c_strlen(s));
+  }
+} return string txt;
+
+// %p, spelled the way glibc spells it: "(nil)" for null, "0x" and lowercase
+// hex otherwise.
+ptr_str(word v) {
+  string txt = "(nil)";
+  if(v != 0) {
+    txt = "0x" + str_of_base(v, 16, 0);
+  }
+} return string txt;

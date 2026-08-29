@@ -1,0 +1,17 @@
+bump_size(int off, int sz) {
+  push((import lvwid), sz);
+  lset((import frsz), 0, off + sz);
+} return void;
+
+// Start a new function. `id` lists have no clear operation, so they are
+// emptied by popping.
+frame_reset() {
+  clear_names((import lvnames));
+  clear_offs();
+  lset((import frsz), 0, 8);
+} return void;
+
+clear_offs() {
+  clear_ints((import lvoff));
+  clear_ints((import lvwid));
+} return void;

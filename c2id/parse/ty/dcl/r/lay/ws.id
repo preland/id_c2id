@@ -1,0 +1,26 @@
+
+// A whole member: round the cursor up to the member's own alignment, take
+// that as its offset, and advance past it. A union member always sits at 0
+// and only contributes to the maximum size.
+
+place_ws(int ty, int[] lay, int r) {
+  int n = un_zero(ty, align_up(lay[0], 8 * type_align(r)));
+  lset(lay, 0, n + 8 * type_size(r));
+  lset(lay, 1, max_int(lay[1], type_size(r)));
+} return int n;
+
+// A bitfield goes at the cursor if it still fits in the storage unit of its
+// declared type, and otherwise starts a fresh unit. A zero-width field never
+// fits, which is exactly what makes it force alignment.
+place_bf(int ty, int[] lay, int r, int w) {
+  int n = un_zero(ty, bf_pos(lay[0], type_size(r), w));
+  lset(lay, 0, n + w);
+  lset(lay, 1, max_int(lay[1], type_size(r)));
+} return int n;
+
+bf_pos(int n, int sz, int w) {
+  int v = align_up(n, 8 * sz);
+  if(bf_fits(n, sz, w)) {
+    v = n;
+  }
+} return int v;

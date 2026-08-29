@@ -1,0 +1,24 @@
+// The cursor the parser reads the token stream through. `pos` is the shared
+// one-element cell `[index]`, created by the driver as `int[] pos = [0];`.
+// Every accessor is safe past the end, so the parser never has to bounds-check.
+
+cur_kind(int[] pos) {
+  string kind = "eof";
+  if(pos[0] < len((import tkind))) {
+    kind = (import tkind)[pos[0]];
+  }
+} return string kind;
+
+cur_text(int[] pos) {
+  string txt = "";
+  if(pos[0] < len((import ttext))) {
+    txt = (import ttext)[pos[0]];
+  }
+} return string txt;
+
+cur_line(int[] pos) {
+  int n = 0;
+  if(pos[0] < len((import tline))) {
+    n = (import tline)[pos[0]];
+  }
+} return int n;

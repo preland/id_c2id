@@ -1,0 +1,35 @@
+// unary-expression:
+//     postfix-expression
+//   | ('!' | '~' | '+' | '-' | '*' | '&') cast-expression
+//   | ('++' | '--') unary-expression
+//   | 'sizeof' unary-expression
+//   | 'sizeof' '(' type-name ')'
+//
+// Three lazy dispatch links, one decision each: prefix operator, prefix
+// increment, sizeof, else postfix.
+
+parse_unary(int[] pos) {
+  int node = 0;
+  if(is_unop(cur_text(pos))) {
+    node = unary_op(pos);
+  } else {
+    node = parse_unary2(pos);
+  }
+} return int node;
+
+// The six prefix operators whose operand is a cast-expression. `+ - * &` are
+// here in their prefix meaning only: the ladder only ever asks about a binary
+// operator once it already holds a left operand.
+is_unop(string s) {
+  int ok = 0;
+  if(s == "!" || s == "~" || s == "+" || s == "-" || s == "*" || s == "&") {
+    ok = 1;
+  }
+} return int ok;
+
+// Operand is a cast-expression, so `-(int)x` and `*(char *)p` parse.
+unary_op(int[] pos) {
+  string op = cur_text(pos);
+  advance(pos);
+  int a = parse_cast(pos);
+} return int newleaf("un", a, 0, op, "");

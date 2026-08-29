@@ -1,0 +1,32 @@
+// C's usual arithmetic conversions, and the integer promotion under them.
+//
+// Getting these wrong is exactly the class of bug this module exists to
+// avoid: `-1 < 1u` is *false* in C, because the int is converted to unsigned
+// before the comparison, and an emitter that answered "signed" here would
+// emit `<` and be right for every input except the ones that matter.
+
+usual_ty(int ty, int inner) {
+  int r = ty;
+  if(is_ptr(ty) == 0) {
+    r = usual2(ty, inner);
+  }
+} return int r;
+
+// Once the left operand is not a pointer, the right one still might be
+// (`n + p`), and then it wins.
+usual2(int ty, int inner) {
+  int r = usual3(promote_ty(ty), promote_ty(inner));
+  if(is_ptr(inner) == 1) {
+    r = inner;
+  }
+} return int r;
+
+// Wider wins; on a tie, unsigned wins. Stated that way round because
+// `long` versus `unsigned int` is a tie in neither sense -- long is wider,
+// so it takes the pair, and only equal widths let signedness decide.
+usual3(int ty, int inner) {
+  int r = ty;
+  if(type_size(inner) > type_size(ty) || (type_size(inner) == type_size(ty) && ty_signed(ty) > ty_signed(inner))) {
+    r = inner;
+  }
+} return int r;

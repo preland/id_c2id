@@ -1,0 +1,39 @@
+// The `?:` tail and the binary precedence ladder.
+//
+// C has ten binary levels between `?:` and cast. Ten hand-written functions
+// that differ only in which operator strings they name is precisely the
+// "just like X but for Y" shape the language forbids copying, so the level is
+// a *parameter* and the operator set is a table (see fold.id and tab/tab.id):
+//
+//   0 ||   1 &&   2 |   3 ^   4 &   5 == !=   6 < > <= >=
+//   7 << >>   8 + -   9 * / %
+//
+// Loosest is 0. Every level is left-associative, which falls out of folding in
+// a `while` with the right operand parsed one level tighter.
+
+// '?' is current. The middle arm is a full expression (commas allowed); the
+// else arm is another conditional-expression, which is what makes `?:`
+// right-associative.
+cond_tail(int[] pos, int left) {
+  advance(pos);
+  int a = parse_expr(pos);
+  int b = cond_else(pos);
+} return int newlist("cond", left, a, "", [b]);
+
+parse_bin(int[] pos, int lvl) {
+  int left = parse_next(pos, lvl);
+  while(op_level(cur_text(pos)) == lvl) {
+    left = fold_bin(pos, lvl, left);
+  }
+} return int left;
+
+// The operand of level `lvl` is level `lvl + 1`; below the last binary level
+// (9, multiplicative) sits the cast level.
+parse_next(int[] pos, int lvl) {
+  int node = 0;
+  if(lvl < 9) {
+    node = parse_bin(pos, lvl + 1);
+  } else {
+    node = parse_cast(pos);
+  }
+} return int node;

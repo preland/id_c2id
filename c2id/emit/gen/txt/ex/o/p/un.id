@@ -1,0 +1,16 @@
+// The two remaining unary forms.
+
+// `-e` and `~e` both take the promoted operand type and both narrow back to
+// it, which is why `-x` on an `unsigned int` is a large positive number and
+// not a negative one.
+pre_txt(int id, string op) {
+} return string conv_txt(ex_ty(id), "(" + op + ex_txt(a_of(id)) + ")");
+
+// Prefix `++`/`--` is a compound assignment; unary `+` is the promotion and
+// nothing else.
+incdec_txt(int id) {
+  string s = conv_txt(ex_ty(id), ex_txt(a_of(id)));
+  if(s_of(id) == "++" || s_of(id) == "--") {
+    s = step_txt(a_of(id), s_of(id));
+  }
+} return string s;

@@ -1,0 +1,21 @@
+// List separator, subscript, and postfix ++/--.
+
+skip_comma(int[] pos) {
+  if(at_text(pos, ",")) {
+    advance(pos);
+  }
+} return void;
+
+// a[i] -- the index is a full expression, commas and all: `a[i, j]` is legal C.
+parse_index(int[] pos, int a) {
+  advance(pos);
+  int b = parse_expr(pos);
+  advance(pos);
+} return int newleaf("idx", a, b, "", "");
+
+// x++ / x-- . Kind `post` rather than `un`, which is how the emitter tells
+// `*p++` (post) from `++*p` (un).
+post_incdec(int[] pos, int a) {
+  string op = cur_text(pos);
+  advance(pos);
+} return int newleaf("post", a, 0, op, "");

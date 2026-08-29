@@ -1,0 +1,16 @@
+// Zero-extension, i.e. truncation to a narrower width with the result read
+// as unsigned. Each is a single mask, so each is written out rather than
+// routed through a shared helper: the mask *is* the whole content, and three
+// masks are three different functions.
+
+// zx8(0xff) = 255, zx8(0 - 1) = 255
+zx8(word v) {
+} return word v & 0xff;
+
+// zx16(0 - 1) = 65535
+zx16(word v) {
+} return word v & 0xffff;
+
+// zx32(0 - 1) = 4294967295
+zx32(word v) {
+} return word v & 0xffffffff;

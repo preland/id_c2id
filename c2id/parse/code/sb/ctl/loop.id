@@ -1,0 +1,17 @@
+// The else arm is filled through a helper because `id` lists are
+// reference-semantic: pushing into `m` here is visible to if_else's caller.
+fill_else(int[] pos, int[] m) {
+  advance(pos);
+  push(m, parse_stmt(pos));
+} return void;
+
+parse_while(int[] pos) {
+  advance(pos);
+  advance(pos);
+  int a = parse_expr(pos);
+} return int while_body(pos, a);
+
+while_body(int[] pos, int a) {
+  advance(pos);
+  int[] l = [parse_stmt(pos)];
+} return int newlist("while", a, 0, "", l);

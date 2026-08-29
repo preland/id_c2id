@@ -1,0 +1,13 @@
+// The three byte codes this lexer names. Each magic number gets exactly one
+// accessor (NOTES.md section 6): two constant functions returning the same
+// literal would be a duplicate-logic error, and one accessor per code makes
+// that impossible by construction.
+
+ch_dq() {
+} return int 34;
+
+ch_sq() {
+} return int 39;
+
+ch_nl() {
+} return int 10;

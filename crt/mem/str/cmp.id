@@ -1,0 +1,23 @@
+// strcmp is strncmp with a bound that cannot bite: comparing at most
+// strlen(a) + 1 bytes always reaches a's NUL, and the NUL compares unequal
+// to whatever b has there.
+c_strcmp(word a, word b) {
+} return word c_strncmp(a, b, c_strlen(a) + 1);
+
+// strncmp. Stops at the first difference, at the terminator, or after n
+// bytes -- whichever comes first.
+c_strncmp(word a, word b, word n) {
+  word i = 0;
+  word r = 0;
+  while(ncmp_more(a, i, n, r) != 0) {
+    r = cmp_byte(a, b, i);
+    i = i + 1;
+  }
+} return word r;
+
+ncmp_more(word a, word i, word n, word r) {
+  int go = 0;
+  if(ult(i, n) != 0 && r == 0) {
+    go = s_more(a, i);
+  }
+} return int go;

@@ -1,0 +1,22 @@
+// Building nodes. newnode pushes one cell to every parallel list and returns
+// the new id, which is just the length minus one -- computed in the return
+// clause, which is free and so does not eat into the 3-action budget.
+//
+// The pushes are split across three helpers for the same reason: three
+// exports' worth of pushing is three actions, and a block gets three.
+
+push_kab(string kind, int a, int b) {
+  push((import nk), kind);
+  push((import na), a);
+  push((import nb), b);
+} return void;
+
+push_st(string s, string tstr) {
+  push((import ns), s);
+  push((import nt), tstr);
+} return void;
+
+push_lm(int[] l, int[] m) {
+  push((import nl), l);
+  push((import nm), m);
+} return void;

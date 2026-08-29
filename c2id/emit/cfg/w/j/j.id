@@ -1,0 +1,19 @@
+// The last link of the chain, and the jumps. `expr` and `decl` -- and any
+// node kind that is not control flow -- fall through to add_stmt.
+walk_stmt12(int id) {
+  if(k_of(id) == "continue") {
+    do_continue();
+  } else {
+    add_stmt(id);
+  }
+} return void;
+
+do_break() {
+  term_jmp(cur_blk(), brk_top());
+  set_cur(new_block());
+} return void;
+
+do_continue() {
+  term_jmp(cur_blk(), cont_top());
+  set_cur(new_block());
+} return void;

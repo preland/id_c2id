@@ -1,0 +1,26 @@
+
+// The GNU spellings. `__extension__` and the `__`-wrapped qualifiers carry no
+// meaning for layout, so they are discarded exactly like their plain
+// equivalents. `__attribute__`, `__asm__` and friends are different: they are
+// followed by a balanced parenthesis group that has to be skipped as a unit.
+
+is_qual3(string s) {
+  int ok = 0;
+  if(s == "__restrict" || s == "__restrict__" || s == "__inline" || s == "__inline__" || s == "__volatile__" || s == "__const" || s == "__extension__" || s == "_Noreturn" || s == "__thread" || s == "_Thread_local") {
+    ok = 1;
+  }
+} return int ok;
+
+is_su_kw(string s) {
+  int ok = 0;
+  if(s == "struct" || s == "union" || s == "enum") {
+    ok = 1;
+  }
+} return int ok;
+
+is_attr(string s) {
+  int ok = 0;
+  if(s == "__attribute__" || s == "__attribute" || s == "__asm__" || s == "__asm" || s == "asm" || s == "__declspec") {
+    ok = 1;
+  }
+} return int ok;

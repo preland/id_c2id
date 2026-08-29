@@ -1,0 +1,16 @@
+
+// Is this byte a digit in base `n`?
+//
+// dig_val itself is not defined here: parse/code/ex/ needs the same fold for
+// integer literals and for the \xNN escapes, and `id` rejects a second
+// function with the same logic -- so there is one definition, in
+// ../../../../../code/ex/p/pf/lit/dig.id, and this module calls it. See
+// dig.md beside this file.
+
+dig_ok(int c, int n) {
+  int v = dig_val(c);
+  int ok = 0;
+  if(v >= 0 && v < n) {
+    ok = 1;
+  }
+} return int ok;

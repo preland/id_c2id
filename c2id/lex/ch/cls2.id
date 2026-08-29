@@ -1,0 +1,30 @@
+// Derived character classes.
+
+// Horizontal whitespace only -- deliberately excludes LF (10), because the
+// two places that use it (skipping to the number in a `# 42 "f.c"` line
+// marker, and looking backwards for the start of a line) must never step
+// across a line boundary.
+is_hspace(int c) {
+  int ok = 0;
+  if(c == 32 || c == 9 || c == 13) {
+    ok = 1;
+  }
+} return int ok;
+
+is_alnum(int c) {
+  int ok = 0;
+  if(is_alpha(c) || is_digit(c)) {
+    ok = 1;
+  }
+} return int ok;
+
+// The continuation set of a C preprocessing number: digits, letters, `_` and
+// `.` (46). Together with the `e+`/`p-` rule in num_step this is exactly C's
+// pp-number, which is what makes `0x1fUL`, `1.5f`, `1e10` and `0x1p-3` all
+// come out as one `num` token without any special cases.
+is_numcont(int c) {
+  int ok = 0;
+  if(is_alnum(c) || c == 46) {
+    ok = 1;
+  }
+} return int ok;

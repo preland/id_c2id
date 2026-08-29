@@ -1,0 +1,18 @@
+do_return(int id) {
+  term_end(cur_blk(), a_of(id));
+  set_cur(new_block());
+} return void;
+
+do_goto(int id) {
+  int blk = cur_blk();
+  goto_edge(blk, s_of(id));
+  set_cur(new_block());
+} return void;
+
+// A backward goto resolves here; a forward one leaves -1 in the edge and is
+// parked for the fix-up pass.
+goto_edge(int blk, string name) {
+  int nxt = label_blk(name);
+  term_jmp(blk, nxt);
+  need_fix(blk, name, nxt);
+} return void;

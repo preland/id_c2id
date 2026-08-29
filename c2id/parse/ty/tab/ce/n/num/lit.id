@@ -1,0 +1,24 @@
+
+// Integer literals. Hex is recognised by its 0x prefix; a U/L/UL suffix
+// simply terminates the digit run. Octal is read as decimal -- a leading
+// zero on a multi-digit constant is vanishingly rare in a type context.
+
+ce_ap5(string s, int a, int b) {
+  int v = 0;
+  if(s == "&") {
+    v = a & b;
+  } else if(s == "^") {
+    v = a ^ b;
+  }
+} return int v;
+
+num_val(string s) {
+  int i = hex_start(s);
+} return int radix_val(s, i, num_base(i));
+
+num_base(int i) {
+  int n = 10;
+  if(i > 0) {
+    n = 16;
+  }
+} return int n;

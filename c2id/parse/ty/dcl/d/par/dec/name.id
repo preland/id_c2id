@@ -1,0 +1,17 @@
+
+// parse_typename is the entry point for a cast or a sizeof argument:
+// specifiers followed by an abstract declarator. It is the same code as a
+// full declaration, because an abstract declarator is just one whose name
+// happens to be absent -- so it serves for named declarations too, with the
+// name read back from decl_name().
+
+decay2(int inner) {
+  int r = inner;
+  if(k_of(inner) == "fn") {
+    r = newleaf("ptr", inner, 0, "", "");
+  }
+} return int r;
+
+parse_typename(int[] pos) {
+  int inner = parse_specs(pos);
+} return int parse_declarator(pos, inner);

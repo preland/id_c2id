@@ -1,0 +1,17 @@
+// The rest of a line marker: the line number, then the file name, then the
+// flags, which are skipped along with the marker's newline.
+
+// `e` is at the first character after `#`. The digits (possibly none) set
+// the line, and whatever follows the horizontal whitespace after them is
+// where the filename would be.
+mark_num(word base, int e) {
+  int j = digit_end(base, e);
+  set_line(base, e, j);
+} return int mark_file(base, skip_h(base, j));
+
+// `e` is at the opening quote of the filename, if there is one. eol_end
+// swallows the marker's own newline without counting it, which is what makes
+// the stored number apply to the line that follows.
+mark_file(word base, int e) {
+  set_file(base, e, quote_end(base, e + 1, ch_dq()));
+} return int eol_end(base, e);

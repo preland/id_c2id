@@ -1,0 +1,23 @@
+// sizeof. Two forms, and the same '(' ambiguity as a cast:
+//
+//   sizeof(int)   -- a type name; the node carries `nb` = type node, `na` = 0
+//   sizeof x      -- a unary-expression; `na` = operand, `nb` = 0
+//   sizeof (x)    -- also an expression: the '(' is already eaten when we find
+//                    out, so the rest is parsed as a parenthesised expression
+
+parse_sizeof(int[] pos) {
+  advance(pos);
+} return int sizeof_arg(pos);
+
+sizeof_arg(int[] pos) {
+  int node = 0;
+  if(at_text(pos, "(")) {
+    node = sizeof_paren(pos);
+  } else {
+    node = sizeof_expr(pos);
+  }
+} return int node;
+
+sizeof_paren(int[] pos) {
+  advance(pos);
+} return int sizeof_body(pos);

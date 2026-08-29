@@ -1,0 +1,39 @@
+// The loosest three levels of the C expression grammar.
+//
+//   parse_expr   -- a full comma expression      (level 1)
+//   parse_assign -- one assignment-expression    (level 2), which is what an
+//                   argument, an initialiser and a `for` clause each want
+//   parse_cond   -- a conditional expression     (level 3), which is also C's
+//                   constant-expression: array bounds, case labels, enum values
+//
+// Everything tighter than `?:` is one table-driven ladder (see bin/).
+
+parse_expr(int[] pos) {
+  int left = parse_assign(pos);
+  while(at_text(pos, ",")) {
+    left = fold_comma(pos, left);
+  }
+} return int left;
+
+// The comma *operator*: a `bin` node whose operator is ",". An argument list
+// never reaches here because fill_list calls parse_assign, one rung down.
+fold_comma(int[] pos, int left) {
+  advance(pos);
+  int right = parse_assign(pos);
+} return int newleaf("bin", left, right, ",", "");
+
+// assignment-expression:
+//     conditional-expression
+//   | unary-expression assign-op assignment-expression
+//
+// Right-associative, so the tail recurses back into parse_assign. C restricts
+// the target to a unary-expression; parsing a whole conditional first and then
+// noticing the operator accepts every well-formed program and needs no
+// backtracking, which `id` could not express anyway.
+parse_assign(int[] pos) {
+  int left = parse_cond(pos);
+  int node = left;
+  if(is_assignop(cur_text(pos))) {
+    node = assign_tail(pos, left);
+  }
+} return int node;

@@ -1,0 +1,15 @@
+
+// A rec node's nm list is [alignment, row, row, ...]: the alignment, then one
+// member-table row number per member, in declaration order. It is a list of
+// row numbers rather than a first/count range because laying out a nested
+// anonymous struct appends rows of its own part way through the enclosing
+// record's -- so the enclosing record's rows are not contiguous.
+
+sy_row(int ty, int r) {
+  push(l_of(ty), r);
+  push(m_of(ty), len((import synames)));
+} return void;
+
+// how many members record `ty` has
+member_count(int ty) {
+} return int len(m_of(ty)) - 1;

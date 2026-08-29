@@ -1,0 +1,38 @@
+// expr_str -- a fully parenthesised printer for an expression tree. It is how
+// the parser is tested (parenthesisation *is* the parse) and what the emitter
+// prints in diagnostics.
+//
+// The dispatch is an eager chain: each link asks the next one first and then
+// overrides if the kind is its own. That costs two kinds per three-action
+// block instead of one, and is safe here because printing a node has no side
+// effects -- a parser could not be written this way.
+
+expr_str(int id) {
+  string s = es2(id);
+  if(k_of(id) == "num") {
+    s = num_str(id);
+  }
+  if(k_of(id) == "bin" || k_of(id) == "assign") {
+    s = bin_str(id);
+  }
+} return string s;
+
+es2(int id) {
+  string s = es3(id);
+  if(k_of(id) == "var") {
+    s = s_of(id);
+  }
+  if(k_of(id) == "str") {
+    s = "\"" + s_of(id) + "\"";
+  }
+} return string s;
+
+es3(int id) {
+  string s = es4(id);
+  if(k_of(id) == "un") {
+    s = "(" + s_of(id) + expr_str(a_of(id)) + ")";
+  }
+  if(k_of(id) == "post") {
+    s = "(" + expr_str(a_of(id)) + s_of(id) + ")";
+  }
+} return string s;

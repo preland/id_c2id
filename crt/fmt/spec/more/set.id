@@ -1,0 +1,24 @@
+set_flag(word c, word[] fs) {
+  if(c == 45) {
+    lsetw(fs, 1, 1);
+  } else {
+    lsetw(fs, 2, 1);
+  }
+} return void;
+
+// The minimum field width, as decimal digits. A '*' width would need an
+// argument and is not supported; it is not a digit, so it ends up echoed.
+scan_width(word fmt, word[] st, word[] fs) {
+  while(is_digit(peek8(fmt + st[0])) != 0) {
+    take_digit(peek8(fmt + st[0]), st, fs);
+  }
+} return void;
+
+// Unsigned trick: c - 48 wraps to something huge for any byte below '0',
+// so one unsigned compare covers both ends of the range.
+is_digit(word c) {
+  int go = 0;
+  if(ult(c - 48, 10) != 0) {
+    go = 1;
+  }
+} return int go;

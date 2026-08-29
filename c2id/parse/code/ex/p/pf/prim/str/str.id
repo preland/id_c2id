@@ -1,0 +1,23 @@
+// String literals, including adjacent-literal concatenation: in C, `"a" "b"`
+// is one string, and preprocessed source is full of it. One `str` node comes
+// out, holding the concatenated raw text.
+//
+// The lexer hands over `ttext` without the surrounding quotes and with escape
+// sequences still unresolved, so joining is plain concatenation and the
+// emitter can re-quote once.
+
+parse_str(int[] pos) {
+  string s = cur_text(pos);
+  advance(pos);
+} return int str_more(pos, s);
+
+str_more(int[] pos, string s) {
+  while(cur_kind(pos) == "str") {
+    s = str_join(pos, s);
+  }
+} return int newleaf("str", 0, 0, s, "");
+
+str_join(int[] pos, string s) {
+  string out = s + cur_text(pos);
+  advance(pos);
+} return string out;

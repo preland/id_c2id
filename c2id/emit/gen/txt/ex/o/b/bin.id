@@ -1,0 +1,37 @@
+// Binary operators. Three questions, in this order: does it short-circuit,
+// is it a comparison, is a pointer involved -- and only then which arithmetic.
+
+// `&&`, `||` and the comma operator are not expressions in this lowering.
+// The first two must not evaluate their right-hand side when the left one
+// decides the answer, and an `id` expression cannot express that; they become
+// two basic blocks and a frame temporary, which is emit/cfg/'s job. `,` is a
+// sequence point, which is the same problem. Emitting an undefined name means
+// a project that reaches one fails to build rather than running a program
+// whose side effects happen in the wrong order.
+bin_txt(int id) {
+  string s = "NEEDS_CFG_SHORTCIRCUIT";
+  if(s_of(id) != "&&" && s_of(id) != "||" && s_of(id) != ",") {
+    s = bin1(id);
+  }
+} return string s;
+
+bin1(int id) {
+  string s = "";
+  if(is_cmp_op(s_of(id)) == 1) {
+    s = cmp_txt(id);
+  } else {
+    s = bin2(id);
+  }
+} return string s;
+
+// Either operand being an address makes this pointer arithmetic, where the
+// integer side is scaled by the pointee's size. Testing both sides catches
+// `n + p` as well as `p + n`, which C allows.
+bin2(int id) {
+  string s = "";
+  if(is_ptr(ex_ty(a_of(id))) == 1 || is_ptr(ex_ty(b_of(id))) == 1) {
+    s = ptr_bin(id);
+  } else {
+    s = bin3(id);
+  }
+} return string s;

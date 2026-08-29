@@ -1,0 +1,26 @@
+
+// Parentheses and the sizeof/identifier split.
+
+ce_prim2(int[] pos) {
+  int v = 0;
+  if(at_text(pos, "(")) {
+    v = ce_paren(pos);
+  } else {
+    v = ce_name(pos);
+  }
+} return int v;
+
+ce_paren(int[] pos) {
+  advance(pos);
+  int v = ce_expr(pos);
+  skip_tok(pos, ")");
+} return int v;
+
+ce_name(int[] pos) {
+  int v = 0;
+  if(at_text(pos, "sizeof")) {
+    v = ce_sizeof(pos);
+  } else {
+    v = ce_name2(pos);
+  }
+} return int v;

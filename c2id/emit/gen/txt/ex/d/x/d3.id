@@ -1,0 +1,30 @@
+ex7(int id) {
+  string s = "";
+  if(k_of(id) == "cast") {
+    s = cast_txt(id);
+  } else {
+    s = ex8(id);
+  }
+} return string s;
+
+ex8(int id) {
+  string s = "";
+  if(k_of(id) == "sizeof") {
+    s = sizeof_txt(id);
+  } else {
+    s = ex9(id);
+  }
+} return string s;
+
+// `x++` as a subexpression should yield the value *before* the increment,
+// which needs a frame temporary. What is emitted here is the increment
+// itself, which is right in the only place the straight-line emitter meets
+// one: as a whole expression statement.
+ex9(int id) {
+  string s = "";
+  if(k_of(id) == "post") {
+    s = step_txt(a_of(id), s_of(id));
+  } else {
+    s = ex10(id);
+  }
+} return string s;

@@ -1,0 +1,17 @@
+// Conditionals, sizeof, and how a type node is referred to.
+
+cond_str(int id) {
+  int[] l = l_of(id);
+} return string "(" + expr_str(a_of(id)) + " ? " + expr_str(b_of(id)) + " : " + expr_str(l[0]) + ")";
+
+// `nb` is the type node for `sizeof(T)` and 0 for `sizeof expr`.
+sizeof_str(int id) {
+  string s = "sizeof(" + expr_str(a_of(id)) + ")";
+  if(b_of(id) != 0) {
+    s = "sizeof(" + type_ref(b_of(id)) + ")";
+  }
+} return string s;
+
+// Types are parse/ty/'s to print; here a type is just its node id.
+type_ref(int ty) {
+} return string "t" + ty;

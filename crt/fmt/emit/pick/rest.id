@@ -1,0 +1,20 @@
+// The raw text of the specifier, from its '%' up to and including whatever
+// character ended it. fs[0] was recorded when the parse began.
+spec_txt(word fmt, word[] st, word[] fs) {
+} return string str_of_mem(fmt + fs[0], st[0] - fs[0]);
+
+// The next argument, or 0 if the caller passed too few. C leaves that case
+// undefined; here it is merely wrong, not memory-unsafe.
+next_arg(word[] args, word[] st) {
+  word v = 0;
+  if(st[1] < len(args)) {
+    v = lgetw(args, st[1]);
+  }
+  lsetw(st, 1, st[1] + 1);
+} return word v;
+
+// puts: the string at `s`, then a newline. Matches C's puts, which appends
+// the newline that fputs does not.
+c_puts(word s) {
+  print(str_at(s));
+} return void;

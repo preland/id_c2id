@@ -1,0 +1,21 @@
+// strlen: bytes before the NUL.
+c_strlen(word s) {
+  word n = 0;
+  while(peek8(s + n) != 0) {
+    n = n + 1;
+  }
+} return word n;
+
+// strcpy: the NUL is part of the payload, hence the + 1.
+c_strcpy(word dst, word src) {
+} return word c_memcpy(dst, src, c_strlen(src) + 1);
+
+// "index i is still worth looking at", i.e. the byte before it was not the
+// terminator. Shared by strncmp and strchr so that both stop *after* having
+// examined the NUL, which is what C requires of each of them.
+s_more(word s, word i) {
+  int go = 1;
+  if(i != 0 && peek8(s + i - 1) == 0) {
+    go = 0;
+  }
+} return int go;

@@ -1,0 +1,37 @@
+// addr_txt -- the address of an lvalue, as `id` text.
+//
+// This is the whole reason frames live in the flat store. `&x` is not a
+// special case that has to be arranged for; it is `fp + OFF`, the same
+// arithmetic every other access already does, and it falls out of putting the
+// locals somewhere addressable.
+//
+// Four kinds of lvalue, one function each, chained the same lazy way as
+// ex_txt. Anything else has no address, and says so in a way that stops the
+// generated project from compiling.
+
+addr_txt(int id) {
+  string s = "";
+  if(k_of(id) == "var") {
+    s = var_addr(s_of(id));
+  } else {
+    s = ad2(id);
+  }
+} return string s;
+
+ad2(int id) {
+  string s = "";
+  if(k_of(id) == "idx") {
+    s = idx_addr(id);
+  } else {
+    s = ad3(id);
+  }
+} return string s;
+
+ad3(int id) {
+  string s = "";
+  if(k_of(id) == "mem") {
+    s = mem_addr(id);
+  } else {
+    s = ad4(id);
+  }
+} return string s;

@@ -1,0 +1,25 @@
+// kmalloc: first fit. Returns an 8-byte aligned payload address, or 0 when
+// the heap cannot satisfy the request.
+kmalloc(word n) {
+  word need = blk_need(n);
+  word h = find_fit(need);
+} return word alloc_at(h, need);
+
+// Bytes a request of `n` really costs: the payload rounded up to 8, plus
+// the 16-byte header, and never less than 32 so that every block is still
+// big enough to be split off and linked when it is freed.
+blk_need(word n) {
+  word need = align8(n) + 16;
+  if(need < 32) {
+    need = 32;
+  }
+} return word need;
+
+// kmalloc plus zeroing. The store hands out zeroed pages, but a block that
+// has been used and freed has not been zeroed since, so this is real work.
+kzalloc(word n) {
+  word p = kmalloc(n);
+  if(p != 0) {
+    c_memset(p, 0, n);
+  }
+} return word p;

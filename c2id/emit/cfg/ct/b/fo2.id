@@ -1,0 +1,22 @@
+// The continue target is the step block, not the condition block.
+fo_run(int id, int nxt, int stp, int blk, int alt) {
+  fo_test(id, nxt, blk, alt);
+  push_loop(alt, stp);
+  fo_walk(id, nxt, stp, alt);
+} return void;
+
+// Eager chain: the unconditional edge is written first and the conditional
+// one replaces it when there is a condition, so `for (;;)` needs no `else`.
+fo_test(int id, int nxt, int blk, int alt) {
+  term_jmp(nxt, blk);
+  if(a_of(id) >= 0) {
+    term_cond(nxt, a_of(id), blk, alt);
+  }
+  set_cur(blk);
+} return void;
+
+fo_walk(int id, int nxt, int stp, int alt) {
+  walk_list(m_of(id));
+  loop_close(stp, alt);
+  fo_step(id, nxt, stp);
+} return void;

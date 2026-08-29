@@ -1,0 +1,28 @@
+// Maintaining the current position: `curline` and `curfile` are one-element
+// lists rather than scalars because only the declaring function may assign an
+// exported scalar (NOTES.md section 6).
+
+bump_line() {
+  lset((import curline), 0, (import curline)[0] + 1);
+} return void;
+
+// The number in a `# 42 "lib/sort.c" 3 4` marker names the line the *next*
+// source line has, and mark_file consumes the marker's own newline without
+// counting it, so the number is stored as-is. A `#` line with no number at
+// all (a stray directive that survived preprocessing) is still a real line,
+// so it is counted like any other.
+set_line(word base, int a, int b) {
+  if(b > a) {
+    lset((import curline), 0, to_int(slice(base, a, b)));
+  } else {
+    bump_line();
+  }
+} return void;
+
+// `a` is where the filename should start and `b` is just past its closing
+// quote. Markers without a filename leave curfile alone.
+set_file(word base, int a, int b) {
+  if(peek8(base + a) == ch_dq()) {
+    sset((import curfile), 0, slice(base, a + 1, b - 1));
+  }
+} return void;

@@ -1,0 +1,23 @@
+
+// The typedef / tag registry.
+
+str_hit(string[] names, string name, int i) {
+  int found = 0 - 1;
+  if(names[i] == name) {
+    found = i;
+  }
+} return int found;
+
+ty_add(string name, int ty) {
+  push((import tynames), name);
+  push((import tyids), ty);
+} return void;
+
+// the type node registered for `name`, or -1
+ty_find(string name) {
+  int i = find_str((import tynames), name);
+  int ty = 0 - 1;
+  if(i >= 0) {
+    ty = (import tyids)[i];
+  }
+} return int ty;

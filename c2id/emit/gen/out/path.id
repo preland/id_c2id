@@ -1,0 +1,30 @@
+// Where does generated function number N live?
+//
+// `id` allows 3 functions per file and 3 entries per directory, so a project
+// is a ternary tree: 3 functions to a file, 3 files to a leaf directory
+// (9 functions), and every level above multiplies by 3 again. This computes a
+// path from a function number with no bookkeeping at all, which is what lets
+// the emitter stay stateless -- it can emit function 4,000 without knowing
+// anything about functions 0 through 3,999.
+//
+// Function N is in file N/3. File F is in leaf directory F/3. Leaf directory
+// D is reached by writing D in base 3, most significant digit first, and
+// taking one directory level per digit. DEPTH fixes how many levels there
+// are, so every leaf sits at the same depth and no directory ever mixes files
+// with subdirectories -- which would otherwise blow the 3-entry limit.
+
+// 3^5 = 243 leaf directories = 2187 functions. A translated kernel file needs
+// far fewer; a whole subsystem may need one more level, and this is the only
+// number to change.
+tree_depth() {
+} return int 5;
+
+funcs_per_file() {
+} return int 3;
+
+// Digit `d` (0 = most significant) of `n` written in base 3, padded to
+// tree_depth() digits.
+tri_digit(int n, int d) {
+  int shift = tree_depth() - 1 - d;
+  int div = pow3(shift);
+} return int (n / div) % 3;

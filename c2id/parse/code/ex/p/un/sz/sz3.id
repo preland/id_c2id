@@ -1,0 +1,6 @@
+// `sizeof x`. The operand is a unary-expression, so `sizeof x + 1` is
+// `(sizeof x) + 1` -- the additive fold happens back up in the ladder.
+
+sizeof_expr(int[] pos) {
+  int a = parse_unary(pos);
+} return int newleaf("sizeof", a, 0, "", "");

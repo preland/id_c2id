@@ -1,0 +1,29 @@
+// The rest of the path computation: powers of three, and the directory and
+// file names themselves.
+
+pow3(int e) {
+  int r = 1;
+  int i = 0;
+  while(i < e) {
+    r = r * 3;
+    i = i + 1;
+  }
+} return int r;
+
+// The directory chain for leaf directory `dir`, e.g. "b/0/2/1/0/2".
+// The leading "b" (for "blocks") keeps generated code in one subtree, so a
+// hand-written driver file can sit beside it without colliding.
+dir_path(int dir) {
+  string out = "b";
+  int i = 0;
+  while(i < tree_depth()) {
+    out = out + "/" + tri_digit(dir, i);
+    i = i + 1;
+  }
+} return string out;
+
+// The full path for the file holding function number `n`.
+func_path(int n) {
+  int file = n / funcs_per_file();
+  int dir = file / 3;
+} return string dir_path(dir) + "/f" + (file % 3) + ".id";

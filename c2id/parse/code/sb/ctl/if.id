@@ -1,0 +1,21 @@
+// `if (cond) stmt [else stmt]`. Split across three functions because reading
+// it takes six steps and a block gets three: the accumulated state is threaded
+// forward and the last link's return clause builds the node, which is free.
+
+parse_if(int[] pos) {
+  advance(pos);
+  advance(pos);
+  int a = parse_expr(pos);
+} return int if_then(pos, a);
+
+if_then(int[] pos, int a) {
+  advance(pos);
+  int[] l = [parse_stmt(pos)];
+} return int if_else(pos, a, l);
+
+if_else(int[] pos, int a, int[] l) {
+  int[] m = [];
+  if(at_text(pos, "else")) {
+    fill_else(pos, m);
+  }
+} return int newnode("if", a, 0, "", "", l, m);

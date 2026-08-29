@@ -1,0 +1,20 @@
+
+// enum. The type is plain `int`; what matters is the enumerators, which go
+// into the constant table so array bounds, bitfield widths and the
+// expression parser can all resolve them.
+
+parse_enum(int[] pos) {
+  advance(pos);
+  skip_attrs(pos);
+  take_ident(pos);
+} return int enum_body(pos);
+
+enum_body(int[] pos) {
+  enum_items(pos);
+} return int int_type();
+
+enum_items(int[] pos) {
+  if(at_text(pos, "{")) {
+    scan_enums(pos);
+  }
+} return void;

@@ -1,0 +1,30 @@
+// The type of a binary expression, in the order C's own rules apply:
+// a comparison is an int; a shift takes the promoted left operand's type
+// alone; a difference of two pointers is ptrdiff_t; everything else goes
+// through the usual arithmetic conversions.
+
+bin_ty(int id) {
+  int ty = ty_int();
+  if(is_cmp_op(s_of(id)) == 0) {
+    ty = bin_ty2(id);
+  }
+} return int ty;
+
+// A shift's right operand says how far, not what type: `1L << c` is a long
+// however narrow `c` is, and `u << 1` wraps at 32 bits however wide the
+// count.
+bin_ty2(int id) {
+  int ty = promote_ty(ex_ty(a_of(id)));
+  if(s_of(id) != "<<" && s_of(id) != ">>") {
+    ty = bin_ty3(id);
+  }
+} return int ty;
+
+// p - q is a count of elements, not an address, so it is neither operand's
+// type. usual_ty already answers p + n and n + p with the pointer.
+bin_ty3(int id) {
+  int ty = usual_ty(ex_ty(a_of(id)), ex_ty(b_of(id)));
+  if(is_ptr(ex_ty(a_of(id))) == 1 && is_ptr(ex_ty(b_of(id))) == 1) {
+    ty = ty_long();
+  }
+} return int ty;

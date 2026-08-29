@@ -1,0 +1,33 @@
+// cast-expression:  unary-expression | '(' type-name ')' cast-expression
+//
+// A '(' at this position is three-ways ambiguous: it opens a cast, a
+// parenthesised expression, or a compound literal `(T){...}`. There is no
+// two-token lookahead helper and `is_type_start` reads the *current* token, so
+// the '(' is consumed first and the decision is made after -- both branches
+// need it consumed anyway, so nothing is lost and no backtracking is needed.
+
+parse_cast(int[] pos) {
+  int node = 0;
+  if(at_text(pos, "(")) {
+    node = paren_head(pos);
+  } else {
+    node = parse_unary(pos);
+  }
+} return int node;
+
+// Eat the '('. Split from paren_body only because `if`+`else` is already the
+// whole three-action budget of a block.
+paren_head(int[] pos) {
+  advance(pos);
+} return int paren_body(pos);
+
+// '(' is gone. A type name means a cast (or a compound literal); anything else
+// is a parenthesised expression.
+paren_body(int[] pos) {
+  int node = 0;
+  if(is_type_start(pos)) {
+    node = cast_body(pos);
+  } else {
+    node = paren_expr(pos);
+  }
+} return int node;

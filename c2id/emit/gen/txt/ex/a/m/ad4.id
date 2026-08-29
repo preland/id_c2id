@@ -1,0 +1,31 @@
+// The last address form, and the two that do arithmetic.
+
+// `&*p` is `p`: the dereference and the address-of cancel, which is not a
+// peephole but the definition. Every other unary operator, and every other
+// node kind, has no address at all.
+ad4(int id) {
+  string s = "NOT_AN_LVALUE_" + k_of(id);
+  if(k_of(id) == "un" && s_of(id) == "*") {
+    s = ex_txt(a_of(id));
+  }
+} return string s;
+
+// A local is its frame offset. A name the frame pass never saw is a global,
+// which the flat-store model has no answer for yet -- there is no data
+// segment until the emitter lays one out -- so it emits a name no generated
+// project defines.
+var_addr(string name) {
+  int off = frame_off(name);
+  string s = "g_" + name;
+  if(off >= 0) {
+    s = "fp + " + off;
+  }
+} return string s;
+
+// a[i] scales by the element's size, and ex_ty of the whole idx node *is*
+// the element type, so the size is read straight off the result. `a` emits as
+// an address whether it is an array (whose value is its address) or a pointer
+// (which is loaded first), which is C's decay rule costing nothing here.
+idx_addr(int id) {
+  int sz = type_size(ex_ty(id));
+} return string "(" + ex_txt(a_of(id)) + " + " + scale_txt(ex_txt(b_of(id)), sz, "*") + ")";

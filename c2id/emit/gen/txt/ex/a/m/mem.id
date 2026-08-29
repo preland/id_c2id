@@ -1,0 +1,33 @@
+// Struct members, and the multiply-or-not that pointer arithmetic needs.
+
+// The member offset is a translation-time constant, so `p->f` is one
+// addition. A member the layout pass cannot find would otherwise emit
+// `+ -1`, which is a plausible-looking address, so it emits a name instead.
+mem_addr(int id) {
+  int off = member_off(rec_of(id), s_of(id));
+  string s = "UNKNOWN_MEMBER_" + s_of(id);
+  if(off >= 0) {
+    s = "(" + base_txt(id) + " + " + off + ")";
+  }
+} return string s;
+
+// `p->f` starts from the pointer's *value*; `s.f` starts from the record's
+// *address*. That is the only difference between the two operators.
+base_txt(int id) {
+  string s = "";
+  if(t_of(id) == "->") {
+    s = ex_txt(a_of(id));
+  } else {
+    s = addr_txt(a_of(id));
+  }
+} return string s;
+
+// Scaling by an element size, for `*` in pointer addition and `/` in pointer
+// subtraction. A size of 1 -- char, and every void * the kernel casts through
+// -- emits nothing, which keeps byte-pointer arithmetic readable.
+scale_txt(string s, int sz, string op) {
+  string out = s;
+  if(sz != 1) {
+    out = "(" + s + " " + op + " " + sz + ")";
+  }
+} return string out;

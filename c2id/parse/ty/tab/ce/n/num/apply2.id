@@ -1,0 +1,27 @@
+
+// The remaining operators.
+
+ce_ap3(string s, int a, int b) {
+  int v = ce_ap4(s, a, b);
+  if(s == "%") {
+    v = ce_mod(a, b);
+  } else if(s == "<<") {
+    v = a << b;
+  }
+} return int v;
+
+ce_mod(int a, int b) {
+  int v = 0;
+  if(b != 0) {
+    v = a % b;
+  }
+} return int v;
+
+ce_ap4(string s, int a, int b) {
+  int v = ce_ap5(s, a, b);
+  if(s == ">>") {
+    v = a >> b;
+  } else if(s == "|") {
+    v = a | b;
+  }
+} return int v;

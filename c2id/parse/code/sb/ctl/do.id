@@ -1,0 +1,17 @@
+// `do stmt while (cond);` -- the body is read before the condition, which is
+// the only reason this needs its own chain rather than sharing while's.
+parse_do(int[] pos) {
+  advance(pos);
+  int[] l = [parse_stmt(pos)];
+} return int do_cond(pos, l);
+
+do_cond(int[] pos, int[] l) {
+  advance(pos);
+  advance(pos);
+  int a = parse_expr(pos);
+} return int do_done(pos, a, l);
+
+do_done(int[] pos, int a, int[] l) {
+  advance(pos);
+  skip_semi(pos);
+} return int newlist("dowhile", a, 0, "", l);

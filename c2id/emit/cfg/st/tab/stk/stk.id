@@ -1,0 +1,13 @@
+// The break-target stack. Pushed on entering a loop or a switch, popped on
+// leaving, so `break` is an edge to the top of it and nothing else.
+
+push_brk(int blk) {
+  push((import btgt), blk);
+} return void;
+
+pop_brk() {
+  pop((import btgt));
+} return void;
+
+brk_top() {
+} return int top_of((import btgt));

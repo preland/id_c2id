@@ -1,0 +1,23 @@
+walk_stmt3(int id) {
+  if(k_of(id) == "while") {
+    do_while(id);
+  } else {
+    walk_stmt4(id);
+  }
+} return void;
+
+walk_stmt4(int id) {
+  if(k_of(id) == "for") {
+    do_for(id);
+  } else {
+    walk_stmt5(id);
+  }
+} return void;
+
+walk_stmt5(int id) {
+  if(k_of(id) == "dowhile") {
+    do_dowhile(id);
+  } else {
+    walk_stmt6(id);
+  }
+} return void;

@@ -1,0 +1,30 @@
+// The chain, continued: unary operators, casts, and struct members.
+
+ety4(int id) {
+  int ty = 0;
+  if(k_of(id) == "un") {
+    ty = un_ty(id);
+  } else {
+    ty = ety5(id);
+  }
+} return int ty;
+
+// A cast node carries the target type node in nb, so there is nothing to
+// infer.
+ety5(int id) {
+  int ty = 0;
+  if(k_of(id) == "cast") {
+    ty = b_of(id);
+  } else {
+    ty = ety6(id);
+  }
+} return int ty;
+
+ety6(int id) {
+  int ty = 0;
+  if(k_of(id) == "mem") {
+    ty = mem_ty(id);
+  } else {
+    ty = ety7(id);
+  }
+} return int ty;

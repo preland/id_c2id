@@ -1,0 +1,33 @@
+// The postfix and the remaining expression kinds.
+
+es4(int id) {
+  string s = es5(id);
+  if(k_of(id) == "idx") {
+    s = "(" + expr_str(a_of(id)) + "[" + expr_str(b_of(id)) + "])";
+  }
+  if(k_of(id) == "mem") {
+    s = "(" + expr_str(a_of(id)) + t_of(id) + s_of(id) + ")";
+  }
+} return string s;
+
+// A cast prints its type as `t<node id>`: types belong to parse/ty/, and this
+// module deliberately does not reach into them.
+es5(int id) {
+  string s = es6(id);
+  if(k_of(id) == "call") {
+    s = call_str(id);
+  }
+  if(k_of(id) == "cast") {
+    s = "(cast " + type_ref(b_of(id)) + " " + expr_str(a_of(id)) + ")";
+  }
+} return string s;
+
+es6(int id) {
+  string s = es7(id);
+  if(k_of(id) == "cond") {
+    s = cond_str(id);
+  }
+  if(k_of(id) == "sizeof") {
+    s = sizeof_str(id);
+  }
+} return string s;

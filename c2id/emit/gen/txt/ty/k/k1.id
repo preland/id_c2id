@@ -1,0 +1,40 @@
+// ex_ty -- the C type of an expression node.
+//
+// The emitter needs this before it can emit anything: the width of a load,
+// whether a division is `/` or `udiv`, how far a pointer addition scales, and
+// whether a result has to be wrapped back to 32 bits all come from the type,
+// and C's front end has already thrown that information away by the time the
+// AST exists. So it is recomputed here, on demand, from the same node ids the
+// text emitter is walking.
+//
+// The dispatch is a lazy chain -- one node kind per function, `else` hands on.
+// It has to be lazy: an eager chain would evaluate every arm for every node,
+// and every arm recurses into the children, which is exponential in the depth
+// of the expression.
+
+ex_ty(int id) {
+  int ty = 0;
+  if(k_of(id) == "num") {
+    ty = num_ty(id);
+  } else {
+    ty = ety2(id);
+  }
+} return int ty;
+
+ety2(int id) {
+  int ty = 0;
+  if(k_of(id) == "var") {
+    ty = local_ty(s_of(id));
+  } else {
+    ty = ety3(id);
+  }
+} return int ty;
+
+ety3(int id) {
+  int ty = 0;
+  if(k_of(id) == "bin") {
+    ty = bin_ty(id);
+  } else {
+    ty = ety4(id);
+  }
+} return int ty;

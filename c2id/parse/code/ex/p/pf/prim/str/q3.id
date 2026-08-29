@@ -1,0 +1,21 @@
+// Decoding a constant's spelling, the parenthesised primary, and the error
+// leaf.
+
+const_val(string kind, string s) {
+  int n = chr_val(s);
+  if(kind == "num") {
+    n = to_num(s);
+  }
+} return int n;
+
+prim_paren(int[] pos) {
+  advance(pos);
+} return int paren_expr(pos);
+
+// Nothing here can start an expression. Report it, consume the token so the
+// caller cannot spin forever, and hand back a zero so the rest of the
+// translation unit still parses.
+prim_bad(int[] pos) {
+  print("c2id: expression expected, found '" + cur_text(pos) + "'");
+  advance(pos);
+} return int newleaf("num", 0, 0, "0", "");

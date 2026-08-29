@@ -1,0 +1,30 @@
+// Which suffix is it? A lazy dispatch chain, one decision per link. The last
+// link needs no test: postfix_tail only calls in when is_postfix_start said
+// yes, so anything that is not a call, an index or a member is ++ or --.
+
+postfix_one(int[] pos, int a) {
+  int node = 0;
+  if(at_text(pos, "(")) {
+    node = parse_call(pos, a);
+  } else {
+    node = postfix2(pos, a);
+  }
+} return int node;
+
+postfix2(int[] pos, int a) {
+  int node = 0;
+  if(at_text(pos, "[")) {
+    node = parse_index(pos, a);
+  } else {
+    node = postfix3(pos, a);
+  }
+} return int node;
+
+postfix3(int[] pos, int a) {
+  int node = 0;
+  if(at_text(pos, ".") || at_text(pos, "->")) {
+    node = parse_member(pos, a);
+  } else {
+    node = post_incdec(pos, a);
+  }
+} return int node;

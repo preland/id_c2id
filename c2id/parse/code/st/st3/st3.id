@@ -1,0 +1,26 @@
+parse_stmt7(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "return")) {
+    id = parse_return(pos);
+  } else {
+    id = parse_stmt8(pos);
+  }
+} return int id;
+
+parse_stmt8(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "goto")) {
+    id = parse_goto(pos);
+  } else {
+    id = parse_stmt9(pos);
+  }
+} return int id;
+
+parse_stmt9(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "break")) {
+    id = parse_break(pos);
+  } else {
+    id = parse_stmt10(pos);
+  }
+} return int id;

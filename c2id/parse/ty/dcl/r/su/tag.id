@@ -1,0 +1,22 @@
+
+// Finding, or creating, the node for a tag.
+
+su_body(int[] pos, int un, string name) {
+  int ty = rec_get(un, name);
+  fill_rec(pos, ty);
+} return int ty;
+
+su_key(int un, string name) {
+  string kind = "union ";
+  if(un == 0) {
+    kind = "struct ";
+  }
+} return string kind + name;
+
+// an untagged struct is never shared, so it is never looked up
+rec_look(int un, string name) {
+  int ty = 0 - 1;
+  if(name != "") {
+    ty = ty_find(su_key(un, name));
+  }
+} return int ty;

@@ -1,0 +1,42 @@
+// Calls and assignment.
+
+// A direct call becomes `c_NAME(args)`. That is deliberately the same
+// spelling `crt` already uses for the C library -- C `memcpy(a, b, n)` emits
+// `c_memcpy(a, b, n)`, which is a real function that already exists and
+// already has C's semantics.
+//
+// docs/EMITTER.md section 4 specifies a heavier calling convention for
+// translated C functions -- allocate the callee's frame, poke the arguments
+// in, run its driver, read fp + 0 -- because that is what recursion and
+// `&local` need. That convention needs the callee's frame size and its
+// driver's name, neither of which exists until emit/cfg/ does; the thunk it
+// describes is a *function*, not an expression, so it cannot be emitted from
+// here anyway. Until then this is the argument-passing form.
+call_txt(int id) {
+  string s = "crt_call";
+  if(k_of(a_of(id)) == "var") {
+    s = "c_" + s_of(a_of(id));
+  }
+} return string s + "(" + args_txt(l_of(id)) + ")";
+
+args_txt(int[] ids) {
+  string out = "";
+  int i = 0;
+  while(i < len(ids)) {
+    out = out + arg_sep(i) + ex_txt(ids[i]);
+    i = i + 1;
+  }
+} return string out;
+
+// `x = e` is a store, and the store's width truncates for free -- poke8 of
+// 300 leaves 44 behind, which is what C's conversion to char does. A compound
+// assignment is rewritten into the plain binary operator it stands for, so
+// pointer scaling and 32-bit wrapping are handled once rather than twice.
+assign_txt(int id) {
+  string s = "";
+  if(s_of(id) == "=") {
+    s = store_txt(ex_ty(a_of(id)), addr_txt(a_of(id)), ex_txt(b_of(id)));
+  } else {
+    s = comp_asg(a_of(id), b_of(id), op_head(s_of(id)));
+  }
+} return string s;

@@ -1,0 +1,16 @@
+
+// Array and function suffixes.
+
+arr_make(int[] pos, int inner, int n) {
+  int r = type_suffix(pos, inner);
+} return int newleaf("arr", r, n, "", "");
+
+fn_suffix(int[] pos, int inner) {
+  int[] ps = [];
+  advance(pos);
+  fill_params(pos, ps);
+} return int fn_make(pos, inner, ps);
+
+fn_make(int[] pos, int inner, int[] ps) {
+  int r = type_suffix(pos, inner);
+} return int newlist("fn", r, 0, "", ps);

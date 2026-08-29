@@ -1,0 +1,22 @@
+
+// A fresh rec node starts empty: size 0, no members, alignment 1. nm is
+// [alignment, row, row, ...] and nl collects member types; both are filled in
+// as the body is read, through the lists themselves rather than by rebuilding
+// the node.
+
+rec_get(int un, string name) {
+  int ty = rec_look(un, name);
+  if(ty < 0) {
+    ty = new_su(un, name);
+  }
+} return int ty;
+
+new_su(int un, string name) {
+  int ty = mk_rec(un, name);
+  su_reg(un, name, ty);
+} return int ty;
+
+mk_rec(int un, string name) {
+  int[] l = [];
+  int[] m = [1];
+} return int newnode("rec", 0, un, name, "", l, m);

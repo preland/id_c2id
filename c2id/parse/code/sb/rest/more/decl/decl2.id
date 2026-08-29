@@ -1,0 +1,14 @@
+decl_init(int[] pos) {
+  int a = 0 - 1;
+  if(at_text(pos, "=")) {
+    a = init_val(pos);
+  }
+} return int a;
+
+init_val(int[] pos) {
+  advance(pos);
+} return int parse_assign(pos);
+
+// skip_comma lives in ../../../../ex/p/pf/post/call/call2.id -- an argument
+// list and a declarator list separate the same way, and id rejects a second
+// function with the same logic, which is the right answer here.

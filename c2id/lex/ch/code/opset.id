@@ -1,0 +1,32 @@
+// Multi-character operator spellings, and the string/character literal
+// prefixes. Longest match wins, so op_len asks is_op3 last and its answer
+// overrides is_op2's.
+//
+// There is deliberately no is_op1: every byte that is not whitespace, a
+// comment, an identifier start, a digit or a quote falls through to a
+// one-character `op` token, which covers the whole single-character set
+// (+ - * / % = < > ! & | ^ ~ ? : . , ; ( ) [ ] { } #) and, unlike a
+// membership test, cannot silently drop a byte it does not recognise.
+
+is_op2(string s) {
+  int ok = 0;
+  if(s == "->" || s == "++" || s == "--" || s == "<<" || s == ">>" || s == "<=" || s == ">=" || s == "==" || s == "!=" || s == "&&" || s == "||" || s == "+=" || s == "-=" || s == "*=" || s == "/=" || s == "%=" || s == "&=" || s == "|=" || s == "^=" || s == "##") {
+    ok = 1;
+  }
+} return int ok;
+
+is_op3(string s) {
+  int ok = 0;
+  if(s == "..." || s == "<<=" || s == ">>=") {
+    ok = 1;
+  }
+} return int ok;
+
+// A run of identifier characters immediately followed by a quote is a
+// literal prefix rather than an identifier, if it spells one of these.
+is_pfx(string s) {
+  int ok = 0;
+  if(s == "L" || s == "u" || s == "U" || s == "u8") {
+    ok = 1;
+  }
+} return int ok;

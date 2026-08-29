@@ -1,0 +1,26 @@
+// Writing an element of a list that arrived as a parameter. `id` only
+// recognises index-assignment when the statement starts with a plain
+// identifier, so an imported or nested list has to be handed to a helper
+// like this one; lists are reference-semantic, so the write is seen by the
+// caller.
+lsetw(word[] xs, int k, word v) {
+  xs[k] = v;
+} return void;
+
+// Reading with a computed index. `id` list indices must be `int`, and the
+// formatter's cursors are `word`s, so the narrowing happens here.
+lgetw(word[] xs, int k) {
+} return word xs[k];
+
+// The literal 0, as a word. Two reasons this exists rather than a bare `0`:
+//
+//   * a list literal takes its element type from its *first* element, so
+//     `[0, 0]` is an `int[]` and will not initialise a `word[]`;
+//   * every *later* element must be word-typed too. idc.py's list literal is
+//     a C varargs call whose cells are read as `long long`, and it does not
+//     insert a widening cast for a `word`-typed element -- so an `int`
+//     expression in a `word[]` literal is read back with 32 bits of garbage
+//     on top. Callers of c_format must build their argument lists the same
+//     way: every element already a `word`.
+wzero() {
+} return word 0;

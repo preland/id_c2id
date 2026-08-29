@@ -1,0 +1,15 @@
+// Field accessors. Every one is a one-liner with an empty body: the work
+// happens in the return clause, which is free.
+//
+// These look like near-duplicates, but each names a *different* imported
+// global, and an imported name is part of what distinguishes one function
+// from another -- so the duplicate-logic rule is satisfied by construction.
+
+k_of(int id) {
+} return string (import nk)[id];
+
+a_of(int id) {
+} return int (import na)[id];
+
+b_of(int id) {
+} return int (import nb)[id];

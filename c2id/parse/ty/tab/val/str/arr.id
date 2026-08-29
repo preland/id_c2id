@@ -1,0 +1,21 @@
+
+// Arrays print their bound, or nothing at all for the unspecified `[]`.
+
+ts_arr(int ty) {
+} return string "[" + ts_cnt(b_of(ty)) + "]" + type_str(a_of(ty));
+
+ts_cnt(int n) {
+  string s = "";
+  if(n >= 0) {
+    s = "" + n;
+  }
+} return string s;
+
+ts4(int ty) {
+  string s = "";
+  if(k_of(ty) == "fn") {
+    s = ts_fn(ty);
+  } else {
+    s = ts_rec(ty);
+  }
+} return string s;

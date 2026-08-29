@@ -1,0 +1,21 @@
+// '(' after sizeof is gone: type name, or parenthesised expression.
+
+sizeof_body(int[] pos) {
+  int node = 0;
+  if(is_type_start(pos)) {
+    node = sizeof_type(pos);
+  } else {
+    node = sizeof_inner(pos);
+  }
+} return int node;
+
+sizeof_type(int[] pos) {
+  int ty = parse_typename(pos);
+  advance(pos);
+} return int newleaf("sizeof", 0, ty, "", "");
+
+// `sizeof (x)` -- paren_expr consumes the ')' and applies postfix suffixes, so
+// `sizeof (s).f` measures the member, as C requires.
+sizeof_inner(int[] pos) {
+  int a = paren_expr(pos);
+} return int newleaf("sizeof", a, 0, "", "");

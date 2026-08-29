@@ -1,0 +1,29 @@
+// An unsigned integer in an arbitrary base. `v` is treated as unsigned all
+// the way up to 2^64 - 1, which is why the division and remainder are udiv
+// and umod: `/` and `%` on a word are signed, and would loop forever or go
+// negative on a value with the top bit set.
+str_of_base(word v, int base, int upper) {
+  string txt = "";
+  while(v != 0) {
+    txt = digit_ch(umod(v, base), upper) + txt;
+    v = udiv(v, base);
+  }
+} return string nz_str(txt);
+
+// One digit. The word->int narrowing happens at the call boundary: a digit
+// is 0..base-1, so nothing is lost.
+digit_ch(int d, int upper) {
+  string tbl = "0123456789abcdef";
+  if(upper != 0) {
+    tbl = "0123456789ABCDEF";
+  }
+} return string ch_of(charat(tbl, d));
+
+// The loop above emits nothing for zero, because zero has no digits above
+// the radix point. Every base has "0" as the spelling of zero.
+nz_str(string t) {
+  string txt = t;
+  if(len(t) == 0) {
+    txt = "0";
+  }
+} return string txt;

@@ -1,0 +1,27 @@
+
+// `char * const * volatile p` -- the qualifiers after a `*` bind to the
+// pointer, and mean nothing to a layout, so they are simply eaten.
+
+star_quals(int[] pos) {
+  int ok = 1;
+  while(ok == 1) {
+    ok = skip_noise(pos);
+  }
+} return void;
+
+dcl_direct(int[] pos, int inner) {
+  int r = 0;
+  if(is_group(pos)) {
+    r = dcl_group(pos, inner);
+  } else {
+    r = dcl_named(pos, inner);
+  }
+} return int r;
+
+// The name is recorded *after* the suffixes, because a function suffix parses
+// parameter declarators, each of which reports a name of its own.
+dcl_named(int[] pos, int inner) {
+  string name = take_ident(pos);
+  int r = type_suffix(pos, inner);
+  set_dname(name);
+} return int r;

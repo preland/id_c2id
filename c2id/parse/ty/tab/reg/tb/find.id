@@ -1,0 +1,27 @@
+
+// The rest of the exports, and the one linear search every table uses.
+// Three exports is a whole block's action budget, which is why the init
+// chain is four functions long.
+
+ty_init3() {
+  export int[] sybit = [];
+  export int[] sywid = [];
+  ty_init4();
+} return void;
+
+ty_init4() {
+  export int[] syids = [];
+  export string[] ecnames = [];
+  export int[] ecvals = [];
+} return void;
+
+// index of `name` in `names`, or -1. The `found < 0` guard is how a loop
+// stops early in a language with no `break`.
+find_str(string[] names, string name) {
+  int i = 0;
+  int found = 0 - 1;
+  while(i < len(names) && found < 0) {
+    found = str_hit(names, name, i);
+    i = i + 1;
+  }
+} return int found;

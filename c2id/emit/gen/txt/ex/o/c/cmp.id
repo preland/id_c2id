@@ -1,0 +1,35 @@
+// Comparisons.
+//
+// `id`'s `< <= > >=` are signed and its only unsigned comparison is the
+// builtin `ult`, so the four unsigned relations are all written in terms of
+// it. `==` and `!=` are the same test on the same bits whatever the
+// signedness, so they never need it.
+//
+// Which one applies is decided by the usual arithmetic conversions over
+// *both* operands, not by either alone: `-1 < 1u` is false in C, because the
+// int becomes unsigned before the comparison. A pointer comparison lands here
+// too, and comes out unsigned, which is what comparing addresses means.
+
+cmp_txt(int id) {
+  string s = "";
+  if(s_of(id) == "==" || s_of(id) == "!=" || ty_signed(usual_ty(ex_ty(a_of(id)), ex_ty(b_of(id)))) == 1) {
+    s = cmp_sgn(id);
+  } else {
+    s = ucmp_txt(id);
+  }
+} return string s;
+
+cmp_sgn(int id) {
+} return string "(" + ex_txt(a_of(id)) + " " + s_of(id) + " " + ex_txt(b_of(id)) + ")";
+
+// a > b is ult(b, a); a <= b is ult(b, a) negated; a >= b is ult(a, b)
+// negated. So the operand order is decided here and the negation in
+// ucmp_neg.
+ucmp_txt(int id) {
+  string s = "";
+  if(s_of(id) == ">" || s_of(id) == "<=") {
+    s = ult_txt(ex_txt(b_of(id)), ex_txt(a_of(id)));
+  } else {
+    s = ult_txt(ex_txt(a_of(id)), ex_txt(b_of(id)));
+  }
+} return string ucmp_neg(s, s_of(id));

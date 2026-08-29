@@ -1,0 +1,21 @@
+// The back link to the previous block in address order.
+bsetprev(word h, word p) {
+  poke64(h + 8, p);
+} return void;
+
+// Turn the bytes at `h` into a free block of `rest` bytes whose predecessor
+// is `p`, and repair the back link of whatever follows it. Used both to lay
+// down the very first block and to publish the tail left over by a split.
+init_rest(word h, word rest, word p) {
+  bset(h, rest, 0);
+  bsetprev(h, p);
+  fix_prev(h + rest, h);
+} return void;
+
+// Set a back link only if there really is a block there -- `h` may be the
+// end of the heap, which is not a block at all.
+fix_prev(word h, word p) {
+  if(h < heap_end()) {
+    bsetprev(h, p);
+  }
+} return void;

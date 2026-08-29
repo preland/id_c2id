@@ -1,0 +1,25 @@
+// The scanning loop itself.
+
+// Just past the newline that ends this line -- used only by line markers,
+// which must not let the whitespace path count that newline.
+eol_end(word base, int i) {
+} return int eol_pos(base, i) + 1;
+
+// `base` is the store address of source byte 0 and `n` its length. Each step
+// consumes one token (or one run of whitespace, one comment, one line
+// marker) and returns the next index.
+scan_src(word base, int i, int n) {
+  while(i < n) {
+    i = scan_one(base, i);
+  }
+} return void;
+
+// The pad block. Several scanners look one or two bytes ahead, and the store
+// is bounds-checked, so eight zero bytes are allocated immediately behind the
+// source copy; every lookahead past the end then reads 0, which every
+// predicate rejects and ch_eof() names.
+lex_mem(word base, int n) {
+  alloc(8);
+  scan_src(base, 0, n);
+  add_tok("eof", "");
+} return void;

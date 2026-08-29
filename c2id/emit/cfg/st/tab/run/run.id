@@ -1,0 +1,29 @@
+// Build the CFG of one C function body. `id` is the body statement node --
+// normally a `block`, but any statement works. Returns the entry block, which
+// is always 0.
+//
+// Every earlier function's graph is discarded, so the emitter builds and
+// consumes one function at a time, exactly as it does with the frame layout
+// in ../../../fr/.
+cfg_build(int id) {
+  cfg_init();
+  set_cur(new_block());
+  cfg_walk(id);
+} return int 0;
+
+// The trailing term_end is C's implicit `return;` at the end of a function.
+// When the body really did end in a `return`, the walker has already opened a
+// fresh block for the unreachable code that would have followed, and that
+// block is what gets terminated here -- harmless, and it keeps the invariant
+// that every block has a terminator.
+cfg_walk(int id) {
+  walk_stmt(id);
+  term_end(cur_blk(), 0 - 1);
+  run_fixes();
+} return void;
+
+// `subject == value`, the test a switch dispatch block branches on. It is a
+// synthesised AST node so that the emitter's ordinary expression printer can
+// handle it with no knowledge of switches at all.
+eq_node(int a, int b) {
+} return int newleaf("bin", a, b, "==", "");

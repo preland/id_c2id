@@ -1,0 +1,17 @@
+
+// is_type_start is the public predicate; norm_kw folds the GNU alias
+// `__signed__` onto `signed` so the specifier table needs only one entry.
+
+is_type_start(int[] pos) {
+  int ok = is_type_word(cur_text(pos));
+  if(ok == 0) {
+    ok = is_typedef(cur_text(pos));
+  }
+} return int ok;
+
+norm_kw(string s) {
+  string out = s;
+  if(s == "__signed__" || s == "__signed") {
+    out = "signed";
+  }
+} return string out;

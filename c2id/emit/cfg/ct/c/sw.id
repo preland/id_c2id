@@ -1,0 +1,37 @@
+// `switch (v) B`:
+//
+//   cur:          jmp -> test0                (written last, once the chain
+//   test0:        cond v == k0 -> case0 / test1     exists)
+//   test1:        cond v == k1 -> case1 / default-or-exit
+//   case0: ...    jmp -> case1                (C's fallthrough, for free)
+//   exit:  (filling continues here)
+//
+// The body is walked as ordinary statements: `case` and `default` are
+// statements in it, and each one starts a block and records itself in the
+// case table (see ../../st/tab/lab/cas.id). Only afterwards is the table
+// turned into the chain of equality tests, which is why the switch's own
+// entry block is terminated at the very end.
+//
+// break -> exit. `continue` is *not* caught here: it belongs to the enclosing
+// loop, which is why the break and continue stacks are separate.
+
+do_switch(int id) {
+  int blk = cur_blk();
+  int alt = new_block();
+  sw_body(id, blk, alt);
+} return void;
+
+sw_body(int id, int blk, int alt) {
+  int mark = case_mark();
+  push_brk(alt);
+  sw_walk(id, blk, alt, mark);
+} return void;
+
+// The body starts in a fresh block: statements before the first `case` are
+// unreachable, and giving them their own block keeps them out of the entry
+// block without needing to detect them.
+sw_walk(int id, int blk, int alt, int mark) {
+  set_cur(new_block());
+  walk_list(l_of(id));
+  sw_close(id, blk, alt, mark);
+} return void;

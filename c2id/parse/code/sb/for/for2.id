@@ -1,0 +1,17 @@
+for_step(int[] pos, int a, int[] l) {
+  int b = 0 - 1;
+  if(at_text(pos, ")") == 0) {
+    b = parse_expr(pos);
+  }
+  advance(pos);
+} return int for_body(pos, a, b, l);
+
+for_body(int[] pos, int a, int b, int[] l) {
+  int[] m = [parse_stmt(pos)];
+} return int newnode("for", a, b, "", "", l, m);
+
+parse_switch(int[] pos) {
+  advance(pos);
+  advance(pos);
+  int a = parse_expr(pos);
+} return int switch_body(pos, a);

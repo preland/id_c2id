@@ -1,0 +1,27 @@
+// The difference of two pointers, and the rest of the unary chain.
+
+// p - q is a count of elements, so the byte difference is divided by the
+// element size. Signed division, because ptrdiff_t is signed and q may be the
+// later pointer.
+ptr_diff(int id) {
+  int sz = type_size(elem_ty(ex_ty(a_of(id))));
+  string s = "(" + ex_txt(a_of(id)) + " - " + ex_txt(b_of(id)) + ")";
+} return string scale_txt(s, sz, "/");
+
+un4(int id) {
+  string s = "";
+  if(s_of(id) == "-" || s_of(id) == "~") {
+    s = pre_txt(id, un_pre(s_of(id)));
+  } else {
+    s = incdec_txt(id);
+  }
+} return string s;
+
+// `id` has no unary minus, so negation is a subtraction from zero. `~` it
+// does have.
+un_pre(string op) {
+  string s = "~";
+  if(op == "-") {
+    s = "0 - ";
+  }
+} return string s;

@@ -1,0 +1,28 @@
+
+// struct / union / enum / typedef-name specifiers, all of which name a type
+// outright rather than contributing to the width arithmetic.
+
+spec_tag(int[] pos, int[] sp) {
+  int ok = spec_su(pos, sp);
+  if(ok == 0) {
+    ok = spec_en(pos, sp);
+  }
+} return int ok;
+
+spec_su(int[] pos, int[] sp) {
+  int ok = 0;
+  if(at_text(pos, "struct") || at_text(pos, "union")) {
+    lset(sp, 10, parse_su(pos));
+    ok = 1;
+  }
+} return int ok;
+
+spec_en(int[] pos, int[] sp) {
+  int ok = 0;
+  if(at_text(pos, "enum")) {
+    lset(sp, 10, parse_enum(pos));
+    ok = 1;
+  } else {
+    ok = spec_td(pos, sp);
+  }
+} return int ok;

@@ -1,0 +1,37 @@
+// memmove: copy in whichever direction does not overwrite source bytes
+// before they are read. If the destination is above the source the regions
+// may overlap head-to-tail, so copy from the top down; otherwise a plain
+// forward copy is safe. This has to be a lazy chain (`if`/`else`) and not
+// the cheaper eager one -- running the forward copy unconditionally is
+// precisely the bug being avoided.
+c_memmove(word dst, word src, word n) {
+  word r = dst;
+  if(ult(src, dst) != 0) {
+    r = mv_back(dst, src, n);
+  } else {
+    r = c_memcpy(dst, src, n);
+  }
+} return word r;
+
+mv_back(word dst, word src, word n) {
+  word i = n;
+  while(i != 0) {
+    i = cpy_prev(dst, src, i);
+  }
+} return word dst;
+
+// memcmp over *unsigned* bytes -- peek8 zero-extends, so the comparison is
+// unsigned without any extra work. `r` doubles as the early-exit flag,
+// since `id` has no `break`.
+//
+// C promises only the sign of the result. The value returned here is the
+// difference of the first differing pair of bytes, which is what glibc
+// returns, so the two agree exactly and not merely in sign.
+c_memcmp(word a, word b, word n) {
+  word i = 0;
+  word r = 0;
+  while(ult(i, n) != 0 && r == 0) {
+    r = cmp_byte(a, b, i);
+    i = i + 1;
+  }
+} return word r;

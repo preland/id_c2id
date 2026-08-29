@@ -1,0 +1,12 @@
+push_bedge() {
+  push((import bsb), 0 - 1);
+  push((import bex), 0 - 1);
+} return void;
+
+// The block being filled.
+cur_blk() {
+} return int (import curb)[0];
+
+set_cur(int blk) {
+  lset((import curb), 0, blk);
+} return void;

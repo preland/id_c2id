@@ -1,0 +1,29 @@
+// Decimal or octal, and the digit accumulator shared by all three bases.
+
+// A leading 0 with something after it means octal. Reading it as decimal first
+// and correcting is one action cheaper than an if/else, and harmless: neither
+// reading can run off the string.
+dec_or_oct(string s) {
+  int n = digits_val(s, 0, 10);
+  if(is_oct_lit(s)) {
+    n = digits_val(s, 1, 8);
+  }
+} return int n;
+
+// 48 is '0'. A bare "0" is decimal zero, and so is "0L".
+is_oct_lit(string s) {
+  int ok = 0;
+  if(len(s) > 1 && charat(s, 0) == 48) {
+    ok = 1;
+  }
+} return int ok;
+
+// Accumulate digits of `radix` from index `i` until a character that is not one
+// -- which is exactly how the u/U/l/L suffixes get dropped.
+digits_val(string s, int i, int radix) {
+  int n = 0;
+  while(i < len(s) && dig_val(charat(s, i)) >= 0 && dig_val(charat(s, i)) < radix) {
+    n = n * radix + dig_val(charat(s, i));
+    i = i + 1;
+  }
+} return int n;

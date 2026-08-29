@@ -1,0 +1,27 @@
+// The AST store. `id` has no records, so a node is one row across seven
+// parallel lists, addressed by an integer id (see NOTES.md section 4 for what
+// each field means per node kind). Everything downstream -- the type pass, the
+// CFG builder, the emitter -- indexes into these.
+//
+// An `export` is a statement, so these lists come into existence when
+// init_nodes() runs; setup() calls it before anything else touches them.
+// Three exports is the whole action budget for a block, which is why this is
+// split into three functions.
+
+init_nodes() {
+  export string[] nk = [];
+  export int[] na = [];
+  export int[] nb = [];
+} return void;
+
+init_nodes2() {
+  export string[] ns = [];
+  export string[] nt = [];
+  export int[][] nl = [];
+} return void;
+
+init_nodes3() {
+  export int[][] nm = [];
+  export int[] nline = [];
+  export string[] code = [];
+} return void;

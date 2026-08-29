@@ -1,0 +1,25 @@
+// Reading the type name, then deciding between a cast and a compound literal.
+//
+// `ty` rather than `t` for a type node id: NOTES.md section 3 reserves `t` for
+// one, but parse/ast/mk/new.id already declares `string t` in newnode, and a
+// name carries one type program-wide. `ty` is int everywhere in c2id/parse/code.
+
+cast_body(int[] pos) {
+  int ty = parse_typename(pos);
+  advance(pos);
+} return int cast_tail(pos, ty);
+
+// ')' is gone. `(T){...}` is a compound literal; otherwise the operand is
+// another cast-expression, which is what makes `(char *)(int *)p` work.
+cast_tail(int[] pos, int ty) {
+  int node = 0;
+  if(at_text(pos, "{")) {
+    node = compound_lit(pos, ty);
+  } else {
+    node = cast_rest(pos, ty);
+  }
+} return int node;
+
+cast_rest(int[] pos, int ty) {
+  int a = parse_cast(pos);
+} return int newleaf("cast", a, ty, "", "");

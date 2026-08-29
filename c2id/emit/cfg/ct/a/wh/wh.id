@@ -1,0 +1,28 @@
+// `while (c) B`:
+//
+//   cur:   ...   jmp  -> cond
+//   cond:        cond c -> body / exit
+//   body:  B     jmp  -> cond          (the back-edge)
+//   exit:  (filling continues here)
+//
+// break -> exit, continue -> cond.
+
+do_while(int id) {
+  int nxt = new_block();
+  term_jmp(cur_blk(), nxt);
+  wh_body(id, nxt);
+} return void;
+
+wh_body(int id, int nxt) {
+  int blk = new_block();
+  int alt = new_block();
+  wh_run(id, nxt, blk, alt);
+} return void;
+
+// The condition block holds no statements: the condition is an expression on
+// the terminator, and the emitter turns it into the block's `if`.
+wh_run(int id, int nxt, int blk, int alt) {
+  term_cond(nxt, a_of(id), blk, alt);
+  push_loop(alt, nxt);
+  wh_end(id, nxt, blk, alt);
+} return void;

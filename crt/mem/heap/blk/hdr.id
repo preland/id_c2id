@@ -1,0 +1,13 @@
+// The size word with the in-use flag masked off. Sizes are multiples of 8,
+// so masking the low three bits cannot lose information.
+bsize(word h) {
+} return word peek64(h) & ~7;
+
+// 1 if the block is handed out, 0 if it is on the free list.
+bused(word h) {
+} return word peek64(h) & 1;
+
+// Write the size and the flag back as one word.
+bset(word h, word sz, word used) {
+  poke64(h, sz | used);
+} return void;

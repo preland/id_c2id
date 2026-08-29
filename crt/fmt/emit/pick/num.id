@@ -1,0 +1,35 @@
+// Dispatch on the conversion character. A lazy chain, not an eager one:
+// every arm that is not taken must *not* consume an argument, so the
+// alternative has to sit in an `else`.
+//
+// "%%" is first because it takes no argument and, per C, ignores the flags
+// and the field width entirely.
+conv_do(word fmt, word c, word[] args, word[] st, word[] fs) {
+  string txt = "";
+  if(c == 37) {
+    txt = "%";
+  } else {
+    txt = conv_num(fmt, c, args, st, fs);
+  }
+} return string txt;
+
+// %d and %i: signed decimal, narrowed to the width the length modifier asks
+// for and then sign-extended back.
+conv_num(word fmt, word c, word[] args, word[] st, word[] fs) {
+  string txt = "";
+  if(c == 100 || c == 105) {
+    txt = pad_out(dec_of(next_arg(args, st), fs), fs);
+  } else {
+    txt = conv_uns(fmt, c, args, st, fs);
+  }
+} return string txt;
+
+// %u, %x, %X and %o: one unsigned value, three radices, two digit cases.
+conv_uns(word fmt, word c, word[] args, word[] st, word[] fs) {
+  string txt = "";
+  if(c == 117 || c == 120 || c == 88 || c == 111) {
+    txt = pad_out(uns_of(next_arg(args, st), c, fs), fs);
+  } else {
+    txt = conv_cs(fmt, c, args, st, fs);
+  }
+} return string txt;

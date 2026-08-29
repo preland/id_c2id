@@ -1,0 +1,25 @@
+// Creating frame slots. emit/fr owns the offsets; this owns the types beside
+// them, and the two lists are only in step because every slot is made here.
+
+bind_local(string name, int ty) {
+  push((import lvtys), ty);
+} return int frame_add(name, ty);
+
+// Start a new C function. frame_reset empties fr's three lists; this one
+// empties the fourth, using fr's own popper so there is only one such loop
+// in the program.
+txt_reset() {
+  clear_ints((import lvtys));
+  frame_reset();
+} return void;
+
+// The slot a declaration names. The frame pass normally ran first, in which
+// case the offset is already there; when it has not -- a single pass over
+// straight-line code, which is how the emitter is tested -- the declaration
+// itself creates the slot.
+decl_slot(string name, int ty) {
+  int off = frame_off(name);
+  if(off < 0) {
+    off = bind_local(name, ty);
+  }
+} return int off;

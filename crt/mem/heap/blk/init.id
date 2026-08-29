@@ -1,0 +1,29 @@
+// The kmalloc heap: one region taken from the store's arena, carved up by
+// an implicit free list. Layout is documented in crt/README.md; in short
+//
+//     crt_heap + 0    (unused, keeps the first header 16-byte aligned)
+//     crt_heap + 8    end address, one past the last block
+//     crt_heap + 16   first block header
+//
+// and every block is
+//
+//     h + 0    total size in bytes, including this header, low bit = in use
+//     h + 8    address of the previous block, or 0 for the first
+//     h + 16   payload, 8-byte aligned
+//
+// Sizes are always a multiple of 8, so bit 0 is free for the in-use flag.
+// The previous-block link is what makes backward coalescing O(1).
+heap_init(word bytes) {
+  export word crt_heap = alloc(align8(bytes) + 16);
+  poke64(crt_heap + 8, crt_heap + 16 + align8(bytes));
+  init_rest(crt_heap + 16, align8(bytes), 0);
+} return void;
+
+// One past the last block. Nothing at or above this is part of the heap.
+heap_end() {
+} return word peek64((import crt_heap) + 8);
+
+// Round up to a multiple of 8. Every block size and every payload address
+// is 8-aligned, which is what C's max_align_t needs on this model.
+align8(word n) {
+} return word (n + 7) & ~7;

@@ -1,0 +1,15 @@
+// Writing a block's row. An imported list cannot be index-assigned directly
+// -- `(import bsa)[i] = v` parses as a comparison and silently does nothing --
+// so every store goes through lset/sset (see ../../../../../lex/drv/st/store.id).
+
+set_kind(int blk, string kind) {
+  sset((import bkind), blk, kind);
+} return void;
+
+set_sa(int blk, int nxt) {
+  lset((import bsa), blk, nxt);
+} return void;
+
+set_sb(int blk, int alt) {
+  lset((import bsb), blk, alt);
+} return void;

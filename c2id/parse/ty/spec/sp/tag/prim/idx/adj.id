@@ -1,0 +1,26 @@
+
+// The prim-table index, before signedness. `long` is handled apart from the
+// table because it counts: one makes `long`, two make `long long`, and one
+// applied to `double` makes `long double`.
+
+base_idx(int[] sp) {
+  int i = pick_code(sp, base_codes());
+} return int long_code(sp, i);
+
+long_code(int[] sp, int i) {
+  int n = i;
+  if(sp[4] > 0) {
+    n = long_pick(sp, i);
+  } else {
+    n = int_dflt(i);
+  }
+} return int n;
+
+long_pick(int[] sp, int i) {
+  int n = 0;
+  if(i == 14) {
+    n = 15;
+  } else {
+    n = ll_code(sp);
+  }
+} return int n;

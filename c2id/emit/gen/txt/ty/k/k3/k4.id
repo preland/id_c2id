@@ -1,0 +1,34 @@
+// The tail of the chain. `call` and anything unrecognised fall out as `int`,
+// which is C's own rule for a function with no visible prototype and is the
+// least surprising answer for a node kind the emitter does not model yet.
+
+ety10(int id) {
+  int ty = 0;
+  if(k_of(id) == "str") {
+    ty = ty_charp();
+  } else {
+    ty = ety11(id);
+  }
+} return int ty;
+
+// `c ? a : b` -- the value comes from one of the two arms, and they have to
+// be compatible, so the `then` arm answers for both. The *text* of a
+// conditional is not emitted here (it short-circuits), but its type is still
+// asked for when it is a subexpression of something that is.
+ety11(int id) {
+  int ty = 0;
+  if(k_of(id) == "cond") {
+    ty = ex_ty(b_of(id));
+  } else {
+    ty = ety12(id);
+  }
+} return int ty;
+
+ety12(int id) {
+  int ty = 0;
+  if(k_of(id) == "post") {
+    ty = ex_ty(a_of(id));
+  } else {
+    ty = ty_int();
+  }
+} return int ty;

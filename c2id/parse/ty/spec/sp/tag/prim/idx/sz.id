@@ -1,0 +1,26 @@
+
+// `unsigned` moves an index one along the table; char is the exception,
+// because plain, signed and unsigned char are three distinct types.
+
+sign_adj(int[] sp, int i) {
+  int n = 0;
+  if(sp[8] > 0) {
+    n = uns_adj(i);
+  } else {
+    n = sgn_adj(sp, i);
+  }
+} return int n;
+
+uns_adj(int i) {
+  int n = 1;
+  if(i == 2) {
+    n = 2;
+  }
+} return int n;
+
+sgn_adj(int[] sp, int i) {
+  int n = 0;
+  if(sp[7] > 0 && i == 2) {
+    n = 1;
+  }
+} return int n;

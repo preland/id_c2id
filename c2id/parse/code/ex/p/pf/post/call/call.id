@@ -1,0 +1,24 @@
+// Calls. `na` is the callee *expression*, not a name, so `(*fp)(x)` and
+// `tbl[i](x)` need no special case.
+
+parse_call(int[] pos, int a) {
+  int[] ids = [];
+  scan_args(pos, ids);
+} return int newlist("call", a, 0, "", ids);
+
+scan_args(int[] pos, int[] ids) {
+  advance(pos);
+  fill_list(pos, ids, ")");
+  advance(pos);
+} return void;
+
+// A comma-separated list of assignment-expressions, up to the token `s`.
+// parse_assign, not parse_expr: a comma inside an argument list separates
+// arguments, it is not the comma operator. The terminator is a parameter so
+// that a braced initialiser list can share this loop.
+fill_list(int[] pos, int[] ids, string s) {
+  while(at_text(pos, s) == 0 && cur_kind(pos) != "eof") {
+    push(ids, parse_assign(pos));
+    skip_comma(pos);
+  }
+} return void;

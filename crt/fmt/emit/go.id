@@ -1,0 +1,31 @@
+// c_format: the printf engine. `fmt` is a store address of a NUL-terminated
+// format string; `args` is the argument list, since `id` has no varargs.
+// The result is an `id` string, so callers can print it, log it, or splice
+// it into something larger.
+//
+// The cursor state is a two-element word list:
+//
+//     st[0]  byte offset into the format string
+//     st[1]  index of the next unconsumed argument
+c_format(word fmt, word[] args) {
+  word[] st = [wzero(), wzero()];
+  string out = "";
+  while(peek8(fmt + st[0]) != 0) {
+    out = out + fmt_step(fmt, args, st);
+  }
+} return string out;
+
+// One step: an ordinary character, or a whole conversion specification.
+// fmt_lit runs either way and steps over the character just read, so when it
+// was a '%' the specifier parse starts at the flags.
+fmt_step(word fmt, word[] args, word[] st) {
+  word c = peek8(fmt + st[0]);
+  string txt = fmt_lit(c, st);
+  if(c == 37) {
+    txt = fmt_spec(fmt, args, st);
+  }
+} return string txt;
+
+fmt_lit(word c, word[] st) {
+  lsetw(st, 0, st[0] + 1);
+} return string ch_of(c);

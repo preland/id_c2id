@@ -1,0 +1,22 @@
+// kfree. Like C's free, a null pointer is a no-op.
+kfree(word p) {
+  if(p != 0) {
+    free_at(p - 16);
+  }
+} return void;
+
+// Mark free, then merge with the next block and with the previous one. Both
+// directions matter: merging only forwards leaves the heap fragmented into
+// a staircase that never recovers.
+free_at(word h) {
+  bset(h, bsize(h), 0);
+  coal_next(h);
+  coal_prev(h);
+} return void;
+
+// Absorb `nx` (which must be the block immediately after `h`) into `h`, then
+// repair the back link of whatever now follows the merged block.
+merge_blk(word h, word nx) {
+  bset(h, bsize(h) + bsize(nx), 0);
+  fix_prev(h + bsize(h), h);
+} return void;

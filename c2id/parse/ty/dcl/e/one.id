@@ -1,0 +1,21 @@
+
+// One enumerator: an optional `= value`, the constant itself, and the
+// increment that gives the next one its default.
+
+enum_set(int[] pos, int[] ev, string name) {
+  enum_eq(pos, ev);
+  en_add(name, ev[0]);
+  enum_next(pos, ev);
+} return void;
+
+enum_eq(int[] pos, int[] ev) {
+  if(at_text(pos, "=")) {
+    advance(pos);
+    ev[0] = ce_expr(pos);
+  }
+} return void;
+
+enum_next(int[] pos, int[] ev) {
+  ev[0] = ev[0] + 1;
+  skip_tok(pos, ",");
+} return void;

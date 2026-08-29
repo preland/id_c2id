@@ -1,0 +1,14 @@
+// The continue-target stack, kept separate from the break stack rather than
+// pushed in lockstep with it: a `switch` catches `break` but not `continue`,
+// so `continue` inside a switch inside a loop must still reach the loop.
+
+push_cont(int blk) {
+  push((import ctgt), blk);
+} return void;
+
+pop_cont() {
+  pop((import ctgt));
+} return void;
+
+cont_top() {
+} return int top_of((import ctgt));

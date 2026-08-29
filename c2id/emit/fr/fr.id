@@ -1,0 +1,24 @@
+// Frame layout: where each C parameter and local lives inside the function's
+// frame in the flat store.
+//
+// C locals cannot be `id` variables. An `id` variable is private to one
+// function, and after the CFG split a local written in block 3 is read in
+// block 9 -- so it has nowhere else to live. Putting frames in the store also
+// makes `&x` mean something for free, and makes recursion work, since each
+// call allocates its own frame.
+//
+// fp + 0 is always the return-value slot, which is why the running size
+// starts at 8 rather than 0.
+
+init_frame() {
+  export string[] lvnames = [];
+  export int[] lvoff = [];
+  export int[] lvwid = [];
+} return void;
+
+init_frame2() {
+  export int[] frsz = [8];
+} return void;
+
+frame_size() {
+} return int (import frsz)[0];

@@ -1,0 +1,25 @@
+// Converting to a C type, loading, and storing.
+
+// Put a 64-bit value into the canonical form of `ty`. This is one operation
+// wearing three hats: it is what a cast does, what an arithmetic result needs
+// (an `int` addition wraps at 32 bits, so `2147483647 + 1` is negative), and
+// what a load of a narrow type needs. An 8-byte type needs nothing -- the
+// value is already exactly 64 bits -- and neither does a pointer, an array or
+// a record, none of which is a number.
+conv_txt(int ty, string s) {
+  string out = s;
+  if(k_of(ty) == "prim" && load_wid(ty) < 8) {
+    out = cvt_name(ty) + "(" + s + ")";
+  }
+} return string out;
+
+// peek8/16/32/64 zero-extend, so a signed narrow load needs sx*; the zx* on
+// an unsigned one is a no-op the store already performed, and is emitted
+// anyway so that the generated text says what type it is reading.
+load_txt(int ty, string s) {
+} return string conv_txt(ty, "peek" + wid_bits(load_wid(ty)) + "(" + s + ")");
+
+// poke truncates to its width, which is exactly C's conversion on assignment:
+// `char c = 300` leaves 44 behind either way.
+store_txt(int ty, string s, string out) {
+} return string "poke" + wid_bits(load_wid(ty)) + "(" + s + ", " + out + ")";

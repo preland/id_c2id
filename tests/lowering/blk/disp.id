@@ -1,0 +1,9 @@
+// Block dispatch, as a binary tree so every block stays within 3 actions.
+disp_sum_to(word fp, word pc) {
+  word nxt = 0 - 1;
+  if(pc < 3) {
+    nxt = disp_lo(fp, pc);
+  } else {
+    nxt = disp_hi(fp, pc);
+  }
+} return word nxt;

@@ -1,0 +1,27 @@
+// The tail of the dispatch chain: the `default` block if this switch has one,
+// otherwise the exit. `default` is the case whose value node is -1.
+sw_default(int mark, int alt) {
+  int i = mark;
+  int blk = alt;
+  while(i < case_mark()) {
+    blk = def_at(i, blk);
+    i = i + 1;
+  }
+} return int blk;
+
+def_at(int i, int blk) {
+  int nxt = blk;
+  if(case_val(i) < 0) {
+    nxt = case_blk(i);
+  }
+} return int nxt;
+
+// Backwards, so that test i's no-match edge is the chain already built for
+// the cases after it. Returns the head of the chain.
+sw_chain(int id, int mark, int nxt) {
+  int i = case_mark() - 1;
+  while(i >= mark) {
+    nxt = sw_test(id, i, nxt);
+    i = i - 1;
+  }
+} return int nxt;

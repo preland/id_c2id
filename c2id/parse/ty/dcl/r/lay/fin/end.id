@@ -1,0 +1,18 @@
+
+// Closing the body: eat the `}` and any trailing attribute, then fix the
+// record's size. A struct rounds up to its own alignment; a union is as big
+// as its largest member, likewise rounded.
+
+sy_bpos(int j) {
+} return int (import syoff)[j] * 8 + (import sybit)[j];
+
+rec_end(int[] pos, int ty, int[] lay) {
+  advance(pos);
+  skip_attrs(pos);
+  rec_size(ty, lay);
+} return void;
+
+rec_size(int ty, int[] lay) {
+  set_a(ty, align_up(rec_bytes(ty, lay), lay[2]));
+  lset(m_of(ty), 0, lay[2]);
+} return void;

@@ -1,0 +1,22 @@
+// Deciding whether a `#` begins a line marker, and entering one.
+
+// 1 if only horizontal whitespace separates `i` from the start of its line.
+at_bol(word base, int i) {
+  int j = i - 1;
+  while(j >= 0 && is_hspace(peek8(base + j))) {
+    j = j - 1;
+  }
+} return int bol_ok(base, j);
+
+bol_ok(word base, int j) {
+  int ok = 0;
+  if(j < 0 || peek8(base + j) == ch_nl()) {
+    ok = 1;
+  }
+} return int ok;
+
+// `i` is at the `#`. No token is emitted for any of this; the marker only
+// updates curline and curfile so that tline is meaningful.
+scan_marker(word base, int i) {
+  int e = skip_h(base, i + 1);
+} return int mark_num(base, e);

@@ -1,0 +1,27 @@
+// The float-character scan, and the radix decision.
+
+has_float_ch(string s) {
+  int i = 0;
+  int found = 0;
+  while(i < len(s)) {
+    found = float_ch_at(s, i, found);
+    i = i + 1;
+  }
+} return int found;
+
+// 46 '.'   101 'e'   69 'E'
+float_ch_at(string s, int i, int found) {
+  int n = found;
+  if(charat(s, i) == 46 || charat(s, i) == 101 || charat(s, i) == 69) {
+    n = 1;
+  }
+} return int n;
+
+int_val(string s) {
+  int n = 0;
+  if(is_hex_lit(s)) {
+    n = digits_val(s, 2, 16);
+  } else {
+    n = dec_or_oct(s);
+  }
+} return int n;

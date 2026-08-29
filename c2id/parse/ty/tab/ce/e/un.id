@@ -1,0 +1,23 @@
+
+// Multiplicative folding, and unary minus.
+
+ce_mstep(int[] pos, int v) {
+  string s = cur_text(pos);
+  advance(pos);
+} return int ce_apply(s, v, ce_un(pos));
+
+ce_at_m(string s) {
+  int ok = 0;
+  if(s == "*" || s == "/" || s == "%") {
+    ok = 1;
+  }
+} return int ok;
+
+ce_un(int[] pos) {
+  int v = 0;
+  if(at_text(pos, "-")) {
+    v = ce_neg(pos);
+  } else {
+    v = ce_prim(pos);
+  }
+} return int v;

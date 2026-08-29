@@ -1,0 +1,18 @@
+// memcpy: a forward byte copy. The helper returns the next index, which is
+// how a two-statement loop body fits in one action.
+c_memcpy(word dst, word src, word n) {
+  word i = 0;
+  while(ult(i, n) != 0) {
+    i = cpy_byte(dst, src, i);
+  }
+} return word dst;
+
+cpy_byte(word dst, word src, word i) {
+  poke8(dst + i, peek8(src + i));
+} return word i + 1;
+
+// The same byte, one position lower: the descending half of memmove counts
+// *down* from n, so it copies the byte at i-1 and returns i-1.
+cpy_prev(word dst, word src, word i) {
+  poke8(dst + i - 1, peek8(src + i - 1));
+} return word i - 1;

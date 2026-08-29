@@ -1,0 +1,14 @@
+// The last unary link: `sizeof`, else fall through to postfix.
+//
+// `sizeof` arrives from the lexer as an ordinary identifier token, so the test
+// is on the text. That is safe: C reserves the word, so no object can be
+// called `sizeof`.
+
+parse_unary3(int[] pos) {
+  int node = 0;
+  if(cur_text(pos) == "sizeof") {
+    node = parse_sizeof(pos);
+  } else {
+    node = parse_postfix(pos);
+  }
+} return int node;

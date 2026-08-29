@@ -1,0 +1,31 @@
+// The last three questions. A label is the only form needing two tokens of
+// lookahead -- `x:` is a label, `x;` and `x = 1;` are expressions -- and a
+// declaration is recognised by asking the type module, because in C
+// `foo * bar;` is a declaration exactly when `foo` is a typedef name.
+
+parse_stmt13(int[] pos) {
+  int id = 0;
+  if(at_text(pos, ";")) {
+    id = parse_empty(pos);
+  } else {
+    id = parse_stmt14(pos);
+  }
+} return int id;
+
+parse_stmt14(int[] pos) {
+  int id = 0;
+  if(cur_kind(pos) == "id" && nxt_text(pos) == ":") {
+    id = parse_label(pos);
+  } else {
+    id = parse_stmt15(pos);
+  }
+} return int id;
+
+parse_stmt15(int[] pos) {
+  int id = 0;
+  if(is_type_start(pos)) {
+    id = parse_decl_stmt(pos);
+  } else {
+    id = parse_expr_stmt(pos);
+  }
+} return int id;

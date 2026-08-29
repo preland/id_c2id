@@ -1,0 +1,24 @@
+
+// Parameter lists. Each parameter is its own specifiers-plus-declarator, and
+// the names they declare are discarded -- only the types reach the fn node.
+
+fill_params(int[] pos, int[] ps) {
+  while(cur_kind(pos) != "eof" && at_text(pos, ")") == 0) {
+    param_one(pos, ps);
+  }
+  advance(pos);
+} return void;
+
+param_one(int[] pos, int[] ps) {
+  int i = pos[0];
+  param_body(pos, ps);
+  unstick(pos, i);
+} return void;
+
+// A loop that consumed nothing would spin forever on malformed input; this
+// makes progress the loop's own responsibility.
+unstick(int[] pos, int i) {
+  if(pos[0] == i) {
+    advance(pos);
+  }
+} return void;

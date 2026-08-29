@@ -1,0 +1,24 @@
+
+// Constant expressions: array bounds, bitfield widths, enumerator values.
+// This is not the full C expression grammar -- that lives in parse/code/ex/ --
+// only what a *type* can contain, evaluated to an integer as it is parsed.
+//
+// Two precedence levels: multiplicative binds tighter than everything else.
+// `+ - << >> | & ^` share one left-associative level, so `1 << 3 | 1` is 9
+// but `1 | 1 << 3` is 8 rather than C's 9. Mixing those two families in one
+// unparenthesised array bound does not happen in practice.
+
+ce_expr(int[] pos) {
+  int v = ce_mul(pos);
+} return int ce_eloop(pos, v);
+
+ce_eloop(int[] pos, int v) {
+  while(ce_at_e(cur_text(pos))) {
+    v = ce_estep(pos, v);
+  }
+} return int v;
+
+ce_estep(int[] pos, int v) {
+  string s = cur_text(pos);
+  advance(pos);
+} return int ce_apply(s, v, ce_mul(pos));

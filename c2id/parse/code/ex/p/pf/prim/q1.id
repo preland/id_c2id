@@ -1,0 +1,32 @@
+// primary-expression: identifier | constant | string-literal | '(' expr ')'
+//
+// A lazy dispatch chain on the token kind, one decision per link. `num` and
+// `chr` share a link because both produce a `num` node -- only the decoding of
+// the spelling differs, and that is a parameter (see const_val).
+
+parse_primary(int[] pos) {
+  int node = 0;
+  if(cur_kind(pos) == "id") {
+    node = parse_var(pos);
+  } else {
+    node = primary2(pos);
+  }
+} return int node;
+
+primary2(int[] pos) {
+  int node = 0;
+  if(cur_kind(pos) == "num" || cur_kind(pos) == "chr") {
+    node = parse_const(pos);
+  } else {
+    node = primary3(pos);
+  }
+} return int node;
+
+primary3(int[] pos) {
+  int node = 0;
+  if(cur_kind(pos) == "str") {
+    node = parse_str(pos);
+  } else {
+    node = primary4(pos);
+  }
+} return int node;

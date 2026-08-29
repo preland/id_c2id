@@ -1,0 +1,16 @@
+// A lone `;` is an empty block rather than a node kind of its own, so nothing
+// downstream needs a case for it.
+parse_empty(int[] pos) {
+  advance(pos);
+} return int newleaf("block", 0, 0, "", "");
+
+parse_label(int[] pos) {
+  string name = cur_text(pos);
+  advance(pos);
+  advance(pos);
+} return int newleaf("label", 0, 0, name, "");
+
+parse_expr_stmt(int[] pos) {
+  int a = parse_expr(pos);
+  skip_semi(pos);
+} return int newleaf("expr", a, 0, "", "");

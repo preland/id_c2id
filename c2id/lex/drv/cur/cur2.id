@@ -1,0 +1,20 @@
+// One token of lookahead, moving on, and the text test the parser uses
+// everywhere in place of a keyword table.
+
+nxt_text(int[] pos) {
+  string txt = "";
+  if(pos[0] + 1 < len((import ttext))) {
+    txt = (import ttext)[pos[0] + 1];
+  }
+} return string txt;
+
+advance(int[] pos) {
+  pos[0] = pos[0] + 1;
+} return void;
+
+at_text(int[] pos, string s) {
+  int ok = 0;
+  if(cur_text(pos) == s) {
+    ok = 1;
+  }
+} return int ok;

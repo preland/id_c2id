@@ -1,0 +1,7 @@
+st_str(int id) {
+} return string "(" + k_of(id) + kids_str(id) + ")";
+
+kids_str(int id) {
+  string s = " " + s_of(id) + " a" + a_of(id);
+  s = s + list_str(l_of(id)) + list_str(m_of(id));
+} return string s;

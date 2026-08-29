@@ -1,0 +1,23 @@
+// Identifiers -- and the one place where an identifier turns out not to be
+// one, because it was the `L` / `u` / `U` / `u8` prefix of a literal.
+//
+// Keywords are NOT separated out: the parser decides by text, so `int` and
+// `while` arrive as ordinary `id` tokens.
+
+scan_ident(word base, int i) {
+  int e = ident_end(base, i);
+} return int ident_pick(base, i, e);
+
+// The quote test comes first so the common case never pays for the slice.
+ident_pick(word base, int i, int e) {
+  int ni = 0;
+  if((peek8(base + e) == ch_dq() || peek8(base + e) == ch_sq()) && is_pfx(slice(base, i, e))) {
+    ni = scan_quoted(base, i, e);
+  } else {
+    ni = emit_ident(base, i, e);
+  }
+} return int ni;
+
+emit_ident(word base, int i, int e) {
+  add_tok("id", slice(base, i, e));
+} return int e;

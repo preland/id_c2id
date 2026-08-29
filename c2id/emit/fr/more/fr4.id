@@ -1,0 +1,22 @@
+clear_names(string[] ss) {
+  while(len(ss) > 0) {
+    pop(ss);
+  }
+} return void;
+
+clear_ints(int[] xs) {
+  while(len(xs) > 0) {
+    pop(xs);
+  }
+} return void;
+
+// Linear search: a C function has tens of locals, not thousands, and a map
+// would be two more parallel lists for no measurable gain.
+find_local(string name) {
+  int i = 0;
+  int found = 0 - 1;
+  while(i < len((import lvnames))) {
+    found = name_at(i, name, found);
+    i = i + 1;
+  }
+} return int found;

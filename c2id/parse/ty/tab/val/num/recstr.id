@@ -1,0 +1,16 @@
+
+// The tail of the type printer: records.
+
+ts_rec(int ty) {
+  string s = "?";
+  if(k_of(ty) == "rec") {
+    s = ts_su(ty);
+  }
+} return string s;
+
+ts_su(int ty) {
+  string s = "union ";
+  if(b_of(ty) == 0) {
+    s = "struct ";
+  }
+} return string s + s_of(ty) + "{" + a_of(ty) + "}";

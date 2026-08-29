@@ -1,0 +1,25 @@
+// `for (init; cond; step) body`. Each of the three clauses may be empty, and
+// the init clause may be a declaration -- so it is read as a statement, which
+// already knows how to be either and consumes its own semicolon.
+parse_for(int[] pos) {
+  advance(pos);
+  advance(pos);
+  int[] l = for_init(pos);
+} return int for_cond(pos, l);
+
+for_init(int[] pos) {
+  int[] l = [];
+  if(at_text(pos, ";")) {
+    advance(pos);
+  } else {
+    push(l, parse_stmt(pos));
+  }
+} return int[] l;
+
+for_cond(int[] pos, int[] l) {
+  int a = 0 - 1;
+  if(at_text(pos, ";") == 0) {
+    a = parse_expr(pos);
+  }
+  advance(pos);
+} return int for_step(pos, a, l);

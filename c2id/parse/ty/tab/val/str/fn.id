@@ -1,0 +1,21 @@
+
+// Functions print as (params)->result.
+
+ts_fn(int ty) {
+} return string "(" + ts_params(l_of(ty)) + ")->" + type_str(a_of(ty));
+
+ts_params(int[] ids) {
+  string out = "";
+  int i = 0;
+  while(i < len(ids)) {
+    out = out + ts_sep(i) + type_str(ids[i]);
+    i = i + 1;
+  }
+} return string out;
+
+ts_sep(int i) {
+  string s = "";
+  if(i > 0) {
+    s = ",";
+  }
+} return string s;

@@ -1,0 +1,20 @@
+// A loop pushes both targets. For `while` and `do`/`while` the continue
+// target is the condition block; for `for` it is the *step* block, which is
+// the one place a mechanical translation of C goes silently wrong.
+push_loop(int alt, int nxt) {
+  push_brk(alt);
+  push_cont(nxt);
+} return void;
+
+pop_loop() {
+  pop_brk();
+  pop_cont();
+} return void;
+
+// Close a loop body: back-edge from wherever the body ended to `nxt`, leave
+// the loop, and carry on filling the exit block. Shared by all three loops.
+loop_close(int nxt, int alt) {
+  term_jmp(cur_blk(), nxt);
+  pop_loop();
+  set_cur(alt);
+} return void;

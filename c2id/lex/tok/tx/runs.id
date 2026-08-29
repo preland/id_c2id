@@ -1,0 +1,22 @@
+// Character runs. Each returns the index just past the run; none of the
+// predicates accepts byte 0, so end of input stops them all.
+
+ident_end(word base, int i) {
+  while(is_alnum(peek8(base + i))) {
+    i = i + 1;
+  }
+} return int i;
+
+digit_end(word base, int i) {
+  while(is_digit(peek8(base + i))) {
+    i = i + 1;
+  }
+} return int i;
+
+// Index of the LF that ends this line (or of the end of input). The LF
+// itself is not consumed, so the ordinary whitespace path counts it.
+eol_pos(word base, int i) {
+  while(peek8(base + i) != ch_nl() && peek8(base + i) != ch_eof()) {
+    i = i + 1;
+  }
+} return int i;

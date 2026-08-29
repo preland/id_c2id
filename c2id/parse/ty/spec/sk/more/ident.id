@@ -1,0 +1,11 @@
+
+// The declared name, or "" when there is none (an abstract declarator, as in
+// a cast or a parameter type). A keyword is never a name.
+
+take_ident(int[] pos) {
+  string name = "";
+  if(cur_kind(pos) == "id" && is_type_word(cur_text(pos)) == 0) {
+    name = cur_text(pos);
+    advance(pos);
+  }
+} return string name;

@@ -1,0 +1,14 @@
+// The interface the emitter reads the graph through. Everything else in this
+// directory is machinery; these six functions plus cfg_build() are the whole
+// contract, and none of them exposes a list index that the emitter has to get
+// right by hand.
+
+cfg_nblocks() {
+} return int len((import bkind));
+
+cfg_stmts(int blk) {
+} return int[] (import bstmt)[blk];
+
+// "jmp", "cond" or "end".
+cfg_term(int blk) {
+} return string (import bkind)[blk];

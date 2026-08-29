@@ -1,0 +1,33 @@
+// Character constants. `s` is what the lexer put in `ttext`: the text between
+// the quotes, escapes unresolved. 'a' -> 97, '\n' -> 10, '\x41' -> 65,
+// '\101' -> 65, '\0' -> 0.
+//
+// Multi-character constants ('ab') are not supported; the first character
+// wins. See README.md.
+
+// 92 is '\'.
+chr_val(string s) {
+  int c = 0;
+  if(len(s) > 0 && charat(s, 0) == 92) {
+    c = esc_val(s);
+  } else {
+    c = first_ch(s);
+  }
+} return int c;
+
+first_ch(string s) {
+  int c = 0;
+  if(len(s) > 0) {
+    c = charat(s, 0);
+  }
+} return int c;
+
+// s[0] is the backslash. 120 is 'x': a hex escape, any number of digits.
+esc_val(string s) {
+  int c = 0;
+  if(charat(s, 1) == 120) {
+    c = digits_val(s, 2, 16);
+  } else {
+    c = esc_val2(s);
+  }
+} return int c;

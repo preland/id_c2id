@@ -1,0 +1,20 @@
+parse_block(int[] pos) {
+  advance(pos);
+  int[] l = [];
+  fill_block(pos, l);
+} return int newlist("block", 0, 0, "", l);
+
+// The eof guard matters: without it a source file with unbalanced braces
+// spins here forever instead of ending.
+fill_block(int[] pos, int[] l) {
+  while(at_text(pos, "}") == 0 && cur_kind(pos) != "eof") {
+    push(l, parse_stmt(pos));
+  }
+  advance(pos);
+} return void;
+
+skip_semi(int[] pos) {
+  if(at_text(pos, ";")) {
+    advance(pos);
+  }
+} return void;

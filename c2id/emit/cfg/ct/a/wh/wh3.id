@@ -1,0 +1,13 @@
+dw_body(int id, int blk, int nxt, int alt) {
+  push_loop(alt, nxt);
+  set_cur(blk);
+  dw_end(id, blk, nxt, alt);
+} return void;
+
+// The condition block is terminated last, once the body's entry block number
+// is known to be the back-edge target.
+dw_end(int id, int blk, int nxt, int alt) {
+  walk_list(l_of(id));
+  loop_close(nxt, alt);
+  term_cond(nxt, a_of(id), blk, alt);
+} return void;

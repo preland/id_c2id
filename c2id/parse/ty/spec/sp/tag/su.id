@@ -1,0 +1,28 @@
+
+// A typedef name is only a specifier while the list has no type yet: in
+// `unsigned foo;` the `foo` is the declared name, not a second type. That one
+// test is the whole of C's typedef ambiguity.
+
+spec_td(int[] pos, int[] sp) {
+  int ok = 0;
+  if(cur_kind(pos) == "id" && has_base(sp) == 0 && is_typedef(cur_text(pos))) {
+    lset(sp, 10, ty_find(cur_text(pos)));
+    advance(pos);
+    ok = 1;
+  }
+} return int ok;
+
+has_base(int[] sp) {
+  int n = sp[0] + sp[1] + sp[2] + sp[3] + sp[4] + sp[5] + sp[6] + sp[9];
+  int ok = 0;
+  if(n > 0 || sp[10] >= 0) {
+    ok = 1;
+  }
+} return int ok;
+
+spec_type(int[] sp) {
+  int r = sp[10];
+  if(r < 0) {
+    r = mk_prim(sp);
+  }
+} return int r;

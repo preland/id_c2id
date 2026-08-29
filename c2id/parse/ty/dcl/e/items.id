@@ -1,0 +1,22 @@
+
+// The enumerator list. `ev` is a one-cell counter holding the value the next
+// enumerator takes if it does not say otherwise.
+
+scan_enums(int[] pos) {
+  int[] ev = [0];
+  advance(pos);
+  fill_enums(pos, ev);
+} return void;
+
+fill_enums(int[] pos, int[] ev) {
+  while(cur_kind(pos) == "id") {
+    enum_one(pos, ev);
+  }
+  skip_tok(pos, "}");
+} return void;
+
+enum_one(int[] pos, int[] ev) {
+  string name = cur_text(pos);
+  advance(pos);
+  enum_set(pos, ev, name);
+} return void;
