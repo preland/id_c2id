@@ -2,22 +2,25 @@
 // strlen(a) + 1 bytes always reaches a's NUL, and the NUL compares unequal
 // to whatever b has there.
 c_strcmp(word a, word b) {
-} return word c_strncmp(a, b, c_strlen(a) + 1);
+  word n = c_strlen(a);
+  word bound = n + 1;
+  word x = c_strncmp(a, b, bound);
+} return word x;
 
 // strncmp. Stops at the first difference, at the terminator, or after n
 // bytes -- whichever comes first.
 c_strncmp(word a, word b, word n) {
   word i = 0;
-  word r = 0;
-  while(ncmp_more(a, i, n, r) != 0) {
-    r = cmp_byte(a, b, i);
+  word x = 0;
+  while(ncmp_more(a, i, n, x) != 0) {
+    x = cmp_byte(a, b, i);
     i = i + 1;
   }
-} return word r;
+} return word x;
 
-ncmp_more(word a, word i, word n, word r) {
+ncmp_more(word a, word i, word n, word x) {
   int go = 0;
-  if(ult(i, n) != 0 && r == 0) {
+  if(ult(i, n) != 0 && x == 0) {
     go = s_more(a, i);
   }
 } return int go;

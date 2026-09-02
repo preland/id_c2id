@@ -6,19 +6,21 @@
 emit_blocks(int fn, int body) {
   cfg_build(body);
   int n = cfg_nblocks();
-  emit_nb(n);
+  emit_nb(fn, n);
 } return void;
 
-emit_nb(int n) {
+emit_nb(int fn, int n) {
   int b = 0;
   while(b < n) {
-    emit_blk(b);
+    if(is_dead(b) == 0) {
+      emit_blk(fn, b);
+    }
     b = b + 1;
   }
 } return void;
 
-emit_blk(int b) {
+emit_blk(int fn, int b) {
   emit_mark();
-  emit_open(b);
+  emit_open(fn, b);
   emit_term(b);
 } return void;

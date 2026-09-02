@@ -2,7 +2,8 @@
 conv_cs(word fmt, word c, word[] args, word[] st, word[] fs) {
   string txt = "";
   if(c == 99) {
-    txt = pad_str(ch_of(next_arg(args, st)), fs);
+    word w = next_arg(args, st);
+    txt = ch_pad(w, fs);
   } else {
     txt = conv_sp(fmt, c, args, st, fs);
   }
@@ -12,20 +13,19 @@ conv_cs(word fmt, word c, word[] args, word[] st, word[] fs) {
 conv_sp(word fmt, word c, word[] args, word[] st, word[] fs) {
   string txt = "";
   if(c == 115) {
-    txt = pad_str(str_at(next_arg(args, st)), fs);
+    word w = next_arg(args, st);
+    string out = str_at(w);
+    txt = pad_str(out, fs);
   } else {
     txt = conv_p(fmt, c, args, st, fs);
   }
 } return string txt;
 
-// %p, and then the end of the chain: anything unrecognised is echoed
-// verbatim, so a specifier this runtime does not implement shows up in the
-// output as a visible gap instead of vanishing.
-conv_p(word fmt, word c, word[] args, word[] st, word[] fs) {
-  string txt = "";
-  if(c == 112) {
-    txt = pad_out(ptr_str(next_arg(args, st)), fs);
-  } else {
-    txt = spec_txt(fmt, st, fs);
-  }
+// The character, padded. Split out of conv_cs: narrowing the argument, turning
+// it into a string and padding it is three actions, and the branch it sits in
+// already spent one on reading the argument.
+ch_pad(word w, word[] fs) {
+  int cc = w;
+  string out = ch_of(cc);
+  string txt = pad_str(out, fs);
 } return string txt;

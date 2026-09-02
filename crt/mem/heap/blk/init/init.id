@@ -14,16 +14,14 @@
 // Sizes are always a multiple of 8, so bit 0 is free for the in-use flag.
 // The previous-block link is what makes backward coalescing O(1).
 heap_init(word bytes) {
-  export word crt_heap = alloc(align8(bytes) + 16);
-  poke64(crt_heap + 8, crt_heap + 16 + align8(bytes));
-  init_rest(crt_heap + 16, align8(bytes), 0);
+  word a = align8(bytes);
+  export word crt_heap = alloc(a + 16);
+  heap_init2(a);
 } return void;
 
-// One past the last block. Nothing at or above this is part of the heap.
-heap_end() {
-} return word peek64((import crt_heap) + 8);
-
-// Round up to a multiple of 8. Every block size and every payload address
-// is 8-aligned, which is what C's max_align_t needs on this model.
-align8(word n) {
-} return word (n + 7) & ~7;
+// The end address and the first block written, split out of heap_init so its
+// own block stays under the three-action limit.
+heap_init2(word a) {
+  poke64((import crt_heap) + 8, (import crt_heap) + 16 + a);
+  init_rest((import crt_heap) + 16, a, 0);
+} return void;

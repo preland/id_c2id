@@ -19,6 +19,7 @@ coal_prev(word h) {
 re_len(word p, word n) {
   word cn = 0;
   if(p != 0) {
-    cn = re_min(bsize(p - 16) - 16, n);
+    word sz = bsize(p - 16) - 16;
+    cn = re_min(sz, n);
   }
 } return word cn;

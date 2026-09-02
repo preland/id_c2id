@@ -69,11 +69,23 @@ behaviour, so nothing is blocked.
 | `printk` formatting | done | width/padding/length modifiers; unsupported specifiers echoed, not dropped |
 | indirect-call dispatch (`crt_callN`) | planned | needs the emitter |
 
-`crt` is 104 functions and compiles standalone. Its output was diffed against
-the equivalent C compiled with `cc -fno-builtin` — byte for byte identical
-across 44 cases. Known gaps, all documented in `crt/README.md`: `%c` of NUL
-(an `id` string cannot carry an embedded NUL), precision/`*`-width/`+`/`#`
-flags, and floating-point conversions.
+`crt` is 104 functions and compiles standalone under **both** compilers, which
+it did not until 2026-08-29: it had 77 violations of two rules `bin/idc`
+enforces and `idc.py` does not (`../docs/GAPS.md` B6/B7), because nothing had
+ever built it with `bin/idc`.
+
+This row used to claim its output "was diffed against the equivalent C compiled
+with `cc -fno-builtin` — byte for byte identical across 44 cases". **No such
+command was in this repository**, and none ever had been; the claim broke this
+file's own rule. `tests/crt/run.sh` is what backs the row now — a smoke test,
+not 44 cases: printf's radix, sign, width, flags and length modifiers, then
+`strlen`, `strcmp` and `memset`, against `tests/crt/twin.c`. The allocator's
+addresses are not compared with C's (C's malloc is not this allocator); its
+invariants are.
+
+Known gaps, all documented in `crt/README.md`: `%c` of NUL (an `id` string
+cannot carry an embedded NUL), precision/`*`-width/`+`/`#` flags, and
+floating-point conversions.
 
 ## `c2id` — the C→`id` compiler, in `id`
 
@@ -124,12 +136,38 @@ all. `emit/gen/out/top/` is that layer now, and the pipeline runs end to end —
 `tools/c2id.sh tests/c/010_arith.c` preprocesses, lexes, parses and writes 8
 generated files beside `crt/`.
 
-**No C compiles to `id` yet**, for three reasons that are now specific rather
-than general: `emit_blk` prints a stub block instead of calling `st_txt` and
-`ex_txt`; `func_path` is handed the C function's number where it wants the
-block function's, so blocks collide onto one file; and the expression parser
-rejects `&&`. The `tests/c/` cases therefore report FAIL rather than SKIP —
-they ran. See `docs/CONTINUING.md`.
+**No C compiles to `id` yet**, and as of 2026-08-29 the reasons are counted
+rather than guessed at. This C:
+
+```c
+int add(int a, int b) { return a + b; }
+int main(void) { int i = 0; int t = 0;
+                 while (i < 7) { t = add(t, i); i = i + 1; } return t; }
+```
+
+compiles with `cc` and exits 21. Transpiled and then built with
+`idc/bin/idc`, it produces 96 errors — 19 in the emitted blocks, 77 in the
+`crt/` copied beside them — in six classes:
+
+| class | count | where | state |
+| --- | --- | --- | --- |
+| a call as an argument to a call | 58 | `crt/` and emitted blocks | open — see `../docs/GAPS.md` B6 |
+| a return clause that is a call or an expression | 30 | `crt/` | open — see `../docs/GAPS.md` B7 |
+| `word` narrowed to `int` at a call | 4 | `crt/` | open |
+| a C parameter emitted as a global (`g_a`) | 2 | emitted blocks | open — the declarator's parameter list is never walked, so `bind_local` is never called for a parameter |
+| a call to a C function emitted as `c_add` | 1 | emitted blocks | open — a C call has to go through the dispatch loop with a frame, and there is no dispatch loop yet |
+| two empty blocks with identical bodies | 1 | emitted blocks | fixed |
+| a block name reused across C functions | — | emitted blocks | fixed: names are `blk<fn>_<b>` |
+| `} return word 0 - 1;` | — | emitted blocks | fixed: named in the body, as the conditional terminator already was |
+
+The first three classes are not really the emitter's: they are `id`'s rules,
+which `bin/idc` enforces and `idc.py` does not, and `c2id`'s own source breaks
+them 518 times for the same reason. That divergence, and what it has cost, is
+`../docs/GAPS.md` B6/B7. Nothing about the emitter can be judged until it is
+settled, because the emitter emits what its own source is written in.
+
+The `tests/c/` cases report FAIL rather than SKIP — they ran. See
+`docs/CONTINUING.md`.
 
 ## Known gaps in what is built
 

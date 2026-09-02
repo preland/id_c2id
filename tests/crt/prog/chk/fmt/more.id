@@ -1,0 +1,24 @@
+// The argument list of the width test, and the length modifiers.
+
+t_fmt_b2(word ad, word ad2) {
+  word[] args = [wzero() + 42, 42, 42, ad2, 65];
+  c_printk(ad, args);
+} return void;
+
+// hh and h truncate their argument; l does not, and a literal '%' comes
+// through as one.
+t_fmt_c() {
+  word ad = t_cs("hh=%hhd h=%hd l=%ld pct=%%\n");
+  word[] args = [wzero() + 300, 70000, 0 - 1];
+  c_printk(ad, args);
+} return void;
+
+// A specifier crt does not implement is echoed rather than dropped, so it
+// shows in the output as a visible gap. Not compared against C: what glibc
+// does with an unknown conversion is unspecified, and this is crt's own
+// promise rather than C's.
+t_fmt_unk() {
+  word ad = t_cs("unk=%q\n");
+  word[] args = [wzero()];
+  c_printk(ad, args);
+} return void;

@@ -7,12 +7,15 @@
 // sign bit -- exactly what sign-extension means.
 sx_bits(word v, int bits) {
   int sh = 64 - bits;
-} return word (v << sh) >> sh;
+  word x = (v << sh) >> sh;
+} return word x;
 
 // sx8(0xff) = -1, sx8(0x7f) = 127
 sx8(word v) {
-} return word sx_bits(v, 8);
+  word x = sx_bits(v, 8);
+} return word x;
 
 // sx16(0xffff) = -1, sx16(0x8000) = -32768
 sx16(word v) {
-} return word sx_bits(v, 16);
+  word x = sx_bits(v, 16);
+} return word x;

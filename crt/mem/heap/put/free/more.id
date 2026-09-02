@@ -1,0 +1,14 @@
+// Absorb `nx` (which must be the block immediately after `h`) into `h`, then
+// repair the back link of whatever now follows the merged block.
+merge_blk(word h, word nx) {
+  word hz = bsize(h);
+  merge_set(h, hz, nx);
+  fix_prev(h + hz, h);
+} return void;
+
+// The merged size written, split out of merge_blk so its block stays under the
+// three-action limit.
+merge_set(word h, word hz, word nx) {
+  word nz = bsize(nx);
+  bset(h, hz + nz, 0);
+} return void;

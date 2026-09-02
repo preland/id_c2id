@@ -1,6 +1,7 @@
 take_len(word c, word[] st, word[] fs) {
-  lsetw(fs, 4, len_code(c, fs[4]));
-  lsetw(st, 0, st[0] + 1);
+  word code = len_code(c, fs[4]);
+  wset(fs, 4, code);
+  wset(st, 0, st[0] + 1);
 } return void;
 
 // 'l' and 'z' both mean 64-bit here, so both give 3; 'll' is 'l' twice and

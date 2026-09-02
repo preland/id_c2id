@@ -20,7 +20,8 @@ tail1(string t) {
   string txt = "";
   int k = 1;
   while(k < len(t)) {
-    txt = txt + ch_of(charat(t, k));
+    int cc = charat(t, k);
+    txt = txt + ch_of(cc);
     k = k + 1;
   }
 } return string txt;

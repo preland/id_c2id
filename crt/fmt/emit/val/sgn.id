@@ -1,5 +1,7 @@
 dec_of(word v, word[] fs) {
-} return string sdec(narrow_s(v, fs[4]));
+  word w = narrow_s(v, fs[4]);
+  string txt = sdec(w);
+} return string txt;
 
 // Signed decimal. The negation of the most negative value wraps back to
 // itself, and str_of_base reads that as unsigned -- which is exactly the
@@ -17,10 +19,10 @@ sdec(word v) {
 // code 0 is C's default `int`, so a bare %d of a 64-bit word prints the low
 // 32 bits, sign-extended, just as C would.
 narrow_s(word v, word lm) {
-  word r = v;
+  word res = v;
   if(lm == 0) {
-    r = sx32(v);
+    res = sx32(v);
   } else {
-    r = narrow_s2(v, lm);
+    res = narrow_s2(v, lm);
   }
-} return word r;
+} return word res;

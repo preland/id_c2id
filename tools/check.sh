@@ -13,7 +13,8 @@
 # The steps:
 #   1. tools/lint3.sh          id's rule of 3 on c2id/ and crt/
 #   2. tools/idprobe.sh        is there a usable id toolchain?          (gate)
-#   3. tests/run.sh            the differential harness       (needs step 2)
+#   3. tests/crt/run.sh        crt against the same calls in C (needs step 2)
+#   4. tests/run.sh            the differential harness       (needs step 2)
 #
 # Measuring how far the kernel port gets is not here: that needs a kernel tree
 # and lives in linux_id, which consumes this compiler rather than containing
@@ -57,7 +58,20 @@ case $idprobe_rc in
     *) meh id-toolchain "no id compiler; set IDC_PY or clone id_development" ;;
 esac
 
-# ---- 3. the harness
+# ---- 3. crt's behaviour, against C
+#
+# crt is C's semantics written in id, so the only test of it that means
+# anything is the one that asks C. This was missing for a long time: the
+# compiler could say whether crt was legal id and nothing could say whether it
+# still did what C does.
+rule "tests/crt/run.sh -- crt against the same calls in C"
+if [[ $idprobe_rc -eq 0 ]]; then
+    if "$here/tests/crt/run.sh"; then ok crt; else bad crt; fi
+else
+    meh crt "needs the id toolchain (see above)"
+fi
+
+# ---- 4. the harness
 rule "tests/run.sh -- the differential harness"
 if [[ $idprobe_rc -eq 0 ]]; then
     if "$here/tests/run.sh"; then ok tests; else bad tests; fi

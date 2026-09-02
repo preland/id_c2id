@@ -4,7 +4,8 @@
 pad_out(string t, word[] fs) {
   string txt = pad_str(t, fs);
   if(fs[2] != 0 && fs[1] == 0) {
-    txt = zero_pad(t, pad_n(t, fs));
+    int k = pad_n(t, fs);
+    txt = zero_pad(t, k);
   }
 } return string txt;
 
@@ -12,13 +13,15 @@ pad_out(string t, word[] fs) {
 // Also the whole of the padding rule for %s and %c: glibc pads those with
 // spaces even when '0' is present, and so does this.
 pad_str(string t, word[] fs) {
-  string txt = rep_ch(" ", pad_n(t, fs)) + t;
+  int k = pad_n(t, fs);
+  string txt = rep_ch(" ", k) + t;
   if(fs[1] != 0) {
-    txt = t + rep_ch(" ", pad_n(t, fs));
+    txt = t + rep_ch(" ", k);
   }
 } return string txt;
 
 // How many pad characters are wanted. Negative means the text is already
 // wider than the field, and rep_ch turns that into no padding at all.
 pad_n(string t, word[] fs) {
-} return int fs[3] - len(t);
+  int k = fs[3] - len(t);
+} return int k;

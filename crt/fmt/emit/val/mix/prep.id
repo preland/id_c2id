@@ -1,0 +1,19 @@
+// Narrow an unsigned argument to the width the length modifier specifies.
+u_of(word v, word[] fs) {
+  word res = narrow_u(v, fs[4]);
+} return word res;
+
+// Compute base and up, then format the unsigned value as a string.
+b_up_fmt(word u, word c) {
+  int base = base_of(c);
+  int upper = up_of(c);
+  string txt = str_of_base(u, base, upper);
+} return string txt;
+
+// Helper to prepare arguments for str_of_base in unsigned conversion.
+// Extracted because naming narrow_u, base_of, up_of and calling str_of_base
+// would exceed the 3-action budget.
+uns_str(word v, word c, word[] fs) {
+  word u = u_of(v, fs);
+  string txt = b_up_fmt(u, c);
+} return string txt;

@@ -8,11 +8,15 @@ c_memcpy(word dst, word src, word n) {
 } return word dst;
 
 cpy_byte(word dst, word src, word i) {
-  poke8(dst + i, peek8(src + i));
-} return word i + 1;
+  word v = peek8(src + i);
+  poke8(dst + i, v);
+  word r = i + 1;
+} return word r;
 
 // The same byte, one position lower: the descending half of memmove counts
 // *down* from n, so it copies the byte at i-1 and returns i-1.
 cpy_prev(word dst, word src, word i) {
-  poke8(dst + i - 1, peek8(src + i - 1));
-} return word i - 1;
+  word v = peek8(src + i - 1);
+  poke8(dst + i - 1, v);
+  word r = i - 1;
+} return word r;

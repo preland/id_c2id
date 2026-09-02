@@ -18,7 +18,7 @@ conv_do(word fmt, word c, word[] args, word[] st, word[] fs) {
 conv_num(word fmt, word c, word[] args, word[] st, word[] fs) {
   string txt = "";
   if(c == 100 || c == 105) {
-    txt = pad_out(dec_of(next_arg(args, st), fs), fs);
+    txt = dec_of_padded(0, args, st, fs);
   } else {
     txt = conv_uns(fmt, c, args, st, fs);
   }
@@ -28,7 +28,7 @@ conv_num(word fmt, word c, word[] args, word[] st, word[] fs) {
 conv_uns(word fmt, word c, word[] args, word[] st, word[] fs) {
   string txt = "";
   if(c == 117 || c == 120 || c == 88 || c == 111) {
-    txt = pad_out(uns_of(next_arg(args, st), c, fs), fs);
+    txt = uns_of_padded(0, c, args, st, fs);
   } else {
     txt = conv_cs(fmt, c, args, st, fs);
   }

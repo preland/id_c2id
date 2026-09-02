@@ -10,22 +10,18 @@
 // and it is allocated per specifier, so nothing is carried between them.
 fmt_spec(word fmt, word[] args, word[] st) {
   word[] fs = [st[0] - 1, wzero(), wzero(), wzero(), wzero()];
+  scan_flags_width(fmt, st, fs);
+  string out = fmt_conv(fmt, args, st, fs);
+} return string out;
+
+scan_flags_width(word fmt, word[] st, word[] fs) {
   scan_flags(fmt, st, fs);
   scan_width(fmt, st, fs);
-} return string fmt_conv(fmt, args, st, fs);
+} return void;
 
 // Length modifiers, then the conversion character itself.
 fmt_conv(word fmt, word[] args, word[] st, word[] fs) {
-  scan_len(fmt, st, fs);
-  word c = peek8(fmt + st[0]);
-  adv_nz(st, c);
-} return string conv_do(fmt, c, args, st, fs);
-
-// Step over the conversion character -- unless it is the terminator, i.e.
-// the format ended in a dangling '%'. Stepping over the NUL would send the
-// outer loop past the end of the allocation, and the store would trap.
-adv_nz(word[] st, word c) {
-  if(c != 0) {
-    lsetw(st, 0, st[0] + 1);
-  }
-} return void;
+  word c = scan_len(fmt, st, fs);
+  conv_step(c, st);
+  string out = conv_do(fmt, c, args, st, fs);
+} return string out;

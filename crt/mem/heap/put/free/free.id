@@ -9,14 +9,14 @@ kfree(word p) {
 // directions matter: merging only forwards leaves the heap fragmented into
 // a staircase that never recovers.
 free_at(word h) {
-  bset(h, bsize(h), 0);
-  coal_next(h);
-  coal_prev(h);
+  word hz = bsize(h);
+  bset(h, hz, 0);
+  coal_both(h);
 } return void;
 
-// Absorb `nx` (which must be the block immediately after `h`) into `h`, then
-// repair the back link of whatever now follows the merged block.
-merge_blk(word h, word nx) {
-  bset(h, bsize(h) + bsize(nx), 0);
-  fix_prev(h + bsize(h), h);
+// Both directions, in one action. Split out of free_at so its block stays
+// under the three-action limit.
+coal_both(word h) {
+  coal_next(h);
+  coal_prev(h);
 } return void;

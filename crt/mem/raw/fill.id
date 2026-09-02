@@ -8,10 +8,13 @@ c_memset(word dst, word v, word n) {
 
 set_byte(word dst, word v, word i) {
   poke8(dst + i, v);
-} return word i + 1;
+  word r = i + 1;
+} return word r;
 
 // The difference of two bytes, read as unsigned. It is both the value
 // memcmp/strcmp return and the "keep going" flag of their loops, which is
 // how a two-statement comparison body fits under the action limit.
 cmp_byte(word a, word b, word i) {
-} return word peek8(a + i) - peek8(b + i);
+  word v = peek8(a + i);
+  word r = v - peek8(b + i);
+} return word r;

@@ -23,5 +23,5 @@ emit_term2(int b, string kind) {
 emit_end(int b) {
   int e = cfg_expr(b);
   emit_ret(e);
-  print("} return word 0 - 1;");
+  print("  word nxt = 0 - 1;\n} return word nxt;");
 } return void;

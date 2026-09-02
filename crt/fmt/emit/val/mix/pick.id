@@ -1,11 +1,11 @@
 narrow_s2(word v, word lm) {
-  word r = v;
+  word res = v;
   if(lm == 1) {
-    r = sx8(v);
+    res = sx8(v);
   } else if(lm == 2) {
-    r = sx16(v);
+    res = sx16(v);
   }
-} return word r;
+} return word res;
 
 // Radix of an unsigned conversion: 16 for x/X, 8 for o, 10 for u.
 base_of(word c) {

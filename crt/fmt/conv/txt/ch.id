@@ -2,14 +2,16 @@
 // string is NUL-terminated, so it cannot carry an embedded NUL the way C's
 // printf("%c", 0) writes one.
 ch_of(int cc) {
-} return string chr(cc);
+  string txt = chr(cc);
+} return string txt;
 
 // A NUL-terminated string in the store, as an `id` string. A null pointer
 // prints as "(null)", which is what glibc does for %s.
 str_at(word s) {
   string txt = "(null)";
   if(s != 0) {
-    txt = str_of_mem(s, c_strlen(s));
+    word len = c_strlen(s);
+    txt = str_of_mem(s, len);
   }
 } return string txt;
 

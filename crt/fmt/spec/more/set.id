@@ -1,16 +1,18 @@
 set_flag(word c, word[] fs) {
   if(c == 45) {
-    lsetw(fs, 1, 1);
+    wset(fs, 1, 1);
   } else {
-    lsetw(fs, 2, 1);
+    wset(fs, 2, 1);
   }
 } return void;
 
 // The minimum field width, as decimal digits. A '*' width would need an
 // argument and is not supported; it is not a digit, so it ends up echoed.
 scan_width(word fmt, word[] st, word[] fs) {
-  while(is_digit(peek8(fmt + st[0])) != 0) {
-    take_digit(peek8(fmt + st[0]), st, fs);
+  word c = peek8(fmt + st[0]);
+  while(is_digit(c) != 0) {
+    take_digit(c, st, fs);
+    c = peek8(fmt + st[0]);
   }
 } return void;
 

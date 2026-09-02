@@ -1,0 +1,18 @@
+// The rest of the run, and memset.
+
+t_rest() {
+  t_fmt_unk();
+  t_mem();
+  t_str();
+} return void;
+
+t_memset() {
+  word p = kmalloc(16);
+  c_memset(p, 65, 4);
+  t_memset2(p);
+} return void;
+
+t_memset2(word p) {
+  word v = peek8(p + 3);
+  t_say("memset", v);
+} return void;

@@ -100,10 +100,18 @@ folded into the pass count.
 
 ## Status
 
-Early, and the back end is unwritten. See `docs/STATUS.md` for exactly which
-stages of `c2id` build and pass tests, and which do not and why — a row there
-says "works" only if a command in `tests/` runs and passes. The front end
-(lexer, expression parser, statement parser, frame layout) compiles and runs
-end to end; the emitter (`emit/cfg/`, `emit/gen/`) that turns a CFG into `id`
-block functions is fully specified in `docs/EMITTER.md` but not yet written,
-so no C compiles to `id` yet and the cases in `tests/c/` report SKIP.
+Early. See `docs/STATUS.md` for exactly which stages build and pass tests, and
+which do not and why — a row there says "works" only if a command in `tests/`
+runs and passes.
+
+The front end (lexer, expression parser, statement parser, frame layout)
+compiles and runs end to end, and the emitter now emits real block functions
+rather than stubs: a small C program translates, and building the result names
+**96 defects in six classes** rather than failing generally. That count, and
+what each class is, is in `docs/STATUS.md`.
+
+The largest of them is not the emitter's. `c2id` is compiled by `idc.py` and its
+output by `bin/idc`, and the two disagree about three rules that `docs/SPEC.md`
+settles in `bin/idc`'s favour — so `c2id`'s own source breaks them 518 times.
+`crt/` broke them 77 times and no longer does. See the umbrella's
+`docs/GAPS.md` B6/B7/B8.

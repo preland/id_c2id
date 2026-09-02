@@ -20,6 +20,7 @@ re_grow(word p, word n) {
 // Always copies to a fresh block; there is no in-place grow. Correct, and
 // the shrink case still gets a smaller block back.
 re_move(word q, word p, word n) {
-  c_memcpy(q, p, re_len(p, n));
+  word len = re_len(p, n);
+  c_memcpy(q, p, len);
   kfree(p);
 } return word q;

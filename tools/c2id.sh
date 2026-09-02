@@ -30,10 +30,18 @@ fi
 src=$1
 out=$2
 
-# Build c2id itself if it isn't there. It is an id project like any other, so
-# the reference compiler builds it -- and idc.py, not bin/idc, because only
-# the reference compiler enforces id's structural rules, and c2id must obey
-# them like anything else.
+# Build c2id itself if it isn't there. It is an id project like any other.
+#
+# idc.py rather than bin/idc, and that is a debt rather than a preference. The
+# two compilers disagree about two rules in docs/SPEC.md -- a call may not be an
+# argument to a call, and a return clause is a name or a literal -- which
+# bin/idc enforces and idc.py does not. c2id was written against idc.py and so
+# breaks both, 518 times; see the umbrella's docs/GAPS.md B6/B7. Until that is
+# paid off, switching this line to bin/idc does not build.
+#
+# What idc.py does enforce, and what this line was originally here for, is the
+# rest: the rule of 3, one name one type, function-logic uniqueness. c2id obeys
+# those like anything else.
 if [[ ! -x $c2id_bin ]]; then
     mkdir -p "$(dirname "$c2id_bin")"
     echo "c2id: building the compiler from c2id/ ..." >&2

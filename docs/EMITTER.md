@@ -102,8 +102,31 @@ blk7b(word fp) {
 
 No control flow is involved in the split, so it is trivially correct.
 
-**Expressions** are emitted as nested `id` expressions, with `crt` helpers for
-anything C does that `id` does not:
+**Expressions** are emitted as a chain of named temporaries, one call per
+statement, with `crt` helpers for anything C does that `id` does not.
+
+The table below writes each form nested, which is how it reads, but **nested is
+not what may be emitted**: `docs/SPEC.md` says a call may not be an argument to
+a call at any depth, and a return clause is a name or a literal. So a local `x`
+is not `sx32(peek32(fp + OFF))` but
+
+```
+word a = fp + OFF;
+int v = peek32(a);
+int x = sx32(v);
+```
+
+This was written the other way for a long time, and the emitter was built to
+match, because `c2id` is compiled by `idc.py` and `idc.py` does not enforce
+either rule -- see the umbrella's `docs/GAPS.md` B6/B7. The specification was
+wrong, not the compiler.
+
+The consequence is not only cosmetic. **A temporary is an action, and a block
+gets three**, so the block splitting in section 3 has to be driven by the number
+of *emitted* statements rather than the number of C statements -- one C
+assignment can be five. Splitting on the C count would emit blocks that do not
+compile, and it would do so only for expressions past a certain depth, which is
+the worst way to find out.
 
 | C | `id` |
 | --- | --- |

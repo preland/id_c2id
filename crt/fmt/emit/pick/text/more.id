@@ -1,0 +1,13 @@
+// %p, and then the end of the chain: anything unrecognised is echoed
+// verbatim, so a specifier this runtime does not implement shows up in the
+// output as a visible gap instead of vanishing.
+conv_p(word fmt, word c, word[] args, word[] st, word[] fs) {
+  string txt = "";
+  if(c == 112) {
+    word w = next_arg(args, st);
+    string out = ptr_str(w);
+    txt = pad_out(out, fs);
+  } else {
+    txt = spec_txt(fmt, st, fs);
+  }
+} return string txt;

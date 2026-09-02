@@ -1,0 +1,20 @@
+// strlen and strcmp, which a translated C program leans on hardest.
+
+t_str() {
+  word a = t_cs("hello");
+  word b = t_cs("hellp");
+  t_str2(a, b);
+} return void;
+
+t_str2(word a, word b) {
+  word n = c_strlen(a);
+  t_say("len", n);
+  t_str3(a, b);
+} return void;
+
+// strcmp answers the difference of the first differing byte: 'o' - 'p'.
+t_str3(word a, word b) {
+  word c = c_strcmp(a, b);
+  t_say("cmp", c);
+  t_memset();
+} return void;

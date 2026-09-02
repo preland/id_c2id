@@ -1,0 +1,23 @@
+// The allocator. These two lines are NOT compared against C: C's malloc is not
+// this allocator and the addresses it hands back are unspecified. What is
+// compared is the invariant, printed as 1 or 0 -- two live blocks of 64 bytes
+// do not overlap, and a freed block of the same size comes straight back --
+// which holds for crt by construction and for any sane malloc as well.
+
+t_mem() {
+  word p = kmalloc(64);
+  word q = kmalloc(64);
+  t_mem2(p, q);
+} return void;
+
+t_mem2(word p, word q) {
+  word apart = q - p;
+  t_ok("apart", apart);
+  t_mem3(p, q);
+} return void;
+
+t_mem3(word p, word q) {
+  kfree(p);
+  word r = kmalloc(64);
+  t_same("reused", r, p);
+} return void;

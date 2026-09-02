@@ -1,0 +1,17 @@
+// The two invariants, as 1 or 0 rather than as an address.
+
+t_ok(string tag, word apart) {
+  word yes = 0;
+  if(apart >= 64) {
+    yes = 1;
+  }
+  t_say(tag, yes);
+} return void;
+
+t_same(string tag, word r, word p) {
+  word yes = 0;
+  if(r == p) {
+    yes = 1;
+  }
+  t_say(tag, yes);
+} return void;

@@ -6,3 +6,36 @@ emit_cond3(int b, string txt) {
   print("  if(" + txt + ") { nxt = " + blk + "; }");
   print("} return word nxt;");
 } return void;
+
+// Check if block j references block b through any of its successors.
+// For "jmp" blocks, check the successor; for "cond" blocks, check both edges.
+check_block_ref(int j, int b) {
+  int result = 0;
+  if(cfg_term(j) == "jmp") {
+    if(cfg_succ(j) == b) {
+      result = 1;
+    }
+  }
+  if(cfg_term(j) == "cond") {
+    if(cfg_succ(j) == b) {
+      result = 1;
+    }
+    if(cfg_alt(j) == b) {
+      result = 1;
+    }
+  }
+} return int result;
+
+// A block is dead if: not block 0, has no statements, terminates with "end"
+// with no return expression, and is not referenced by any other block.
+is_dead(int b) {
+  int found_ref = 0;
+  if(b > 0 && len(cfg_stmts(b)) == 0 && cfg_term(b) == "end" && cfg_expr(b) < 0) {
+    int j = 0;
+    while(j < cfg_nblocks() && found_ref <= 0) {
+      found_ref = found_ref + check_block_ref(j, b);
+      j = j + 1;
+    }
+    found_ref = 1 - found_ref;
+  }
+} return int found_ref;

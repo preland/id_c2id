@@ -1,8 +1,25 @@
+// Helper for signed decimal with padding: narrow_s, then dec_of, then pad_out.
+// This is extracted to a helper because the nested calls would exceed action budget.
+dec_of_padded(word v, word[] args, word[] st, word[] fs) {
+  word w = next_arg(args, st);
+  string out = dec_of(w, fs);
+  string txt = pad_out(out, fs);
+} return string txt;
+
+// Helper for unsigned decimal with padding: narrow_u, then uns_of, then pad_out.
+// This is extracted to a helper because the nested calls would exceed action budget.
+uns_of_padded(word v, word c, word[] args, word[] st, word[] fs) {
+  word w = next_arg(args, st);
+  string out = uns_of(w, c, fs);
+  string txt = pad_out(out, fs);
+} return string txt;
+
 // printk: format and write, with no newline added -- the format string says
 // whether there is one, exactly as with C's printf. The flush matters
 // because `put` is buffered and kernel-style logging is interleaved with
 // whatever else the program prints.
 c_printk(word fmt, word[] args) {
-  put(c_format(fmt, args));
+  string txt = c_format(fmt, args);
+  put(txt);
   flush();
 } return void;

@@ -1,0 +1,17 @@
+// Hand out block `h`. Split first, because splitting changes the size that
+// then gets written back with the in-use bit.
+alloc_at(word h, word need) {
+  word w = 0;
+  if(h != 0) {
+    take_at(h, need);
+    w = h + 16;
+  }
+} return word w;
+
+// The split, and the in-use bit written over the size the split left behind.
+// Split out of alloc_at so its inner block stays under the three-action limit.
+take_at(word h, word need) {
+  split_blk(h, need);
+  word sz = bsize(h);
+  bset(h, sz, 1);
+} return void;

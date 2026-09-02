@@ -1,6 +1,8 @@
 scan_flags(word fmt, word[] st, word[] fs) {
-  while(is_flag(peek8(fmt + st[0])) != 0) {
-    take_flag(peek8(fmt + st[0]), st, fs);
+  word c = peek8(fmt + st[0]);
+  while(is_flag(c) != 0) {
+    take_flag(c, st, fs);
+    c = peek8(fmt + st[0]);
   }
 } return void;
 
@@ -16,5 +18,5 @@ is_flag(word c) {
 
 take_flag(word c, word[] st, word[] fs) {
   set_flag(c, fs);
-  lsetw(st, 0, st[0] + 1);
+  wset(st, 0, st[0] + 1);
 } return void;

@@ -1,0 +1,8 @@
+// Past the conversion character, unless the format string ended on it -- a
+// trailing '%' has no conversion character to step over, and stepping anyway
+// would read past the end of the string.
+conv_step(word c, word[] st) {
+  if(c != 0) {
+    wset(st, 0, st[0] + 1);
+  }
+} return void;

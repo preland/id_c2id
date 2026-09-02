@@ -1,16 +1,8 @@
-// Writing an element of a list that arrived as a parameter. `id` only
-// recognises index-assignment when the statement starts with a plain
-// identifier, so an imported or nested list has to be handed to a helper
-// like this one; lists are reference-semantic, so the write is seen by the
-// caller.
-lsetw(word[] xs, int k, word v) {
-  xs[k] = v;
-} return void;
-
 // Reading with a computed index. `id` list indices must be `int`, and the
 // formatter's cursors are `word`s, so the narrowing happens here.
 lgetw(word[] xs, int k) {
-} return word xs[k];
+  word v = xs[k];
+} return word v;
 
 // The literal 0, as a word. Two reasons this exists rather than a bare `0`:
 //

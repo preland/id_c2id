@@ -1,10 +1,12 @@
 // sx32(0x80000000) = -2147483648, sx32(0xffffffff) = -1
 sx32(word v) {
-} return word sx_bits(v, 32);
+  word x = sx_bits(v, 32);
+} return word x;
 
 // What C `int` arithmetic does to a result: keep the low 32 bits and read
 // them as signed. It is sx32 by definition -- named separately because the
 // call sites mean different things (a cast versus an arithmetic result), and
 // because c2id emits one of them per `int` operation.
 wrap32(word v) {
-} return word sx32(v);
+  word x = sx32(v);
+} return word x;

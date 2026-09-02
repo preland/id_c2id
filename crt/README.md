@@ -25,9 +25,12 @@ directory containing a `main` and build the pair:
 python3 ../idc/idc.py <project-dir> -o /tmp/out
 ```
 
-Use `idc.py`, never `bin/idc`: only the reference compiler enforces the
-action limit, the nesting limit, the one-name-one-type rule and the
-duplicate-logic rule, which is the whole claim being made about this tree.
+Either compiler builds it, and `tests/crt/run.sh` requires both to. That
+sentence used to say "use `idc.py`, never `bin/idc`: only the reference
+compiler enforces the action limit, the nesting limit, the one-name-one-type
+rule and the duplicate-logic rule", and it was wrong -- `bin/idc` enforces all
+four and two rules besides, which is how 77 violations came to be sitting in
+this tree unnoticed. See the umbrella's `docs/GAPS.md` B6/B7.
 
 ## File map
 
@@ -48,15 +51,21 @@ crt/
 │   │   └── chr.id          c_strchr, chr_hit
 │   └── heap/               kmalloc / kfree, a real free-list allocator
 │       ├── blk/            the block header and the region
-│       │   ├── init.id     heap_init, heap_end, align8
+│       │   ├── init/           the region, made
+│       │   │   ├── init.id     heap_init, heap_init2
+│       │   │   └── more.id     heap_end, align8
 │       │   ├── hdr.id      bsize, bused, bset
 │       │   └── link.id     bsetprev, init_rest, fix_prev
 │       ├── get/            allocation
 │       │   ├── new.id      kmalloc, blk_need, kzalloc
 │       │   ├── find.id     find_fit, fit_at, walk_next
-│       │   └── take.id     alloc_at, split_blk, re_min
+│       │   └── take/           handing a block out
+│       │       ├── take.id     alloc_at, take_at
+│       │       └── more.id     split_blk, re_min
 │       └── put/            freeing, coalescing, resizing
-│           ├── free.id     kfree, free_at, merge_blk
+│           ├── free/           kfree and coalescing
+│           │   ├── free.id     kfree, free_at, coal_both
+│           │   └── more.id     merge_blk, merge_set
 │           ├── coal.id     coal_next, coal_prev, re_len
 │           └── re.id       krealloc, re_grow, re_move
 └── fmt/                    printk / printf
@@ -65,7 +74,7 @@ crt/
     │   ├── pad.id          pad_out, pad_str, pad_n
     │   └── txt/
     │       ├── rep.id      rep_ch, zero_pad, tail1
-    │       ├── list.id     lsetw, lgetw, wzero
+    │       ├── list.id     lgetw, wzero
     │       └── ch.id       ch_of, str_at, ptr_str
     ├── spec/               parsing one % specifier
     │   ├── core.id         fmt_spec, fmt_conv, adv_nz
@@ -244,7 +253,7 @@ five-element parse state per specifier (`fs[0]` the offset of the `%`,
 `conv_uns` → `conv_cs` → `conv_sp` → `conv_p` → `spec_txt` is the dispatch
 chain, lazy rather than eager so that an arm which is not taken does not
 consume an argument. `narrow_s` / `narrow_u` apply the length modifier;
-`pad_out` / `pad_str` apply the width and flags; `lsetw` / `lgetw` are the
+`pad_out` / `pad_str` apply the width and flags; `wset` / `lgetw` are the
 list accessors `id` requires for a list that arrived as a parameter.
 
 ## 5. Known divergences from C

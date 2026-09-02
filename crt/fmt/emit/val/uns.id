@@ -1,23 +1,24 @@
 uns_of(word v, word c, word[] fs) {
-} return string str_of_base(narrow_u(v, fs[4]), base_of(c), up_of(c));
+  string txt = uns_str(v, c, fs);
+} return string txt;
 
 // The unsigned counterpart of narrow_s: truncate, do not sign-extend, so
 // %x of -1 as an `int` is ffffffff and not ffffffffffffffff.
 narrow_u(word v, word lm) {
-  word r = v;
+  word res = v;
   if(lm == 0) {
-    r = zx32(v);
+    res = zx32(v);
   } else {
-    r = narrow_u2(v, lm);
+    res = narrow_u2(v, lm);
   }
-} return word r;
+} return word res;
 
 // Code 3 (l, ll, z) is the whole 64-bit word, so it is the fall-through.
 narrow_u2(word v, word lm) {
-  word r = v;
+  word res = v;
   if(lm == 1) {
-    r = zx8(v);
+    res = zx8(v);
   } else if(lm == 2) {
-    r = zx16(v);
+    res = zx16(v);
   }
-} return word r;
+} return word res;

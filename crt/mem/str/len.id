@@ -8,7 +8,10 @@ c_strlen(word s) {
 
 // strcpy: the NUL is part of the payload, hence the + 1.
 c_strcpy(word dst, word src) {
-} return word c_memcpy(dst, src, c_strlen(src) + 1);
+  word n = c_strlen(src);
+  word bound = n + 1;
+  word x = c_memcpy(dst, src, bound);
+} return word x;
 
 // "index i is still worth looking at", i.e. the byte before it was not the
 // terminator. Shared by strncmp and strchr so that both stop *after* having

@@ -3,18 +3,18 @@
 // which is also required by C.
 c_strchr(word s, int cc) {
   word i = 0;
-  word r = 0;
-  while(r == 0 && s_more(s, i) != 0) {
-    r = chr_hit(s, i, cc);
+  word x = 0;
+  while(x == 0 && s_more(s, i) != 0) {
+    x = chr_hit(s, i, cc);
     i = i + 1;
   }
-} return word r;
+} return word x;
 
 // A store address is never 0, so the address of a hit doubles as the
 // "found" flag.
 chr_hit(word s, word i, int cc) {
-  word r = 0;
+  word x = 0;
   if(peek8(s + i) == zx8(cc)) {
-    r = s + i;
+    x = s + i;
   }
-} return word r;
+} return word x;

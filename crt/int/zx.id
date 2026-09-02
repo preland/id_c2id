@@ -5,12 +5,15 @@
 
 // zx8(0xff) = 255, zx8(0 - 1) = 255
 zx8(word v) {
-} return word v & 0xff;
+  word x = v & 0xff;
+} return word x;
 
 // zx16(0 - 1) = 65535
 zx16(word v) {
-} return word v & 0xffff;
+  word x = v & 0xffff;
+} return word x;
 
 // zx32(0 - 1) = 4294967295
 zx32(word v) {
-} return word v & 0xffffffff;
+  word x = v & 0xffffffff;
+} return word x;

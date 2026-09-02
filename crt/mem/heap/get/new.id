@@ -3,7 +3,8 @@
 kmalloc(word n) {
   word need = blk_need(n);
   word h = find_fit(need);
-} return word alloc_at(h, need);
+  word w = alloc_at(h, need);
+} return word w;
 
 // Bytes a request of `n` really costs: the payload rounded up to 8, plus
 // the 16-byte header, and never less than 32 so that every block is still

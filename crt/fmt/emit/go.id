@@ -27,5 +27,7 @@ fmt_step(word fmt, word[] args, word[] st) {
 } return string txt;
 
 fmt_lit(word c, word[] st) {
-  lsetw(st, 0, st[0] + 1);
-} return string ch_of(c);
+  wset(st, 0, st[0] + 1);
+  int cc = c;
+  string txt = ch_of(cc);
+} return string txt;

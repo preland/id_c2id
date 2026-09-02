@@ -1,14 +1,4 @@
-// Hand out block `h`. Split first, because splitting changes the size that
-// then gets written back with the in-use bit.
-alloc_at(word h, word need) {
-  word r = 0;
-  if(h != 0) {
-    split_blk(h, need);
-    bset(h, bsize(h), 1);
-    r = h + 16;
-  }
-} return word r;
-
+// Splitting a block, and the smaller of two sizes.
 // Cut `need` bytes off the front of `h` if what is left over is itself a
 // usable block (32 bytes: a 16-byte header and a 16-byte payload). A smaller
 // remainder is left attached to the allocation rather than lost.

@@ -1,0 +1,27 @@
+// A behaviour test for `crt`, written against the same calls in C.
+//
+// It exists because there was not one. `docs/STATUS.md` claimed crt's output
+// had been diffed against C across 44 cases, and no such command was in this
+// repository -- so five parallel edits to the formatter, the allocator and the
+// string functions had a compiler to answer "is this legal `id`" and nothing at
+// all to answer "does it still do what C does".
+//
+// This is a smoke test, not those 44 cases: a line per family, chosen for the
+// code that gets edited. `tests/crt/twin.c` is the same calls in C and
+// `tests/crt/run.sh` requires the two outputs to be identical.
+
+main(int argc, string[] argv) {
+  heap_init(65536);
+  t_fmt();
+  t_rest();
+} return int 0;
+
+// A C string in the flat store. mem_of_str copies the bytes and the NUL, which
+// is what every crt entry point wants.
+t_cs(string txt) {
+  word ad = mem_of_str(txt);
+} return word ad;
+
+t_say(string tag, word v) {
+  print(tag + " " + v);
+} return void;
