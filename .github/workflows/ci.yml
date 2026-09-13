@@ -3,7 +3,7 @@ name: ci
 # What this workflow can and cannot check, stated up front, because a green
 # tick that means less than it looks like is worse than no tick.
 #
-# It CAN check, on a bare Ubuntu runner with only `cc` and `python3`:
+# It CAN check, on a bare Ubuntu runner with only `cc`, `awk` and `git`:
 #   * id's structural rules over c2id/ and crt/          (tools/lint3.sh)
 #   * the differential harness                           (tests/run.sh)
 #   * that the developer entry point works                (tools/check.sh)
@@ -15,6 +15,10 @@ name: ci
 #     is not reachable, tests/run.sh is skipped with a notice rather than
 #     failed -- an unpublished dependency is not a regression in this
 #     repository.
+#   * bin/idc merges the standard library, idstd, into every build, and idstd
+#     is its own repository rather than a submodule of the umbrella. It is
+#     cloned beside the umbrella and named with IDSTD_HOME, so which idstd a
+#     build used is never a guess.
 
 on:
   push:
@@ -28,6 +32,10 @@ env:
   # The id toolchain lives in the umbrella repository's idc/ submodule.
   ID_REPO: https://github.com/preland/id_development.git
   ID_REF: kernel-port/systems-extensions
+  # The standard library bin/idc merges into every build.
+  IDSTD_REPO: https://github.com/preland/idstd.git
+  IDSTD_REF: master
+  IDSTD_HOME: ${{ github.workspace }}/idstd
 
 jobs:
   check:
@@ -42,7 +50,7 @@ jobs:
         working-directory: c2id
         run: |
           echo "cc:      $(cc --version | head -1)"
-          echo "python3: $(python3 --version)"
+          echo "awk:     $(awk --version 2>&1 | head -1)"
 
       # Optional, and deliberately non-fatal: clone the umbrella repository
       # (with its idc/ submodule) only if the exact branch c2id needs is
@@ -55,6 +63,8 @@ jobs:
             git clone --quiet --depth 1 --branch "$ID_REF" \
               --recurse-submodules --shallow-submodules "$ID_REPO" id_development
             echo "cloned $ID_REF"
+            git clone --quiet --depth 1 --branch "$IDSTD_REF" "$IDSTD_REPO" "$IDSTD_HOME"
+            echo "cloned idstd $IDSTD_REF into $IDSTD_HOME"
           else
             echo "::notice title=id toolchain unavailable::branch $ID_REF is not published at $ID_REPO; tests/run.sh will be skipped"
           fi
