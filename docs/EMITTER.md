@@ -117,7 +117,7 @@ int x = sx32(v);
 ```
 
 This was written the other way for a long time, and the emitter was built to
-match, because `c2id` is compiled by `idc.py` and `idc.py` does not enforce
+match, because `c2id` was compiled by `idc.py` and `idc.py` does not enforce
 either rule -- see the umbrella's `docs/GAPS.md` B6/B7. The specification was
 wrong, not the compiler.
 
@@ -194,9 +194,8 @@ that constraint is the point, and `tests/lowering/` proves it is met.
   with its successor's number as a literal, and literals distinguish
   functions, so blocks in different positions already differ. Two genuinely
   identical *whole functions* still collide; the emitter must detect that and
-  emit one, with the second name calling it. Note that `bin/idc` does not
-  enforce this rule at all, but `idc.py` does, and the port should stay
-  buildable by both.
+  emit one, with the second name calling it. `bin/idc` enforces this rule,
+  and `bin/idc` is the only compiler anything here is built with.
 
 ## 7. Order of work
 

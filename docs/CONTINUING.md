@@ -28,7 +28,8 @@ the slow way.
   deliberately left out.
 * **The lowering is proven.** `tests/lowering/` is a hand-written `id` project
   in exactly the shape the emitter must produce, and it compiles under
-  `idc.py` — which enforces every rule — and computes the right answer. That
+  `bin/idc` — which enforces every rule, including the two naming rules
+  `idc.py` never learned — and computes the right answer. That
   was the one genuinely risky idea here, and it holds.
 * **The harness compares against `cc`**, so no claim can outrun its evidence.
 * **The front end**: the C lexer, the AST store, the declaration/type parser,
@@ -64,11 +65,12 @@ fix and it currently fails `tools/check.sh` on every run.
   is far easier to read, trace and debug than a 3,400-line Python monofile.
   Anything that pushes work back into `idc.py` is moving the wrong way.
 
-  While the self-hosted checks are being written (`docs/SELFHOST.md`), a
-  program can still compile under `bin/idc` while violating rules `idc.py`
-  would catch. Until that list is empty, cross-check with `idc.py` when a
-  structural rule is in doubt — but treat every such case as a **bug in the
-  self-hosted compiler to be fixed**, not as a reason to switch compilers.
+  Every script and CI step here builds with `bin/idc`. It enforces every rule
+  `idc.py` does and two more — a call is never an argument to a call, and a
+  return clause is a name or a literal — which `c2id` was once written without,
+  because `idc.py` was the only compiler ever run over it. If `bin/idc` accepts
+  something a rule forbids, that is a **bug in the self-hosted compiler to be
+  fixed**, not a reason to switch compilers.
 * **`(import xs)[i] = v` silently does nothing.** It parses as a comparison.
   Store through `lset`/`sset` — but check `idstd` first; it may already define
   the name you are about to add. See the collision recorded in
