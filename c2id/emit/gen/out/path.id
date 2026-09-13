@@ -27,4 +27,5 @@ funcs_per_file() {
 tri_digit(int n, int d) {
   int shift = tree_depth() - 1 - d;
   int div = pow3(shift);
-} return int (n / div) % 3;
+  int r = (n / div) % 3;
+} return int r;

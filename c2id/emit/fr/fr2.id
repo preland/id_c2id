@@ -5,10 +5,20 @@
 // byte-addressed, but matching C's layout exactly is what lets a translated
 // struct be compared against the real one.
 
-// Give `name` a slot big enough for type `t`, and return its offset.
+// Give `name` a slot big enough for type `t`, and return its offset. Split
+// in two because naming frame_size(), type_align(t) and type_size(t) -- all
+// required, since a call may not be an argument to a call -- leaves no
+// fourth action here for add_slot's own call.
 frame_add(string name, int t) {
-  int off = align_up(frame_size(), type_align(t));
-  add_slot(name, off, type_size(t));
+  int sz = frame_size();
+  int al = type_align(t);
+  int off = frame_add2(name, t, sz, al);
+} return int off;
+
+frame_add2(string name, int t, int sz, int al) {
+  int off = align_up(sz, al);
+  int tsz = type_size(t);
+  add_slot(name, off, tsz);
 } return int off;
 
 add_slot(string name, int off, int sz) {

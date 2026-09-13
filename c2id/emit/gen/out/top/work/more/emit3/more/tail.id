@@ -28,9 +28,15 @@ check_block_ref(int j, int b) {
 
 // A block is dead if: not block 0, has no statements, terminates with "end"
 // with no return expression, and is not referenced by any other block.
+// cfg_stmts(b) is named up front -- a call may not be an argument to a call
+// -- rather than nested one level deeper under `b > 0`, which would push
+// the while below it past the two allowed levels of nesting; cfg_stmts is a
+// plain accessor and b is always a valid (non-negative) block number, so
+// reading it before the `b > 0` check changes nothing observable.
 is_dead(int b) {
+  int[] stmts = cfg_stmts(b);
   int found_ref = 0;
-  if(b > 0 && len(cfg_stmts(b)) == 0 && cfg_term(b) == "end" && cfg_expr(b) < 0) {
+  if(b > 0 && len(stmts) == 0 && cfg_term(b) == "end" && cfg_expr(b) < 0) {
     int j = 0;
     while(j < cfg_nblocks() && found_ref <= 0) {
       found_ref = found_ref + check_block_ref(j, b);

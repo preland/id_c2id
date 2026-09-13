@@ -26,4 +26,5 @@ dir_path(int dir) {
 func_path(int n) {
   int file = n / funcs_per_file();
   int dir = file / 3;
-} return string dir_path(dir) + "/f" + (file % 3) + ".id";
+  string p = dir_path(dir) + "/f" + (file % 3) + ".id";
+} return string p;

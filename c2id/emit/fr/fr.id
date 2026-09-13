@@ -21,4 +21,5 @@ init_frame2() {
 } return void;
 
 frame_size() {
-} return int (import frsz)[0];
+  int n = (import frsz)[0];
+} return int n;
