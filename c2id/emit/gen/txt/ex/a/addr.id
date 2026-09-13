@@ -12,7 +12,8 @@
 addr_txt(int id) {
   string s = "";
   if(k_of(id) == "var") {
-    s = var_addr(s_of(id));
+    string name = s_of(id);
+    s = var_addr(name);
   } else {
     s = ad2(id);
   }

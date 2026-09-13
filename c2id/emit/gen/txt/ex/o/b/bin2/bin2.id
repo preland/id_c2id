@@ -17,8 +17,10 @@ bin3(int id) {
 // is the opposite of C. conv_txt is what makes an `int` result wrap at 32
 // bits and an `unsigned` one at 32 bits unsigned.
 plain_txt(int id) {
-  string s = "(" + shl_arg(a_of(id), s_of(id)) + " " + s_of(id) + " " + ex_txt(b_of(id)) + ")";
-} return string conv_txt(ex_ty(id), s);
+  int a = a_of(id);
+  string op = s_of(id);
+  string out = plain_full(id, a, op);
+} return string out;
 
 // `id`'s `<<` is 32-bit when both operands are `int`-typed and 64-bit as soon
 // as either is a `word`: `1 << 40` is 0, `sx_bits(1, 64) << 40` is

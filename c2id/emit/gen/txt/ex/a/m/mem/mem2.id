@@ -1,0 +1,9 @@
+// mem_addr's offset lookup, split out because member_off's two arguments
+// -- rec_of(id) and s_of(id) -- both have to be named before it can be
+// called, and mem_addr has no room left once the UNKNOWN_MEMBER_ fallback
+// and the if are counted.
+mem_off_at(int id) {
+  int r = rec_of(id);
+  string name = s_of(id);
+  int off = member_off(r, name);
+} return int off;

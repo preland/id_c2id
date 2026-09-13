@@ -5,7 +5,9 @@
 ety7(int id) {
   int ty = 0;
   if(k_of(id) == "idx") {
-    ty = elem_ty(ex_ty(a_of(id)));
+    int a = a_of(id);
+    int aty = ex_ty(a);
+    ty = elem_ty(aty);
   } else {
     ty = ety8(id);
   }
@@ -15,7 +17,8 @@ ety7(int id) {
 ety8(int id) {
   int ty = 0;
   if(k_of(id) == "assign") {
-    ty = ex_ty(a_of(id));
+    int a = a_of(id);
+    ty = ex_ty(a);
   } else {
     ty = ety9(id);
   }

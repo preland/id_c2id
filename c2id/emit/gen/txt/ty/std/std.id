@@ -4,10 +4,13 @@
 // carry the magic numbers instead.
 
 ty_int() {
-} return int (import stdty)[0];
+  int ty = (import stdty)[0];
+} return int ty;
 
 ty_uint() {
-} return int (import stdty)[1];
+  int ty = (import stdty)[1];
+} return int ty;
 
 ty_long() {
-} return int (import stdty)[2];
+  int ty = (import stdty)[2];
+} return int ty;

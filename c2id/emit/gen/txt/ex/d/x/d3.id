@@ -23,7 +23,9 @@ ex8(int id) {
 ex9(int id) {
   string s = "";
   if(k_of(id) == "post") {
-    s = step_txt(a_of(id), s_of(id));
+    int a = a_of(id);
+    string op = s_of(id);
+    s = step_txt(a, op);
   } else {
     s = ex10(id);
   }

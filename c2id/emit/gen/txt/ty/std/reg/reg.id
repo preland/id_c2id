@@ -21,14 +21,17 @@ txt_setup() {
   fill_std();
 } return void;
 
+// Each fill_stdN pushes exactly one entry and hands on to the next --
+// newleaf's result has to be named before push can take it, which leaves
+// no room for more than one entry and one call per function.
 fill_std() {
-  push((import stdty), newleaf("prim", 4, 1, "int", ""));
-  push((import stdty), newleaf("prim", 4, 0, "unsigned int", ""));
+  int t = newleaf("prim", 4, 1, "int", "");
+  push((import stdty), t);
   fill_std2();
 } return void;
 
 fill_std2() {
-  push((import stdty), newleaf("prim", 8, 1, "long", ""));
-  push((import stdty), newleaf("prim", 8, 0, "unsigned long", ""));
-  push((import stdty), newleaf("ptr", newleaf("prim", 1, 1, "char", ""), 0, "", ""));
+  int t = newleaf("prim", 4, 0, "unsigned int", "");
+  push((import stdty), t);
+  fill_std3();
 } return void;

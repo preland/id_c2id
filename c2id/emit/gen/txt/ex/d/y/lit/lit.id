@@ -8,22 +8,22 @@
 // practice. chr(34) rather than a quote character because writing one inside
 // an `id` string would need an escape this program would then have to know.
 str_txt(int id) {
-} return string "mem_of_str(" + chr(34) + s_of(id) + chr(34) + ")";
+  string s = "mem_of_str(" + chr(34) + s_of(id) + chr(34) + ")";
+} return string s;
 
 // A cast is exactly the width conversion, which is the same operation an
 // assignment or a load performs; casting to a pointer or to any 8-byte type
 // is then nothing at all, because the value is already 64 bits wide.
 cast_txt(int id) {
-} return string conv_txt(b_of(id), ex_txt(a_of(id)));
+  int b = b_of(id);
+  string exa = a_ex(id);
+  string s = conv_txt(b, exa);
+} return string s;
 
 // sizeof is answered at translation time -- it is the one C operator that
 // never survives into the output. nb holds the type node for `sizeof(T)`;
 // otherwise the operand's type is inferred and measured.
 sizeof_txt(int id) {
-  int sz = 8;
-  if(b_of(id) != 0) {
-    sz = type_size(b_of(id));
-  } else {
-    sz = type_size(ex_ty(a_of(id)));
-  }
-} return string "" + sz;
+  int sz = sizeof_sz(id);
+  string s = "" + sz;
+} return string s;

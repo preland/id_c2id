@@ -12,7 +12,7 @@
 
 cmp_txt(int id) {
   string s = "";
-  if(s_of(id) == "==" || s_of(id) == "!=" || ty_signed(usual_ty(ex_ty(a_of(id)), ex_ty(b_of(id)))) == 1) {
+  if(s_of(id) == "==" || s_of(id) == "!=" || is_signed_cmp(id) == 1) {
     s = cmp_sgn(id);
   } else {
     s = ucmp_txt(id);
@@ -20,16 +20,15 @@ cmp_txt(int id) {
 } return string s;
 
 cmp_sgn(int id) {
-} return string "(" + ex_txt(a_of(id)) + " " + s_of(id) + " " + ex_txt(b_of(id)) + ")";
+  int a = a_of(id);
+  int b = b_of(id);
+  string s = "(" + ex_txt(a) + " " + s_of(id) + " " + ex_txt(b) + ")";
+} return string s;
 
 // a > b is ult(b, a); a <= b is ult(b, a) negated; a >= b is ult(a, b)
 // negated. So the operand order is decided here and the negation in
 // ucmp_neg.
 ucmp_txt(int id) {
-  string s = "";
-  if(s_of(id) == ">" || s_of(id) == "<=") {
-    s = ult_txt(ex_txt(b_of(id)), ex_txt(a_of(id)));
-  } else {
-    s = ult_txt(ex_txt(a_of(id)), ex_txt(b_of(id)));
-  }
-} return string ucmp_neg(s, s_of(id));
+  string s = ucmp_body(id);
+  string out = ucmp_final(s, id);
+} return string out;

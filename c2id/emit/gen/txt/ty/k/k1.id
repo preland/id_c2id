@@ -24,7 +24,8 @@ ex_ty(int id) {
 ety2(int id) {
   int ty = 0;
   if(k_of(id) == "var") {
-    ty = local_ty(s_of(id));
+    string name = s_of(id);
+    ty = local_ty(name);
   } else {
     ty = ety3(id);
   }

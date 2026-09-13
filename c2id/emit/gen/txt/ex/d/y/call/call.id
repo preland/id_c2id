@@ -13,11 +13,9 @@
 // describes is a *function*, not an expression, so it cannot be emitted from
 // here anyway. Until then this is the argument-passing form.
 call_txt(int id) {
-  string s = "crt_call";
-  if(k_of(a_of(id)) == "var") {
-    s = "c_" + s_of(a_of(id));
-  }
-} return string s + "(" + args_txt(l_of(id)) + ")";
+  string s = call_head(id);
+  string out = call_wrap(s, id);
+} return string out;
 
 args_txt(int[] ids) {
   string out = "";
@@ -35,8 +33,11 @@ args_txt(int[] ids) {
 assign_txt(int id) {
   string s = "";
   if(s_of(id) == "=") {
-    s = store_txt(ex_ty(a_of(id)), addr_txt(a_of(id)), ex_txt(b_of(id)));
+    int aty = a_ty(id);
+    string addr = a_addr(id);
+    s = assign_store(id, aty, addr);
   } else {
-    s = comp_asg(a_of(id), b_of(id), op_head(s_of(id)));
+    string head = assign_head(id);
+    s = assign_comp(id, head);
   }
 } return string s;

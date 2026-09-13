@@ -1,0 +1,18 @@
+// The rest of a declaration's text, split from more.id because decl_st
+// alone has no room left to name every value decl_slot, type_size and
+// store_txt need without a call nested inside another call's argument.
+
+// The comment line the frame layout deserves: type size and offset, so a
+// reader of the generated project does not have to reconstruct them.
+decl_comment(int id, int off) {
+  int b = b_of(id);
+  int sz = type_size(b);
+  string s = "// " + s_of(id) + ": fp + " + off + ", " + sz + " bytes";
+} return string s;
+
+// The store itself, once there is an initialiser.
+decl_store(int id, int off) {
+  int b = b_of(id);
+  string exa = a_ex(id);
+  string s = store_txt(b, "fp + " + off, exa) + ";";
+} return string s;

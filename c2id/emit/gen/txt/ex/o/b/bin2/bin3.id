@@ -1,0 +1,17 @@
+// plain_txt's body, and the conv_txt(ex_ty(id), ...) wrapper every emitted
+// operator result needs -- split out because naming shl_arg's result, b's
+// text and ex_ty(id) all before conv_txt can run leaves plain_txt no room.
+
+plain_full(int id, int a, string op) {
+  string exb = b_ex(id);
+  string s = "(" + shl_arg(a, op) + " " + op + " " + exb + ")";
+  string out = self_conv(id, s);
+} return string out;
+
+// Wraps s, the text of id's value in whatever width it was computed at,
+// down to id's own C type -- what every arithmetic and unary operator's
+// result needs before it is a canonical word.
+self_conv(int id, string s) {
+  int ty = ex_ty(id);
+  string out = conv_txt(ty, s);
+} return string out;

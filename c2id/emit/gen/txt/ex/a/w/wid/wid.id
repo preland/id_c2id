@@ -3,7 +3,8 @@
 // here, rather than in four spelled-out chains of peek8/peek16/peek32/peek64.
 
 wid_bits(int w) {
-} return string "" + (w * 8);
+  string s = "" + (w * 8);
+} return string s;
 
 // The access width for a C type. A struct or an array is never loaded whole
 // -- lval_txt yields its address instead -- so anything that is not 1, 2 or 4
@@ -25,4 +26,5 @@ cvt_name(int ty) {
   if(ty_signed(ty) == 1) {
     s = "sx";
   }
-} return string s + wid_bits(load_wid(ty));
+  string out = cvt_full(s, ty);
+} return string out;

@@ -1,0 +1,8 @@
+// The promoted pair usual2 hands to usual3, split out because promoting
+// both operands before comparing their widths is two nested calls where
+// usual2 has room for none.
+usual2_r(int ty, int inner) {
+  int pty = promote_ty(ty);
+  int pinner = promote_ty(inner);
+  int r = usual3(pty, pinner);
+} return int r;

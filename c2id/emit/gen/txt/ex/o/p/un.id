@@ -4,13 +4,27 @@
 // it, which is why `-x` on an `unsigned int` is a large positive number and
 // not a negative one.
 pre_txt(int id, string op) {
-} return string conv_txt(ex_ty(id), "(" + op + ex_txt(a_of(id)) + ")");
+  int ty = ex_ty(id);
+  string txt = pre_inner(id, op);
+  string out = conv_txt(ty, txt);
+} return string out;
+
+// The parenthesised "op operand" text, split out so pre_txt can name
+// ex_ty(id) and the whole inner expression as two separate values without
+// exceeding the block's action budget.
+pre_inner(int id, string op) {
+  int a = a_of(id);
+  string s = "(" + op + ex_txt(a) + ")";
+} return string s;
 
 // Prefix `++`/`--` is a compound assignment; unary `+` is the promotion and
 // nothing else.
 incdec_txt(int id) {
-  string s = conv_txt(ex_ty(id), ex_txt(a_of(id)));
+  string exa = a_ex(id);
+  string s = self_conv(id, exa);
   if(s_of(id) == "++" || s_of(id) == "--") {
-    s = step_txt(a_of(id), s_of(id));
+    int a = a_of(id);
+    string op = s_of(id);
+    s = step_txt(a, op);
   }
 } return string s;

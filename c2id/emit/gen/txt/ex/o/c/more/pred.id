@@ -1,0 +1,31 @@
+// Whether a comparison's usual type is the signed kind. Its own function
+// because cmp_txt's condition tests this to the right of || -- naming the
+// value ahead of the if would run the check even when the left side, "is
+// this == or !=", already answered.
+is_signed_cmp(int id) {
+  int uty = pair_uty(id);
+  int ok = ty_signed(uty);
+} return int ok;
+
+// Whether *both* operands are pointers -- bin_ty3 and ptr_bin test this to
+// the right of &&, so b's type is only asked for once a already answered
+// yes, matching && itself never evaluating its right side otherwise.
+is_ptr_pair(int id) {
+  int aty = a_ty(id);
+  int ok = is_ptr(aty);
+  if(ok == 1) {
+    int bty = b_ty(id);
+    ok = is_ptr(bty);
+  }
+} return int ok;
+
+// Whether *either* operand is a pointer -- bin2 tests this to the right of
+// ||, so b's type is only asked for once a has already answered no.
+is_ptr_either(int id) {
+  int aty = a_ty(id);
+  int ok = is_ptr(aty);
+  if(ok == 0) {
+    int bty = b_ty(id);
+    ok = is_ptr(bty);
+  }
+} return int ok;

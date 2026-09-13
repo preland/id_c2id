@@ -4,7 +4,7 @@
 // addition. A member the layout pass cannot find would otherwise emit
 // `+ -1`, which is a plausible-looking address, so it emits a name instead.
 mem_addr(int id) {
-  int off = member_off(rec_of(id), s_of(id));
+  int off = mem_off_at(id);
   string s = "UNKNOWN_MEMBER_" + s_of(id);
   if(off >= 0) {
     s = "(" + base_txt(id) + " + " + off + ")";
@@ -16,9 +16,9 @@ mem_addr(int id) {
 base_txt(int id) {
   string s = "";
   if(t_of(id) == "->") {
-    s = ex_txt(a_of(id));
+    s = a_ex(id);
   } else {
-    s = addr_txt(a_of(id));
+    s = a_addr(id);
   }
 } return string s;
 

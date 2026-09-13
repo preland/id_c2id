@@ -18,7 +18,8 @@ ety10(int id) {
 ety11(int id) {
   int ty = 0;
   if(k_of(id) == "cond") {
-    ty = ex_ty(b_of(id));
+    int b = b_of(id);
+    ty = ex_ty(b);
   } else {
     ty = ety12(id);
   }
@@ -27,7 +28,8 @@ ety11(int id) {
 ety12(int id) {
   int ty = 0;
   if(k_of(id) == "post") {
-    ty = ex_ty(a_of(id));
+    int a = a_of(id);
+    ty = ex_ty(a);
   } else {
     ty = ty_int();
   }

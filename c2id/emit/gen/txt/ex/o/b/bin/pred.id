@@ -1,0 +1,7 @@
+// Whether id's own operator is one of the relational/equality ones,
+// split out because is_cmp_op(s_of(id)) is a nested call and bin1 has no
+// room left once its if/else is counted.
+is_cmp(int id) {
+  string op = s_of(id);
+  int ok = is_cmp_op(op);
+} return int ok;

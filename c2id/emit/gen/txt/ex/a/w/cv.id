@@ -17,9 +17,15 @@ conv_txt(int ty, string s) {
 // an unsigned one is a no-op the store already performed, and is emitted
 // anyway so that the generated text says what type it is reading.
 load_txt(int ty, string s) {
-} return string conv_txt(ty, "peek" + wid_bits(load_wid(ty)) + "(" + s + ")");
+  int w = load_wid(ty);
+  string bits = wid_bits(w);
+  string out = conv_txt(ty, "peek" + bits + "(" + s + ")");
+} return string out;
 
 // poke truncates to its width, which is exactly C's conversion on assignment:
 // `char c = 300` leaves 44 behind either way.
 store_txt(int ty, string s, string out) {
-} return string "poke" + wid_bits(load_wid(ty)) + "(" + s + ", " + out + ")";
+  int w = load_wid(ty);
+  string bits = wid_bits(w);
+  string txt = "poke" + bits + "(" + s + ", " + out + ")";
+} return string txt;

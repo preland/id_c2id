@@ -6,7 +6,8 @@
 // wraps at 32 bits rather than becoming negative.
 
 un_ty(int id) {
-  int ty = elem_ty(ex_ty(a_of(id)));
+  int aty = a_ty(id);
+  int ty = elem_ty(aty);
   if(s_of(id) != "*") {
     ty = un_ty2(id);
   }
@@ -17,14 +18,17 @@ un_ty(int id) {
 un_ty2(int id) {
   int ty = 0;
   if(s_of(id) == "&") {
-    ty = newleaf("ptr", ex_ty(a_of(id)), 0, "", "");
+    int a = a_of(id);
+    int aty = ex_ty(a);
+    ty = newleaf("ptr", aty, 0, "", "");
   } else {
     ty = un_ty3(id);
   }
 } return int ty;
 
 un_ty3(int id) {
-  int ty = promote_ty(ex_ty(a_of(id)));
+  int aty = a_ty(id);
+  int ty = promote_ty(aty);
   if(s_of(id) == "!") {
     ty = ty_int();
   }

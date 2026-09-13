@@ -1,0 +1,21 @@
+// The rest of the fill_std chain -- see reg.id.
+
+fill_std3() {
+  int t = newleaf("prim", 8, 1, "long", "");
+  push((import stdty), t);
+  fill_std4();
+} return void;
+
+fill_std4() {
+  int t = newleaf("prim", 8, 0, "unsigned long", "");
+  push((import stdty), t);
+  fill_std5();
+} return void;
+
+// `char *`, the type of a string literal -- the one entry that is itself
+// built from a nested type, so its own newleaf has to be named first.
+fill_std5() {
+  int charty = newleaf("prim", 1, 1, "char", "");
+  int t = newleaf("ptr", charty, 0, "", "");
+  push((import stdty), t);
+} return void;

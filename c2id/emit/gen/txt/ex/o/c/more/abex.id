@@ -1,0 +1,18 @@
+// The text of each operand of a two-child node, and the address form of
+// the first -- split out for the same reason as abty.id, and shared just
+// as widely across ex/d, ex/a, ex/o and st.
+
+a_ex(int id) {
+  int a = a_of(id);
+  string s = ex_txt(a);
+} return string s;
+
+b_ex(int id) {
+  int b = b_of(id);
+  string s = ex_txt(b);
+} return string s;
+
+a_addr(int id) {
+  int a = a_of(id);
+  string s = addr_txt(a);
+} return string s;

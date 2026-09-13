@@ -1,0 +1,13 @@
+// The byte count sizeof(T) measures, split out so sizeof_txt has room to
+// name the concatenation its string return requires.
+sizeof_sz(int id) {
+  int sz = 8;
+  if(b_of(id) != 0) {
+    int b = b_of(id);
+    sz = type_size(b);
+  } else {
+    int a = a_of(id);
+    int aty = ex_ty(a);
+    sz = type_size(aty);
+  }
+} return int sz;

@@ -1,0 +1,22 @@
+// ptr_off's condition, and the two operand orders ptr_off2 gets called in
+// -- split out because id forbids nesting a_of(id)/b_of(id)/s_of(id)
+// straight into ptr_off2's argument list.
+
+// Whether id's a operand is the pointer -- ptr_off tests this in its
+// condition, so ex_ty(a_of(id)) has to be named before is_ptr can take it.
+is_a_ptr(int id) {
+  int aty = a_ty(id);
+  int ok = is_ptr(aty);
+} return int ok;
+
+ptr_off_ab(int id, string op) {
+  int a = a_of(id);
+  int b = b_of(id);
+  string s = ptr_off2(a, b, op);
+} return string s;
+
+ptr_off_ba(int id, string op) {
+  int a = a_of(id);
+  int b = b_of(id);
+  string s = ptr_off2(b, a, op);
+} return string s;

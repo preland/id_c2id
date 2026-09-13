@@ -1,0 +1,13 @@
+// cvt_name's suffix, split out because wid_bits(load_wid(ty)) is a nested
+// call and cvt_name has no room left to name it once the sx/zx choice and
+// the final concatenation are counted.
+
+cvt_suffix(int ty) {
+  int w = load_wid(ty);
+  string bits = wid_bits(w);
+} return string bits;
+
+cvt_full(string s, int ty) {
+  string bits = cvt_suffix(ty);
+  string out = s + bits;
+} return string out;

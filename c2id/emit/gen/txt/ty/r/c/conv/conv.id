@@ -15,7 +15,7 @@ usual_ty(int ty, int inner) {
 // Once the left operand is not a pointer, the right one still might be
 // (`n + p`), and then it wins.
 usual2(int ty, int inner) {
-  int r = usual3(promote_ty(ty), promote_ty(inner));
+  int r = usual2_r(ty, inner);
   if(is_ptr(inner) == 1) {
     r = inner;
   }

@@ -1,0 +1,21 @@
+// ucmp_txt's two pieces, split out because the operand order it decides
+// and the final negation it hands off to ucmp_neg each nest calls that
+// ucmp_txt has no room left to name.
+
+ucmp_body(int id) {
+  string s = "";
+  if(s_of(id) == ">" || s_of(id) == "<=") {
+    string exb = b_ex(id);
+    string exa = a_ex(id);
+    s = ult_txt(exb, exa);
+  } else {
+    string exa2 = a_ex(id);
+    string exb2 = b_ex(id);
+    s = ult_txt(exa2, exb2);
+  }
+} return string s;
+
+ucmp_final(string s, int id) {
+  string op = s_of(id);
+  string out = ucmp_neg(s, op);
+} return string out;

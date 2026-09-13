@@ -1,11 +1,13 @@
 // The rest of stdty, and the signedness question every operator asks.
 
 ty_ulong() {
-} return int (import stdty)[3];
+  int ty = (import stdty)[3];
+} return int ty;
 
 // `char *`, the type of a string literal.
 ty_charp() {
-} return int (import stdty)[4];
+  int ty = (import stdty)[4];
+} return int ty;
 
 // 1 when C's signed operators are the right ones for `ty`. A pointer, an
 // array and a record are all "not signed": nothing divides or shifts them,

@@ -1,0 +1,19 @@
+// idx_addr's pieces, split out because id forbids nesting ex_ty(id) inside
+// type_size, and the address concatenation nests ex_txt/scale_txt calls
+// that each need naming before idx_addr has room for the rest.
+
+idx_sz(int id) {
+  int ty = ex_ty(id);
+  int sz = type_size(ty);
+} return int sz;
+
+idx_scaled(int id, int sz) {
+  string exb = b_ex(id);
+  string s = scale_txt(exb, sz, "*");
+} return string s;
+
+idx_body(int id, int sz) {
+  string exa = a_ex(id);
+  string scaled = idx_scaled(id, sz);
+  string out = "(" + exa + " + " + scaled + ")";
+} return string out;

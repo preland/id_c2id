@@ -4,7 +4,7 @@
 
 ptr_bin(int id) {
   string s = "";
-  if(is_ptr(ex_ty(a_of(id))) == 1 && is_ptr(ex_ty(b_of(id))) == 1) {
+  if(is_ptr_pair(id) == 1) {
     s = ptr_diff(id);
   } else {
     s = ptr_off(id);
@@ -15,15 +15,19 @@ ptr_bin(int id) {
 // here is what lets ptr_off2 be written once.
 ptr_off(int id) {
   string s = "";
-  if(is_ptr(ex_ty(a_of(id))) == 1) {
-    s = ptr_off2(a_of(id), b_of(id), s_of(id));
+  if(is_a_ptr(id) == 1) {
+    string op = s_of(id);
+    s = ptr_off_ab(id, op);
   } else {
-    s = ptr_off2(b_of(id), a_of(id), s_of(id));
+    string op2 = s_of(id);
+    s = ptr_off_ba(id, op2);
   }
 } return string s;
 
 // No conv_txt: the result is an address, already 64 bits, and narrowing it
 // would be wrong.
 ptr_off2(int a, int b, string op) {
-  int sz = type_size(elem_ty(ex_ty(a)));
-} return string "(" + ex_txt(a) + " " + op + " " + scale_txt(ex_txt(b), sz, "*") + ")";
+  int sz = ptr_off2_sz(a);
+  string exb = ex_txt(b);
+  string out = "(" + ex_txt(a) + " " + op + " " + scale_txt(exb, sz, "*") + ")";
+} return string out;

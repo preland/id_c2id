@@ -1,0 +1,15 @@
+// comp_asg's store, split out because naming ex_ty(a), addr_txt(a) and
+// ex_txt(id) all before calling store_txt leaves comp_asg no room; aty is
+// computed by the caller and passed in.
+comp_store(int a, int id, int aty) {
+  string addr = addr_txt(a);
+  string exid = ex_txt(id);
+  string s = store_txt(aty, addr, exid);
+} return string s;
+
+// The first byte of an operator's spelling, as text -- "+=" and "++" both
+// start with "+", which is the operator comp_asg's synthetic node needs.
+first_char(string op) {
+  int c = charat(op, 0);
+  string ch = chr(c);
+} return string ch;

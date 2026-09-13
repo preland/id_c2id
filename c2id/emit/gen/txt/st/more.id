@@ -7,12 +7,21 @@
 // saying where the slot is, which is the one piece of the frame layout a
 // reader of the generated project would otherwise have to reconstruct.
 decl_st(int id) {
-  int off = decl_slot(s_of(id), b_of(id));
-  string s = "// " + s_of(id) + ": fp + " + off + ", " + type_size(b_of(id)) + " bytes";
+  int off = decl_head(id);
+  string s = decl_comment(id, off);
   if(a_of(id) >= 0) {
-    s = store_txt(b_of(id), "fp + " + off, ex_txt(a_of(id))) + ";";
+    s = decl_store(id, off);
   }
 } return string s;
+
+// The frame slot a declaration names, and the C type it was declared with --
+// split out so decl_st can name off once and hand it to decl_comment and
+// decl_store without recomputing decl_slot's side effect twice.
+decl_head(int id) {
+  string name = s_of(id);
+  int b = b_of(id);
+  int off = decl_slot(name, b);
+} return int off;
 
 // `return e` stores to fp + 0 -- always 8 bytes, whatever the C return type,
 // because the value has already been converted to its canonical 64-bit form
@@ -21,6 +30,7 @@ decl_st(int id) {
 ret_st(int id) {
   string s = "poke64(fp, 0);";
   if(a_of(id) >= 0) {
-    s = "poke64(fp, " + ex_txt(a_of(id)) + ");";
+    int a = a_of(id);
+    s = "poke64(fp, " + ex_txt(a) + ");";
   }
 } return string s;

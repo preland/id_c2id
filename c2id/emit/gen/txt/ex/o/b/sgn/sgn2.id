@@ -1,0 +1,20 @@
+// sgn_txt's condition and uop_txt's two pieces, split out because each
+// nests a call its caller has no room left to name.
+
+// Whether id's own C type is signed -- sgn_txt tests this in its
+// condition, so ex_ty(id) has to be named before ty_signed can take it.
+is_signed_self(int id) {
+  int ty = ex_ty(id);
+  int ok = ty_signed(ty);
+} return int ok;
+
+uop_fn(int id) {
+  string op = s_of(id);
+  string name = ufn_name(op);
+} return string name;
+
+uop_body(int id, string name) {
+  string exa = a_ex(id);
+  string exb = b_ex(id);
+  string s = name + "(" + exa + ", " + exb + ")";
+} return string s;

@@ -1,0 +1,16 @@
+// assign_txt's two branches, split out because each needs a call's result
+// named before the next call can take it, and assign_txt has no room left.
+
+// `x = e`: aty and addr are ex_ty(a_of(id)) and addr_txt(a_of(id)),
+// computed by the caller so this only has to name b's text.
+assign_store(int id, int aty, string addr) {
+  string exb = b_ex(id);
+  string s = store_txt(aty, addr, exb);
+} return string s;
+
+// The rewritten-to-a-bin-node compound assignment.
+assign_comp(int id, string head) {
+  int a = a_of(id);
+  int b = b_of(id);
+  string s = comp_asg(a, b, head);
+} return string s;

@@ -1,0 +1,8 @@
+// ptr_off2's element size, split out because type_size(elem_ty(ex_ty(a)))
+// is two levels of nested call and ptr_off2 has no room left once the
+// address text is counted.
+ptr_off2_sz(int a) {
+  int ty = ex_ty(a);
+  int ety = elem_ty(ty);
+  int sz = type_size(ety);
+} return int sz;

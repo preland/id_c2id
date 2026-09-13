@@ -17,7 +17,7 @@ bin_txt(int id) {
 
 bin1(int id) {
   string s = "";
-  if(is_cmp_op(s_of(id)) == 1) {
+  if(is_cmp(id) == 1) {
     s = cmp_txt(id);
   } else {
     s = bin2(id);
@@ -29,7 +29,7 @@ bin1(int id) {
 // `n + p` as well as `p + n`, which C allows.
 bin2(int id) {
   string s = "";
-  if(is_ptr(ex_ty(a_of(id))) == 1 || is_ptr(ex_ty(b_of(id))) == 1) {
+  if(is_ptr_either(id) == 1) {
     s = ptr_bin(id);
   } else {
     s = bin3(id);

@@ -3,10 +3,19 @@
 // for once, here, and the address side is asked for once, in ex/a/.
 
 rec_of(int id) {
-  int ty = ex_ty(a_of(id));
+  int a = a_of(id);
+  int ty = ex_ty(a);
   if(t_of(id) == "->") {
     ty = elem_ty(ty);
   }
+} return int ty;
+
+// The member_type lookup itself, named so mem_ty can test its -1 case
+// without nesting a call inside member_type's own argument list.
+mem_off_ty(int id) {
+  int r = rec_of(id);
+  string name = s_of(id);
+  int ty = member_type(r, name);
 } return int ty;
 
 // member_type answers -1 for a member the layout pass never saw, which
@@ -14,7 +23,7 @@ rec_of(int id) {
 // emitter walking; the wrong offset would already have been emitted by then,
 // so this is not the place the mistake is caught.
 mem_ty(int id) {
-  int ty = member_type(rec_of(id), s_of(id));
+  int ty = mem_off_ty(id);
   if(ty < 0) {
     ty = ty_int();
   }

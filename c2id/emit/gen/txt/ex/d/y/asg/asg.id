@@ -13,21 +13,26 @@
 
 comp_asg(int a, int b, string op) {
   int id = newleaf("bin", a, b, op, "");
-} return string store_txt(ex_ty(a), addr_txt(a), ex_txt(id));
+  int aty = ex_ty(a);
+  string s = comp_store(a, id, aty);
+} return string s;
 
 // `x++` is `x += 1`, and on a pointer the 1 is scaled, which comp_asg gets
 // right because it goes through the ordinary binary path. The operator is the
 // first byte of "++" or "--".
 step_txt(int a, string op) {
   int b = newleaf("num", 1, 0, "1", "");
-} return string comp_asg(a, b, chr(charat(op, 0)));
+  string ch = first_char(op);
+  string s = comp_asg(a, b, ch);
+} return string s;
 
 // "+=" -> "+", "<<=" -> "<<". Everything up to the final `=`.
 op_head(string op) {
   string s = "";
   int i = 0;
   while(i < len(op) - 1) {
-    s = s + chr(charat(op, i));
+    int c = charat(op, i);
+    s = s + chr(c);
     i = i + 1;
   }
 } return string s;

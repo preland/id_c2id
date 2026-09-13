@@ -6,7 +6,8 @@
 ad4(int id) {
   string s = "NOT_AN_LVALUE_" + k_of(id);
   if(k_of(id) == "un" && s_of(id) == "*") {
-    s = ex_txt(a_of(id));
+    int a = a_of(id);
+    s = ex_txt(a);
   }
 } return string s;
 
@@ -27,5 +28,6 @@ var_addr(string name) {
 // an address whether it is an array (whose value is its address) or a pointer
 // (which is loaded first), which is C's decay rule costing nothing here.
 idx_addr(int id) {
-  int sz = type_size(ex_ty(id));
-} return string "(" + ex_txt(a_of(id)) + " + " + scale_txt(ex_txt(b_of(id)), sz, "*") + ")";
+  int sz = idx_sz(id);
+  string out = idx_body(id, sz);
+} return string out;

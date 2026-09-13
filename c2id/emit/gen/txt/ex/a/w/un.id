@@ -18,7 +18,8 @@ un_txt(int id) {
 un2(int id) {
   string s = "";
   if(s_of(id) == "&") {
-    s = "(" + addr_txt(a_of(id)) + ")";
+    int a = a_of(id);
+    s = "(" + addr_txt(a) + ")";
   } else {
     s = un3(id);
   }
@@ -28,7 +29,8 @@ un2(int id) {
 un3(int id) {
   string s = "";
   if(s_of(id) == "!") {
-    s = "(" + ex_txt(a_of(id)) + " == 0)";
+    int a = a_of(id);
+    s = "(" + ex_txt(a) + " == 0)";
   } else {
     s = un4(id);
   }

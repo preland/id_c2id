@@ -4,14 +4,17 @@
 // element size. Signed division, because ptrdiff_t is signed and q may be the
 // later pointer.
 ptr_diff(int id) {
-  int sz = type_size(elem_ty(ex_ty(a_of(id))));
-  string s = "(" + ex_txt(a_of(id)) + " - " + ex_txt(b_of(id)) + ")";
-} return string scale_txt(s, sz, "/");
+  int sz = a_elem_sz(id);
+  string s = "(" + a_ex(id) + " - " + b_ex(id) + ")";
+  string out = scale_txt(s, sz, "/");
+} return string out;
 
 un4(int id) {
   string s = "";
   if(s_of(id) == "-" || s_of(id) == "~") {
-    s = pre_txt(id, un_pre(s_of(id)));
+    string op = s_of(id);
+    string pre = un_pre(op);
+    s = pre_txt(id, pre);
   } else {
     s = incdec_txt(id);
   }

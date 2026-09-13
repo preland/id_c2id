@@ -1,0 +1,8 @@
+// ptr_diff's element size, split out because elem_ty(ex_ty(a_of(id))) is
+// two levels of nested call and ptr_diff has no room left once the operand
+// text and the final scale_txt are counted.
+a_elem_sz(int id) {
+  int aty = a_ty(id);
+  int ety = elem_ty(aty);
+  int sz = type_size(ety);
+} return int sz;

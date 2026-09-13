@@ -3,7 +3,8 @@
 
 bind_local(string name, int ty) {
   push((import lvtys), ty);
-} return int frame_add(name, ty);
+  int off = frame_add(name, ty);
+} return int off;
 
 // Start a new C function. frame_reset empties fr's three lists; this one
 // empties the fourth, using fr's own popper so there is only one such loop

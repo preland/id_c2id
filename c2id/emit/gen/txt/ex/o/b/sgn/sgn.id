@@ -9,7 +9,7 @@
 
 sgn_txt(int id) {
   string s = "";
-  if(ty_signed(ex_ty(id)) == 1) {
+  if(is_signed_self(id) == 1) {
     s = plain_txt(id);
   } else {
     s = uop_txt(id);
@@ -17,10 +17,13 @@ sgn_txt(int id) {
 } return string s;
 
 uop_txt(int id) {
-  string s = ufn_name(s_of(id)) + "(" + ex_txt(a_of(id)) + ", " + ex_txt(b_of(id)) + ")";
-} return string conv_txt(ex_ty(id), s);
+  string name = uop_fn(id);
+  string s = uop_body(id, name);
+  string out = self_conv(id, s);
+} return string out;
 
 ufn_name(string op) {
   string[] words = ["/", "%", ">>"];
   string[] names = ["udiv", "umod", "ushr"];
-} return string names[find_str(words, op)];
+  string name = names[find_str(words, op)];
+} return string name;

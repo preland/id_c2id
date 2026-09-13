@@ -5,7 +5,8 @@
 
 bin_ty(int id) {
   int ty = ty_int();
-  if(is_cmp_op(s_of(id)) == 0) {
+  string op = s_of(id);
+  if(is_cmp_op(op) == 0) {
     ty = bin_ty2(id);
   }
 } return int ty;
@@ -14,7 +15,8 @@ bin_ty(int id) {
 // however narrow `c` is, and `u << 1` wraps at 32 bits however wide the
 // count.
 bin_ty2(int id) {
-  int ty = promote_ty(ex_ty(a_of(id)));
+  int aty = a_ty(id);
+  int ty = promote_ty(aty);
   if(s_of(id) != "<<" && s_of(id) != ">>") {
     ty = bin_ty3(id);
   }
@@ -23,8 +25,8 @@ bin_ty2(int id) {
 // p - q is a count of elements, not an address, so it is neither operand's
 // type. usual_ty already answers p + n and n + p with the pointer.
 bin_ty3(int id) {
-  int ty = usual_ty(ex_ty(a_of(id)), ex_ty(b_of(id)));
-  if(is_ptr(ex_ty(a_of(id))) == 1 && is_ptr(ex_ty(b_of(id))) == 1) {
+  int ty = pair_uty(id);
+  if(is_ptr_pair(id) == 1) {
     ty = ty_long();
   }
 } return int ty;

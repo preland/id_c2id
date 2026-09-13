@@ -12,7 +12,10 @@ ex10(int id) {
 // which is what makes `a[i]` on a local array and on a pointer parameter the
 // same code, and what makes `s.f.g` work without materialising `s.f`.
 lval_txt(int id) {
-} return string val_txt(ex_ty(id), addr_txt(id));
+  int ty = ex_ty(id);
+  string s = addr_txt(id);
+  string out = val_txt(ty, s);
+} return string out;
 
 // `id` has no unary minus, so a literal that decoded to a negative value --
 // only reachable from a constant with bit 63 set -- has to be written as a
