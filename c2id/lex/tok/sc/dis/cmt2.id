@@ -6,7 +6,8 @@ cmt_end(word base, int i) {
   while(peek8(base + i) != ch_eof() && cmt_more(base, i)) {
     i = adv_nl(base, i);
   }
-} return int cmt_stop(base, i);
+  int r = cmt_stop(base, i);
+} return int r;
 
 // `//` or `/*`. The default (a line comment, ending at the LF, which the
 // whitespace path then counts) is the safe one and has no side effects, so
@@ -22,5 +23,6 @@ scan_cmt(word base, int i) {
 // suffix, unconverted.
 scan_num(word base, int i) {
   int ne = num_end(base, i);
-  add_tok("num", slice(base, i, ne));
+  string s = slice(base, i, ne);
+  add_tok("num", s);
 } return int ne;

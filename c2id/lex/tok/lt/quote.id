@@ -13,6 +13,13 @@ quote_kind(int c) {
 // `e` is the index of the opening quote. The emitted text is the raw source
 // spelling, quotes, prefix, escapes and all.
 scan_quoted(word base, int i, int e) {
-  int ne = quote_end(base, e + 1, peek8(base + e));
-  add_tok(quote_kind(peek8(base + e)), slice(base, i, ne));
+  int c = peek8(base + e);
+  int ne = quote_end(base, e + 1, c);
+  int r = quoted_emit(base, i, ne, c);
+} return int r;
+
+quoted_emit(word base, int i, int ne, int c) {
+  string kind = quote_kind(c);
+  string s = slice(base, i, ne);
+  add_tok(kind, s);
 } return int ne;

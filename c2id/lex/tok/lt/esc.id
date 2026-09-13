@@ -19,7 +19,8 @@ quote_end(word base, int i, int c) {
   while(peek8(base + i) != c && peek8(base + i) != ch_eof() && peek8(base + i) != ch_nl()) {
     i = adv_esc(base, i);
   }
-} return int quote_stop(base, i);
+  int r = quote_stop(base, i);
+} return int r;
 
 // Step over the terminator, but only if it really was a quote.
 quote_stop(word base, int i) {

@@ -6,12 +6,13 @@
 
 scan_ident(word base, int i) {
   int e = ident_end(base, i);
-} return int ident_pick(base, i, e);
+  int r = ident_pick(base, i, e);
+} return int r;
 
 // The quote test comes first so the common case never pays for the slice.
 ident_pick(word base, int i, int e) {
   int ni = 0;
-  if((peek8(base + e) == ch_dq() || peek8(base + e) == ch_sq()) && is_pfx(slice(base, i, e))) {
+  if((peek8(base + e) == ch_dq() || peek8(base + e) == ch_sq()) && is_pfx_at(base, i, e)) {
     ni = scan_quoted(base, i, e);
   } else {
     ni = emit_ident(base, i, e);
@@ -19,5 +20,6 @@ ident_pick(word base, int i, int e) {
 } return int ni;
 
 emit_ident(word base, int i, int e) {
-  add_tok("id", slice(base, i, e));
+  string s = slice(base, i, e);
+  add_tok("id", s);
 } return int e;

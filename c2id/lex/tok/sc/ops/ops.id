@@ -5,19 +5,22 @@
 // actions and each decision in its own function.
 op_len(word base, int i) {
   int w = 1;
-  if(is_op2(sub2(base, i))) {
+  if(is_op2_at(base, i)) {
     w = 2;
   }
-} return int op_len3(base, i, w);
+  int r = op_len3(base, i, w);
+} return int r;
 
 op_len3(word base, int i, int w) {
+  string s3 = sub3(base, i);
   int ni = w;
-  if(is_op3(sub3(base, i))) {
+  if(is_op3(s3)) {
     ni = 3;
   }
 } return int ni;
 
 scan_op(word base, int i) {
   int ne = i + op_len(base, i);
-  add_tok("op", slice(base, i, ne));
+  string s = slice(base, i, ne);
+  add_tok("op", s);
 } return int ne;

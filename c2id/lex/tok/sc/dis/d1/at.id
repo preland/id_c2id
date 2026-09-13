@@ -1,0 +1,7 @@
+// A call may not be an argument to a call, so scan_one composes the byte
+// fetch and the classifier into one function rather than naming peek8's
+// result and passing it to is_space directly (docs/SPEC.md section 7).
+is_space_at(word base, int i) {
+  int c = peek8(base + i);
+  int ok = is_space(c);
+} return int ok;

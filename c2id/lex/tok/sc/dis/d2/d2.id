@@ -3,7 +3,7 @@
 // Identifier or literal prefix -- scan_ident tells the two apart.
 scan_numop(word base, int i) {
   int ni = 0;
-  if(is_alpha(peek8(base + i))) {
+  if(is_alpha_at(base, i)) {
     ni = scan_ident(base, i);
   } else {
     ni = scan_strop(base, i);
@@ -14,7 +14,7 @@ scan_numop(word base, int i) {
 // one; a `.` on its own is the member operator.
 scan_strop(word base, int i) {
   int ni = 0;
-  if(is_digit(peek8(base + i)) || (peek8(base + i) == 46 && is_digit(peek8(base + i + 1)))) {
+  if(is_digit_at(base, i) || is_num_dot_at(base, i)) {
     ni = scan_num(base, i);
   } else {
     ni = scan_quop(base, i);

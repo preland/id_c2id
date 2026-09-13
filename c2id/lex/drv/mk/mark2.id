@@ -7,11 +7,23 @@
 mark_num(word base, int e) {
   int j = digit_end(base, e);
   set_line(base, e, j);
-} return int mark_file(base, skip_h(base, j));
+  int r = mark_after_digits(base, j);
+} return int r;
 
-// `e` is at the opening quote of the filename, if there is one. eol_end
-// swallows the marker's own newline without counting it, which is what makes
-// the stored number apply to the line that follows.
-mark_file(word base, int e) {
-  set_file(base, e, quote_end(base, e + 1, ch_dq()));
-} return int eol_end(base, e);
+// Split out of mark_num: naming skip_h's result and mark_file's result are
+// both required (a call may not be an argument to a call, nor a return
+// clause), and mark_num has no third action to spare for either.
+mark_after_digits(word base, int j) {
+  int e = skip_h(base, j);
+  int c = ch_dq();
+  int r = mark_file(base, e, c);
+} return int r;
+
+// `e` is at the opening quote of the filename, if there is one, and `c` is
+// the quote byte. eol_end swallows the marker's own newline without counting
+// it, which is what makes the stored number apply to the line that follows.
+mark_file(word base, int e, int c) {
+  int qe = quote_end(base, e + 1, c);
+  set_file(base, e, qe);
+  int r = eol_end(base, e);
+} return int r;

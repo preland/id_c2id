@@ -24,4 +24,5 @@ adv_nl(word base, int i) {
   if(peek8(base + i) == ch_nl()) {
     bump_line();
   }
-} return int i + 1;
+  int r = i + 1;
+} return int r;

@@ -1,0 +1,17 @@
+// A call may not be an argument to a call, so scan_numop composes the byte
+// fetch and the classifier into one function rather than naming peek8's
+// result and passing it to is_alpha directly (docs/SPEC.md section 7).
+is_alpha_at(word base, int i) {
+  int c = peek8(base + i);
+  int ok = is_alpha(c);
+} return int ok;
+
+// A nested call to the right of `&&` can't be named either -- the name
+// would be computed even when `.` isn't there -- so the lookahead digit
+// check is its own function too.
+is_num_dot_at(word base, int i) {
+  int r = 0;
+  if(peek8(base + i) == 46) {
+    r = is_digit_at(base, i + 1);
+  }
+} return int r;

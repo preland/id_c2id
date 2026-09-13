@@ -1,0 +1,7 @@
+// A call may not be an argument to a call, so op_len composes the substring
+// fetch and the classifier into one function rather than naming sub2's
+// result and passing it to is_op2 directly (docs/SPEC.md section 7).
+is_op2_at(word base, int i) {
+  string s2 = sub2(base, i);
+  int ok = is_op2(s2);
+} return int ok;

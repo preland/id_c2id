@@ -2,7 +2,7 @@
 // preprocessing-number scanner.
 
 skip_h(word base, int i) {
-  while(is_hspace(peek8(base + i))) {
+  while(is_hspace_at(base, i)) {
     i = i + 1;
   }
 } return int i;
@@ -13,16 +13,21 @@ skip_h(word base, int i) {
 // 0x1fUL, 1.5f, 1e10, 077, 3.14e-5 and 0x1p-3 each a single token whose text
 // is the untouched source spelling.
 num_end(word base, int i) {
-  while(is_numcont(peek8(base + i))) {
+  while(is_numcont_at(base, i)) {
     i = num_step(base, i);
   }
 } return int i;
 
 // One step of that scan: two characters when an exponent letter is followed
-// by a sign, so the `+` in `1e+10` does not end the number.
+// by a sign, so the `+` in `1e+10` does not end the number. The sign check
+// stays nested so it is only ever read once the exponent letter is seen.
 num_step(word base, int i) {
   int ni = i + 1;
-  if(is_exp(peek8(base + i)) && is_expsign(peek8(base + i + 1))) {
-    ni = i + 2;
+  int c = peek8(base + i);
+  if(is_exp(c)) {
+    int c2 = peek8(base + i + 1);
+    if(is_expsign(c2)) {
+      ni = i + 2;
+    }
   }
 } return int ni;

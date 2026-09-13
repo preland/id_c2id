@@ -2,13 +2,13 @@
 // predicates accepts byte 0, so end of input stops them all.
 
 ident_end(word base, int i) {
-  while(is_alnum(peek8(base + i))) {
+  while(is_alnum_at(base, i)) {
     i = i + 1;
   }
 } return int i;
 
 digit_end(word base, int i) {
-  while(is_digit(peek8(base + i))) {
+  while(is_digit_at(base, i)) {
     i = i + 1;
   }
 } return int i;

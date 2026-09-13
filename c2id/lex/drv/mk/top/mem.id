@@ -1,0 +1,8 @@
+// mem_of_str(src) and len(src) can't both be named and passed to lex_mem
+// from lex_all's own block: a call may not be an argument to a call, and
+// naming both is a third and fourth action lex_all has no room for.
+lex_all_mem(string src) {
+  word base = mem_of_str(src);
+  int n = len(src);
+  lex_mem(base, n);
+} return void;

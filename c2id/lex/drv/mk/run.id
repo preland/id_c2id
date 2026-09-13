@@ -3,7 +3,9 @@
 // Just past the newline that ends this line -- used only by line markers,
 // which must not let the whitespace path count that newline.
 eol_end(word base, int i) {
-} return int eol_pos(base, i) + 1;
+  int e = eol_pos(base, i);
+  int r = e + 1;
+} return int r;
 
 // `base` is the store address of source byte 0 and `n` its length. Each step
 // consumes one token (or one run of whitespace, one comment, one line

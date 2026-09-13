@@ -1,0 +1,13 @@
+// A call may not be an argument to a call, and a name bound before a while
+// loop's condition is only read once, where the loop needs it read again
+// every iteration; composing the byte fetch and the classifier into one
+// function lets the loop call it directly instead (docs/SPEC.md section 7).
+is_hspace_at(word base, int i) {
+  int c = peek8(base + i);
+  int ok = is_hspace(c);
+} return int ok;
+
+is_numcont_at(word base, int i) {
+  int c = peek8(base + i);
+  int ok = is_numcont(c);
+} return int ok;

@@ -6,7 +6,7 @@
 
 scan_one(word base, int i) {
   int ni = 0;
-  if(is_space(peek8(base + i))) {
+  if(is_space_at(base, i)) {
     ni = adv_nl(base, i);
   } else {
     ni = scan_hash(base, i);

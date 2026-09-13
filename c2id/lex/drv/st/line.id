@@ -13,7 +13,9 @@ bump_line() {
 // so it is counted like any other.
 set_line(word base, int a, int b) {
   if(b > a) {
-    lset((import curline), 0, to_int(slice(base, a, b)));
+    string s = slice(base, a, b);
+    int n = to_int(s);
+    lset((import curline), 0, n);
   } else {
     bump_line();
   }
@@ -23,6 +25,7 @@ set_line(word base, int a, int b) {
 // quote. Markers without a filename leave curfile alone.
 set_file(word base, int a, int b) {
   if(peek8(base + a) == ch_dq()) {
-    sset((import curfile), 0, slice(base, a + 1, b - 1));
+    string s = slice(base, a + 1, b - 1);
+    sset((import curfile), 0, s);
   }
 } return void;
