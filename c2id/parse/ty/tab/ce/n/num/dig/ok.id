@@ -14,3 +14,17 @@ dig_ok(int c, int n) {
     ok = 1;
   }
 } return int ok;
+
+// charat(s, 1) must not run unless the first two checks already held, so the
+// short-circuited `&&` chain becomes these named steps instead.
+hex_pfx(string s) {
+  int ok = 0;
+  if(len(s) > 1 && charat(s, 0) == 48) {
+    ok = hex_pfx_x(s);
+  }
+} return int ok;
+
+hex_pfx_x(string s) {
+  int c = charat(s, 1);
+  int ok = is_xch(c);
+} return int ok;

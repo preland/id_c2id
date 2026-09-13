@@ -1,0 +1,4 @@
+spec_td_find(int[] pos) {
+  string txt = cur_text(pos);
+  int ty = ty_find(txt);
+} return int ty;

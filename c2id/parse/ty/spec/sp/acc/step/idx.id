@@ -1,0 +1,14 @@
+spec_basic_idx(int[] pos) {
+  string kw = spec_norm(pos);
+  int i = find_str_words(kw);
+} return int i;
+
+spec_norm(int[] pos) {
+  string txt = cur_text(pos);
+  string kw = norm_kw(txt);
+} return string kw;
+
+find_str_words(string kw) {
+  string[] words = spec_words();
+  int i = find_str(words, kw);
+} return int i;

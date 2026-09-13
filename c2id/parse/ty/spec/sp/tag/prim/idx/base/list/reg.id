@@ -1,0 +1,4 @@
+td_reg(int r) {
+  string name = decl_name();
+  ty_add(name, r);
+} return void;

@@ -4,8 +4,18 @@
 
 take_ident(int[] pos) {
   string name = "";
-  if(cur_kind(pos) == "id" && is_type_word(cur_text(pos)) == 0) {
-    name = cur_text(pos);
+  if(cur_kind(pos) == "id") {
+    name = ident_maybe(pos, name);
+  }
+} return string name;
+
+// is_type_word(cur_text(pos)) must not run when cur_kind(pos) != "id", so the
+// short-circuited `&&` in take_ident becomes this named step instead.
+ident_maybe(int[] pos, string name) {
+  string s = cur_text(pos);
+  int ok = is_type_word(s);
+  if(ok == 0) {
+    name = s;
     advance(pos);
   }
 } return string name;

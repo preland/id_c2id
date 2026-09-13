@@ -1,0 +1,24 @@
+
+// The declarator list of a typedef, and the comma-or-semicolon that ends
+// each declarator in any declaration (shared with struct members).
+
+td_names(int[] pos, int inner) {
+  int ok = 1;
+  while(ok == 1) {
+    ok = td_one(pos, inner);
+  }
+} return void;
+
+td_one(int[] pos, int inner) {
+  int r = parse_declarator(pos, inner);
+  td_reg(r);
+  int ok = decl_more(pos);
+} return int ok;
+
+// 1 to keep going (a comma followed), 0 after eating the `;`
+decl_more(int[] pos) {
+  int ok = take_tok(pos, ",");
+  if(ok == 0) {
+    skip_tok(pos, ";");
+  }
+} return int ok;

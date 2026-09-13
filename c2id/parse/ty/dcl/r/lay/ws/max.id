@@ -1,0 +1,14 @@
+
+// Both callers need the same "grow lay[1] to this member's
+// size" step, so it is one shared function rather than two identical ones.
+
+place_ws_cur(int[] lay, int r, int n) {
+  int sz1 = type_size(r);
+  lset(lay, 0, n + 8 * sz1);
+} return void;
+
+place_max(int[] lay, int r) {
+  int sz2 = type_size(r);
+  int fm = fx_max(lay[1], sz2);
+  lset(lay, 1, fm);
+} return void;

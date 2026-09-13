@@ -13,7 +13,8 @@ ce_name2(int[] pos) {
 } return int v;
 
 ce_ident(int[] pos) {
-  int v = enum_val(cur_text(pos));
+  string s = cur_text(pos);
+  int v = enum_val(s);
   advance(pos);
 } return int v;
 

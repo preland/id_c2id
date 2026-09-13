@@ -1,0 +1,20 @@
+
+// Continues grp.id: the group's suffixes are parsed against the outer type,
+// then the cursor rewinds to re-read the group itself (grp_inner), before
+// being wound forward again past it.
+
+grp_suffix(int[] pos, int inner, int i) {
+  int r = type_suffix(pos, inner);
+  int r2 = grp_rewind(pos, i, r);
+} return int r2;
+
+grp_rewind(int[] pos, int i, int r) {
+  int n = pos[0];
+  pos[0] = i;
+  int r2 = grp_inner(pos, r, n);
+} return int r2;
+
+grp_inner(int[] pos, int inner, int n) {
+  int r = parse_declarator(pos, inner);
+  pos[0] = n;
+} return int r;

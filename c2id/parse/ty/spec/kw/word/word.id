@@ -4,7 +4,8 @@
 // typedef table and not just a keyword list.
 
 is_type_word(string s) {
-  int ok = is_base_kw(norm_kw(s));
+  string kw = norm_kw(s);
+  int ok = is_base_kw(kw);
   if(ok == 0) {
     ok = is_tw2(s);
   }

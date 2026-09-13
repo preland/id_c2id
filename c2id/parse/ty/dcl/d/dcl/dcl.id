@@ -19,7 +19,8 @@
 
 parse_declarator(int[] pos, int inner) {
   int r = apply_stars(pos, inner);
-} return int dcl_direct(pos, r);
+  int d = dcl_direct(pos, r);
+} return int d;
 
 apply_stars(int[] pos, int inner) {
   int r = inner;
@@ -31,4 +32,5 @@ apply_stars(int[] pos, int inner) {
 star_step(int[] pos, int inner) {
   advance(pos);
   star_quals(pos);
-} return int newleaf("ptr", inner, 0, "", "");
+  int ty = newleaf("ptr", inner, 0, "", "");
+} return int ty;

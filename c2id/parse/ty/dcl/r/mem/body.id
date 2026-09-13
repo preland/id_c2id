@@ -4,7 +4,8 @@
 
 su_reg(int un, string name, int ty) {
   if(name != "") {
-    ty_add(su_key(un, name), ty);
+    string s = su_key(un, name);
+    ty_add(s, ty);
   }
 } return void;
 

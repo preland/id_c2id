@@ -1,0 +1,4 @@
+ce_mstep2(int[] pos, string s, int v) {
+  int rhs = ce_un(pos);
+  int r = ce_apply(s, v, rhs);
+} return int r;

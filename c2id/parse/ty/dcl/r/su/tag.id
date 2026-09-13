@@ -11,12 +11,14 @@ su_key(int un, string name) {
   if(un == 0) {
     kind = "struct ";
   }
-} return string kind + name;
+  string s = kind + name;
+} return string s;
 
 // an untagged struct is never shared, so it is never looked up
 rec_look(int un, string name) {
   int ty = 0 - 1;
   if(name != "") {
-    ty = ty_find(su_key(un, name));
+    string s = su_key(un, name);
+    ty = ty_find(s);
   }
 } return int ty;

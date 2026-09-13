@@ -4,8 +4,10 @@
 // applied to `double` makes `long double`.
 
 base_idx(int[] sp) {
-  int i = pick_code(sp, base_codes());
-} return int long_code(sp, i);
+  int[] codes = base_codes();
+  int i = pick_code(sp, codes);
+  int n = long_code(sp, i);
+} return int n;
 
 long_code(int[] sp, int i) {
   int n = i;

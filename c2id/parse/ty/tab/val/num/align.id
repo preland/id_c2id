@@ -6,7 +6,8 @@
 type_align(int ty) {
   int n = 1;
   if(k_of(ty) == "arr") {
-    n = type_align(a_of(ty));
+    int a = a_of(ty);
+    n = type_align(a);
   } else {
     n = talign2(ty);
   }
@@ -22,6 +23,7 @@ talign2(int ty) {
 talign3(int ty) {
   int n = 8;
   if(k_of(ty) == "prim") {
-    n = align_of_size(a_of(ty));
+    int a = a_of(ty);
+    n = align_of_size(a);
   }
 } return int n;

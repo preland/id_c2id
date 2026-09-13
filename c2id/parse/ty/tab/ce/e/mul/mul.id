@@ -1,0 +1,20 @@
+
+// The additive/bitwise operator set, and the multiplicative level below it.
+
+ce_at_e(string s) {
+  int ok = 0;
+  if(s == "+" || s == "-" || s == "<<" || s == ">>" || s == "|" || s == "&" || s == "^") {
+    ok = 1;
+  }
+} return int ok;
+
+ce_mul(int[] pos) {
+  int v = ce_un(pos);
+  int r = ce_mloop(pos, v);
+} return int r;
+
+ce_mloop(int[] pos, int v) {
+  while(ce_mmore(pos)) {
+    v = ce_mstep(pos, v);
+  }
+} return int v;

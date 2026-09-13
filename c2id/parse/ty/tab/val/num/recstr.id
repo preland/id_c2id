@@ -13,4 +13,5 @@ ts_su(int ty) {
   if(b_of(ty) == 0) {
     s = "struct ";
   }
-} return string s + s_of(ty) + "{" + a_of(ty) + "}";
+  string out = s + s_of(ty) + "{" + a_of(ty) + "}";
+} return string out;

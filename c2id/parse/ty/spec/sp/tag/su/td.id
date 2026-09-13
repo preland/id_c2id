@@ -1,0 +1,20 @@
+// is_typedef(cur_text(pos)) must not run when cur_kind(pos) != "id" or the
+// specifiers already have a base type, so the short-circuited `&&` chain in
+// spec_td becomes these named steps instead.
+spec_td_ok(int[] pos, int[] sp) {
+  int ok = 0;
+  if(cur_kind(pos) == "id" && has_base(sp) == 0) {
+    ok = spec_td_kw(pos);
+  }
+} return int ok;
+
+spec_td_kw(int[] pos) {
+  string s = cur_text(pos);
+  int ok = is_typedef(s);
+} return int ok;
+
+spec_td_apply(int[] pos, int[] sp) {
+  int ty = spec_td_find(pos);
+  lset(sp, 10, ty);
+  advance(pos);
+} return int 1;

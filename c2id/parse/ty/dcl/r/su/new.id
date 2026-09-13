@@ -19,4 +19,5 @@ new_su(int un, string name) {
 mk_rec(int un, string name) {
   int[] l = [];
   int[] m = [1];
-} return int newnode("rec", 0, un, name, "", l, m);
+  int ty = newnode("rec", 0, un, name, "", l, m);
+} return int ty;

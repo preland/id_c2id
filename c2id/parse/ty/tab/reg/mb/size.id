@@ -15,7 +15,8 @@ type_size(int ty) {
 arr_size(int ty) {
   int n = 0;
   if(b_of(ty) > 0) {
-    n = type_size(a_of(ty)) * b_of(ty);
+    int a = a_of(ty);
+    n = type_size(a) * b_of(ty);
   }
 } return int n;
 

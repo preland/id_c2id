@@ -1,0 +1,5 @@
+enum_head(int[] pos) {
+  advance(pos);
+  skip_attrs(pos);
+  take_ident(pos);
+} return void;

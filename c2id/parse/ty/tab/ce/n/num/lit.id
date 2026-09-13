@@ -14,7 +14,9 @@ ce_ap5(string s, int a, int b) {
 
 num_val(string s) {
   int i = hex_start(s);
-} return int radix_val(s, i, num_base(i));
+  int n = num_base(i);
+  int v = radix_val(s, i, n);
+} return int v;
 
 num_base(int i) {
   int n = 10;

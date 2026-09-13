@@ -10,7 +10,8 @@ param_body(int[] pos, int[] ps) {
 } return void;
 
 param_dots(int[] pos) {
-} return int take_tok(pos, "...");
+  int ok = take_tok(pos, "...");
+} return int ok;
 
 param_real(int[] pos, int[] ps) {
   int inner = parse_specs(pos);

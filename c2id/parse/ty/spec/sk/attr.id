@@ -4,7 +4,7 @@
 // are handled by consuming the first `(` and then skipping to its match.
 
 skip_attrs(int[] pos) {
-  while(is_attr(cur_text(pos))) {
+  while(attrs_more(pos)) {
     skip_attr(pos);
   }
 } return void;

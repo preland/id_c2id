@@ -1,0 +1,10 @@
+sy_push2(int n, int w, int r) {
+  int sz = type_size(r);
+  sy_col2(n, w, sz);
+} return void;
+
+sy_row_m(int ty) {
+  int[] m = m_of(ty);
+  int n = len((import synames));
+  push(m, n);
+} return void;

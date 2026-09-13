@@ -19,7 +19,8 @@ type_str(int ty) {
 ts2(int ty) {
   string s = "";
   if(k_of(ty) == "ptr") {
-    s = "*" + type_str(a_of(ty));
+    int a = a_of(ty);
+    s = "*" + type_str(a);
   } else {
     s = ts3(ty);
   }

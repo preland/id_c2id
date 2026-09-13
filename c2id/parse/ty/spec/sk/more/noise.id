@@ -11,18 +11,16 @@ close_delta(string s) {
 } return int n;
 
 skip_noise(int[] pos) {
-  int ok = 0;
-  if(is_qual(cur_text(pos))) {
-    advance(pos);
-    ok = 1;
-  } else {
+  int ok = skip_qual_ok(pos);
+  if(ok == 0) {
     ok = skip_attr_ok(pos);
   }
 } return int ok;
 
 skip_attr_ok(int[] pos) {
   int ok = 0;
-  if(is_attr(cur_text(pos))) {
+  string s = cur_text(pos);
+  if(is_attr(s)) {
     skip_attr(pos);
     ok = 1;
   }

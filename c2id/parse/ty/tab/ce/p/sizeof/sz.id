@@ -1,0 +1,4 @@
+ce_szparen_sz(int[] pos) {
+  int ty = parse_typename(pos);
+  int v = type_size(ty);
+} return int v;

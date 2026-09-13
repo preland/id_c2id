@@ -4,7 +4,8 @@
 // as its largest member, likewise rounded.
 
 sy_bpos(int j) {
-} return int (import syoff)[j] * 8 + (import sybit)[j];
+  int off = (import syoff)[j] * 8 + (import sybit)[j];
+} return int off;
 
 rec_end(int[] pos, int ty, int[] lay) {
   advance(pos);
@@ -13,6 +14,6 @@ rec_end(int[] pos, int ty, int[] lay) {
 } return void;
 
 rec_size(int ty, int[] lay) {
-  set_a(ty, align_up(rec_bytes(ty, lay), lay[2]));
-  lset(m_of(ty), 0, lay[2]);
+  rec_size_a(ty, lay);
+  rec_size_b(ty, lay);
 } return void;

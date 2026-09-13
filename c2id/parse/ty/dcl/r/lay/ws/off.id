@@ -1,0 +1,11 @@
+place_ws_off(int ty, int[] lay, int r) {
+  int al = type_align(r);
+  int au = align_up(lay[0], 8 * al);
+  int n = un_zero(ty, au);
+} return int n;
+
+place_bf_off(int ty, int[] lay, int r, int w) {
+  int sz1 = type_size(r);
+  int bp = bf_pos(lay[0], sz1, w);
+  int n = un_zero(ty, bp);
+} return int n;

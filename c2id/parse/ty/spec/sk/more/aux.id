@@ -1,0 +1,15 @@
+// cur_text(pos) must not be re-read as part of the while condition itself,
+// so skip_attrs's loop test becomes this named step instead.
+attrs_more(int[] pos) {
+  string s = cur_text(pos);
+  int ok = is_attr(s);
+} return int ok;
+
+skip_qual_ok(int[] pos) {
+  string s = cur_text(pos);
+  int ok = 0;
+  if(is_qual(s)) {
+    advance(pos);
+    ok = 1;
+  }
+} return int ok;

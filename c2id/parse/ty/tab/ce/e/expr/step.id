@@ -1,0 +1,10 @@
+ce_estep(int[] pos, int v) {
+  string s = cur_text(pos);
+  advance(pos);
+  int r = ce_estep2(pos, s, v);
+} return int r;
+
+ce_estep2(int[] pos, string s, int v) {
+  int rhs = ce_mul(pos);
+  int r = ce_apply(s, v, rhs);
+} return int r;

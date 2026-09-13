@@ -15,4 +15,5 @@ set_dname(string name) {
 } return void;
 
 decl_name() {
-} return string (import dname)[0];
+  string name = (import dname)[0];
+} return string name;

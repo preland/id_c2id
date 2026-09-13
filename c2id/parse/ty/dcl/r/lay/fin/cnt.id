@@ -8,3 +8,14 @@ rec_bytes(int ty, int[] lay) {
     n = (lay[0] + 7) / 8;
   }
 } return int n;
+
+rec_size_a(int ty, int[] lay) {
+  int b = rec_bytes(ty, lay);
+  int w = align_up(b, lay[2]);
+  set_a(ty, w);
+} return void;
+
+rec_size_b(int ty, int[] lay) {
+  int[] m = m_of(ty);
+  lset(m, 0, lay[2]);
+} return void;

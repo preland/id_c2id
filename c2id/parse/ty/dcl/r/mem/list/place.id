@@ -9,7 +9,7 @@ mem_anon(int ty, int[] lay, int inner) {
 } return void;
 
 place(int ty, int[] lay, int r, string name, int w) {
-  lset(lay, 2, fx_max(lay[2], type_align(r)));
+  splice_align(lay, r);
   int n = place_at(ty, lay, r, w);
   sy_push(ty, name, r, n, w);
 } return void;

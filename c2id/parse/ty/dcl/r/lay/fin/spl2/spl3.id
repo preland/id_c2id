@@ -1,0 +1,19 @@
+// m_of(inner) must not be re-read as part of the while condition itself, so
+// the loop test becomes this named step instead.
+splice_more(int inner, int i) {
+  int k = splice_len(inner);
+  int ok = 0;
+  if(i < k) {
+    ok = 1;
+  }
+} return int ok;
+
+splice_len(int inner) {
+  int[] m = m_of(inner);
+  int k = len(m);
+} return int k;
+
+splice_shift(int ty, int j, int n) {
+  int bp = sy_bpos(j);
+  splice_mem(ty, j, n + bp);
+} return void;

@@ -1,0 +1,17 @@
+
+// A parenthesised declarator, e.g. the `(*fp)` of `int (*fp)(char*, int)`.
+// The group binds to the type the *outer* suffixes produce, which are not
+// known yet -- so the group is skipped, the suffixes after it are parsed, and
+// the cursor is then wound back to re-read the group against the finished
+// type. That rewind is why the group case is four functions.
+
+dcl_group(int[] pos, int inner) {
+  int i = dcl_group_open(pos);
+  int r = grp_suffix(pos, inner, i);
+} return int r;
+
+dcl_group_open(int[] pos) {
+  advance(pos);
+  int i = pos[0];
+  skip_bal(pos);
+} return int i;

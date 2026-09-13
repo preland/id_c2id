@@ -6,10 +6,18 @@
 // record's -- so the enclosing record's rows are not contiguous.
 
 sy_row(int ty, int r) {
-  push(l_of(ty), r);
-  push(m_of(ty), len((import synames)));
+  sy_row_l(ty, r);
+  sy_row_m(ty);
+} return void;
+
+sy_row_l(int ty, int r) {
+  int[] l = l_of(ty);
+  push(l, r);
 } return void;
 
 // how many members record `ty` has
 member_count(int ty) {
-} return int len(m_of(ty)) - 1;
+  int[] m = m_of(ty);
+  int k = len(m);
+  int n = k - 1;
+} return int n;

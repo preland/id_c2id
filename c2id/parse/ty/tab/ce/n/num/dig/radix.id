@@ -3,7 +3,7 @@
 
 hex_start(string s) {
   int i = 0;
-  if(len(s) > 1 && charat(s, 0) == 48 && is_xch(charat(s, 1))) {
+  if(hex_pfx(s)) {
     i = 2;
   }
 } return int i;
@@ -17,8 +17,8 @@ is_xch(int c) {
 
 radix_val(string s, int i, int n) {
   int v = 0;
-  while(i < len(s) && dig_ok(charat(s, i), n)) {
-    v = v * n + dig_val(charat(s, i));
+  while(radix_more(s, i, n)) {
+    v = radix_step(s, i, n, v);
     i = i + 1;
   }
 } return int v;

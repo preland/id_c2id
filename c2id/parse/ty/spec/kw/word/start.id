@@ -3,9 +3,11 @@
 // `__signed__` onto `signed` so the specifier table needs only one entry.
 
 is_type_start(int[] pos) {
-  int ok = is_type_word(cur_text(pos));
+  string s = cur_text(pos);
+  int ok = is_type_word(s);
   if(ok == 0) {
-    ok = is_typedef(cur_text(pos));
+    string s2 = cur_text(pos);
+    ok = is_typedef(s2);
   }
 } return int ok;
 

@@ -13,7 +13,8 @@ ty_suffix2(int[] pos, int inner) {
 arr_suffix(int[] pos, int inner) {
   advance(pos);
   int n = arr_count(pos);
-} return int arr_make(pos, inner, n);
+  int r = arr_make(pos, inner, n);
+} return int r;
 
 // an unspecified bound, `[]`, is recorded as -1
 arr_count(int[] pos) {

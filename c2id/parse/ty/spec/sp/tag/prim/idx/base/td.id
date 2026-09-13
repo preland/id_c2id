@@ -18,7 +18,8 @@ pick_one(int[] sp, int[] xs, int i) {
 int_type() {
   int[] sp = spec_init();
   lset(sp, 3, 1);
-} return int mk_prim(sp);
+  int ty = mk_prim(sp);
+} return int ty;
 
 parse_typedef(int[] pos) {
   advance(pos);

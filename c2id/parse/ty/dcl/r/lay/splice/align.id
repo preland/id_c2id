@@ -1,0 +1,5 @@
+splice_align(int[] lay, int inner) {
+  int al = type_align(inner);
+  int w = fx_max(lay[2], al);
+  lset(lay, 2, w);
+} return void;

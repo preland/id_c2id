@@ -10,6 +10,14 @@ member_type(int ty, string name) {
   }
 } return int r;
 
+// m_of(ty) must not be re-read as part of the while condition itself, so
+// find.id's mem_find loop test becomes this named step instead.
+mem_more(int ty, int i, int found) {
+  int[] m = m_of(ty);
+  int k = len(m);
+  int ok = i < k && found < 0;
+} return int ok;
+
 // An alignment of 0 is possible -- a void type has one -- so the guard is not
 // decoration: without it this divides by zero.
 align_up(int n, int a) {

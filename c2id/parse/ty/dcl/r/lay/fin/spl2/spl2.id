@@ -1,0 +1,22 @@
+
+// Copying the inner record's rows, shifted by where the anonymous member
+// itself landed.
+
+splice_all(int ty, int inner, int n) {
+  int i = 1;
+  while(splice_more(inner, i)) {
+    i = splice_one(ty, inner, n, i);
+  }
+} return void;
+
+splice_one(int ty, int inner, int n, int i) {
+  int j = m_of(inner)[i];
+  splice_shift(ty, j, n);
+  int i2 = i + 1;
+} return int i2;
+
+splice_mem(int ty, int j, int n) {
+  string name = (import synames)[j];
+  int r = (import syids)[j];
+  sy_push(ty, name, r, n, (import sywid)[j]);
+} return void;

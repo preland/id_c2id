@@ -1,0 +1,19 @@
+// charat(s, i) must not be re-read as part of the while condition itself, so
+// radix_val's loop test becomes these named steps instead.
+radix_more(string s, int i, int n) {
+  int ok = 0;
+  if(i < len(s)) {
+    ok = radix_more_ok(s, i, n);
+  }
+} return int ok;
+
+radix_more_ok(string s, int i, int n) {
+  int c = charat(s, i);
+  int ok = dig_ok(c, n);
+} return int ok;
+
+radix_step(string s, int i, int n, int v) {
+  int c = charat(s, i);
+  int d = dig_val(c);
+  int v2 = v * n + d;
+} return int v2;

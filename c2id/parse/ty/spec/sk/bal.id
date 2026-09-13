@@ -11,7 +11,8 @@ skip_bal(int[] pos) {
 } return void;
 
 bal_step(int[] pos, int depth) {
-  int n = depth + bal_delta(cur_text(pos));
+  string s = cur_text(pos);
+  int n = depth + bal_delta(s);
   advance(pos);
 } return int n;
 

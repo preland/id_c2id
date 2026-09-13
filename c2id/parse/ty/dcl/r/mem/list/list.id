@@ -21,4 +21,5 @@ mem_one(int[] pos, int ty, int[] lay, int inner) {
   } else {
     mem_named(pos, ty, lay, inner);
   }
-} return int decl_more(pos);
+  int ok = decl_more(pos);
+} return int ok;

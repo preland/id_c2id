@@ -4,7 +4,8 @@
 mem_named(int[] pos, int ty, int[] lay, int inner) {
   int r = parse_declarator(pos, inner);
   string name = decl_name();
-} return int mem_place(pos, ty, lay, r, name);
+  int r2 = mem_place(pos, ty, lay, r, name);
+} return int r2;
 
 mem_place(int[] pos, int ty, int[] lay, int r, string name) {
   int w = mem_width(pos);

@@ -12,7 +12,8 @@ spec_tag(int[] pos, int[] sp) {
 spec_su(int[] pos, int[] sp) {
   int ok = 0;
   if(at_text(pos, "struct") || at_text(pos, "union")) {
-    lset(sp, 10, parse_su(pos));
+    int ty = parse_su(pos);
+    lset(sp, 10, ty);
     ok = 1;
   }
 } return int ok;
@@ -20,7 +21,8 @@ spec_su(int[] pos, int[] sp) {
 spec_en(int[] pos, int[] sp) {
   int ok = 0;
   if(at_text(pos, "enum")) {
-    lset(sp, 10, parse_enum(pos));
+    int ty = parse_enum(pos);
+    lset(sp, 10, ty);
     ok = 1;
   } else {
     ok = spec_td(pos, sp);

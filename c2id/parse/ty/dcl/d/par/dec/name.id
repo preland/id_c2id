@@ -14,4 +14,5 @@ decay2(int inner) {
 
 parse_typename(int[] pos) {
   int inner = parse_specs(pos);
-} return int parse_declarator(pos, inner);
+  int r = parse_declarator(pos, inner);
+} return int r;

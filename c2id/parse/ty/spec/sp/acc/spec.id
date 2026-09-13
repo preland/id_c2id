@@ -16,7 +16,8 @@ spec_init() {
 parse_specs(int[] pos) {
   int[] sp = spec_init();
   scan_specs(pos, sp);
-} return int spec_type(sp);
+  int inner = spec_type(sp);
+} return int inner;
 
 scan_specs(int[] pos, int[] sp) {
   int ok = 1;
