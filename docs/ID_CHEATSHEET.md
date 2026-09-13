@@ -347,7 +347,8 @@ word b = peek8(p + 8);         // 1 -- the store is little-endian
 
 `word` is 64-bit. `& | ^ ~ << >>` work; `>>` is arithmetic. Unsigned versions
 are `udiv`, `umod`, `ult`, `ushr`. Hex literals are supported. Bitwise binds
-**tighter** than comparison, so `flags & MASK != 0` needs no parentheses.
+**tighter** than comparison — the opposite of C — so mixing the two without
+parentheses is an error: write `(flags & MASK) != 0`.
 
 ## Traps
 

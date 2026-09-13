@@ -55,10 +55,12 @@ express `PAGE_MASK` without them, and emulating them with division would be
 both unreadable and unusably slow.
 
 Precedence follows C, slotted into `id`'s existing table below the comparisons
-so that `flags & MASK != 0` parses the way a systems programmer expects
-(`(flags & MASK) != 0`), rather than C's historical mistake. This is a small,
-deliberate divergence from C and `c2id` fully parenthesises its output anyway,
-so it never bites the port.
+so that a bitwise operator binds tighter than a comparison, rather than C's
+historical mistake. Because the two languages disagree, neither reading may be
+left to the reader: a comparison with an unparenthesized bitwise operand (or a
+bitwise operation with an unparenthesized comparison operand) is a compile
+error, so the mask test is written `(flags & MASK) != 0`. `c2id` fully
+parenthesises its output, so the port always emits that form.
 
 ### Shift width follows the operand type
 
