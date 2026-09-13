@@ -8,5 +8,7 @@ blk1(word fp) {
 
 // t = t + i
 blk2(word fp) {
-  poke32(fp + 16, peek32(fp + 16) + peek32(fp + 24));
+  word t0 = peek32(fp + 16);
+  word t1 = peek32(fp + 24);
+  poke32(fp + 16, t0 + t1);
 } return word 3;

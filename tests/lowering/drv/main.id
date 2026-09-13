@@ -5,8 +5,13 @@
 main(int argc, string[] argv) {
   word fp = alloc(32);
   poke64(fp + 8, 10);
-  print("" + c_sum_to(fp));
+  print_sum_to(fp);
 } return int 0;
+
+print_sum_to(word fp) {
+  word t0 = c_sum_to(fp);
+  print("" + t0);
+} return void;
 
 // The driver loop: run blocks until one returns the end marker. Blocks return
 // to here rather than tail-calling each other, so a loop of any length runs in
@@ -16,4 +21,5 @@ c_sum_to(word fp) {
   while(pc != 0 - 1) {
     pc = disp_sum_to(fp, pc);
   }
-} return word peek64(fp);
+  word t0 = peek64(fp);
+} return word t0;

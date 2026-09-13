@@ -9,10 +9,13 @@ disp_hi(word fp, word pc) {
 
 // the `for` step: i++
 blk3(word fp) {
-  poke32(fp + 24, peek32(fp + 24) + 1);
+  word t0 = peek32(fp + 24);
+  poke32(fp + 24, t0 + 1);
 } return word 1;
 
 // return t
 blk4(word fp) {
-  poke64(fp, peek32(fp + 16));
-} return word 0 - 1;
+  word t0 = peek32(fp + 16);
+  poke64(fp, t0);
+  word nxt = 0 - 1;
+} return word nxt;
