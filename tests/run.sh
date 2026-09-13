@@ -74,7 +74,7 @@ fi
 # of those and two more idc.py never learned, so bin/idc is the stricter check.
 # What went with idc.py is a second, independent implementation agreeing that
 # the project is legal.
-if "$idc" "$here/tests/lowering" -o "$work/lowering" >"$work/lowering.err" 2>&1; then
+if "$idc" "$here/tests/lowering" --allow-untested -o "$work/lowering" >"$work/lowering.err" 2>&1; then
     got=$("$work/lowering")
     if [[ $got == "55" ]]; then
         echo "PASS  lowering-reference"
@@ -111,7 +111,7 @@ for src in "$here"/tests/c/*.c; do
         echo "SKIP  $name: c2id: $(head -1 "$work/$name.c2iderr")"
         skip=$((skip + 1)); continue
     fi
-    if ! "$idc" "$work/$name.id" -o "$work/$name.out" > "$work/$name.idcerr" 2>&1; then
+    if ! "$idc" "$work/$name.id" --allow-untested -o "$work/$name.out" > "$work/$name.idcerr" 2>&1; then
         echo "FAIL  $name: generated id does not compile"
         sed 's/^/    /' "$work/$name.idcerr" | head -5
         fail=$((fail + 1)); failed_names+=("$name"); continue

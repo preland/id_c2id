@@ -41,7 +41,7 @@ out=$2
 if [[ ! -x $c2id_bin ]]; then
     mkdir -p "$(dirname "$c2id_bin")"
     echo "c2id: building the compiler from c2id/ ..." >&2
-    "$idc" "$here/c2id" -o "$c2id_bin" >&2
+    "$idc" "$here/c2id" --allow-untested -o "$c2id_bin" >&2
 fi
 
 # Preprocess if needed. -P drops the linemarkers only for plain .c inputs

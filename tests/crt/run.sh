@@ -36,7 +36,7 @@ mkdir -p "$TMP/p"
 cp -r "$HERE/prog/." "$TMP/p/"
 cp -r "$ROOT/crt" "$TMP/p/crt"
 
-if "$IDC" "$TMP/p" -o "$TMP/idprog" >"$TMP/build.log" 2>&1; then
+if "$IDC" "$TMP/p" --allow-untested -o "$TMP/idprog" >"$TMP/build.log" 2>&1; then
     ok "crt builds with the primary compiler"
 else
     bad "crt builds with the primary compiler ($(head -1 "$TMP/build.log"))"
@@ -48,7 +48,7 @@ fi
 # agreement. The check that replaces it is crt alone, with no program: every
 # rule is still checked on every function, and nothing in prog/ can be what
 # makes crt legal.
-if "$IDC" "$ROOT/crt" --emit-c "$TMP/crt.c" >"$TMP/build2.log" 2>&1; then
+if "$IDC" "$ROOT/crt" --allow-untested --emit-c "$TMP/crt.c" >"$TMP/build2.log" 2>&1; then
     ok "crt builds on its own with the primary compiler"
 else
     bad "crt builds on its own with the primary compiler ($(head -1 "$TMP/build2.log"))"

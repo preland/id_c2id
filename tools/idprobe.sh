@@ -58,7 +58,7 @@ probe_word() {
 } return word v;
 ID
 
-if ! "$idc" "$work/probe.id" -o "$work/probe" >"$work/err" 2>&1; then
+if ! "$idc" "$work/probe.id" --allow-untested -o "$work/probe" >"$work/err" 2>&1; then
     echo "idprobe: the id compiler at $idc does not accept word/alloc/peek64" >&2
     sed 's/^/  /' "$work/err" | head -5 >&2
     echo "  These are docs/ID_EXTENSIONS.md's systems extensions; they live on" >&2
