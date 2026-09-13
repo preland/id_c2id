@@ -6,3 +6,9 @@ list_str(int[] ids) {
     i = i + 1;
   }
 } return string s;
+
+lists_str(int id) {
+  int[] l = l_of(id);
+  int[] m = m_of(id);
+  string txt = list_str(l) + list_str(m);
+} return string txt;

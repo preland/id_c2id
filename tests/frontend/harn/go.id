@@ -1,8 +1,8 @@
 // Stress: parse a whole sequence of statements, reporting how far it gets.
 go() {
-  lex_all(read_all());
-  int[] pos = [0];
-  drain(pos, 0);
+  string src = read_all();
+  lex_all(src);
+  drain([0], 0);
 } return void;
 
 drain(int[] pos, int n) {
@@ -13,5 +13,6 @@ drain(int[] pos, int n) {
 
 one_more(int[] pos, int n) {
   int id = parse_stmt(pos);
-  print("" + n + ": " + st_str(id));
-} return int n + 1;
+  print_tree(n, id);
+  n = n + 1;
+} return int n;
