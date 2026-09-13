@@ -21,7 +21,7 @@ set -euo pipefail
 
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 c2id_bin=${C2ID:-$here/build/c2id}
-idc_py=${IDC_PY:-$here/../idc/idc.py}
+idc=${IDC:-$here/../idc/bin/idc}
 
 if [[ $# -ne 2 ]]; then
     echo "usage: ${BASH_SOURCE[0]} <input.c|input.i> <output-project-dir>" >&2
@@ -32,20 +32,16 @@ out=$2
 
 # Build c2id itself if it isn't there. It is an id project like any other.
 #
-# idc.py rather than bin/idc, and that is a debt rather than a preference. The
-# two compilers disagree about two rules in docs/SPEC.md -- a call may not be an
-# argument to a call, and a return clause is a name or a literal -- which
-# bin/idc enforces and idc.py does not. c2id was written against idc.py and so
-# breaks both, 518 times; see the umbrella's docs/GAPS.md B6/B7. Until that is
-# paid off, switching this line to bin/idc does not build.
-#
-# What idc.py does enforce, and what this line was originally here for, is the
-# rest: the rule of 3, one name one type, function-logic uniqueness. c2id obeys
-# those like anything else.
+# bin/idc, the compiler every other id program is built with. This was idc.py
+# for a long time, because c2id was written against idc.py and broke two rules
+# in docs/SPEC.md that only bin/idc enforces -- a call may not be an argument to
+# a call, and a return clause is a name or a literal. c2id obeys both now (the
+# umbrella's docs/GAPS.md B6/B7), so the translator and the projects it emits are
+# held to the same language.
 if [[ ! -x $c2id_bin ]]; then
     mkdir -p "$(dirname "$c2id_bin")"
     echo "c2id: building the compiler from c2id/ ..." >&2
-    python3 "$idc_py" "$here/c2id" -o "$c2id_bin" >&2
+    "$idc" "$here/c2id" -o "$c2id_bin" >&2
 fi
 
 # Preprocess if needed. -P drops the linemarkers only for plain .c inputs

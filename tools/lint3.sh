@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # lint3.sh -- check id's structural rules on a source tree without compiling.
 #
-# idc.py enforces these too, but only once the whole project compiles. While
+# bin/idc enforces these too, but only once the whole project compiles. While
 # modules are being written independently this catches the layout mistakes
 # early, which matters because fixing a directory level after the fact means
 # moving everything below it.

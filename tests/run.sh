@@ -18,8 +18,6 @@ here=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 work=$here/build/tests
 idc=${IDC:-$here/../idc/bin/idc}
 c2id=${C2ID:-$here/build/c2id}
-# The reference compiler: only it enforces id's action/nesting/uniqueness rules.
-idc_py=${IDC_PY:-$here/../idc/idc.py}
 
 mkdir -p "$work"
 
@@ -70,7 +68,13 @@ fi
 # ---- the lowering reference: the hand-written project in tests/lowering/ is
 # the exact shape c2id must generate, so it has to keep compiling and keep
 # printing 55 whatever else changes.
-if python3 "$idc_py" "$here/tests/lowering" -o "$work/lowering" >"$work/lowering.err" 2>&1; then
+#
+# This used to be built with idc.py, because idc.py was once the only compiler
+# that enforced the action, nesting and uniqueness rules. bin/idc enforces all
+# of those and two more idc.py never learned, so bin/idc is the stricter check.
+# What went with idc.py is a second, independent implementation agreeing that
+# the project is legal.
+if "$idc" "$here/tests/lowering" -o "$work/lowering" >"$work/lowering.err" 2>&1; then
     got=$("$work/lowering")
     if [[ $got == "55" ]]; then
         echo "PASS  lowering-reference"
@@ -80,7 +84,7 @@ if python3 "$idc_py" "$here/tests/lowering" -o "$work/lowering" >"$work/lowering
         fail=$((fail + 1)); failed_names+=("lowering-reference")
     fi
 else
-    echo "FAIL  lowering-reference: does not compile under idc.py"
+    echo "FAIL  lowering-reference: does not compile under bin/idc"
     sed 's/^/    /' "$work/lowering.err" | head -5
     fail=$((fail + 1)); failed_names+=("lowering-reference")
 fi

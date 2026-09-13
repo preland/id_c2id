@@ -55,7 +55,7 @@ echo "$idprobe_out"
 case $idprobe_rc in
     0) ok id-toolchain ;;
     1) bad id-toolchain ;;   # present but wrong: that is a real problem
-    *) meh id-toolchain "no id compiler; set IDC_PY or clone id_development" ;;
+    *) meh id-toolchain "no id compiler; set IDC or clone id_development" ;;
 esac
 
 # ---- 3. crt's behaviour, against C

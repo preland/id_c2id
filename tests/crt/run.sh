@@ -43,10 +43,15 @@ else
     echo; echo "$pass passed, $fail failed"; exit 1
 fi
 
-if python3 "$ROOT/../idc/idc.py" "$TMP/p" -o "$TMP/idprog_py" >"$TMP/build2.log" 2>&1; then
-    ok "crt builds with the reference compiler"
+# This used to build the same project with idc.py as well. idc.py enforces
+# nothing bin/idc does not, so what it added was a second implementation's
+# agreement. The check that replaces it is crt alone, with no program: every
+# rule is still checked on every function, and nothing in prog/ can be what
+# makes crt legal.
+if "$IDC" "$ROOT/crt" --emit-c "$TMP/crt.c" >"$TMP/build2.log" 2>&1; then
+    ok "crt builds on its own with the primary compiler"
 else
-    bad "crt builds with the reference compiler ($(head -1 "$TMP/build2.log"))"
+    bad "crt builds on its own with the primary compiler ($(head -1 "$TMP/build2.log"))"
 fi
 
 if ! cc -fno-builtin -o "$TMP/twin" "$HERE/twin.c" 2>"$TMP/cc.log"; then

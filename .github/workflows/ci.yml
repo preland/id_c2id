@@ -71,7 +71,7 @@ jobs:
         id: idprobe
         working-directory: c2id
         env:
-          IDC_PY: ${{ github.workspace }}/id_development/idc/idc.py
+          IDC: ${{ github.workspace }}/id_development/idc/bin/idc
         run: |
           if ./tools/idprobe.sh -v; then
             echo "usable=yes" >> "$GITHUB_OUTPUT"
@@ -89,7 +89,6 @@ jobs:
         if: steps.idprobe.outputs.usable == 'yes'
         working-directory: c2id
         env:
-          IDC_PY: ${{ github.workspace }}/id_development/idc/idc.py
           IDC: ${{ github.workspace }}/id_development/idc/bin/idc
         run: ./tests/run.sh
 
@@ -101,6 +100,5 @@ jobs:
       - name: Developer entry point (tools/check.sh)
         working-directory: c2id
         env:
-          IDC_PY: ${{ github.workspace }}/id_development/idc/idc.py
           IDC: ${{ github.workspace }}/id_development/idc/bin/idc
         run: ./tools/check.sh

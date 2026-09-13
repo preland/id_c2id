@@ -21,23 +21,18 @@
 set -uo pipefail
 
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-idc_py=${IDC_PY:-$here/../idc/idc.py}
+idc=${IDC:-$here/../idc/bin/idc}
 verbose=0
 [[ ${1:-} == -v ]] && verbose=1
 
 say() { (( verbose )) && echo "idprobe: $*"; return 0; }
 
-if [[ ! -f $idc_py ]]; then
-    echo "idprobe: no id compiler at $idc_py" >&2
+if [[ ! -x $idc ]]; then
+    echo "idprobe: no id compiler at $idc" >&2
     echo "  this repository is a submodule of id_development and builds with" >&2
     echo "  the toolchain beside it. From the umbrella checkout:" >&2
     echo "    git submodule update --init idc" >&2
-    echo "  or point IDC_PY at an existing idc.py." >&2
-    exit 2
-fi
-
-if ! command -v python3 >/dev/null 2>&1; then
-    echo "idprobe: python3 is required to run $idc_py" >&2
+    echo "  or point IDC at an existing bin/idc." >&2
     exit 2
 fi
 
@@ -46,22 +41,25 @@ trap 'rm -rf "$work"' EXIT
 
 # The probe exercises the four things the port cannot be written without: the
 # `word` type, the flat store, and a store/load round trip through it.
-# Deliberately two functions of one and two actions: a compiler that lacks the
-# extensions must fail on `word`/`alloc`, not on id's action limit, or the
+# Deliberately two functions of two and three actions, with every value that
+# takes a step named: a compiler that lacks the extensions must fail on
+# `word`/`alloc`, not on id's action limit or its naming rules, or the
 # diagnostic below would be pointing at the wrong thing.
 cat > "$work/probe.id" <<'ID'
 main(int argc, string[] argv) {
-  print("" + probe_word());
+  word got = probe_word();
+  print("" + got);
 } return int 0;
 
 probe_word() {
   word m = alloc(16);
   poke64(m + 8, 41);
-} return word peek64(m + 8) + 1;
+  word v = peek64(m + 8) + 1;
+} return word v;
 ID
 
-if ! python3 "$idc_py" "$work/probe.id" -o "$work/probe" >"$work/err" 2>&1; then
-    echo "idprobe: the id compiler at $idc_py does not accept word/alloc/peek64" >&2
+if ! "$idc" "$work/probe.id" -o "$work/probe" >"$work/err" 2>&1; then
+    echo "idprobe: the id compiler at $idc does not accept word/alloc/peek64" >&2
     sed 's/^/  /' "$work/err" | head -5 >&2
     echo "  These are docs/ID_EXTENSIONS.md's systems extensions; they live on" >&2
     echo "  branch kernel-port/systems-extensions of the id repository." >&2
@@ -74,5 +72,5 @@ if [[ $got != "42" ]]; then
     exit 1
 fi
 
-say "usable id toolchain at $idc_py (word, alloc, peek64/poke64 all work)"
+say "usable id toolchain at $idc (word, alloc, peek64/poke64 all work)"
 exit 0

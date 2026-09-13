@@ -45,9 +45,12 @@ int sum_to(int n) {
 ## Verify it
 
 ```sh
-python3 ../../../idc/idc.py . -o /tmp/sumto && /tmp/sumto   # 55
+../../../idc/bin/idc . -o /tmp/sumto && /tmp/sumto   # 55
 ```
 
-Use `idc.py`, not `bin/idc`: only the reference compiler enforces the action
-limit, the nesting limit, the one-name-one-type rule and the duplicate-logic
-rule. Passing under `idc.py` is the claim being made here.
+`bin/idc` enforces the action limit, the nesting limit, the one-name-one-type
+rule and the duplicate-logic rule, and two rules `idc.py` never did: a call is
+never an argument to a call, and a return clause is a name or a literal. So
+every value that takes a step is named first -- `word t0 = peek32(fp + 24);`
+-- and the temporaries are `word`s named `t0`, `t1`, ... the way the emitter
+names them. Passing under `bin/idc` is the claim being made here.
