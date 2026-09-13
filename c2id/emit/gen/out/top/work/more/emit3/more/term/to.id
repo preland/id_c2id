@@ -1,0 +1,23 @@
+// Where a jump goes: the successor of a "jmp", or the edge a literal condition
+// always takes. The number printed is past any empty jumps in between.
+
+emit_jump(int b) {
+  int dest = jump_to(b);
+  int blk = thread_blk(dest);
+  print("} return word " + blk + ";");
+} return void;
+
+jump_to(int b) {
+  int blk = cfg_succ(b);
+  if(cfg_term(b) == "cond") {
+    blk = cond_const_to(b, blk);
+  }
+} return int blk;
+
+// A literal 0 takes the false edge; any other literal the true one, as in C.
+cond_const_to(int b, int blk) {
+  int e = cfg_expr(b);
+  if(a_of(e) == 0) {
+    blk = cfg_alt(b);
+  }
+} return int blk;

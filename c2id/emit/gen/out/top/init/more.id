@@ -18,5 +18,5 @@ boot_f() {
 init_tu() {
   export string[] fnames = [];
   export int[] fbodies = [];
-  export int[] gfn = [0];
+  init_gfn();
 } return void;

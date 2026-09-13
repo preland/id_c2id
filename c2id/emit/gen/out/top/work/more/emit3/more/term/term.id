@@ -1,25 +1,24 @@
 // How a block ends. Three terminators, and each has one shape (cfg/README.md).
+// A condition that is a literal -- `while (1)` -- always takes one edge, so it
+// is emitted as the jump it is; `if(1)` would make a block whose result is a
+// constant.
 
 emit_term(int b) {
-  string kind = cfg_term(b);
-  if(kind == "jmp") {
-    int blk = cfg_succ(b);
-    print("} return word " + blk + ";");
+  if(jump_like(b) == 1) {
+    emit_jump(b);
   } else {
-    emit_term2(b, kind);
+    emit_term2(b);
   }
 } return void;
 
-emit_term2(int b, string kind) {
-  if(kind == "end") {
+emit_term2(int b) {
+  if(cfg_term(b) == "end") {
     emit_end(b);
   } else {
     emit_cond(b);
   }
 } return void;
 
-// A return with no value is -1 for the expression, which is why the poke is
-// conditional rather than unconditional.
 emit_end(int b) {
   int e = cfg_expr(b);
   emit_ret(e);

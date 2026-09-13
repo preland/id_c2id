@@ -1,7 +1,7 @@
 // The two halves of an unsigned relation.
 
 ult_txt(string s, string out) {
-  string txt = "ult(" + s + ", " + out + ")";
+  string txt = name_val("ult(" + s + ", " + out + ")");
 } return string txt;
 
 // `id` has no `!`, so "not less than" is "the comparison came out 0".

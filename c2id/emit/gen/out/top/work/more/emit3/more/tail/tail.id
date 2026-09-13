@@ -2,9 +2,9 @@
 // once the successor has been named.
 
 emit_cond3(int b, string txt) {
-  int blk = cfg_succ(b);
-  print("  if(" + txt + ") { nxt = " + blk + "; }");
-  print("} return word nxt;");
+  int dest = cfg_succ(b);
+  int blk = thread_blk(dest);
+  print("  if(" + txt + ") { nxt = " + blk + "; }\n} return word nxt;");
 } return void;
 
 // Check if block j references block b through any of its successors.

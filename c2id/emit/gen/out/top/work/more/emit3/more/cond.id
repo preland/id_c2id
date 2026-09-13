@@ -1,21 +1,26 @@
 // A two-way branch, written as the false edge assigned first and the true edge
 // assigned over it, so the block stays straight-line and one level deep.
 
+// A return with no value still stores 0, the same store a bare `return;`
+// statement emits, so an end block always does something.
 emit_ret(int e) {
   if(e >= 0) {
     string txt = ex_txt(e);
+    flush_pend();
     print("  poke64(fp, " + txt + ");");
+  } else {
+    print("  poke64(fp, 0);");
   }
 } return void;
 
 emit_cond(int b) {
-  int a = cfg_alt(b);
-  print("  word nxt = " + a + ";");
-  emit_cond2(b);
-} return void;
-
-emit_cond2(int b) {
   int e = cfg_expr(b);
   string txt = ex_txt(e);
-  emit_cond3(b, txt);
+  emit_cond2(b, txt);
+} return void;
+
+emit_cond2(int b, string txt) {
+  flush_pend();
+  int alt = cfg_alt(b);
+  emit_cond_alt(b, txt, alt);
 } return void;

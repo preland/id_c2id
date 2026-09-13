@@ -1,0 +1,26 @@
+// Folding empty jumps away. A block with no statements whose only job is to go
+// somewhere else would be emitted as a function with no effect and a constant
+// result, which id rejects; so every edge into one is pointed at where it
+// leads, and the block itself is not emitted.
+
+thread_blk(int b) {
+  int n = 0;
+  while(n < cfg_nblocks() && empty_jump(b) == 1) {
+    b = jump_to(b);
+    n = n + 1;
+  }
+} return int b;
+
+// A cycle made only of empty jumps (`for (;;);`) leads nowhere else, so its
+// blocks are still emitted.
+skip_blk(int b) {
+  int ok = is_dead(b);
+  if(empty_jump(b) == 1) {
+    ok = threads_away(b);
+  }
+} return int ok;
+
+threads_away(int b) {
+  int dest = thread_blk(b);
+  int ok = 1 - empty_jump(dest);
+} return int ok;

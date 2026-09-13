@@ -21,6 +21,7 @@ emit_mark2(int g) {
 } return void;
 
 emit_open(int fn, int b) {
+  pend_reset();
   print("blk" + fn + "_" + b + "(word fp) {");
   emit_stmts(b);
 } return void;

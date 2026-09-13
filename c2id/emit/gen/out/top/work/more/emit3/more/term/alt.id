@@ -1,0 +1,8 @@
+// The false edge, assigned first so the true edge can be assigned over it and
+// the block stays one level deep.
+
+emit_cond_alt(int b, string txt, int alt) {
+  int a = thread_blk(alt);
+  print("  word nxt = " + a + ";");
+  emit_cond3(b, txt);
+} return void;

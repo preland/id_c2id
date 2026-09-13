@@ -16,5 +16,5 @@ uop_fn(int id) {
 uop_body(int id, string name) {
   string exa = a_ex(id);
   string exb = b_ex(id);
-  string s = name + "(" + exa + ", " + exb + ")";
+  string s = name_val(name + "(" + exa + ", " + exb + ")");
 } return string s;

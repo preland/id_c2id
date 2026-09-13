@@ -9,7 +9,8 @@
 conv_txt(int ty, string s) {
   string out = s;
   if(k_of(ty) == "prim" && load_wid(ty) < 8) {
-    out = cvt_name(ty) + "(" + s + ")";
+    string head = cvt_name(ty);
+    out = name_val(head + "(" + s + ")");
   }
 } return string out;
 
@@ -17,9 +18,9 @@ conv_txt(int ty, string s) {
 // an unsigned one is a no-op the store already performed, and is emitted
 // anyway so that the generated text says what type it is reading.
 load_txt(int ty, string s) {
-  int w = load_wid(ty);
-  string bits = wid_bits(w);
-  string out = conv_txt(ty, "peek" + bits + "(" + s + ")");
+  string bits = cvt_suffix(ty);
+  string raw = name_val("peek" + bits + "(" + s + ")");
+  string out = conv_txt(ty, raw);
 } return string out;
 
 // poke truncates to its width, which is exactly C's conversion on assignment:

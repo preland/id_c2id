@@ -13,7 +13,8 @@ st_txt(int id) {
   string s = "";
   if(k_of(id) == "expr") {
     int a = a_of(id);
-    s = ex_txt(a) + ";";
+    string txt = ex_txt(a);
+    s = unname_last(txt) + ";";
   } else {
     s = stt2(id);
   }

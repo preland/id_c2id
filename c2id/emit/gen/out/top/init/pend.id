@@ -1,0 +1,19 @@
+// The block counter, and the queue of temporaries emit/gen/txt/st/st/pend.id
+// names: the lines waiting to be printed, the call each one names, and the
+// number the next one gets.
+
+init_gfn() {
+  export int[] gfn = [0];
+  pend_setup();
+} return void;
+
+pend_setup() {
+  export string[] pend = [];
+  export string[] pendc = [];
+  export int[] pendn = [0];
+} return void;
+
+// Each block function's temporaries start again at t0.
+pend_reset() {
+  lset((import pendn), 0, 0);
+} return void;

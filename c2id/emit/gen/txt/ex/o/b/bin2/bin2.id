@@ -32,6 +32,6 @@ plain_txt(int id) {
 shl_arg(int a, string op) {
   string s = ex_txt(a);
   if(op == "<<" && (k_of(a) == "num" || k_of(a) == "un" || k_of(a) == "bin")) {
-    s = "sx_bits(" + s + ", 64)";
+    s = name_val("sx_bits(" + s + ", 64)");
   }
 } return string s;

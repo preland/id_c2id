@@ -9,7 +9,8 @@
 // an `id` string would need an escape this program would then have to know.
 str_txt(int id) {
   string s = "mem_of_str(" + chr(34) + s_of(id) + chr(34) + ")";
-} return string s;
+  string out = name_val(s);
+} return string out;
 
 // A cast is exactly the width conversion, which is the same operation an
 // assignment or a load performs; casting to a pointer or to any 8-byte type

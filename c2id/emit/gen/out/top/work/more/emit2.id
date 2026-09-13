@@ -12,7 +12,7 @@ emit_blocks(int fn, int body) {
 emit_nb(int fn, int n) {
   int b = 0;
   while(b < n) {
-    if(is_dead(b) == 0) {
+    if(skip_blk(b) == 0) {
       emit_blk(fn, b);
     }
     b = b + 1;

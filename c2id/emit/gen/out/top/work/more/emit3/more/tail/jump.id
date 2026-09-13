@@ -1,0 +1,28 @@
+// A block that always goes to one place: a "jmp", or a "cond" on a literal.
+
+jump_like(int b) {
+  int ok = 0;
+  if(cfg_term(b) == "jmp") {
+    ok = 1;
+  } else {
+    ok = num_cond(b);
+  }
+} return int ok;
+
+num_cond(int b) {
+  int ok = 0;
+  if(cfg_term(b) == "cond") {
+    int e = cfg_expr(b);
+    if(k_of(e) == "num") {
+      ok = 1;
+    }
+  }
+} return int ok;
+
+empty_jump(int b) {
+  int ok = 0;
+  int[] xs = cfg_stmts(b);
+  if(len(xs) == 0) {
+    ok = jump_like(b);
+  }
+} return int ok;

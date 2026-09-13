@@ -13,7 +13,8 @@ call_head(int id) {
 
 call_wrap(string s, int id) {
   int[] ids = l_of(id);
-  string out = s + "(" + args_txt(ids) + ")";
+  string txt = args_txt(ids);
+  string out = name_val(s + "(" + txt + ")");
 } return string out;
 
 // s_of(id), read once and turned into the C operator it stands for.
