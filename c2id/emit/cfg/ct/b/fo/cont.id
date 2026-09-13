@@ -1,0 +1,13 @@
+// Split out of do_for and fo_cond: a call may not be an argument to a call,
+// and naming l_of(id) or cur_blk() leaves no room in their own block for
+// the call that needed the name.
+do_for2(int id) {
+  int nxt = new_block();
+  fo_cond(id, nxt);
+} return void;
+
+fo_cond2(int id, int nxt, int c) {
+  term_jmp(c, nxt);
+  int blk = new_block();
+  fo_body(id, nxt, blk);
+} return void;

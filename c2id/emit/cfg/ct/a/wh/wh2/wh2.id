@@ -1,7 +1,7 @@
 wh_end(int id, int nxt, int blk, int alt) {
   set_cur(blk);
-  walk_list(l_of(id));
-  loop_close(nxt, alt);
+  int[] l = l_of(id);
+  wh_end2(nxt, alt, l);
 } return void;
 
 // `do B while (c)`:
@@ -15,8 +15,8 @@ wh_end(int id, int nxt, int blk, int alt) {
 // do/while re-test the condition rather than restart the body.
 do_dowhile(int id) {
   int blk = new_block();
-  term_jmp(cur_blk(), blk);
-  dw_run(id, blk);
+  int c = cur_blk();
+  do_dowhile2(id, blk, c);
 } return void;
 
 dw_run(int id, int blk) {

@@ -1,0 +1,7 @@
+// Split out of sw_close: a call may not be an argument to a call, and
+// naming cur_blk()'s result leaves no room in sw_close's own block for
+// pop_brk and sw_disp too.
+sw_close2(int id, int blk, int alt, int mark) {
+  pop_brk();
+  sw_disp(id, blk, alt, mark);
+} return void;

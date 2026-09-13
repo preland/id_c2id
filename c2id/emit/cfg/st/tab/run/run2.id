@@ -1,0 +1,13 @@
+// Split out of cfg_build and cfg_walk: a call may not be an argument to a
+// call, and naming new_block()'s result (or cur_blk()'s) leaves no room in
+// either caller's own block for the calls that follow it.
+cfg_build_cont(int id, int nxt) {
+  set_cur(nxt);
+  cfg_walk(id);
+} return void;
+
+cfg_walk_cont() {
+  int blk = cur_blk();
+  term_end(blk, 0 - 1);
+  run_fixes();
+} return void;

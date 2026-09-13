@@ -1,0 +1,15 @@
+// Split out of fo_test and fo_walk: a call may not be an argument to a
+// call. a_of(id) is named once and reused for both the guard and
+// term_cond's argument, in place of the two calls the original made; the
+// guard's `>= 0` check still runs first, as it did before the split.
+fo_test2(int id, int nxt, int blk, int alt, int a) {
+  if(a >= 0) {
+    term_cond(nxt, a, blk, alt);
+  }
+  set_cur(blk);
+} return void;
+
+fo_walk2(int id, int nxt, int stp, int alt) {
+  loop_close(stp, alt);
+  fo_step(id, nxt, stp);
+} return void;

@@ -10,5 +10,11 @@ sw_test(int id, int i, int nxt) {
 // condition, `subject == case value`.
 mk_test(int id, int i, int nxt) {
   int blk = new_block();
-  term_cond(blk, eq_node(a_of(id), case_val(i)), case_blk(i), nxt);
+  mk_test_cont(id, i, nxt, blk);
 } return int blk;
+
+mk_test_cont(int id, int i, int nxt, int blk) {
+  int a = a_of(id);
+  int val = case_val(i);
+  mk_test_cont2(i, nxt, blk, a, val);
+} return void;

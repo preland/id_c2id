@@ -9,11 +9,13 @@ walk_stmt12(int id) {
 } return void;
 
 do_break() {
-  term_jmp(cur_blk(), brk_top());
-  set_cur(new_block());
+  int c = cur_blk();
+  int b = brk_top();
+  jmp_open(c, b);
 } return void;
 
 do_continue() {
-  term_jmp(cur_blk(), cont_top());
-  set_cur(new_block());
+  int c = cur_blk();
+  int b = cont_top();
+  jmp_open(c, b);
 } return void;

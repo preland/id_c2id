@@ -15,15 +15,14 @@
 // unconditional edge to the body, so only a `break` leaves the loop.
 
 do_for(int id) {
-  walk_list(l_of(id));
-  int nxt = new_block();
-  fo_cond(id, nxt);
+  int[] l = l_of(id);
+  walk_list(l);
+  do_for2(id);
 } return void;
 
 fo_cond(int id, int nxt) {
-  term_jmp(cur_blk(), nxt);
-  int blk = new_block();
-  fo_body(id, nxt, blk);
+  int c = cur_blk();
+  fo_cond2(id, nxt, c);
 } return void;
 
 fo_body(int id, int nxt, int blk) {

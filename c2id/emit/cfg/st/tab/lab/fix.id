@@ -18,5 +18,7 @@ run_fixes() {
 // and shows up in the printed graph as an edge to b-1 rather than as silently
 // wrong control flow.
 fix_one(int i) {
-  set_sa((import fixb)[i], label_blk((import fixs)[i]));
+  string s = (import fixs)[i];
+  int blk = label_blk(s);
+  set_sa((import fixb)[i], blk);
 } return void;

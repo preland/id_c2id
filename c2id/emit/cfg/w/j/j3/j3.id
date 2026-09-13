@@ -2,8 +2,14 @@
 // can reach a label both by falling through and by jumping.
 do_label(int id) {
   int blk = new_block();
-  term_jmp(cur_blk(), blk);
-  lab_add(s_of(id), blk);
+  int cur = cur_blk();
+  do_label_cont(id, cur, blk);
+} return void;
+
+do_label_cont(int id, int cur, int blk) {
+  term_jmp(cur, blk);
+  string s = s_of(id);
+  lab_add(s, blk);
 } return void;
 
 // A `case` is the same thing with a different table: the fall-through edge
@@ -11,6 +17,6 @@ do_label(int id) {
 // all. do_switch turns the table into the dispatch chain afterwards.
 do_case(int id) {
   int blk = new_block();
-  term_jmp(cur_blk(), blk);
-  case_add(a_of(id), blk);
+  int c = cur_blk();
+  do_case2(id, blk, c);
 } return void;

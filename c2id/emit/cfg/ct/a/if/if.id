@@ -19,16 +19,16 @@ do_if(int id) {
 } return void;
 
 ifs_cond(int id, int nxt, int alt) {
-  term_cond(cur_blk(), a_of(id), nxt, alt);
-  set_cur(nxt);
-  ifs_then(id, alt);
+  int blk = cur_blk();
+  int a = a_of(id);
+  ifs_cond2(id, nxt, alt, blk, a);
 } return void;
 
 // cur_blk() is read *after* the branch is walked: the branch may have ended
 // somewhere else entirely (a nested if, a loop, a return), and it is that
 // block, not the branch's entry, that has to reach the join.
 ifs_then(int id, int alt) {
-  walk_list(l_of(id));
-  int blk = cur_blk();
-  ifs_else(id, alt, blk);
+  int[] l = l_of(id);
+  walk_list(l);
+  ifs_then2(id, alt);
 } return void;

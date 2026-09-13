@@ -31,7 +31,7 @@ sw_body(int id, int blk, int alt) {
 // unreachable, and giving them their own block keeps them out of the entry
 // block without needing to detect them.
 sw_walk(int id, int blk, int alt, int mark) {
-  set_cur(new_block());
-  walk_list(l_of(id));
-  sw_close(id, blk, alt, mark);
+  int nxt = new_block();
+  set_cur(nxt);
+  sw_walk2(id, blk, alt, mark);
 } return void;

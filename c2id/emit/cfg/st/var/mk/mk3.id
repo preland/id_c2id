@@ -2,12 +2,15 @@
 // copy -- `id` lists are reference-semantic -- so pushing into it stores into
 // the block.
 cur_stmts() {
-} return int[] cfg_stmts(cur_blk());
+  int blk = cur_blk();
+  int[] l = cfg_stmts(blk);
+} return int[] l;
 
 // A statement with no control flow of its own just lands in the current
 // block: `expr`, `decl`, and anything the walker does not recognise.
 add_stmt(int id) {
-  push(cur_stmts(), id);
+  int[] l = cur_stmts();
+  push(l, id);
 } return void;
 
 // Top of a target stack, or -1 when the stack is empty -- which means a

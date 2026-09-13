@@ -1,0 +1,8 @@
+// Split out of ifs_else: a call may not be an argument to a call, and
+// naming m_of(id) leaves no room in ifs_else's own block for cur_blk() and
+// the ifs_join call too.
+ifs_else2(int blk, int alt, int[] m) {
+  walk_list(m);
+  int nxt = cur_blk();
+  ifs_join(blk, nxt);
+} return void;

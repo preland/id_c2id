@@ -9,14 +9,12 @@ fo_run(int id, int nxt, int stp, int blk, int alt) {
 // one replaces it when there is a condition, so `for (;;)` needs no `else`.
 fo_test(int id, int nxt, int blk, int alt) {
   term_jmp(nxt, blk);
-  if(a_of(id) >= 0) {
-    term_cond(nxt, a_of(id), blk, alt);
-  }
-  set_cur(blk);
+  int a = a_of(id);
+  fo_test2(id, nxt, blk, alt, a);
 } return void;
 
 fo_walk(int id, int nxt, int stp, int alt) {
-  walk_list(m_of(id));
-  loop_close(stp, alt);
-  fo_step(id, nxt, stp);
+  int[] m = m_of(id);
+  walk_list(m);
+  fo_walk2(id, nxt, stp, alt);
 } return void;

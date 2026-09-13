@@ -1,8 +1,8 @@
 // Running off the end of the last case is the same as `break`.
 sw_close(int id, int blk, int alt, int mark) {
-  term_jmp(cur_blk(), alt);
-  pop_brk();
-  sw_disp(id, blk, alt, mark);
+  int c = cur_blk();
+  term_jmp(c, alt);
+  sw_close2(id, blk, alt, mark);
 } return void;
 
 // The chain is built backwards from its tail -- the default block, or the

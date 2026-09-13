@@ -1,0 +1,15 @@
+// Split out of do_return and do_goto: a call may not be an argument to a
+// call, and naming cur_blk()/a_of(id) (or s_of(id)) leaves no room in
+// either caller's own block for the terminator call, new_block and set_cur
+// too.
+do_return2(int c, int a) {
+  term_end(c, a);
+  int n = new_block();
+  set_cur(n);
+} return void;
+
+do_goto2(int blk, string s) {
+  goto_edge(blk, s);
+  int n = new_block();
+  set_cur(n);
+} return void;

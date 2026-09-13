@@ -7,8 +7,8 @@
 // in ../../../fr/.
 cfg_build(int id) {
   cfg_init();
-  set_cur(new_block());
-  cfg_walk(id);
+  int nxt = new_block();
+  cfg_build_cont(id, nxt);
 } return int 0;
 
 // The trailing term_end is C's implicit `return;` at the end of a function.
@@ -18,12 +18,12 @@ cfg_build(int id) {
 // that every block has a terminator.
 cfg_walk(int id) {
   walk_stmt(id);
-  term_end(cur_blk(), 0 - 1);
-  run_fixes();
+  cfg_walk_cont();
 } return void;
 
 // `subject == value`, the test a switch dispatch block branches on. It is a
 // synthesised AST node so that the emitter's ordinary expression printer can
 // handle it with no knowledge of switches at all.
 eq_node(int a, int b) {
-} return int newleaf("bin", a, b, "==", "");
+  int id = newleaf("bin", a, b, "==", "");
+} return int id;

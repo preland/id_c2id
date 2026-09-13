@@ -7,7 +7,13 @@ dw_body(int id, int blk, int nxt, int alt) {
 // The condition block is terminated last, once the body's entry block number
 // is known to be the back-edge target.
 dw_end(int id, int blk, int nxt, int alt) {
-  walk_list(l_of(id));
+  int[] l = l_of(id);
+  walk_list(l);
+  dw_end_cont(id, blk, nxt, alt);
+} return void;
+
+dw_end_cont(int id, int blk, int nxt, int alt) {
   loop_close(nxt, alt);
-  term_cond(nxt, a_of(id), blk, alt);
+  int a = a_of(id);
+  term_cond(nxt, a, blk, alt);
 } return void;

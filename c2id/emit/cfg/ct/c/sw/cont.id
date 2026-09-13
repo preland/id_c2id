@@ -1,0 +1,8 @@
+// Split out of sw_walk: a call may not be an argument to a call, and naming
+// new_block()'s result leaves no room in sw_walk's own block for l_of(id),
+// walk_list and sw_close too.
+sw_walk2(int id, int blk, int alt, int mark) {
+  int[] l = l_of(id);
+  walk_list(l);
+  sw_close(id, blk, alt, mark);
+} return void;

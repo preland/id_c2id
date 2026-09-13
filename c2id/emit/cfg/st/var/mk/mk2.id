@@ -5,7 +5,8 @@ push_bedge() {
 
 // The block being filled.
 cur_blk() {
-} return int (import curb)[0];
+  int blk = (import curb)[0];
+} return int blk;
 
 set_cur(int blk) {
   lset((import curb), 0, blk);

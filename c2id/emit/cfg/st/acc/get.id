@@ -4,11 +4,14 @@
 // right by hand.
 
 cfg_nblocks() {
-} return int len((import bkind));
+  int n = len((import bkind));
+} return int n;
 
 cfg_stmts(int blk) {
-} return int[] (import bstmt)[blk];
+  int[] l = (import bstmt)[blk];
+} return int[] l;
 
 // "jmp", "cond" or "end".
 cfg_term(int blk) {
-} return string (import bkind)[blk];
+  string kind = (import bkind)[blk];
+} return string kind;

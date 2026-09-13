@@ -1,0 +1,12 @@
+// Split out of do_while and wh_run: a call may not be an argument to a
+// call, and naming cur_blk() or a_of(id) leaves no room in their own block
+// for the call that needed the name.
+do_while2(int id, int nxt, int blk) {
+  term_jmp(blk, nxt);
+  wh_body(id, nxt);
+} return void;
+
+wh_run2(int id, int nxt, int blk, int alt) {
+  push_loop(alt, nxt);
+  wh_end(id, nxt, blk, alt);
+} return void;

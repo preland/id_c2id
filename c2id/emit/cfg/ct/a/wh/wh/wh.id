@@ -9,8 +9,8 @@
 
 do_while(int id) {
   int nxt = new_block();
-  term_jmp(cur_blk(), nxt);
-  wh_body(id, nxt);
+  int blk = cur_blk();
+  do_while2(id, nxt, blk);
 } return void;
 
 wh_body(int id, int nxt) {
@@ -22,7 +22,7 @@ wh_body(int id, int nxt) {
 // The condition block holds no statements: the condition is an expression on
 // the terminator, and the emitter turns it into the block's `if`.
 wh_run(int id, int nxt, int blk, int alt) {
-  term_cond(nxt, a_of(id), blk, alt);
-  push_loop(alt, nxt);
-  wh_end(id, nxt, blk, alt);
+  int a = a_of(id);
+  term_cond(nxt, a, blk, alt);
+  wh_run2(id, nxt, blk, alt);
 } return void;

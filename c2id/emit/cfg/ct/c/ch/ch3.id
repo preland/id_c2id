@@ -1,0 +1,8 @@
+// Split out of mk_test_cont: a call may not be an argument to a call, and
+// naming a_of(id) and case_val(i) leaves no room in mk_test_cont's own
+// block for eq_node's, case_blk's and term_cond's calls too.
+mk_test_cont2(int i, int nxt, int blk, int a, int val) {
+  int eq = eq_node(a, val);
+  int cblk = case_blk(i);
+  term_cond(blk, eq, cblk, nxt);
+} return void;

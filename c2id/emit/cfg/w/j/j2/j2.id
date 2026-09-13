@@ -1,12 +1,13 @@
 do_return(int id) {
-  term_end(cur_blk(), a_of(id));
-  set_cur(new_block());
+  int c = cur_blk();
+  int a = a_of(id);
+  do_return2(c, a);
 } return void;
 
 do_goto(int id) {
   int blk = cur_blk();
-  goto_edge(blk, s_of(id));
-  set_cur(new_block());
+  string s = s_of(id);
+  do_goto2(blk, s);
 } return void;
 
 // A backward goto resolves here; a forward one leaves -1 in the edge and is

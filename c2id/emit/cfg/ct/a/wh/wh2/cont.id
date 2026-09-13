@@ -1,0 +1,12 @@
+// Split out of wh_end and do_dowhile: a call may not be an argument to a
+// call, and naming l_of(id) or cur_blk() leaves no room in their own block
+// for the call that needed the name.
+wh_end2(int nxt, int alt, int[] l) {
+  walk_list(l);
+  loop_close(nxt, alt);
+} return void;
+
+do_dowhile2(int id, int blk, int c) {
+  term_jmp(c, blk);
+  dw_run(id, blk);
+} return void;

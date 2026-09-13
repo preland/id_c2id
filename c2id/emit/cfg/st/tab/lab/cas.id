@@ -8,10 +8,13 @@
 // without a second structure.
 
 case_mark() {
-} return int len((import casv));
+  int i = len((import casv));
+} return int i;
 
 case_val(int i) {
-} return int (import casv)[i];
+  int a = (import casv)[i];
+} return int a;
 
 case_blk(int i) {
-} return int (import casb)[i];
+  int blk = (import casb)[i];
+} return int blk;

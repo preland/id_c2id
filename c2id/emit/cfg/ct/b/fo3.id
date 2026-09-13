@@ -1,5 +1,6 @@
 fo_step(int id, int nxt, int stp) {
-  fo_incr(b_of(id), stp);
+  int b = b_of(id);
+  fo_incr(b, stp);
   term_jmp(stp, nxt);
 } return void;
 
@@ -13,5 +14,6 @@ fo_incr(int b, int stp) {
 // because by now the walker has moved on to the loop's exit block.
 add_step(int b, int stp) {
   int id = expr_stmt(b);
-  push(cfg_stmts(stp), id);
+  int[] l = cfg_stmts(stp);
+  push(l, id);
 } return void;

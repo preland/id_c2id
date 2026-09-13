@@ -1,0 +1,7 @@
+// Split out of loop_close: a call may not be an argument to a call, and
+// naming cur_blk()'s result leaves no room in loop_close's own block for
+// pop_loop and set_cur too.
+loop_close2(int alt) {
+  pop_loop();
+  set_cur(alt);
+} return void;

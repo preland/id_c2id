@@ -1,0 +1,8 @@
+// Split out of do_case: a call may not be an argument to a call, and naming
+// cur_blk()'s result leaves no room in do_case's own block for term_jmp,
+// a_of(id) and case_add too.
+do_case2(int id, int blk, int c) {
+  term_jmp(c, blk);
+  int a = a_of(id);
+  case_add(a, blk);
+} return void;

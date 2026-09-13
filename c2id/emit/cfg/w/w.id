@@ -20,7 +20,8 @@ walk_list(int[] ids) {
 
 walk_stmt(int id) {
   if(k_of(id) == "block") {
-    walk_list(l_of(id));
+    int[] l = l_of(id);
+    walk_list(l);
   } else {
     walk_stmt2(id);
   }

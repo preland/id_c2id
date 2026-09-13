@@ -14,4 +14,5 @@ cond_edges(int blk, int nxt, int alt) {
 // so it is wrapped in the same `expr` node the parser would have built for
 // `step;` written on its own line. The emitter then needs no special case.
 expr_stmt(int a) {
-} return int newleaf("expr", a, 0, "", "");
+  int id = newleaf("expr", a, 0, "", "");
+} return int id;

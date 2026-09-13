@@ -14,7 +14,7 @@ pop_loop() {
 // Close a loop body: back-edge from wherever the body ended to `nxt`, leave
 // the loop, and carry on filling the exit block. Shared by all three loops.
 loop_close(int nxt, int alt) {
-  term_jmp(cur_blk(), nxt);
-  pop_loop();
-  set_cur(alt);
+  int c = cur_blk();
+  term_jmp(c, nxt);
+  loop_close2(alt);
 } return void;

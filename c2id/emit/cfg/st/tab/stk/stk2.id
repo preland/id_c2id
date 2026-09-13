@@ -11,4 +11,5 @@ pop_cont() {
 } return void;
 
 cont_top() {
-} return int top_of((import ctgt));
+  int blk = top_of((import ctgt));
+} return int blk;

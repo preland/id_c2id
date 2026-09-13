@@ -1,0 +1,13 @@
+// Split out of ifs_cond and ifs_then: a call may not be an argument to a
+// call, and naming both cur_blk()/a_of(id) or l_of(id) leaves no room in
+// their own block for the call that needed the name.
+ifs_cond2(int id, int nxt, int alt, int blk, int a) {
+  term_cond(blk, a, nxt, alt);
+  set_cur(nxt);
+  ifs_then(id, alt);
+} return void;
+
+ifs_then2(int id, int alt) {
+  int blk = cur_blk();
+  ifs_else(id, alt, blk);
+} return void;

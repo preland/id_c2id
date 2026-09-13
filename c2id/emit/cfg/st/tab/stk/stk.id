@@ -10,4 +10,5 @@ pop_brk() {
 } return void;
 
 brk_top() {
-} return int top_of((import btgt));
+  int blk = top_of((import btgt));
+} return int blk;

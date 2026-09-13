@@ -11,8 +11,8 @@ init_cfg5() {
 new_block() {
   int[] ids = [];
   push((import bstmt), ids);
-  push_bterm();
-} return int len((import bkind)) - 1;
+  int n = new_block2();
+} return int n;
 
 push_bterm() {
   push((import bkind), "none");

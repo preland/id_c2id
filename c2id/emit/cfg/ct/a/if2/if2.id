@@ -2,8 +2,8 @@
 // case walk_list does nothing and the block falls to the join.
 ifs_else(int id, int alt, int blk) {
   set_cur(alt);
-  walk_list(m_of(id));
-  ifs_join(blk, cur_blk());
+  int[] m = m_of(id);
+  ifs_else2(blk, alt, m);
 } return void;
 
 ifs_join(int blk, int nxt) {
