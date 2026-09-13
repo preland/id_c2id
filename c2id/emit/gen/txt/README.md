@@ -79,7 +79,23 @@ edge in the control flow graph rather than text and never reaches it.
 
 Every binary result is fully parenthesised, so `id`'s precedence never has to
 be reasoned about — notably that its bitwise operators bind **tighter** than
-its comparisons, which is the opposite of C.
+its comparisons, which is the opposite of C, and `id` rejects the two mixed
+without parentheses.
+
+The table writes each form nested because that is how it reads. What is
+emitted names every call first: `name_val` (`st/st/pend.id`) queues
+`word tN = CALL;` and returns `tN`, and the block emitter prints the queue
+before the statement that uses it (`flush_pend`). So `x + 1` for an int local is
+
+```
+word t0 = peek32(fp + 8);
+word t1 = sx32(t0);
+word t2 = sx32((t1 + 1));
+```
+
+and the expression text is `t2`. `pend`, `pendc` and `pendn` are set up in the
+driver's init chain (`emit/gen/out/top/init/pend.id`). A store (`pokeN`) is a
+statement and is never named.
 
 ## Two places where the obvious text is wrong
 

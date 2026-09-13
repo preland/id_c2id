@@ -147,7 +147,11 @@ name has one type program-wide, so these are reserved: `blk`, `nxt`, `alt`,
   fix is a frame temporary, and it should land together with the one for
   short-circuit operators rather than inventing a second mechanism.
 * **Dead-block elimination.** Unreachable blocks (the one opened after a
-  `return`, an empty `else`) are left in the graph.
+  `return`, an empty `else`) are left in the graph. The emitter
+  (`emit/gen/out/top/work/more/emit3/more/tail/thread.id`) does not print a
+  block with no statements that only jumps: every edge into one is pointed at
+  where it leads, and a condition on a literal is emitted as a jump. A graph
+  whose entry block is such a jump therefore starts at `thread_blk(0)`.
 * **Diagnostics.** `break` outside a loop, or a `goto` naming a label that
   does not exist, leave an edge to block `-1` rather than reporting an error;
   the front end is expected to have rejected that C.

@@ -83,7 +83,7 @@ its directory map, its name→type registry, its node layout: `c2id/NOTES.md`.
 
 `c2id` builds and runs alongside the `id` toolchain, which lives in the
 sibling `idc/` submodule of the `id_development` umbrella repository — from
-inside this checkout, that's `../idc/idc.py` and `../idc/bin/idc`.
+inside this checkout, that's `../idc/bin/idc`.
 
 ```sh
 tools/c2id.sh <in.c|in.i> <outdir>   # compile one translation unit
@@ -107,11 +107,12 @@ runs and passes.
 The front end (lexer, expression parser, statement parser, frame layout)
 compiles and runs end to end, and the emitter now emits real block functions
 rather than stubs: a small C program translates, and building the result names
-**96 defects in six classes** rather than failing generally. That count, and
+**7 defects in three classes** rather than failing generally. That count, and
 what each class is, is in `docs/STATUS.md`.
 
-The largest of them is not the emitter's. `c2id` is compiled by `idc.py` and its
-output by `bin/idc`, and the two disagree about three rules that `docs/SPEC.md`
-settles in `bin/idc`'s favour — so `c2id`'s own source breaks them 518 times.
-`crt/` broke them 77 times and no longer does. See the umbrella's
-`docs/GAPS.md` B6/B7/B8.
+It was 96 until `c2id`, `crt/` and the emitter were brought onto two rules
+`docs/SPEC.md` settles in `bin/idc`'s favour and `idc.py` never enforced — a call
+is never an argument to a call, and a return clause is a name or a literal.
+`c2id`'s own source broke them 519 times and `crt/` 77; both are at 0, and
+`c2id` is built with `bin/idc` everywhere. See the umbrella's `docs/GAPS.md`
+B6/B7/B8.

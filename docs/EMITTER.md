@@ -111,10 +111,19 @@ a call at any depth, and a return clause is a name or a literal. So a local `x`
 is not `sx32(peek32(fp + OFF))` but
 
 ```
-word a = fp + OFF;
-int v = peek32(a);
-int x = sx32(v);
+word t0 = peek32(fp + OFF);
+word t1 = sx32(t0);
 ```
+
+Every call the expression builders write is bound to a `word` temporary `t0`,
+`t1`, ... on its own line (`emit/gen/txt/st/st/pend.id`), and the lines are
+printed just before the statement or terminator that uses them. Temporaries
+restart at `t0` in each block function. A C expression statement takes its last
+temporary back, so `printf(...)` is emitted as `c_printf(t0, t5);`, not as a
+temporary nobody reads. A store is not named -- it is a statement -- so a C
+assignment or `++` used *as a value* still emits a `pokeN` inside an expression,
+which `bin/idc` rejects; giving it C's value (the stored value, or the old one
+for postfix) is not done yet.
 
 This was written the other way for a long time, and the emitter was built to
 match, because `c2id` was compiled by `idc.py` and `idc.py` does not enforce
@@ -187,8 +196,13 @@ that constraint is the point, and `tests/lowering/` proves it is met.
 * **Nesting 2**: a block function is straight-line; the driver loop is depth 1;
   a dispatch function is one `if`/`else`.
 * **3 functions per file, 3 entries per directory**: guaranteed by §5.
-* **One name, one type**: generated code uses exactly three variable names —
-  `fp` and `nxt` (`word`) and `pc` (`word`). Nothing else.
+* **One name, one type**: generated code uses `fp`, `nxt` and `pc` and the
+  temporaries `t0`, `t1`, ... — every one of them a `word`. Nothing else.
+* **No constant function**: a block with no statements that only jumps, or
+  whose condition is a literal, would be a function with no effect and a
+  constant result. The emitter threads edges past such blocks and does not
+  print them, and an end block with no return value stores 0 at `fp`. A cycle
+  made only of empty jumps (`for (;;);`) is the one such block still emitted.
 * **Function uniqueness** — the one that needs care. Two C functions with
   identical bodies would generate identical `id`. Every block function ends
   with its successor's number as a literal, and literals distinguish

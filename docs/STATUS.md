@@ -4,16 +4,16 @@ The rule for this file: a row says "works" only if a command in `tests/` runs
 and passes. Everything else is "planned" or "in progress", regardless of how
 much code exists.
 
-Last updated: 2026-08-29.
+Last updated: 2026-09-13.
 
 ## Infrastructure
 
 | item | state | evidence |
 | --- | --- | --- |
-| Differential test harness | **1 known failure** | `tests/run.sh` — C oracle vs id, byte-for-byte; currently 2 passed, 1 failed (`frontend-integration`), 7 skipped — see "Known gaps" below |
-| Block-function lowering | **proven** | `tests/lowering/` — compiles under idc.py, computes 55 |
-| c2id driver (stream → project tree) | works | `tools/c2id.sh` |
-| Pre-commit entry point | **1 known failure** | `tools/check.sh` — currently 2 passed, 1 failed, 0 skipped |
+| Differential test harness | **4 known failures** | `tests/run.sh` — C oracle vs id, byte-for-byte; currently 3 passed, 4 failed (`010_arith`, `020_bitwise`, `030_control`, `070_recursion`: the generated id does not build), 3 skipped (`040`–`060`: `c2id` runs out of memory) — see "No C compiles to `id` yet" below. Until 2026-09-13 no case here had ever been translated: the harness called the translator binary with arguments it ignores |
+| Block-function lowering | **proven** | `tests/lowering/` — compiles under `bin/idc`, computes 55 |
+| c2id driver (stream → project tree) | works | `tools/c2id.sh`, which builds `c2id` with `bin/idc` |
+| Pre-commit entry point | **1 known failure** | `tools/check.sh` — currently 3 passed, 1 failed (`tests`, above), 0 skipped |
 | `id` toolchain probe | works | `tools/idprobe.sh` — 0 / 1 / 2 for usable / too old / absent |
 | CI | **unproven** | `.github/workflows/ci.yml` — clean under `actionlint` where checked; every command in it passes locally; never yet run on a GitHub runner |
 
@@ -146,28 +146,34 @@ int main(void) { int i = 0; int t = 0;
 ```
 
 compiles with `cc` and exits 21. Transpiled and then built with
-`idc/bin/idc`, it produces 96 errors — 19 in the emitted blocks, 77 in the
-`crt/` copied beside them — in six classes:
+`idc/bin/idc`, it produced 96 errors on 2026-08-29 and produces 7 on
+2026-09-13, all in the emitted blocks, in three classes:
 
 | class | count | where | state |
 | --- | --- | --- | --- |
-| a call as an argument to a call | 58 | `crt/` and emitted blocks | open — see `../docs/GAPS.md` B6 |
-| a return clause that is a call or an expression | 30 | `crt/` | open — see `../docs/GAPS.md` B7 |
-| `word` narrowed to `int` at a call | 4 | `crt/` | open |
+| a block over 3 actions | 4 | emitted blocks | open — naming every call adds statements, and nothing splits a block by its emitted statement count yet (§3 of `docs/EMITTER.md`) |
 | a C parameter emitted as a global (`g_a`) | 2 | emitted blocks | open — the declarator's parameter list is never walked, so `bind_local` is never called for a parameter |
 | a call to a C function emitted as `c_add` | 1 | emitted blocks | open — a C call has to go through the dispatch loop with a frame, and there is no dispatch loop yet |
-| two empty blocks with identical bodies | 1 | emitted blocks | fixed |
+| a call as an argument to a call | 58 → 0 | `crt/` and emitted blocks | fixed — `crt/` names its values, and the emitter binds every call to a temporary (`../docs/GAPS.md` B6) |
+| a return clause that is a call or an expression | 30 → 0 | `crt/` | fixed (`../docs/GAPS.md` B7) |
+| `word` narrowed to `int` at a call | 4 → 0 | `crt/` | fixed |
+| two empty blocks with identical bodies | 1 | emitted blocks | fixed; empty jump blocks are no longer emitted at all |
 | a block name reused across C functions | — | emitted blocks | fixed: names are `blk<fn>_<b>` |
 | `} return word 0 - 1;` | — | emitted blocks | fixed: named in the body, as the conditional terminator already was |
 
-The first three classes are not really the emitter's: they are `id`'s rules,
-which `bin/idc` enforces and `idc.py` does not, and `c2id`'s own source breaks
-them 518 times for the same reason. That divergence, and what it has cost, is
-`../docs/GAPS.md` B6/B7. Nothing about the emitter can be judged until it is
-settled, because the emitter emits what its own source is written in.
+On larger inputs one more naming case is left: a C assignment or `++` used as
+a value emits a `pokeN` inside an expression, which is void and cannot be named.
+Across `tests/c/010`, `020`, `030`, `070` and three further files it is 6 of the
+1380 naming errors the emitter used to produce.
 
-The `tests/c/` cases report FAIL rather than SKIP — they ran. See
-`docs/CONTINUING.md`.
+`c2id`'s own source broke the same two rules 519 times, because it was only ever
+built with `idc.py`; it builds with 0 errors under `bin/idc` now, and a
+`bin/idc` build of it gives byte-identical output to the old `idc.py` build.
+
+The `tests/c/` cases FAIL (010, 020, 030, 070) or SKIP (040–060) because they
+ran. Before 2026-09-13 they could not: `tests/run.sh` called the translator
+binary with arguments it ignores, so every case was SKIP with no `build/c2id`
+and FAIL with "no such file" once there was one.
 
 ## Known gaps in what is built
 
