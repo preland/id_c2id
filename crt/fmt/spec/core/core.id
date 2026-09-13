@@ -9,7 +9,7 @@
 //
 // and it is allocated per specifier, so nothing is carried between them.
 fmt_spec(word fmt, word[] args, word[] st) {
-  word[] fs = [st[0] - 1, wzero(), wzero(), wzero(), wzero()];
+  word[] fs = [st[0] - 1, (import wzero), (import wzero), (import wzero), (import wzero)];
   scan_flags_width(fmt, st, fs);
   string out = fmt_conv(fmt, args, st, fs);
 } return string out;

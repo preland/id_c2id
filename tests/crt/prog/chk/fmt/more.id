@@ -1,7 +1,7 @@
 // The argument list of the width test, and the length modifiers.
 
 t_fmt_b2(word ad, word ad2) {
-  word[] args = [wzero() + 42, 42, 42, ad2, 65];
+  word[] args = [(import wzero) + 42, 42, 42, ad2, 65];
   c_printk(ad, args);
 } return void;
 
@@ -9,7 +9,7 @@ t_fmt_b2(word ad, word ad2) {
 // through as one.
 t_fmt_c() {
   word ad = t_cs("hh=%hhd h=%hd l=%ld pct=%%\n");
-  word[] args = [wzero() + 300, 70000, 0 - 1];
+  word[] args = [(import wzero) + 300, 70000, 0 - 1];
   c_printk(ad, args);
 } return void;
 
@@ -19,6 +19,6 @@ t_fmt_c() {
 // promise rather than C's.
 t_fmt_unk() {
   word ad = t_cs("unk=%q\n");
-  word[] args = [wzero()];
+  word[] args = [(import wzero)];
   c_printk(ad, args);
 } return void;

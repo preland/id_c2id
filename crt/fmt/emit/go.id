@@ -8,7 +8,7 @@
 //     st[0]  byte offset into the format string
 //     st[1]  index of the next unconsumed argument
 c_format(word fmt, word[] args) {
-  word[] st = [wzero(), wzero()];
+  word[] st = [(import wzero), (import wzero)];
   string out = "";
   while(peek8(fmt + st[0]) != 0) {
     out = out + fmt_step(fmt, args, st);

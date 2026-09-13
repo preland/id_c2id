@@ -96,4 +96,6 @@ PY
 
 # The generated project needs the C-semantics runtime compiled alongside it.
 cp -r "$here/crt" "$out/crt"
+# conf.id is only read at a root, so crt's constants move up to the project's.
+mv "$out/crt/conf.id" "$out/conf.id"
 echo "$out"

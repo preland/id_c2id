@@ -3,16 +3,3 @@
 lgetw(word[] xs, int k) {
   word v = xs[k];
 } return word v;
-
-// The literal 0, as a word. Two reasons this exists rather than a bare `0`:
-//
-//   * a list literal takes its element type from its *first* element, so
-//     `[0, 0]` is an `int[]` and will not initialise a `word[]`;
-//   * every *later* element must be word-typed too. idc.py's list literal is
-//     a C varargs call whose cells are read as `long long`, and it does not
-//     insert a widening cast for a `word`-typed element -- so an `int`
-//     expression in a `word[]` literal is read back with 32 bits of garbage
-//     on top. Callers of c_format must build their argument lists the same
-//     way: every element already a `word`.
-wzero() {
-} return word 0;

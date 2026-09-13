@@ -13,11 +13,11 @@ t_fmt() {
 // Radix and sign. `%u` is given -1 rather than a literal four billion because
 // an `id` int is 32 bits and the two compilers disagree about the type of a
 // list of bare integer literals -- see the umbrella's docs/GAPS.md B8. The
-// first element is written against wzero() for the same reason: it is what
+// first element is written against wzero for the same reason: it is what
 // makes the list a word[] under both.
 t_fmt_a() {
   word ad = t_cs("d=%d u=%u x=%x X=%X o=%o\n");
-  word[] args = [wzero() - 42, 0 - 1, 48879, 48879, 511];
+  word[] args = [(import wzero) - 42, 0 - 1, 48879, 48879, 511];
   c_printk(ad, args);
 } return void;
 

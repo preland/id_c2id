@@ -74,7 +74,7 @@ crt/
     │   ├── pad.id          pad_out, pad_str, pad_n
     │   └── txt/
     │       ├── rep.id      rep_ch, zero_pad, tail1
-    │       ├── list.id     lgetw, wzero
+    │       ├── list.id     lgetw
     │       └── ch.id       ch_of, str_at, ptr_str
     ├── spec/               parsing one % specifier
     │   ├── core.id         fmt_spec, fmt_conv, adv_nz
@@ -215,7 +215,7 @@ signals, so there is nothing to be safe against.
 | `str_of_base(word v, int base, int upper) -> string` | `v` as an **unsigned** integer in `base` (2..16); `upper` selects `A`–`F`. Correct above 2⁶³, because it divides with `udiv`/`umod` rather than the signed `/` and `%`. |
 
 `id` has no varargs, so the arguments arrive as a `word[]`. **Every element of
-that list must already be `word`-typed** — see the comment on `wzero()`:
+that list must already be `word`-typed** — see the comment on `wzero` in `crt/conf.id`:
 `idc.py` builds a list literal through a C varargs call whose cells are read
 as `long long` and inserts no widening cast, so an `int` expression in a
 `word[]` literal comes back with garbage in its top 32 bits. Write

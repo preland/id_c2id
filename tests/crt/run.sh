@@ -35,6 +35,8 @@ TMP=$(mktemp -d); trap 'rm -rf "$TMP"' EXIT
 mkdir -p "$TMP/p"
 cp -r "$HERE/prog/." "$TMP/p/"
 cp -r "$ROOT/crt" "$TMP/p/crt"
+# conf.id is only read at a root, so crt's constants move up to the project's.
+mv "$TMP/p/crt/conf.id" "$TMP/p/conf.id"
 
 if "$IDC" "$TMP/p" --allow-untested -o "$TMP/idprog" >"$TMP/build.log" 2>&1; then
     ok "crt builds with the primary compiler"
