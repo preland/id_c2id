@@ -19,7 +19,8 @@ parse_cast(int[] pos) {
 // whole three-action budget of a block.
 paren_head(int[] pos) {
   advance(pos);
-} return int paren_body(pos);
+  int node = paren_body(pos);
+} return int node;
 
 // '(' is gone. A type name means a cast (or a compound literal); anything else
 // is a parenthesised expression.

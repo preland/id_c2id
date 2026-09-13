@@ -6,11 +6,12 @@
 
 parse_postfix(int[] pos) {
   int a = parse_primary(pos);
-} return int postfix_tail(pos, a);
+  int id = postfix_tail(pos, a);
+} return int id;
 
 // Public: paren_expr re-enters here after `(expr)`, so `(*p)[i]` works.
 postfix_tail(int[] pos, int a) {
-  while(is_postfix_start(cur_text(pos))) {
+  while(at_postfix_start(pos)) {
     a = postfix_one(pos, a);
   }
 } return int a;

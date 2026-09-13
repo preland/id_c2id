@@ -3,10 +3,13 @@
 es4(int id) {
   string s = es5(id);
   if(k_of(id) == "idx") {
-    s = "(" + expr_str(a_of(id)) + "[" + expr_str(b_of(id)) + "])";
+    int a = a_of(id);
+    int b = b_of(id);
+    s = "(" + expr_str(a) + "[" + expr_str(b) + "])";
   }
   if(k_of(id) == "mem") {
-    s = "(" + expr_str(a_of(id)) + t_of(id) + s_of(id) + ")";
+    int ty = a_of(id);
+    s = "(" + expr_str(ty) + t_of(id) + s_of(id) + ")";
   }
 } return string s;
 
@@ -18,7 +21,9 @@ es5(int id) {
     s = call_str(id);
   }
   if(k_of(id) == "cast") {
-    s = "(cast " + type_ref(b_of(id)) + " " + expr_str(a_of(id)) + ")";
+    int b = b_of(id);
+    int a = a_of(id);
+    s = "(cast " + type_ref(b) + " " + expr_str(a) + ")";
   }
 } return string s;
 

@@ -10,7 +10,7 @@
 
 parse_unary(int[] pos) {
   int node = 0;
-  if(is_unop(cur_text(pos))) {
+  if(at_unop(pos)) {
     node = unary_op(pos);
   } else {
     node = parse_unary2(pos);
@@ -31,5 +31,5 @@ is_unop(string s) {
 unary_op(int[] pos) {
   string op = cur_text(pos);
   advance(pos);
-  int a = parse_cast(pos);
-} return int newleaf("un", a, 0, op, "");
+  int id = unary_node(pos, op);
+} return int id;

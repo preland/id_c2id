@@ -1,0 +1,16 @@
+// Overflow from p/lad/asg.id and p/lad/top.id: assign_tail and parse_assign
+// each need one more action than their 3-action budget allows once a nested
+// call has to be named. lad/ itself has no free file or function slot left,
+// so the split helpers live here instead.
+
+assign_node(int[] pos, int left, string op) {
+  int right = parse_assign(pos);
+  int id = newleaf("assign", left, right, op, "");
+} return int id;
+
+assign_check(int[] pos, int left, string op) {
+  int node = left;
+  if(is_assignop(op)) {
+    node = assign_tail(pos, left);
+  }
+} return int node;

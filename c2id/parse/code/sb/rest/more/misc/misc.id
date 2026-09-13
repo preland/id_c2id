@@ -2,15 +2,17 @@
 // downstream needs a case for it.
 parse_empty(int[] pos) {
   advance(pos);
-} return int newleaf("block", 0, 0, "", "");
+  int id = newleaf("block", 0, 0, "", "");
+} return int id;
 
 parse_label(int[] pos) {
   string name = cur_text(pos);
   advance(pos);
-  advance(pos);
-} return int newleaf("label", 0, 0, name, "");
+  int id = label_close(pos, name);
+} return int id;
 
 parse_expr_stmt(int[] pos) {
   int a = parse_expr(pos);
   skip_semi(pos);
-} return int newleaf("expr", a, 0, "", "");
+  int id = newleaf("expr", a, 0, "", "");
+} return int id;

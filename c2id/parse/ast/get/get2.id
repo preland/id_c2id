@@ -1,8 +1,11 @@
 s_of(int id) {
-} return string (import ns)[id];
+  string s = (import ns)[id];
+} return string s;
 
 t_of(int id) {
-} return string (import nt)[id];
+  string tstr = (import nt)[id];
+} return string tstr;
 
 l_of(int id) {
-} return int[] (import nl)[id];
+  int[] l = (import nl)[id];
+} return int[] l;

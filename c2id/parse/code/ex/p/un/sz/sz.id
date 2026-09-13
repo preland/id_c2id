@@ -7,7 +7,8 @@
 
 parse_sizeof(int[] pos) {
   advance(pos);
-} return int sizeof_arg(pos);
+  int node = sizeof_arg(pos);
+} return int node;
 
 sizeof_arg(int[] pos) {
   int node = 0;
@@ -20,4 +21,5 @@ sizeof_arg(int[] pos) {
 
 sizeof_paren(int[] pos) {
   advance(pos);
-} return int sizeof_body(pos);
+  int node = sizeof_body(pos);
+} return int node;

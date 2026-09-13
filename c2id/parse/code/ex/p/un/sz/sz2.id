@@ -12,10 +12,12 @@ sizeof_body(int[] pos) {
 sizeof_type(int[] pos) {
   int ty = parse_typename(pos);
   advance(pos);
-} return int newleaf("sizeof", 0, ty, "", "");
+  int id = newleaf("sizeof", 0, ty, "", "");
+} return int id;
 
 // `sizeof (x)` -- paren_expr consumes the ')' and applies postfix suffixes, so
 // `sizeof (s).f` measures the member, as C requires.
 sizeof_inner(int[] pos) {
   int a = paren_expr(pos);
-} return int newleaf("sizeof", a, 0, "", "");
+  int id = newleaf("sizeof", a, 0, "", "");
+} return int id;

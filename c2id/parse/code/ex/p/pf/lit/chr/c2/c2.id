@@ -4,18 +4,20 @@
 // This is why '\0' needs no entry in the named table.
 esc_val2(string s) {
   int c = 0;
-  if(dig_val(charat(s, 1)) >= 0 && dig_val(charat(s, 1)) < 8) {
+  if(is_oct_esc(s)) {
     c = digits_val(s, 1, 8);
   } else {
-    c = esc_named(charat(s, 1));
+    int ch1 = charat(s, 1);
+    c = esc_named(ch1);
   }
 } return int c;
 
 // The letter is turned back into a one-character string so the generic table
 // search from the precedence ladder can be reused.
 esc_named(int c) {
-  int i = find_op(esc_chars(), chr(c));
-} return int esc_at(i, c);
+  int i = esc_find(c);
+  int n = esc_at(i, c);
+} return int n;
 
 // An unknown escape stands for the character itself, which is what C says for
 // the ones it leaves undefined and what `\%` means in practice.

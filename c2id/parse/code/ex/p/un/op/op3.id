@@ -12,3 +12,16 @@ parse_unary3(int[] pos) {
     node = parse_postfix(pos);
   }
 } return int node;
+
+// unary_op's and pre_incdec's constructors: op.id and op2.id each already
+// spend their 3-action budget on reading the operator token and advancing,
+// leaving no room to name the newleaf() call they must return.
+unary_node(int[] pos, string op) {
+  int a = parse_cast(pos);
+  int id = newleaf("un", a, 0, op, "");
+} return int id;
+
+incdec_node(int[] pos, string op) {
+  int a = parse_unary(pos);
+  int id = newleaf("un", a, 0, op, "");
+} return int id;

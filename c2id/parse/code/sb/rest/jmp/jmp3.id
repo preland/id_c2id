@@ -1,0 +1,14 @@
+// parse_return's and parse_goto's tails: each already spends its 3-action
+// budget reading the keyword's payload, leaving no room to name the call it
+// must return. rest/ has no room for a sibling file, so jmp.id was
+// promoted into this directory to make room.
+
+return_close(int[] pos, int a) {
+  skip_semi(pos);
+  int id = newleaf("return", a, 0, "", "");
+} return int id;
+
+goto_tail(int[] pos, string name) {
+  advance(pos);
+  int id = goto_done(pos, name);
+} return int id;

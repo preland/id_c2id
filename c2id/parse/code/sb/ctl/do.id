@@ -3,15 +3,16 @@
 parse_do(int[] pos) {
   advance(pos);
   int[] l = [parse_stmt(pos)];
-} return int do_cond(pos, l);
+  int id = do_cond(pos, l);
+} return int id;
 
 do_cond(int[] pos, int[] l) {
-  advance(pos);
-  advance(pos);
-  int a = parse_expr(pos);
-} return int do_done(pos, a, l);
+  int a = read_paren_cond(pos);
+  int id = do_done(pos, a, l);
+} return int id;
 
 do_done(int[] pos, int a, int[] l) {
   advance(pos);
   skip_semi(pos);
-} return int newlist("dowhile", a, 0, "", l);
+  int id = newlist("dowhile", a, 0, "", l);
+} return int id;

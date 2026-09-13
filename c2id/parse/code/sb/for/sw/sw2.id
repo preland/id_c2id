@@ -1,0 +1,25 @@
+// Shared by for_cond and for_step: an optional expression up to a
+// terminator token, "just like X but for Y" where Y is the terminator --
+// a parameter, not a second function. Also parse_case's tail. Each caller
+// already spends its own 3-action budget elsewhere. for/ has no room for a
+// sibling file, so sw.id was promoted into this directory to make room.
+
+opt_expr(int[] pos, string term) {
+  int a = 0 - 1;
+  if(at_text(pos, term) == 0) {
+    a = parse_expr(pos);
+  }
+  advance(pos);
+} return int a;
+
+case_close(int[] pos, int a) {
+  advance(pos);
+  int id = newleaf("case", a, 0, "", "");
+} return int id;
+
+// parse_for: advance;advance already fills its own budget, leaving no room
+// to name the call it must return.
+for_head(int[] pos) {
+  int[] l = for_init(pos);
+  int id = for_cond(pos, l);
+} return int id;

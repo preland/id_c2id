@@ -1,0 +1,9 @@
+// Wraps the three field-group pushes in one call, so newnode has a spare
+// action left to name its return value (the new node's id) instead of
+// returning the length expression directly.
+
+push_node(string kind, int a, int b, string s, string tstr, int[] l, int[] m) {
+  push_kab(kind, a, b);
+  push_st(s, tstr);
+  push_lm(l, m);
+} return void;

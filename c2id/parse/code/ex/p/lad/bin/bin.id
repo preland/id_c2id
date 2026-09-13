@@ -17,12 +17,12 @@
 cond_tail(int[] pos, int left) {
   advance(pos);
   int a = parse_expr(pos);
-  int b = cond_else(pos);
-} return int newlist("cond", left, a, "", [b]);
+  int id = cond_node(pos, left, a);
+} return int id;
 
 parse_bin(int[] pos, int lvl) {
   int left = parse_next(pos, lvl);
-  while(op_level(cur_text(pos)) == lvl) {
+  while(bin_at_level(pos, lvl)) {
     left = fold_bin(pos, lvl, left);
   }
 } return int left;

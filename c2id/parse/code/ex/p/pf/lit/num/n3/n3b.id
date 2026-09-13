@@ -1,0 +1,13 @@
+// digits_val's loop condition: whether the digit at `i` is in range must be
+// re-evaluated every iteration, so it cannot be named once before the loop.
+// n3.id already holds 3 functions and num/ has no room for a sibling file,
+// so n3.id was promoted into this directory to make room.
+
+more_digits(string s, int i, int radix) {
+  int ok = 0;
+  if(i < len(s)) {
+    int c = charat(s, i);
+    int d = dig_val(c);
+    ok = d >= 0 && d < radix;
+  }
+} return int ok;

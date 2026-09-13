@@ -30,9 +30,11 @@ es2(int id) {
 es3(int id) {
   string s = es4(id);
   if(k_of(id) == "un") {
-    s = "(" + s_of(id) + expr_str(a_of(id)) + ")";
+    int a = a_of(id);
+    s = "(" + s_of(id) + expr_str(a) + ")";
   }
   if(k_of(id) == "post") {
-    s = "(" + expr_str(a_of(id)) + s_of(id) + ")";
+    int b = a_of(id);
+    s = "(" + expr_str(b) + s_of(id) + ")";
   }
 } return string s;

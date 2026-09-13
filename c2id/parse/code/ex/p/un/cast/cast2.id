@@ -7,7 +7,8 @@
 cast_body(int[] pos) {
   int ty = parse_typename(pos);
   advance(pos);
-} return int cast_tail(pos, ty);
+  int node = cast_tail(pos, ty);
+} return int node;
 
 // ')' is gone. `(T){...}` is a compound literal; otherwise the operand is
 // another cast-expression, which is what makes `(char *)(int *)p` work.
@@ -22,4 +23,5 @@ cast_tail(int[] pos, int ty) {
 
 cast_rest(int[] pos, int ty) {
   int a = parse_cast(pos);
-} return int newleaf("cast", a, ty, "", "");
+  int id = newleaf("cast", a, ty, "", "");
+} return int id;

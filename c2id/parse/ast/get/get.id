@@ -6,10 +6,13 @@
 // from another -- so the duplicate-logic rule is satisfied by construction.
 
 k_of(int id) {
-} return string (import nk)[id];
+  string kind = (import nk)[id];
+} return string kind;
 
 a_of(int id) {
-} return int (import na)[id];
+  int a = (import na)[id];
+} return int a;
 
 b_of(int id) {
-} return int (import nb)[id];
+  int b = (import nb)[id];
+} return int b;

@@ -12,4 +12,5 @@ match_op(string[] ops, int i, string s, int found) {
 // `a ? b : c ? d : e` group as `a ? b : (c ? d : e)`.
 cond_else(int[] pos) {
   advance(pos);
-} return int parse_cond(pos);
+  int node = parse_cond(pos);
+} return int node;

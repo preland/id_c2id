@@ -7,7 +7,17 @@ decl_init(int[] pos) {
 
 init_val(int[] pos) {
   advance(pos);
-} return int parse_assign(pos);
+  int a = parse_assign(pos);
+} return int a;
+
+// one_decl's tail: naming decl_init's result and the newleaf() call it must
+// return would be its third and fourth actions, one over its own budget.
+// decl/ has room here, so it lives alongside init_val rather than in a new
+// file.
+decl_leaf(int[] pos, int b, string name) {
+  int a = decl_init(pos);
+  int id = newleaf("decl", a, b, name, "");
+} return int id;
 
 // skip_comma lives in ../../../../ex/p/pf/post/call/call2.id -- an argument
 // list and a declarator list separate the same way, and id rejects a second

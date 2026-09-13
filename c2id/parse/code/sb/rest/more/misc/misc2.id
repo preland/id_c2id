@@ -1,0 +1,9 @@
+// parse_label's tail: it already spends its 3-action budget reading the
+// label name and advancing twice, leaving no room to name the newleaf()
+// call it must return. more/ has no room for a sibling file, so misc.id
+// was promoted into this directory to make room.
+
+label_close(int[] pos, string name) {
+  advance(pos);
+  int id = newleaf("label", 0, 0, name, "");
+} return int id;

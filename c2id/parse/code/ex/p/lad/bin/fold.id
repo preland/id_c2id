@@ -6,14 +6,16 @@
 fold_bin(int[] pos, int lvl, int left) {
   string op = cur_text(pos);
   advance(pos);
-  int right = parse_next(pos, lvl);
-} return int newleaf("bin", left, right, op, "");
+  int id = bin_node(pos, lvl, left, op);
+} return int id;
 
 // The precedence level of a binary operator token, or -1 for anything else --
 // so `)`, `;`, `?`, `:` and `,` all fall out of the ladder on their own.
 op_level(string s) {
-  int i = find_op(op_names(), s);
-} return int level_at(i);
+  string[] ops = op_names();
+  int i = find_op(ops, s);
+  int n = level_at(i);
+} return int n;
 
 level_at(int i) {
   int[] lvls = op_levels();

@@ -1,6 +1,7 @@
 goto_done(int[] pos, string name) {
   skip_semi(pos);
-} return int newleaf("goto", 0, 0, name, "");
+  int id = newleaf("goto", 0, 0, name, "");
+} return int id;
 
 // break and continue carry no operand; they differ from each other only in
 // the node kind, which -- being a literal -- is exactly what `id`'s
@@ -8,9 +9,11 @@ goto_done(int[] pos, string name) {
 parse_break(int[] pos) {
   advance(pos);
   skip_semi(pos);
-} return int newleaf("break", 0, 0, "", "");
+  int id = newleaf("break", 0, 0, "", "");
+} return int id;
 
 parse_continue(int[] pos) {
   advance(pos);
   skip_semi(pos);
-} return int newleaf("continue", 0, 0, "", "");
+  int id = newleaf("continue", 0, 0, "", "");
+} return int id;

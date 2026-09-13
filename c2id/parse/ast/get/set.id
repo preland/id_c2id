@@ -9,7 +9,8 @@
 // reference semantics, so the store is shared with every other holder.
 
 m_of(int id) {
-} return int[] (import nm)[id];
+  int[] m = (import nm)[id];
+} return int[] m;
 
 set_a(int id, int a) {
   lset((import na), id, a);

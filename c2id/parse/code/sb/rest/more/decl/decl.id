@@ -8,20 +8,22 @@
 //   decl_name()                      -> string  name from the last declarator
 parse_decl_stmt(int[] pos) {
   int t = parse_specs(pos);
-  int[] l = [];
-  fill_decls(pos, t, l);
-} return int newlist("block", 0, 0, "", l);
+  int[] l = fill_decls(pos, t);
+  int id = newlist("block", 0, 0, "", l);
+} return int id;
 
-fill_decls(int[] pos, int t, int[] l) {
+fill_decls(int[] pos, int t) {
+  int[] l = [];
   while(at_text(pos, ";") == 0 && cur_kind(pos) != "eof") {
-    push(l, one_decl(pos, t));
+    int id = one_decl(pos, t);
+    push(l, id);
     skip_comma(pos);
   }
   skip_semi(pos);
-} return void;
+} return int[] l;
 
 one_decl(int[] pos, int t) {
   int b = parse_declarator(pos, t);
   string name = decl_name();
-  int a = decl_init(pos);
-} return int newleaf("decl", a, b, name, "");
+  int id = decl_leaf(pos, b, name);
+} return int id;

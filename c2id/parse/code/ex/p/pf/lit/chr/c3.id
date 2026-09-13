@@ -10,3 +10,11 @@ esc_chars() {
 esc_vals() {
   int[] lvls = [7, 8, 9, 10, 11, 12, 13, 34, 39, 63, 92];
 } return int[] lvls;
+
+// c2.id's esc_named split off its call to find_op here: naming both nested
+// calls plus the result left no room in its own 3-action budget.
+esc_find(int c) {
+  string ch = chr(c);
+  string[] ops = esc_chars();
+  int i = find_op(ops, ch);
+} return int i;

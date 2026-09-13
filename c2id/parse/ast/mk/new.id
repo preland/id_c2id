@@ -4,17 +4,18 @@
 // (a bare [] needs a known list type).
 
 newnode(string kind, int a, int b, string s, string tstr, int[] l, int[] m) {
-  push_kab(kind, a, b);
-  push_st(s, tstr);
-  push_lm(l, m);
-} return int len((import nk)) - 1;
+  push_node(kind, a, b, s, tstr, l, m);
+  int id = len((import nk)) - 1;
+} return int id;
 
 // A node with no child lists.
 newleaf(string kind, int a, int b, string s, string tstr) {
   int[] none = [];
-} return int newnode(kind, a, b, s, tstr, none, none);
+  int id = newnode(kind, a, b, s, tstr, none, none);
+} return int id;
 
 // A node with one child list.
 newlist(string kind, int a, int b, string s, int[] l) {
   int[] none = [];
-} return int newnode(kind, a, b, s, "", l, none);
+  int id = newnode(kind, a, b, s, "", l, none);
+} return int id;

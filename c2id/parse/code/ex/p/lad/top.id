@@ -20,7 +20,8 @@ parse_expr(int[] pos) {
 fold_comma(int[] pos, int left) {
   advance(pos);
   int right = parse_assign(pos);
-} return int newleaf("bin", left, right, ",", "");
+  int id = newleaf("bin", left, right, ",", "");
+} return int id;
 
 // assignment-expression:
 //     conditional-expression
@@ -32,8 +33,6 @@ fold_comma(int[] pos, int left) {
 // backtracking, which `id` could not express anyway.
 parse_assign(int[] pos) {
   int left = parse_cond(pos);
-  int node = left;
-  if(is_assignop(cur_text(pos))) {
-    node = assign_tail(pos, left);
-  }
+  string op = cur_text(pos);
+  int node = assign_check(pos, left, op);
 } return int node;

@@ -2,16 +2,17 @@
 // reference-semantic: pushing into `m` here is visible to if_else's caller.
 fill_else(int[] pos, int[] m) {
   advance(pos);
-  push(m, parse_stmt(pos));
+  int id = parse_stmt(pos);
+  push(m, id);
 } return void;
 
 parse_while(int[] pos) {
-  advance(pos);
-  advance(pos);
-  int a = parse_expr(pos);
-} return int while_body(pos, a);
+  int a = read_paren_cond(pos);
+  int id = while_body(pos, a);
+} return int id;
 
 while_body(int[] pos, int a) {
   advance(pos);
   int[] l = [parse_stmt(pos)];
-} return int newlist("while", a, 0, "", l);
+  int id = newlist("while", a, 0, "", l);
+} return int id;

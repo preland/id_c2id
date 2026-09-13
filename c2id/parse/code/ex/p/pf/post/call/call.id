@@ -4,7 +4,8 @@
 parse_call(int[] pos, int a) {
   int[] ids = [];
   scan_args(pos, ids);
-} return int newlist("call", a, 0, "", ids);
+  int id = newlist("call", a, 0, "", ids);
+} return int id;
 
 scan_args(int[] pos, int[] ids) {
   advance(pos);
@@ -18,7 +19,8 @@ scan_args(int[] pos, int[] ids) {
 // that a braced initialiser list can share this loop.
 fill_list(int[] pos, int[] ids, string s) {
   while(at_text(pos, s) == 0 && cur_kind(pos) != "eof") {
-    push(ids, parse_assign(pos));
+    int id = parse_assign(pos);
+    push(ids, id);
     skip_comma(pos);
   }
 } return void;

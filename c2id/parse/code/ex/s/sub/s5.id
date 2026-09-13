@@ -5,9 +5,11 @@
 // distinguishable from `f(...)` and, more importantly, keeps expr_str from
 // walking to node -1.
 call_str(int id) {
-  string s = "{" + args_str(l_of(id)) + "}";
+  int[] l = l_of(id);
+  string s = "{" + args_str(l) + "}";
   if(a_of(id) >= 0) {
-    s = expr_str(a_of(id)) + "(" + args_str(l_of(id)) + ")";
+    int a = a_of(id);
+    s = expr_str(a) + "(" + args_str(l) + ")";
   }
 } return string s;
 

@@ -1,0 +1,21 @@
+// Overflow from three sibling parsers whose return value must be named
+// instead of returned directly, leaving no room in their own 3-action
+// budget: q3.id's prim_bad, ../q2.id's parse_const, and
+// ../../post/call/call2.id's parse_index. prim/ has no free file or
+// function slot; str/ does.
+
+bad_advance(int[] pos) {
+  advance(pos);
+  int id = newleaf("num", 0, 0, "0", "");
+} return int id;
+
+const_tail(int[] pos, string kind, string s) {
+  advance(pos);
+  int val = const_val(kind, s);
+  int id = newleaf("num", val, 0, s, "");
+} return int id;
+
+idx_close(int[] pos, int a, int b) {
+  advance(pos);
+  int id = newleaf("idx", a, b, "", "");
+} return int id;

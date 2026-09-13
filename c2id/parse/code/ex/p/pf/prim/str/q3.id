@@ -10,12 +10,14 @@ const_val(string kind, string s) {
 
 prim_paren(int[] pos) {
   advance(pos);
-} return int paren_expr(pos);
+  int node = paren_expr(pos);
+} return int node;
 
 // Nothing here can start an expression. Report it, consume the token so the
 // caller cannot spin forever, and hand back a zero so the rest of the
 // translation unit still parses.
 prim_bad(int[] pos) {
-  print("c2id: expression expected, found '" + cur_text(pos) + "'");
-  advance(pos);
-} return int newleaf("num", 0, 0, "0", "");
+  string msg = "c2id: expression expected, found '" + cur_text(pos) + "'";
+  print(msg);
+  int id = bad_advance(pos);
+} return int id;

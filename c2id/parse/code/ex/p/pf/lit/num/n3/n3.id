@@ -22,8 +22,9 @@ is_oct_lit(string s) {
 // -- which is exactly how the u/U/l/L suffixes get dropped.
 digits_val(string s, int i, int radix) {
   int n = 0;
-  while(i < len(s) && dig_val(charat(s, i)) >= 0 && dig_val(charat(s, i)) < radix) {
-    n = n * radix + dig_val(charat(s, i));
+  while(more_digits(s, i, radix)) {
+    int c = charat(s, i);
+    n = n * radix + dig_val(c);
     i = i + 1;
   }
 } return int n;

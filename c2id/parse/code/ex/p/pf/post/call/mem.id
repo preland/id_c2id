@@ -4,9 +4,15 @@
 parse_member(int[] pos, int a) {
   string op = cur_text(pos);
   advance(pos);
+  int id = member_tail(pos, a, op);
+} return int id;
+
+member_tail(int[] pos, int a, string op) {
   string name = cur_text(pos);
-} return int member_node(pos, a, op, name);
+  int id = member_node(pos, a, op, name);
+} return int id;
 
 member_node(int[] pos, int a, string op, string name) {
   advance(pos);
-} return int newleaf("mem", a, 0, name, op);
+  int id = newleaf("mem", a, 0, name, op);
+} return int id;

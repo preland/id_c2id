@@ -9,13 +9,15 @@
 parse_str(int[] pos) {
   string s = cur_text(pos);
   advance(pos);
-} return int str_more(pos, s);
+  int id = str_more(pos, s);
+} return int id;
 
 str_more(int[] pos, string s) {
   while(cur_kind(pos) == "str") {
     s = str_glue(pos, s);
   }
-} return int newleaf("str", 0, 0, s, "");
+  int id = newleaf("str", 0, 0, s, "");
+} return int id;
 
 str_glue(int[] pos, string s) {
   string out = s + cur_text(pos);

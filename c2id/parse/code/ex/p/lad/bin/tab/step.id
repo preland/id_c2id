@@ -1,0 +1,21 @@
+// Overflow from ../bin.id and ../fold.id: once a constructor's result has to
+// be named instead of returned directly, those functions no longer fit the
+// 3-action budget. Split here, where bin/ has no room left but tab/ does.
+
+bin_node(int[] pos, int lvl, int left, string op) {
+  int right = parse_next(pos, lvl);
+  int id = newleaf("bin", left, right, op, "");
+} return int id;
+
+cond_node(int[] pos, int left, int a) {
+  int b = cond_else(pos);
+  int id = newlist("cond", left, a, "", [b]);
+} return int id;
+
+// parse_bin's loop condition: op_level(cur_text(pos)) == lvl must be
+// re-evaluated every iteration, so it cannot be named once before the loop.
+bin_at_level(int[] pos, int lvl) {
+  string op = cur_text(pos);
+  int lv = op_level(op);
+  int ok = lv == lvl;
+} return int ok;

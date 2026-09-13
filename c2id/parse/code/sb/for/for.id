@@ -4,22 +4,20 @@
 parse_for(int[] pos) {
   advance(pos);
   advance(pos);
-  int[] l = for_init(pos);
-} return int for_cond(pos, l);
+  int id = for_head(pos);
+} return int id;
 
 for_init(int[] pos) {
   int[] l = [];
   if(at_text(pos, ";")) {
     advance(pos);
   } else {
-    push(l, parse_stmt(pos));
+    int id = parse_stmt(pos);
+    push(l, id);
   }
 } return int[] l;
 
 for_cond(int[] pos, int[] l) {
-  int a = 0 - 1;
-  if(at_text(pos, ";") == 0) {
-    a = parse_expr(pos);
-  }
-  advance(pos);
-} return int for_step(pos, a, l);
+  int a = opt_expr(pos, ";");
+  int id = for_step(pos, a, l);
+} return int id;

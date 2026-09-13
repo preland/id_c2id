@@ -1,0 +1,15 @@
+// parse_unary's and parse_unary2's dispatch conditions. Each already spends
+// its whole 3-action budget on the default, the if and the else, leaving no
+// room to name cur_text(pos) before testing it -- so the text fetch and the
+// check move into their own boolean helper. op/ has no room for a sibling
+// file, so op2.id was promoted into this directory to make room.
+
+at_unop(int[] pos) {
+  string s = cur_text(pos);
+  int ok = is_unop(s);
+} return int ok;
+
+at_incdec(int[] pos) {
+  string s = cur_text(pos);
+  int ok = is_incdec(s);
+} return int ok;

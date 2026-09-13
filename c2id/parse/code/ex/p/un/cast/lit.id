@@ -6,7 +6,8 @@
 paren_expr(int[] pos) {
   int a = parse_expr(pos);
   advance(pos);
-} return int postfix_tail(pos, a);
+  int node = postfix_tail(pos, a);
+} return int node;
 
 // `(T){ a, b }`. NOTES.md section 4 has no node kind for a brace initialiser,
 // so this is a `cast` whose operand is a `call` node with callee -1: -1 is
@@ -16,8 +17,8 @@ paren_expr(int[] pos) {
 compound_lit(int[] pos, int ty) {
   int[] ids = [];
   scan_inits(pos, ids);
-  int a = newlist("call", 0 - 1, 0, "", ids);
-} return int newleaf("cast", a, ty, "", "");
+  int id = lit_node(ty, ids);
+} return int id;
 
 // '{' element, element ... '}'
 scan_inits(int[] pos, int[] ids) {

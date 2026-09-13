@@ -3,19 +3,25 @@
 // Not an expression kind this module builds -- a statement or type node, or a
 // kind added later. Printing it rather than failing keeps diagnostics usable.
 es7(int id) {
-} return string "?" + k_of(id);
+  string kind = k_of(id);
+  string s = "?" + kind;
+} return string s;
 
 // The decoded value, which is the point: printing `0x1f` as 31 is how the
 // literal decoder gets tested. A floating literal has no value yet, so its
 // spelling is printed instead.
 num_str(int id) {
   string s = "" + a_of(id);
-  if(is_float_lit(s_of(id))) {
-    s = s_of(id);
+  string txt = s_of(id);
+  if(is_float_lit(txt)) {
+    s = txt;
   }
 } return string s;
 
 // `bin` and `assign` have the same three fields in the same places, so they
 // share one printer.
 bin_str(int id) {
-} return string "(" + expr_str(a_of(id)) + " " + s_of(id) + " " + expr_str(b_of(id)) + ")";
+  int a = a_of(id);
+  int b = b_of(id);
+  string s = "(" + expr_str(a) + " " + s_of(id) + " " + expr_str(b) + ")";
+} return string s;

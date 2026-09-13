@@ -10,12 +10,13 @@ skip_comma(int[] pos) {
 parse_index(int[] pos, int a) {
   advance(pos);
   int b = parse_expr(pos);
-  advance(pos);
-} return int newleaf("idx", a, b, "", "");
+  int id = idx_close(pos, a, b);
+} return int id;
 
 // x++ / x-- . Kind `post` rather than `un`, which is how the emitter tells
 // `*p++` (post) from `++*p` (un).
 post_incdec(int[] pos, int a) {
   string op = cur_text(pos);
   advance(pos);
-} return int newleaf("post", a, 0, op, "");
+  int id = newleaf("post", a, 0, op, "");
+} return int id;

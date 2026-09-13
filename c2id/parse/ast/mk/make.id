@@ -1,6 +1,5 @@
-// Building nodes. newnode pushes one cell to every parallel list and returns
-// the new id, which is just the length minus one -- computed in the return
-// clause, which is free and so does not eat into the 3-action budget.
+// Building nodes. newnode's id is the new length minus one, named in its
+// body and returned -- the return clause may only be a name or a literal.
 //
 // The pushes are split across three helpers for the same reason: three
 // exports' worth of pushing is three actions, and a block gets three.

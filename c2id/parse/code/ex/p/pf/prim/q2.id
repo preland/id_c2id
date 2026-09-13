@@ -16,7 +16,8 @@ primary4(int[] pos) {
 parse_var(int[] pos) {
   string name = cur_text(pos);
   advance(pos);
-} return int newleaf("var", 0, 0, name, "");
+  int id = newleaf("var", 0, 0, name, "");
+} return int id;
 
 // An integer, floating or character constant. `na` is the value, `ns` is the
 // exact spelling -- the emitter reprints the spelling, the type pass and the
@@ -24,5 +25,5 @@ parse_var(int[] pos) {
 parse_const(int[] pos) {
   string kind = cur_kind(pos);
   string s = cur_text(pos);
-  advance(pos);
-} return int newleaf("num", const_val(kind, s), 0, s, "");
+  int id = const_tail(pos, kind, s);
+} return int id;

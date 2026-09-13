@@ -3,4 +3,13 @@
 
 sizeof_expr(int[] pos) {
   int a = parse_unary(pos);
-} return int newleaf("sizeof", a, 0, "", "");
+  int id = newleaf("sizeof", a, 0, "", "");
+} return int id;
+
+// ../cast/lit.id's compound_lit: it already spends its 3-action budget on
+// scanning the initialisers, leaving no room to name the newlist()+newleaf()
+// pair it must return. un/cast/ has no room for a sibling file; sz/ does.
+lit_node(int ty, int[] ids) {
+  int a = newlist("call", 0 - 1, 0, "", ids);
+  int id = newleaf("cast", a, ty, "", "");
+} return int id;

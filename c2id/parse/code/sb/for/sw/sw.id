@@ -4,17 +4,19 @@
 switch_body(int[] pos, int a) {
   advance(pos);
   int[] l = [parse_stmt(pos)];
-} return int newlist("switch", a, 0, "", l);
+  int id = newlist("switch", a, 0, "", l);
+} return int id;
 
 parse_case(int[] pos) {
   advance(pos);
   int a = parse_cond(pos);
-  advance(pos);
-} return int newleaf("case", a, 0, "", "");
+  int id = case_close(pos, a);
+} return int id;
 
 // `default` is a case whose value is -1: there is no C constant expression
 // that could collide with it, and it keeps the CFG builder to one node kind.
 parse_default(int[] pos) {
   advance(pos);
   advance(pos);
-} return int newleaf("case", 0 - 1, 0, "", "");
+  int id = newleaf("case", 0 - 1, 0, "", "");
+} return int id;
