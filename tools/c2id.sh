@@ -58,41 +58,62 @@ fi
 "$c2id_bin" < "$work/in.i" > "$work/out.txt"
 
 # Split the tagged stream. Everything after a "==== FILE <path>" line belongs
-# to that file, until the next such line.
+# to that file, until the next such line. Anything before the first tag is a
+# diagnostic, not output, and goes to stderr unless it is blank.
+#
+# Each line is held until the next one arrives, because only then is it known
+# not to be the stream's last: awk cannot see whether the last line ended in a
+# newline, so the shell looks and says so in lastnl, and the file gets exactly
+# the bytes the stream had. A tag closes the file before it, so a path named
+# twice is rewritten from empty, as opening it for writing would.
 rm -rf "$out"
 mkdir -p "$out"
-python3 - "$work/out.txt" "$out" <<'PY'
-import os, sys
-stream, outdir = sys.argv[1], sys.argv[2]
-cur, buf, count = None, [], 0
-
-def flush():
-    global buf, count
-    if cur is None:
-        return
-    path = os.path.join(outdir, cur)
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w") as f:
-        f.write("".join(buf))
-    buf = []
-    count += 1
-
-with open(stream) as f:
-    for line in f:
-        if line.startswith("==== FILE "):
-            flush()
-            cur = line[len("==== FILE "):].strip()
-        elif cur is not None:
-            buf.append(line)
-        elif line.strip():
-            # Anything before the first tag is a diagnostic, not output.
-            sys.stderr.write(line)
-flush()
-if count == 0:
-    sys.stderr.write("c2id: produced no files\n")
-    sys.exit(1)
-print(f"c2id: wrote {count} id files to {outdir}", file=sys.stderr)
-PY
+lastnl=1
+if [[ -s $work/out.txt && -n $(tail -c 1 "$work/out.txt") ]]; then
+    lastnl=0
+fi
+awk -v outdir="$out" -v lastnl="$lastnl" '
+function put(eol) {
+    if (have) {
+        printf "%s%s", held, eol > path
+    } else if (held ~ /[^ \t\n\r\f\v]/) {
+        printf "%s%s", held, eol | "cat 1>&2"
+    }
+}
+function open_file(name,    dir) {
+    if (have) close(path)
+    path = outdir "/" name
+    dir = path
+    sub(/\/[^\/]*$/, "", dir)
+    gsub(/\047/, "\047\\\047\047", dir)
+    system("mkdir -p \047" dir "\047")
+    printf "" > path
+    have = 1
+    count++
+}
+{
+    if (pending) put("\n")
+    pending = 0
+    if (index($0, "==== FILE ") == 1) {
+        name = substr($0, 11)
+        sub(/^[ \t\r\f\v]+/, "", name)
+        sub(/[ \t\r\f\v]+$/, "", name)
+        open_file(name)
+    } else {
+        held = $0
+        pending = 1
+    }
+}
+END {
+    if (pending) put(lastnl ? "\n" : "")
+    if (have) close(path)
+    close("cat 1>&2")
+    if (count == 0) {
+        print "c2id: produced no files" | "cat 1>&2"
+        exit 1
+    }
+    print "c2id: wrote " count " id files to " outdir | "cat 1>&2"
+}' "$work/out.txt"
 
 # The generated project needs the C-semantics runtime compiled alongside it.
 cp -r "$here/crt" "$out/crt"
