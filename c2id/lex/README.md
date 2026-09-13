@@ -36,7 +36,7 @@ Two consequences to keep in mind when extending this code:
   `lex_mem` allocates an 8-byte zero pad immediately behind it, so the two-byte
   lookaheads several scanners do stay inside the store's bounds check and read
   as 0. No character-class predicate accepts 0, so every scanning loop stops
-  there on its own. `ch_eof()` names it.
+  there on its own. `ch_eof`, a constant in `c2id/conf.id`, names it.
 * **Lookahead is limited to two bytes** past the current index by that pad.
 
 ## File map
@@ -47,8 +47,7 @@ lex/
     cls.id                  is_space, is_digit, is_alpha
     cls2.id                 is_hspace, is_alnum, is_numcont
     code/
-      code.id               ch_dq, ch_sq, ch_nl          -- named byte codes
-      code2.id              ch_eof, is_exp, is_expsign
+      code2.id              is_exp, is_expsign
       opset.id              is_op2, is_op3, is_pfx       -- operator spellings
   tok/                      token scanners (32 functions)
     tx/

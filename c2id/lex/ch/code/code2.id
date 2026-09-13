@@ -1,10 +1,4 @@
-// End-of-input, and the two classes that make an exponent part.
-
-// Reading past the end of the source yields byte 0 (the NUL that mem_of_str
-// copies, then the zeroed pad block lex_mem allocates behind it), so 0 is
-// this lexer's end-of-input marker.
-ch_eof() {
-} return int 0;
+// The two classes that make an exponent part.
 
 // `e` `E` `p` `P` -- the letters that may introduce a signed exponent inside
 // a preprocessing number (`p`/`P` for hexadecimal floats).

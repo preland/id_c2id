@@ -16,8 +16,9 @@ bad=0
 for root in "${roots[@]}"; do
     [[ -d $root ]] || continue
     while IFS= read -r d; do
-        # Only .id files and subdirectories count; .md files are free.
-        n_id=$(find "$d" -maxdepth 1 -name '*.id' | wc -l)
+        # Only .id files and subdirectories count; .md files are free, and so
+        # is conf.id, which bin/idc reads as a manifest rather than source.
+        n_id=$(find "$d" -maxdepth 1 -name '*.id' ! -name conf.id | wc -l)
         n_dir=$(find "$d" -mindepth 1 -maxdepth 1 -type d | wc -l)
         total=$((n_id + n_dir))
         if (( total > 3 )); then

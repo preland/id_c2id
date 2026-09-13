@@ -1,0 +1,23 @@
+// The translator's constants. Each is a program global read with
+// (import name), which is not a call, so it may appear as a call argument.
+//
+// ch_dq, ch_sq, ch_nl: the byte codes of `"`, `'` and LF, the three the lexer
+// names rather than spells.
+//
+// ch_eof: reading past the end of the source yields byte 0 (the NUL that
+// mem_of_str copies, then the zeroed pad block lex_mem allocates behind it),
+// so 0 is the lexer's end-of-input marker.
+//
+// tree_depth: how many directory levels a generated project's block tree has
+// (emit/gen/out/path.id). 3^5 = 243 leaf directories = 2187 functions. A
+// translated kernel file needs far fewer; a whole subsystem may need one more
+// level, and this is the only number to change.
+//
+// funcs_per_file: how many block functions share one generated file, which is
+// id's own limit.
+int ch_dq = 34;
+int ch_sq = 39;
+int ch_nl = 10;
+int ch_eof = 0;
+int tree_depth = 5;
+int funcs_per_file = 3;

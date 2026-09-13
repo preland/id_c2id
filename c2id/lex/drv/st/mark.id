@@ -11,7 +11,7 @@ at_bol(word base, int i) {
 
 bol_ok(word base, int j) {
   int ok = 0;
-  if(j < 0 || peek8(base + j) == ch_nl()) {
+  if(j < 0 || peek8(base + j) == (import ch_nl)) {
     ok = 1;
   }
 } return int ok;

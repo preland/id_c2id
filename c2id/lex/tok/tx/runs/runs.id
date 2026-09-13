@@ -16,7 +16,7 @@ digit_end(word base, int i) {
 // Index of the LF that ends this line (or of the end of input). The LF
 // itself is not consumed, so the ordinary whitespace path counts it.
 eol_pos(word base, int i) {
-  while(peek8(base + i) != ch_nl() && peek8(base + i) != ch_eof()) {
+  while(peek8(base + i) != (import ch_nl) && peek8(base + i) != (import ch_eof)) {
     i = i + 1;
   }
 } return int i;

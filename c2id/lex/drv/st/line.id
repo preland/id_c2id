@@ -24,7 +24,7 @@ set_line(word base, int a, int b) {
 // `a` is where the filename should start and `b` is just past its closing
 // quote. Markers without a filename leave curfile alone.
 set_file(word base, int a, int b) {
-  if(peek8(base + a) == ch_dq()) {
+  if(peek8(base + a) == (import ch_dq)) {
     string s = slice(base, a + 1, b - 1);
     sset((import curfile), 0, s);
   }

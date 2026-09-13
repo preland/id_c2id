@@ -13,7 +13,7 @@ emit_mark() {
 } return void;
 
 emit_mark2(int g) {
-  int k = g % funcs_per_file();
+  int k = g % (import funcs_per_file);
   if(k == 0) {
     string p = func_path(g);
     print("==== FILE " + p);

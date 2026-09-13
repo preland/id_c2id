@@ -12,7 +12,7 @@ scan_ident(word base, int i) {
 // The quote test comes first so the common case never pays for the slice.
 ident_pick(word base, int i, int e) {
   int ni = 0;
-  if((peek8(base + e) == ch_dq() || peek8(base + e) == ch_sq()) && is_pfx_at(base, i, e)) {
+  if((peek8(base + e) == (import ch_dq) || peek8(base + e) == (import ch_sq)) && is_pfx_at(base, i, e)) {
     ni = scan_quoted(base, i, e);
   } else {
     ni = emit_ident(base, i, e);

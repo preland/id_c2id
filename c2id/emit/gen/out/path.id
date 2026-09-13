@@ -11,21 +11,13 @@
 // D is reached by writing D in base 3, most significant digit first, and
 // taking one directory level per digit. DEPTH fixes how many levels there
 // are, so every leaf sits at the same depth and no directory ever mixes files
-// with subdirectories -- which would otherwise blow the 3-entry limit.
-
-// 3^5 = 243 leaf directories = 2187 functions. A translated kernel file needs
-// far fewer; a whole subsystem may need one more level, and this is the only
-// number to change.
-tree_depth() {
-} return int 5;
-
-funcs_per_file() {
-} return int 3;
+// with subdirectories -- which would otherwise blow the 3-entry limit. DEPTH
+// and the functions per file are tree_depth and funcs_per_file in conf.id.
 
 // Digit `d` (0 = most significant) of `n` written in base 3, padded to
-// tree_depth() digits.
+// tree_depth digits.
 tri_digit(int n, int d) {
-  int shift = tree_depth() - 1 - d;
+  int shift = (import tree_depth) - 1 - d;
   int div = pow3(shift);
   int r = (n / div) % 3;
 } return int r;

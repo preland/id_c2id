@@ -15,7 +15,7 @@ mark_num(word base, int e) {
 // clause), and mark_num has no third action to spare for either.
 mark_after_digits(word base, int j) {
   int e = skip_h(base, j);
-  int c = ch_dq();
+  int c = (import ch_dq);
   int r = mark_file(base, e, c);
 } return int r;
 

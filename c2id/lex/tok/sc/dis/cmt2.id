@@ -3,7 +3,7 @@
 
 // The interior of a block comment: `i` is the index just past `/*`.
 cmt_end(word base, int i) {
-  while(peek8(base + i) != ch_eof() && cmt_more(base, i)) {
+  while(peek8(base + i) != (import ch_eof) && cmt_more(base, i)) {
     i = adv_nl(base, i);
   }
   int r = cmt_stop(base, i);

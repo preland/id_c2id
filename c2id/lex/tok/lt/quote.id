@@ -4,7 +4,7 @@
 
 quote_kind(int c) {
   string kind = "chr";
-  if(c == ch_dq()) {
+  if(c == (import ch_dq)) {
     kind = "str";
   }
 } return string kind;

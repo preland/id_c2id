@@ -25,7 +25,7 @@ scan_strop(word base, int i) {
 // coincide), else operator or punctuation.
 scan_quop(word base, int i) {
   int ni = 0;
-  if(peek8(base + i) == ch_dq() || peek8(base + i) == ch_sq()) {
+  if(peek8(base + i) == (import ch_dq) || peek8(base + i) == (import ch_sq)) {
     ni = scan_quoted(base, i, i);
   } else {
     ni = scan_op(base, i);

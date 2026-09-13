@@ -16,7 +16,7 @@ pow3(int e) {
 dir_path(int dir) {
   string out = "b";
   int i = 0;
-  while(i < tree_depth()) {
+  while(i < (import tree_depth)) {
     out = out + "/" + tri_digit(dir, i);
     i = i + 1;
   }
@@ -24,7 +24,7 @@ dir_path(int dir) {
 
 // The full path for the file holding function number `n`.
 func_path(int n) {
-  int file = n / funcs_per_file();
+  int file = n / (import funcs_per_file);
   int dir = file / 3;
   string p = dir_path(dir) + "/f" + (file % 3) + ".id";
 } return string p;

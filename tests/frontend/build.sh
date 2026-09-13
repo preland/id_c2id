@@ -7,6 +7,8 @@ idc=${IDC:-$here/../idc/bin/idc}
 work=$here/build/frontend
 rm -rf "$work/src"
 mkdir -p "$work/src/c2id"
+# The lexer reads c2id's constants, and conf.id is only read at a root.
+cp "$here/c2id/conf.id" "$work/src/conf.id"
 cp -r "$here/c2id/lex" "$work/src/c2id/lex"
 cp -r "$here/c2id/parse" "$work/src/c2id/parse"
 cp -r "$here/tests/frontend/harn" "$work/src/harn"

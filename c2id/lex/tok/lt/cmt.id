@@ -21,7 +21,7 @@ cmt_stop(word base, int i) {
 // whitespace and for the interior of a block comment, so a comment spanning
 // lines advances `tline` exactly as the same lines outside one would.
 adv_nl(word base, int i) {
-  if(peek8(base + i) == ch_nl()) {
+  if(peek8(base + i) == (import ch_nl)) {
     bump_line();
   }
   int r = i + 1;

@@ -16,7 +16,7 @@ adv_esc(word base, int i) {
 // scan: an unterminated literal then costs one bad token instead of eating
 // the rest of the file.
 quote_end(word base, int i, int c) {
-  while(peek8(base + i) != c && peek8(base + i) != ch_eof() && peek8(base + i) != ch_nl()) {
+  while(peek8(base + i) != c && peek8(base + i) != (import ch_eof) && peek8(base + i) != (import ch_nl)) {
     i = adv_esc(base, i);
   }
   int r = quote_stop(base, i);
@@ -25,7 +25,7 @@ quote_end(word base, int i, int c) {
 // Step over the terminator, but only if it really was a quote.
 quote_stop(word base, int i) {
   int ni = i;
-  if(peek8(base + i) == ch_dq() || peek8(base + i) == ch_sq()) {
+  if(peek8(base + i) == (import ch_dq) || peek8(base + i) == (import ch_sq)) {
     ni = i + 1;
   }
 } return int ni;
