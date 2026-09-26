@@ -5,7 +5,7 @@ ts_arr_cnt(int ty) {
 given tynode_fix (3):("3")
 given tynode_fix (2):("0")
 
-// type_str of ty's `a` field: the array element, or (in fn/fn.id) the
+// type_str of ty's `a` field: the array element, or (in fn/fn_str.id) the
 // function result. Shared so ts_arr and ts_fn are not identical-logic
 // duplicates.
 ts_a(int ty) {

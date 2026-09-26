@@ -1,4 +1,4 @@
-// One leaf node per statement kind the walker dispatch chain (w/w.id,
+// One leaf node per statement kind the walker dispatch chain (w/walk.id,
 // w/s/*, w/j/*) tests for, plus a block0 to fill -- enough to drive
 // walk_stmt down to any one link directly, and to give do_return/do_goto/
 // do_label/do_case/do_break/do_continue something real to act on. wifid/

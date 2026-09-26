@@ -2,7 +2,7 @@
 // advance; parse_expr` reads the '(cond)' after a keyword. Each caller
 // already spends its whole 3-action budget on the rest of its body, leaving
 // no room to read the condition inline. ctl/ has no room for a sibling
-// file, so loop.id was promoted into this directory to make room.
+// file, so while_else.id was promoted into this directory to make room.
 
 read_paren_cond(int[] pos) {
   advance(pos);

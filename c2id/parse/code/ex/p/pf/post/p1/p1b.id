@@ -1,7 +1,7 @@
 // postfix_tail's loop condition: is_postfix_start(cur_text(pos)) must be
 // re-evaluated every iteration, so it cannot be named once before the loop.
-// p1.id already holds 3 functions, and post/ has no room for a sibling
-// file, so p1.id was promoted into this directory to make room.
+// postfix.id already holds 3 functions, and post/ has no room for a sibling
+// file, so postfix.id was promoted into this directory to make room.
 
 at_postfix_start(int[] pos) {
   string s = cur_text(pos);

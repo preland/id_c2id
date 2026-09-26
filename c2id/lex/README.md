@@ -45,38 +45,38 @@ Two consequences to keep in mind when extending this code:
 lex/
   ch/                       character classification (15 functions)
     cls.id                  is_space, is_digit, is_alpha
-    cls2.id                 is_hspace, is_alnum, is_numcont
+    derived.id              is_hspace, is_alnum, is_numcont
     code/
       code2.id              is_exp, is_expsign
       opset.id              is_op2, is_op3, is_pfx       -- operator spellings
   tok/                      token scanners (32 functions)
     tx/
       txt.id                slice, sub2, sub3            -- store -> string
-      runs.id               ident_end, digit_end, eol_pos
-      numr.id               skip_h, num_end, num_step
+      runs/scan.id          ident_end, digit_end, eol_pos
+      numr/scan.id          skip_h, num_end, num_step
     lt/
       esc.id                adv_esc, quote_end, quote_stop
       quote.id              quote_kind, scan_quoted
       cmt.id                cmt_more, cmt_stop, adv_nl
     sc/
-      ops.id                op_len, op_len3, scan_op
-      idn.id                scan_ident, ident_pick, emit_ident
+      ops/scan.id           op_len, op_len3, scan_op
+      idn/ident.id          scan_ident, ident_pick, emit_ident
       dis/
         cmt2.id             cmt_end, scan_cmt, scan_num
-        d1.id               scan_one, scan_hash, scan_word
-        d2.id               scan_numop, scan_strop, scan_quop
+        d1/early.id         scan_one, scan_hash, scan_word
+        late/chain.id       scan_numop, scan_strop, scan_quop
   drv/                      stdin, token store, cursor (23 functions)
     st/
-      store.id              lset, sset, add_tok
+      store/append.id       lset, sset, add_tok
       line.id               bump_line, set_line, set_file
       mark.id               at_bol, bol_ok, scan_marker
     mk/
       mark2.id              mark_num, mark_file
-      top.id                init_tokens, init_lines, lex_all
+      top/entry.id          init_tokens, init_lines, lex_all
       run.id                eol_end, scan_src, lex_mem
     cur/
-      cur.id                cur_kind, cur_text, cur_line
-      cur2.id               nxt_text, advance, at_text
+      read.id               cur_kind, cur_text, cur_line
+      advance.id            nxt_text, advance, at_text
 ```
 
 ## The dispatch chain

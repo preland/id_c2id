@@ -1,4 +1,4 @@
-// The rest of the fill_std chain -- see reg.id.
+// The rest of the fill_std chain -- see setup.id.
 
 fill_std3() {
   int t = newleaf("prim", 8, 1, "long", "");

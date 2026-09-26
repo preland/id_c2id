@@ -3,7 +3,7 @@
 // C has ten binary levels between `?:` and cast. Ten hand-written functions
 // that differ only in which operator strings they name is precisely the
 // "just like X but for Y" shape the language forbids copying, so the level is
-// a *parameter* and the operator set is a table (see fold.id and tab/tab.id):
+// a *parameter* and the operator set is a table (see fold.id and tab/find_op.id):
 //
 //   0 ||   1 &&   2 |   3 ^   4 &   5 == !=   6 < > <= >=
 //   7 << >>   8 + -   9 * / %

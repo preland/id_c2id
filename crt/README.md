@@ -52,7 +52,7 @@ crt/
 │   └── heap/               kmalloc / kfree, a real free-list allocator
 │       ├── blk/            the block header and the region
 │       │   ├── init/           the region, made
-│       │   │   ├── init.id     heap_init, heap_init2
+│       │   │   ├── heap_init.id heap_init, heap_init2
 │       │   │   └── more.id     heap_end, align8
 │       │   ├── hdr.id      bsize, bused, bset
 │       │   └── link.id     bsetprev, init_rest, fix_prev
@@ -60,11 +60,11 @@ crt/
 │       │   ├── new.id      kmalloc, blk_need, kzalloc
 │       │   ├── find.id     find_fit, fit_at, walk_next
 │       │   └── take/           handing a block out
-│       │       ├── take.id     alloc_at, take_at
+│       │       ├── alloc_at.id alloc_at, take_at
 │       │       └── more.id     split_blk, re_min
 │       └── put/            freeing, coalescing, resizing
 │           ├── free/           kfree and coalescing
-│           │   ├── free.id     kfree, free_at, coal_both
+│           │   ├── kfree.id    kfree, free_at, coal_both
 │           │   └── more.id     merge_blk, merge_set
 │           ├── coal.id     coal_next, coal_prev, re_len
 │           └── re.id       krealloc, re_grow, re_move
@@ -77,7 +77,7 @@ crt/
     │       ├── list.id     lgetw
     │       └── ch.id       ch_of, str_at, ptr_str
     ├── spec/               parsing one % specifier
-    │   ├── core.id         fmt_spec, fmt_conv, adv_nz
+    │   ├── fmt_spec.id     fmt_spec, fmt_conv, adv_nz
     │   ├── flag.id         scan_flags, is_flag, take_flag
     │   └── more/
     │       ├── set.id      set_flag, scan_width, is_digit
@@ -87,7 +87,7 @@ crt/
         ├── go.id           c_format, fmt_step, fmt_lit
         ├── pick/
         │   ├── num.id      conv_do, conv_num, conv_uns
-        │   ├── text.id     conv_cs, conv_sp, conv_p
+        │   ├── conv_cs.id  conv_cs, conv_sp, conv_p
         │   └── rest.id     spec_txt, next_arg, c_puts
         └── val/
             ├── sgn.id      dec_of, sdec, narrow_s

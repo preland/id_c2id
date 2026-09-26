@@ -2,7 +2,7 @@
 // loop's condition is only read once, where the loop needs it read again
 // every iteration; composing the byte fetch and the classifier into one
 // function lets the loop call it directly instead (docs/SPEC.md section 7).
-// is_digit_at is also used from tok/sc/dis/d2.id's scan_strop.
+// is_digit_at is also used from tok/sc/dis/late/chain.id's scan_strop.
 is_alnum_at(word base, int i) {
   int c = peek8(base + i);
   int ok = is_alnum(c);

@@ -1,6 +1,6 @@
 // Zero-argument readers of node 0's s/t/l fields, read1.id's other half
 // -- three more accessors, one more file, same reason: get/ has no room
-// for a sibling file, so set.id was promoted into set/ to make room.
+// for a sibling file, so backpatch.id was promoted into set/ to make room.
 
 s0_of() {
   string s = s_of(0);

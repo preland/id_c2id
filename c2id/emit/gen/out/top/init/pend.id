@@ -1,4 +1,4 @@
-// The block counter, and the queue of temporaries emit/gen/txt/st/st/pend.id
+// The block counter, and the queue of temporaries emit/gen/txt/st/pend/name.id
 // names: the lines waiting to be printed, the call each one names, and the
 // number the next one gets.
 

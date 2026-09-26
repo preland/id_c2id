@@ -1,7 +1,7 @@
 // A second literal-body CFG, this one with a real "cond" terminator: `if(1)
 // {} else {}`, both branches empty. The walker gives four blocks -- 0 cond,
 // 1 the (empty) then, 2 the (empty) else, 3 the join, matching
-// emit/cfg/ct/a/if/if.id's own diagram -- which is what lets emit_cond,
+// emit/cfg/ct/a/if/cond.id's own diagram -- which is what lets emit_cond,
 // emit_jump and the block predicates be called on a real "cond"/"jmp" pair
 // instead of only the "end" shape cfg_body_fixture builds.
 cond_body_fixture() {

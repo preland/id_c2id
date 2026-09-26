@@ -116,7 +116,7 @@ word t1 = sx32(t0);
 ```
 
 Every call the expression builders write is bound to a `word` temporary `t0`,
-`t1`, ... on its own line (`emit/gen/txt/st/st/pend.id`), and the lines are
+`t1`, ... on its own line (`emit/gen/txt/st/pend/name.id`), and the lines are
 printed just before the statement or terminator that uses them. Temporaries
 restart at `t0` in each block function. A C expression statement takes its last
 temporary back, so `printf(...)` is emitted as `c_printf(t0, t5);`, not as a

@@ -1,5 +1,5 @@
 // Start a new C function. frame_reset empties fr's three lists; this one
-// empties the fourth -- lvtys, which txt_setup (reg.id) declares -- using fr's
+// empties the fourth -- lvtys, which txt_setup (setup.id) declares -- using fr's
 // own popper so there is only one such loop in the program.
 txt_reset() {
   clear_ints((import lvtys));

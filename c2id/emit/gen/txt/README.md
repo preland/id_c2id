@@ -83,7 +83,7 @@ its comparisons, which is the opposite of C, and `id` rejects the two mixed
 without parentheses.
 
 The table writes each form nested because that is how it reads. What is
-emitted names every call first: `name_val` (`st/st/pend.id`) queues
+emitted names every call first: `name_val` (`st/pend/name.id`) queues
 `word tN = CALL;` and returns `tN`, and the block emitter prints the queue
 before the statement that uses it (`flush_pend`). So `x + 1` for an int local is
 
@@ -178,24 +178,24 @@ value in `na`, an `int[]`, and `id`'s `int` is 32 bits, so
 `0x0123456789abcdefUL` arrives here already truncated to `-1985229329`. The
 magnitude tests in `ty/k/k3/lit.id` are therefore unreachable today and
 correct for the day `na` widens. The truncation happens in
-`parse/code/ex/p/pf/lit/num/n3.id`'s `digits_val`, well before any emission —
+`parse/code/ex/p/pf/lit/num/n3/digit_val.id`'s `digits_val`, well before any emission —
 `81985529216486895UL` prints as `-1985229329` from `expr_str` alone.
 
 ## File map
 
 ```
 ty/                         the C type of an expression
-  std/reg.id                txt_setup fill_std fill_std2
-  std/std.id                ty_int ty_uint ty_long
-  std/std2.id               ty_ulong ty_charp ty_signed
+  std/reg/setup.id          txt_setup fill_std fill_std2
+  std/types.id              ty_int ty_uint ty_long
+  std/signedness.id         ty_ulong ty_charp ty_signed
   k/k1.id                   ex_ty ety2 ety3          -- one node kind each,
-  k/k2.id                   ety4 ety5 ety6              a lazy chain: an eager
-  k/k3/k3.id                ety7 ety8 ety9              one would evaluate
-  k/k3/k4.id                ety10 ety11 ety12           every arm of every
+  k/mid.id                  ety4 ety5 ety6              a lazy chain: an eager
+  k/k3/index.id             ety7 ety8 ety9              one would evaluate
+  k/k3/end.id               ety10 ety11 ety12           every arm of every
   k/k3/lit.id               num_ty num_uty num_sty      node, exponentially
   r/un.id                   un_ty un_ty2 un_ty3
   r/bin.id                  bin_ty bin_ty2 bin_ty3
-  r/c/conv.id               usual_ty usual2 usual3
+  r/c/conv/usual.id         usual_ty usual2 usual3
   r/c/pred.id               is_ptr elem_ty is_cmp_op
   r/c/m/misc.id             promote_ty has_ch local_ty
   r/c/m/loc.id              bind_local txt_reset decl_slot
@@ -204,25 +204,25 @@ ex/                         the text
   d/d1.id                   ex_txt ex2 ex3           -- the dispatch chain
   d/x/d2.id                 ex4 ex5 ex6
   d/x/d3.id                 ex7 ex8 ex9
-  d/x/d4.id                 ex10 lval_txt num_txt
-  d/y/lit.id                str_txt cast_txt sizeof_txt
-  d/y/call.id               call_txt args_txt assign_txt
-  d/y/asg.id                comp_asg step_txt op_head
+  d/x/tail.id               ex10 lval_txt num_txt
+  d/y/lit/atoms.id          str_txt cast_txt sizeof_txt
+  d/y/call/expr.id          call_txt args_txt assign_txt
+  d/y/asg/compound.id       comp_asg step_txt op_head
   a/addr.id                 addr_txt ad2 ad3         -- addresses
-  a/m/ad4.id                ad4 var_addr idx_addr
-  a/m/mem.id                mem_addr base_txt scale_txt
+  a/m/ad4/addr.id           ad4 var_addr idx_addr
+  a/m/mem/addr.id           mem_addr base_txt scale_txt
   a/m/val.id                val_txt
-  a/w/wid.id                wid_bits load_wid cvt_name
+  a/w/wid/width.id          wid_bits load_wid cvt_name
   a/w/cv.id                 conv_txt load_txt store_txt
   a/w/un.id                 un_txt un2 un3
-  o/b/bin.id                bin_txt bin1 bin2        -- operators
-  o/b/bin2.id               bin3 plain_txt shl_arg
-  o/b/sgn.id                sgn_txt uop_txt ufn_name
-  o/p/ptr.id                ptr_bin ptr_off ptr_off2
-  o/p/ptr2.id               ptr_diff un4 un_pre
+  o/b/bin/dispatch.id       bin_txt bin1 bin2        -- operators
+  o/b/plain/arith.id        bin3 plain_txt shl_arg
+  o/b/sgn/signed.id         sgn_txt uop_txt ufn_name
+  o/p/ptr/arith.id          ptr_bin ptr_off ptr_off2
+  o/p/diff/unary.id         ptr_diff un4 un_pre
   o/p/un.id                 pre_txt incdec_txt
-  o/c/cmp.id                cmp_txt cmp_sgn ucmp_txt
-  o/c/cmp2.id               ult_txt ucmp_neg
+  o/c/cmp/compare.id        cmp_txt cmp_sgn ucmp_txt
+  o/c/cmp/unsigned.id       ult_txt ucmp_neg
 st/st.id                    st_txt stt2 stt3
 st/more.id                  decl_st ret_st
 ```

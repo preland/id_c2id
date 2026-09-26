@@ -15,7 +15,7 @@ parse_unary3(int[] pos) {
 given boot_a given lexfix stdin "sizeof x;" ([0]):(1) then calls parse_sizeof:[1]
 given boot_a given lexfix stdin "x;" ([0]):(0) then calls parse_postfix:[1]
 
-// unary_op's and pre_incdec's constructors: op.id and op2.id each already
+// unary_op's and pre_incdec's constructors: unary.id and prefix.id each already
 // spend their 3-action budget on reading the operator token and advancing,
 // leaving no room to name the newleaf() call they must return.
 unary_node(int[] pos, string op) {

@@ -187,7 +187,7 @@ Learned from `../../id_development/demos` and its `BLOCKERS.md`:
 
 * **`(import xs)[i] = v` silently does nothing.** It parses as a comparison
   expression statement. Always store through `lset(int[] xs, int i, int v)` —
-  defined exactly once, in `lex/drv/st/store.id`, because the lexer needs it
+  defined exactly once, in `lex/drv/st/store/append.id`, because the lexer needs it
   first. Same for `sset` (`string[]`, whose list parameter must be called `ss`,
   since one name may have only one type).
 * **Only the declaring function may assign an exported scalar.** Any global

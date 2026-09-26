@@ -15,7 +15,7 @@ One more function is used but not defined here: **`dig_val`**, from
 `../code/ex/p/pf/lit/dig.id`. Turning a byte into a digit is the same fold for
 an array bound as for an expression literal or a `\xNN` escape, and `id`
 rejects a second function with the same logic — so there is one definition and
-this module calls it. See `tab/ce/n/num/dig/dig.md`.
+this module calls it. See `tab/ce/n/num/dig/seealso.md`.
 
 Call **`ty_setup()`** once, after `init_nodes*()`, before anything else here.
 
@@ -214,51 +214,51 @@ tab/                        registries, sizes, printing, constant expressions
     num/align.id            type_align talign2 talign3
     num/util.id             align_of_size skip_tok take_tok
     num/recstr.id           ts_rec ts_su
-    str/str.id              type_str ts2 ts3
-    str/arr.id              ts_arr ts_cnt ts4
-    str/fn.id               ts_fn ts_params ts_sep
+    str/type_str.id         type_str ts2 ts3
+    str/arr/arr_str.id      ts_arr ts_cnt ts4
+    str/fn/fn_str.id        ts_fn ts_params ts_sep
   ce/
-    e/expr.id               ce_expr ce_eloop ce_estep
-    e/mul.id                ce_at_e ce_mul ce_mloop
-    e/un.id                 ce_mstep ce_at_m ce_un
+    e/expr/const_expr.id    ce_expr ce_eloop ce_estep
+    e/mul/ce_mul.id         ce_at_e ce_mul ce_mloop
+    e/un/ce_unary.id        ce_mstep ce_at_m ce_un
     p/prim.id               ce_neg ce_prim ce_num
     p/paren.id              ce_prim2 ce_paren ce_name
-    p/sizeof.id             ce_sizeof ce_szarg ce_szparen
+    p/sizeof/ce_sizeof.id   ce_sizeof ce_szarg ce_szparen
     n/name.id               ce_name2 ce_ident ce_skip
     n/apply.id              ce_apply ce_ap2 ce_div
     n/num/apply2.id         ce_ap3 ce_mod ce_ap4
     n/num/lit.id            ce_ap5 num_val num_base
     n/num/dig/radix.id      hex_start is_xch radix_val
-    n/num/dig/ok.id         dig_ok        (dig.md: dig_val lives in ../code/ex/)
+    n/num/dig/ok.id         dig_ok        (seealso.md: dig_val lives in ../code/ex/)
 
 spec/                       declaration specifiers
   kw/base.id                is_base_kw is_qual is_qual2
   kw/qual.id                is_qual3 is_su_kw is_attr
-  kw/word/word.id           is_type_word is_tw2 is_tw3
+  kw/word/type_word.id      is_type_word is_tw2 is_tw3
   kw/word/start.id          is_type_start norm_kw
   sk/attr.id                skip_attrs skip_attr skip_paren
   sk/bal.id                 skip_bal bal_step bal_delta
   sk/more/noise.id          close_delta skip_noise skip_attr_ok
   sk/more/ident.id          take_ident
   sp/acc/spec.id            spec_init parse_specs scan_specs
-  sp/acc/step.id            spec_step spec_word spec_basic
+  sp/acc/step/spec_step.id  spec_step spec_word spec_basic
   sp/acc/tbl.id             bump_spec spec_words has_idx
-  sp/tag/tag.id             spec_tag spec_su spec_en
-  sp/tag/su.id              spec_td has_base spec_type
-  sp/tag/prim/mk.id         mk_prim prim_names prim_sizes
+  sp/tag/spec_tag.id        spec_tag spec_su spec_en
+  sp/tag/su/spec_resolve.id spec_td has_base spec_type
+  sp/tag/prim/mk_prim.id    mk_prim prim_names prim_sizes
   sp/tag/prim/tbl.id        prim_signs base_codes prim_idx
   sp/tag/prim/idx/sz.id     sign_adj uns_adj sgn_adj
   sp/tag/prim/idx/adj.id    base_idx long_code long_pick
   sp/.../idx/base/pick.id   ll_code int_dflt pick_code
   sp/.../idx/base/td.id     pick_one int_type parse_typedef
-  sp/.../idx/base/list.id   td_names td_one decl_more
+  sp/.../idx/base/declarator_list.id   td_names td_one decl_more
 
 dcl/                        declarators, records, enums
-  d/dcl/dcl.id              parse_declarator apply_stars star_step
+  d/dcl/declarator.id       parse_declarator apply_stars star_step
   d/dcl/direct.id           star_quals dcl_direct dcl_named
   d/dcl/grp.id              dcl_group grp_suffix grp_inner
   d/sfx/grp.id              is_group grp_inside type_suffix
-  d/sfx/sfx.id              ty_suffix2 arr_suffix arr_count
+  d/sfx/suffix.id           ty_suffix2 arr_suffix arr_count
   d/sfx/fn.id               arr_make fn_suffix fn_make
   d/par/param.id            fill_params param_one unstick
   d/par/real.id             param_body param_dots param_real
@@ -269,12 +269,12 @@ dcl/                        declarators, records, enums
   r/su/new.id               rec_get new_su mk_rec
   r/mem/body.id             su_reg fill_rec rec_members
   r/mem/scan.id             scan_members fill_members member_step
-  r/mem/list/list.id        member_decl mem_list mem_one
+  r/mem/list/member_list.id member_decl mem_list mem_one
   r/mem/list/named.id       mem_named mem_place mem_width
   r/mem/list/place.id       mem_anon place place_at
-  r/lay/ws.id               place_ws place_bf bf_pos
-  r/lay/splice.id           bf_fits un_zero splice
-  r/lay/fin/spl2.id         splice_all splice_one splice_mem
+  r/lay/ws/place_member.id  place_ws place_bf bf_pos
+  r/lay/splice/anon_member.id bf_fits un_zero splice
+  r/lay/fin/spl2/splice_all.id splice_all splice_one splice_mem
   r/lay/fin/end.id          sy_bpos rec_end rec_size
   r/lay/fin/cnt.id          rec_bytes
   e/enum.id                 parse_enum enum_body enum_items

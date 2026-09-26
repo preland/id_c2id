@@ -93,10 +93,10 @@ tail:
 cfg/
   st/                 state and primitives
     var/              the globals, and creating a block
-      g.id g2.id      cfg_init and the exported lists
+      state.id globals.id  cfg_init and the exported lists
       mk/             new_block, the current block, add_stmt, top_of
     acc/              reading and writing a block's row
-      get.id get2.id  the six accessors above
+      get.id edges.id  the six accessors above
       set/            set_kind/set_sa/set_sb/set_ex, term_jmp/term_cond/term_end
     tab/
       stk/            the break and continue stacks, loop_close

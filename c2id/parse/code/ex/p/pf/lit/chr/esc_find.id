@@ -1,7 +1,7 @@
 // The named-escape table is conf.id's esc_chars/esc_vals; this is the linear
 // search over it, the same shape as the precedence table.
 
-// c2.id's esc_named split off its call to find_op here: naming both nested
+// c2/esc_rest.id's esc_named split off its call to find_op here: naming both nested
 // calls plus the result left no room in its own 3-action budget.
 esc_find(int c) {
   string ch = chr(c);

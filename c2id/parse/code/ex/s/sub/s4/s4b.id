@@ -1,6 +1,6 @@
 // cond_str's tail: naming l_of, a_of and the final string would be four
-// actions, one over s4.id's budget. sub/ has no room for a sibling file,
-// so s4.id was promoted into this directory to make room.
+// actions, one over cond_type.id's budget. sub/ has no room for a sibling file,
+// so cond_type.id was promoted into this directory to make room.
 
 cond_str2(int id, int a, int[] l) {
   int b = b_of(id);

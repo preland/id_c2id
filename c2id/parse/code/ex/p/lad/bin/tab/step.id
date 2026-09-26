@@ -1,4 +1,4 @@
-// Overflow from ../bin.id and ../fold.id: once a constructor's result has to
+// Overflow from ../ladder.id and ../fold.id: once a constructor's result has to
 // be named instead of returned directly, those functions no longer fit the
 // 3-action budget. Split here, where bin/ has no room left but tab/ does.
 

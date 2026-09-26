@@ -3,7 +3,7 @@
 // only names zero-argument functions, so a case proving what push_kab (or
 // anything that ends up building node 0) actually stored needs one of
 // these rather than calling k_of/a_of/b_of directly. get/ has no room for
-// a sibling file, so set.id was promoted into set/ to make room.
+// a sibling file, so backpatch.id was promoted into set/ to make room.
 
 k0_of() {
   string s = k_of(0);

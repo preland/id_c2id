@@ -23,7 +23,7 @@ Everything from `||` down to `%` is one table-driven ladder: `parse_bin(pos,
 lvl)` folds level `lvl` and parses its operands at `lvl + 1`. C has ten such
 levels that differ only in which operator strings they name, which is exactly
 the "just like X but for Y" shape `id` forbids copying, so the level is a
-parameter and the operator set is a table (`p/lad/bin/tab/tab.id`).
+parameter and the operator set is a table (`p/lad/bin/tab/find_op.id`).
 
 | # | level | operators | how | assoc |
 | --- | --- | --- | --- | --- |
@@ -59,55 +59,61 @@ ex/
       top.id      parse_expr  fold_comma  parse_assign
       asg.id      assign_tail  is_assignop  parse_cond
       bin/
-        bin.id    cond_tail  parse_bin  parse_next
+        ladder.id cond_tail  parse_bin  parse_next
         fold.id   fold_bin  op_level  level_at
         tab/
-          tab.id  op_names  op_levels  find_op
+          find_op.id op_names  op_levels  find_op
           find.id match_op  cond_else
     un/                         cast, unary, sizeof
       cast/
-        cast.id   parse_cast  paren_head  paren_body
-        cast2.id  cast_body  cast_tail  cast_rest
+        parse_cast.id   parse_cast  paren_head  paren_body
+        cast_body.id  cast_body  cast_tail  cast_rest
         lit.id    paren_expr  compound_lit  scan_inits
       op/
-        op.id     parse_unary  is_unop  unary_op
-        op2.id    parse_unary2  is_incdec  pre_incdec
-        op3.id    parse_unary3
+        unary.id     parse_unary  is_unop  unary_op
+        op2/
+          prefix.id    parse_unary2  is_incdec  pre_incdec
+        ctors.id parse_unary3
       sz/
-        sz.id     parse_sizeof  sizeof_arg  sizeof_paren
-        sz2.id    sizeof_body  sizeof_type  sizeof_inner
-        sz3.id    sizeof_expr
+        sizeof.id     parse_sizeof  sizeof_arg  sizeof_paren
+        parens.id    sizeof_body  sizeof_type  sizeof_inner
+        overflow.id    sizeof_expr
     pf/                         postfix, primary, literal decoding
       post/
-        p1.id     parse_postfix  postfix_tail  is_postfix_start
+        p1/
+          postfix.id     parse_postfix  postfix_tail  is_postfix_start
         p2.id     postfix_one  postfix2  postfix3
         call/
-          call.id   parse_call  scan_args  fill_list
-          call2.id  skip_comma  parse_index  post_incdec
+          parse_call.id   parse_call  scan_args  fill_list
+          index_incdec.id  skip_comma  parse_index  post_incdec
           mem.id    parse_member  member_node
       prim/
         q1.id     parse_primary  primary2  primary3
-        q2.id     primary4  parse_var  parse_const
+        atoms.id     primary4  parse_var  parse_const
         str/
           q3.id     const_val  prim_paren  prim_bad
-          str.id    parse_str  str_more  str_glue
+          parse_str.id    parse_str  str_more  str_glue
+          overflow.id  bad_advance  const_tail  idx_close
       lit/
         dig.id    dig_val  alpha_dig  upper_dig
         num/
           n1.id     to_num  is_float_lit  is_hex_lit
-          n2.id     has_float_ch  float_ch_at  int_val
-          n3.id     dec_or_oct  is_oct_lit  digits_val
+          float_scan.id     has_float_ch  float_ch_at  int_val
+          n3/
+            digit_val.id     dec_or_oct  is_oct_lit  digits_val
         chr/
           c1.id     chr_val  first_ch  esc_val
-          c2.id     esc_val2  esc_named  esc_at
-          c3.id     esc_chars  esc_vals
+          c2/
+            esc_rest.id  esc_val2  esc_named  esc_at
+          esc_find.id     esc_chars  esc_vals
   s/                            expr_str, the fully parenthesised printer
     s1.id       expr_str  es2  es3
-    s2.id       es4  es5  es6
+    tail.id       es4  es5  es6
     sub/
       s3.id     es7  num_str  bin_str
-      s4.id     cond_str  sizeof_str  type_ref
-      s5.id     call_str  args_str  arg_sep
+      s4/
+        cond_type.id     cond_str  sizeof_str  type_ref
+      args.id     call_str  args_str  arg_sep
 ```
 
 ## How the awkward parts are done
@@ -158,7 +164,7 @@ from `*p++`.
   `return`). Nested braces are not flattened — an inner `{` is handed to
   `parse_assign`, which does not know about it, so `{{1,2},{3,4}}` will not
   parse. If an `init` kind is ever added, `p/un/cast/lit.id` and
-  `s/sub/s5.id` are the only two places to change.
+  `s/sub/args.id` are the only two places to change.
 * **`sizeof` distinguishes its two forms by `nb`.** `nb != 0` means
   `sizeof(T)`. The ABI says `na` is "operand or 0", but 0 is a legitimate node
   id, so both fields are ambiguous in principle; in practice node 0 is created

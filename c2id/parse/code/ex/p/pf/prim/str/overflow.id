@@ -1,7 +1,7 @@
 // Overflow from three sibling parsers whose return value must be named
 // instead of returned directly, leaving no room in their own 3-action
-// budget: q3.id's prim_bad, ../q2.id's parse_const, and
-// ../../post/call/call2.id's parse_index. prim/ has no free file or
+// budget: q3.id's prim_bad, ../atoms.id's parse_const, and
+// ../../post/call/index_incdec.id's parse_index. prim/ has no free file or
 // function slot; str/ does.
 
 bad_advance(int[] pos) {

@@ -10,7 +10,7 @@
 //
 // get/ has no room for a sibling file, so this file was promoted into its
 // own subdirectory to make room for the zero-argument readers (read1.id,
-// read2.id) a case here or in mk/push/ needs to observe what changed.
+// stl0.id) a case here or in mk/push/ needs to observe what changed.
 
 m_of(int id) {
   int[] m = (import nm)[id];

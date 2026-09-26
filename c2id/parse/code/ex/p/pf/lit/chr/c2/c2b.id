@@ -1,7 +1,7 @@
 // esc_val2's condition: whether the escape is octal. Named out because the
-// if/else in c2.id already spends the whole 3-action budget on c=0, if and
+// if/else in esc_rest.id already spends the whole 3-action budget on c=0, if and
 // else, leaving no room to name charat(s, 1) before the condition. chr/ has
-// no room for a sibling file, so c2.id was promoted into this directory.
+// no room for a sibling file, so esc_rest.id was promoted into this directory.
 
 is_oct_esc(string s) {
   int ch1 = charat(s, 1);

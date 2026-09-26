@@ -1,8 +1,9 @@
 // The type of each operand of a binary-ish node, split out because id
 // forbids a call nested inside another call's argument list --
 // ex_ty(a_of(id)) needs a_of(id) named before it can be passed on. Shared
-// by ty/r/bin.id, ex/o/b/bin.id, ex/o/c/cmp.id and ex/o/p/ptr.id, which all
-// need the type of one or both operands of a two-child node.
+// by ty/r/bin.id, ex/o/b/bin/dispatch.id, ex/o/c/cmp/compare.id and
+// ex/o/p/ptr/arith.id, which all need the type of one or both operands of
+// a two-child node.
 
 a_ty(int id) {
   int a = a_of(id);

@@ -2,7 +2,7 @@
 // terminator token, "just like X but for Y" where Y is the terminator --
 // a parameter, not a second function. Also parse_case's tail. Each caller
 // already spends its own 3-action budget elsewhere. for/ has no room for a
-// sibling file, so sw.id was promoted into this directory to make room.
+// sibling file, so switch_stmt.id was promoted into this directory to make room.
 
 opt_expr(int[] pos, string term) {
   int a = 0 - 1;

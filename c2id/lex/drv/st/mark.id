@@ -1,7 +1,7 @@
 // Deciding whether a `#` begins a line marker, and entering one.
 
 // 1 if only horizontal whitespace separates `i` from the start of its line.
-// The backward walk is at_bol_next/at_bol_scan in store.id: a call may not
+// The backward walk is at_bol_next/at_bol_scan in store/append.id: a call may not
 // be an argument to a call, and `j >= 0` guards a peek that would otherwise
 // run off the front of the buffer, so neither step can be named in place.
 at_bol(word base, int i) {

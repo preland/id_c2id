@@ -1,6 +1,6 @@
 // parse_return's and parse_goto's tails: each already spends its 3-action
 // budget reading the keyword's payload, leaving no room to name the call it
-// must return. rest/ has no room for a sibling file, so jmp.id was
+// must return. rest/ has no room for a sibling file, so jump_stmt.id was
 // promoted into this directory to make room.
 
 return_close(int[] pos, int a) {

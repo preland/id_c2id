@@ -4,7 +4,7 @@
 //
 // mk/ has no room for a sibling file, so this file was promoted into its
 // own subdirectory to make room for the zero-argument fixtures/readers
-// (fix1.id, fix2.id) its cases and get/set/'s need to build and observe
+// (fix1.id, m0.id) its cases and get/set/'s need to build and observe
 // one full node in one call.
 
 push_node(string kind, int a, int b, string s, string tstr, int[] l, int[] m) {
