@@ -7,6 +7,8 @@ member_decl(int[] pos, int ty, int[] lay) {
   int r = parse_specs(pos);
   mem_list(pos, ty, lay, r);
 } return void;
+given tynode_fix given ty_setup given lexfix stdin "int x ;" ([0], 1, [0, 0, 0]):([3], 1, [32, 4, 4]) then calls mem_list:([3], 1, [32, 4, 4], 6)
+given tynode_fix given ty_setup given lexfix stdin ";" ([0], 1, [0, 0, 0]):([1], 1, [0, 0, 0]) then calls mem_anon:(1, [0, 0, 0], 6)
 
 mem_list(int[] pos, int ty, int[] lay, int inner) {
   int ok = 1;
@@ -14,6 +16,8 @@ mem_list(int[] pos, int ty, int[] lay, int inner) {
     ok = mem_one(pos, ty, lay, inner);
   }
 } return void;
+given tynode_fix given ty_setup given lexfix stdin "x ;" ([0], 1, [0, 0, 0], 0):([2], 1, [32, 4, 4])
+given tynode_fix given ty_setup given lexfix stdin ";" ([0], 1, [0, 0, 1], 5):([1], 1, [792, 99, 24])
 
 mem_one(int[] pos, int ty, int[] lay, int inner) {
   if(at_text(pos, ";")) {
@@ -23,3 +27,5 @@ mem_one(int[] pos, int ty, int[] lay, int inner) {
   }
   int ok = decl_more(pos);
 } return int ok;
+given tynode_fix given ty_setup given lexfix stdin "x ;" ([0], 1, [0, 0, 0], 0):(0) then calls mem_named:([2], 1, [32, 4, 4], 0)
+given tynode_fix given ty_setup given lexfix stdin ";" ([0], 1, [0, 0, 1], 5):(0) then calls mem_anon:(1, [792, 99, 24], 5)

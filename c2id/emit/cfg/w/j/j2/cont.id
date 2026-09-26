@@ -7,9 +7,13 @@ do_return2(int c, int a) {
   int n = new_block();
   set_cur(n);
 } return void;
+given walk_ast_fixture (0, -1):() then term0:("end") then expr0:(-1) then cur_blk:(1)
+given walk_ast_fixture (0, 5):() then expr0:(5)
 
 do_goto2(int blk, string s) {
   goto_edge(blk, s);
   int n = new_block();
   set_cur(n);
 } return void;
+given walk_ast_fixture (0, "lbl"):() then term0:("jmp") then succ0:(-1) then cur_blk:(1)
+given walk_ast_fixture (0, "xyz"):() then succ0:(-1) then cur_blk:(1)

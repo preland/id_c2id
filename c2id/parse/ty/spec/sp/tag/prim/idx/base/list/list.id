@@ -8,12 +8,16 @@ td_names(int[] pos, int inner) {
     ok = td_one(pos, inner);
   }
 } return void;
+given boot_a given ty_setup given lexfix stdin "x ;" ([0], 0):([2])
+given boot_a given ty_setup given lexfix stdin "x , y ;" ([0], 0):([4])
 
 td_one(int[] pos, int inner) {
   int r = parse_declarator(pos, inner);
   td_reg(r);
   int ok = decl_more(pos);
 } return int ok;
+given boot_a given ty_setup given lexfix stdin "x ," ([0], 0):(1) then calls td_reg:(0)
+given boot_a given ty_setup given lexfix stdin "x ;" ([0], 0):(0) then calls td_reg:(0)
 
 // 1 to keep going (a comma followed), 0 after eating the `;`
 decl_more(int[] pos) {
@@ -22,3 +26,5 @@ decl_more(int[] pos) {
     skip_tok(pos, ";");
   }
 } return int ok;
+given lexfix stdin "," ([0]):(1)
+given lexfix stdin ";" ([0]):(0)

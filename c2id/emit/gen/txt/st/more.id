@@ -13,6 +13,8 @@ decl_st(int id) {
     s = decl_store(id, off);
   }
 } return string s;
+given txt_fixture given init_frame given init_frame2 (0):("poke32(fp + 8, NEEDS_CFG_prim);") then calls decl_head:(0)
+given txt_fixture given init_frame given init_frame2 (1):("poke32(fp + 8, NEEDS_CFG_prim);") then calls decl_head:(1)
 
 // The frame slot a declaration names, and the C type it was declared with --
 // split out so decl_st can name off once and hand it to decl_comment and
@@ -22,6 +24,8 @@ decl_head(int id) {
   int b = b_of(id);
   int off = decl_slot(name, b);
 } return int off;
+given txt_fixture given init_frame given init_frame2 (0):(8) then calls decl_slot:("int", 1)
+given txt_fixture given init_frame given init_frame2 (5):(8) then calls decl_slot:("", 0)
 
 // `return e` stores to fp + 0 -- always 8 bytes, whatever the C return type,
 // because the value has already been converted to its canonical 64-bit form
@@ -34,3 +38,5 @@ ret_st(int id) {
     s = "poke64(fp, " + ex_txt(a) + ");";
   }
 } return string s;
+given txt_fixture (0):("poke64(fp, NEEDS_CFG_prim);")
+given txt_fixture (1):("poke64(fp, NEEDS_CFG_prim);")

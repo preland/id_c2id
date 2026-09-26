@@ -12,6 +12,8 @@ num_ty(int id) {
     ty = num_uty(id);
   }
 } return int ty;
+given txt_fixture (0):(0)
+given txt_fixture (1):(1)
 
 // suffixed u/U: unsigned int, or unsigned long if it says so or is too big
 num_uty(int id) {
@@ -21,6 +23,8 @@ num_uty(int id) {
     ty = ty_ulong();
   }
 } return int ty;
+given txt_fixture (0):(1)
+given txt_fixture (3):(3)
 
 // no u/U: int, or long if it says so or does not fit in one
 num_sty(int id) {
@@ -30,3 +34,5 @@ num_sty(int id) {
     ty = ty_long();
   }
 } return int ty;
+given txt_fixture (0):(0)
+given txt_fixture (2):(2)

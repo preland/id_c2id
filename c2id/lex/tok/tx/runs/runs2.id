@@ -7,8 +7,12 @@ is_alnum_at(word base, int i) {
   int c = peek8(base + i);
   int ok = is_alnum(c);
 } return int ok;
+given lex_src_fixture ((import gb), 2):(1)
+given lex_src_fixture ((import gb), 4):(0)
 
 is_digit_at(word base, int i) {
   int c = peek8(base + i);
   int ok = is_digit(c);
 } return int ok;
+given lex_src_fixture ((import gb), 0):(1)
+given lex_src_fixture ((import gb), 2):(0)

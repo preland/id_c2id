@@ -6,8 +6,12 @@ is_hspace_at(word base, int i) {
   int c = peek8(base + i);
   int ok = is_hspace(c);
 } return int ok;
+given lex_src_fixture ((import gb), 4):(1)
+given lex_src_fixture ((import gb), 0):(0)
 
 is_numcont_at(word base, int i) {
   int c = peek8(base + i);
   int ok = is_numcont(c);
 } return int ok;
+given lex_src_fixture ((import gb), 2):(1)
+given lex_src_fixture ((import gb), 7):(0)

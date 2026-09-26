@@ -1,6 +1,8 @@
 set_ex(int blk, int a) {
   lset((import bex), blk, a);
 } return void;
+given cfg_body_fixture (0, 5):() then expr0:(5)
+given cfg_body_fixture (0, 9):() then expr0:(9)
 
 // An unconditional edge. This is what `goto`, `break`, `continue`, a loop's
 // back-edge and the join after an `if` all reduce to.
@@ -8,6 +10,8 @@ term_jmp(int blk, int nxt) {
   set_kind(blk, "jmp");
   set_sa(blk, nxt);
 } return void;
+given cfg_body_fixture (0, 5):() then term0:("jmp") then succ0:(5)
+given cfg_body_fixture (0, 9):() then succ0:(9)
 
 // `return e` -- the emitted block stores e to fp+0 and returns the end
 // marker. `a` is -1 for `return;`.
@@ -15,3 +19,5 @@ term_end(int blk, int a) {
   set_kind(blk, "end");
   set_ex(blk, a);
 } return void;
+given cfg_body_fixture (0, 5):() then term0:("end") then expr0:(5)
+given cfg_body_fixture (0, -1):() then expr0:(-1)

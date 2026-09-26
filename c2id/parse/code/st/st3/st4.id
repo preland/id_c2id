@@ -6,6 +6,8 @@ parse_stmt10(int[] pos) {
     id = parse_stmt11(pos);
   }
 } return int id;
+given boot_a given lexfix stdin "continue;" ([0]):(0) then calls parse_continue:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls parse_empty:[1]
 
 parse_stmt11(int[] pos) {
   int id = 0;
@@ -15,6 +17,8 @@ parse_stmt11(int[] pos) {
     id = parse_stmt12(pos);
   }
 } return int id;
+given boot_a given lexfix stdin "case 1:" ([0]):(1) then calls parse_case:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls parse_empty:[1]
 
 parse_stmt12(int[] pos) {
   int id = 0;
@@ -24,3 +28,5 @@ parse_stmt12(int[] pos) {
     id = parse_stmt13(pos);
   }
 } return int id;
+given boot_a given lexfix stdin "default:" ([0]):(0) then calls parse_default:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls parse_empty:[1]

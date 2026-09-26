@@ -10,6 +10,8 @@ is_ptr(int ty) {
     ok = 1;
   }
 } return int ok;
+given txt_fixture (5):(1)
+given txt_fixture (0):(0)
 
 // What `*p` and `a[i]` yield, and the unit pointer arithmetic scales by.
 elem_ty(int ty) {
@@ -18,6 +20,8 @@ elem_ty(int ty) {
     r = a_of(ty);
   }
 } return int r;
+given txt_fixture (5):(4)
+given txt_fixture (0):(0)
 
 // The relational and equality operators, whose result is int 0 or 1 rather
 // than either operand's type.
@@ -27,3 +31,5 @@ is_cmp_op(string op) {
     ok = 1;
   }
 } return int ok;
+("<"):(1)
+("+"):(0)

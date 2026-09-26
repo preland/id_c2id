@@ -1,0 +1,9 @@
+// The seventh zero-argument reader, split out because fix1.id already
+// holds its three fixtures: node 0's m field, wrapping m_of the same way
+// read1.id/read2.id wrap the other six accessors.
+
+m0_of() {
+  int[] m = m_of(0);
+} return int[] m;
+given lm_fixture ():([3])
+given boot_a given exprfix stdin "1;" ():([])

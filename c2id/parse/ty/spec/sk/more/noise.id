@@ -9,6 +9,8 @@ close_delta(string s) {
     n = 0 - 1;
   }
 } return int n;
+  (")"):(-1)
+  ("x"):(0)
 
 skip_noise(int[] pos) {
   int ok = skip_qual_ok(pos);
@@ -16,6 +18,8 @@ skip_noise(int[] pos) {
     ok = skip_attr_ok(pos);
   }
 } return int ok;
+given lexfix stdin "const" ([0]):(1)
+given lexfix stdin "x" ([0]):(0)
 
 skip_attr_ok(int[] pos) {
   int ok = 0;
@@ -25,3 +29,5 @@ skip_attr_ok(int[] pos) {
     ok = 1;
   }
 } return int ok;
+given lexfix stdin "__attribute__(x)" ([0]):(1)
+given lexfix stdin "x" ([0]):(0)

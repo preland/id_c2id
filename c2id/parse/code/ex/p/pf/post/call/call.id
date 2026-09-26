@@ -6,12 +6,16 @@ parse_call(int[] pos, int a) {
   scan_args(pos, ids);
   int id = newlist("call", a, 0, "", ids);
 } return int id;
+given boot_a given lexfix stdin "());" ([0], 0):(0)
+given boot_a given lexfix stdin "(1);" ([0], 0):(1)
 
 scan_args(int[] pos, int[] ids) {
   advance(pos);
   fill_list(pos, ids, ")");
   advance(pos);
 } return void;
+given boot_a given lexfix stdin "());" ([0], []):([2], [])
+given boot_a given lexfix stdin "(1);" ([0], []):([3], [0])
 
 // A comma-separated list of assignment-expressions, up to the token `s`.
 // parse_assign, not parse_expr: a comma inside an argument list separates
@@ -24,3 +28,5 @@ fill_list(int[] pos, int[] ids, string s) {
     skip_comma(pos);
   }
 } return void;
+given boot_a given lexfix stdin ")" ([0], [], ")"):([0], [])
+given boot_a given lexfix stdin "1)" ([0], [], ")"):([1], [0])

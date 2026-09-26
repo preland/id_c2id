@@ -15,6 +15,8 @@ type_str(int ty) {
     s = ts2(ty);
   }
 } return string s;
+given tynode_fix (0):("int")
+given tynode_fix (2):("*int")
 
 ts2(int ty) {
   string s = "";
@@ -25,6 +27,8 @@ ts2(int ty) {
     s = ts3(ty);
   }
 } return string s;
+given tynode_fix (2):("*int")
+given tynode_fix (0):("?")
 
 ts3(int ty) {
   string s = "";
@@ -34,3 +38,5 @@ ts3(int ty) {
     s = ts4(ty);
   }
 } return string s;
+given tynode_fix (3):("[3]int")
+given tynode_fix (0):("?")

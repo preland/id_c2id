@@ -10,6 +10,8 @@ ety10(int id) {
     ty = ety11(id);
   }
 } return int ty;
+given txt_fixture (0):(0) then calls ety11:(0)
+given txt_fixture (5):(0) then calls ety11:(5)
 
 // `c ? a : b` -- the value comes from one of the two arms, and they have to
 // be compatible, so the `then` arm answers for both. The *text* of a
@@ -24,6 +26,8 @@ ety11(int id) {
     ty = ety12(id);
   }
 } return int ty;
+given txt_fixture (0):(0) then calls ety12:(0)
+given txt_fixture (5):(0) then calls ety12:(5)
 
 ety12(int id) {
   int ty = 0;
@@ -34,3 +38,5 @@ ety12(int id) {
     ty = ty_int();
   }
 } return int ty;
+given txt_fixture (0):(0)
+given txt_fixture (1):(0)

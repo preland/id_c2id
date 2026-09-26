@@ -1,0 +1,35 @@
+// A known kmalloc heap, for mem/heap/. heap_init takes a byte count, so it
+// cannot be a `given` setup itself (a setup takes no arguments, docs/TESTS.md);
+// these wrap it. h0 is the first block's header address and hend/hend2 are
+// the expected end addresses heap_end() must recompute from crt_heap+8 --
+// (import NAME) may not carry arithmetic in a case, so both are exported
+// here rather than written as crt_heap + 16 / + 80 at the call site. p0 is
+// h0's payload address, what kmalloc/kzalloc return when they hand out h0.
+crt_heap_fixture() {
+  heap_init(64);
+  export word h0 = (import crt_heap) + 16;
+  export word hend = (import crt_heap) + 80;
+} chain () {
+  export word p0 = (import h0) + 16;
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+// The same heap, but with the first header overwritten to a used, larger
+// block -- for bsize/bused/bset, which only read and write headers and
+// never walk the free list.
+crt_heap_fixture2() {
+  crt_heap_fixture();
+  bset((import h0), 128, 1);
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+// A second, differently-sized heap, so heap_end has two distinct answers to
+// be tested against.
+crt_heap_fixture3() {
+  heap_init(128);
+  export word hend2 = (import crt_heap) + 144;
+} return void;
+():() then prints:("")
+():() then eprints:("")

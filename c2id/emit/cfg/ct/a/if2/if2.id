@@ -5,14 +5,20 @@ ifs_else(int id, int alt, int blk) {
   int[] m = m_of(id);
   ifs_else2(blk, alt, m);
 } return void;
+given walk_ast_fixture ((import wifid), 0, 0):() then term0:("jmp") then succ0:(1) then cur_blk:(1)
+given walk_ast_fixture ((import wifid), 0, 0):() then cfg_nblocks:(2)
 
 ifs_join(int blk, int nxt) {
   int alt = new_block();
   term_jmp(blk, alt);
   join_at(nxt, alt);
 } return void;
+given walk_ast_fixture (0, 0):() then term0:("jmp") then succ0:(1) then cur_blk:(1)
+given walk_ast_fixture (0, 0):() then cfg_nblocks:(2)
 
 join_at(int nxt, int alt) {
   term_jmp(nxt, alt);
   set_cur(alt);
 } return void;
+given walk_ast_fixture (0, 0):() then term0:("jmp") then succ0:(0) then cur_blk:(0)
+given walk_ast_fixture (0, 5):() then succ0:(5) then cur_blk:(5)

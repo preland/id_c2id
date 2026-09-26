@@ -10,6 +10,8 @@ is_qual3(string s) {
     ok = 1;
   }
 } return int ok;
+  ("__restrict"):(1)
+  ("int"):(0)
 
 is_su_kw(string s) {
   int ok = 0;
@@ -17,6 +19,8 @@ is_su_kw(string s) {
     ok = 1;
   }
 } return int ok;
+  ("struct"):(1)
+  ("int"):(0)
 
 is_attr(string s) {
   int ok = 0;
@@ -24,3 +28,5 @@ is_attr(string s) {
     ok = 1;
   }
 } return int ok;
+  ("__asm__"):(1)
+  ("int"):(0)

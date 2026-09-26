@@ -12,12 +12,16 @@ primary4(int[] pos) {
     node = prim_bad(pos);
   }
 } return int node;
+given boot_a given lexfix stdin "(1);" ([0]):(0) then calls prim_paren:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls prim_bad:[1]
 
 parse_var(int[] pos) {
   string name = cur_text(pos);
   advance(pos);
   int id = newleaf("var", 0, 0, name, "");
 } return int id;
+given boot_a given lexfix stdin "x;" ([0]):(0)
+given boot_a given lexfix stdin "_y;" ([0]):(0)
 
 // An integer, floating or character constant. `na` is the value, `ns` is the
 // exact spelling -- the emitter reprints the spelling, the type pass and the
@@ -27,3 +31,5 @@ parse_const(int[] pos) {
   string s = cur_text(pos);
   int id = const_tail(pos, kind, s);
 } return int id;
+given boot_a given lexfix stdin "42;" ([0]):(0)
+given boot_a given lexfix stdin "'a';" ([0]):(0)

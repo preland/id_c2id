@@ -9,6 +9,8 @@ cast_body(int[] pos) {
   advance(pos);
   int node = cast_tail(pos, ty);
 } return int node;
+given boot_a given ty_setup given lexfix stdin "int)1;" ([0]):(2)
+given boot_a given ty_setup given lexfix stdin "char)x;" ([0]):(2)
 
 // ')' is gone. `(T){...}` is a compound literal; otherwise the operand is
 // another cast-expression, which is what makes `(char *)(int *)p` work.
@@ -20,8 +22,12 @@ cast_tail(int[] pos, int ty) {
     node = cast_rest(pos, ty);
   }
 } return int node;
+given boot_a given lexfix stdin "{1, 2};" ([0], 0):(3)
+given boot_a given lexfix stdin "1;" ([0], 0):(1)
 
 cast_rest(int[] pos, int ty) {
   int a = parse_cast(pos);
   int id = newleaf("cast", a, ty, "", "");
 } return int id;
+given boot_a given lexfix stdin "x;" ([0], 0):(1)
+given boot_a given lexfix stdin "!y;" ([0], 0):(2)

@@ -8,15 +8,21 @@ splice_all(int ty, int inner, int n) {
     i = splice_one(ty, inner, n, i);
   }
 } return void;
+given mem_row_fix (2, 1, 100):() then calls sy_push:(2, "x", 0, 116, 2)
+given mem_row_fix (2, 0, 100):() then calls splice_more:(0, 1)
 
 splice_one(int ty, int inner, int n, int i) {
   int j = m_of(inner)[i];
   splice_shift(ty, j, n);
   int i2 = i + 1;
 } return int i2;
+given mem_row_fix (2, 1, 100, 1):(2) then calls splice_shift:(2, 0, 100)
+given mem_row_fix (0, 1, 50, 1):(2) then calls splice_shift:(0, 0, 50)
 
 splice_mem(int ty, int j, int n) {
   string name = (import synames)[j];
   int r = (import syids)[j];
   sy_push(ty, name, r, n, (import sywid)[j]);
 } return void;
+given mem_row_fix (2, 0, 100):() then calls sy_push:(2, "x", 0, 100, 2)
+given mem_row_fix (0, 0, 50):() then calls sy_push:(0, "x", 0, 50, 2)

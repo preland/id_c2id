@@ -9,11 +9,17 @@ is_typedef(string name) {
     ok = 1;
   }
 } return int ok;
+given ty_setup ("foo"):(0)
+given typedef_x_fix ("foo"):(1)
 
 set_dname(string name) {
   sset((import dname), 0, name);
 } return void;
+given ty_setup ("foo"):() then decl_name:("foo")
+given ty_setup ("bar"):() then decl_name:("bar")
 
 decl_name() {
   string name = (import dname)[0];
 } return string name;
+given ty_setup ():("")
+given dname_x_fix ():("x")

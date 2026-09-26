@@ -16,6 +16,8 @@ comp_asg(int a, int b, string op) {
   int aty = ex_ty(a);
   string s = comp_store(a, id, aty);
 } return string s;
+given txt_fixture given pend_setup (4, 1, "+"):("poke32(NOT_AN_LVALUE_prim, t0)")
+given txt_fixture given pend_setup (5, 0, "+"):("poke32(NOT_AN_LVALUE_ptr, t0)")
 
 // `x++` is `x += 1`, and on a pointer the 1 is scaled, which comp_asg gets
 // right because it goes through the ordinary binary path. The operator is the
@@ -25,6 +27,8 @@ step_txt(int a, string op) {
   string ch = first_char(op);
   string s = comp_asg(a, b, ch);
 } return string s;
+given txt_fixture given pend_setup (4, "++"):("poke32(NOT_AN_LVALUE_prim, t0)")
+given txt_fixture given pend_setup (5, "--"):("poke32(NOT_AN_LVALUE_ptr, t0)")
 
 // "+=" -> "+", "<<=" -> "<<". Everything up to the final `=`.
 op_head(string op) {
@@ -36,3 +40,5 @@ op_head(string op) {
     i = i + 1;
   }
 } return string s;
+("+="):("+")
+("<<="):("<<")

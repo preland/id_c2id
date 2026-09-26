@@ -19,3 +19,5 @@ val_txt(int ty, string s) {
     out = load_txt(ty, s);
   }
 } return string out;
+given txt_fixture given pend_setup (0, "X"):("t1")
+given txt_fixture given pend_setup (5, "Y"):("t0")

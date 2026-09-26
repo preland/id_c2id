@@ -11,3 +11,5 @@ conv_p(word fmt, word c, word[] args, word[] st, word[] fs) {
     txt = spec_txt(fmt, st, fs);
   }
 } return string txt;
+given crt_fmt_fixture ((import fmtbuf), 112, [0], [0, 0], [0, 0, 0, 0, 0]):("(nil)")
+given crt_fmt_fixture ((import fmtbuf), 122, [0], [3, 0], [0, 0, 0, 0, 0]):("-05")

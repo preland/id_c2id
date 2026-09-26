@@ -11,6 +11,8 @@ parse_decl_stmt(int[] pos) {
   int[] l = fill_decls(pos, t);
   int id = newlist("block", 0, 0, "", l);
 } return int id;
+given boot_a given ty_setup given lexfix stdin "int x;" ([0]):(2) then calls one_decl:[1]
+given boot_a given ty_setup given lexfix stdin "int x, y;" ([0]):(3) then calls one_decl:[2]
 
 fill_decls(int[] pos, int t) {
   int[] l = [];
@@ -21,9 +23,13 @@ fill_decls(int[] pos, int t) {
   }
   skip_semi(pos);
 } return int[] l;
+given boot_a given ty_setup given lexfix stdin "x;" ([0], 0):([0]) then calls one_decl:[1]
+given boot_a given ty_setup given lexfix stdin "x, y;" ([0], 0):([0, 1]) then calls one_decl:[2]
 
 one_decl(int[] pos, int t) {
   int b = parse_declarator(pos, t);
   string name = decl_name();
   int id = decl_leaf(pos, b, name);
 } return int id;
+given boot_a given ty_setup given lexfix stdin "x;" ([0], 0):(0) then calls init_val:[0]
+given boot_a given ty_setup given lexfix stdin "x = 1;" ([0], 0):(1) then calls init_val:[1]

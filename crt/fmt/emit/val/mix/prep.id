@@ -2,6 +2,8 @@
 u_of(word v, word[] fs) {
   word res = narrow_u(v, fs[4]);
 } return word res;
+(4294967295, [0, 0, 0, 0, 0]):(4294967295)
+(255, [0, 0, 0, 0, 1]):(255)
 
 // Compute base and up, then format the unsigned value as a string.
 b_up_fmt(word u, word c) {
@@ -9,6 +11,8 @@ b_up_fmt(word u, word c) {
   int upper = up_of(c);
   string txt = str_of_base(u, base, upper);
 } return string txt;
+(255, 120):("ff")
+(255, 88):("FF")
 
 // Helper to prepare arguments for str_of_base in unsigned conversion.
 // Extracted because naming narrow_u, base_of, up_of and calling str_of_base
@@ -17,3 +21,5 @@ uns_str(word v, word c, word[] fs) {
   word u = u_of(v, fs);
   string txt = b_up_fmt(u, c);
 } return string txt;
+(255, 120, [0, 0, 0, 0, 0]):("ff")
+(255, 88, [0, 0, 0, 0, 0]):("FF")

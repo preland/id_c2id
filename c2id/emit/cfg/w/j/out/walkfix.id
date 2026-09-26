@@ -1,0 +1,32 @@
+// One leaf node per statement kind the walker dispatch chain (w/w.id,
+// w/s/*, w/j/*) tests for, plus a block0 to fill -- enough to drive
+// walk_stmt down to any one link directly, and to give do_return/do_goto/
+// do_label/do_case/do_break/do_continue something real to act on. wifid/
+// wforid/wswid are minimal (empty branches/body), the same shape
+// cond_if_build (emit/gen) uses for "if" -- do_if/do_for/do_switch need a
+// real block-filling state, not a real body, to run.
+walk_ast_fixture() {
+  cfg_init();
+  boot_a();
+  new_block();
+} chain () {
+  export int retid = newleaf("return", -1, 0, "", "");
+  export int gotoid = newleaf("goto", -1, 0, "lbl", "");
+  export int lblid = newleaf("label", -1, 0, "lbl", "");
+} chain () {
+  export int brkid = newleaf("break", -1, 0, "", "");
+  export int contid = newleaf("continue", -1, 0, "", "");
+  export int defid = newleaf("expr", -1, 0, "", "");
+} chain () {
+  export int caseid = newleaf("case", 3, 0, "", "");
+  int[] empty = [];
+  export int blockid = newnode("block", 0, 0, "", "", empty, empty);
+} chain () {
+  export int wifid = newnode("if", defid, 0, "", "", empty, empty);
+  int[] finit = [defid];
+  export int wforid = newnode("for", -1, defid, "", "", finit, empty);
+} chain () {
+  export int wswid = newnode("switch", defid, 0, "", "", empty, empty);
+} return void;
+():() then cfg_nblocks:(1)
+():() then cur_blk:(0)

@@ -5,12 +5,16 @@ do_label(int id) {
   int cur = cur_blk();
   do_label_cont(id, cur, blk);
 } return void;
+given walk_ast_fixture (2):() then term0:("jmp") then succ0:(1) then cur_blk:(1)
+given walk_ast_fixture (2):() then calls lab_add:[1]
 
 do_label_cont(int id, int cur, int blk) {
   term_jmp(cur, blk);
   string s = s_of(id);
   lab_add(s, blk);
 } return void;
+given walk_ast_fixture (2, 0, 5):() then term0:("jmp") then succ0:(5) then calls lab_add:[1]
+given walk_ast_fixture (2, 0, 9):() then succ0:(9)
 
 // A `case` is the same thing with a different table: the fall-through edge
 // from the previous case is what makes C's fallthrough work with no effort at
@@ -20,3 +24,5 @@ do_case(int id) {
   int c = cur_blk();
   do_case2(id, blk, c);
 } return void;
+given walk_ast_fixture (6):() then term0:("jmp") then succ0:(1) then cur_blk:(1)
+given walk_ast_fixture (6):() then calls case_add:[1]

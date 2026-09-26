@@ -6,6 +6,8 @@ ts_fn(int ty) {
   string s = ts_a(ty);
   string out = "(" + txt + ")->" + s;
 } return string out;
+given tynode_fix (4):("(int)->int")
+given tynode_fix (2):("()->int")
 
 ts_params(int[] ids) {
   string out = "";
@@ -15,6 +17,8 @@ ts_params(int[] ids) {
     i = i + 1;
   }
 } return string out;
+given tynode_fix ([0]):("int")
+given tynode_fix ([0, 0]):("int,int")
 
 ts_sep(int i) {
   string s = "";
@@ -22,3 +26,5 @@ ts_sep(int i) {
     s = ",";
   }
 } return string s;
+(0):("")
+(1):(",")

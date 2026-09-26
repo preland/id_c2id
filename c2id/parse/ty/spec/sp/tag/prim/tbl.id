@@ -1,19 +1,16 @@
 
-// 1 where the canonical type is signed. Plain `char` is signed on x86-64,
-// which is the only place this matters.
-
-prim_signs() {
-  int[] xs = [0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1];
-} return int[] xs;
-
 // prim index contributed by each sp slot, -1 for the slots that do not name a
 // type on their own (int, long, signed, unsigned).
 base_codes() {
   int[] xs = [0, 2, 5, 0 - 1, 0 - 1, 13, 14, 0 - 1, 0 - 1, 1];
 } return int[] xs;
+():([0, 2, 5, -1, -1, 13, 14, -1, -1, 1])
+():([0, 2, 5, -1, -1, 13, 14, -1, -1, 1]) then prints:("")
 
 prim_idx(int[] sp) {
   int i = base_idx(sp);
   int adj = sign_adj(sp, i);
   int r = i + adj;
 } return int r;
+([0, 1, 0, 0, 0, 0, 0, 0, 0, 0]):(2)
+([0, 1, 0, 0, 0, 0, 0, 0, 1, 0]):(4)

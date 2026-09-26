@@ -8,11 +8,15 @@ skip_attrs(int[] pos) {
     skip_attr(pos);
   }
 } return void;
+given lexfix stdin "x" ([0]):([0])
+given lexfix stdin "__attribute__(x)" ([0]):([4])
 
 skip_attr(int[] pos) {
   advance(pos);
   skip_paren(pos);
 } return void;
+given lexfix stdin "y z" ([0]):([1])
+given lexfix stdin "y(x)" ([0]):([4])
 
 skip_paren(int[] pos) {
   if(at_text(pos, "(")) {
@@ -20,3 +24,5 @@ skip_paren(int[] pos) {
     skip_bal(pos);
   }
 } return void;
+given lexfix stdin "x" ([0]):([0])
+given lexfix stdin "(x)" ([0]):([3])

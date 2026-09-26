@@ -7,15 +7,21 @@ newnode(string kind, int a, int b, string s, string tstr, int[] l, int[] m) {
   push_node(kind, a, b, s, tstr, l, m);
   int id = len((import nk)) - 1;
 } return int id;
+given boot_a ("num", 5, 0, "x", "ty", [1], [2]):(0) then k0_of:("num") then m0_of:([2])
+given boot_a ("var", 9, 1, "y", "tz", [3], [4]):(0) then k0_of:("var") then m0_of:([4])
 
 // A node with no child lists.
 newleaf(string kind, int a, int b, string s, string tstr) {
   int[] none = [];
   int id = newnode(kind, a, b, s, tstr, none, none);
 } return int id;
+given boot_a ("num", 5, 0, "x", "ty"):(0) then l0_of:([]) then m0_of:([])
+given boot_a ("var", 9, 1, "y", "tz"):(0) then l0_of:([]) then m0_of:([])
 
 // A node with one child list.
 newlist(string kind, int a, int b, string s, int[] l) {
   int[] none = [];
   int id = newnode(kind, a, b, s, "", l, none);
 } return int id;
+given boot_a ("call", 0, 0, "", [1, 2]):(0) then l0_of:([1, 2]) then t0_of:("")
+given boot_a ("cond", 0, 0, "", []):(0) then l0_of:([]) then t0_of:("")

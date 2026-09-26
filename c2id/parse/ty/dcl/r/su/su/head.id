@@ -1,5 +1,0 @@
-su_head(int[] pos) {
-  int un = su_kw(pos);
-  advance(pos);
-  skip_attrs(pos);
-} return int un;

@@ -14,6 +14,8 @@ dig_ok(int c, int n) {
     ok = 1;
   }
 } return int ok;
+(53, 10):(1)
+(32, 10):(0)
 
 // charat(s, 1) must not run unless the first two checks already held, so the
 // short-circuited `&&` chain becomes these named steps instead.
@@ -23,8 +25,12 @@ hex_pfx(string s) {
     ok = hex_pfx_x(s);
   }
 } return int ok;
+("0x1"):(1)
+("05"):(0)
 
 hex_pfx_x(string s) {
   int c = charat(s, 1);
   int ok = is_xch(c);
 } return int ok;
+("0x"):(1)
+("05"):(0)

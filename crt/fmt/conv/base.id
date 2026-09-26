@@ -13,6 +13,8 @@ str_of_base(word v, int base, int upper) {
     txt = "0";
   }
 } return string txt;
+(255, 16, 0):("ff")
+(0, 10, 0):("0")
 
 // One digit. The word->int narrowing happens at the call boundary: a digit
 // is 0..base-1, so nothing is lost.
@@ -23,8 +25,12 @@ digit_ch(int d, int upper) {
   }
   string out = lookup_digit(tbl, d);
 } return string out;
+(10, 0):("a")
+(10, 1):("A")
 
 lookup_digit(string tbl, int d) {
   int idx = charat(tbl, d);
   string out = ch_of(idx);
 } return string out;
+("0123456789abcdef", 10):("a")
+("0123456789abcdef", 0):("0")

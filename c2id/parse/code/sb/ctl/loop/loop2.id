@@ -9,3 +9,5 @@ read_paren_cond(int[] pos) {
   advance(pos);
   int a = parse_expr(pos);
 } return int a;
+given boot_a given ty_setup given lexfix stdin "if (1)" ([0]):(0)
+given boot_a given ty_setup given lexfix stdin "if (!x)" ([0]):(1)

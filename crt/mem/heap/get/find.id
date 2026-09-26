@@ -8,6 +8,8 @@ find_fit(word need) {
     h = walk_next(h);
   }
 } return word r;
+given crt_heap_fixture (32):((import h0))
+given crt_heap_fixture (999):(0)
 
 fit_at(word h, word need) {
   word r = 0;
@@ -15,6 +17,8 @@ fit_at(word h, word need) {
     r = h;
   }
 } return word r;
+given crt_heap_fixture ((import h0), 32):((import h0))
+given crt_heap_fixture ((import h0), 999):(0)
 
 // The block after `h` in address order, or 0 if `h` is the last one.
 walk_next(word h) {
@@ -24,3 +28,5 @@ walk_next(word h) {
     r = nx;
   }
 } return word r;
+given crt_heap_fixture4 ((import h0)):((import h1))
+given crt_heap_fixture ((import h0)):(0)

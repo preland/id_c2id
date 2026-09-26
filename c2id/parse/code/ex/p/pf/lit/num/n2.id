@@ -8,6 +8,8 @@ has_float_ch(string s) {
     i = i + 1;
   }
 } return int found;
+("3.14"):(1)
+("42"):(0)
 
 // 46 '.'   101 'e'   69 'E'
 float_ch_at(string s, int i, int found) {
@@ -16,6 +18,8 @@ float_ch_at(string s, int i, int found) {
     n = 1;
   }
 } return int n;
+("3.14", 1, 0):(1)
+("42", 0, 0):(0)
 
 int_val(string s) {
   int n = 0;
@@ -25,3 +29,5 @@ int_val(string s) {
     n = dec_or_oct(s);
   }
 } return int n;
+("42"):(42)
+("0x2A"):(42)

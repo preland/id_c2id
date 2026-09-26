@@ -1,0 +1,29 @@
+// A literal `while(1) {}` body, built the way cond_if_build (emit/gen)
+// builds `if(1){}else{}`: cfg_init/boot_a give a clean store, then two
+// literal node constructors give the walker something real to build a
+// graph from. c is node 0 (the "num 1" condition); wid is node 1, a
+// "while" node whose na is c's id and whose nl (body) is empty.
+//
+// Six blocks (0-5) exist before any construct-builder runs -- new_block()
+// only appends an empty, unterminated row, so a helper tested on its own
+// (not through do_while) can freely use 1..5 as already-real block numbers
+// for the arguments it does not itself write through, while block 0 is
+// where every case's own `term0`/`succ0`/`alt0`/`expr0` check lands.
+while_ast_fixture() {
+  cfg_init();
+  boot_a();
+  int c = newleaf("num", 1, 0, "1", "");
+} chain () {
+  int[] empty = [];
+  export int wid = newnode("while", c, 0, "", "", empty, empty);
+  new_block();
+} chain () {
+  new_block();
+  new_block();
+  new_block();
+} chain () {
+  new_block();
+  new_block();
+} return void;
+():() then cfg_nblocks:(6)
+():() then cur_blk:(0)

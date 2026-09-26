@@ -8,14 +8,20 @@ su_reg(int un, string name, int ty) {
     ty_add(s, ty);
   }
 } return void;
+given ty_setup (0, "foo", 5):() then calls ty_add:("struct foo", 5)
+given ty_setup (0, "", 5):() then calls ty_add:[0]
 
 fill_rec(int[] pos, int ty) {
   if(at_text(pos, "{")) {
     rec_members(pos, ty);
   }
 } return void;
+given tynode_fix given ty_setup given lexfix stdin "{ }" ([0], 5):([2], 5) then calls rec_members:([2], 5)
+given tynode_fix given ty_setup given lexfix stdin ";" ([0], 5):([0], 5)
 
 rec_members(int[] pos, int ty) {
   advance(pos);
   scan_members(pos, ty);
 } return void;
+given tynode_fix given ty_setup given lexfix stdin "{ }" ([0], 5):([2], 5) then calls scan_members:([2], 5)
+given tynode_fix given ty_setup given lexfix stdin "{ int x ; }" ([0], 5):([5], 5) then calls sy_push:(5, "x", 6, 0, -1)

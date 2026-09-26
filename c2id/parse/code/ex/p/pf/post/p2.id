@@ -10,6 +10,8 @@ postfix_one(int[] pos, int a) {
     node = postfix2(pos, a);
   }
 } return int node;
+given boot_a given lexfix stdin "();" ([0], 0):(0)
+given boot_a given lexfix stdin "[1];" ([0], 0):(1)
 
 postfix2(int[] pos, int a) {
   int node = 0;
@@ -19,6 +21,8 @@ postfix2(int[] pos, int a) {
     node = postfix3(pos, a);
   }
 } return int node;
+given boot_a given lexfix stdin "[1];" ([0], 0):(1)
+given boot_a given lexfix stdin ".x;" ([0], 0):(0)
 
 postfix3(int[] pos, int a) {
   int node = 0;
@@ -28,3 +32,5 @@ postfix3(int[] pos, int a) {
     node = post_incdec(pos, a);
   }
 } return int node;
+given boot_a given lexfix stdin ".x;" ([0], 0):(0) then calls parse_member:[1]
+given boot_a given lexfix stdin "++" ([0], 0):(0) then calls post_incdec:[1]

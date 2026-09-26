@@ -6,3 +6,5 @@ lex_all_mem(string src) {
   int n = len(src);
   lex_mem(base, n);
 } return void;
+given init_tokens given init_lines ("a"):() then tok_count:(2)
+given init_tokens given init_lines (""):() then tok_count:(1)

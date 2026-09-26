@@ -2,6 +2,8 @@ take_digit(word c, word[] st, word[] fs) {
   wset(fs, 3, fs[3] * 10 + c - 48);
   wset(st, 0, st[0] + 1);
 } return void;
+(53, [0], [0, 0, 0, 0, 0]):(53, [1], [0, 0, 0, 5, 0])
+(54, [2], [0, 0, 0, 5, 0]):(54, [3], [0, 0, 0, 56, 0])
 
 // Length modifiers, and the character that follows them. Written as a loop so
 // that the two-letter ones ("ll", "hh") need no lookahead: each letter updates
@@ -17,6 +19,8 @@ scan_len(word fmt, word[] st, word[] fs) {
     c = peek8(fmt + st[0]);
   }
 } return word c;
+given crt_fmt_fixture ((import fmtbuf), [3], [0, 0, 0, 0, 0]):(100) then calls take_len:[1]
+given crt_fmt_fixture ((import fmtbuf), [4], [0, 0, 0, 0, 0]):(100) then calls take_len:[0]
 
 // 'l', 'h', 'z'. glibc also accepts 'j', 't' and the BSD 'q'; those are not
 // implemented, so they are echoed rather than silently treated as 'll'.
@@ -26,3 +30,5 @@ is_lenc(word c) {
     go = 1;
   }
 } return int go;
+(108):(1)
+(100):(0)

@@ -14,6 +14,8 @@ bin_txt(int id) {
     s = bin1(id);
   }
 } return string s;
+given txt_fixture given pend_setup (0):("t0") then calls bin1:(0)
+given txt_fixture given pend_setup (5):("t0") then calls bin1:(5)
 
 bin1(int id) {
   string s = "";
@@ -23,6 +25,8 @@ bin1(int id) {
     s = bin2(id);
   }
 } return string s;
+given txt_fixture given pend_setup (0):("t0") then calls bin2:(0)
+given txt_fixture given pend_setup (5):("t0") then calls bin2:(5)
 
 // Either operand being an address makes this pointer arithmetic, where the
 // integer side is scaled by the pointee's size. Testing both sides catches
@@ -35,3 +39,5 @@ bin2(int id) {
     s = bin3(id);
   }
 } return string s;
+given txt_fixture given pend_setup (0):("t0") then calls bin3:(0)
+given txt_fixture given pend_setup (5):("t0") then calls bin3:(5)

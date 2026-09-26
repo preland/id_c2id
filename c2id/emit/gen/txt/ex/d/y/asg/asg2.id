@@ -6,6 +6,8 @@ comp_store(int a, int id, int aty) {
   string exid = ex_txt(id);
   string s = store_txt(aty, addr, exid);
 } return string s;
+given txt_fixture (4, 0, 0):("poke32(NOT_AN_LVALUE_prim, NEEDS_CFG_prim)")
+given txt_fixture (5, 1, 0):("poke32(NOT_AN_LVALUE_ptr, NEEDS_CFG_prim)")
 
 // The first byte of an operator's spelling, as text -- "+=" and "++" both
 // start with "+", which is the operator comp_asg's synthetic node needs.
@@ -13,3 +15,5 @@ first_char(string op) {
   int c = charat(op, 0);
   string ch = chr(c);
 } return string ch;
+("++"):("+")
+("--"):("-")

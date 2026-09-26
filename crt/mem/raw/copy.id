@@ -6,12 +6,16 @@ c_memcpy(word dst, word src, word n) {
     i = cpy_byte(dst, src, i);
   }
 } return word dst;
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad2), 4):((import buf_ad)) then idstd_buf_t_sum:(48)
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad2), 0):((import buf_ad)) then idstd_buf_t_sum:(72)
 
 cpy_byte(word dst, word src, word i) {
   word v = peek8(src + i);
   poke8(dst + i, v);
   word r = i + 1;
 } return word r;
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad2), 0):(1) then idstd_buf_t_sum:(66)
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad2), 7):(8) then idstd_buf_t_sum:(66)
 
 // The same byte, one position lower: the descending half of memmove counts
 // *down* from n, so it copies the byte at i-1 and returns i-1.
@@ -20,3 +24,5 @@ cpy_prev(word dst, word src, word i) {
   poke8(dst + i - 1, v);
   word r = i - 1;
 } return word r;
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad2), 1):(0) then idstd_buf_t_sum:(66)
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad2), 8):(7) then idstd_buf_t_sum:(66)

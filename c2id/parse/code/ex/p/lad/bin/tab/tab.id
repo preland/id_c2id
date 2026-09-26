@@ -1,26 +1,5 @@
-// The precedence table: two parallel lists plus a linear search, which is how
-// `id` spells a map.
-//
-// op_names[i] is a binary operator token; op_levels[i] is its level, 0 being
-// the loosest. Keep the two lists the same length and in the same order.
-//
-//   ||  0     &&  1     |  2     ^  3     &  4
-//   ==  5  !=  5
-//   <   6  >   6  <=  6  >=  6
-//   <<  7  >>  7
-//   +   8  -   8
-//   *   9  /   9   %  9
-//
-// Note the C oddity this encodes: shift (7) is *looser* than additive (8), so
-// `1 << 2 + 3` is `1 << (2 + 3)`.
-
-op_names() {
-  string[] ops = ["||", "&&", "|", "^", "&", "==", "!=", "<", ">", "<=", ">=", "<<", ">>", "+", "-", "*", "/", "%"];
-} return string[] ops;
-
-op_levels() {
-  int[] lvls = [0, 1, 2, 3, 4, 5, 5, 6, 6, 6, 6, 7, 7, 8, 8, 9, 9, 9];
-} return int[] lvls;
+// The precedence table is conf.id's op_names/op_levels; this is the linear
+// search over it, which is how `id` spells a map.
 
 // Index of `s` in `ops`, or -1. Generic on purpose: the escape-character table
 // in ../../pf/lit/chr/ uses it too.
@@ -32,3 +11,5 @@ find_op(string[] ops, string s) {
     i = i + 1;
   }
 } return int found;
+(["a", "b", "c"], "b"):(1)
+([], "x"):(-1)

@@ -13,6 +13,8 @@ conv_txt(int ty, string s) {
     out = name_val(head + "(" + s + ")");
   }
 } return string out;
+given txt_fixture given pend_setup (0, "X"):("t0")
+given txt_fixture (5, "Y"):("Y")
 
 // peek8/16/32/64 zero-extend, so a signed narrow load needs sx*; the zx* on
 // an unsigned one is a no-op the store already performed, and is emitted
@@ -22,6 +24,8 @@ load_txt(int ty, string s) {
   string raw = name_val("peek" + bits + "(" + s + ")");
   string out = conv_txt(ty, raw);
 } return string out;
+given txt_fixture given pend_setup (0, "ADDR"):("t1")
+given txt_fixture given pend_setup (5, "ADDR2"):("t0")
 
 // poke truncates to its width, which is exactly C's conversion on assignment:
 // `char c = 300` leaves 44 behind either way.
@@ -30,3 +34,5 @@ store_txt(int ty, string s, string out) {
   string bits = wid_bits(w);
   string txt = "poke" + bits + "(" + s + ", " + out + ")";
 } return string txt;
+given txt_fixture (0, "A", "B"):("poke32(A, B)")
+given txt_fixture (5, "A", "B"):("poke64(A, B)")

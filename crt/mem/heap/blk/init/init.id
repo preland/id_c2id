@@ -18,6 +18,8 @@ heap_init(word bytes) {
   export word crt_heap = alloc(a + 16);
   heap_init2(a);
 } return void;
+(64):() then calls align8:(64) then calls heap_init2:(64)
+(65):() then calls align8:(65) then calls heap_init2:(72)
 
 // The end address and the first block written, split out of heap_init so its
 // own block stays under the three-action limit.
@@ -25,3 +27,5 @@ heap_init2(word a) {
   poke64((import crt_heap) + 8, (import crt_heap) + 16 + a);
   init_rest((import crt_heap) + 16, a, 0);
 } return void;
+given crt_heap_fixture (32):() then h0_word:(32) then h0_prev:(0)
+given crt_heap_fixture (64):() then h0_word:(64) then h0_prev:(0)

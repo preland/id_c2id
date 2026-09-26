@@ -6,9 +6,13 @@ place_ws_cur(int[] lay, int r, int n) {
   int sz1 = type_size(r);
   lset(lay, 0, n + 8 * sz1);
 } return void;
+given tynode_fix ([0, 0, 0], 0, 2):([34, 0, 0])
+given tynode_fix ([0, 0, 0], 2, 2):([66, 0, 0])
 
 place_max(int[] lay, int r) {
   int sz2 = type_size(r);
   int fm = fx_max(lay[1], sz2);
   lset(lay, 1, fm);
 } return void;
+given tynode_fix ([0, 2, 0], 0):([0, 4, 0])
+given tynode_fix ([0, 10, 0], 2):([0, 10, 0])

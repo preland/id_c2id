@@ -1,11 +1,17 @@
 s_of(int id) {
   string s = (import ns)[id];
 } return string s;
+given boot_a given exprfix stdin "x;" ((import extop)):("x")
+given boot_a given exprfix stdin "y;" ((import extop)):("y")
 
 t_of(int id) {
   string tstr = (import nt)[id];
 } return string tstr;
+given boot_a given exprfix stdin "a.b;" ((import extop)):(".")
+given boot_a given exprfix stdin "a->b;" ((import extop)):("->")
 
 l_of(int id) {
   int[] l = (import nl)[id];
 } return int[] l;
+given boot_a given exprfix stdin "1 ? 2 : 3;" ((import extop)):([2])
+given boot_a given exprfix stdin "f(1, 2);" ((import extop)):([1, 2])

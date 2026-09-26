@@ -10,15 +10,21 @@ call_head(int id) {
     s = "c_" + op;
   }
 } return string s;
+given txt_fixture (0):("crt_call")
+given txt_fixture (5):("crt_call")
 
 call_wrap(string s, int id) {
   int[] ids = l_of(id);
   string txt = args_txt(ids);
   string out = name_val(s + "(" + txt + ")");
 } return string out;
+given txt_fixture given pend_setup ("crt_call", 0):("t0")
+given txt_fixture given pend_setup ("c_foo", 5):("t0")
 
 // s_of(id), read once and turned into the C operator it stands for.
 assign_head(int id) {
   string op = s_of(id);
   string head = op_head(op);
 } return string head;
+given txt_fixture (0):("in")
+given txt_fixture (5):("")

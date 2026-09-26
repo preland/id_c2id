@@ -7,15 +7,21 @@ init_cfg2() {
   export int[] bex = [];
   export int[] curb = [0];
 } return void;
+():() then cur_blk:(0)
+():() then eprints:("")
 
 init_cfg3() {
   export int[] btgt = [];
   export int[] ctgt = [];
   export string[] lbls = [];
 } return void;
+():() then prints:("")
+():() then eprints:("")
 
 init_cfg4() {
   export int[] labb = [];
   export string[] fixs = [];
   export int[] fixb = [];
 } return void;
+():() then prints:("")
+():() then eprints:("")

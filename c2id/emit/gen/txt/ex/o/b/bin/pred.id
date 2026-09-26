@@ -5,3 +5,5 @@ is_cmp(int id) {
   string op = s_of(id);
   int ok = is_cmp_op(op);
 } return int ok;
+given txt_fixture (0):(0)
+given txt_fixture (5):(0)

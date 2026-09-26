@@ -8,13 +8,19 @@ param_body(int[] pos, int[] ps) {
   }
   skip_tok(pos, ",");
 } return void;
+given boot_a given ty_setup given lexfix stdin "int x ," ([0], []):([3], [0])
+given boot_a given ty_setup given lexfix stdin "... ," ([0], []):([2], [])
 
 param_dots(int[] pos) {
   int ok = take_tok(pos, "...");
 } return int ok;
+given lexfix stdin "..." ([0]):(1)
+given lexfix stdin "x" ([0]):(0)
 
 param_real(int[] pos, int[] ps) {
   int inner = parse_specs(pos);
   int r = parse_declarator(pos, inner);
   param_push(ps, r);
 } return void;
+given boot_a given ty_setup given lexfix stdin "int x" ([0], []):([2], [0])
+given boot_a given ty_setup given lexfix stdin "void" ([0], []):([1], [])

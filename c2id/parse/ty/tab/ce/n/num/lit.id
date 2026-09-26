@@ -11,12 +11,16 @@ ce_ap5(string s, int a, int b) {
     v = a ^ b;
   }
 } return int v;
+("&", 6, 3):(2)
+("^", 6, 3):(5)
 
 num_val(string s) {
   int i = hex_start(s);
   int n = num_base(i);
   int v = radix_val(s, i, n);
 } return int v;
+("12"):(12)
+("0xff"):(255)
 
 num_base(int i) {
   int n = 10;
@@ -24,3 +28,5 @@ num_base(int i) {
     n = 16;
   }
 } return int n;
+(0):(10)
+(1):(16)

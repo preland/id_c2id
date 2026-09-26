@@ -8,12 +8,5 @@ mk_prim(int[] sp) {
   int i = prim_idx(sp);
   int ty = mk_prim_leaf(i);
 } return int ty;
-
-prim_names() {
-  string[] names = ["void", "_Bool", "char", "signed char", "unsigned char", "short", "unsigned short", "int", "unsigned int", "long", "unsigned long", "long long", "unsigned long long", "float", "double", "long double"];
-} return string[] names;
-
-// LP64, which is what the kernel assumes: long and long long are both 8.
-prim_sizes() {
-  int[] xs = [0, 1, 1, 1, 1, 2, 2, 4, 4, 8, 8, 8, 8, 4, 8, 16];
-} return int[] xs;
+given boot_a ([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, -1]):(0) then calls newleaf:("prim", 4, 1, "int", "")
+given boot_a ([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0) then calls newleaf:("prim", 0, 0, "void", "")

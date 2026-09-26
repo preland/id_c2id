@@ -1,0 +1,34 @@
+// `while (c) B`:
+//
+//   cur:   ...   jmp  -> cond
+//   cond:        cond c -> body / exit
+//   body:  B     jmp  -> cond          (the back-edge)
+//   exit:  (filling continues here)
+//
+// break -> exit, continue -> cond.
+
+do_while(int id) {
+  int nxt = new_block();
+  int blk = cur_blk();
+  do_while2(id, nxt, blk);
+} return void;
+given while_ast_fixture ((import wid)):() then term0:("jmp") then succ0:(6)
+given while_ast_fixture ((import wid)):() then cfg_nblocks:(9)
+
+wh_body(int id, int nxt) {
+  int blk = new_block();
+  int alt = new_block();
+  wh_run(id, nxt, blk, alt);
+} return void;
+given while_ast_fixture ((import wid), 0):() then term0:("cond") then succ0:(6) then alt0:(7)
+given while_ast_fixture ((import wid), 0):() then expr0:(0)
+
+// The condition block holds no statements: the condition is an expression on
+// the terminator, and the emitter turns it into the block's `if`.
+wh_run(int id, int nxt, int blk, int alt) {
+  int a = a_of(id);
+  term_cond(nxt, a, blk, alt);
+  wh_run2(id, nxt, blk, alt);
+} return void;
+given while_ast_fixture ((import wid), 0, 1, 2):() then term0:("cond") then succ0:(1) then alt0:(2)
+given while_ast_fixture ((import wid), 0, 3, 4):() then succ0:(3) then alt0:(4)

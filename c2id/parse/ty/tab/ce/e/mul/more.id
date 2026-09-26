@@ -4,3 +4,5 @@ ce_mmore(int[] pos) {
   string s = cur_text(pos);
   int ok = ce_at_m(s);
 } return int ok;
+given lexfix stdin "*" ([0]):(1)
+given lexfix stdin "+" ([0]):(0)

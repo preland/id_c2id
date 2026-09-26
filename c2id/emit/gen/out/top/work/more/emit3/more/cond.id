@@ -12,15 +12,21 @@ emit_ret(int e) {
     print("  poke64(fp, 0);");
   }
 } return void;
+given txt_fixture given pend_setup (0):() then prints:("  poke64(fp, NEEDS_CFG_prim);\n")
+given txt_fixture given pend_setup (-1):() then prints:("  poke64(fp, 0);\n")
 
 emit_cond(int b) {
   int e = cfg_expr(b);
   string txt = ex_txt(e);
   emit_cond2(b, txt);
 } return void;
+given pend_setup given cond_body_fixture (0):() then prints:("  word nxt = 3;\n  if(1) { nxt = 3; }\n} return word nxt;\n")
+given pend_setup given cond_body_fixture (0):() then calls emit_cond2:(0, "1")
 
 emit_cond2(int b, string txt) {
   flush_pend();
   int alt = cfg_alt(b);
   emit_cond_alt(b, txt, alt);
 } return void;
+given pend_setup given cond_body_fixture (0, "1"):() then calls emit_cond_alt:(0, "1", 2)
+given pend_setup given cond_body_fixture (0, "x"):() then prints:("  word nxt = 3;\n  if(x) { nxt = 3; }\n} return word nxt;\n")

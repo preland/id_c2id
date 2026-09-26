@@ -19,6 +19,8 @@ cond_tail(int[] pos, int left) {
   int a = parse_expr(pos);
   int id = cond_node(pos, left, a);
 } return int id;
+given boot_a given lexfix stdin "2 : 3" ([0], 0):(2)
+given boot_a given lexfix stdin "x : y" ([0], 5):(2)
 
 parse_bin(int[] pos, int lvl) {
   int left = parse_next(pos, lvl);
@@ -26,6 +28,8 @@ parse_bin(int[] pos, int lvl) {
     left = fold_bin(pos, lvl, left);
   }
 } return int left;
+given boot_a given lexfix stdin "1" ([0], 0):(0)
+given boot_a given lexfix stdin "1 + 2" ([0], 8):(2)
 
 // The operand of level `lvl` is level `lvl + 1`; below the last binary level
 // (9, multiplicative) sits the cast level.
@@ -37,3 +41,5 @@ parse_next(int[] pos, int lvl) {
     node = parse_cast(pos);
   }
 } return int node;
+given boot_a given lexfix stdin "1" ([0], 5):(0) then calls parse_bin:[4]
+given boot_a given lexfix stdin "1" ([0], 9):(0) then calls parse_bin:[0]

@@ -8,6 +8,8 @@ place_ws(int ty, int[] lay, int r) {
   place_ws_cur(lay, r, n);
   place_max(lay, r);
 } return int n;
+given tynode_fix (1, [3, 0, 0], 0):(32)
+given tynode_fix (0, [3, 0, 0], 2):(0)
 
 // A bitfield goes at the cursor if it still fits in the storage unit of its
 // declared type, and otherwise starts a fresh unit. A zero-width field never
@@ -17,6 +19,8 @@ place_bf(int ty, int[] lay, int r, int w) {
   lset(lay, 0, n + w);
   place_max(lay, r);
 } return int n;
+given tynode_fix (1, [10, 0, 0], 0, 0):(32)
+given tynode_fix (0, [10, 0, 0], 0, 0):(0)
 
 bf_pos(int n, int sz, int w) {
   int v = align_up(n, 8 * sz);
@@ -24,3 +28,5 @@ bf_pos(int n, int sz, int w) {
     v = n;
   }
 } return int v;
+(3, 1, 5):(3)
+(5, 1, 0):(8)

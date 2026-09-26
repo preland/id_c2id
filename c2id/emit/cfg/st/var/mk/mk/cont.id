@@ -1,7 +1,0 @@
-// Split out of new_block: its return clause must be a name, and naming
-// `ids` and pushing it already fill new_block's own block, leaving no room
-// there for push_bterm's call and the length computation too.
-new_block2() {
-  push_bterm();
-  int n = len((import bkind)) - 1;
-} return int n;

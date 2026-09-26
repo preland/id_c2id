@@ -3,3 +3,23 @@ enum_head(int[] pos) {
   skip_attrs(pos);
   take_ident(pos);
 } return void;
+given lexfix stdin "x y" ([0]):([2])
+given lexfix stdin "x 5" ([0]):([1])
+
+// One registered enumerator, "answer" -> 42, for en_add's own cases and for
+// has_enum/enum_val's found branch.
+answer_enum_fix() {
+  ty_setup();
+  en_add("answer", 42);
+} return void;
+():() then calls en_add:("answer", 42)
+():() then calls ty_setup:()
+
+// enum_val("answer") specifically, a zero-argument witness of what en_add
+// actually left (en_add itself calls nothing else, so there is no
+// delegation to record).
+check_answer_enum() {
+  int r = enum_val("answer");
+} return int r;
+given ty_setup ():(0)
+given answer_enum_fix ():(42)

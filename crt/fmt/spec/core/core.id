@@ -13,11 +13,15 @@ fmt_spec(word fmt, word[] args, word[] st) {
   scan_flags_width(fmt, st, fs);
   string out = fmt_conv(fmt, args, st, fs);
 } return string out;
+given crt_fmt_fixture ((import pctbuf), [7], [1, 0]):("7")
+given crt_fmt_fixture ((import fmtbuf), [], [1, 0]):("00000")
 
 scan_flags_width(word fmt, word[] st, word[] fs) {
   scan_flags(fmt, st, fs);
   scan_width(fmt, st, fs);
 } return void;
+given crt_fmt_fixture ((import fmtbuf), [0], [0, 0, 0, 0, 0]):((import fmtbuf), [3], [0, 1, 1, 5, 0])
+given crt_fmt_fixture ((import fmtbuf), [3], [0, 0, 0, 0, 0]):((import fmtbuf), [3], [0, 0, 0, 0, 0])
 
 // Length modifiers, then the conversion character itself.
 fmt_conv(word fmt, word[] args, word[] st, word[] fs) {
@@ -25,3 +29,5 @@ fmt_conv(word fmt, word[] args, word[] st, word[] fs) {
   conv_step(c, st);
   string out = conv_do(fmt, c, args, st, fs);
 } return string out;
+given crt_fmt_fixture ((import pctbuf), [7], [1, 0], [0, 0, 0, 0, 0]):("7")
+given crt_fmt_fixture ((import fmtbuf), [], [3, 0], [0, 0, 0, 0, 0]):("0")

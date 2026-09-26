@@ -1,0 +1,10 @@
+// A parked goto ("L3" from block 0) on top of lab_ready_fixture's label
+// table, for run_fixes/fix_one -- fix_add takes arguments, so it cannot be
+// a `given` setup, and run_fixes has nothing to iterate without it.
+fix_ready_fixture() {
+  lab_ready_fixture();
+  fix_add(0, "L1");
+  fix_add(0, "L4");
+} return void;
+():() then prints:("")
+():() then eprints:("")

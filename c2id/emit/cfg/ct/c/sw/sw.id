@@ -20,12 +20,16 @@ do_switch(int id) {
   int alt = new_block();
   sw_body(id, blk, alt);
 } return void;
+given walk_ast_fixture ((import wswid)):() then term0:("jmp") then succ0:(1)
+given walk_ast_fixture ((import wswid)):() then cfg_nblocks:(3)
 
 sw_body(int id, int blk, int alt) {
   int mark = case_mark();
   push_brk(alt);
   sw_walk(id, blk, alt, mark);
 } return void;
+given walk_ast_fixture ((import wswid), 0, 1):() then term0:("jmp") then succ0:(1)
+given walk_ast_fixture ((import wswid), 0, 1):() then cfg_nblocks:(2)
 
 // The body starts in a fresh block: statements before the first `case` are
 // unreachable, and giving them their own block keeps them out of the entry
@@ -35,3 +39,5 @@ sw_walk(int id, int blk, int alt, int mark) {
   set_cur(nxt);
   sw_walk2(id, blk, alt, mark);
 } return void;
+given sw_ready_fixture ((import wswid), 0, 1, 0):() then term0:("jmp") then succ0:(1)
+given sw_ready_fixture ((import wswid), 0, 1, 0):() then cfg_nblocks:(2)

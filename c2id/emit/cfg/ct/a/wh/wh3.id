@@ -3,6 +3,8 @@ dw_body(int id, int blk, int nxt, int alt) {
   set_cur(blk);
   dw_end(id, blk, nxt, alt);
 } return void;
+given dowhile_ast_fixture ((import did), 0, 1, 2):() then term0:("jmp") then succ0:(1) then cur_blk:(2)
+given dowhile_ast_fixture ((import did), 0, 3, 4):() then succ0:(3) then cur_blk:(4)
 
 // The condition block is terminated last, once the body's entry block number
 // is known to be the back-edge target.
@@ -11,9 +13,13 @@ dw_end(int id, int blk, int nxt, int alt) {
   walk_list(l);
   dw_end_cont(id, blk, nxt, alt);
 } return void;
+given loop_pushed_fixture ((import did), 0, 1, 2):() then term0:("jmp") then succ0:(1) then cur_blk:(2)
+given loop_pushed_fixture ((import did), 0, 3, 4):() then succ0:(3) then cur_blk:(4)
 
 dw_end_cont(int id, int blk, int nxt, int alt) {
   loop_close(nxt, alt);
   int a = a_of(id);
   term_cond(nxt, a, blk, alt);
 } return void;
+given loop_pushed_fixture ((import did), 5, 0, 1):() then term0:("cond") then succ0:(5) then alt0:(1) then expr0:(2)
+given loop_pushed_fixture ((import did), 3, 0, 2):() then succ0:(3) then alt0:(2)

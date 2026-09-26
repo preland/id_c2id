@@ -5,11 +5,15 @@ push_loop(int alt, int nxt) {
   push_brk(alt);
   push_cont(nxt);
 } return void;
+given cfg_init (5, 6):() then brk_top:(5) then cont_top:(6)
+given cfg_init (1, 2):() then brk_top:(1) then cont_top:(2)
 
 pop_loop() {
   pop_brk();
   pop_cont();
 } return void;
+given loop_ready_fixture ():() then brk_top:(-1) then cont_top:(-1)
+given loop_ready_fixture ():() then calls pop_brk:[1] then calls pop_cont:[1]
 
 // Close a loop body: back-edge from wherever the body ended to `nxt`, leave
 // the loop, and carry on filling the exit block. Shared by all three loops.
@@ -18,3 +22,5 @@ loop_close(int nxt, int alt) {
   term_jmp(c, nxt);
   loop_close2(alt);
 } return void;
+given loop_ready_fixture (3, 4):() then cur_blk:(4) then calls term_jmp:(1, 3)
+given loop_ready_fixture (7, 8):() then cur_blk:(8) then calls term_jmp:(1, 7)

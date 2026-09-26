@@ -22,15 +22,21 @@ cfg_init() {
   init_cfg2();
   cfg_init2();
 } return void;
+():() then cfg_nblocks:(0)
+():() then calls cfg_init2:[1]
 
 cfg_init2() {
   init_cfg3();
   init_cfg4();
   init_cfg5();
 } return void;
+():() then calls init_cfg3:[1]
+():() then calls init_cfg5:[1]
 
 init_cfg() {
   export int[][] bstmt = [];
   export string[] bkind = [];
   export int[] bsa = [];
 } return void;
+():() then cfg_nblocks:(0)
+():() then eprints:("")

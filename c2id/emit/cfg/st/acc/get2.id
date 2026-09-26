@@ -2,14 +2,20 @@
 cfg_succ(int blk) {
   int nxt = (import bsa)[blk];
 } return int nxt;
+given cond_body_fixture (0):(1)
+given cfg_body_fixture (0):(-1)
 
 // The false edge of a "cond", -1 otherwise.
 cfg_alt(int blk) {
   int alt = (import bsb)[blk];
 } return int alt;
+given cond_body_fixture (0):(2)
+given cfg_body_fixture (0):(-1)
 
 // The condition of a "cond", the returned value of an "end" (-1 for a bare
 // `return;` or a fallen-off-the-end block), -1 for a "jmp".
 cfg_expr(int blk) {
   int a = (import bex)[blk];
 } return int a;
+given cfg_body_fixture (0):(-1)
+given cond_body_fixture (0):(0)

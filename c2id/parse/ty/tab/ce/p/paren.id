@@ -9,12 +9,16 @@ ce_prim2(int[] pos) {
     v = ce_name(pos);
   }
 } return int v;
+given lexfix stdin "( 5 )" ([0]):(5)
+given lexfix stdin ")" ([0]):(0)
 
 ce_paren(int[] pos) {
   advance(pos);
   int v = ce_expr(pos);
   skip_tok(pos, ")");
 } return int v;
+given lexfix stdin "( 2 + 3 )" ([0]):(5)
+given lexfix stdin "( 7 )" ([0]):(7)
 
 ce_name(int[] pos) {
   int v = 0;
@@ -24,3 +28,5 @@ ce_name(int[] pos) {
     v = ce_name2(pos);
   }
 } return int v;
+given boot_a given ty_setup given lexfix stdin "sizeof ( int )" ([0]):(4)
+given lexfix stdin ")" ([0]):(0)

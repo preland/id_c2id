@@ -14,15 +14,21 @@ frame_add(string name, int t) {
   int al = type_align(t);
   int off = frame_add2(name, t, sz, al);
 } return int off;
+given init_frame given init_frame2 given tynode_fix ("x", 0):(8) then frame_size:(12)
+given init_frame given init_frame2 given tynode_fix ("y", 3):(8) then frame_size:(20)
 
 frame_add2(string name, int t, int sz, int al) {
   int off = align_up(sz, al);
   int tsz = type_size(t);
   add_slot(name, off, tsz);
 } return int off;
+given init_frame given init_frame2 given tynode_fix ("x", 0, 8, 4):(8) then frame_size:(12)
+given init_frame given init_frame2 given tynode_fix ("y", 3, 8, 4):(8) then frame_size:(20)
 
 add_slot(string name, int off, int sz) {
   push((import lvnames), name);
   push((import lvoff), off);
   bump_size(off, sz);
 } return void;
+given init_frame given init_frame2 ("x", 8, 4):() then frame_size:(12) then lvoff_len:(1)
+given init_frame given init_frame2 ("y", 8, 12):() then frame_size:(20) then lvoff_len:(1)

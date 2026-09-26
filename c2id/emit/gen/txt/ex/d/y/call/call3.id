@@ -7,6 +7,8 @@ assign_store(int id, int aty, string addr) {
   string exb = b_ex(id);
   string s = store_txt(aty, addr, exb);
 } return string s;
+given txt_fixture (0, 0, "fp + 8"):("poke32(fp + 8, NEEDS_CFG_prim)")
+given txt_fixture (5, 2, "fp + 0"):("poke64(fp + 0, NEEDS_CFG_prim)")
 
 // The rewritten-to-a-bin-node compound assignment.
 assign_comp(int id, string head) {
@@ -14,3 +16,5 @@ assign_comp(int id, string head) {
   int b = b_of(id);
   string s = comp_asg(a, b, head);
 } return string s;
+given txt_fixture given pend_setup (0, "in"):("poke32(NOT_AN_LVALUE_prim, t0)")
+given txt_fixture given pend_setup (5, "XY"):("poke32(NOT_AN_LVALUE_prim, t0)")

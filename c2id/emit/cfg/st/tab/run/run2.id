@@ -5,9 +5,13 @@ cfg_build_cont(int id, int nxt) {
   set_cur(nxt);
   cfg_walk(id);
 } return void;
+given walk_ast_fixture ((import wifid), 0):() then cfg_nblocks:(4) then term0:("cond")
+given walk_ast_fixture ((import wforid), 0):() then cfg_nblocks:(5)
 
 cfg_walk_cont() {
   int blk = cur_blk();
   term_end(blk, 0 - 1);
   run_fixes();
 } return void;
+given walk_ast_fixture ():() then term0:("end") then expr0:(-1)
+given walk_ast_fixture ():() then calls run_fixes:[1]

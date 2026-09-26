@@ -1,10 +1,14 @@
 mk_prim_leaf(int i) {
-  int sz = prim_sizes()[i];
-  int sg = prim_signs()[i];
+  int sz = (import prim_sizes)[i];
+  int sg = (import prim_signs)[i];
   int ty = mk_prim_leaf2(i, sz, sg);
 } return int ty;
+given boot_a (7):(0) then calls newleaf:("prim", 4, 1, "int", "")
+given boot_a (0):(0) then calls newleaf:("prim", 0, 0, "void", "")
 
 mk_prim_leaf2(int i, int sz, int sg) {
-  string name = prim_names()[i];
+  string name = (import prim_names)[i];
   int ty = newleaf("prim", sz, sg, name, "");
 } return int ty;
+given boot_a (7, 4, 1):(0) then calls newleaf:("prim", 4, 1, "int", "")
+given boot_a (0, 0, 0):(0) then calls newleaf:("prim", 0, 0, "void", "")

@@ -11,15 +11,21 @@ parse_unit(int[] pos) {
     parse_one(pos);
   }
 } return void;
+given init_tokens ([0]):()
+given init_tokens ([5]):()
 
 parse_one(int[] pos) {
   parse_specs(pos);
   parse_declarator(pos, 0);
   tu_take(pos);
 } return void;
+given boot_a given boot_b given lexfix stdin "int x;" ([0]):() then calls tu_add:[0]
+given boot_a given boot_b given lexfix stdin "int f(){}" ([0]):() then calls tu_add:[1]
 
 tu_take(int[] pos) {
   string name = decl_name();
   int isf = at_text(pos, "{");
   tu_body(pos, name, isf);
 } return void;
+given ty_setup given init_tokens ([0]):([1])
+given ty_setup given init_tokens ([3]):([4])

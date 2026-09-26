@@ -7,6 +7,8 @@ scan_enums(int[] pos) {
   advance(pos);
   fill_enums(pos, ev);
 } return void;
+given ty_setup given lexfix stdin "x y }" ([0]):([3])
+given ty_setup given lexfix stdin "x }" ([0]):([2])
 
 fill_enums(int[] pos, int[] ev) {
   while(cur_kind(pos) == "id") {
@@ -14,9 +16,13 @@ fill_enums(int[] pos, int[] ev) {
   }
   skip_tok(pos, "}");
 } return void;
+given ty_setup given lexfix stdin "x }" ([0], [0]):([2], [1])
+given ty_setup given lexfix stdin "}" ([0], [0]):([1], [0])
 
 enum_one(int[] pos, int[] ev) {
   string name = cur_text(pos);
   advance(pos);
   enum_set(pos, ev, name);
 } return void;
+given ty_setup given lexfix stdin "x ," ([0], [0]):([2], [1])
+given ty_setup given lexfix stdin "y = 5" ([0], [0]):([3], [6])

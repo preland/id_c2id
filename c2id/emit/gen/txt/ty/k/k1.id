@@ -20,6 +20,8 @@ ex_ty(int id) {
     ty = ety2(id);
   }
 } return int ty;
+given txt_fixture (0):(0) then calls ety2:(0)
+given txt_fixture (5):(0) then calls ety2:(5)
 
 ety2(int id) {
   int ty = 0;
@@ -30,6 +32,8 @@ ety2(int id) {
     ty = ety3(id);
   }
 } return int ty;
+given txt_fixture (0):(0) then calls ety3:(0)
+given txt_fixture (5):(0) then calls ety3:(5)
 
 ety3(int id) {
   int ty = 0;
@@ -39,3 +43,5 @@ ety3(int id) {
     ty = ety4(id);
   }
 } return int ty;
+given txt_fixture (0):(0) then calls ety4:(0)
+given txt_fixture (5):(0) then calls ety4:(5)

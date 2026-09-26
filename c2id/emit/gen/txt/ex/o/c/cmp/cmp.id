@@ -18,12 +18,16 @@ cmp_txt(int id) {
     s = ucmp_txt(id);
   }
 } return string s;
+given txt_fixture (0):("(NEEDS_CFG_prim int NEEDS_CFG_prim)") then calls cmp_sgn:(0)
+given txt_fixture (5):("(NEEDS_CFG_prim  NEEDS_CFG_prim)") then calls cmp_sgn:(5)
 
 cmp_sgn(int id) {
   int a = a_of(id);
   int b = b_of(id);
   string s = "(" + ex_txt(a) + " " + s_of(id) + " " + ex_txt(b) + ")";
 } return string s;
+given txt_fixture (0):("(NEEDS_CFG_prim int NEEDS_CFG_prim)")
+given txt_fixture (5):("(NEEDS_CFG_prim  NEEDS_CFG_prim)")
 
 // a > b is ult(b, a); a <= b is ult(b, a) negated; a >= b is ult(a, b)
 // negated. So the operand order is decided here and the negation in
@@ -32,3 +36,5 @@ ucmp_txt(int id) {
   string s = ucmp_body(id);
   string out = ucmp_final(s, id);
 } return string out;
+given txt_fixture given pend_setup (0):("t0") then calls ucmp_body:(0)
+given txt_fixture given pend_setup (5):("t0") then calls ucmp_body:(5)

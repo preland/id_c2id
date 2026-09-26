@@ -12,6 +12,8 @@ ce_apply(string s, int a, int b) {
     v = a - b;
   }
 } return int v;
+  ("+", 3, 4):(7)
+  ("-", 10, 4):(6)
 
 ce_ap2(string s, int a, int b) {
   int v = ce_ap3(s, a, b);
@@ -21,6 +23,8 @@ ce_ap2(string s, int a, int b) {
     v = ce_div(a, b);
   }
 } return int v;
+  ("*", 3, 4):(12)
+  ("/", 10, 2):(5)
 
 ce_div(int a, int b) {
   int v = 0;
@@ -28,3 +32,5 @@ ce_div(int a, int b) {
     v = a / b;
   }
 } return int v;
+  (10, 2):(5)
+  (10, 0):(0)

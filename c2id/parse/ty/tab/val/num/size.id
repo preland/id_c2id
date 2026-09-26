@@ -1,0 +1,12 @@
+
+// void has width 0 but still has to have an alignment of 1, or align_up
+// would divide by zero.
+
+align_of_size(int n) {
+  int r = n;
+  if(n < 1) {
+    r = 1;
+  }
+} return int r;
+(4):(4)
+(0):(1)

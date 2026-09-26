@@ -1,0 +1,27 @@
+// Creating a block. A new block starts empty and unterminated; the walker
+// always keeps the block it is filling unterminated, so a terminator is never
+// written twice.
+
+init_cfg5() {
+  export int[] casv = [];
+  export int[] casb = [];
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+// Append a block and return its number.
+new_block() {
+  int[] ids = [];
+  push((import bstmt), ids);
+  int n = new_block2();
+} return int n;
+given cfg_init ():(0) then cfg_nblocks:(1)
+given cfg_body_fixture ():(2) then cfg_nblocks:(3)
+
+push_bterm() {
+  push((import bkind), "none");
+  push((import bsa), 0 - 1);
+  push_bedge();
+} return void;
+given cfg_init ():() then cfg_nblocks:(1)
+given cfg_body_fixture ():() then cfg_nblocks:(3)

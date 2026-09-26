@@ -1,0 +1,33 @@
+// Reading back the member table's last row, so sy_col1/sy_col2's cases (and
+// their own) have a zero-argument witness of what a literal-argument push
+// actually left behind, rather than only its shape.
+
+sy_last_name() {
+  string[] sln_names = (import synames);
+  string sln_r = "";
+  if(len(sln_names) > 0) {
+    sln_r = sln_names[len(sln_names) - 1];
+  }
+} return string sln_r;
+given ty_setup ():("")
+given row_x_fix ():("y")
+
+sy_last_off() {
+  int[] slo_offs = (import syoff);
+  int slo_r = 0 - 1;
+  if(len(slo_offs) > 0) {
+    slo_r = slo_offs[len(slo_offs) - 1];
+  }
+} return int slo_r;
+given ty_setup ():(-1)
+given row_x_fix ():(3)
+
+sy_last_bit() {
+  int[] slb_bits = (import sybit);
+  int slb_r = 0 - 1;
+  if(len(slb_bits) > 0) {
+    slb_r = slb_bits[len(slb_bits) - 1];
+  }
+} return int slb_r;
+given ty_setup ():(-1)
+given row_x_fix ():(1)

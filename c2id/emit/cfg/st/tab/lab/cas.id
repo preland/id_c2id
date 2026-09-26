@@ -10,11 +10,17 @@
 case_mark() {
   int i = len((import casv));
 } return int i;
+given cfg_init ():(0)
+given case_ready_fixture ():(2)
 
 case_val(int i) {
   int a = (import casv)[i];
 } return int a;
+given case_ready_fixture (0):(5)
+given case_ready_fixture (1):(-1)
 
 case_blk(int i) {
   int blk = (import casb)[i];
 } return int blk;
+given case_ready_fixture (0):(2)
+given case_ready_fixture (1):(4)

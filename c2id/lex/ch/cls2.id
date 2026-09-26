@@ -10,6 +10,8 @@ is_hspace(int c) {
     ok = 1;
   }
 } return int ok;
+(13):(1)
+(10):(0)
 
 is_alnum(int c) {
   int ok = 0;
@@ -17,6 +19,8 @@ is_alnum(int c) {
     ok = 1;
   }
 } return int ok;
+(48):(1)
+(43):(0)
 
 // The continuation set of a C preprocessing number: digits, letters, `_` and
 // `.` (46). Together with the `e+`/`p-` rule in num_step this is exactly C's
@@ -28,3 +32,5 @@ is_numcont(int c) {
     ok = 1;
   }
 } return int ok;
+(46):(1)
+(43):(0)

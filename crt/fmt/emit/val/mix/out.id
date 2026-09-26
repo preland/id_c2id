@@ -5,6 +5,8 @@ dec_of_padded(word v, word[] args, word[] st, word[] fs) {
   string out = dec_of(w, fs);
   string txt = pad_out(out, fs);
 } return string txt;
+(0, [42], [0, 0], [0, 0, 0, 0, 0]):("42")
+(0, [4294967295], [0, 0], [0, 0, 0, 0, 0]):("-1")
 
 // Helper for unsigned decimal with padding: narrow_u, then uns_of, then pad_out.
 // This is extracted to a helper because the nested calls would exceed action budget.
@@ -13,6 +15,8 @@ uns_of_padded(word v, word c, word[] args, word[] st, word[] fs) {
   string out = uns_of(w, c, fs);
   string txt = pad_out(out, fs);
 } return string txt;
+(0, 120, [255], [0, 0], [0, 0, 0, 0, 0]):("ff")
+(0, 88, [255], [0, 0], [0, 0, 0, 0, 0]):("FF")
 
 // printk: format and write, with no newline added -- the format string says
 // whether there is one, exactly as with C's printf. The flush matters
@@ -23,3 +27,5 @@ c_printk(word fmt, word[] args) {
   put(txt);
   flush();
 } return void;
+given crt_fmt_fixture ((import pctbuf), [7]):() then prints:("7")
+given crt_fmt_fixture ((import fmtbuf), []):() then prints:("-05ld")

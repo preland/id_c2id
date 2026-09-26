@@ -1,0 +1,12 @@
+// uop_fn/uop_txt trap on any spelling ufn_name does not carry -- `find_str`
+// answers -1 and the lookup indexes off the front of `names`. Nothing built
+// by txt_setup has such a spelling (a type's own name is never an operator),
+// so this builds two nodes whose `ns` is "/" and "%" -- ufn_name's own
+// table, minus ">>" since one case each is enough to see two different
+// unsigned builtins chosen.
+uop_fixture() {
+  int u = newleaf("prim", 4, 1, "/", "");
+  int md = newleaf("prim", 4, 1, "%", "");
+} return void;
+given txt_fixture ():() then calls newleaf:("prim", 4, 1, "/", "")
+given txt_fixture ():() then calls newleaf:("prim", 4, 1, "%", "")

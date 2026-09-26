@@ -10,6 +10,8 @@ is_type_start(int[] pos) {
     ok = is_typedef(s2);
   }
 } return int ok;
+given ty_setup given lexfix stdin "int" ([0]):(1)
+given ty_setup given lexfix stdin "xyz" ([0]):(0)
 
 norm_kw(string s) {
   string out = s;
@@ -17,3 +19,5 @@ norm_kw(string s) {
     out = "signed";
   }
 } return string out;
+  ("__signed__"):("signed")
+  ("int"):("int")

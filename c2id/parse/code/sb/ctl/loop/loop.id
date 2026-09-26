@@ -5,14 +5,20 @@ fill_else(int[] pos, int[] m) {
   int id = parse_stmt(pos);
   push(m, id);
 } return void;
+given boot_a given ty_setup given lexfix stdin "else ;" ([0], []):([2])
+given boot_a given ty_setup given lexfix stdin "else x;" ([0], []):([3])
 
 parse_while(int[] pos) {
   int a = read_paren_cond(pos);
   int id = while_body(pos, a);
 } return int id;
+given boot_a given ty_setup given lexfix stdin "while (1) ;" ([0]):(2)
+given boot_a given ty_setup given lexfix stdin "while (1) x;" ([0]):(3)
 
 while_body(int[] pos, int a) {
   advance(pos);
   int[] l = [parse_stmt(pos)];
   int id = newlist("while", a, 0, "", l);
 } return int id;
+given boot_a given ty_setup given lexfix stdin ");" ([0], 0):(1) then calls parse_stmt:[1]
+given boot_a given ty_setup given lexfix stdin ")x;" ([0], 0):(2) then calls parse_stmt:[1]

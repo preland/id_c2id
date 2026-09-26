@@ -15,9 +15,41 @@
 //
 // funcs_per_file: how many block functions share one generated file, which is
 // id's own limit.
+//
+// op_names[i] is a binary operator token; op_levels[i] is its level, 0 being
+// the loosest. Keep the two lists the same length and in the same order.
+//
+//   ||  0     &&  1     |  2     ^  3     &  4
+//   ==  5  !=  5
+//   <   6  >   6  <=  6  >=  6
+//   <<  7  >>  7
+//   +   8  -   8
+//   *   9  /   9   %  9
+//
+// Note the C oddity this encodes: shift (7) is *looser* than additive (8), so
+// `1 << 2 + 3` is `1 << (2 + 3)`.
+//
+// esc_chars[i] means esc_vals[i]:
+//
+//   \a 7  \b 8  \t 9  \n 10  \v 11  \f 12  \r 13  \" 34  \' 39  \? 63  \\ 92
+//
+// spec_words: the counted specifier words, in the slot order sp uses.
+//
+// prim_names/prim_sizes/prim_signs: the sixteen canonical prim types every C
+// combination collapses onto, their LP64 sizes (long and long long are both
+// 8), and 1 where the type is signed. Plain `char` is signed on x86-64, which
+// is the only place that matters.
 int ch_dq = 34;
 int ch_sq = 39;
 int ch_nl = 10;
 int ch_eof = 0;
 int tree_depth = 5;
 int funcs_per_file = 3;
+string[] op_names = ["||", "&&", "|", "^", "&", "==", "!=", "<", ">", "<=", ">=", "<<", ">>", "+", "-", "*", "/", "%"];
+int[] op_levels = [0, 1, 2, 3, 4, 5, 5, 6, 6, 6, 6, 7, 7, 8, 8, 9, 9, 9];
+string[] esc_chars = ["a", "b", "t", "n", "v", "f", "r", "\"", "'", "?", "\\"];
+int[] esc_vals = [7, 8, 9, 10, 11, 12, 13, 34, 39, 63, 92];
+string[] spec_words = ["void", "char", "short", "int", "long", "float", "double", "signed", "unsigned", "_Bool"];
+string[] prim_names = ["void", "_Bool", "char", "signed char", "unsigned char", "short", "unsigned short", "int", "unsigned int", "long", "unsigned long", "long long", "unsigned long long", "float", "double", "long double"];
+int[] prim_sizes = [0, 1, 1, 1, 1, 2, 2, 4, 4, 8, 8, 8, 8, 4, 8, 16];
+int[] prim_signs = [0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1];

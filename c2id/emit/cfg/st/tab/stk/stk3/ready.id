@@ -1,0 +1,9 @@
+// A body with a loop target already pushed (break=100, continue=200), for
+// the pop half of the break/continue stacks: pop() traps on an empty list,
+// and nothing in cfg_body_fixture opens a loop or switch to push one.
+loop_ready_fixture() {
+  cfg_body_fixture();
+  push_loop(100, 200);
+} return void;
+():() then brk_top:(100)
+():() then cont_top:(200)

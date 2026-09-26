@@ -8,14 +8,20 @@ bad_advance(int[] pos) {
   advance(pos);
   int id = newleaf("num", 0, 0, "0", "");
 } return int id;
+given boot_a given lexfix stdin ";" ([0]):(0)
+given boot_a given lexfix stdin "x" ([0]):(0)
 
 const_tail(int[] pos, string kind, string s) {
   advance(pos);
   int val = const_val(kind, s);
   int id = newleaf("num", val, 0, s, "");
 } return int id;
+given boot_a given lexfix stdin "42;" ([0], "num", "42"):(0) then a0_of:(42)
+given boot_a given lexfix stdin "a;" ([0], "chr", "a"):(0) then a0_of:(97)
 
 idx_close(int[] pos, int a, int b) {
   advance(pos);
   int id = newleaf("idx", a, b, "", "");
 } return int id;
+given boot_a given lexfix stdin "];" ([0], 0, 1):(0)
+given boot_a given lexfix stdin "];" ([0], 2, 3):(0)

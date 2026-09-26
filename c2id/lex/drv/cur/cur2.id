@@ -7,10 +7,14 @@ nxt_text(int[] pos) {
     txt = (import ttext)[pos[0] + 1];
   }
 } return string txt;
+given lex_tok_fixture ([0]):("+")
+given lex_tok_fixture ([1]):("")
 
 advance(int[] pos) {
   pos[0] = pos[0] + 1;
 } return void;
+([0]):([1])
+([5]):([6])
 
 at_text(int[] pos, string s) {
   int ok = 0;
@@ -18,3 +22,5 @@ at_text(int[] pos, string s) {
     ok = 1;
   }
 } return int ok;
+given lex_tok_fixture ([0], "x"):(1)
+given lex_tok_fixture ([0], "y"):(0)

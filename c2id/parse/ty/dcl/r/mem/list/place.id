@@ -7,12 +7,16 @@ mem_anon(int ty, int[] lay, int inner) {
     splice(ty, lay, inner);
   }
 } return void;
+given tynode_fix given ty_setup (1, [0, 0, 1], 5):(1, [792, 99, 24]) then calls splice_align:([792, 99, 24], 5)
+given tynode_fix given ty_setup (1, [5, 0, 2], 0):(1, [5, 0, 2])
 
 place(int ty, int[] lay, int r, string name, int w) {
   splice_align(lay, r);
   int n = place_at(ty, lay, r, w);
   sy_push(ty, name, r, n, w);
 } return void;
+given tynode_fix given ty_setup (1, [0, 0, 0], 0, "x", -1):(1, [32, 4, 4]) then calls sy_push:(1, "x", 0, 0, -1)
+given tynode_fix given ty_setup (1, [10, 0, 0], 0, "y", 0):(1, [32, 4, 4]) then calls sy_push:(1, "y", 0, 32, 0)
 
 place_at(int ty, int[] lay, int r, int w) {
   int n = 0;
@@ -22,3 +26,5 @@ place_at(int ty, int[] lay, int r, int w) {
     n = place_bf(ty, lay, r, w);
   }
 } return int n;
+given tynode_fix (1, [3, 0, 0], 0, -1):(32) then calls place_ws:(1, [64, 4, 0], 0)
+given tynode_fix (1, [10, 0, 0], 0, 0):(32) then calls place_bf:(1, [32, 4, 0], 0, 0)

@@ -9,6 +9,8 @@ spec_td(int[] pos, int[] sp) {
     ok = spec_td_apply(pos, sp);
   }
 } return int ok;
+given typedef_x_fix given lexfix stdin "foo x" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)
+given ty_setup given lexfix stdin "xyz" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)
 
 has_base(int[] sp) {
   int n = sp[0] + sp[1] + sp[2] + sp[3] + sp[4] + sp[5] + sp[6] + sp[9];
@@ -17,6 +19,8 @@ has_base(int[] sp) {
     ok = 1;
   }
 } return int ok;
+([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)
+([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5]):(1)
 
 spec_type(int[] sp) {
   int r = sp[10];
@@ -24,3 +28,5 @@ spec_type(int[] sp) {
     r = mk_prim(sp);
   }
 } return int r;
+given boot_a ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5]):(5)
+given boot_a ([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, -1]):(0)

@@ -9,6 +9,8 @@ decl_comment(int id, int off) {
   int sz = type_size(b);
   string s = "// " + s_of(id) + ": fp + " + off + ", " + sz + " bytes";
 } return string s;
+given txt_fixture (0, 8):("// int: fp + 8, 4 bytes")
+given txt_fixture (5, 0):("// : fp + 0, 4 bytes")
 
 // The store itself, once there is an initialiser.
 decl_store(int id, int off) {
@@ -16,3 +18,5 @@ decl_store(int id, int off) {
   string exa = a_ex(id);
   string s = store_txt(b, "fp + " + off, exa) + ";";
 } return string s;
+given txt_fixture (0, 0):("poke32(fp + 0, NEEDS_CFG_prim);")
+given txt_fixture (0, 16):("poke32(fp + 16, NEEDS_CFG_prim);")

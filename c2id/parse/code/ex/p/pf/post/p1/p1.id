@@ -8,6 +8,8 @@ parse_postfix(int[] pos) {
   int a = parse_primary(pos);
   int id = postfix_tail(pos, a);
 } return int id;
+given boot_a given lexfix stdin "1;" ([0]):(0)
+given boot_a given lexfix stdin "x;" ([0]):(0)
 
 // Public: paren_expr re-enters here after `(expr)`, so `(*p)[i]` works.
 postfix_tail(int[] pos, int a) {
@@ -15,6 +17,8 @@ postfix_tail(int[] pos, int a) {
     a = postfix_one(pos, a);
   }
 } return int a;
+given boot_a given lexfix stdin ";" ([0], 0):(0) then calls postfix_one:[0]
+given boot_a given lexfix stdin "();" ([0], 0):(0) then calls postfix_one:[1]
 
 is_postfix_start(string s) {
   int ok = 0;
@@ -22,3 +26,5 @@ is_postfix_start(string s) {
     ok = 1;
   }
 } return int ok;
+("("):(1)
+(")"):(0)

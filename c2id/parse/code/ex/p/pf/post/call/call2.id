@@ -5,6 +5,8 @@ skip_comma(int[] pos) {
     advance(pos);
   }
 } return void;
+given boot_a given lexfix stdin "," ([0]):([1])
+given boot_a given lexfix stdin ";;" ([0]):([0])
 
 // a[i] -- the index is a full expression, commas and all: `a[i, j]` is legal C.
 parse_index(int[] pos, int a) {
@@ -12,6 +14,8 @@ parse_index(int[] pos, int a) {
   int b = parse_expr(pos);
   int id = idx_close(pos, a, b);
 } return int id;
+given boot_a given lexfix stdin "1]" ([0], 0):(1)
+given boot_a given lexfix stdin "i]" ([0], 5):(1)
 
 // x++ / x-- . Kind `post` rather than `un`, which is how the emitter tells
 // `*p++` (post) from `++*p` (un).
@@ -20,3 +24,5 @@ post_incdec(int[] pos, int a) {
   advance(pos);
   int id = newleaf("post", a, 0, op, "");
 } return int id;
+given boot_a given lexfix stdin "++" ([0], 0):(0)
+given boot_a given lexfix stdin "--" ([0], 0):(0)

@@ -3,6 +3,8 @@
 ult_txt(string s, string out) {
   string txt = name_val("ult(" + s + ", " + out + ")");
 } return string txt;
+given pend_setup ("A", "B"):("t0")
+given pend_setup ("C", "D"):("t0")
 
 // `id` has no `!`, so "not less than" is "the comparison came out 0".
 ucmp_neg(string s, string op) {
@@ -11,3 +13,5 @@ ucmp_neg(string s, string op) {
     out = "(" + s + " == 0)";
   }
 } return string out;
+("X", "<"):("X")
+("X", "<="):("(X == 0)")

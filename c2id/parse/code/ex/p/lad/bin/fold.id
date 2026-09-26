@@ -8,19 +8,25 @@ fold_bin(int[] pos, int lvl, int left) {
   advance(pos);
   int id = bin_node(pos, lvl, left, op);
 } return int id;
+given boot_a given lexfix stdin "+ 2" ([0], 8, 0):(1)
+given boot_a given lexfix stdin "- 3" ([0], 8, 5):(1)
 
 // The precedence level of a binary operator token, or -1 for anything else --
 // so `)`, `;`, `?`, `:` and `,` all fall out of the ladder on their own.
 op_level(string s) {
-  string[] ops = op_names();
+  string[] ops = (import op_names);
   int i = find_op(ops, s);
   int n = level_at(i);
 } return int n;
+("+"):(8)
+(")"):(-1)
 
 level_at(int i) {
-  int[] lvls = op_levels();
+  int[] lvls = (import op_levels);
   int n = 0 - 1;
   if(i >= 0) {
     n = lvls[i];
   }
 } return int n;
+(-1):(-1)
+(13):(8)

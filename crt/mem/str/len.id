@@ -5,6 +5,8 @@ c_strlen(word s) {
     n = n + 1;
   }
 } return word n;
+given crt_str_fixture ((import cs)):(2)
+given crt_str_fixture ((import cs0)):(0)
 
 // strcpy: the NUL is part of the payload, hence the + 1.
 c_strcpy(word dst, word src) {
@@ -12,6 +14,8 @@ c_strcpy(word dst, word src) {
   word bound = n + 1;
   word x = c_memcpy(dst, src, bound);
 } return word x;
+given idstd_buf_t_setup given crt_str_fixture ((import buf_ad), (import cs)):((import buf_ad)) then idstd_buf_t_sum:(254)
+given idstd_buf_t_setup given crt_str_fixture ((import buf_ad), (import cs0)):((import buf_ad)) then idstd_buf_t_sum:(63)
 
 // "index i is still worth looking at", i.e. the byte before it was not the
 // terminator. Shared by strncmp and strchr so that both stop *after* having
@@ -22,3 +26,5 @@ s_more(word s, word i) {
     go = 0;
   }
 } return int go;
+given crt_str_fixture ((import cs), 0):(1)
+given crt_str_fixture ((import cs), 3):(0)

@@ -11,11 +11,15 @@ opt_expr(int[] pos, string term) {
   }
   advance(pos);
 } return int a;
+given boot_a given ty_setup given lexfix stdin ";" ([0], ";"):(-1)
+given boot_a given ty_setup given lexfix stdin "1;" ([0], ";"):(0) then calls parse_expr:[1]
 
 case_close(int[] pos, int a) {
   advance(pos);
   int id = newleaf("case", a, 0, "", "");
 } return int id;
+given boot_a given lexfix stdin ";" ([0], 0):(0)
+given boot_a given lexfix stdin " ;" ([0], 0):(0)
 
 // parse_for: advance;advance already fills its own budget, leaving no room
 // to name the call it must return.
@@ -23,3 +27,5 @@ for_head(int[] pos) {
   int[] l = for_init(pos);
   int id = for_cond(pos, l);
 } return int id;
+given boot_a given ty_setup given lexfix stdin ";;;;" ([0]):(3) then calls for_init:[1]
+given boot_a given ty_setup given lexfix stdin "1;;;;" ([0]):(5) then calls for_init:[1]

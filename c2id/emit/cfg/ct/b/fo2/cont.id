@@ -8,8 +8,12 @@ fo_test2(int id, int nxt, int blk, int alt, int a) {
   }
   set_cur(blk);
 } return void;
+given walk_ast_fixture ((import wforid), 0, 0, 0, -1):() then cur_blk:(0)
+given walk_ast_fixture ((import wforid), 0, 0, 0, 5):() then term0:("cond") then succ0:(0) then alt0:(0) then expr0:(5)
 
 fo_walk2(int id, int nxt, int stp, int alt) {
   loop_close(stp, alt);
   fo_step(id, nxt, stp);
 } return void;
+given loop_pushed_fixture ((import did), 0, 5, 0):() then calls loop_close:[1] then calls fo_step:[1]
+given loop_pushed_fixture ((import did), 0, 5, 0):() then calls fo_step:[1]

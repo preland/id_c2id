@@ -1,0 +1,27 @@
+// A reader for `then`, since bset's only effect is a poke64 (docs/TESTS.md:
+// "a check reads state only through a function", and bsize/bused cannot be
+// `then` checks themselves because a check takes no parameters and both take
+// the header address).
+h0_word() {
+  word x = peek64((import h0));
+} return word x;
+given crt_heap_fixture ():(64)
+given crt_heap_fixture2 ():(129)
+
+// The back-link word, one place over from the size/flag word.
+h0_prev() {
+  word x = peek64((import h0) + 8);
+} return word x;
+given crt_heap_fixture ():(0)
+given crt_heap_fixture2 ():(0)
+
+// A heap split into two real blocks (h0, 32 bytes; h1, 32 bytes), for the
+// free-list walkers (walk_next, coalescing) that a single-block heap cannot
+// exercise.
+crt_heap_fixture4() {
+  crt_heap_fixture();
+  split_blk((import h0), 32);
+  export word h1 = (import h0) + 32;
+} return void;
+():() then prints:("")
+():() then eprints:("")

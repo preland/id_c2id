@@ -6,12 +6,16 @@ ident_end(word base, int i) {
     i = i + 1;
   }
 } return int i;
+given lex_src_fixture ((import gb), 0):(4)
+given lex_src_fixture ((import gb), 4):(4)
 
 digit_end(word base, int i) {
   while(is_digit_at(base, i)) {
     i = i + 1;
   }
 } return int i;
+given lex_src_fixture ((import gb), 0):(2)
+given lex_src_fixture ((import gb), 4):(4)
 
 // Index of the LF that ends this line (or of the end of input). The LF
 // itself is not consumed, so the ordinary whitespace path counts it.
@@ -20,3 +24,5 @@ eol_pos(word base, int i) {
     i = i + 1;
   }
 } return int i;
+given lex_src_fixture ((import gb), 0):(14)
+given lex_src_fixture ((import gb), 23):(31)

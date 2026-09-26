@@ -8,6 +8,8 @@ parse_unary2(int[] pos) {
     node = parse_unary3(pos);
   }
 } return int node;
+given boot_a given lexfix stdin "++x;" ([0]):(1) then calls pre_incdec:[1]
+given boot_a given lexfix stdin "x;" ([0]):(0) then calls parse_unary3:[1]
 
 is_incdec(string s) {
   int ok = 0;
@@ -15,6 +17,9 @@ is_incdec(string s) {
     ok = 1;
   }
 } return int ok;
+("++"):(1)
+("--"):(1)
+("x"):(0)
 
 // C says the operand of a prefix ++/-- is a unary-expression, not a
 // cast-expression -- `++(int)x` is not C. That single difference from
@@ -24,3 +29,5 @@ pre_incdec(int[] pos) {
   advance(pos);
   int id = incdec_node(pos, op);
 } return int id;
+given boot_a given lexfix stdin "++x;" ([0]):(1)
+given boot_a given lexfix stdin "--y;" ([0]):(1)

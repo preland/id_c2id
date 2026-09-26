@@ -11,11 +11,17 @@
 slice(word base, int a, int b) {
   string s = str_of_mem(base + a, b - a);
 } return string s;
+given lex_src_fixture ((import gb), 0, 4):("12ab")
+given lex_src_fixture ((import gb), 23, 25):("#5")
 
 sub2(word base, int i) {
   string s = str_of_mem(base + i, 2);
 } return string s;
+given lex_src_fixture ((import gb), 0):("12")
+given lex_src_fixture ((import gb), 32):("->")
 
 sub3(word base, int i) {
   string s = str_of_mem(base + i, 3);
 } return string s;
+given lex_src_fixture ((import gb), 0):("12a")
+given lex_src_fixture ((import gb), 36):("<<=")

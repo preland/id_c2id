@@ -17,15 +17,21 @@ ty_setup() {
   ty_init1();
   ty_init2();
 } return void;
+():() then decl_name:("")
+():() then calls ty_init2:()
 
 ty_init1() {
   export string[] tynames = [];
   export int[] tyids = [];
   ty_init3();
 } return void;
+():() then calls ty_init3:()
+():() then calls ty_init4:()
 
 ty_init2() {
   export string[] synames = [];
   export int[] syoff = [];
   export int[] sysz = [];
 } return void;
+():() then prints:("")
+given ty_setup ():() then prints:("")

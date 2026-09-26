@@ -11,6 +11,8 @@ un_txt(int id) {
     s = un2(id);
   }
 } return string s;
+given txt_fixture given pend_setup (0):("t0") then calls un2:(0)
+given txt_fixture given pend_setup (5):("t0") then calls un2:(5)
 
 // `&x` is the frame address and nothing else. Parenthesised for the same
 // reason val_txt parenthesises a decayed array: `&b - &a` must not read
@@ -24,6 +26,8 @@ un2(int id) {
     s = un3(id);
   }
 } return string s;
+given txt_fixture given pend_setup (0):("t0") then calls un3:(0)
+given txt_fixture given pend_setup (5):("t0") then calls un3:(5)
 
 // `id` has no `!`. C's is "compare against zero", which is what this is.
 un3(int id) {
@@ -35,3 +39,5 @@ un3(int id) {
     s = un4(id);
   }
 } return string s;
+given txt_fixture given pend_setup (0):("t0") then calls un4:(0)
+given txt_fixture given pend_setup (5):("t0") then calls un4:(5)

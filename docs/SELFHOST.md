@@ -66,11 +66,7 @@ of a position in a concatenated blob — which is worth having on its own.
 
 ## Order of work
 
-1. **Syntax coverage** — done for the lexer (`word`, `<< >>`, hex literals),
-   in progress for the parser (the bitwise precedence levels, `~`, the `word`
-   type through the type pass and emitter, the new builtins). Until this
-   lands, nothing in `linux_id` exercises the self-hosted path at all: every
-   build falls back, so "using `bin/idc`" silently means running `idc.py`.
+1. ~~**Syntax coverage**~~ — done. `bin/idc` has no `idc.py` fallback any more.
 2. **Action limit and nesting depth.** The two rules that most define the
    language, both pure tree walks over the parsed function, needing no type
    information. Highest value per unit of work, and the ones that keep

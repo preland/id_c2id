@@ -2,3 +2,21 @@ spec_td_find(int[] pos) {
   string txt = cur_text(pos);
   int ty = ty_find(txt);
 } return int ty;
+given ty_setup given lexfix stdin "foo" ([0]):(-1)
+given typedef_x_fix given lexfix stdin "foo" ([0]):(5)
+
+// A typedef table with one real entry, for is_typedef's true branch.
+typedef_x_fix() {
+  ty_setup();
+  ty_add("foo", 5);
+} return void;
+():() then calls ty_add:("foo", 5)
+():() then calls ty_setup:()
+
+// The node registered for "foo" specifically, for ty_add's own cases (a
+// zero-argument witness of what a literal-argument push actually left).
+check_foo_ty() {
+  int r = ty_find("foo");
+} return int r;
+given ty_setup ():(-1)
+given typedef_x_fix ():(5)

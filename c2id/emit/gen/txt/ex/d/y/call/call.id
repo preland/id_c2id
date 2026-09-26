@@ -16,6 +16,8 @@ call_txt(int id) {
   string s = call_head(id);
   string out = call_wrap(s, id);
 } return string out;
+given txt_fixture given pend_setup (0):("t0") then calls call_wrap:("crt_call", 0)
+given txt_fixture given pend_setup (5):("t0") then calls call_wrap:("crt_call", 5)
 
 args_txt(int[] ids) {
   string out = "";
@@ -25,6 +27,8 @@ args_txt(int[] ids) {
     i = i + 1;
   }
 } return string out;
+given txt_fixture ([]):("")
+given txt_fixture ([0, 1]):("NEEDS_CFG_prim, NEEDS_CFG_prim")
 
 // `x = e` is a store, and the store's width truncates for free -- poke8 of
 // 300 leaves 44 behind, which is what C's conversion to char does. A compound
@@ -41,3 +45,5 @@ assign_txt(int id) {
     s = assign_comp(id, head);
   }
 } return string s;
+given txt_fixture given pend_setup (0):("poke32(NOT_AN_LVALUE_prim, t0)") then calls assign_comp:(0, "in")
+given txt_fixture given pend_setup (5):("poke32(NOT_AN_LVALUE_prim, t0)") then calls assign_comp:(5, "")

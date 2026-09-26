@@ -10,6 +10,8 @@ thread_blk(int b) {
     n = n + 1;
   }
 } return int b;
+given cfg_body_fixture (0):(0)
+given cfg_body_fixture (1):(1)
 
 // A cycle made only of empty jumps (`for (;;);`) leads nowhere else, so its
 // blocks are still emitted.
@@ -19,8 +21,12 @@ skip_blk(int b) {
     ok = threads_away(b);
   }
 } return int ok;
+given cfg_body_fixture (0):(0) then calls is_dead:(0)
+given cfg_body_fixture (1):(1) then calls is_dead:(1)
 
 threads_away(int b) {
   int dest = thread_blk(b);
   int ok = 1 - empty_jump(dest);
 } return int ok;
+given cfg_body_fixture (0):(1) then calls thread_blk:(0)
+given cfg_body_fixture (1):(1) then calls thread_blk:(1)

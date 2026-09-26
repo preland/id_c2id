@@ -3,3 +3,5 @@
 lgetw(word[] xs, int k) {
   word v = xs[k];
 } return word v;
+([10, 20, 30], 1):(20)
+([5], 0):(5)

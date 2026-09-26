@@ -1,0 +1,31 @@
+// Taking the last temporary back, and printing the rest.
+
+unname_pop(int k) {
+  pop((import pend));
+  string out = pop((import pendc));
+  lset((import pendn), 0, k);
+} return string out;
+given pend_setup given pend_grow_fixture (0):("x")
+given pend_setup given pend_grow_fixture (5):("x")
+
+// Printed in the order they were named, then forgotten. The counter is not
+// reset here, so a later statement in the same block cannot reuse a name.
+flush_pend() {
+  int i = 0;
+  while(i < len((import pend))) {
+    print("  " + (import pend)[i]);
+    i = i + 1;
+  }
+  pend_clear();
+} return void;
+given pend_setup given pend_grow_fixture ():() then prints:("  word t0 = x;\n")
+given pend_setup ():() then prints:("")
+
+pend_clear() {
+  while(len((import pend)) > 0) {
+    pop((import pend));
+    pop((import pendc));
+  }
+} return void;
+given pend_setup given pend_grow_fixture ():() then pend_len:(0)
+given pend_setup ():() then pend_len:(0)

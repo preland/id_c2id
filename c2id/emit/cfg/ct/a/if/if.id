@@ -17,12 +17,16 @@ do_if(int id) {
   int alt = new_block();
   ifs_cond(id, nxt, alt);
 } return void;
+given walk_ast_fixture ((import wifid)):() then term0:("cond") then succ0:(1) then alt0:(2)
+given walk_ast_fixture ((import wifid)):() then cfg_nblocks:(4)
 
 ifs_cond(int id, int nxt, int alt) {
   int blk = cur_blk();
   int a = a_of(id);
   ifs_cond2(id, nxt, alt, blk, a);
 } return void;
+given walk_ast_fixture ((import wifid), 0, 0):() then term0:("jmp") then succ0:(1) then cur_blk:(1)
+given walk_ast_fixture ((import wifid), 0, 0):() then cfg_nblocks:(2)
 
 // cur_blk() is read *after* the branch is walked: the branch may have ended
 // somewhere else entirely (a nested if, a loop, a return), and it is that
@@ -32,3 +36,5 @@ ifs_then(int id, int alt) {
   walk_list(l);
   ifs_then2(id, alt);
 } return void;
+given walk_ast_fixture ((import wifid), 0):() then term0:("jmp") then succ0:(1) then cur_blk:(1)
+given walk_ast_fixture ((import wifid), 0):() then cfg_nblocks:(2)

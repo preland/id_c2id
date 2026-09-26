@@ -6,3 +6,5 @@ ptr_off2_sz(int a) {
   int ety = elem_ty(ty);
   int sz = type_size(ety);
 } return int sz;
+given txt_fixture (0):(4) then calls ex_ty:(0)
+given txt_fixture (5):(4) then calls ex_ty:(5)

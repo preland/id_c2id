@@ -11,3 +11,5 @@ more_digits(string s, int i, int radix) {
     ok = d >= 0 && d < radix;
   }
 } return int ok;
+("42", 0, 10):(1)
+("42", 2, 10):(0)

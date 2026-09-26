@@ -17,6 +17,8 @@ walk_list(int[] ids) {
     i = i + 1;
   }
 } return void;
+given walk_ast_fixture ([]):() then calls walk_stmt:[0]
+given walk_ast_fixture ([0]):() then calls walk_stmt:[1]
 
 walk_stmt(int id) {
   if(k_of(id) == "block") {
@@ -26,6 +28,8 @@ walk_stmt(int id) {
     walk_stmt2(id);
   }
 } return void;
+given walk_ast_fixture (7):() then calls walk_list:[1]
+given walk_ast_fixture (5):() then calls walk_stmt2:[1]
 
 walk_stmt2(int id) {
   if(k_of(id) == "if") {
@@ -34,3 +38,5 @@ walk_stmt2(int id) {
     walk_stmt3(id);
   }
 } return void;
+given walk_ast_fixture (8):() then calls do_if:[1]
+given walk_ast_fixture (5):() then calls walk_stmt3:[1]

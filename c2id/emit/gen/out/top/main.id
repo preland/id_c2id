@@ -9,6 +9,8 @@ main(int argc, string[] argv) {
   boot_b();
   run();
 } return int 0;
+stdin "int x;" (0, []):(0) then calls parse_one:[1]
+stdin "" (0, []):(0) then calls parse_one:[0]
 
 // Every stage keeps its own exported lists and none of the init functions call
 // each other, so all fourteen have to be named somewhere. Three actions to a
@@ -18,9 +20,13 @@ boot_a() {
   init_nodes2();
   init_nodes3();
 } return void;
+():() then calls init_nodes:()
+():() then calls init_nodes3:()
 
 run() {
   string src = read_all();
   lex_all(src);
   drive();
 } return void;
+given boot_a given boot_b stdin "int x;" ():() then calls parse_one:[1]
+given boot_a given boot_b stdin "" ():() then calls parse_one:[0]

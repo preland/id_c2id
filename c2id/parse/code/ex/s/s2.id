@@ -12,6 +12,8 @@ es4(int id) {
     s = "(" + expr_str(ty) + t_of(id) + s_of(id) + ")";
   }
 } return string s;
+given boot_a given exprfix stdin "x[1];" ((import extop)):("(x[1])")
+given boot_a given exprfix stdin "x.y;" ((import extop)):("(x.y)")
 
 // A cast prints its type as `t<node id>`: types belong to parse/ty/, and this
 // module deliberately does not reach into them.
@@ -26,6 +28,8 @@ es5(int id) {
     s = "(cast " + type_ref(b) + " " + expr_str(a) + ")";
   }
 } return string s;
+given boot_a given exprfix stdin "f(1);" ((import extop)):("f(1)")
+given boot_a given ty_setup given exprfix stdin "(int)1;" ((import extop)):("(cast t0 1)")
 
 es6(int id) {
   string s = es7(id);
@@ -36,3 +40,5 @@ es6(int id) {
     s = sizeof_str(id);
   }
 } return string s;
+given boot_a given exprfix stdin "1 ? 2 : 3;" ((import extop)):("(1 ? 2 : 3)")
+given boot_a given exprfix stdin "sizeof x;" ((import extop)):("sizeof(x)")

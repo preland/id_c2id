@@ -7,3 +7,5 @@ label_close(int[] pos, string name) {
   advance(pos);
   int id = newleaf("label", 0, 0, name, "");
 } return int id;
+given boot_a given lexfix stdin ";" ([0], "x"):(0)
+given boot_a given lexfix stdin " ;" ([0], "y"):(0)

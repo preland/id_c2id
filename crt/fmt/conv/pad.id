@@ -8,6 +8,8 @@ pad_out(string t, word[] fs) {
     txt = zero_pad(t, k);
   }
 } return string txt;
+("ab", [0, 0, 1, 5]):("000ab")
+("ab", [0, 0, 0, 5]):("   ab")
 
 // Pad with spaces, on the right if '-' was given and on the left otherwise.
 // Also the whole of the padding rule for %s and %c: glibc pads those with
@@ -19,9 +21,13 @@ pad_str(string t, word[] fs) {
     txt = t + rep_ch(" ", k);
   }
 } return string txt;
+("ab", [0, 0, 0, 5]):("   ab")
+("ab", [0, 1, 0, 5]):("ab   ")
 
 // How many pad characters are wanted. Negative means the text is already
 // wider than the field, and rep_ch turns that into no padding at all.
 pad_n(string t, word[] fs) {
   int k = fs[3] - len(t);
 } return int k;
+("ab", [0, 0, 0, 5]):(3)
+("abcdef", [0, 0, 0, 3]):(-3)

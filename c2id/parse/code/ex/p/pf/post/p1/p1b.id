@@ -7,3 +7,5 @@ at_postfix_start(int[] pos) {
   string s = cur_text(pos);
   int ok = is_postfix_start(s);
 } return int ok;
+given boot_a given lexfix stdin "(" ([0]):(1)
+given boot_a given lexfix stdin ";" ([0]):(0)

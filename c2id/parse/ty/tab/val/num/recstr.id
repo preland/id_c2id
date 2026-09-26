@@ -7,6 +7,8 @@ ts_rec(int ty) {
     s = ts_su(ty);
   }
 } return string s;
+given tynode_fix (5):("struct point{99}")
+given tynode_fix (0):("?")
 
 ts_su(int ty) {
   string s = "union ";
@@ -15,3 +17,5 @@ ts_su(int ty) {
   }
   string out = s + s_of(ty) + "{" + a_of(ty) + "}";
 } return string out;
+given tynode_fix (5):("struct point{99}")
+given tynode_fix (3):("union {0}")

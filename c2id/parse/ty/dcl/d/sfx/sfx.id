@@ -9,12 +9,16 @@ ty_suffix2(int[] pos, int inner) {
     r = fn_suffix(pos, inner);
   }
 } return int r;
+given boot_a given lexfix stdin "x" ([0], 0):(0)
+given boot_a given lexfix stdin "( )" ([0], 0):(0) then calls fn_suffix:([2], 0)
 
 arr_suffix(int[] pos, int inner) {
   advance(pos);
   int n = arr_count(pos);
   int r = arr_make(pos, inner, n);
 } return int r;
+given boot_a given lexfix stdin "[ 3 ]" ([0], 0):(0) then calls newleaf:("arr", 0, 3, "", "")
+given boot_a given lexfix stdin "[ ]" ([0], 0):(0) then calls newleaf:("arr", 0, -1, "", "")
 
 // an unspecified bound, `[]`, is recorded as -1
 arr_count(int[] pos) {
@@ -24,3 +28,5 @@ arr_count(int[] pos) {
   }
   skip_tok(pos, "]");
 } return int n;
+given lexfix stdin "3 ]" ([0]):(3)
+given lexfix stdin "]" ([0]):(-1)

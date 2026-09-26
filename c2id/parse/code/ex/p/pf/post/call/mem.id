@@ -6,13 +6,19 @@ parse_member(int[] pos, int a) {
   advance(pos);
   int id = member_tail(pos, a, op);
 } return int id;
+given boot_a given lexfix stdin ".x;" ([0], 0):(0)
+given boot_a given lexfix stdin "->y;" ([0], 5):(0)
 
 member_tail(int[] pos, int a, string op) {
   string name = cur_text(pos);
   int id = member_node(pos, a, op, name);
 } return int id;
+given boot_a given lexfix stdin "b;" ([0], 0, "."):(0)
+given boot_a given lexfix stdin "x;" ([0], 5, "->"):(0)
 
 member_node(int[] pos, int a, string op, string name) {
   advance(pos);
   int id = newleaf("mem", a, 0, name, op);
 } return int id;
+given boot_a given lexfix stdin "b;" ([0], 0, ".", "b"):(0)
+given boot_a given lexfix stdin "x;" ([0], 5, "->", "x"):(0)

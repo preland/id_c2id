@@ -5,6 +5,8 @@ scan_flags(word fmt, word[] st, word[] fs) {
     c = peek8(fmt + st[0]);
   }
 } return void;
+given crt_fmt_fixture ((import fmtbuf), [0], [0, 0, 0, 0, 0]):((import fmtbuf), [2], [0, 1, 1, 0, 0])
+given crt_fmt_fixture ((import fmtbuf), [2], [0, 0, 0, 0, 0]):((import fmtbuf), [2], [0, 0, 0, 0, 0])
 
 // '-' and '0'. C's other flags ('+', ' ', '#') are not implemented; they are
 // not recognised here, so they fall through to the conversion character and
@@ -15,8 +17,12 @@ is_flag(word c) {
     go = 1;
   }
 } return int go;
+(45):(1)
+(100):(0)
 
 take_flag(word c, word[] st, word[] fs) {
   set_flag(c, fs);
   wset(st, 0, st[0] + 1);
 } return void;
+(45, [0], [0, 0, 0, 0, 0]):(45, [1], [0, 1, 0, 0, 0])
+(48, [0], [0, 0, 0, 0, 0]):(48, [1], [0, 0, 1, 0, 0])

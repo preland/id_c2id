@@ -2,3 +2,38 @@ ts_fn_params(int ty) {
   int[] ids = l_of(ty);
   string txt = ts_params(ids);
 } return string txt;
+given tynode_fix (4):("int")
+given tynode_fix (2):("")
+
+// A record (node 1) with one real member-table row ("x", type node 0, byte
+// offset 2), for mem_find/mem_hit/member_off/member_type's found branch; and
+// a second, empty record (node 2, no rows) to splice into, distinct from
+// node 1, so a splice case's own table growth is never the table it reads.
+mem_row_fix() {
+  boot_a();
+  ty_setup();
+  int mrf_p = newleaf("prim", 4, 1, "int", "");
+} chain () {
+  int[] mrf_none = [];
+  int mrf_ty = newnode("rec", 0, 0, "pt", "", mrf_none, [8, 0]);
+  sy_col1("x", mrf_p, 16);
+} chain () {
+  sy_col2(16, 2, 4);
+  int[] mrf_none2 = [];
+  int mrf_dst = newnode("rec", 0, 0, "box", "", mrf_none2, [8]);
+} return void;
+():() then calls sy_col1:("x", 0, 16)
+():() then calls newnode:("rec", 0, 0, "box", "", [], [8])
+
+// The last entry of node 1's m-list, a zero-argument witness of what
+// sy_row_m actually appended (m_of is mutated by reference; nothing else
+// reads it back for an arbitrary node).
+check_node1_mlast() {
+  int[] m = m_of(1);
+  int r = 0 - 1;
+  if(len(m) > 0) {
+    r = m[len(m) - 1];
+  }
+} return int r;
+given tynode_fix ():(-1)
+given mem_row_fix ():(0)

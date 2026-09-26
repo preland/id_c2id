@@ -1,0 +1,20 @@
+// A reader for curfile, the counterpart of ../../mk/top/state.id's
+// curline_now: `given`/`then` reach module state only through a function
+// that returns it, and nothing in the driver itself needed curfile back.
+// curfile_fixture calls set_file itself, on gb's own marker at index 23
+// ("#5 \"f.c\"\n" -- ../../ch/code/srcbuf.id's layout comment), so
+// curfile_now has a case showing what set_file actually stored.
+
+curfile_now() {
+  string s = (import curfile)[0];
+} return string s;
+given init_lines ():("")
+given curfile_fixture ():("f.c")
+
+curfile_fixture() {
+  init_lines();
+  lex_src_fixture();
+  set_file((import gb), 26, 31);
+} return void;
+():() then curfile_now:("f.c")
+():() then calls set_file:[1]

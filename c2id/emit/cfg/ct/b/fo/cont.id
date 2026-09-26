@@ -5,9 +5,13 @@ do_for2(int id) {
   int nxt = new_block();
   fo_cond(id, nxt);
 } return void;
+given walk_ast_fixture ((import wforid)):() then term0:("jmp") then succ0:(1)
+given walk_ast_fixture ((import wforid)):() then cfg_nblocks:(5)
 
 fo_cond2(int id, int nxt, int c) {
   term_jmp(c, nxt);
   int blk = new_block();
   fo_body(id, nxt, blk);
 } return void;
+given walk_ast_fixture ((import wforid), 0, 0):() then term0:("jmp") then succ0:(1)
+given walk_ast_fixture ((import wforid), 0, 0):() then cfg_nblocks:(4)

@@ -9,6 +9,8 @@ parse_sizeof(int[] pos) {
   advance(pos);
   int node = sizeof_arg(pos);
 } return int node;
+given boot_a given ty_setup given lexfix stdin "sizeof(int);" ([0]):(1) then calls sizeof_paren:[1]
+given boot_a given lexfix stdin "sizeof x;" ([0]):(1) then calls sizeof_expr:[1]
 
 sizeof_arg(int[] pos) {
   int node = 0;
@@ -18,8 +20,12 @@ sizeof_arg(int[] pos) {
     node = sizeof_expr(pos);
   }
 } return int node;
+given boot_a given ty_setup given lexfix stdin "(int);" ([0]):(1)
+given boot_a given lexfix stdin "x;" ([0]):(1)
 
 sizeof_paren(int[] pos) {
   advance(pos);
   int node = sizeof_body(pos);
 } return int node;
+given boot_a given ty_setup given lexfix stdin "sizeof(int);" ([0]):(3)
+given boot_a given ty_setup given lexfix stdin "sizeof(x);" ([0]):(1)

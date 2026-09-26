@@ -5,6 +5,8 @@ walk_stmt3(int id) {
     walk_stmt4(id);
   }
 } return void;
+given while_ast_fixture ((import wid)):() then calls do_while:[1]
+given walk_ast_fixture (5):() then calls walk_stmt4:[1]
 
 walk_stmt4(int id) {
   if(k_of(id) == "for") {
@@ -13,6 +15,8 @@ walk_stmt4(int id) {
     walk_stmt5(id);
   }
 } return void;
+given walk_ast_fixture (9):() then calls do_for:[1]
+given walk_ast_fixture (5):() then calls walk_stmt5:[1]
 
 walk_stmt5(int id) {
   if(k_of(id) == "dowhile") {
@@ -21,3 +25,5 @@ walk_stmt5(int id) {
     walk_stmt6(id);
   }
 } return void;
+given dowhile_ast_fixture ((import did)):() then calls do_dowhile:[1]
+given walk_ast_fixture (5):() then calls walk_stmt6:[1]

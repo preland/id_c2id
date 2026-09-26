@@ -1,0 +1,13 @@
+// What every function in emit/gen/txt needs before it can be called: the
+// node store (init_nodes*, via boot_a) and the emitter's own registries
+// (txt_setup). emit/gen/txt/README.md's interface table says txt_setup runs
+// "after init_nodes*()", and this is exactly that, with nothing else pulled
+// in -- ty_setup, init_frame and the CFG stores are a different lane's
+// setups, composed alongside this one with a second `given` where a case
+// needs them too.
+txt_fixture() {
+  boot_a();
+  txt_setup();
+} return void;
+():() then ty_int:(0)
+():() then ty_charp:(5)

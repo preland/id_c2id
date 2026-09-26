@@ -6,6 +6,8 @@ ts_arr(int ty) {
   string s = ts_a(ty);
   string out = "[" + txt + "]" + s;
 } return string out;
+given tynode_fix (3):("[3]int")
+given tynode_fix (2):("[0]int")
 
 ts_cnt(int n) {
   string s = "";
@@ -13,6 +15,8 @@ ts_cnt(int n) {
     s = "" + n;
   }
 } return string s;
+(5):("5")
+(-1):("")
 
 ts4(int ty) {
   string s = "";
@@ -22,3 +26,5 @@ ts4(int ty) {
     s = ts_rec(ty);
   }
 } return string s;
+given tynode_fix (4):("(int)->int")
+given tynode_fix (5):("struct point{99}")

@@ -6,3 +6,16 @@ usual2_r(int ty, int inner) {
   int pinner = promote_ty(inner);
   int r = usual3(pty, pinner);
 } return int r;
+given txt_fixture (0, 1):(1)
+given txt_fixture (0, 2):(2)
+
+// C's integer promotion: anything narrower than int arrives at an operator as
+// an int. This is why `(char)200 + (char)200` is 400 and not -112.
+promote_ty(int ty) {
+  int r = ty;
+  if(k_of(ty) == "prim" && type_size(ty) < 4) {
+    r = ty_int();
+  }
+} return int r;
+given txt_fixture (4):(0)
+given txt_fixture (2):(2)

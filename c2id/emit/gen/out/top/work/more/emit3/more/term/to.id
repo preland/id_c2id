@@ -6,6 +6,8 @@ emit_jump(int b) {
   int blk = thread_blk(dest);
   print("} return word " + blk + ";");
 } return void;
+given cond_body_fixture (0):() then prints:("} return word 3;\n")
+given cond_body_fixture (1):() then prints:("} return word 3;\n")
 
 jump_to(int b) {
   int blk = cfg_succ(b);
@@ -13,6 +15,8 @@ jump_to(int b) {
     blk = cond_const_to(b, blk);
   }
 } return int blk;
+given cond_body_fixture (0):(1) then calls cond_const_to:(0, 1)
+given cond_body_fixture (1):(3)
 
 // A literal 0 takes the false edge; any other literal the true one, as in C.
 cond_const_to(int b, int blk) {
@@ -21,3 +25,5 @@ cond_const_to(int b, int blk) {
     blk = cfg_alt(b);
   }
 } return int blk;
+given cond_body_fixture (0, 1):(1)
+given cond_body_fixture (0, 9):(9)

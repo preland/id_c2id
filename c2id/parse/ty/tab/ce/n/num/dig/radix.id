@@ -7,6 +7,8 @@ hex_start(string s) {
     i = 2;
   }
 } return int i;
+("0x1"):(2)
+("123"):(0)
 
 is_xch(int c) {
   int ok = 0;
@@ -14,6 +16,8 @@ is_xch(int c) {
     ok = 1;
   }
 } return int ok;
+(120):(1)
+(89):(0)
 
 radix_val(string s, int i, int n) {
   int v = 0;
@@ -22,3 +26,5 @@ radix_val(string s, int i, int n) {
     i = i + 1;
   }
 } return int v;
+("12", 0, 10):(12)
+("5", 0, 10):(5)

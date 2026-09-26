@@ -6,14 +6,20 @@
 sy_bpos(int j) {
   int off = (import syoff)[j] * 8 + (import sybit)[j];
 } return int off;
+given row_x_fix (0):(16)
+given row_x_fix (1):(25)
 
 rec_end(int[] pos, int ty, int[] lay) {
   advance(pos);
   skip_attrs(pos);
   rec_size(ty, lay);
 } return void;
+given tynode_fix given ty_setup given lexfix stdin "} x" ([0], 5, [10, 7, 8]):([1], 5, [10, 7, 8]) then calls rec_size:(5, [10, 7, 8])
+given tynode_fix given ty_setup given lexfix stdin "} __attribute__ ( x ) y" ([0], 5, [10, 7, 8]):([5], 5, [10, 7, 8]) then calls rec_size:(5, [10, 7, 8])
 
 rec_size(int ty, int[] lay) {
   rec_size_a(ty, lay);
   rec_size_b(ty, lay);
 } return void;
+given tynode_fix (5, [10, 7, 8]):(5, [10, 7, 8]) then calls rec_size_a:(5, [10, 7, 8])
+given tynode_fix (5, [10, 7, 8]):(5, [10, 7, 8]) then calls rec_size_b:(5, [10, 7, 8])

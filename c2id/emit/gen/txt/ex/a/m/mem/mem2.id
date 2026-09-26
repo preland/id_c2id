@@ -7,3 +7,5 @@ mem_off_at(int id) {
   string name = s_of(id);
   int off = member_off(r, name);
 } return int off;
+given txt_fixture (0):(-1) then calls rec_of:(0)
+given txt_fixture (5):(-1) then calls rec_of:(5)

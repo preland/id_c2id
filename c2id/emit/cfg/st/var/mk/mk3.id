@@ -5,6 +5,8 @@ cur_stmts() {
   int blk = cur_blk();
   int[] l = cfg_stmts(blk);
 } return int[] l;
+given cfg_body_fixture ():([])
+given cond_body_fixture ():([])
 
 // A statement with no control flow of its own just lands in the current
 // block: `expr`, `decl`, and anything the walker does not recognise.
@@ -12,6 +14,8 @@ add_stmt(int id) {
   int[] l = cur_stmts();
   push(l, id);
 } return void;
+given cfg_body_fixture (77):() then cur_stmts:([77])
+given cfg_body_fixture (5):() then cur_stmts:([5])
 
 // Top of a target stack, or -1 when the stack is empty -- which means a
 // `break` or `continue` outside any loop or switch, i.e. C that a front end
@@ -22,3 +26,5 @@ top_of(int[] xs) {
     blk = xs[len(xs) - 1];
   }
 } return int blk;
+([]):(-1)
+([3, 7]):(7)

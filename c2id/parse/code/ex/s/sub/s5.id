@@ -12,6 +12,8 @@ call_str(int id) {
     s = expr_str(a) + "(" + args_str(l) + ")";
   }
 } return string s;
+given boot_a given exprfix stdin "f(1);" ((import extop)):("f(1)")
+given boot_a given exprfix stdin "f();" ((import extop)):("f()")
 
 args_str(int[] ids) {
   string out = "";
@@ -21,6 +23,8 @@ args_str(int[] ids) {
     i = i + 1;
   }
 } return string out;
+given boot_a ([]):("")
+given boot_a given exprfix stdin "1, 2;" ([0, 1]):("1, 2")
 
 arg_sep(int i) {
   string s = "";
@@ -28,3 +32,5 @@ arg_sep(int i) {
     s = ", ";
   }
 } return string s;
+(0):("")
+(1):(", ")

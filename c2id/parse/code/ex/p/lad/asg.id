@@ -6,6 +6,8 @@ assign_tail(int[] pos, int left) {
   advance(pos);
   int id = assign_node(pos, left, op);
 } return int id;
+given boot_a given lexfix stdin "= 5;" ([0], 3):(1)
+given boot_a given lexfix stdin "+= x;" ([0], 7):(1)
 
 // The eleven C assignment operators. One `if` with one big boolean is a single
 // action however many terms it has.
@@ -15,6 +17,8 @@ is_assignop(string s) {
     ok = 1;
   }
 } return int ok;
+("="):(1)
+("=="):(0)
 
 // conditional-expression:
 //     logical-OR-expression
@@ -30,3 +34,5 @@ parse_cond(int[] pos) {
     node = cond_tail(pos, left);
   }
 } return int node;
+given boot_a given lexfix stdin "1" ([0]):(0)
+given boot_a given lexfix stdin "1 ? 2 : 3" ([0]):(3)

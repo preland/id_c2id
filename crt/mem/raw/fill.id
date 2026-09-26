@@ -5,11 +5,15 @@ c_memset(word dst, word v, word n) {
     i = set_byte(dst, v, i);
   }
 } return word dst;
+given idstd_buf_t_setup ((import buf_ad), 0, 4):((import buf_ad)) then idstd_buf_t_sum:(36)
+given idstd_buf_t_setup ((import buf_ad), 0, 0):((import buf_ad)) then idstd_buf_t_sum:(72)
 
 set_byte(word dst, word v, word i) {
   poke8(dst + i, v);
   word r = i + 1;
 } return word r;
+given idstd_buf_t_setup ((import buf_ad), 0, 0):(1) then idstd_buf_t_sum:(63)
+given idstd_buf_t_setup ((import buf_ad), 0, 7):(8) then idstd_buf_t_sum:(63)
 
 // The difference of two bytes, read as unsigned. It is both the value
 // memcmp/strcmp return and the "keep going" flag of their loops, which is
@@ -18,3 +22,5 @@ cmp_byte(word a, word b, word i) {
   word v = peek8(a + i);
   word r = v - peek8(b + i);
 } return word r;
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad2), 0):(6)
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad), 0):(0)

@@ -5,6 +5,8 @@ sizeof_expr(int[] pos) {
   int a = parse_unary(pos);
   int id = newleaf("sizeof", a, 0, "", "");
 } return int id;
+given boot_a given lexfix stdin "x;" ([0]):(1)
+given boot_a given lexfix stdin "!y;" ([0]):(2)
 
 // ../cast/lit.id's compound_lit: it already spends its 3-action budget on
 // scanning the initialisers, leaving no room to name the newlist()+newleaf()
@@ -13,3 +15,5 @@ lit_node(int ty, int[] ids) {
   int a = newlist("call", 0 - 1, 0, "", ids);
   int id = newleaf("cast", a, ty, "", "");
 } return int id;
+given boot_a (0, []):(1)
+given boot_a (0, [1, 2]):(1)

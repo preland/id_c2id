@@ -7,6 +7,8 @@ en_add(string name, int v) {
   push((import ecnames), name);
   push((import ecvals), v);
 } return void;
+given ty_setup ("answer", 42):() then check_answer_enum:(42)
+given ty_setup ("other", 7):() then check_answer_enum:(0)
 
 has_enum(string name) {
   int ok = 0;
@@ -14,6 +16,8 @@ has_enum(string name) {
     ok = 1;
   }
 } return int ok;
+given ty_setup ("answer"):(0)
+given answer_enum_fix ("answer"):(1)
 
 // the value of enumerator `name`, or 0 when there is no such enumerator --
 // callers that need to tell those apart ask has_enum first.
@@ -24,3 +28,5 @@ enum_val(string name) {
     v = (import ecvals)[i];
   }
 } return int v;
+given ty_setup ("answer"):(0)
+given answer_enum_fix ("answer"):(42)

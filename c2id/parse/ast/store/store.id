@@ -1,0 +1,36 @@
+// The AST store. `id` has no records, so a node is one row across seven
+// parallel lists, addressed by an integer id (see NOTES.md section 4 for what
+// each field means per node kind). Everything downstream -- the type pass, the
+// CFG builder, the emitter -- indexes into these.
+//
+// An `export` is a statement, so these lists come into existence when
+// init_nodes() runs; setup() calls it before anything else touches them.
+// Three exports is the whole action budget for a block, which is why this is
+// split into three functions.
+//
+// parse/ast has no room for a sibling file, so this file was promoted into
+// its own subdirectory to make room for len.id's readers.
+
+init_nodes() {
+  export string[] nk = [];
+  export int[] na = [];
+  export int[] nb = [];
+} return void;
+given kab_fixture ():() then nk_len:(0)
+given boot_a given exprfix stdin "1;" ():() then nk_len:(0)
+
+init_nodes2() {
+  export string[] ns = [];
+  export string[] nt = [];
+  export int[][] nl = [];
+} return void;
+given st_fixture ():() then ns_len:(0)
+given boot_a given exprfix stdin "1;" ():() then ns_len:(0)
+
+init_nodes3() {
+  export int[][] nm = [];
+  export int[] nline = [];
+  export string[] code = [];
+} return void;
+given lm_fixture ():() then nm_len:(0)
+given boot_a given exprfix stdin "1;" ():() then nm_len:(0)

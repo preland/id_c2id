@@ -10,6 +10,8 @@ sign_adj(int[] sp, int i) {
     n = sgn_adj(sp, i);
   }
 } return int n;
+([0, 0, 0, 0, 0, 0, 0, 0, 1, 0], 2):(2)
+([0, 0, 0, 0, 0, 0, 0, 1, 0, 0], 2):(1)
 
 uns_adj(int i) {
   int n = 1;
@@ -17,6 +19,8 @@ uns_adj(int i) {
     n = 2;
   }
 } return int n;
+(0):(1)
+(2):(2)
 
 sgn_adj(int[] sp, int i) {
   int n = 0;
@@ -24,3 +28,5 @@ sgn_adj(int[] sp, int i) {
     n = 1;
   }
 } return int n;
+([0, 0, 0, 0, 0, 0, 0, 1, 0, 0], 2):(1)
+([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2):(0)

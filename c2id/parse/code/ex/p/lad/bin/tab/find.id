@@ -6,6 +6,8 @@ match_op(string[] ops, int i, string s, int found) {
     n = i;
   }
 } return int n;
+(["a", "b"], 0, "a", -9):(0)
+(["a", "b"], 1, "a", -9):(-9)
 
 // ':' is current. The else arm is a conditional-expression, not an assignment
 // expression -- that is what C says, and it is what makes
@@ -14,3 +16,5 @@ cond_else(int[] pos) {
   advance(pos);
   int node = parse_cond(pos);
 } return int node;
+given boot_a given lexfix stdin ": 1" ([0]):(0)
+given boot_a given lexfix stdin ": x ? 1 : 2" ([0]):(3)

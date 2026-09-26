@@ -6,6 +6,8 @@ parse_stmt4(int[] pos) {
     id = parse_stmt5(pos);
   }
 } return int id;
+given boot_a given lexfix stdin "do; while (1);" ([0]):(2) then calls parse_do:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls parse_empty:[1]
 
 parse_stmt5(int[] pos) {
   int id = 0;
@@ -15,6 +17,8 @@ parse_stmt5(int[] pos) {
     id = parse_stmt6(pos);
   }
 } return int id;
+given boot_a given lexfix stdin "for (;;) ;" ([0]):(1) then calls parse_for:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls parse_empty:[1]
 
 parse_stmt6(int[] pos) {
   int id = 0;
@@ -24,3 +28,5 @@ parse_stmt6(int[] pos) {
     id = parse_stmt7(pos);
   }
 } return int id;
+given boot_a given lexfix stdin "switch (x) {}" ([0]):(2) then calls parse_switch:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls parse_empty:[1]

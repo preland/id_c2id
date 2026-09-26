@@ -6,8 +6,12 @@ cvt_suffix(int ty) {
   int w = load_wid(ty);
   string bits = wid_bits(w);
 } return string bits;
+given txt_fixture (4):("8")
+given txt_fixture (2):("64")
 
 cvt_full(string s, int ty) {
   string bits = cvt_suffix(ty);
   string out = s + bits;
 } return string out;
+given txt_fixture ("sx", 0):("sx32")
+given txt_fixture ("zx", 4):("zx8")

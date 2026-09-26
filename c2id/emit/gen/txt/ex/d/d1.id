@@ -23,6 +23,8 @@ ex_txt(int id) {
     s = ex2(id);
   }
 } return string s;
+given txt_fixture (0):("NEEDS_CFG_prim") then calls ex2:(0)
+given txt_fixture (5):("NEEDS_CFG_ptr") then calls ex2:(5)
 
 // The three lvalue kinds. All of them are "compute an address, then load it",
 // which is one function; what differs between them is only how the address is
@@ -35,6 +37,8 @@ ex2(int id) {
     s = ex3(id);
   }
 } return string s;
+given txt_fixture (0):("NEEDS_CFG_prim") then calls ex3:(0)
+given txt_fixture (5):("NEEDS_CFG_ptr") then calls ex3:(5)
 
 ex3(int id) {
   string s = "";
@@ -44,3 +48,5 @@ ex3(int id) {
     s = ex4(id);
   }
 } return string s;
+given txt_fixture (0):("NEEDS_CFG_prim") then calls ex4:(0)
+given txt_fixture (5):("NEEDS_CFG_ptr") then calls ex4:(5)

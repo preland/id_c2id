@@ -6,6 +6,8 @@ parse_for(int[] pos) {
   advance(pos);
   int id = for_head(pos);
 } return int id;
+given boot_a given ty_setup given lexfix stdin "for (i = 0; i < 1; i++) ;" ([0]):(10)
+given boot_a given ty_setup given lexfix stdin "for (;;) ;" ([0]):(1)
 
 for_init(int[] pos) {
   int[] l = [];
@@ -16,8 +18,12 @@ for_init(int[] pos) {
     push(l, id);
   }
 } return int[] l;
+given boot_a given ty_setup given lexfix stdin ";" ([0]):([])
+given boot_a given ty_setup given lexfix stdin "i = 0;" ([0]):([3])
 
 for_cond(int[] pos, int[] l) {
   int a = opt_expr(pos, ";");
   int id = for_step(pos, a, l);
 } return int id;
+given boot_a given ty_setup given lexfix stdin ";;;" ([0], []):(3) then calls opt_expr:[2]
+given boot_a given ty_setup given lexfix stdin "1;;;" ([0], []):(4) then calls opt_expr:[2]

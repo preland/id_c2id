@@ -9,6 +9,8 @@ c_strchr(word s, int cc) {
     i = i + 1;
   }
 } return word x;
+given crt_str_fixture ((import cs), 104):((import cs))
+given crt_str_fixture ((import cs), 120):(0)
 
 // A store address is never 0, so the address of a hit doubles as the
 // "found" flag.
@@ -18,3 +20,5 @@ chr_hit(word s, word i, int cc) {
     x = s + i;
   }
 } return word x;
+given crt_str_fixture ((import cs), 0, 104):((import cs))
+given crt_str_fixture ((import cs), 0, 120):(0)

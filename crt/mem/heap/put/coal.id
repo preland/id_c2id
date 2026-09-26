@@ -4,6 +4,8 @@ coal_next(word h) {
     merge_blk(h, nx);
   }
 } return void;
+given crt_heap_fixture4 ((import h0)):() then h0_word:(64) then calls merge_blk:[1]
+given crt_heap_fixture ((import h0)):() then h0_word:(64) then calls merge_blk:[0]
 
 // The back link is read directly rather than through an accessor: it is the
 // only reader, and the heap's function budget is spent elsewhere.
@@ -13,6 +15,8 @@ coal_prev(word h) {
     merge_blk(pv, h);
   }
 } return void;
+given crt_heap_fixture4 ((import h1)):() then h0_word:(64) then calls merge_blk:[1]
+given crt_heap_fixture ((import h0)):() then calls merge_blk:[0]
 
 // How many bytes of an existing allocation are still meaningful after a
 // resize to `n`: the smaller of the old payload and the new size.
@@ -23,3 +27,5 @@ re_len(word p, word n) {
     cn = re_min(sz, n);
   }
 } return word cn;
+given crt_heap_fixture ((import p0), 16):(16)
+given crt_heap_fixture (0, 16):(0)

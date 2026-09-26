@@ -1,0 +1,28 @@
+// Readers for lex's exported state, written for cases: `given`/`then` reach
+// module state only through a function that returns it (docs/TESTS.md), and
+// nothing in the driver itself needed to read curline or the token count back.
+
+curline_now() {
+  int n = (import curline)[0];
+} return int n;
+given init_lines ():(1)
+given lex_tok_fixture ():(1)
+
+tok_count() {
+  int n = len((import tkind));
+} return int n;
+given init_tokens ():(0)
+given lex_tok_fixture ():(2)
+
+// The most recently pushed token's text, or "" before anything has been
+// pushed -- pinning the empty case matters because len - 1 would otherwise
+// index before the list.
+last_tok_text() {
+  int n = len((import ttext));
+  string s = "";
+  if(n > 0) {
+    s = (import ttext)[n - 1];
+  }
+} return string s;
+given init_tokens ():("")
+given lex_tok_fixture ():("+")

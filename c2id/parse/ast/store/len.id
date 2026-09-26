@@ -1,0 +1,24 @@
+// Zero-argument length readers, one per export group init_nodes/2/3
+// creates: proving a reset actually emptied the list needs to see its
+// length without indexing into it (indexing an empty list traps, and
+// `then` cannot express "the call under test traps" for a check).
+// parse/ast has no room for a sibling file, so store.id was promoted
+// into its own subdirectory to make room for this one.
+
+nk_len() {
+  int n = len((import nk));
+} return int n;
+given kab_fixture ():(1)
+given boot_a ():(0)
+
+ns_len() {
+  int n = len((import ns));
+} return int n;
+given st_fixture ():(1)
+given boot_a ():(0)
+
+nm_len() {
+  int n = len((import nm));
+} return int n;
+given lm_fixture ():(1)
+given boot_a ():(0)

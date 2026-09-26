@@ -8,6 +8,8 @@ ptr_diff(int id) {
   string s = "(" + a_ex(id) + " - " + b_ex(id) + ")";
   string out = scale_txt(s, sz, "/");
 } return string out;
+given txt_fixture (0):("((NEEDS_CFG_prim - NEEDS_CFG_prim) / 4)")
+given txt_fixture (1):("((NEEDS_CFG_prim - NEEDS_CFG_prim) / 4)")
 
 un4(int id) {
   string s = "";
@@ -19,6 +21,8 @@ un4(int id) {
     s = incdec_txt(id);
   }
 } return string s;
+given txt_fixture given pend_setup (0):("t0") then calls incdec_txt:(0)
+given txt_fixture given pend_setup (5):("t0") then calls incdec_txt:(5)
 
 // `id` has no unary minus, so negation is a subtraction from zero. `~` it
 // does have.
@@ -28,3 +32,5 @@ un_pre(string op) {
     s = "0 - ";
   }
 } return string s;
+("-"):("0 - ")
+("~"):("~")

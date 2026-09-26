@@ -8,6 +8,8 @@ init_tokens() {
   export string[] ttext = [];
   export int[] tline = [];
 } return void;
+():() then tok_count:(0)
+():() then eprints:("")
 
 // Where the lexer currently is. Both are one-element lists so that any
 // function may store into them through lset / sset. lex_all calls this, so
@@ -16,6 +18,8 @@ init_lines() {
   export int[] curline = [1];
   export string[] curfile = [""];
 } return void;
+():() then curline_now:(1)
+():() then eprints:("")
 
 // Lex a whole preprocessed translation unit, appending to tkind / ttext /
 // tline. Call init_tokens() first.
@@ -23,3 +27,5 @@ lex_all(string src) {
   init_lines();
   lex_all_mem(src);
 } return void;
+given init_tokens ("a"):() then tok_count:(2)
+given init_tokens (""):() then tok_count:(1)

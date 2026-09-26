@@ -10,6 +10,8 @@ is_type_word(string s) {
     ok = is_tw2(s);
   }
 } return int ok;
+  ("__signed__"):(1)
+  ("zzz"):(0)
 
 is_tw2(string s) {
   int ok = is_qual(s);
@@ -17,6 +19,8 @@ is_tw2(string s) {
     ok = is_tw3(s);
   }
 } return int ok;
+  ("const"):(1)
+  ("zzz"):(0)
 
 is_tw3(string s) {
   int ok = is_su_kw(s);
@@ -24,3 +28,5 @@ is_tw3(string s) {
     ok = is_attr(s);
   }
 } return int ok;
+  ("struct"):(1)
+  ("zzz"):(0)

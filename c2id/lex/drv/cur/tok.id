@@ -1,0 +1,20 @@
+// The two token-eating helpers used all over the parser: one that discards a
+// token if it is there, one that says whether it was.
+
+skip_tok(int[] pos, string s) {
+  if(at_text(pos, s)) {
+    advance(pos);
+  }
+} return void;
+given lex_tok_fixture ([0], "x"):([1])
+given lex_tok_fixture ([0], "y"):([0])
+
+take_tok(int[] pos, string s) {
+  int ok = 0;
+  if(at_text(pos, s)) {
+    advance(pos);
+    ok = 1;
+  }
+} return int ok;
+given lex_tok_fixture ([0], "x"):(1)
+given lex_tok_fixture ([0], "y"):(0)

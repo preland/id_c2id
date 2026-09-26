@@ -3,12 +3,16 @@ do_return(int id) {
   int a = a_of(id);
   do_return2(c, a);
 } return void;
+given walk_ast_fixture (0):() then term0:("end") then expr0:(-1) then cur_blk:(1)
+given walk_ast_fixture (0):() then cfg_nblocks:(2)
 
 do_goto(int id) {
   int blk = cur_blk();
   string s = s_of(id);
   do_goto2(blk, s);
 } return void;
+given walk_ast_fixture (1):() then term0:("jmp") then succ0:(-1) then cur_blk:(1)
+given walk_ast_fixture (1):() then calls fix_add:[1]
 
 // A backward goto resolves here; a forward one leaves -1 in the edge and is
 // parked for the fix-up pass.
@@ -17,3 +21,5 @@ goto_edge(int blk, string name) {
   term_jmp(blk, nxt);
   need_fix(blk, name, nxt);
 } return void;
+given walk_ast_fixture (0, "lbl"):() then term0:("jmp") then succ0:(-1) then calls need_fix:[1]
+given walk_ast_fixture (0, "xyz"):() then succ0:(-1)

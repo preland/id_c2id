@@ -14,6 +14,8 @@ parse_expr(int[] pos) {
     left = fold_comma(pos, left);
   }
 } return int left;
+given boot_a given lexfix stdin "1" ([0]):(0)
+given boot_a given lexfix stdin "1 , 2" ([0]):(2)
 
 // The comma *operator*: a `bin` node whose operator is ",". An argument list
 // never reaches here because fill_list calls parse_assign, one rung down.
@@ -22,6 +24,10 @@ fold_comma(int[] pos, int left) {
   int right = parse_assign(pos);
   int id = newleaf("bin", left, right, ",", "");
 } return int id;
+given boot_a given lexfix stdin "2" ([0], 0):(1)
+given boot_a given lexfix stdin "x" ([0], 5):(1)
+given boot_a given lexfix stdin "3" ([0], 2):(1)
+given boot_a given lexfix stdin "y" ([0], 10):(1)
 
 // assignment-expression:
 //     conditional-expression
@@ -36,3 +42,5 @@ parse_assign(int[] pos) {
   string op = cur_text(pos);
   int node = assign_check(pos, left, op);
 } return int node;
+given boot_a given lexfix stdin "1" ([0]):(0)
+given boot_a given lexfix stdin "x = 1" ([0]):(2)

@@ -5,8 +5,23 @@ wh_end2(int nxt, int alt, int[] l) {
   walk_list(l);
   loop_close(nxt, alt);
 } return void;
+given loop_pushed_fixture (0, 1, []):() then term0:("jmp") then succ0:(0) then cur_blk:(1)
+given loop_pushed_fixture (3, 4, []):() then succ0:(3) then cur_blk:(4)
+
+// wh_end2/wh_end/dw_end/dw_end_cont all reach loop_close, which pops the
+// break/continue stacks; dowhile_ast_fixture (and, through it,
+// while_ast_fixture) never pushes onto them, so pop() there traps on an
+// empty list, the same failure st/tab/stk/stk3/ready.id exists to avoid.
+loop_pushed_fixture() {
+  dowhile_ast_fixture();
+  push_loop(99, 98);
+} return void;
+():() then brk_top:(99)
+():() then cont_top:(98)
 
 do_dowhile2(int id, int blk, int c) {
   term_jmp(c, blk);
   dw_run(id, blk);
 } return void;
+given dowhile_ast_fixture ((import did), 3, 0):() then term0:("jmp") then succ0:(3) then calls dw_run:[1]
+given dowhile_ast_fixture ((import did), 4, 0):() then succ0:(4)

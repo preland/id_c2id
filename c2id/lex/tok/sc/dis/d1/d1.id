@@ -12,6 +12,8 @@ scan_one(word base, int i) {
     ni = scan_hash(base, i);
   }
 } return int ni;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 4):(5)
+given init_tokens given init_lines given lex_src_fixture ((import gb), 2):(4) then calls add_tok:("id", "ab")
 
 // `#` (35) is a line marker only when nothing but horizontal whitespace
 // precedes it on the line; anywhere else it is the `#` operator, and `##`
@@ -24,6 +26,8 @@ scan_hash(word base, int i) {
     ni = scan_word(base, i);
   }
 } return int ni;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 23):(32)
+given init_tokens given init_lines given lex_src_fixture ((import gb), 2):(4) then calls add_tok:("id", "ab")
 
 // `/` followed by `/` (47) or `*` (42).
 scan_word(word base, int i) {
@@ -34,3 +38,5 @@ scan_word(word base, int i) {
     ni = scan_numop(base, i);
   }
 } return int ni;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 15):(22)
+given init_tokens given init_lines given lex_src_fixture ((import gb), 2):(4) then calls add_tok:("id", "ab")

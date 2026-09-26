@@ -7,14 +7,20 @@ ce_at_e(string s) {
     ok = 1;
   }
 } return int ok;
+("+"):(1)
+("*"):(0)
 
 ce_mul(int[] pos) {
   int v = ce_un(pos);
   int r = ce_mloop(pos, v);
 } return int r;
+given lexfix stdin "2 * 3" ([0]):(6)
+given lexfix stdin "5" ([0]):(5)
 
 ce_mloop(int[] pos, int v) {
   while(ce_mmore(pos)) {
     v = ce_mstep(pos, v);
   }
 } return int v;
+given lexfix stdin "* 3" ([0], 2):(6)
+given lexfix stdin "+" ([0], 5):(5)

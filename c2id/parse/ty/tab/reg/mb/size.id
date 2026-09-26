@@ -11,6 +11,8 @@ type_size(int ty) {
     n = tsize2(ty);
   }
 } return int n;
+given tynode_fix (3):(12)
+given tynode_fix (0):(4)
 
 arr_size(int ty) {
   int n = 0;
@@ -19,6 +21,8 @@ arr_size(int ty) {
     n = type_size(a) * b_of(ty);
   }
 } return int n;
+given tynode_fix (3):(12)
+given tynode_fix (2):(0)
 
 tsize2(int ty) {
   int n = a_of(ty);
@@ -26,3 +30,5 @@ tsize2(int ty) {
     n = 8;
   }
 } return int n;
+given tynode_fix (0):(4)
+given tynode_fix (2):(8)

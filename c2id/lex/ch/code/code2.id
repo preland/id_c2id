@@ -8,6 +8,8 @@ is_exp(int c) {
     ok = 1;
   }
 } return int ok;
+(112):(1)
+(113):(0)
 
 // `+` and `-`.
 is_expsign(int c) {
@@ -16,3 +18,5 @@ is_expsign(int c) {
     ok = 1;
   }
 } return int ok;
+(43):(1)
+(44):(0)

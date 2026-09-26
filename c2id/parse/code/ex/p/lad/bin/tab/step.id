@@ -6,11 +6,15 @@ bin_node(int[] pos, int lvl, int left, string op) {
   int right = parse_next(pos, lvl);
   int id = newleaf("bin", left, right, op, "");
 } return int id;
+given boot_a given lexfix stdin "2" ([0], 8, 0, "+"):(1)
+given boot_a given lexfix stdin "x" ([0], 8, 5, "-"):(1)
 
 cond_node(int[] pos, int left, int a) {
   int b = cond_else(pos);
   int id = newlist("cond", left, a, "", [b]);
 } return int id;
+given boot_a given lexfix stdin ": 2" ([0], 0, 1):(1)
+given boot_a given lexfix stdin ": x" ([0], 5, 0):(1)
 
 // parse_bin's loop condition: op_level(cur_text(pos)) == lvl must be
 // re-evaluated every iteration, so it cannot be named once before the loop.
@@ -19,3 +23,5 @@ bin_at_level(int[] pos, int lvl) {
   int lv = op_level(op);
   int ok = lv == lvl;
 } return int ok;
+given boot_a given lexfix stdin "+ x" ([0], 8):(1)
+given boot_a given lexfix stdin ")" ([0], 8):(0)

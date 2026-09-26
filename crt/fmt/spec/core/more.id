@@ -6,3 +6,5 @@ conv_step(word c, word[] st) {
     wset(st, 0, st[0] + 1);
   }
 } return void;
+(100, [3]):(100, [4])
+(0, [3]):(0, [3])

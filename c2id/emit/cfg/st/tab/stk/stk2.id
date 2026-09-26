@@ -5,11 +5,17 @@
 push_cont(int blk) {
   push((import ctgt), blk);
 } return void;
+given cfg_init (5):() then cont_top:(5)
+given cfg_init (9):() then cont_top:(9)
 
 pop_cont() {
   pop((import ctgt));
 } return void;
+given loop_ready_fixture ():() then cont_top:(-1)
+given loop_ready_fixture ():() then brk_top:(100)
 
 cont_top() {
   int blk = top_of((import ctgt));
 } return int blk;
+given cfg_init ():(-1)
+given cfg_body_fixture ():(-1)

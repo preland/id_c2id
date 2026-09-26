@@ -8,3 +8,5 @@ is_oct_esc(string s) {
   int d = dig_val(ch1);
   int ok = d >= 0 && d < 8;
 } return int ok;
+("\\101"):(1)
+("\\n"):(0)

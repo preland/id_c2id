@@ -1,0 +1,29 @@
+// The straight-line statements of a block, and the start of its terminator.
+
+emit_stmts(int b) {
+  int[] xs = cfg_stmts(b);
+  int i = 0;
+  emit_each(xs, i);
+} return void;
+given cfg_body_fixture (0):() then calls emit_each:([], 0)
+given cfg_body_fixture (1):() then calls emit_each:([], 0)
+
+emit_each(int[] xs, int i) {
+  while(i < len(xs)) {
+    emit_stmt1(xs, i);
+    i = i + 1;
+  }
+} return void;
+([], 0):()
+given txt_fixture given pend_setup ([0], 0):() then calls emit_stmt1:([0], 0)
+
+// A call cannot be an argument to a call, so the text is named before it is
+// printed rather than nested into the print -- and the temporaries that text
+// refers to are printed before it.
+emit_stmt1(int[] xs, int i) {
+  string txt = st_txt(xs[i]);
+  flush_pend();
+  print("  " + txt);
+} return void;
+given txt_fixture given pend_setup ([0], 0):() then prints:("  // NEEDS_CFG prim\n")
+given txt_fixture given pend_setup ([5], 0):() then prints:("  // NEEDS_CFG ptr\n")

@@ -12,6 +12,8 @@ ety7(int id) {
     ty = ety8(id);
   }
 } return int ty;
+given txt_fixture (0):(0) then calls ety8:(0)
+given txt_fixture (5):(0) then calls ety8:(5)
 
 // An assignment has the type of what it assigns *to*: `c = 300` is a char.
 ety8(int id) {
@@ -23,6 +25,8 @@ ety8(int id) {
     ty = ety9(id);
   }
 } return int ty;
+given txt_fixture (0):(0) then calls ety9:(0)
+given txt_fixture (5):(0) then calls ety9:(5)
 
 // size_t.
 ety9(int id) {
@@ -33,3 +37,5 @@ ety9(int id) {
     ty = ety10(id);
   }
 } return int ty;
+given txt_fixture (0):(0) then calls ety10:(0)
+given txt_fixture (5):(0) then calls ety10:(5)

@@ -6,11 +6,17 @@
 ty_int() {
   int ty = (import stdty)[0];
 } return int ty;
+given txt_fixture ():(0)
+given txt_fixture ():(0) then ty_uint:(1)
 
 ty_uint() {
   int ty = (import stdty)[1];
 } return int ty;
+given txt_fixture ():(1)
+given txt_fixture ():(1) then ty_long:(2)
 
 ty_long() {
   int ty = (import stdty)[2];
 } return int ty;
+given txt_fixture ():(2)
+given txt_fixture ():(2) then ty_ulong:(3)

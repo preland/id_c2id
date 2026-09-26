@@ -1,0 +1,13 @@
+// Two real member-table rows ("x" at bit 16 -> byte 2 bit 0, then "y" at bit
+// 25 -> byte 3 bit 1), for the readers beside this file, for sy_bpos, and
+// for any other case that needs a non-empty table with more than one row.
+row_x_fix() {
+  ty_setup();
+  sy_col1("x", 0, 16);
+  sy_col2(16, 2, 4);
+} chain () {
+  sy_col1("y", 0, 25);
+  sy_col2(25, 3, 4);
+} return void;
+():() then sy_last_name:("y")
+():() then sy_last_off:(3)

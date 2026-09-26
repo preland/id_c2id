@@ -8,6 +8,8 @@ cmt_more(word base, int i) {
     ok = 0;
   }
 } return int ok;
+given lex_src_fixture ((import gb), 16):(1)
+given lex_src_fixture ((import gb), 20):(0)
 
 // Step over the closing `*/`, or stay put if the input ended first.
 cmt_stop(word base, int i) {
@@ -16,6 +18,8 @@ cmt_stop(word base, int i) {
     ni = i + 2;
   }
 } return int ni;
+given lex_src_fixture ((import gb), 20):(22)
+given lex_src_fixture ((import gb), 17):(17)
 
 // Consume one byte, counting it if it is a newline. Used both for ordinary
 // whitespace and for the interior of a block comment, so a comment spanning
@@ -26,3 +30,5 @@ adv_nl(word base, int i) {
   }
   int r = i + 1;
 } return int r;
+given init_lines given lex_src_fixture ((import gb), 14):(15) then calls bump_line:[1]
+given init_lines given lex_src_fixture ((import gb), 0):(1) then calls bump_line:[0]

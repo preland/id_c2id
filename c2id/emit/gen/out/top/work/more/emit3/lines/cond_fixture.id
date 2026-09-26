@@ -1,0 +1,21 @@
+// A second literal-body CFG, this one with a real "cond" terminator: `if(1)
+// {} else {}`, both branches empty. The walker gives four blocks -- 0 cond,
+// 1 the (empty) then, 2 the (empty) else, 3 the join, matching
+// emit/cfg/ct/a/if/if.id's own diagram -- which is what lets emit_cond,
+// emit_jump and the block predicates be called on a real "cond"/"jmp" pair
+// instead of only the "end" shape cfg_body_fixture builds.
+cond_body_fixture() {
+  boot_a();
+  int ifid = cond_if_build();
+  cfg_build(ifid);
+} return void;
+():() then calls cfg_build:(1)
+():() then cfg_nblocks:(4)
+
+cond_if_build() {
+  int c = newleaf("num", 1, 0, "1", "");
+  int[] empty = [];
+  int ifid = newnode("if", c, 0, "", "", empty, empty);
+} return int ifid;
+given boot_a ():(1)
+given boot_a ():(1) then calls newleaf:("num", 1, 0, "1", "")

@@ -2,6 +2,8 @@ ts_arr_cnt(int ty) {
   int b = b_of(ty);
   string txt = ts_cnt(b);
 } return string txt;
+given tynode_fix (3):("3")
+given tynode_fix (2):("0")
 
 // type_str of ty's `a` field: the array element, or (in fn/fn.id) the
 // function result. Shared so ts_arr and ts_fn are not identical-logic
@@ -10,3 +12,5 @@ ts_a(int ty) {
   int a = a_of(ty);
   string s = type_str(a);
 } return string s;
+given tynode_fix (3):("int")
+given tynode_fix (0):("(int)->int")

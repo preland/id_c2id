@@ -5,3 +5,5 @@ is_space_at(word base, int i) {
   int c = peek8(base + i);
   int ok = is_space(c);
 } return int ok;
+given lex_src_fixture ((import gb), 4):(1)
+given lex_src_fixture ((import gb), 0):(0)

@@ -6,6 +6,8 @@ es7(int id) {
   string kind = k_of(id);
   string s = "?" + kind;
 } return string s;
+given boot_a given ty_setup given exprfix stdin "(int)1;" ((0)):("?prim")
+given boot_a given exprfix stdin "1 + 2;" ((import extop)):("?bin")
 
 // The decoded value, which is the point: printing `0x1f` as 31 is how the
 // literal decoder gets tested. A floating literal has no value yet, so its
@@ -17,6 +19,8 @@ num_str(int id) {
     s = txt;
   }
 } return string s;
+given boot_a given exprfix stdin "42;" ((import extop)):("42")
+given boot_a given exprfix stdin "3.14;" ((import extop)):("3.14")
 
 // `bin` and `assign` have the same three fields in the same places, so they
 // share one printer.
@@ -25,3 +29,5 @@ bin_str(int id) {
   int b = b_of(id);
   string s = "(" + expr_str(a) + " " + s_of(id) + " " + expr_str(b) + ")";
 } return string s;
+given boot_a given exprfix stdin "1 + 2;" ((import extop)):("(1 + 2)")
+given boot_a given exprfix stdin "a = b;" ((import extop)):("(a = b)")

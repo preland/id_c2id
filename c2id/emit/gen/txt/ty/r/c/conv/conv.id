@@ -11,6 +11,8 @@ usual_ty(int ty, int inner) {
     r = usual2(ty, inner);
   }
 } return int r;
+given txt_fixture (0, 1):(1)
+given txt_fixture (5, 0):(5)
 
 // Once the left operand is not a pointer, the right one still might be
 // (`n + p`), and then it wins.
@@ -20,6 +22,8 @@ usual2(int ty, int inner) {
     r = inner;
   }
 } return int r;
+given txt_fixture (0, 2):(2)
+given txt_fixture (0, 5):(5)
 
 // Wider wins; on a tie, unsigned wins. Stated that way round because
 // `long` versus `unsigned int` is a tie in neither sense -- long is wider,
@@ -30,3 +34,5 @@ usual3(int ty, int inner) {
     r = inner;
   }
 } return int r;
+given txt_fixture (0, 2):(2)
+given txt_fixture (2, 0):(2)

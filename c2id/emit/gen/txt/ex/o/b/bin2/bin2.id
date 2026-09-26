@@ -11,6 +11,8 @@ bin3(int id) {
     s = plain_txt(id);
   }
 } return string s;
+given txt_fixture given pend_setup (0):("t0") then calls plain_txt:(0)
+given txt_fixture given pend_setup (5):("t0") then calls plain_txt:(5)
 
 // Fully parenthesised, so `id`'s precedence never has to be reasoned about --
 // notably that its bitwise operators bind tighter than its comparisons, which
@@ -21,6 +23,8 @@ plain_txt(int id) {
   string op = s_of(id);
   string out = plain_full(id, a, op);
 } return string out;
+given txt_fixture given pend_setup (0):("t0") then calls plain_full:(0, 4, "int")
+given txt_fixture given pend_setup (5):("t0") then calls plain_full:(5, 4, "")
 
 // `id`'s `<<` is 32-bit when both operands are `int`-typed and 64-bit as soon
 // as either is a `word`: `1 << 40` is 0, `sx_bits(1, 64) << 40` is
@@ -35,3 +39,5 @@ shl_arg(int a, string op) {
     s = name_val("sx_bits(" + s + ", 64)");
   }
 } return string s;
+given txt_fixture (4, "+"):("NEEDS_CFG_prim")
+given txt_fixture (1, "<<"):("NEEDS_CFG_prim")

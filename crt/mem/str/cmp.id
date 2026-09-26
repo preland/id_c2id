@@ -6,6 +6,8 @@ c_strcmp(word a, word b) {
   word bound = n + 1;
   word x = c_strncmp(a, b, bound);
 } return word x;
+given crt_str_fixture ((import cs), (import cs)):(0)
+given crt_str_fixture ((import cs), (import cs0)):(104)
 
 // strncmp. Stops at the first difference, at the terminator, or after n
 // bytes -- whichever comes first.
@@ -17,6 +19,8 @@ c_strncmp(word a, word b, word n) {
     i = i + 1;
   }
 } return word x;
+given crt_str_fixture ((import cs), (import cs), 3):(0)
+given crt_str_fixture ((import cs), (import cs0), 3):(104)
 
 ncmp_more(word a, word i, word n, word x) {
   int go = 0;
@@ -24,3 +28,5 @@ ncmp_more(word a, word i, word n, word x) {
     go = s_more(a, i);
   }
 } return int go;
+given crt_str_fixture ((import cs), 0, 3, 0):(1)
+given crt_str_fixture ((import cs), 3, 3, 0):(0)

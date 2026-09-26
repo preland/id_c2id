@@ -5,6 +5,8 @@ kmalloc(word n) {
   word h = find_fit(need);
   word w = alloc_at(h, need);
 } return word w;
+given crt_heap_fixture (16):((import p0))
+given crt_heap_fixture (999):(0)
 
 // Bytes a request of `n` really costs: the payload rounded up to 8, plus
 // the 16-byte header, and never less than 32 so that every block is still
@@ -15,6 +17,8 @@ blk_need(word n) {
     need = 32;
   }
 } return word need;
+(8):(32)
+(64):(80)
 
 // kmalloc plus zeroing. The store hands out zeroed pages, but a block that
 // has been used and freed has not been zeroed since, so this is real work.
@@ -24,3 +28,5 @@ kzalloc(word n) {
     c_memset(p, 0, n);
   }
 } return word p;
+given crt_heap_fixture (16):((import p0)) then calls c_memset:[1]
+given crt_heap_fixture (999):(0) then calls c_memset:[0]

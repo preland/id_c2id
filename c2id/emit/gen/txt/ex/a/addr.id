@@ -18,6 +18,8 @@ addr_txt(int id) {
     s = ad2(id);
   }
 } return string s;
+given txt_fixture (0):("NOT_AN_LVALUE_prim") then calls ad2:(0)
+given txt_fixture (5):("NOT_AN_LVALUE_ptr") then calls ad2:(5)
 
 ad2(int id) {
   string s = "";
@@ -27,6 +29,8 @@ ad2(int id) {
     s = ad3(id);
   }
 } return string s;
+given txt_fixture (0):("NOT_AN_LVALUE_prim") then calls ad3:(0)
+given txt_fixture (5):("NOT_AN_LVALUE_ptr") then calls ad3:(5)
 
 ad3(int id) {
   string s = "";
@@ -36,3 +40,5 @@ ad3(int id) {
     s = ad4(id);
   }
 } return string s;
+given txt_fixture (0):("NOT_AN_LVALUE_prim") then calls ad4:(0)
+given txt_fixture (5):("NOT_AN_LVALUE_ptr") then calls ad4:(5)

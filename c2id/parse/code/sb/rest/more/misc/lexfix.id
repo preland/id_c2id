@@ -1,0 +1,29 @@
+// The shared fixture for a case that needs real tokens rather than an empty
+// stream: init_tokens() clears tkind/ttext/tline, then the case's own
+// `stdin "TEXT"` clause (docs/TESTS.md) is read back and lexed, so
+// `given lexfix stdin "1 + 2;" (...)` puts exactly that source on the token
+// lists before the call under test runs. more/ has no room for a sibling
+// file, so misc.id was promoted into this directory already; this is the
+// third entry misc/ has room for.
+
+lexfix() {
+  init_tokens();
+  string src = read_all();
+  lex_all(src);
+} return void;
+stdin "1;" ():() then calls lex_all:("1;")
+stdin "" ():() then calls lex_all:("")
+
+// A second fixture, composed after `given boot_a`: lexes the case's own
+// `stdin` text (via lexfix) and parses it as one full expression, exporting
+// the topmost node's id as `extop` so a case that prints or inspects an
+// already-built node -- expr_str and friends, which take a node id rather
+// than a token stream -- can name it with `(import extop)` instead of
+// guessing a node number by hand.
+exprfix() {
+  lexfix();
+  int[] pos = [0];
+  export int extop = parse_expr(pos);
+} return void;
+given boot_a stdin "1;" ():() then calls lex_all:("1;") then calls parse_expr:[1]
+given boot_a stdin "a;" ():() then calls lex_all:("a;") then calls parse_expr:[1]

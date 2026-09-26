@@ -7,6 +7,8 @@ alloc_at(word h, word need) {
     w = h + 16;
   }
 } return word w;
+given crt_heap_fixture ((import h0), 32):((import p0))
+given crt_heap_fixture (0, 32):(0)
 
 // The split, and the in-use bit written over the size the split left behind.
 // Split out of alloc_at so its inner block stays under the three-action limit.
@@ -15,3 +17,5 @@ take_at(word h, word need) {
   word sz = bsize(h);
   bset(h, sz, 1);
 } return void;
+given crt_heap_fixture ((import h0), 32):() then h0_word:(33)
+given crt_heap_fixture ((import h0), 64):() then h0_word:(65)

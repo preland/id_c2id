@@ -1,0 +1,14 @@
+// A known flat-store format string, for the printf-spec scanners in
+// fmt/spec/. A case's own arguments are literals, and a flat-store address
+// only exists once something has built it, so this lives here as a
+// zero-argument setup (docs/TESTS.md, "Module state") rather than a case
+// literal. fmtbuf is "-05ld" (bytes: '-' '0' '5' 'l' 'd', then NUL): a
+// dash flag, a zero flag, a width digit, a length modifier and a
+// conversion character, in the order a real specifier would carry them.
+// pctbuf is "%d", a whole one-conversion format string for c_format/fmt_step.
+crt_fmt_fixture() {
+  export word fmtbuf = mem_of_str("-05ld");
+  export word pctbuf = mem_of_str("%d");
+} return void;
+():() then prints:("")
+():() then eprints:("")

@@ -5,3 +5,5 @@ loop_close2(int alt) {
   pop_loop();
   set_cur(alt);
 } return void;
+given loop_ready_fixture (4):() then cur_blk:(4) then brk_top:(-1)
+given loop_ready_fixture (9):() then cur_blk:(9) then cont_top:(-1)

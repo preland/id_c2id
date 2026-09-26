@@ -2,3 +2,5 @@ ce_mstep2(int[] pos, string s, int v) {
   int rhs = ce_un(pos);
   int r = ce_apply(s, v, rhs);
 } return int r;
+given lexfix stdin "3" ([0], "*", 2):(6)
+given lexfix stdin "4" ([0], "/", 20):(5)

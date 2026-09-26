@@ -5,6 +5,8 @@ cond_str(int id) {
   int a = a_of(id);
   string s = cond_str2(id, a, l);
 } return string s;
+given boot_a given exprfix stdin "1 ? 2 : 3;" ((import extop)):("(1 ? 2 : 3)")
+given boot_a given exprfix stdin "a ? b : c;" ((import extop)):("(a ? b : c)")
 
 // `nb` is the type node for `sizeof(T)` and 0 for `sizeof expr`.
 sizeof_str(int id) {
@@ -15,8 +17,12 @@ sizeof_str(int id) {
     s = "sizeof(" + type_ref(b) + ")";
   }
 } return string s;
+given boot_a given exprfix stdin "sizeof x;" ((import extop)):("sizeof(x)")
+given boot_a given ty_setup given exprfix stdin "sizeof(int);" ((import extop)):("sizeof(?prim)")
 
 // Types are parse/ty/'s to print; here a type is just its node id.
 type_ref(int ty) {
   string s = "t" + ty;
 } return string s;
+(5):("t5")
+(0):("t0")

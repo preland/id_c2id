@@ -8,11 +8,15 @@ a_ty(int id) {
   int a = a_of(id);
   int ty = ex_ty(a);
 } return int ty;
+given txt_fixture (0):(0) then calls ex_ty:(4)
+given txt_fixture (1):(0) then calls ex_ty:(4)
 
 b_ty(int id) {
   int b = b_of(id);
   int ty = ex_ty(b);
 } return int ty;
+given txt_fixture (0):(0) then calls ex_ty:(1)
+given txt_fixture (1):(0) then calls ex_ty:(0)
 
 // The usual arithmetic conversions applied to both operands of id.
 pair_uty(int id) {
@@ -20,3 +24,5 @@ pair_uty(int id) {
   int bty = b_ty(id);
   int uty = usual_ty(aty, bty);
 } return int uty;
+given txt_fixture (0):(0) then calls usual_ty:(0, 0)
+given txt_fixture given pair_fixture (7):(2) then calls usual_ty:(2, 0)

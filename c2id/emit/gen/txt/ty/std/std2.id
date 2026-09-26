@@ -3,11 +3,15 @@
 ty_ulong() {
   int ty = (import stdty)[3];
 } return int ty;
+given txt_fixture ():(3)
+given txt_fixture ():(3) then ty_charp:(5)
 
 // `char *`, the type of a string literal.
 ty_charp() {
   int ty = (import stdty)[4];
 } return int ty;
+given txt_fixture ():(5)
+given txt_fixture ():(5) then ty_int:(0)
 
 // 1 when C's signed operators are the right ones for `ty`. A pointer, an
 // array and a record are all "not signed": nothing divides or shifts them,
@@ -19,3 +23,5 @@ ty_signed(int ty) {
     ok = b_of(ty);
   }
 } return int ok;
+given txt_fixture (0):(1)
+given txt_fixture (1):(0)

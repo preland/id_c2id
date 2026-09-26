@@ -8,6 +8,8 @@ at_bol(word base, int i) {
   int j = i - 1;
   int r = at_bol_next(base, j);
 } return int r;
+given lex_src_fixture ((import gb), 23):(1)
+given lex_src_fixture ((import gb), 3):(0)
 
 bol_ok(word base, int j) {
   int ok = 0;
@@ -15,6 +17,8 @@ bol_ok(word base, int j) {
     ok = 1;
   }
 } return int ok;
+given lex_src_fixture ((import gb), -1):(1)
+given lex_src_fixture ((import gb), 4):(0)
 
 // `i` is at the `#`. No token is emitted for any of this; the marker only
 // updates curline and curfile so that tline is meaningful.
@@ -22,3 +26,5 @@ scan_marker(word base, int i) {
   int e = skip_h(base, i + 1);
   int r = mark_num(base, e);
 } return int r;
+given init_lines given lex_src_fixture ((import gb), 23):(32)
+given init_lines given lex_src_fixture ((import gb), 3):(15)

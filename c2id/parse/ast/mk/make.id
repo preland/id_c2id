@@ -9,13 +9,19 @@ push_kab(string kind, int a, int b) {
   push((import na), a);
   push((import nb), b);
 } return void;
+given boot_a ("num", 5, 7):() then k0_of:("num") then a0_of:(5) then b0_of:(7)
+given boot_a ("var", 9, 2):() then k0_of:("var") then a0_of:(9) then b0_of:(2)
 
 push_st(string s, string tstr) {
   push((import ns), s);
   push((import nt), tstr);
 } return void;
+given boot_a ("x", "ty1"):() then s0_of:("x") then t0_of:("ty1")
+given boot_a ("y", "ty2"):() then s0_of:("y") then t0_of:("ty2")
 
 push_lm(int[] l, int[] m) {
   push((import nl), l);
   push((import nm), m);
 } return void;
+given boot_a ([1, 2], [3]):() then l0_of:([1, 2]) then m0_of:([3])
+given boot_a ([], []):() then l0_of:([]) then m0_of:([])

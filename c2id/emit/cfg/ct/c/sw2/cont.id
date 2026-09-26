@@ -5,3 +5,5 @@ sw_close2(int id, int blk, int alt, int mark) {
   pop_brk();
   sw_disp(id, blk, alt, mark);
 } return void;
+given sw_ready_fixture ((import wswid), 0, 1, 0):() then term0:("jmp") then succ0:(1) then cur_blk:(1)
+given sw_ready_fixture ((import wswid), 0, 1, 0):() then calls sw_disp:[1]

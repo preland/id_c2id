@@ -1,0 +1,42 @@
+// Test fixtures for lex: a known source buffer (word base, flat-store) and a
+// known populated token stream. A case's own arguments are literals, and a
+// flat-store address or an exported token list only exists once something
+// has run to build it, so both live here as zero-argument setups rather than
+// case literals (docs/TESTS.md, "Module state").
+//
+// gb layout (indices into the byte buffer mem_of_str returns):
+//   0  "12ab"        digit run then ident run
+//   4  " "           hspace
+//   5  "3e+2"        pp-number with a signed exponent
+//   9  " "
+//   10 "\"hi\""      a double-quoted literal, unprefixed
+//   14 "\n"
+//   15 "/* c */"     a block comment
+//   22 "\n"
+//   23 "#5 \"f.c\"\n" a line marker
+//   32 "->"          a two-character operator
+//   34 "x."          a byte with no operator match, then '.'
+//   36 "<<="         a three-character operator
+//   39 "u8\"z\""     a prefixed string literal
+//   44 ".7"          a '.' not followed by a digit is member-access, but
+//                    this one is -- the two branches of is_num_dot_at
+// eb is "a\zb" quoted (6 bytes: '"' 'a' '\' 'z' 'b' '"'), for the escape scan
+// in tok/lt/esc.id.
+lex_src_fixture() {
+  export word gb = mem_of_str("12ab 3e+2 \"hi\"\n/* c */\n#5 \"f.c\"\n->x.<<=u8\"z\".7");
+  export word eb = mem_of_str("\"a\\zb\"");
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+// init_tokens() then init_lines() then two pushes: tkind = ["id", "op"],
+// ttext = ["x", "+"], tline = [1, 1].
+lex_tok_fixture() {
+  init_tokens();
+  init_lines();
+  add_tok("id", "x");
+} chain () {
+  add_tok("op", "+");
+} return void;
+():() then tok_count:(2)
+():() then last_tok_text:("+")

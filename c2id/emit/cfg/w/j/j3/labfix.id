@@ -1,0 +1,10 @@
+// A label table with two entries already recorded ("L1" at block 2, "L2"
+// at block 4), for label_blk/lab_add's readers and the goto fix-up
+// functions -- lab_add takes arguments, so it cannot be a `given` setup.
+lab_ready_fixture() {
+  walk_ast_fixture();
+  lab_add("L1", 2);
+  lab_add("L2", 4);
+} return void;
+():() then prints:("")
+():() then eprints:("")

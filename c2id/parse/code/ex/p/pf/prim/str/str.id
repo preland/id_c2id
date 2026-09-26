@@ -11,6 +11,8 @@ parse_str(int[] pos) {
   advance(pos);
   int id = str_more(pos, s);
 } return int id;
+given boot_a given lexfix stdin "\"hi\";" ([0]):(0)
+given boot_a given lexfix stdin "\"a\" \"b\";" ([0]):(0)
 
 str_more(int[] pos, string s) {
   while(cur_kind(pos) == "str") {
@@ -18,8 +20,12 @@ str_more(int[] pos, string s) {
   }
   int id = newleaf("str", 0, 0, s, "");
 } return int id;
+given boot_a given lexfix stdin "\"b\";" ([0], "a"):(0) then calls str_glue:[1]
+given boot_a given lexfix stdin ";" ([0], "a"):(0) then calls str_glue:[0]
 
 str_glue(int[] pos, string s) {
   string out = s + cur_text(pos);
   advance(pos);
 } return string out;
+given boot_a given lexfix stdin "\"a\" \"b\";" ([1], "a"):("a\"b\"")
+given boot_a given lexfix stdin "\"x\" \"y\";" ([1], "x"):("x\"y\"")

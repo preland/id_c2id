@@ -8,6 +8,8 @@ spec_tag(int[] pos, int[] sp) {
     ok = spec_en(pos, sp);
   }
 } return int ok;
+given boot_a given ty_setup given lexfix stdin "struct foo ;" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)
+given ty_setup given lexfix stdin "xyz" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)
 
 spec_su(int[] pos, int[] sp) {
   int ok = 0;
@@ -17,6 +19,8 @@ spec_su(int[] pos, int[] sp) {
     ok = 1;
   }
 } return int ok;
+given boot_a given ty_setup given lexfix stdin "struct foo ;" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)
+given ty_setup given lexfix stdin "int" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)
 
 spec_en(int[] pos, int[] sp) {
   int ok = 0;
@@ -28,3 +32,5 @@ spec_en(int[] pos, int[] sp) {
     ok = spec_td(pos, sp);
   }
 } return int ok;
+given boot_a given ty_setup given lexfix stdin "enum { x }" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)
+given ty_setup given lexfix stdin "xyz" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)

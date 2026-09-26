@@ -8,6 +8,8 @@ spec_step(int[] pos, int[] sp) {
     ok = spec_word(pos, sp);
   }
 } return int ok;
+given typedef_x_fix given lexfix stdin "foo" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)
+given ty_setup given lexfix stdin "x" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)
 
 spec_word(int[] pos, int[] sp) {
   int ok = spec_basic(pos, sp);
@@ -15,9 +17,13 @@ spec_word(int[] pos, int[] sp) {
     ok = spec_tag(pos, sp);
   }
 } return int ok;
+given ty_setup given lexfix stdin "int" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)
+given ty_setup given lexfix stdin ")" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)
 
 spec_basic(int[] pos, int[] sp) {
   int i = spec_basic_idx(pos);
   bump_spec(pos, sp, i);
   int ok = has_idx(i);
 } return int ok;
+given lexfix stdin "int" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):(1)
+given lexfix stdin "xyz" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):(0)

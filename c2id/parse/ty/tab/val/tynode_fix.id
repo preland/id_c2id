@@ -1,0 +1,28 @@
+// What every function below that reads an existing type node needs: a known
+// node store (boot_a) plus a handful of nodes of every kind a case might name
+// by id, built once so cases can pass a literal instead of constructing one
+// (docs/TESTS.md, "Module state" -- a case's arguments are literals only).
+//
+//   0  prim int    (a=4, b=1, s="int")
+//   1  prim void   (a=0, b=0, s="void")
+//   2  ptr -> 0    (a=0)
+//   3  arr of 0, count 3
+//   4  fn -> 0, one param [0]
+//   5  rec "point", a=99, struct (b=0), m=[24] (alignment 24, no rows --
+//      deliberately not 8, talign3's default for a non-prim, so talign2's
+//      rec-alignment override is actually exercised by a case that reads it)
+tynode_fix() {
+  boot_a();
+  int tnf_p = newleaf("prim", 4, 1, "int", "");
+  int tnf_v = newleaf("prim", 0, 0, "void", "");
+} chain () {
+  int tnf_q = newleaf("ptr", tnf_p, 0, "", "");
+  int tnf_a = newleaf("arr", tnf_p, 3, "", "");
+  int[] tnf_none = [];
+} chain () {
+  int tnf_f = newnode("fn", tnf_p, 0, "", "", [tnf_p], tnf_none);
+  int[] tnf_l = [];
+  int tnf_r = newnode("rec", 99, 0, "point", "", tnf_l, [24]);
+} return void;
+():() then calls newleaf:("arr", 0, 3, "", "")
+():() then calls newnode:("rec", 99, 0, "point", "", [], [24])

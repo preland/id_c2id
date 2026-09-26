@@ -10,14 +10,20 @@ rec_get(int un, string name) {
     ty = new_su(un, name);
   }
 } return int ty;
+given boot_a given ty_setup (0, ""):(0)
+given struct_foo_fix (0, "foo"):(5)
 
 new_su(int un, string name) {
   int ty = mk_rec(un, name);
   su_reg(un, name, ty);
 } return int ty;
+given boot_a given ty_setup (0, "foo"):(0) then calls su_reg:(0, "foo", 0)
+given boot_a given ty_setup (1, "bar"):(0) then calls su_reg:(1, "bar", 0)
 
 mk_rec(int un, string name) {
   int[] l = [];
   int[] m = [1];
   int ty = newnode("rec", 0, un, name, "", l, m);
 } return int ty;
+given boot_a (0, "foo"):(0) then calls newnode:("rec", 0, 0, "foo", "", [], [1])
+given boot_a (1, "bar"):(0) then calls newnode:("rec", 0, 1, "bar", "", [], [1])

@@ -11,6 +11,8 @@ str_txt(int id) {
   string s = "mem_of_str(" + chr(34) + s_of(id) + chr(34) + ")";
   string out = name_val(s);
 } return string out;
+given txt_fixture given pend_setup (0):("t0") then calls name_val:("mem_of_str(\"int\")")
+given txt_fixture given pend_setup (5):("t0") then calls name_val:("mem_of_str(\"\")")
 
 // A cast is exactly the width conversion, which is the same operation an
 // assignment or a load performs; casting to a pointer or to any 8-byte type
@@ -20,6 +22,8 @@ cast_txt(int id) {
   string exa = a_ex(id);
   string s = conv_txt(b, exa);
 } return string s;
+given txt_fixture given pend_setup (0):("t0") then calls conv_txt:(1, "NEEDS_CFG_prim")
+given txt_fixture given pend_setup (5):("t0") then calls conv_txt:(0, "NEEDS_CFG_prim")
 
 // sizeof is answered at translation time -- it is the one C operator that
 // never survives into the output. nb holds the type node for `sizeof(T)`;
@@ -28,3 +32,5 @@ sizeof_txt(int id) {
   int sz = sizeof_sz(id);
   string s = "" + sz;
 } return string s;
+given txt_fixture (0):("4") then calls sizeof_sz:(0)
+given txt_fixture (1):("4") then calls sizeof_sz:(1)

@@ -1,0 +1,20 @@
+// A fresh frame with one slot ("x", offset 8, width 4 bytes), for
+// find_local/frame_off/frame_wid/name_at's own cases and for clear_offs's
+// -- proving a reset actually emptied lvoff/lvwid needs to see its length
+// without indexing into it, which is what lvoff_len is for. more/ has no
+// room for a sibling file, so fr5.id was promoted into its own
+// subdirectory to make room.
+
+onefr_fixture() {
+  init_frame();
+  init_frame2();
+  add_slot("x", 8, 4);
+} return void;
+():() then frame_size:(12)
+():() then lvoff_len:(1)
+
+lvoff_len() {
+  int n = len((import lvoff));
+} return int n;
+given onefr_fixture ():(1)
+given init_frame given init_frame2 ():(0)

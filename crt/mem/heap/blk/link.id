@@ -2,6 +2,8 @@
 bsetprev(word h, word p) {
   poke64(h + 8, p);
 } return void;
+given crt_heap_fixture ((import h0), 999):() then h0_prev:(999)
+given crt_heap_fixture ((import h0), 0):() then h0_prev:(0)
 
 // Turn the bytes at `h` into a free block of `rest` bytes whose predecessor
 // is `p`, and repair the back link of whatever follows it. Used both to lay
@@ -11,6 +13,8 @@ init_rest(word h, word rest, word p) {
   bsetprev(h, p);
   fix_prev(h + rest, h);
 } return void;
+given crt_heap_fixture ((import h0), 32, 777):() then h0_word:(32) then h0_prev:(777) then calls bsetprev:[2]
+given crt_heap_fixture ((import h0), 64, 555):() then h0_word:(64) then h0_prev:(555) then calls bsetprev:[1]
 
 // Set a back link only if there really is a block there -- `h` may be the
 // end of the heap, which is not a block at all.
@@ -19,3 +23,5 @@ fix_prev(word h, word p) {
     bsetprev(h, p);
   }
 } return void;
+given crt_heap_fixture ((import h0), 999):() then h0_prev:(999) then calls bsetprev:[1]
+given crt_heap_fixture ((import hend), 999):() then calls bsetprev:[0]

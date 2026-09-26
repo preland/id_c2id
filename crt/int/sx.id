@@ -9,13 +9,19 @@ sx_bits(word v, int bits) {
   int sh = 64 - bits;
   word x = (v << sh) >> sh;
 } return word x;
+(0xff, 8):(-1)
+(0x7f, 8):(127)
 
 // sx8(0xff) = -1, sx8(0x7f) = 127
 sx8(word v) {
   word x = sx_bits(v, 8);
 } return word x;
+(0xff):(-1)
+(0x7f):(127)
 
 // sx16(0xffff) = -1, sx16(0x8000) = -32768
 sx16(word v) {
   word x = sx_bits(v, 16);
 } return word x;
+(0xffff):(-1)
+(0x8000):(-32768)

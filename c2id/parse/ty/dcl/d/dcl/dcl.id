@@ -21,6 +21,8 @@ parse_declarator(int[] pos, int inner) {
   int r = apply_stars(pos, inner);
   int d = dcl_direct(pos, r);
 } return int d;
+given boot_a given ty_setup given lexfix stdin "x" ([0], 0):(0)
+given boot_a given ty_setup given lexfix stdin "* x" ([0], 5):(0) then calls newleaf:("ptr", 5, 0, "", "")
 
 apply_stars(int[] pos, int inner) {
   int r = inner;
@@ -28,9 +30,13 @@ apply_stars(int[] pos, int inner) {
     r = star_step(pos, r);
   }
 } return int r;
+given boot_a given lexfix stdin "x" ([0], 0):(0)
+given boot_a given lexfix stdin "* x" ([0], 0):(0) then calls newleaf:("ptr", 0, 0, "", "")
 
 star_step(int[] pos, int inner) {
   advance(pos);
   star_quals(pos);
   int ty = newleaf("ptr", inner, 0, "", "");
 } return int ty;
+given boot_a given lexfix stdin "* x" ([0], 0):(0) then calls newleaf:("ptr", 0, 0, "", "")
+given boot_a given lexfix stdin "* const x" ([0], 5):(0) then calls newleaf:("ptr", 5, 0, "", "")

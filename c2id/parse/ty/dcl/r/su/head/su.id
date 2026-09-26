@@ -1,0 +1,28 @@
+
+// struct and union. A tag is registered under "struct T" / "union T" in the
+// same table as typedef names, so `struct list_head *next;` inside
+// `struct list_head` finds the node that is still being built -- which is what
+// makes self-referential records work at all.
+
+parse_su(int[] pos) {
+  int un = su_head(pos);
+  int r = su_tag(pos, un);
+} return int r;
+given boot_a given ty_setup given lexfix stdin "struct foo ;" ([0]):(0)
+given struct_foo_fix given lexfix stdin "struct foo ;" ([0]):(5)
+
+su_kw(int[] pos) {
+  int n = 0;
+  if(at_text(pos, "union")) {
+    n = 1;
+  }
+} return int n;
+given lexfix stdin "union" ([0]):(1)
+given lexfix stdin "struct" ([0]):(0)
+
+su_tag(int[] pos, int un) {
+  string name = take_ident(pos);
+  int r = su_body(pos, un, name);
+} return int r;
+given boot_a given ty_setup given lexfix stdin "foo ;" ([0], 0):(0)
+given struct_foo_fix given lexfix stdin "foo ;" ([0], 0):(5)

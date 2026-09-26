@@ -1,0 +1,22 @@
+// Zero-argument readers of block 0's row, for `then` (docs/TESTS.md: a check
+// takes no parameters, and cfg_term/cfg_succ/cfg_alt/cfg_expr all take a
+// block number). The setters and terminator-writers below are exercised on
+// block 0 of whatever the given built, and their only other observable
+// effect (sset/lset) is a builtin, so a `then calls` cannot see it either.
+term0() {
+  string kind = cfg_term(0);
+} return string kind;
+given cfg_body_fixture ():("end")
+given cond_body_fixture ():("cond")
+
+succ0() {
+  int nxt = cfg_succ(0);
+} return int nxt;
+given cond_body_fixture ():(1)
+given cfg_body_fixture ():(-1)
+
+alt0() {
+  int alt = cfg_alt(0);
+} return int alt;
+given cond_body_fixture ():(2)
+given cfg_body_fixture ():(-1)

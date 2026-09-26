@@ -1,0 +1,39 @@
+// The token-store append. The two imported-list store helpers (`lset` and
+// `sset`) come from the standard library.
+//
+// The append keeps the three lists parallel because it is the only thing
+// that pushes to them.
+//
+// drv/st/ is already at 3 files, so this file was promoted into its own
+// subdirectory to make room for curfile.id's reader.
+
+add_tok(string kind, string txt) {
+  push((import tkind), kind);
+  push((import ttext), txt);
+  push((import tline), (import curline)[0]);
+} return void;
+given init_tokens given init_lines ("id", "ab"):() then last_tok_text:("ab")
+given init_tokens given init_lines ("op", "+"):() then last_tok_text:("+")
+
+// mark.id's at_bol needs two more functions than its own file has room for
+// (drv/st/ is already at 3 files of 3 functions each), so the backward
+// whitespace walk lives here instead: `j` may be negative here (at_bol_next
+// guards it before every peek) but never inside at_bol_scan.
+at_bol_next(word base, int j) {
+  int r = bol_ok(base, j);
+  if(j >= 0) {
+    r = at_bol_scan(base, j);
+  }
+} return int r;
+given lex_src_fixture ((import gb), -1):(1)
+given lex_src_fixture ((import gb), 9):(0)
+
+at_bol_scan(word base, int j) {
+  int c = peek8(base + j);
+  int r = bol_ok(base, j);
+  if(is_hspace(c)) {
+    r = at_bol_next(base, j - 1);
+  }
+} return int r;
+given lex_src_fixture ((import gb), 22):(1)
+given lex_src_fixture ((import gb), 9):(0)

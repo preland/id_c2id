@@ -2,6 +2,8 @@ dec_of(word v, word[] fs) {
   word w = narrow_s(v, fs[4]);
   string txt = sdec(w);
 } return string txt;
+(4294967295, [0, 0, 0, 0, 0]):("-1")
+(42, [0, 0, 0, 0, 0]):("42")
 
 // Signed decimal. The negation of the most negative value wraps back to
 // itself, and str_of_base reads that as unsigned -- which is exactly the
@@ -14,6 +16,8 @@ sdec(word v) {
     txt = str_of_base(v, 10, 0);
   }
 } return string txt;
+(42):("42")
+(-5):("-5")
 
 // Reduce an argument to the signed value the length modifier describes:
 // code 0 is C's default `int`, so a bare %d of a 64-bit word prints the low
@@ -26,3 +30,5 @@ narrow_s(word v, word lm) {
     res = narrow_s2(v, lm);
   }
 } return word res;
+(4294967295, 0):(-1)
+(255, 1):(-1)

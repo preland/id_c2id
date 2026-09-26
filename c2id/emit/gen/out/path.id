@@ -21,3 +21,5 @@ tri_digit(int n, int d) {
   int div = pow3(shift);
   int r = (n / div) % 3;
 } return int r;
+(0, 0):(0)
+(1, 4):(1)

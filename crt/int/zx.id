@@ -7,13 +7,19 @@
 zx8(word v) {
   word x = v & 0xff;
 } return word x;
+(0xff):(255)
+(0x100):(0)
 
 // zx16(0 - 1) = 65535
 zx16(word v) {
   word x = v & 0xffff;
 } return word x;
+(0xffff):(65535)
+(0x10000):(0)
 
 // zx32(0 - 1) = 4294967295
 zx32(word v) {
   word x = v & 0xffffffff;
 } return word x;
+(0xffffffff):(4294967295)
+(0x100000000):(0)

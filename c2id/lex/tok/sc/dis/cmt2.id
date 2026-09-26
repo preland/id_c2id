@@ -8,6 +8,8 @@ cmt_end(word base, int i) {
   }
   int r = cmt_stop(base, i);
 } return int r;
+given init_lines given lex_src_fixture ((import gb), 17):(22)
+given init_lines given lex_src_fixture ((import gb), 20):(22)
 
 // `//` or `/*`. The default (a line comment, ending at the LF, which the
 // whitespace path then counts) is the safe one and has no side effects, so
@@ -18,6 +20,8 @@ scan_cmt(word base, int i) {
     ni = cmt_end(base, i + 2);
   }
 } return int ni;
+given init_lines given lex_src_fixture ((import gb), 15):(22)
+given init_lines given lex_src_fixture ((import gb), 2):(14)
 
 // Kind `num`, text = the exact spelling: prefix, digits, dot, exponent and
 // suffix, unconverted.
@@ -26,3 +30,5 @@ scan_num(word base, int i) {
   string s = slice(base, i, ne);
   add_tok("num", s);
 } return int ne;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 5):(9) then calls add_tok:("num", "3e+2")
+given init_tokens given init_lines given lex_src_fixture ((import gb), 0):(4) then calls add_tok:("num", "12ab")

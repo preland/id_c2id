@@ -9,12 +9,16 @@ skip_bal(int[] pos) {
     depth = bal_step(pos, depth);
   }
 } return void;
+given lexfix stdin "a) z" ([0]):([2])
+given lexfix stdin "(a)) z" ([0]):([4])
 
 bal_step(int[] pos, int depth) {
   string s = cur_text(pos);
   int n = depth + bal_delta(s);
   advance(pos);
 } return int n;
+given lexfix stdin "(" ([0], 1):(2)
+given lexfix stdin ")" ([0], 1):(0)
 
 bal_delta(string s) {
   int n = 0;
@@ -24,3 +28,5 @@ bal_delta(string s) {
     n = close_delta(s);
   }
 } return int n;
+  ("("):(1)
+  (")"):(-1)

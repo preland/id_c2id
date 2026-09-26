@@ -1,0 +1,14 @@
+// Known, NUL-terminated flat-store strings, for crt's C-string functions
+// (mem/str/, fmt/conv/txt/ch.id's str_at). A case's own arguments are
+// literals, and a flat-store address only exists once something has built
+// it, so this lives here as a zero-argument setup (docs/TESTS.md, "Module
+// state") rather than a case literal. idstd_buf_t_setup's buf_ad/buf_ad2
+// (idstd/core/data/seq/buf/known.id) cover the byte-buffer half of crt's
+// mem/raw/ -- this adds only what they cannot: a real C-string terminator.
+// cs is "hi" (2 bytes then NUL); cs0 is "" (NUL at byte 0).
+crt_str_fixture() {
+  export word cs = mem_of_str("hi");
+  export word cs0 = mem_of_str("");
+} return void;
+():() then prints:("")
+():() then eprints:("")

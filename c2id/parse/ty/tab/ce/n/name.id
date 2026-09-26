@@ -11,13 +11,19 @@ ce_name2(int[] pos) {
     v = ce_skip(pos);
   }
 } return int v;
+given ty_setup given lexfix stdin "foo" ([0]):(0) then calls ce_ident:([1])
+given lexfix stdin ")" ([0]):(0) then calls ce_skip:([1])
 
 ce_ident(int[] pos) {
   string s = cur_text(pos);
   int v = enum_val(s);
   advance(pos);
 } return int v;
+given ty_setup given lexfix stdin "foo" ([0]):(0)
+given answer_enum_fix given lexfix stdin "answer" ([0]):(42)
 
 ce_skip(int[] pos) {
   advance(pos);
 } return int 0;
+given lexfix stdin ")" ([0]):(0) then calls advance:[1]
+given lexfix stdin "5" ([0]):(0) then calls advance:[1]

@@ -8,6 +8,8 @@ star_quals(int[] pos) {
     ok = skip_noise(pos);
   }
 } return void;
+given lexfix stdin "const volatile x" ([0]):([2])
+given lexfix stdin "x" ([0]):([0])
 
 dcl_direct(int[] pos, int inner) {
   int r = 0;
@@ -17,6 +19,8 @@ dcl_direct(int[] pos, int inner) {
     r = dcl_named(pos, inner);
   }
 } return int r;
+given boot_a given ty_setup given lexfix stdin "x" ([0], 0):(0)
+given boot_a given ty_setup given lexfix stdin "( x )" ([0], 0):(0) then calls dcl_group_open:([3])
 
 // The name is recorded *after* the suffixes, because a function suffix parses
 // parameter declarators, each of which reports a name of its own.
@@ -25,3 +29,5 @@ dcl_named(int[] pos, int inner) {
   int r = type_suffix(pos, inner);
   set_dname(name);
 } return int r;
+given ty_setup given lexfix stdin "x" ([0], 0):(0) then calls set_dname:("x")
+given ty_setup given lexfix stdin "*" ([0], 0):(0) then calls set_dname:("")

@@ -4,6 +4,8 @@ need_fix(int blk, string name, int nxt) {
     fix_add(blk, name);
   }
 } return void;
+given cfg_init (0, "L3", -1):() then calls fix_add:[1]
+given cfg_init (0, "L3", 5):() then calls fix_add:[0]
 
 // Run after the body is walked, when every label is in the table.
 run_fixes() {
@@ -13,6 +15,8 @@ run_fixes() {
     i = i + 1;
   }
 } return void;
+given cfg_init ():() then calls fix_one:[0]
+given fix_ready_fixture ():() then calls fix_one:[2]
 
 // A goto naming a label that does not exist stays at -1, which is invalid C
 // and shows up in the printed graph as an edge to b-1 rather than as silently
@@ -22,3 +26,5 @@ fix_one(int i) {
   int blk = label_blk(s);
   set_sa((import fixb)[i], blk);
 } return void;
+given fix_ready_fixture (0):() then succ0:(2)
+given fix_ready_fixture (1):() then succ0:(-1)

@@ -8,11 +8,17 @@
 k_of(int id) {
   string kind = (import nk)[id];
 } return string kind;
+given boot_a given exprfix stdin "42;" ((import extop)):("num")
+given boot_a given exprfix stdin "x;" ((import extop)):("var")
 
 a_of(int id) {
   int a = (import na)[id];
 } return int a;
+given boot_a given exprfix stdin "5;" ((import extop)):(5)
+given boot_a given exprfix stdin "9;" ((import extop)):(9)
 
 b_of(int id) {
   int b = (import nb)[id];
 } return int b;
+given boot_a given exprfix stdin "1 + 2;" ((import extop)):(1)
+given boot_a given exprfix stdin "1 + 2 + 3;" ((import extop)):(3)

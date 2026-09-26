@@ -1,0 +1,30 @@
+
+// Appending one row to the member table. `n` is the member's offset in
+// *bits* from the start of the record; syoff keeps the byte and sybit the
+// bit within it, so a bitfield loses nothing. sywid is -1 for an ordinary
+// member. The member's type also goes onto the rec node's nl list, so the
+// two views stay in step.
+
+sy_push(int ty, string name, int r, int n, int w) {
+  sy_row(ty, r);
+  sy_col1(name, r, n);
+  sy_push2(n, w, r);
+} return void;
+given tynode_fix given ty_setup (1, "x", 0, 16, 2):() then calls sy_col1:("x", 0, 16)
+given tynode_fix given ty_setup (1, "x", 0, 16, 2):() then calls sy_row:(1, 0)
+
+sy_col1(string name, int r, int n) {
+  push((import synames), name);
+  push((import syids), r);
+  push((import syoff), n / 8);
+} return void;
+given ty_setup ("foo", 3, 16):() then sy_last_name:("foo") then sy_last_off:(2)
+given ty_setup ("bar", 4, 24):() then sy_last_name:("bar") then sy_last_off:(3)
+
+sy_col2(int n, int w, int sz) {
+  push((import sybit), n % 8);
+  push((import sywid), w);
+  push((import sysz), sz);
+} return void;
+given ty_setup (16, 2, 4):() then sy_last_bit:(0)
+given ty_setup (19, 2, 4):() then sy_last_bit:(3)

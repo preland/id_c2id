@@ -3,12 +3,16 @@ clear_names(string[] ss) {
     pop(ss);
   }
 } return void;
+(["a", "b"]):([])
+([]):([])
 
 clear_ints(int[] xs) {
   while(len(xs) > 0) {
     pop(xs);
   }
 } return void;
+([1, 2, 3]):([])
+([]):([])
 
 // Linear search: a C function has tens of locals, not thousands, and a map
 // would be two more parallel lists for no measurable gain.
@@ -20,3 +24,5 @@ find_local(string name) {
     i = i + 1;
   }
 } return int found;
+given onefr_fixture ("x"):(0)
+given onefr_fixture ("nope"):(-1)

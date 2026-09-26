@@ -8,6 +8,8 @@ pre_txt(int id, string op) {
   string txt = pre_inner(id, op);
   string out = conv_txt(ty, txt);
 } return string out;
+given txt_fixture given pend_setup (0, "~"):("t0") then calls pre_inner:(0, "~")
+given txt_fixture given pend_setup (5, "0 - "):("t0") then calls pre_inner:(5, "0 - ")
 
 // The parenthesised "op operand" text, split out so pre_txt can name
 // ex_ty(id) and the whole inner expression as two separate values without
@@ -16,6 +18,8 @@ pre_inner(int id, string op) {
   int a = a_of(id);
   string s = "(" + op + ex_txt(a) + ")";
 } return string s;
+given txt_fixture (0, "~"):("(~NEEDS_CFG_prim)")
+given txt_fixture (0, "-"):("(-NEEDS_CFG_prim)")
 
 // Prefix `++`/`--` is a compound assignment; unary `+` is the promotion and
 // nothing else.
@@ -28,3 +32,5 @@ incdec_txt(int id) {
     s = step_txt(a, op);
   }
 } return string s;
+given txt_fixture given pend_setup (0):("t0") then calls a_ex:(0)
+given txt_fixture given pend_setup (5):("t0") then calls a_ex:(5)

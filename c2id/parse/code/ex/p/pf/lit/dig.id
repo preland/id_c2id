@@ -11,6 +11,8 @@ dig_val(int c) {
     n = alpha_dig(c);
   }
 } return int n;
+(53):(5)
+(97):(10)
 
 alpha_dig(int c) {
   int n = 0 - 1;
@@ -20,6 +22,8 @@ alpha_dig(int c) {
     n = upper_dig(c);
   }
 } return int n;
+(97):(10)
+(65):(10)
 
 upper_dig(int c) {
   int n = 0 - 1;
@@ -27,3 +31,5 @@ upper_dig(int c) {
     n = c - 55;
   }
 } return int n;
+(65):(10)
+(90):(-1)

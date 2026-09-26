@@ -14,15 +14,21 @@ pick_one(int[] sp, int[] xs, int i) {
     n = xs[i];
   }
 } return int n;
+([0, 1, 0], [5, 6, 7], 1):(6)
+([0, 0, 0], [5, 6, 7], 1):(-1)
 
 int_type() {
   int[] sp = spec_init();
   lset(sp, 3, 1);
   int ty = mk_prim(sp);
 } return int ty;
+given boot_a ():(0) then calls mk_prim:([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, -1])
+given boot_a ():(0) then calls newleaf:("prim", 4, 1, "int", "")
 
 parse_typedef(int[] pos) {
   advance(pos);
   int inner = parse_specs(pos);
   td_names(pos, inner);
 } return void;
+given boot_a given ty_setup given lexfix stdin "typedef int x ;" ([0]):([4]) then calls td_reg:(0)
+given boot_a given ty_setup given lexfix stdin "typedef int a , b ;" ([0]):([6]) then calls td_reg:[2]

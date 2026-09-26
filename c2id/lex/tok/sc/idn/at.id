@@ -5,3 +5,5 @@ is_pfx_at(word base, int i, int e) {
   string s = slice(base, i, e);
   int ok = is_pfx(s);
 } return int ok;
+given lex_src_fixture ((import gb), 39, 41):(1)
+given lex_src_fixture ((import gb), 2, 4):(0)

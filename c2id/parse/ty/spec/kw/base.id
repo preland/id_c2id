@@ -9,6 +9,8 @@ is_base_kw(string s) {
     ok = 1;
   }
 } return int ok;
+("int"):(1)
+("struct"):(0)
 
 is_qual(string s) {
   int ok = is_qual2(s);
@@ -16,6 +18,8 @@ is_qual(string s) {
     ok = is_qual3(s);
   }
 } return int ok;
+("const"):(1)
+("int"):(0)
 
 is_qual2(string s) {
   int ok = 0;
@@ -23,3 +27,5 @@ is_qual2(string s) {
     ok = 1;
   }
 } return int ok;
+("const"):(1)
+("int"):(0)

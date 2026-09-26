@@ -4,11 +4,15 @@ decl_init(int[] pos) {
     a = init_val(pos);
   }
 } return int a;
+given boot_a given ty_setup given lexfix stdin "=" ([0]):(0)
+given boot_a given ty_setup given lexfix stdin ";" ([0]):(-1)
 
 init_val(int[] pos) {
   advance(pos);
   int a = parse_assign(pos);
 } return int a;
+given boot_a given ty_setup given lexfix stdin "1" ([0]):(0)
+given boot_a given ty_setup given lexfix stdin "\"x\"" ([0]):(0)
 
 // one_decl's tail: naming decl_init's result and the newleaf() call it must
 // return would be its third and fourth actions, one over its own budget.
@@ -18,6 +22,8 @@ decl_leaf(int[] pos, int b, string name) {
   int a = decl_init(pos);
   int id = newleaf("decl", a, b, name, "");
 } return int id;
+given boot_a given ty_setup given lexfix stdin ";" ([0], 0, "x"):(0)
+given boot_a given ty_setup given lexfix stdin "=" ([0], 0, "y"):(1)
 
 // skip_comma lives in ../../../../ex/p/pf/post/call/call2.id -- an argument
 // list and a declarator list separate the same way, and id rejects a second

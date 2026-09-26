@@ -9,9 +9,13 @@ dcl_group(int[] pos, int inner) {
   int i = dcl_group_open(pos);
   int r = grp_suffix(pos, inner, i);
 } return int r;
+given boot_a given ty_setup given lexfix stdin "( x )" ([0], 0):(0) then calls dcl_group_open:([3])
+given boot_a given ty_setup given lexfix stdin "( * x )" ([0], 0):(0) then calls newleaf:("ptr", 0, 0, "", "")
 
 dcl_group_open(int[] pos) {
   advance(pos);
   int i = pos[0];
   skip_bal(pos);
 } return int i;
+given lexfix stdin "a b ( x )" ([2]):(3)
+given lexfix stdin "(y)" ([0]):(1)

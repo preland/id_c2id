@@ -13,15 +13,21 @@ scan_members(int[] pos, int ty) {
   fill_members(pos, ty, lay);
   rec_end(pos, ty, lay);
 } return void;
+given tynode_fix given ty_setup given lexfix stdin "}" ([0], 5):([1], 5)
+given tynode_fix given ty_setup given lexfix stdin "int x ; }" ([0], 5):([4], 5) then calls sy_push:(5, "x", 6, 0, -1)
 
 fill_members(int[] pos, int ty, int[] lay) {
   while(cur_kind(pos) != "eof" && at_text(pos, "}") == 0) {
     member_step(pos, ty, lay);
   }
 } return void;
+given tynode_fix given ty_setup given lexfix stdin "}" ([0], 1, [0, 0, 1]):([0], 1, [0, 0, 1])
+given tynode_fix given ty_setup given lexfix stdin "int x ; }" ([0], 1, [0, 0, 1]):([3], 1, [32, 4, 4])
 
 member_step(int[] pos, int ty, int[] lay) {
   int i = pos[0];
   member_decl(pos, ty, lay);
   unstick(pos, i);
 } return void;
+given tynode_fix given ty_setup given lexfix stdin "int x ;" ([0], 1, [0, 0, 1]):([3], 1, [32, 4, 4]) then calls member_decl:([3], 1, [32, 4, 4])
+given tynode_fix given ty_setup given lexfix stdin ";" ([0], 1, [0, 0, 1]):([1], 1, [0, 0, 1]) then calls mem_anon:(1, [0, 0, 1], 6)

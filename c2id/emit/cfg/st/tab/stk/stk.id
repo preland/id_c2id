@@ -4,11 +4,17 @@
 push_brk(int blk) {
   push((import btgt), blk);
 } return void;
+given cfg_init (5):() then brk_top:(5)
+given cfg_init (9):() then brk_top:(9)
 
 pop_brk() {
   pop((import btgt));
 } return void;
+given loop_ready_fixture ():() then brk_top:(-1)
+given loop_ready_fixture ():() then cont_top:(200)
 
 brk_top() {
   int blk = top_of((import btgt));
 } return int blk;
+given cfg_init ():(-1)
+given cfg_body_fixture ():(-1)

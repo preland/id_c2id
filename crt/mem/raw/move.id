@@ -12,6 +12,8 @@ c_memmove(word dst, word src, word n) {
     r = c_memcpy(dst, src, n);
   }
 } return word r;
+given idstd_buf_t_setup ((import buf_ad2), (import buf_ad), 4):((import buf_ad2)) then calls mv_back:[1]
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad2), 4):((import buf_ad)) then calls c_memcpy:[1]
 
 mv_back(word dst, word src, word n) {
   word i = n;
@@ -19,6 +21,8 @@ mv_back(word dst, word src, word n) {
     i = cpy_prev(dst, src, i);
   }
 } return word dst;
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad2), 4):((import buf_ad)) then idstd_buf_t_sum:(48)
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad2), 0):((import buf_ad)) then idstd_buf_t_sum:(72)
 
 // memcmp over *unsigned* bytes -- peek8 zero-extends, so the comparison is
 // unsigned without any extra work. `r` doubles as the early-exit flag,
@@ -35,3 +39,5 @@ c_memcmp(word a, word b, word n) {
     i = i + 1;
   }
 } return word r;
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad2), 4):(6)
+given idstd_buf_t_setup ((import buf_ad), (import buf_ad), 4):(0)

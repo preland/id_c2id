@@ -5,14 +5,20 @@ parse_do(int[] pos) {
   int[] l = [parse_stmt(pos)];
   int id = do_cond(pos, l);
 } return int id;
+given boot_a given ty_setup given lexfix stdin "do ; while (1);" ([0]):(2)
+given boot_a given ty_setup given lexfix stdin "do x; while (0);" ([0]):(3)
 
 do_cond(int[] pos, int[] l) {
   int a = read_paren_cond(pos);
   int id = do_done(pos, a, l);
 } return int id;
+given boot_a given lexfix stdin "while (1);" ([0], [0]):(1) then calls read_paren_cond:[1]
+given boot_a given lexfix stdin "while (0);" ([0], [0]):(1) then calls read_paren_cond:[1]
 
 do_done(int[] pos, int a, int[] l) {
   advance(pos);
   skip_semi(pos);
   int id = newlist("dowhile", a, 0, "", l);
 } return int id;
+given boot_a given lexfix stdin ";" ([0], 0, [0]):(0) then b0_of:(0)
+given boot_a given lexfix stdin " ;" ([0], 5, [0]):(0) then a0_of:(5)

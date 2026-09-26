@@ -6,3 +6,5 @@ a_elem_sz(int id) {
   int ety = elem_ty(aty);
   int sz = type_size(ety);
 } return int sz;
+given txt_fixture (0):(4) then calls elem_ty:(0)
+given txt_fixture (1):(4) then calls elem_ty:(0)

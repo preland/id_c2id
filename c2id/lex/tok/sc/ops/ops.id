@@ -10,6 +10,8 @@ op_len(word base, int i) {
   }
   int r = op_len3(base, i, w);
 } return int r;
+given lex_src_fixture ((import gb), 32):(2)
+given lex_src_fixture ((import gb), 36):(3)
 
 op_len3(word base, int i, int w) {
   string s3 = sub3(base, i);
@@ -18,9 +20,13 @@ op_len3(word base, int i, int w) {
     ni = 3;
   }
 } return int ni;
+given lex_src_fixture ((import gb), 32, 2):(2)
+given lex_src_fixture ((import gb), 36, 1):(3)
 
 scan_op(word base, int i) {
   int ne = i + op_len(base, i);
   string s = slice(base, i, ne);
   add_tok("op", s);
 } return int ne;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 32):(34) then calls add_tok:("op", "->")
+given init_tokens given init_lines given lex_src_fixture ((import gb), 34):(35) then calls add_tok:("op", "x")

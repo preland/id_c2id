@@ -1,0 +1,36 @@
+// Naming values. bin/idc rejects a call inside another call's arguments and a
+// return clause that is not a name or a literal (docs/SPEC.md), so every call
+// the emitter writes is bound to a `word` temporary on a line of its own first.
+// The expression builders return text rather than printing, so a named line
+// waits here until the block emitter prints the statement that uses it.
+//
+// name_val(call) queues `word tN = call;` and returns `tN`.
+
+name_val(string call) {
+  int k = (import pendn)[0];
+  push((import pend), "word t" + k + " = " + call + ";");
+  string name = name_push(call, k);
+} return string name;
+given pend_setup ("X"):("t0")
+given pend_setup ("Y"):("t0")
+
+name_push(string call, int k) {
+  push((import pendc), call);
+  lset((import pendn), 0, k + 1);
+  string name = "t" + k;
+} return string name;
+given pend_setup ("X", 0):("t0")
+given pend_setup ("Y", 5):("t5")
+
+// A C expression statement throws its value away. When the whole statement is
+// the last temporary, that line is taken back and the call itself becomes the
+// statement: `c_printf(t0, t1);`, not `t2;`.
+unname_last(string txt) {
+  string out = txt;
+  int k = (import pendn)[0] - 1;
+  if(len((import pend)) > 0 && txt == "t" + k) {
+    out = unname_pop(k);
+  }
+} return string out;
+given pend_setup given pend_grow_fixture ("t0"):("x")
+given pend_setup given pend_grow_fixture ("other"):("other")

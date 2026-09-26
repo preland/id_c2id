@@ -8,12 +8,16 @@ sizeof_body(int[] pos) {
     node = sizeof_inner(pos);
   }
 } return int node;
+given boot_a given ty_setup given lexfix stdin "int);" ([0]):(1)
+given boot_a given ty_setup given lexfix stdin "char);" ([0]):(1)
 
 sizeof_type(int[] pos) {
   int ty = parse_typename(pos);
   advance(pos);
   int id = newleaf("sizeof", 0, ty, "", "");
 } return int id;
+given boot_a given ty_setup given lexfix stdin "int);" ([0]):(1)
+given boot_a given ty_setup given lexfix stdin "char);" ([0]):(1)
 
 // `sizeof (x)` -- paren_expr consumes the ')' and applies postfix suffixes, so
 // `sizeof (s).f` measures the member, as C requires.
@@ -21,3 +25,5 @@ sizeof_inner(int[] pos) {
   int a = paren_expr(pos);
   int id = newleaf("sizeof", a, 0, "", "");
 } return int id;
+given boot_a given lexfix stdin "x);" ([0]):(1)
+given boot_a given lexfix stdin "y);" ([0]):(1)

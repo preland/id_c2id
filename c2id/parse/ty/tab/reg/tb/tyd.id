@@ -7,11 +7,15 @@ str_hit(string[] names, string name, int i) {
     found = i;
   }
 } return int found;
+(["a", "b", "c"], "b", 1):(1)
+(["a", "b", "c"], "z", 1):(-1)
 
 ty_add(string name, int ty) {
   push((import tynames), name);
   push((import tyids), ty);
 } return void;
+given ty_setup ("foo", 5):() then check_foo_ty:(5)
+given ty_setup ("bar", 9):() then check_foo_ty:(-1)
 
 // the type node registered for `name`, or -1
 ty_find(string name) {
@@ -21,3 +25,5 @@ ty_find(string name) {
     ty = (import tyids)[i];
   }
 } return int ty;
+given ty_setup ("foo"):(-1)
+given typedef_x_fix ("foo"):(5)

@@ -6,6 +6,8 @@ ex7(int id) {
     s = ex8(id);
   }
 } return string s;
+given txt_fixture (0):("NEEDS_CFG_prim") then calls ex8:(0)
+given txt_fixture (5):("NEEDS_CFG_ptr") then calls ex8:(5)
 
 ex8(int id) {
   string s = "";
@@ -15,6 +17,8 @@ ex8(int id) {
     s = ex9(id);
   }
 } return string s;
+given txt_fixture (0):("NEEDS_CFG_prim") then calls ex9:(0)
+given txt_fixture (5):("NEEDS_CFG_ptr") then calls ex9:(5)
 
 // `x++` as a subexpression should yield the value *before* the increment,
 // which needs a frame temporary. What is emitted here is the increment
@@ -30,3 +34,5 @@ ex9(int id) {
     s = ex10(id);
   }
 } return string s;
+given txt_fixture (0):("NEEDS_CFG_prim") then calls ex10:(0)
+given txt_fixture (5):("NEEDS_CFG_ptr") then calls ex10:(5)

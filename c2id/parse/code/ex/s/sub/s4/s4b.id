@@ -6,3 +6,5 @@ cond_str2(int id, int a, int[] l) {
   int b = b_of(id);
   string s = "(" + expr_str(a) + " ? " + expr_str(b) + " : " + expr_str(l[0]) + ")";
 } return string s;
+given boot_a given exprfix stdin "1 ? 2 : 3;" ((import extop), 0, [2]):("(1 ? 2 : 3)")
+given boot_a given exprfix stdin "a ? b : c;" ((import extop), 0, [2]):("(a ? b : c)")

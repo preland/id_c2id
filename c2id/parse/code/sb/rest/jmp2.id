@@ -2,6 +2,8 @@ goto_done(int[] pos, string name) {
   skip_semi(pos);
   int id = newleaf("goto", 0, 0, name, "");
 } return int id;
+given boot_a given lexfix stdin ";" ([0], "x"):(0)
+given boot_a given lexfix stdin " ;" ([0], "y"):(0)
 
 // break and continue carry no operand; they differ from each other only in
 // the node kind, which -- being a literal -- is exactly what `id`'s
@@ -11,9 +13,13 @@ parse_break(int[] pos) {
   skip_semi(pos);
   int id = newleaf("break", 0, 0, "", "");
 } return int id;
+given boot_a given lexfix stdin "break;" ([0]):(0)
+given boot_a given lexfix stdin "break ;" ([0]):(0)
 
 parse_continue(int[] pos) {
   advance(pos);
   skip_semi(pos);
   int id = newleaf("continue", 0, 0, "", "");
 } return int id;
+given boot_a given lexfix stdin "continue;" ([0]):(0)
+given boot_a given lexfix stdin "continue ;" ([0]):(0)

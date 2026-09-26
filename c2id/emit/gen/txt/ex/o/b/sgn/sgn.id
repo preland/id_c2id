@@ -15,15 +15,21 @@ sgn_txt(int id) {
     s = uop_txt(id);
   }
 } return string s;
+given txt_fixture given pend_setup (0):("t0") then calls plain_txt:(0)
+given txt_fixture given pend_setup (5):("t0") then calls plain_txt:(5)
 
 uop_txt(int id) {
   string name = uop_fn(id);
   string s = uop_body(id, name);
   string out = self_conv(id, s);
 } return string out;
+given txt_fixture given pend_setup given uop_fixture (6):("t1") then calls uop_body:(6, "udiv")
+given txt_fixture given pend_setup given uop_fixture (7):("t1") then calls uop_body:(7, "umod")
 
 ufn_name(string op) {
   string[] words = ["/", "%", ">>"];
   string[] names = ["udiv", "umod", "ushr"];
   string name = names[find_str(words, op)];
 } return string name;
+("/"):("udiv")
+(">>"):("ushr")

@@ -15,11 +15,17 @@ init_frame() {
   export int[] lvoff = [];
   export int[] lvwid = [];
 } return void;
+given onefr_fixture ():() then lvoff_len:(0)
+given init_frame given init_frame2 ():() then lvoff_len:(0)
 
 init_frame2() {
   export int[] frsz = [8];
 } return void;
+given onefr_fixture ():() then frame_size:(8)
+given init_frame given init_frame2 ():() then frame_size:(8)
 
 frame_size() {
   int n = (import frsz)[0];
 } return int n;
+given init_frame given init_frame2 ():(8)
+given onefr_fixture ():(12)

@@ -5,6 +5,8 @@ is_alpha_at(word base, int i) {
   int c = peek8(base + i);
   int ok = is_alpha(c);
 } return int ok;
+given lex_src_fixture ((import gb), 2):(1)
+given lex_src_fixture ((import gb), 0):(0)
 
 // A nested call to the right of `&&` can't be named either -- the name
 // would be computed even when `.` isn't there -- so the lookahead digit
@@ -15,3 +17,5 @@ is_num_dot_at(word base, int i) {
     r = is_digit_at(base, i + 1);
   }
 } return int r;
+given lex_src_fixture ((import gb), 44):(1)
+given lex_src_fixture ((import gb), 35):(0)

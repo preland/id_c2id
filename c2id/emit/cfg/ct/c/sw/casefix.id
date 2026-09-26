@@ -1,0 +1,22 @@
+// A case table with two entries already recorded -- a real case (value 5,
+// block 2) and a default (value -1, block 4) -- for the case-table readers
+// (case_mark/case_val/case_blk) and the switch dispatch chain, none of
+// which can push onto casv/casb themselves (case_add takes arguments, so
+// it cannot be a `given` setup).
+case_ready_fixture() {
+  walk_ast_fixture();
+  case_add(5, 2);
+  case_add(-1, 4);
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+// A break target already pushed, for the switch-body walkers (sw_walk,
+// sw_close, ...) that reach pop_brk without having pushed one themselves --
+// push_brk takes an argument, so it cannot be a `given` setup.
+sw_ready_fixture() {
+  walk_ast_fixture();
+  push_brk(99);
+} return void;
+():() then prints:("")
+():() then eprints:("")

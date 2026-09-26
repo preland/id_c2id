@@ -6,8 +6,12 @@ ifs_cond2(int id, int nxt, int alt, int blk, int a) {
   set_cur(nxt);
   ifs_then(id, alt);
 } return void;
+given walk_ast_fixture ((import wifid), 0, 0, 0, 5):() then term0:("jmp") then succ0:(1) then cur_blk:(1)
+given walk_ast_fixture ((import wifid), 0, 0, 0, 5):() then cfg_nblocks:(2)
 
 ifs_then2(int id, int alt) {
   int blk = cur_blk();
   ifs_else(id, alt, blk);
 } return void;
+given walk_ast_fixture ((import wifid), 0):() then term0:("jmp") then succ0:(1) then cur_blk:(1)
+given walk_ast_fixture ((import wifid), 0):() then cfg_nblocks:(2)

@@ -11,3 +11,5 @@ sizeof_sz(int id) {
     sz = type_size(aty);
   }
 } return int sz;
+given txt_fixture (0):(4)
+given txt_fixture (1):(4) then calls ex_ty:(4)

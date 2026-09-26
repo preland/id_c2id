@@ -9,6 +9,8 @@ ce_ap3(string s, int a, int b) {
     v = a << b;
   }
 } return int v;
+  ("%", 10, 3):(1)
+  ("<<", 1, 3):(8)
 
 ce_mod(int a, int b) {
   int v = 0;
@@ -16,6 +18,8 @@ ce_mod(int a, int b) {
     v = a % b;
   }
 } return int v;
+  (10, 3):(1)
+  (10, 0):(0)
 
 ce_ap4(string s, int a, int b) {
   int v = ce_ap5(s, a, b);
@@ -25,3 +29,5 @@ ce_ap4(string s, int a, int b) {
     v = a | b;
   }
 } return int v;
+  (">>", 8, 2):(2)
+  ("|", 5, 3):(7)

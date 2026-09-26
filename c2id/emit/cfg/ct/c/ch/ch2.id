@@ -5,6 +5,8 @@ sw_test(int id, int i, int nxt) {
     blk = mk_test(id, i, nxt);
   }
 } return int blk;
+given case_ready_fixture ((import wswid), 1, 99):(99)
+given case_ready_fixture ((import wswid), 0, 99):(1)
 
 // One test block, holding no statements: the whole test is the terminator's
 // condition, `subject == case value`.
@@ -12,9 +14,13 @@ mk_test(int id, int i, int nxt) {
   int blk = new_block();
   mk_test_cont(id, i, nxt, blk);
 } return int blk;
+given case_ready_fixture ((import wswid), 0, 99):(1) then cfg_nblocks:(2)
+given case_ready_fixture ((import wswid), 1, 99):(1) then cfg_nblocks:(2)
 
 mk_test_cont(int id, int i, int nxt, int blk) {
   int a = a_of(id);
   int val = case_val(i);
   mk_test_cont2(i, nxt, blk, a, val);
 } return void;
+given case_ready_fixture ((import wswid), 0, 99, 0):() then term0:("cond") then succ0:(2) then alt0:(99) then expr0:(11)
+given case_ready_fixture ((import wswid), 1, 99, 0):() then succ0:(4) then alt0:(99)

@@ -10,6 +10,8 @@ emit_term(int b) {
     emit_term2(b);
   }
 } return void;
+given cfg_body_fixture (0):() then calls emit_term2:(0)
+given cfg_body_fixture (1):() then calls emit_term2:(1)
 
 emit_term2(int b) {
   if(cfg_term(b) == "end") {
@@ -18,9 +20,13 @@ emit_term2(int b) {
     emit_cond(b);
   }
 } return void;
+given cfg_body_fixture (0):() then calls emit_end:(0)
+given cfg_body_fixture (1):() then calls emit_end:(1)
 
 emit_end(int b) {
   int e = cfg_expr(b);
   emit_ret(e);
   print("  word nxt = 0 - 1;\n} return word nxt;");
 } return void;
+given cfg_body_fixture (0):() then prints:("  poke64(fp, 0);\n  word nxt = 0 - 1;\n} return word nxt;\n")
+given cfg_body_fixture (1):() then calls emit_ret:(-1)

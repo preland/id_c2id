@@ -1,0 +1,15 @@
+su_head(int[] pos) {
+  int un = su_kw(pos);
+  advance(pos);
+  skip_attrs(pos);
+} return int un;
+given lexfix stdin "union x" ([0]):(1)
+given lexfix stdin "struct x" ([0]):(0)
+
+// A registered tag, "struct foo" -> 5, for rec_look's found branch.
+struct_foo_fix() {
+  ty_setup();
+  su_reg(0, "foo", 5);
+} return void;
+():() then calls ty_add:("struct foo", 5)
+():() then calls su_key:(0, "foo")

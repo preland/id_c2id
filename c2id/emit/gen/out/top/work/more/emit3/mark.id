@@ -11,6 +11,8 @@ emit_mark() {
   emit_mark2(g);
   lset((import gfn), 0, g + 1);
 } return void;
+given init_gfn ():() then prints:("==== FILE b/0/0/0/0/0/f0.id\n")
+given init_gfn ():() then calls emit_mark2:(0)
 
 emit_mark2(int g) {
   int k = g % (import funcs_per_file);
@@ -19,9 +21,13 @@ emit_mark2(int g) {
     print("==== FILE " + p);
   }
 } return void;
+(0):() then prints:("==== FILE b/0/0/0/0/0/f0.id\n")
+(1):() then prints:("")
 
 emit_open(int fn, int b) {
   pend_reset();
   print("blk" + fn + "_" + b + "(word fp) {");
   emit_stmts(b);
 } return void;
+given init_gfn given cfg_body_fixture (0, 0):() then prints:("blk0_0(word fp) {\n")
+given init_gfn given cfg_body_fixture (1, 1):() then prints:("blk1_1(word fp) {\n")

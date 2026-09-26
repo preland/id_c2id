@@ -6,12 +6,16 @@ parse_if(int[] pos) {
   int a = read_paren_cond(pos);
   int id = if_then(pos, a);
 } return int id;
+given boot_a given ty_setup given lexfix stdin "if (1) ;" ([0]):(2)
+given boot_a given ty_setup given lexfix stdin "if (1) ; else ;" ([0]):(3)
 
 if_then(int[] pos, int a) {
   advance(pos);
   int[] l = [parse_stmt(pos)];
   int id = if_else(pos, a, l);
 } return int id;
+given boot_a given ty_setup given lexfix stdin ");" ([0], 0):(1) then calls parse_stmt:[1]
+given boot_a given ty_setup given lexfix stdin ")x;" ([0], 0):(2) then calls parse_stmt:[1]
 
 if_else(int[] pos, int a, int[] l) {
   int[] m = [];
@@ -20,3 +24,5 @@ if_else(int[] pos, int a, int[] l) {
   }
   int id = newnode("if", a, 0, "", "", l, m);
 } return int id;
+given boot_a given lexfix stdin "" ([0], 0, [0]):(0)
+given boot_a given lexfix stdin "else ;" ([0], 0, [0]):(1)

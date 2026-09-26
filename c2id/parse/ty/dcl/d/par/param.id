@@ -8,12 +8,16 @@ fill_params(int[] pos, int[] ps) {
   }
   advance(pos);
 } return void;
+given boot_a given ty_setup given lexfix stdin "int x )" ([0], []):([3], [0])
+given boot_a given ty_setup given lexfix stdin ")" ([0], []):([1], [])
 
 param_one(int[] pos, int[] ps) {
   int i = pos[0];
   param_body(pos, ps);
   unstick(pos, i);
 } return void;
+given boot_a given ty_setup given lexfix stdin "int x ," ([0], []):([3], [0])
+given boot_a given ty_setup given lexfix stdin "..." ([0], []):([1], [])
 
 // A loop that consumed nothing would spin forever on malformed input; this
 // makes progress the loop's own responsibility.
@@ -22,3 +26,5 @@ unstick(int[] pos, int i) {
     advance(pos);
   }
 } return void;
+([5], 5):([6])
+([7], 3):([7])

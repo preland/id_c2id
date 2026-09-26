@@ -7,14 +7,20 @@ is_signed_self(int id) {
   int ty = ex_ty(id);
   int ok = ty_signed(ty);
 } return int ok;
+given txt_fixture (0):(1) then calls ex_ty:(0)
+given txt_fixture (5):(1) then calls ex_ty:(5)
 
 uop_fn(int id) {
   string op = s_of(id);
   string name = ufn_name(op);
 } return string name;
+given txt_fixture given uop_fixture (6):("udiv")
+given txt_fixture given uop_fixture (7):("umod")
 
 uop_body(int id, string name) {
   string exa = a_ex(id);
   string exb = b_ex(id);
   string s = name_val(name + "(" + exa + ", " + exb + ")");
 } return string s;
+given txt_fixture given pend_setup (0, "udiv"):("t0")
+given txt_fixture given pend_setup (5, "umod"):("t0")

@@ -8,6 +8,8 @@ is_group(int[] pos) {
     ok = grp_open_inside(pos);
   }
 } return int ok;
+given ty_setup given lexfix stdin "( x" ([0]):(1)
+given ty_setup given lexfix stdin "x" ([0]):(0)
 
 grp_inside(string s) {
   int ok = 1;
@@ -15,6 +17,8 @@ grp_inside(string s) {
     ok = 0;
   }
 } return int ok;
+given ty_setup (")"):(0)
+given ty_setup ("xyz"):(1)
 
 type_suffix(int[] pos, int inner) {
   int r = 0;
@@ -24,3 +28,5 @@ type_suffix(int[] pos, int inner) {
     r = ty_suffix2(pos, inner);
   }
 } return int r;
+given boot_a given lexfix stdin "[ 3 ]" ([0], 0):(0) then calls newleaf:("arr", 0, 3, "", "")
+given boot_a given lexfix stdin "x" ([0], 0):(0)

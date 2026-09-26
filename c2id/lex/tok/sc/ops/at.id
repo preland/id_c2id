@@ -5,3 +5,5 @@ is_op2_at(word base, int i) {
   string s2 = sub2(base, i);
   int ok = is_op2(s2);
 } return int ok;
+given lex_src_fixture ((import gb), 32):(1)
+given lex_src_fixture ((import gb), 34):(0)

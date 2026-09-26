@@ -4,6 +4,8 @@ fo_run(int id, int nxt, int stp, int blk, int alt) {
   push_loop(alt, stp);
   fo_walk(id, nxt, stp, alt);
 } return void;
+given walk_ast_fixture ((import wforid), 0, 0, 0, 0):() then term0:("jmp") then succ0:(0) then cfg_nblocks:(1)
+given walk_ast_fixture ((import wforid), 0, 0, 0, 0):() then calls fo_test:[1] then calls fo_walk:[1]
 
 // Eager chain: the unconditional edge is written first and the conditional
 // one replaces it when there is a condition, so `for (;;)` needs no `else`.
@@ -12,9 +14,13 @@ fo_test(int id, int nxt, int blk, int alt) {
   int a = a_of(id);
   fo_test2(id, nxt, blk, alt, a);
 } return void;
+given walk_ast_fixture ((import wforid), 0, 0, 0):() then term0:("jmp") then succ0:(0)
+given walk_ast_fixture (6, 0, 0, 0):() then term0:("cond") then succ0:(0) then alt0:(0) then expr0:(3)
 
 fo_walk(int id, int nxt, int stp, int alt) {
   int[] m = m_of(id);
   walk_list(m);
   fo_walk2(id, nxt, stp, alt);
 } return void;
+given loop_pushed_fixture ((import did), 0, 0, 0):() then calls fo_walk2:[1]
+given loop_pushed_fixture ((import did), 5, 4, 3):() then calls loop_close:[1]

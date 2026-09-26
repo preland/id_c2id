@@ -1,0 +1,9 @@
+// Start a new C function. frame_reset empties fr's three lists; this one
+// empties the fourth -- lvtys, which txt_setup (reg.id) declares -- using fr's
+// own popper so there is only one such loop in the program.
+txt_reset() {
+  clear_ints((import lvtys));
+  frame_reset();
+} return void;
+given txt_fixture given init_frame given init_frame2 given lvtys_grow_fixture ():() then lvtys_len:(0)
+given txt_fixture given init_frame given init_frame2 given lvtys_grow_fixture ():() then frame_size:(8)

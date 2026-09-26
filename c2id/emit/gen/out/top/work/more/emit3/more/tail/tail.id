@@ -6,6 +6,8 @@ emit_cond3(int b, string txt) {
   int blk = thread_blk(dest);
   print("  if(" + txt + ") { nxt = " + blk + "; }\n} return word nxt;");
 } return void;
+given cond_body_fixture (0, "1"):() then prints:("  if(1) { nxt = 3; }\n} return word nxt;\n")
+given cond_body_fixture (0, "Y"):() then prints:("  if(Y) { nxt = 3; }\n} return word nxt;\n")
 
 // Check if block j references block b through any of its successors.
 // For "jmp" blocks, check the successor; for "cond" blocks, check both edges.
@@ -25,6 +27,8 @@ check_block_ref(int j, int b) {
     }
   }
 } return int result;
+given cfg_body_fixture (0, 1):(0)
+given cfg_body_fixture (1, 0):(0)
 
 // A block is dead if: not block 0, has no statements, terminates with "end"
 // with no return expression, and is not referenced by any other block.
@@ -45,3 +49,5 @@ is_dead(int b) {
     found_ref = 1 - found_ref;
   }
 } return int found_ref;
+given cfg_body_fixture (0):(0)
+given cfg_body_fixture (1):(1)

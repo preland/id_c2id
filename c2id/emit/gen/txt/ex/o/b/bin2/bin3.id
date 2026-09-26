@@ -7,6 +7,8 @@ plain_full(int id, int a, string op) {
   string s = "(" + shl_arg(a, op) + " " + op + " " + exb + ")";
   string out = self_conv(id, s);
 } return string out;
+given txt_fixture given pend_setup (0, 4, "int"):("t0")
+given txt_fixture given pend_setup (5, 4, ""):("t0")
 
 // Wraps s, the text of id's value in whatever width it was computed at,
 // down to id's own C type -- what every arithmetic and unary operator's
@@ -15,3 +17,5 @@ self_conv(int id, string s) {
   int ty = ex_ty(id);
   string out = conv_txt(ty, s);
 } return string out;
+given txt_fixture given pend_setup (0, "x"):("t0")
+given txt_fixture given pend_setup (5, "y"):("t0")

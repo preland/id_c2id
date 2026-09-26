@@ -1,0 +1,25 @@
+// unname_pop and flush_pend's real path both need at least one queued
+// temporary to act on -- pop((import pend)) traps on an empty list, and
+// flush_pend's loop never runs otherwise. name_val takes an argument, so it
+// cannot be a `given` itself; this wraps one call to it in a name a case can
+// give.
+pend_grow_fixture() {
+  string name = name_val("x");
+} return void;
+given pend_setup ():() then calls name_val:("x")
+given pend_setup ():() then calls name_push:("x", 0)
+
+// No existing reader answers "how many lines are still queued", which
+// pend_clear's own witness needs -- prints/calls cannot see a count.
+pend_len() {
+  int n = len((import pend));
+} return int n;
+given pend_setup ():(0)
+given pend_setup given pend_grow_fixture ():(1)
+
+// pend_reset's own witness: the counter, not the queue, is what it touches.
+pendn_val() {
+  int n = (import pendn)[0];
+} return int n;
+given pend_setup ():(0)
+given pend_setup given pend_grow_fixture ():(1)

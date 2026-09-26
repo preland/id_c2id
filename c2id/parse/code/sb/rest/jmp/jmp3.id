@@ -7,8 +7,12 @@ return_close(int[] pos, int a) {
   skip_semi(pos);
   int id = newleaf("return", a, 0, "", "");
 } return int id;
+given boot_a given lexfix stdin ";" ([0], 0):(0)
+given boot_a given lexfix stdin " ;" ([0], 0):(0)
 
 goto_tail(int[] pos, string name) {
   advance(pos);
   int id = goto_done(pos, name);
 } return int id;
+given boot_a given lexfix stdin ";" ([0], "x"):(0)
+given boot_a given lexfix stdin ";" ([0], "y"):(0)

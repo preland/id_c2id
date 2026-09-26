@@ -8,15 +8,21 @@ is_a_ptr(int id) {
   int aty = a_ty(id);
   int ok = is_ptr(aty);
 } return int ok;
+given txt_fixture (0):(0) then calls a_ty:(0)
+given txt_fixture (5):(0) then calls a_ty:(5)
 
 ptr_off_ab(int id, string op) {
   int a = a_of(id);
   int b = b_of(id);
   string s = ptr_off2(a, b, op);
 } return string s;
+given txt_fixture (0, "int"):("(NEEDS_CFG_prim int (NEEDS_CFG_prim * 4))")
+given txt_fixture (5, ""):("(NEEDS_CFG_prim  (NEEDS_CFG_prim * 4))")
 
 ptr_off_ba(int id, string op) {
   int a = a_of(id);
   int b = b_of(id);
   string s = ptr_off2(b, a, op);
 } return string s;
+given txt_fixture (0, "int"):("(NEEDS_CFG_prim int (NEEDS_CFG_prim * 4))")
+given txt_fixture (5, ""):("(NEEDS_CFG_prim  (NEEDS_CFG_prim * 4))")

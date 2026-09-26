@@ -9,6 +9,8 @@ param_push(int[] ps, int inner) {
     push(ps, r);
   }
 } return void;
+given tynode_fix ([], 0):([0])
+given tynode_fix ([], 1):([])
 
 is_void(int inner) {
   int ok = 0;
@@ -16,6 +18,8 @@ is_void(int inner) {
     ok = 1;
   }
 } return int ok;
+given tynode_fix (1):(1)
+given tynode_fix (0):(0)
 
 decay(int inner) {
   int r = inner;
@@ -26,3 +30,5 @@ decay(int inner) {
     r = decay2(inner);
   }
 } return int r;
+given tynode_fix (3):(6) then calls newleaf:("ptr", 0, 0, "", "")
+given tynode_fix (0):(0)

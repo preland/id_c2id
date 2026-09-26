@@ -9,6 +9,8 @@ dec_or_oct(string s) {
     n = digits_val(s, 1, 8);
   }
 } return int n;
+("42"):(42)
+("010"):(8)
 
 // 48 is '0'. A bare "0" is decimal zero, and so is "0L".
 is_oct_lit(string s) {
@@ -17,6 +19,8 @@ is_oct_lit(string s) {
     ok = 1;
   }
 } return int ok;
+("010"):(1)
+("42"):(0)
 
 // Accumulate digits of `radix` from index `i` until a character that is not one
 // -- which is exactly how the u/U/l/L suffixes get dropped.
@@ -28,3 +32,5 @@ digits_val(string s, int i, int radix) {
     i = i + 1;
   }
 } return int n;
+("42", 0, 10):(42)
+("2A", 0, 16):(42)

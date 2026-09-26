@@ -6,12 +6,16 @@ boot_e() {
   init_cfg4();
   boot_f();
 } return void;
+given boot_a ():() then calls init_cfg3:()
+given boot_a ():() then calls boot_f:()
 
 boot_f() {
   init_cfg5();
   txt_setup();
   init_tu();
 } return void;
+given boot_a ():() then calls txt_setup:()
+given boot_a ():() then calls init_tu:()
 
 // What the translation unit collected: one name and one body node per function
 // definition, kept parallel the way every other store in this compiler is.
@@ -20,3 +24,5 @@ init_tu() {
   export int[] fbodies = [];
   init_gfn();
 } return void;
+():() then calls init_gfn:()
+():() then calls pend_setup:()

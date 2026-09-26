@@ -19,14 +19,20 @@ do_for(int id) {
   walk_list(l);
   do_for2(id);
 } return void;
+given walk_ast_fixture ((import wforid)):() then term0:("jmp") then succ0:(1) then calls add_stmt:[1]
+given walk_ast_fixture ((import wforid)):() then cfg_nblocks:(5)
 
 fo_cond(int id, int nxt) {
   int c = cur_blk();
   fo_cond2(id, nxt, c);
 } return void;
+given walk_ast_fixture ((import wforid), 0):() then term0:("jmp") then succ0:(1)
+given walk_ast_fixture ((import wforid), 0):() then cfg_nblocks:(4)
 
 fo_body(int id, int nxt, int blk) {
   int stp = new_block();
   int alt = new_block();
   fo_run(id, nxt, stp, blk, alt);
 } return void;
+given walk_ast_fixture ((import wforid), 0, 0):() then term0:("jmp") then calls fo_run:[1]
+given walk_ast_fixture ((import wforid), 0, 0):() then cfg_nblocks:(3)

@@ -8,6 +8,8 @@ quote_kind(int c) {
     kind = "str";
   }
 } return string kind;
+(34):("str")
+(39):("chr")
 
 // `i` is where the token text starts (at the prefix, if there is one) and
 // `e` is the index of the opening quote. The emitted text is the raw source
@@ -17,9 +19,13 @@ scan_quoted(word base, int i, int e) {
   int ne = quote_end(base, e + 1, c);
   int r = quoted_emit(base, i, ne, c);
 } return int r;
+given init_tokens given init_lines given lex_src_fixture ((import eb), 0, 0):(6)
+given init_tokens given init_lines given lex_src_fixture ((import gb), 10, 10):(14)
 
 quoted_emit(word base, int i, int ne, int c) {
   string kind = quote_kind(c);
   string s = slice(base, i, ne);
   add_tok(kind, s);
 } return int ne;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 10, 14, 34):(14) then calls add_tok:("str", "\"hi\"")
+given init_tokens given init_lines given lex_src_fixture ((import gb), 0, 4, 34):(4) then calls add_tok:("str", "12ab")

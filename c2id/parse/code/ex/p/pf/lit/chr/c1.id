@@ -14,6 +14,8 @@ chr_val(string s) {
     c = first_ch(s);
   }
 } return int c;
+("a"):(97)
+("\\n"):(10)
 
 first_ch(string s) {
   int c = 0;
@@ -21,6 +23,8 @@ first_ch(string s) {
     c = charat(s, 0);
   }
 } return int c;
+("a"):(97)
+(""):(0)
 
 // s[0] is the backslash. 120 is 'x': a hex escape, any number of digits.
 esc_val(string s) {
@@ -31,3 +35,5 @@ esc_val(string s) {
     c = esc_val2(s);
   }
 } return int c;
+("\\x41"):(65)
+("\\n"):(10)

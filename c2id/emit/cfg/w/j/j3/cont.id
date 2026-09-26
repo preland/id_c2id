@@ -6,3 +6,5 @@ do_case2(int id, int blk, int c) {
   int a = a_of(id);
   case_add(a, blk);
 } return void;
+given walk_ast_fixture (6, 5, 0):() then term0:("jmp") then succ0:(5) then calls case_add:[1]
+given walk_ast_fixture (6, 9, 0):() then succ0:(9)

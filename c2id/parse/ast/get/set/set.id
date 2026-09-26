@@ -1,0 +1,31 @@
+// Mutating a node after the fact. The parser needs this in two places: a
+// `goto` is resolved to a block number only once the whole function has
+// been read, and a forward-declared struct's size is filled in when its
+// definition arrives.
+//
+// An imported list cannot be index-assigned directly -- `(import na)[i] = v`
+// parses as a comparison and silently does nothing. Passing the list as a
+// parameter makes the target a plain identifier again, and lists have
+// reference semantics, so the store is shared with every other holder.
+//
+// get/ has no room for a sibling file, so this file was promoted into its
+// own subdirectory to make room for the zero-argument readers (read1.id,
+// read2.id) a case here or in mk/push/ needs to observe what changed.
+
+m_of(int id) {
+  int[] m = (import nm)[id];
+} return int[] m;
+given lm_fixture (0):([3])
+given boot_a given exprfix stdin "1;" ((import extop)):([])
+
+set_a(int id, int a) {
+  lset((import na), id, a);
+} return void;
+given boot_a given exprfix stdin "1;" (0, 99):() then a0_of:(99)
+given boot_a given exprfix stdin "2;" (0, 55):() then a0_of:(55)
+
+set_b(int id, int b) {
+  lset((import nb), id, b);
+} return void;
+given boot_a given exprfix stdin "1;" (0, 99):() then b0_of:(99)
+given boot_a given exprfix stdin "2;" (0, 55):() then b0_of:(55)

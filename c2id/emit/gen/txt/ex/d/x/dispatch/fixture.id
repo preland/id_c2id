@@ -1,0 +1,25 @@
+// A mutation check on ex5 (change "assign" to "call") went green: every
+// txt_fixture node is "prim" or "ptr", so ex5's own condition is never
+// actually evaluated true by anything the earlier fixtures build, and a
+// case that only ever takes the else branch cannot tell one literal
+// string from another. This builds one real "assign" node -- pointing
+// both sides at an ordinary prim int so the rest of the walk stays safe
+// -- so ex5's `if` itself is exercised, not just its delegation.
+assign_fixture() {
+  int t = newleaf("prim", 4, 1, "int", "");
+  int aid = newleaf("assign", t, t, "=", "");
+} return void;
+given txt_fixture ():() then calls newleaf:("assign", 6, 6, "=", "")
+given txt_fixture ():() then calls newleaf:("prim", 4, 1, "int", "")
+
+// A mutation swapping usual_ty(aty, bty) for usual_ty(bty, aty) in pair_uty
+// also went green: every prim/ptr node defaults ex_ty to the same ty_int,
+// so aty and bty were always equal and an argument swap was invisible. An
+// "L"-suffixed literal promotes num_ty to long, giving one operand a real,
+// different type from the other's.
+pair_fixture() {
+  int n = newleaf("num", 100, 0, "100L", "");
+  int bid = newleaf("bin", n, 0, "+", "");
+} return void;
+given txt_fixture ():() then calls newleaf:("num", 100, 0, "100L", "")
+given txt_fixture ():() then calls newleaf:("bin", 6, 0, "+", "")

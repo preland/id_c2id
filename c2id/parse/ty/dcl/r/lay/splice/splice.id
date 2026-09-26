@@ -10,6 +10,8 @@ bf_fits(int n, int sz, int w) {
     ok = 1;
   }
 } return int ok;
+(3, 1, 5):(1)
+(1, 1, 0):(0)
 
 un_zero(int ty, int n) {
   int v = n;
@@ -17,9 +19,13 @@ un_zero(int ty, int n) {
     v = 0;
   }
 } return int v;
+given tynode_fix (0, 5):(0)
+given tynode_fix (1, 5):(5)
 
 splice(int ty, int[] lay, int inner) {
   splice_align(lay, inner);
   int n = place_ws(ty, lay, inner);
   splice_all(ty, inner, n);
 } return void;
+given mem_row_fix (2, [0, 0, 0], 1):(2, [0, 0, 8]) then calls sy_push:(2, "x", 0, 16, 2)
+given mem_row_fix (1, [0, 0, 0], 0):(1, [32, 4, 4])

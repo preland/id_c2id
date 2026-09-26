@@ -1,0 +1,24 @@
+// Readers for the two lists this module owns, so a case can witness what a
+// void function like fill_std or txt_reset left behind instead of only
+// proving it does not trap. Neither stdty nor lvtys has an existing
+// zero-parameter reader of its length.
+stdty_len() {
+  int n = len((import stdty));
+} return int n;
+given txt_fixture ():(5)
+given txt_fixture given fill_std ():(10)
+
+lvtys_len() {
+  int n = len((import lvtys));
+} return int n;
+given txt_fixture ():(0)
+given txt_fixture given init_frame given init_frame2 given lvtys_grow_fixture ():(1)
+
+// One local bound with a literal name and type, so lvtys (and lvnames/
+// lvoff/frsz alongside it) is not empty going into a txt_reset case --
+// the only way to tell "cleared" from "was already empty."
+lvtys_grow_fixture() {
+  int off = bind_local("z", 0);
+} return void;
+given txt_fixture given init_frame given init_frame2 ():() then calls bind_local:("z", 0)
+given txt_fixture given init_frame given init_frame2 ():() then lvtys_len:(1)

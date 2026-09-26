@@ -6,14 +6,20 @@ init_gfn() {
   export int[] gfn = [0];
   pend_setup();
 } return void;
+():() then calls pend_setup:()
+():() then pend_len:(0)
 
 pend_setup() {
   export string[] pend = [];
   export string[] pendc = [];
   export int[] pendn = [0];
 } return void;
+():() then pend_len:(0)
+():() then prints:("")
 
 // Each block function's temporaries start again at t0.
 pend_reset() {
   lset((import pendn), 0, 0);
 } return void;
+given pend_setup given pend_grow_fixture ():() then pendn_val:(0)
+given pend_setup ():() then pendn_val:(0)

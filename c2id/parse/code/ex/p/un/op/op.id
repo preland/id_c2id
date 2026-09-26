@@ -16,6 +16,8 @@ parse_unary(int[] pos) {
     node = parse_unary2(pos);
   }
 } return int node;
+given boot_a given lexfix stdin "!x;" ([0]):(1) then calls unary_op:[1]
+given boot_a given lexfix stdin "x;" ([0]):(0) then calls parse_unary2:[1]
 
 // The six prefix operators whose operand is a cast-expression. `+ - * &` are
 // here in their prefix meaning only: the ladder only ever asks about a binary
@@ -26,6 +28,8 @@ is_unop(string s) {
     ok = 1;
   }
 } return int ok;
+("!"):(1)
+("x"):(0)
 
 // Operand is a cast-expression, so `-(int)x` and `*(char *)p` parse.
 unary_op(int[] pos) {
@@ -33,3 +37,5 @@ unary_op(int[] pos) {
   advance(pos);
   int id = unary_node(pos, op);
 } return int id;
+given boot_a given lexfix stdin "!x;" ([0]):(1)
+given boot_a given lexfix stdin "-y;" ([0]):(1)

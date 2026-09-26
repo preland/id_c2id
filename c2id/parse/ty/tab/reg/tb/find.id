@@ -8,12 +8,16 @@ ty_init3() {
   export int[] sywid = [];
   ty_init4();
 } return void;
+():() then calls ty_init4:[1]
+given ty_setup ():() then calls ty_init4:[1]
 
 ty_init4() {
   export int[] syids = [];
   export string[] ecnames = [];
   export int[] ecvals = [];
 } return void;
+():() then prints:("")
+given ty_setup ():() then prints:("")
 
 // index of `name` in `names`, or -1. The `found < 0` guard is how a loop
 // stops early in a language with no `break`.
@@ -25,3 +29,5 @@ find_str(string[] names, string name) {
     i = i + 1;
   }
 } return int found;
+(["a", "b", "c"], "b"):(1)
+(["a", "b", "c"], "z"):(-1)

@@ -14,6 +14,8 @@ c_format(word fmt, word[] args) {
     out = out + fmt_step(fmt, args, st);
   }
 } return string out;
+given crt_fmt_fixture ((import pctbuf), [7]):("7")
+given crt_fmt_fixture ((import fmtbuf), []):("-05ld")
 
 // One step: an ordinary character, or a whole conversion specification.
 // fmt_lit runs either way and steps over the character just read, so when it
@@ -25,9 +27,13 @@ fmt_step(word fmt, word[] args, word[] st) {
     txt = fmt_spec(fmt, args, st);
   }
 } return string txt;
+given crt_fmt_fixture ((import fmtbuf), [], [0, 0]):("-")
+given crt_fmt_fixture ((import pctbuf), [7], [0, 0]):("7")
 
 fmt_lit(word c, word[] st) {
   wset(st, 0, st[0] + 1);
   int cc = c;
   string txt = ch_of(cc);
 } return string txt;
+(65, [0]):("A")
+(37, [3]):("%")

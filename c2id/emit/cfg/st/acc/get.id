@@ -6,12 +6,18 @@
 cfg_nblocks() {
   int n = len((import bkind));
 } return int n;
+given cfg_init ():(0)
+given cfg_body_fixture ():(2)
 
 cfg_stmts(int blk) {
   int[] l = (import bstmt)[blk];
 } return int[] l;
+given cfg_body_fixture (0):([])
+given cond_body_fixture (0):([])
 
 // "jmp", "cond" or "end".
 cfg_term(int blk) {
   string kind = (import bkind)[blk];
 } return string kind;
+given cfg_body_fixture (0):("end")
+given cond_body_fixture (0):("cond")

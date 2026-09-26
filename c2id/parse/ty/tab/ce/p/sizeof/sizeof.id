@@ -8,6 +8,8 @@ ce_sizeof(int[] pos) {
   advance(pos);
   int v = ce_szarg(pos);
 } return int v;
+given boot_a given ty_setup given lexfix stdin "sizeof ( int )" ([0]):(4)
+given lexfix stdin "sizeof x" ([0]):(8)
 
 ce_szarg(int[] pos) {
   int v = 8;
@@ -15,9 +17,13 @@ ce_szarg(int[] pos) {
     v = ce_szparen(pos);
   }
 } return int v;
+given boot_a given ty_setup given lexfix stdin "( int )" ([0]):(4)
+given lexfix stdin "x" ([0]):(8)
 
 ce_szparen(int[] pos) {
   advance(pos);
   int v = ce_szparen_sz(pos);
   skip_tok(pos, ")");
 } return int v;
+given boot_a given ty_setup given lexfix stdin "( int )" ([0]):(4)
+given boot_a given ty_setup given lexfix stdin "( char )" ([0]):(1)

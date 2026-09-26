@@ -6,6 +6,8 @@ parse_stmt7(int[] pos) {
     id = parse_stmt8(pos);
   }
 } return int id;
+given boot_a given lexfix stdin "return;" ([0]):(0) then calls parse_return:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls parse_empty:[1]
 
 parse_stmt8(int[] pos) {
   int id = 0;
@@ -15,6 +17,8 @@ parse_stmt8(int[] pos) {
     id = parse_stmt9(pos);
   }
 } return int id;
+given boot_a given lexfix stdin "goto l;" ([0]):(0) then calls parse_goto:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls parse_empty:[1]
 
 parse_stmt9(int[] pos) {
   int id = 0;
@@ -24,3 +28,5 @@ parse_stmt9(int[] pos) {
     id = parse_stmt10(pos);
   }
 } return int id;
+given boot_a given lexfix stdin "break;" ([0]):(0) then calls parse_break:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls parse_empty:[1]

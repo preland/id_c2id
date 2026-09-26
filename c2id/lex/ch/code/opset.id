@@ -14,6 +14,8 @@ is_op2(string s) {
     ok = 1;
   }
 } return int ok;
+("->"):(1)
+("-"):(0)
 
 is_op3(string s) {
   int ok = 0;
@@ -21,6 +23,8 @@ is_op3(string s) {
     ok = 1;
   }
 } return int ok;
+("..."):(1)
+(".."):(0)
 
 // A run of identifier characters immediately followed by a quote is a
 // literal prefix rather than an identifier, if it spells one of these.
@@ -30,3 +34,5 @@ is_pfx(string s) {
     ok = 1;
   }
 } return int ok;
+("u8"):(1)
+("x"):(0)

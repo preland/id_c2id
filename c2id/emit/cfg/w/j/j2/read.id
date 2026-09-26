@@ -1,0 +1,7 @@
+// A zero-argument reader of block 0's terminator expression, for `then`
+// (cfg_expr takes a block number, and a check takes none).
+expr0() {
+  int a = cfg_expr(0);
+} return int a;
+given cfg_body_fixture ():(-1)
+given cond_body_fixture ():(0)

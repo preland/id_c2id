@@ -2,9 +2,22 @@ sy_push2(int n, int w, int r) {
   int sz = type_size(r);
   sy_col2(n, w, sz);
 } return void;
+given tynode_fix given ty_setup (16, 2, 0):() then calls sy_col2:(16, 2, 4)
+given tynode_fix given ty_setup (19, 3, 2):() then calls sy_col2:(19, 3, 8)
 
 sy_row_m(int ty) {
   int[] m = m_of(ty);
   int n = len((import synames));
   push(m, n);
 } return void;
+given tynode_fix given ty_setup (1):() then check_node1_mlast:(0)
+given mem_row_fix (1):() then check_node1_mlast:(1)
+
+// dname after a real declarator name has been reported, for decl_name's
+// second case (ty_setup alone always leaves dname at "").
+dname_x_fix() {
+  ty_setup();
+  set_dname("x");
+} return void;
+():() then decl_name:("x")
+():() then calls set_dname:("x")

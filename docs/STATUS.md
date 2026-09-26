@@ -43,21 +43,10 @@ added.
 
 See `docs/ID_EXTENSIONS.md` for the specification and the rationale for each.
 
-| item | `idc.py` | self-hosted | LLVM | WASM | tests |
-| --- | --- | --- | --- | --- | --- |
-| hex literals | done | todo | done | done | yes |
-| bitwise `& \| ^ ~ << >>` on `int` | done | todo | done | done | yes |
-| `word` (64-bit machine word) | done | todo | rejects | rejects | yes |
-| `alloc` / `peek*` / `poke*` | done | todo | rejects | rejects | yes |
-| `udiv` / `umod` / `ult` / `ushr` | done | todo | rejects | rejects | yes |
-| `str_of_mem` / `mem_of_str` | done | todo | rejects | rejects | yes |
-
-Committed on branch `kernel-port/systems-extensions` in `../idc`; full suite
-there is 116 passed, 0 failed. "rejects" means the backend refuses the
-feature by name rather than miscompiling it — see `docs/ID_EXTENSIONS.md` §6
-for why. "todo" on the self-hosted column means `bin/idc` falls back to
-`idc.py` for programs using the new syntax, which is its documented
-behaviour, so nothing is blocked.
+Every extension there is implemented by `idc/bin/idc` on all three targets.
+To see that it still is, run `idc/tests/conform.sh` in the umbrella repo: its
+`int/` and `store/` areas cover hex and binary literals, the bitwise operators,
+`word`, the flat store and the unsigned builtins, each on `c`, `llvm` and `wasm`.
 
 ## `crt` — C-semantics runtime, in `id`
 

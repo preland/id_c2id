@@ -5,6 +5,8 @@ merge_blk(word h, word nx) {
   merge_set(h, hz, nx);
   fix_prev(h + hz, h);
 } return void;
+given crt_heap_fixture4 ((import h0), (import h1)):() then h0_word:(64)
+given crt_heap_fixture ((import h0), (import h0)):() then h0_word:(128)
 
 // The merged size written, split out of merge_blk so its block stays under the
 // three-action limit.
@@ -12,3 +14,5 @@ merge_set(word h, word hz, word nx) {
   word nz = bsize(nx);
   bset(h, hz + nz, 0);
 } return void;
+given crt_heap_fixture4 ((import h0), 32, (import h1)):() then h0_word:(64)
+given crt_heap_fixture ((import h0), 10, (import h0)):() then h0_word:(74)

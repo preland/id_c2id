@@ -5,6 +5,8 @@ rep_ch(string ch, int k) {
     k = k - 1;
   }
 } return string txt;
+("x", 3):("xxx")
+("x", 0):("")
 
 // Zero padding goes *after* a minus sign, so "%05d" of -42 is "-0042" and
 // not "000-42".
@@ -14,6 +16,8 @@ zero_pad(string t, int k) {
     txt = "-" + rep_ch("0", k) + tail1(t);
   }
 } return string txt;
+("42", 2):("0042")
+("-42", 2):("-0042")
 
 // Everything but the first character. `id` has no substring builtin.
 tail1(string t) {
@@ -25,3 +29,5 @@ tail1(string t) {
     k = k + 1;
   }
 } return string txt;
+("abc"):("bc")
+("a"):("")

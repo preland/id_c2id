@@ -1,0 +1,15 @@
+// Does `s` contain byte `c` or byte `k`? Used only to read a literal's
+// suffix, where the pair is the lower- and upper-case spelling of the same
+// letter -- `4000000000u` and `4000000000U` are the same literal.
+has_ch(string s, int c, int k) {
+  int i = 0;
+  int found = 0;
+  while(i < len(s)) {
+    if(charat(s, i) == c || charat(s, i) == k) {
+      found = 1;
+    }
+    i = i + 1;
+  }
+} return int found;
+("abc", 97, 65):(1)
+("xyz", 97, 65):(0)

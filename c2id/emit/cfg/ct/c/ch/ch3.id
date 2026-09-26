@@ -6,3 +6,5 @@ mk_test_cont2(int i, int nxt, int blk, int a, int val) {
   int cblk = case_blk(i);
   term_cond(blk, eq, cblk, nxt);
 } return void;
+given case_ready_fixture (0, 99, 0, 5, 5):() then term0:("cond") then succ0:(2) then alt0:(99) then expr0:(11)
+given case_ready_fixture (1, 99, 0, 5, -1):() then succ0:(4) then alt0:(99)

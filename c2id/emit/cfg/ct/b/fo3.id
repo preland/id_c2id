@@ -3,12 +3,16 @@ fo_step(int id, int nxt, int stp) {
   fo_incr(b, stp);
   term_jmp(stp, nxt);
 } return void;
+given walk_ast_fixture ((import wforid), 0, 0):() then term0:("jmp") then succ0:(0) then cur_stmts:([11])
+given walk_ast_fixture ((import wforid), 7, 0):() then term0:("jmp") then succ0:(7)
 
 fo_incr(int b, int stp) {
   if(b >= 0) {
     add_step(b, stp);
   }
 } return void;
+given walk_ast_fixture (5, 0):() then cur_stmts:([11])
+given walk_ast_fixture (-1, 0):() then cur_stmts:([])
 
 // The step goes into its own block by number rather than through add_stmt,
 // because by now the walker has moved on to the loop's exit block.
@@ -17,3 +21,5 @@ add_step(int b, int stp) {
   int[] l = cfg_stmts(stp);
   push(l, id);
 } return void;
+given walk_ast_fixture (5, 0):() then cur_stmts:([11])
+given walk_ast_fixture (1, 0):() then cur_stmts:([11])

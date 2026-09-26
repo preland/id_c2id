@@ -11,8 +11,12 @@ decay2(int inner) {
     r = newleaf("ptr", inner, 0, "", "");
   }
 } return int r;
+given tynode_fix (4):(6) then calls newleaf:("ptr", 4, 0, "", "")
+given tynode_fix (0):(0)
 
 parse_typename(int[] pos) {
   int inner = parse_specs(pos);
   int r = parse_declarator(pos, inner);
 } return int r;
+given boot_a given ty_setup given lexfix stdin "int" ([0]):(0)
+given boot_a given ty_setup given lexfix stdin "int *" ([0]):(1) then calls newleaf:("ptr", 0, 0, "", "")

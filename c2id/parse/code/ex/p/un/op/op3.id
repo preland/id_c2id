@@ -12,6 +12,8 @@ parse_unary3(int[] pos) {
     node = parse_postfix(pos);
   }
 } return int node;
+given boot_a given lexfix stdin "sizeof x;" ([0]):(1) then calls parse_sizeof:[1]
+given boot_a given lexfix stdin "x;" ([0]):(0) then calls parse_postfix:[1]
 
 // unary_op's and pre_incdec's constructors: op.id and op2.id each already
 // spend their 3-action budget on reading the operator token and advancing,
@@ -20,8 +22,12 @@ unary_node(int[] pos, string op) {
   int a = parse_cast(pos);
   int id = newleaf("un", a, 0, op, "");
 } return int id;
+given boot_a given lexfix stdin "x;" ([0], "!"):(1)
+given boot_a given lexfix stdin "y;" ([0], "-"):(1)
 
 incdec_node(int[] pos, string op) {
   int a = parse_unary(pos);
   int id = newleaf("un", a, 0, op, "");
 } return int id;
+given boot_a given lexfix stdin "x;" ([0], "++"):(1)
+given boot_a given lexfix stdin "y;" ([0], "--"):(1)

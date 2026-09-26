@@ -2,6 +2,8 @@
 sx32(word v) {
   word x = sx_bits(v, 32);
 } return word x;
+(0x80000000):(-2147483648)
+(0xffffffff):(-1)
 
 // What C `int` arithmetic does to a result: keep the low 32 bits and read
 // them as signed. It is sx32 by definition -- named separately because the
@@ -10,3 +12,5 @@ sx32(word v) {
 wrap32(word v) {
   word x = sx32(v);
 } return word x;
+(0x80000000):(-2147483648)
+(0xffffffff):(-1)

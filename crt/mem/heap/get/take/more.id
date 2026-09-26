@@ -9,6 +9,8 @@ split_blk(word h, word need) {
     init_rest(h + need, rest, h);
   }
 } return void;
+given crt_heap_fixture ((import h0), 32):() then h0_word:(32)
+given crt_heap_fixture ((import h0), 64):() then h0_word:(64)
 
 re_min(word a, word b) {
   word r = b;
@@ -16,3 +18,5 @@ re_min(word a, word b) {
     r = a;
   }
 } return word r;
+(3, 5):(3)
+(5, 3):(3)

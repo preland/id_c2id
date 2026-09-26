@@ -3,14 +3,20 @@ case_add(int a, int blk) {
   push((import casb), blk);
   set_cur(blk);
 } return void;
+given cfg_init (5, 2):() then case_mark:(1) then cur_blk:(2)
+given case_ready_fixture (9, 3):() then case_mark:(3) then cur_blk:(3)
 
 pop_case() {
   pop((import casv));
   pop((import casb));
 } return void;
+given case_ready_fixture ():() then case_mark:(1)
+given case_ready_fixture ():() then eprints:("")
 
 drop_cases(int mark) {
   while(case_mark() > mark) {
     pop_case();
   }
 } return void;
+given case_ready_fixture (0):() then case_mark:(0)
+given case_ready_fixture (1):() then case_mark:(1)

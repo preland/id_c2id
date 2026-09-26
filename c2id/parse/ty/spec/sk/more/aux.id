@@ -4,6 +4,8 @@ attrs_more(int[] pos) {
   string s = cur_text(pos);
   int ok = is_attr(s);
 } return int ok;
+given lexfix stdin "__attribute__" ([0]):(1)
+given lexfix stdin "x" ([0]):(0)
 
 skip_qual_ok(int[] pos) {
   string s = cur_text(pos);
@@ -13,3 +15,5 @@ skip_qual_ok(int[] pos) {
     ok = 1;
   }
 } return int ok;
+given lexfix stdin "const x" ([0]):(1)
+given lexfix stdin "x" ([0]):(0)

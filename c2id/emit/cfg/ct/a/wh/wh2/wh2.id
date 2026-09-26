@@ -3,6 +3,8 @@ wh_end(int id, int nxt, int blk, int alt) {
   int[] l = l_of(id);
   wh_end2(nxt, alt, l);
 } return void;
+given loop_pushed_fixture ((import wid), 0, 1, 2):() then cur_blk:(2) then calls loop_close:[1]
+given loop_pushed_fixture ((import wid), 0, 3, 4):() then cur_blk:(4)
 
 // `do B while (c)`:
 //
@@ -18,9 +20,13 @@ do_dowhile(int id) {
   int c = cur_blk();
   do_dowhile2(id, blk, c);
 } return void;
+given dowhile_ast_fixture ((import did)):() then term0:("jmp") then succ0:(6)
+given dowhile_ast_fixture ((import did)):() then cfg_nblocks:(9)
 
 dw_run(int id, int blk) {
   int nxt = new_block();
   int alt = new_block();
   dw_body(id, blk, nxt, alt);
 } return void;
+given dowhile_ast_fixture ((import did), 0):() then term0:("jmp") then succ0:(6)
+given dowhile_ast_fixture ((import did), 0):() then cfg_nblocks:(8)

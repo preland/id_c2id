@@ -9,6 +9,8 @@ krealloc(word p, word n) {
     kfree(p);
   }
 } return word r;
+given crt_heap_fixture ((import p0), 0):(0) then calls kfree:[1]
+given crt_heap_fixture ((import p0), 16):((import p0)) then calls re_grow:[1]
 
 re_grow(word p, word n) {
   word q = kmalloc(n);
@@ -16,6 +18,8 @@ re_grow(word p, word n) {
     q = re_move(q, p, n);
   }
 } return word q;
+given crt_heap_fixture ((import p0), 16):((import p0)) then calls re_move:[1]
+given crt_heap_fixture ((import p0), 999):(0) then calls re_move:[0]
 
 // Always copies to a fresh block; there is no in-place grow. Correct, and
 // the shrink case still gets a smaller block back.
@@ -24,3 +28,5 @@ re_move(word q, word p, word n) {
   c_memcpy(q, p, len);
   kfree(p);
 } return word q;
+given crt_heap_fixture ((import p0), (import p0), 16):((import p0)) then calls kfree:[1]
+given crt_heap_fixture ((import p0), (import p0), 200):((import p0)) then calls kfree:[1]

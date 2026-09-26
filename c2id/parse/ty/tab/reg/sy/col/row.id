@@ -9,11 +9,15 @@ sy_row(int ty, int r) {
   sy_row_l(ty, r);
   sy_row_m(ty);
 } return void;
+given tynode_fix given ty_setup (1, 0):() then calls sy_row_l:(1, 0)
+given tynode_fix given ty_setup (1, 0):() then calls sy_row_m:(1)
 
 sy_row_l(int ty, int r) {
   int[] l = l_of(ty);
   push(l, r);
 } return void;
+given lm_fixture (0, 99):() then l0_of:([1, 2, 99])
+given lm_fixture (0, 5):() then l0_of:([1, 2, 5])
 
 // how many members record `ty` has
 member_count(int ty) {
@@ -21,3 +25,5 @@ member_count(int ty) {
   int k = len(m);
   int n = k - 1;
 } return int n;
+given tynode_fix (5):(0)
+given tynode_fix (3):(-1)

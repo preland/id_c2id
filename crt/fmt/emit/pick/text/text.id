@@ -8,6 +8,8 @@ conv_cs(word fmt, word c, word[] args, word[] st, word[] fs) {
     txt = conv_sp(fmt, c, args, st, fs);
   }
 } return string txt;
+given crt_fmt_fixture ((import fmtbuf), 99, [65], [0, 0], [0, 0, 0, 0, 0]):("A")
+given crt_fmt_fixture ((import fmtbuf), 115, [0], [0, 0], [0, 0, 0, 0, 0]):("(null)")
 
 // %s. The argument is a store address of a NUL-terminated string.
 conv_sp(word fmt, word c, word[] args, word[] st, word[] fs) {
@@ -20,6 +22,8 @@ conv_sp(word fmt, word c, word[] args, word[] st, word[] fs) {
     txt = conv_p(fmt, c, args, st, fs);
   }
 } return string txt;
+given crt_fmt_fixture ((import fmtbuf), 115, [0], [0, 0], [0, 0, 0, 0, 0]):("(null)")
+given crt_fmt_fixture ((import fmtbuf), 112, [0], [0, 0], [0, 0, 0, 0, 0]):("(nil)")
 
 // The character, padded. Split out of conv_cs: narrowing the argument, turning
 // it into a string and padding it is three actions, and the branch it sits in
@@ -29,3 +33,5 @@ ch_pad(word w, word[] fs) {
   string out = ch_of(cc);
   string txt = pad_str(out, fs);
 } return string txt;
+(65, [0, 0, 0, 0, 0]):("A")
+(97, [0, 0, 0, 0, 0]):("a")

@@ -6,13 +6,19 @@ a_ex(int id) {
   int a = a_of(id);
   string s = ex_txt(a);
 } return string s;
+given txt_fixture (0):("NEEDS_CFG_prim") then calls ex_txt:(4)
+given txt_fixture (1):("NEEDS_CFG_prim") then calls ex_txt:(4)
 
 b_ex(int id) {
   int b = b_of(id);
   string s = ex_txt(b);
 } return string s;
+given txt_fixture (0):("NEEDS_CFG_prim") then calls ex_txt:(1)
+given txt_fixture (1):("NEEDS_CFG_prim") then calls ex_txt:(0)
 
 a_addr(int id) {
   int a = a_of(id);
   string s = addr_txt(a);
 } return string s;
+given txt_fixture (0):("NOT_AN_LVALUE_prim") then calls addr_txt:(4)
+given txt_fixture (1):("NOT_AN_LVALUE_prim") then calls addr_txt:(4)

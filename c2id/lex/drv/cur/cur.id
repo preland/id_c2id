@@ -8,6 +8,8 @@ cur_kind(int[] pos) {
     kind = (import tkind)[pos[0]];
   }
 } return string kind;
+given lex_tok_fixture ([0]):("id")
+given lex_tok_fixture ([2]):("eof")
 
 cur_text(int[] pos) {
   string txt = "";
@@ -15,6 +17,8 @@ cur_text(int[] pos) {
     txt = (import ttext)[pos[0]];
   }
 } return string txt;
+given lex_tok_fixture ([1]):("+")
+given lex_tok_fixture ([5]):("")
 
 cur_line(int[] pos) {
   int n = 0;
@@ -22,3 +26,5 @@ cur_line(int[] pos) {
     n = (import tline)[pos[0]];
   }
 } return int n;
+given lex_tok_fixture ([0]):(1)
+given lex_tok_fixture ([9]):(0)

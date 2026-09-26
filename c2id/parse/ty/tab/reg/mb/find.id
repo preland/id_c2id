@@ -12,6 +12,8 @@ mem_find(int ty, string name) {
     i = i + 1;
   }
 } return int found;
+given mem_row_fix (1, "x"):(0)
+given mem_row_fix (1, "z"):(-1)
 
 mem_hit(int ty, string name, int i) {
   int j = m_of(ty)[i];
@@ -20,6 +22,8 @@ mem_hit(int ty, string name, int i) {
     found = j;
   }
 } return int found;
+given mem_row_fix (1, "x", 1):(0)
+given mem_row_fix (1, "z", 1):(-1)
 
 // byte offset of `name` inside record `ty`, or -1
 member_off(int ty, string name) {
@@ -29,3 +33,5 @@ member_off(int ty, string name) {
     off = (import syoff)[i];
   }
 } return int off;
+given mem_row_fix (1, "x"):(2)
+given mem_row_fix (1, "z"):(-1)

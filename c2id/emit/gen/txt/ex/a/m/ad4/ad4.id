@@ -10,6 +10,8 @@ ad4(int id) {
     s = ex_txt(a);
   }
 } return string s;
+given txt_fixture (0):("NOT_AN_LVALUE_prim")
+given txt_fixture (5):("NOT_AN_LVALUE_ptr")
 
 // A local is its frame offset. A name the frame pass never saw is a global,
 // which the flat-store model has no answer for yet -- there is no data
@@ -22,6 +24,8 @@ var_addr(string name) {
     s = "fp + " + off;
   }
 } return string s;
+given init_frame given init_frame2 ("x"):("g_x")
+given txt_fixture given init_frame given init_frame2 given lvtys_grow_fixture ("z"):("fp + 8")
 
 // a[i] scales by the element's size, and ex_ty of the whole idx node *is*
 // the element type, so the size is read straight off the result. `a` emits as
@@ -31,3 +35,5 @@ idx_addr(int id) {
   int sz = idx_sz(id);
   string out = idx_body(id, sz);
 } return string out;
+given txt_fixture (0):("(NEEDS_CFG_prim + (NEEDS_CFG_prim * 4))") then calls idx_sz:(0)
+given txt_fixture (1):("(NEEDS_CFG_prim + (NEEDS_CFG_prim * 4))") then calls idx_sz:(1)

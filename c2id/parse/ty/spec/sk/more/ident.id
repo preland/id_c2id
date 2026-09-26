@@ -8,6 +8,8 @@ take_ident(int[] pos) {
     name = ident_maybe(pos, name);
   }
 } return string name;
+given lexfix stdin "foo" ([0]):("foo")
+given lexfix stdin "123" ([0]):("")
 
 // is_type_word(cur_text(pos)) must not run when cur_kind(pos) != "id", so the
 // short-circuited `&&` in take_ident becomes this named step instead.
@@ -19,3 +21,5 @@ ident_maybe(int[] pos, string name) {
     advance(pos);
   }
 } return string name;
+given lexfix stdin "foo" ([0], ""):("foo")
+given lexfix stdin "int" ([0], ""):("")

@@ -12,6 +12,8 @@ conv_do(word fmt, word c, word[] args, word[] st, word[] fs) {
     txt = conv_num(fmt, c, args, st, fs);
   }
 } return string txt;
+given crt_fmt_fixture ((import fmtbuf), 37, [], [0, 0], [0, 0, 0, 0, 0]):("%")
+given crt_fmt_fixture ((import fmtbuf), 100, [42], [0, 0], [0, 0, 0, 0, 0]):("42")
 
 // %d and %i: signed decimal, narrowed to the width the length modifier asks
 // for and then sign-extended back.
@@ -23,6 +25,8 @@ conv_num(word fmt, word c, word[] args, word[] st, word[] fs) {
     txt = conv_uns(fmt, c, args, st, fs);
   }
 } return string txt;
+given crt_fmt_fixture ((import fmtbuf), 100, [42], [0, 0], [0, 0, 0, 0, 0]):("42")
+given crt_fmt_fixture ((import fmtbuf), 120, [255], [0, 0], [0, 0, 0, 0, 0]):("ff")
 
 // %u, %x, %X and %o: one unsigned value, three radices, two digit cases.
 conv_uns(word fmt, word c, word[] args, word[] st, word[] fs) {
@@ -33,3 +37,5 @@ conv_uns(word fmt, word c, word[] args, word[] st, word[] fs) {
     txt = conv_cs(fmt, c, args, st, fs);
   }
 } return string txt;
+given crt_fmt_fixture ((import fmtbuf), 120, [255], [0, 0], [0, 0, 0, 0, 0]):("ff")
+given crt_fmt_fixture ((import fmtbuf), 99, [65], [0, 0], [0, 0, 0, 0, 0]):("A")

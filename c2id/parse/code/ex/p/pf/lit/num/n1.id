@@ -13,6 +13,8 @@ to_num(string s) {
     n = int_val(s);
   }
 } return int n;
+("42"):(42)
+("0x2A"):(42)
 
 // A '.', 'e' or 'E' means floating point -- unless the literal is hex, where
 // 'e' and 'E' are digits. Hex floats (`0x1p3`) are not recognised.
@@ -22,6 +24,8 @@ is_float_lit(string s) {
     ok = 1;
   }
 } return int ok;
+("3.14"):(1)
+("42"):(0)
 
 is_hex_lit(string s) {
   int ok = 0;
@@ -29,3 +33,5 @@ is_hex_lit(string s) {
     ok = 1;
   }
 } return int ok;
+("0x1A"):(1)
+("42"):(0)

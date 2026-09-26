@@ -20,6 +20,8 @@ txt_setup() {
   export int[] lvtys = [];
   fill_std();
 } return void;
+given boot_a ():() then stdty_len:(5)
+given boot_a ():() then calls fill_std:()
 
 // Each fill_stdN pushes exactly one entry and hands on to the next --
 // newleaf's result has to be named before push can take it, which leaves
@@ -29,9 +31,13 @@ fill_std() {
   push((import stdty), t);
   fill_std2();
 } return void;
+given txt_fixture ():() then stdty_len:(10)
+given txt_fixture ():() then calls fill_std2:()
 
 fill_std2() {
   int t = newleaf("prim", 4, 0, "unsigned int", "");
   push((import stdty), t);
   fill_std3();
 } return void;
+given txt_fixture ():() then stdty_len:(9)
+given txt_fixture ():() then calls fill_std3:()

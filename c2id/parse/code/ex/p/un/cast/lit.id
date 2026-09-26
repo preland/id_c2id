@@ -8,6 +8,8 @@ paren_expr(int[] pos) {
   advance(pos);
   int node = postfix_tail(pos, a);
 } return int node;
+given boot_a given lexfix stdin "1);" ([0]):(0)
+given boot_a given lexfix stdin "x);" ([0]):(0)
 
 // `(T){ a, b }`. NOTES.md section 4 has no node kind for a brace initialiser,
 // so this is a `cast` whose operand is a `call` node with callee -1: -1 is
@@ -19,6 +21,8 @@ compound_lit(int[] pos, int ty) {
   scan_inits(pos, ids);
   int id = lit_node(ty, ids);
 } return int id;
+given boot_a given lexfix stdin "{1, 2};" ([0], 0):(3)
+given boot_a given lexfix stdin "{};" ([0], 0):(1)
 
 // '{' element, element ... '}'
 scan_inits(int[] pos, int[] ids) {
@@ -26,3 +30,5 @@ scan_inits(int[] pos, int[] ids) {
   fill_list(pos, ids, "}");
   advance(pos);
 } return void;
+given boot_a given lexfix stdin "{1, 2};" ([0], []):([5])
+given boot_a given lexfix stdin "{};" ([0], []):([2])

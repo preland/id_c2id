@@ -12,6 +12,8 @@ un_ty(int id) {
     ty = un_ty2(id);
   }
 } return int ty;
+given txt_fixture (0):(0) then calls un_ty2:(0)
+given txt_fixture (5):(0) then calls un_ty2:(5)
 
 // The `&` case builds a fresh ptr node. Lazily -- an eager arm here would
 // allocate one on every unary operator in the program.
@@ -25,6 +27,8 @@ un_ty2(int id) {
     ty = un_ty3(id);
   }
 } return int ty;
+given txt_fixture (0):(0) then calls un_ty3:(0)
+given txt_fixture (5):(0) then calls un_ty3:(5)
 
 un_ty3(int id) {
   int aty = a_ty(id);
@@ -33,3 +37,5 @@ un_ty3(int id) {
     ty = ty_int();
   }
 } return int ty;
+given txt_fixture (0):(0)
+given txt_fixture (5):(0)

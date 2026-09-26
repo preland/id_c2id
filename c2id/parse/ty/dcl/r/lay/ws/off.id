@@ -3,9 +3,13 @@ place_ws_off(int ty, int[] lay, int r) {
   int au = align_up(lay[0], 8 * al);
   int n = un_zero(ty, au);
 } return int n;
+given tynode_fix (1, [3, 0, 0], 0):(32)
+given tynode_fix (0, [3, 0, 0], 2):(0)
 
 place_bf_off(int ty, int[] lay, int r, int w) {
   int sz1 = type_size(r);
   int bp = bf_pos(lay[0], sz1, w);
   int n = un_zero(ty, bp);
 } return int n;
+given tynode_fix (1, [10, 0, 0], 0, 0):(32)
+given tynode_fix (0, [10, 0, 0], 0, 0):(0)

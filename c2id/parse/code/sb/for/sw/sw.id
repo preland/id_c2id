@@ -6,12 +6,16 @@ switch_body(int[] pos, int a) {
   int[] l = [parse_stmt(pos)];
   int id = newlist("switch", a, 0, "", l);
 } return int id;
+given boot_a given ty_setup given lexfix stdin "){;}" ([0], 0):(2) then calls parse_stmt:[2]
+given boot_a given ty_setup given lexfix stdin "){x;}" ([0], 0):(3) then calls parse_stmt:[2]
 
 parse_case(int[] pos) {
   advance(pos);
   int a = parse_cond(pos);
   int id = case_close(pos, a);
 } return int id;
+given boot_a given ty_setup given lexfix stdin "case 1:" ([0]):(1) then calls parse_cond:[1]
+given boot_a given ty_setup given lexfix stdin "case 2:" ([0]):(1) then calls parse_cond:[1]
 
 // `default` is a case whose value is -1: there is no C constant expression
 // that could collide with it, and it keeps the CFG builder to one node kind.
@@ -20,3 +24,5 @@ parse_default(int[] pos) {
   advance(pos);
   int id = newleaf("case", 0 - 1, 0, "", "");
 } return int id;
+given boot_a given ty_setup given lexfix stdin "default:" ([0]):(0)
+given boot_a given ty_setup given lexfix stdin "default:x" ([0]):(0)

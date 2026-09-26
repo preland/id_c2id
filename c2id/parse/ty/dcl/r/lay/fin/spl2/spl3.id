@@ -7,13 +7,19 @@ splice_more(int inner, int i) {
     ok = 1;
   }
 } return int ok;
+given tynode_fix (5, 0):(1)
+given tynode_fix (5, 1):(0)
 
 splice_len(int inner) {
   int[] m = m_of(inner);
   int k = len(m);
 } return int k;
+given tynode_fix (5):(1)
+given tynode_fix (3):(0)
 
 splice_shift(int ty, int j, int n) {
   int bp = sy_bpos(j);
   splice_mem(ty, j, n + bp);
 } return void;
+given mem_row_fix (2, 0, 100):() then calls splice_mem:(2, 0, 116)
+given mem_row_fix (0, 0, 50):() then calls splice_mem:(0, 0, 66)

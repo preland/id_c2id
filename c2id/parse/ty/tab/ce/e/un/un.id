@@ -6,6 +6,8 @@ ce_mstep(int[] pos, int v) {
   advance(pos);
   int r = ce_mstep2(pos, s, v);
 } return int r;
+given lexfix stdin "* 3" ([0], 2):(6)
+given lexfix stdin "/ 4" ([0], 20):(5)
 
 ce_at_m(string s) {
   int ok = 0;
@@ -13,6 +15,8 @@ ce_at_m(string s) {
     ok = 1;
   }
 } return int ok;
+  ("*"):(1)
+  ("+"):(0)
 
 ce_un(int[] pos) {
   int v = 0;
@@ -22,3 +26,5 @@ ce_un(int[] pos) {
     v = ce_prim(pos);
   }
 } return int v;
+given lexfix stdin "- 5" ([0]):(-5)
+given lexfix stdin "5" ([0]):(5)

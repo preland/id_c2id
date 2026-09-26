@@ -1,0 +1,29 @@
+name_at(int i, string name, int found) {
+  int r = found;
+  if((import lvnames)[i] == name) {
+    r = i;
+  }
+} return int r;
+given onefr_fixture (0, "x", -9):(0)
+given onefr_fixture (0, "nope", -9):(-9)
+
+// -1 for a name that is not a local -- the caller then treats it as a global.
+frame_off(string name) {
+  int found = find_local(name);
+  int off = 0 - 1;
+  if(found >= 0) {
+    off = (import lvoff)[found];
+  }
+} return int off;
+given onefr_fixture ("x"):(8)
+given onefr_fixture ("nope"):(-1)
+
+frame_wid(string name) {
+  int found = find_local(name);
+  int w = 0;
+  if(found >= 0) {
+    w = (import lvwid)[found];
+  }
+} return int w;
+given onefr_fixture ("x"):(4)
+given onefr_fixture ("nope"):(0)

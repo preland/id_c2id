@@ -5,6 +5,8 @@ walk_stmt9(int id) {
     walk_stmt10(id);
   }
 } return void;
+given walk_ast_fixture (1):() then calls do_goto:[1]
+given walk_ast_fixture (5):() then calls walk_stmt10:[1]
 
 walk_stmt10(int id) {
   if(k_of(id) == "return") {
@@ -13,6 +15,8 @@ walk_stmt10(int id) {
     walk_stmt11(id);
   }
 } return void;
+given walk_ast_fixture (0):() then calls do_return:[1]
+given walk_ast_fixture (5):() then calls walk_stmt11:[1]
 
 walk_stmt11(int id) {
   if(k_of(id) == "break") {
@@ -21,3 +25,5 @@ walk_stmt11(int id) {
     walk_stmt12(id);
   }
 } return void;
+given walk_ast_fixture (3):() then calls do_break:[1]
+given walk_ast_fixture (5):() then calls walk_stmt12:[1]

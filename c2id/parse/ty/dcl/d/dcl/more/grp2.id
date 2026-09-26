@@ -7,14 +7,20 @@ grp_suffix(int[] pos, int inner, int i) {
   int r = type_suffix(pos, inner);
   int r2 = grp_rewind(pos, i, r);
 } return int r2;
+given boot_a given ty_setup given lexfix stdin "* x )" ([3], 0, 0):(0) then calls newleaf:("ptr", 0, 0, "", "")
+given boot_a given ty_setup given lexfix stdin "[ 3 ] )" ([0], 0, 0):(1) then calls newleaf:("arr", 0, 3, "", "")
 
 grp_rewind(int[] pos, int i, int r) {
   int n = pos[0];
   pos[0] = i;
   int r2 = grp_inner(pos, r, n);
 } return int r2;
+given boot_a given ty_setup given lexfix stdin "* x )" ([3], 0, 0):(0) then calls newleaf:("ptr", 0, 0, "", "")
+given boot_a given ty_setup given lexfix stdin "x )" ([2], 0, 0):(0) then calls grp_inner:([2], 0, 2)
 
 grp_inner(int[] pos, int inner, int n) {
   int r = parse_declarator(pos, inner);
   pos[0] = n;
 } return int r;
+given boot_a given ty_setup given lexfix stdin "x )" ([0], 0, 2):(0)
+given boot_a given ty_setup given lexfix stdin "* x )" ([0], 0, 3):(0) then calls newleaf:("ptr", 0, 0, "", "")

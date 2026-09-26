@@ -6,6 +6,8 @@ is_signed_cmp(int id) {
   int uty = pair_uty(id);
   int ok = ty_signed(uty);
 } return int ok;
+given txt_fixture (0):(1) then calls pair_uty:(0)
+given txt_fixture (1):(1) then calls pair_uty:(1)
 
 // Whether *both* operands are pointers -- bin_ty3 and ptr_bin test this to
 // the right of &&, so b's type is only asked for once a already answered
@@ -18,6 +20,8 @@ is_ptr_pair(int id) {
     ok = is_ptr(bty);
   }
 } return int ok;
+given txt_fixture (0):(0) then calls a_ty:(0)
+given txt_fixture (1):(0) then calls a_ty:(1)
 
 // Whether *either* operand is a pointer -- bin2 tests this to the right of
 // ||, so b's type is only asked for once a has already answered no.
@@ -29,3 +33,5 @@ is_ptr_either(int id) {
     ok = is_ptr(bty);
   }
 } return int ok;
+given txt_fixture (0):(0) then calls b_ty:(0)
+given txt_fixture (1):(0) then calls b_ty:(1)

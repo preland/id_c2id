@@ -5,14 +5,21 @@ bind_local(string name, int ty) {
   push((import lvtys), ty);
   int off = frame_add(name, ty);
 } return int off;
+given txt_fixture given init_frame given init_frame2 ("x", 0):(8)
+given txt_fixture given init_frame given init_frame2 ("y", 2):(8)
 
-// Start a new C function. frame_reset empties fr's three lists; this one
-// empties the fourth, using fr's own popper so there is only one such loop
-// in the program.
-txt_reset() {
-  clear_ints((import lvtys));
-  frame_reset();
-} return void;
+// The C type of a local. Not a local -- a global, or a name the frame pass
+// never saw -- answers `int`, which is what C itself assumes for an
+// undeclared name.
+local_ty(string name) {
+  int i = find_local(name);
+  int ty = ty_int();
+  if(i >= 0) {
+    ty = (import lvtys)[i];
+  }
+} return int ty;
+given txt_fixture given init_frame given init_frame2 ("x"):(0)
+given txt_fixture given init_frame given init_frame2 ("y"):(0)
 
 // The slot a declaration names. The frame pass normally ran first, in which
 // case the offset is already there; when it has not -- a single pass over
@@ -24,3 +31,5 @@ decl_slot(string name, int ty) {
     off = bind_local(name, ty);
   }
 } return int off;
+given txt_fixture given init_frame given init_frame2 ("x", 0):(8)
+given txt_fixture given init_frame given init_frame2 ("y", 2):(8)

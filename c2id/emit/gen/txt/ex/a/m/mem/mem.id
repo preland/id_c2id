@@ -10,6 +10,8 @@ mem_addr(int id) {
     s = "(" + base_txt(id) + " + " + off + ")";
   }
 } return string s;
+given txt_fixture (0):("UNKNOWN_MEMBER_int")
+given txt_fixture (5):("UNKNOWN_MEMBER_")
 
 // `p->f` starts from the pointer's *value*; `s.f` starts from the record's
 // *address*. That is the only difference between the two operators.
@@ -21,6 +23,8 @@ base_txt(int id) {
     s = a_addr(id);
   }
 } return string s;
+given txt_fixture (0):("NOT_AN_LVALUE_prim") then calls a_addr:(0)
+given txt_fixture (1):("NOT_AN_LVALUE_prim") then calls a_addr:(1)
 
 // Scaling by an element size, for `*` in pointer addition and `/` in pointer
 // subtraction. A size of 1 -- char, and every void * the kernel casts through
@@ -31,3 +35,5 @@ scale_txt(string s, int sz, string op) {
     out = "(" + s + " " + op + " " + sz + ")";
   }
 } return string out;
+("X", 1, "*"):("X")
+("X", 4, "*"):("(X * 4)")

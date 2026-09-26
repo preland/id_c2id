@@ -8,6 +8,8 @@ sw_default(int mark, int alt) {
     i = i + 1;
   }
 } return int blk;
+given case_ready_fixture (0, 99):(4)
+given case_ready_fixture (2, 99):(99)
 
 def_at(int i, int blk) {
   int nxt = blk;
@@ -15,6 +17,8 @@ def_at(int i, int blk) {
     nxt = case_blk(i);
   }
 } return int nxt;
+given case_ready_fixture (0, 99):(99)
+given case_ready_fixture (1, 99):(4)
 
 // Backwards, so that test i's no-match edge is the chain already built for
 // the cases after it. Returns the head of the chain.
@@ -25,3 +29,5 @@ sw_chain(int id, int mark, int nxt) {
     i = i - 1;
   }
 } return int nxt;
+given case_ready_fixture ((import wswid), 0, 99):(1)
+given case_ready_fixture ((import wswid), 2, 99):(99)

@@ -5,13 +5,19 @@ arr_make(int[] pos, int inner, int n) {
   int r = type_suffix(pos, inner);
   int a = newleaf("arr", r, n, "", "");
 } return int a;
+given boot_a given lexfix stdin "x" ([0], 0, 3):(0) then calls newleaf:("arr", 0, 3, "", "")
+given boot_a given lexfix stdin "[ 2 ]" ([0], 0, 3):(1) then calls newleaf:("arr", 0, 3, "", "")
 
 fn_suffix(int[] pos, int inner) {
   int[] ps = fn_params(pos);
   int r = fn_make(pos, inner, ps);
 } return int r;
+given boot_a given lexfix stdin "( )" ([0], 0):(0)
+given boot_a given lexfix stdin "( ) [ 3 ]" ([0], 0):(1)
 
 fn_make(int[] pos, int inner, int[] ps) {
   int r = type_suffix(pos, inner);
   int a = newlist("fn", r, 0, "", ps);
 } return int a;
+given boot_a given lexfix stdin "x" ([0], 0, []):(0) then calls newlist:("fn", 0, 0, "", [])
+given boot_a given lexfix stdin "x" ([0], 5, [1, 2]):(0) then calls newlist:("fn", 5, 0, "", [1, 2])

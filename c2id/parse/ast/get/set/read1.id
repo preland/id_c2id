@@ -1,0 +1,24 @@
+// Zero-argument readers of node 0's kind/a/b fields, wrapping k_of/a_of/
+// b_of at the fixed index a fresh store's first node always gets. `then`
+// only names zero-argument functions, so a case proving what push_kab (or
+// anything that ends up building node 0) actually stored needs one of
+// these rather than calling k_of/a_of/b_of directly. get/ has no room for
+// a sibling file, so set.id was promoted into set/ to make room.
+
+k0_of() {
+  string s = k_of(0);
+} return string s;
+given kab_fixture ():("tok")
+given boot_a given exprfix stdin "5;" ():("num")
+
+a0_of() {
+  int v = a_of(0);
+} return int v;
+given kab_fixture ():(5)
+given boot_a given exprfix stdin "9;" ():(9)
+
+b0_of() {
+  int v = b_of(0);
+} return int v;
+given kab_fixture ():(7)
+given boot_a given exprfix stdin "5;" ():(0)

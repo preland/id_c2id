@@ -1,16 +1,12 @@
 
-// The counted specifier words, in the slot order sp uses.
-
 bump_spec(int[] pos, int[] sp, int i) {
   if(i >= 0) {
     lset(sp, i, sp[i] + 1);
     advance(pos);
   }
 } return void;
-
-spec_words() {
-  string[] names = ["void", "char", "short", "int", "long", "float", "double", "signed", "unsigned", "_Bool"];
-} return string[] names;
+([0], [0, 0, 0], 1):([1], [0, 1, 0])
+([0], [0, 0, 0], -1):([0], [0, 0, 0])
 
 has_idx(int i) {
   int ok = 0;
@@ -18,3 +14,5 @@ has_idx(int i) {
     ok = 1;
   }
 } return int ok;
+(0):(1)
+(-1):(0)

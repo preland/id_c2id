@@ -1,0 +1,27 @@
+// Three zero-argument fixtures, one per field group: each builds node 0
+// with hand-picked values push_kab/push_st/push_lm alone can set, so
+// get/set/'s k0_of/a0_of/b0_of/s0_of/t0_of/l0_of readers have a case
+// where the field is something a real single-token parse never produces
+// at node 0 (a real parse's first node is almost always a "num" or "var"
+// leaf with an empty tail and b = 0).
+
+kab_fixture() {
+  boot_a();
+  push_kab("tok", 5, 7);
+} return void;
+():() then k0_of:("tok")
+():() then b0_of:(7)
+
+st_fixture() {
+  boot_a();
+  push_st("hi", "ty");
+} return void;
+():() then s0_of:("hi")
+():() then t0_of:("ty")
+
+lm_fixture() {
+  boot_a();
+  push_lm([1, 2], [3]);
+} return void;
+():() then l0_of:([1, 2])
+():() then m0_of:([3])

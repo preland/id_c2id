@@ -2,3 +2,5 @@ td_reg(int r) {
   string name = decl_name();
   ty_add(name, r);
 } return void;
+given dname_x_fix (5):() then calls ty_add:("x", 5)
+given dname_x_fix (9):() then calls ty_add:("x", 9)

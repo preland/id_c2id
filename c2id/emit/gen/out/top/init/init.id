@@ -5,15 +5,21 @@ boot_b() {
   ty_setup();
   boot_c();
 } return void;
+given boot_a ():() then calls init_tokens:()
+given boot_a ():() then calls boot_c:()
 
 boot_c() {
   init_frame();
   init_frame2();
   boot_d();
 } return void;
+given boot_a ():() then calls init_frame:()
+given boot_a ():() then calls boot_d:()
 
 boot_d() {
   init_cfg();
   init_cfg2();
   boot_e();
 } return void;
+given boot_a ():() then calls init_cfg:()
+given boot_a ():() then calls boot_e:()

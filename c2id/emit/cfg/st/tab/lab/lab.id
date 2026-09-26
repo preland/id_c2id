@@ -11,6 +11,8 @@ lab_add(string name, int blk) {
   push((import labb), blk);
   set_cur(blk);
 } return void;
+given cfg_init ("L1", 2):() then cur_blk:(2)
+given cfg_init ("L2", 5):() then cur_blk:(5)
 
 // The block a label names, or -1 if it has not been seen yet.
 label_blk(string name) {
@@ -20,8 +22,12 @@ label_blk(string name) {
     blk = (import labb)[i];
   }
 } return int blk;
+given lab_ready_fixture ("L1"):(2)
+given lab_ready_fixture ("XX"):(-1)
 
 fix_add(int blk, string name) {
   push((import fixb), blk);
   push((import fixs), name);
 } return void;
+given cfg_init (0, "L3"):() then prints:("")
+given cfg_init (1, "L4"):() then eprints:("")

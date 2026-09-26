@@ -1,0 +1,43 @@
+// st_txt -- the `id` text of one straight-line C statement, ready to be
+// placed in a basic block. The result has its semicolon and no indentation;
+// the block emitter adds that, and is also what splits a run of these into
+// chains of three so the action limit is met.
+//
+// Only the three forms that carry no control flow are here. `if`, `while`,
+// `do`, `for`, `switch`, `break`, `continue`, `goto`, `label` and `case` are
+// all edges in the control flow graph rather than text, so they never reach
+// this function; a `block` is a list of statements, which is the CFG
+// builder's to walk.
+
+st_txt(int id) {
+  string s = "";
+  if(k_of(id) == "expr") {
+    int a = a_of(id);
+    string txt = ex_txt(a);
+    s = unname_last(txt) + ";";
+  } else {
+    s = stt2(id);
+  }
+} return string s;
+given txt_fixture (0):("// NEEDS_CFG prim") then calls stt2:(0)
+given txt_fixture (5):("// NEEDS_CFG ptr") then calls stt2:(5)
+
+stt2(int id) {
+  string s = "";
+  if(k_of(id) == "decl") {
+    s = decl_st(id);
+  } else {
+    s = stt3(id);
+  }
+} return string s;
+given txt_fixture (0):("// NEEDS_CFG prim") then calls stt3:(0)
+given txt_fixture (5):("// NEEDS_CFG ptr") then calls stt3:(5)
+
+stt3(int id) {
+  string s = "// NEEDS_CFG " + k_of(id);
+  if(k_of(id) == "return") {
+    s = ret_st(id);
+  }
+} return string s;
+given txt_fixture (0):("// NEEDS_CFG prim")
+given txt_fixture (5):("// NEEDS_CFG ptr")

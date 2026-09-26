@@ -8,6 +8,8 @@ scan_ident(word base, int i) {
   int e = ident_end(base, i);
   int r = ident_pick(base, i, e);
 } return int r;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 2):(4) then calls add_tok:("id", "ab")
+given init_tokens given init_lines given lex_src_fixture ((import gb), 23):(23) then calls add_tok:("id", "")
 
 // The quote test comes first so the common case never pays for the slice.
 ident_pick(word base, int i, int e) {
@@ -18,8 +20,12 @@ ident_pick(word base, int i, int e) {
     ni = emit_ident(base, i, e);
   }
 } return int ni;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 39, 41):(44) then calls add_tok:("str", "u8\"z\"")
+given init_tokens given init_lines given lex_src_fixture ((import gb), 2, 4):(4) then calls add_tok:("id", "ab")
 
 emit_ident(word base, int i, int e) {
   string s = slice(base, i, e);
   add_tok("id", s);
 } return int e;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 2, 4):(4) then calls add_tok:("id", "ab")
+given init_tokens given init_lines given lex_src_fixture ((import gb), 23, 23):(23) then calls add_tok:("id", "")

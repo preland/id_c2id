@@ -1,0 +1,16 @@
+// A literal `do {} while(1)` body, the "dowhile" counterpart of
+// ct/a/wh/body/whfix.id's while_ast_fixture, built by calling that fixture
+// (for cfg_init/boot_a and the six pre-made blocks) rather than repeating
+// its body under a different node-kind literal -- idc rejects two functions
+// whose only difference is a literal ("function uniqueness"). c2 is node 2
+// (the "num 1" condition, after while_ast_fixture's own c and wid); did is
+// node 3, a "dowhile" node with the same na/nl shape as "while".
+dowhile_ast_fixture() {
+  while_ast_fixture();
+  int c2 = newleaf("num", 1, 0, "1", "");
+  int[] empty = [];
+} chain () {
+  export int did = newnode("dowhile", c2, 0, "", "", empty, empty);
+} return void;
+():() then cfg_nblocks:(6)
+():() then cur_blk:(0)

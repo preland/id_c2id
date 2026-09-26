@@ -3,9 +3,13 @@
 heap_end() {
   word x = peek64((import crt_heap) + 8);
 } return word x;
+given crt_heap_fixture ():((import hend))
+given crt_heap_fixture3 ():((import hend2))
 
 // Round up to a multiple of 8. Every block size and every payload address
 // is 8-aligned, which is what C's max_align_t needs on this model.
 align8(word n) {
   word w = (n + 7) & ~7;
 } return word w;
+(64):(64)
+(65):(72)

@@ -6,3 +6,5 @@ emit_cond_alt(int b, string txt, int alt) {
   print("  word nxt = " + a + ";");
   emit_cond3(b, txt);
 } return void;
+given cond_body_fixture (0, "1", 2):() then prints:("  word nxt = 3;\n  if(1) { nxt = 3; }\n} return word nxt;\n")
+given cond_body_fixture (0, "1", 2):() then calls emit_cond3:(0, "1")

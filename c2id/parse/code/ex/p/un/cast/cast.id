@@ -14,6 +14,8 @@ parse_cast(int[] pos) {
     node = parse_unary(pos);
   }
 } return int node;
+given boot_a given ty_setup given lexfix stdin "(int)1;" ([0]):(2) then calls paren_head:[1]
+given boot_a given lexfix stdin "!x;" ([0]):(1) then calls parse_unary:[2]
 
 // Eat the '('. Split from paren_body only because `if`+`else` is already the
 // whole three-action budget of a block.
@@ -21,6 +23,8 @@ paren_head(int[] pos) {
   advance(pos);
   int node = paren_body(pos);
 } return int node;
+given boot_a given ty_setup given lexfix stdin "(int)1;" ([0]):(2)
+given boot_a given ty_setup given lexfix stdin "(x);" ([0]):(0)
 
 // '(' is gone. A type name means a cast (or a compound literal); anything else
 // is a parenthesised expression.
@@ -32,3 +36,5 @@ paren_body(int[] pos) {
     node = paren_expr(pos);
   }
 } return int node;
+given boot_a given ty_setup given lexfix stdin "int)1;" ([0]):(2)
+given boot_a given ty_setup given lexfix stdin "char)x;" ([0]):(2)

@@ -2,6 +2,8 @@ bump_size(int off, int sz) {
   push((import lvwid), sz);
   lset((import frsz), 0, off + sz);
 } return void;
+given init_frame given init_frame2 (8, 4):() then frame_size:(12)
+given init_frame given init_frame2 (8, 12):() then frame_size:(20)
 
 // Start a new function. `id` lists have no clear operation, so they are
 // emptied by popping.
@@ -10,8 +12,12 @@ frame_reset() {
   clear_offs();
   lset((import frsz), 0, 8);
 } return void;
+given onefr_fixture ():() then frame_size:(8) then lvoff_len:(0)
+given init_frame given init_frame2 ():() then frame_size:(8) then lvoff_len:(0)
 
 clear_offs() {
   clear_ints((import lvoff));
   clear_ints((import lvwid));
 } return void;
+given onefr_fixture ():() then lvoff_len:(0)
+given init_frame given init_frame2 ():() then lvoff_len:(0)

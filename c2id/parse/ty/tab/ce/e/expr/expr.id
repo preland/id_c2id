@@ -12,12 +12,16 @@ ce_expr(int[] pos) {
   int v = ce_mul(pos);
   int r = ce_eloop(pos, v);
 } return int r;
+given lexfix stdin "2 + 3" ([0]):(5)
+given lexfix stdin "2 * 3 + 1" ([0]):(7)
 
 ce_eloop(int[] pos, int v) {
   while(ce_more(pos)) {
     v = ce_estep(pos, v);
   }
 } return int v;
+given lexfix stdin "+ 3" ([0], 2):(5)
+given lexfix stdin ")" ([0], 7):(7)
 
 // cur_text(pos) must not be re-read as part of the while condition itself,
 // so ce_eloop's loop test becomes this named step instead.
@@ -25,3 +29,5 @@ ce_more(int[] pos) {
   string s = cur_text(pos);
   int ok = ce_at_e(s);
 } return int ok;
+given lexfix stdin "+" ([0]):(1)
+given lexfix stdin ")" ([0]):(0)

@@ -6,6 +6,8 @@ narrow_s2(word v, word lm) {
     res = sx16(v);
   }
 } return word res;
+(255, 1):(-1)
+(65535, 2):(-1)
 
 // Radix of an unsigned conversion: 16 for x/X, 8 for o, 10 for u.
 base_of(word c) {
@@ -16,6 +18,8 @@ base_of(word c) {
     base = 8;
   }
 } return int base;
+(120):(16)
+(111):(8)
 
 // Only %X uses upper-case digits.
 up_of(word c) {
@@ -24,3 +28,5 @@ up_of(word c) {
     upper = 1;
   }
 } return int upper;
+(88):(1)
+(120):(0)

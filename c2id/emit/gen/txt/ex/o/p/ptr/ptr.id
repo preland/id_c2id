@@ -10,6 +10,8 @@ ptr_bin(int id) {
     s = ptr_off(id);
   }
 } return string s;
+given txt_fixture (0):("(NEEDS_CFG_prim int (NEEDS_CFG_prim * 4))") then calls ptr_off:(0)
+given txt_fixture (5):("(NEEDS_CFG_prim  (NEEDS_CFG_prim * 4))") then calls ptr_off:(5)
 
 // The pointer may be on either side of a `+`. Naming which operand is which
 // here is what lets ptr_off2 be written once.
@@ -23,6 +25,8 @@ ptr_off(int id) {
     s = ptr_off_ba(id, op2);
   }
 } return string s;
+given txt_fixture (0):("(NEEDS_CFG_prim int (NEEDS_CFG_prim * 4))") then calls ptr_off_ba:(0, "int")
+given txt_fixture (5):("(NEEDS_CFG_prim  (NEEDS_CFG_prim * 4))") then calls ptr_off_ba:(5, "")
 
 // No conv_txt: the result is an address, already 64 bits, and narrowing it
 // would be wrong.
@@ -31,3 +35,5 @@ ptr_off2(int a, int b, string op) {
   string exb = ex_txt(b);
   string out = "(" + ex_txt(a) + " " + op + " " + scale_txt(exb, sz, "*") + ")";
 } return string out;
+given txt_fixture (1, 4, "+"):("(NEEDS_CFG_prim + (NEEDS_CFG_prim * 4))")
+given txt_fixture (0, 5, "-"):("(NEEDS_CFG_prim - (NEEDS_CFG_ptr * 4))")

@@ -10,6 +10,8 @@ bin_ty(int id) {
     ty = bin_ty2(id);
   }
 } return int ty;
+given txt_fixture (0):(0) then calls bin_ty2:(0)
+given txt_fixture (5):(0) then calls bin_ty2:(5)
 
 // A shift's right operand says how far, not what type: `1L << c` is a long
 // however narrow `c` is, and `u << 1` wraps at 32 bits however wide the
@@ -21,6 +23,8 @@ bin_ty2(int id) {
     ty = bin_ty3(id);
   }
 } return int ty;
+given txt_fixture (0):(0) then calls bin_ty3:(0)
+given txt_fixture (5):(0) then calls bin_ty3:(5)
 
 // p - q is a count of elements, not an address, so it is neither operand's
 // type. usual_ty already answers p + n and n + p with the pointer.
@@ -30,3 +34,5 @@ bin_ty3(int id) {
     ty = ty_long();
   }
 } return int ty;
+given txt_fixture (0):(0) then calls pair_uty:(0)
+given txt_fixture (5):(0) then calls pair_uty:(5)

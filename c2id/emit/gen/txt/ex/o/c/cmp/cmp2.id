@@ -14,8 +14,12 @@ ucmp_body(int id) {
     s = ult_txt(exa2, exb2);
   }
 } return string s;
+given txt_fixture given pend_setup (0):("t0")
+given txt_fixture given pend_setup (5):("t0")
 
 ucmp_final(string s, int id) {
   string op = s_of(id);
   string out = ucmp_neg(s, op);
 } return string out;
+given txt_fixture ("X", 0):("X")
+given txt_fixture ("X", 5):("X")

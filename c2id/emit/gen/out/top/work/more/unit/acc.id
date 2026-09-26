@@ -1,0 +1,9 @@
+// tu_add's own effect is only visible through fnames/fbodies, both
+// reference-semantic exports it pushes into directly rather than through a
+// parameter a case's expected tuple could show mutated. Neither has an
+// existing reader.
+fnames_len() {
+  int n = len((import fnames));
+} return int n;
+given init_tu ():(0)
+given txt_fixture given tu_body_fixture ():(1)

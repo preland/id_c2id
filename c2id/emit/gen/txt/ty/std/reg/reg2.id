@@ -5,12 +5,16 @@ fill_std3() {
   push((import stdty), t);
   fill_std4();
 } return void;
+given txt_fixture ():() then stdty_len:(8)
+given txt_fixture ():() then calls fill_std4:()
 
 fill_std4() {
   int t = newleaf("prim", 8, 0, "unsigned long", "");
   push((import stdty), t);
   fill_std5();
 } return void;
+given txt_fixture ():() then stdty_len:(7)
+given txt_fixture ():() then calls fill_std5:()
 
 // `char *`, the type of a string literal -- the one entry that is itself
 // built from a nested type, so its own newleaf has to be named first.
@@ -19,3 +23,5 @@ fill_std5() {
   int t = newleaf("ptr", charty, 0, "", "");
   push((import stdty), t);
 } return void;
+given txt_fixture ():() then stdty_len:(6)
+given txt_fixture ():() then lvtys_len:(0)

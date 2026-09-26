@@ -12,6 +12,8 @@ parse_primary(int[] pos) {
     node = primary2(pos);
   }
 } return int node;
+given boot_a given lexfix stdin "x;" ([0]):(0) then calls parse_var:[1]
+given boot_a given lexfix stdin "42;" ([0]):(0) then calls primary2:[1]
 
 primary2(int[] pos) {
   int node = 0;
@@ -21,6 +23,8 @@ primary2(int[] pos) {
     node = primary3(pos);
   }
 } return int node;
+given boot_a given lexfix stdin "42;" ([0]):(0) then calls parse_const:[1]
+given boot_a given lexfix stdin "\"hi\";" ([0]):(0) then calls primary3:[1]
 
 primary3(int[] pos) {
   int node = 0;
@@ -30,3 +34,5 @@ primary3(int[] pos) {
     node = primary4(pos);
   }
 } return int node;
+given boot_a given lexfix stdin "\"hi\";" ([0]):(0) then calls parse_str:[1]
+given boot_a given lexfix stdin "(1);" ([0]):(0) then calls primary4:[1]

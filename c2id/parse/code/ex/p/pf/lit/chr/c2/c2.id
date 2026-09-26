@@ -11,6 +11,8 @@ esc_val2(string s) {
     c = esc_named(ch1);
   }
 } return int c;
+("\\101"):(65)
+("\\n"):(10)
 
 // The letter is turned back into a one-character string so the generic table
 // search from the precedence ladder can be reused.
@@ -18,13 +20,17 @@ esc_named(int c) {
   int i = esc_find(c);
   int n = esc_at(i, c);
 } return int n;
+(110):(10)
+(122):(122)
 
 // An unknown escape stands for the character itself, which is what C says for
 // the ones it leaves undefined and what `\%` means in practice.
 esc_at(int i, int c) {
-  int[] lvls = esc_vals();
+  int[] lvls = (import esc_vals);
   int n = c;
   if(i >= 0) {
     n = lvls[i];
   }
 } return int n;
+(-1, 100):(100)
+(3, 10):(10)

@@ -6,6 +6,8 @@ skip_h(word base, int i) {
     i = i + 1;
   }
 } return int i;
+given lex_src_fixture ((import gb), 4):(5)
+given lex_src_fixture ((import gb), 0):(0)
 
 // A C preprocessing number: the caller has checked that the first character
 // starts one (a digit, or `.` followed by a digit). Everything after that is
@@ -17,6 +19,8 @@ num_end(word base, int i) {
     i = num_step(base, i);
   }
 } return int i;
+given lex_src_fixture ((import gb), 5):(9)
+given lex_src_fixture ((import gb), 0):(4)
 
 // One step of that scan: two characters when an exponent letter is followed
 // by a sign, so the `+` in `1e+10` does not end the number. The sign check
@@ -31,3 +35,5 @@ num_step(word base, int i) {
     }
   }
 } return int ni;
+given lex_src_fixture ((import gb), 6):(8)
+given lex_src_fixture ((import gb), 0):(1)

@@ -1,0 +1,21 @@
+// Zero-argument readers of node 0's s/t/l fields, read1.id's other half
+// -- three more accessors, one more file, same reason: get/ has no room
+// for a sibling file, so set.id was promoted into set/ to make room.
+
+s0_of() {
+  string s = s_of(0);
+} return string s;
+given st_fixture ():("hi")
+given boot_a given exprfix stdin "x;" ():("x")
+
+t0_of() {
+  string ts = t_of(0);
+} return string ts;
+given st_fixture ():("ty")
+given boot_a given exprfix stdin "x;" ():("")
+
+l0_of() {
+  int[] l = l_of(0);
+} return int[] l;
+given lm_fixture ():([1, 2])
+given boot_a given exprfix stdin "1;" ():([])

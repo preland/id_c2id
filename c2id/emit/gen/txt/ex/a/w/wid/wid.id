@@ -5,6 +5,8 @@
 wid_bits(int w) {
   string s = "" + (w * 8);
 } return string s;
+(1):("8")
+(8):("64")
 
 // The access width for a C type. A struct or an array is never loaded whole
 // -- lval_txt yields its address instead -- so anything that is not 1, 2 or 4
@@ -16,6 +18,8 @@ load_wid(int ty) {
     w = 8;
   }
 } return int w;
+given txt_fixture (4):(1)
+given txt_fixture (2):(8)
 
 // sx8 / sx16 / sx32 for a signed type, zx8 / zx16 / zx32 for an unsigned one.
 // This is the single most likely source of a silently wrong answer in the
@@ -28,3 +32,5 @@ cvt_name(int ty) {
   }
   string out = cvt_full(s, ty);
 } return string out;
+given txt_fixture (0):("sx32")
+given txt_fixture (1):("zx32")

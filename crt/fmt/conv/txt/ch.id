@@ -4,6 +4,8 @@
 ch_of(int cc) {
   string txt = chr(cc);
 } return string txt;
+(65):("A")
+(0):("")
 
 // A NUL-terminated string in the store, as an `id` string. A null pointer
 // prints as "(null)", which is what glibc does for %s.
@@ -14,6 +16,8 @@ str_at(word s) {
     txt = str_of_mem(s, len);
   }
 } return string txt;
+(0):("(null)")
+given crt_str_fixture ((import cs)):("hi")
 
 // %p, spelled the way glibc spells it: "(nil)" for null, "0x" and lowercase
 // hex otherwise.
@@ -23,3 +27,5 @@ ptr_str(word v) {
     txt = "0x" + str_of_base(v, 16, 0);
   }
 } return string txt;
+(0):("(nil)")
+(255):("0xff")

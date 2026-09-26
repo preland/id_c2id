@@ -1,0 +1,24 @@
+// A CFG small enough to build from literal node constructors: a single
+// `return;` statement, handed to cfg_build the way emit_blocks hands it a
+// real function body. The walker opens block 0 (the entry, terminated
+// "end" with no value) and then the trailing block cfg_walk_cont always
+// opens for the code after a return (block 1, also "end"/-1, and dead,
+// since nothing jumps to it) -- exactly the shape emit/cfg/w/j/j2/cont.id's
+// comment describes.
+cfg_body_fixture() {
+  boot_a();
+  int r = newleaf("return", -1, 0, "", "");
+  cfg_build(r);
+} return void;
+():() then calls cfg_build:(0)
+():() then cfg_nblocks:(2)
+
+// fnames/fbodies populated with one entry, so emit_one has a body to read
+// instead of an empty list it can only trap against.
+tu_body_fixture() {
+  int r = newleaf("return", -1, 0, "", "");
+  init_tu();
+  tu_add("f", r);
+} return void;
+given txt_fixture ():() then calls tu_add:("f", 6)
+given txt_fixture ():() then calls init_tu:()

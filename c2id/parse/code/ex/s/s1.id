@@ -16,6 +16,8 @@ expr_str(int id) {
     s = bin_str(id);
   }
 } return string s;
+given boot_a given exprfix stdin "42;" ((import extop)):("42") then calls num_str:[1]
+given boot_a given exprfix stdin "x;" ((import extop)):("x") then calls es2:[1]
 
 es2(int id) {
   string s = es3(id);
@@ -26,6 +28,8 @@ es2(int id) {
     s = "\"" + s_of(id) + "\"";
   }
 } return string s;
+given boot_a given exprfix stdin "x;" ((import extop)):("x")
+given boot_a given exprfix stdin "y;" ((import extop)):("y")
 
 es3(int id) {
   string s = es4(id);
@@ -38,3 +42,5 @@ es3(int id) {
     s = "(" + expr_str(b) + s_of(id) + ")";
   }
 } return string s;
+given boot_a given exprfix stdin "-x;" ((import extop)):("(-x)")
+given boot_a given exprfix stdin "x++;" ((import extop)):("(x++)")

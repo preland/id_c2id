@@ -6,6 +6,8 @@ parse_return(int[] pos) {
   int a = ret_val(pos);
   int id = return_close(pos, a);
 } return int id;
+given boot_a given lexfix stdin "return 1;" ([0]):(1)
+given boot_a given lexfix stdin "return;" ([0]):(0)
 
 ret_val(int[] pos) {
   int a = 0 - 1;
@@ -13,9 +15,13 @@ ret_val(int[] pos) {
     a = parse_expr(pos);
   }
 } return int a;
+given boot_a given lexfix stdin ";" ([0]):(-1)
+given boot_a given lexfix stdin "1;" ([0]):(0)
 
 parse_goto(int[] pos) {
   advance(pos);
   string name = cur_text(pos);
   int id = goto_tail(pos, name);
 } return int id;
+given boot_a given lexfix stdin "goto foo;" ([0]):(0)
+given boot_a given lexfix stdin "goto bar;" ([0]):(0)

@@ -5,6 +5,8 @@ su_body(int[] pos, int un, string name) {
   int ty = rec_get(un, name);
   fill_rec(pos, ty);
 } return int ty;
+given boot_a given ty_setup given lexfix stdin ";" ([0], 0, "foo"):(0)
+given struct_foo_fix given lexfix stdin ";" ([0], 0, "foo"):(5)
 
 su_key(int un, string name) {
   string kind = "union ";
@@ -13,6 +15,8 @@ su_key(int un, string name) {
   }
   string s = kind + name;
 } return string s;
+(0, "foo"):("struct foo")
+(1, "bar"):("union bar")
 
 // an untagged struct is never shared, so it is never looked up
 rec_look(int un, string name) {
@@ -22,3 +26,5 @@ rec_look(int un, string name) {
     ty = ty_find(s);
   }
 } return int ty;
+given ty_setup (0, ""):(-1)
+given struct_foo_fix (0, "foo"):(5)

@@ -5,6 +5,8 @@
 bump_line() {
   lset((import curline), 0, (import curline)[0] + 1);
 } return void;
+given init_lines ():() then curline_now:(2)
+given lex_tok_fixture ():() then curline_now:(2)
 
 // The number in a `# 42 "lib/sort.c" 3 4` marker names the line the *next*
 // source line has, and mark_file consumes the marker's own newline without
@@ -20,6 +22,8 @@ set_line(word base, int a, int b) {
     bump_line();
   }
 } return void;
+given init_lines given lex_src_fixture ((import gb), 24, 25):() then curline_now:(5)
+given init_lines given lex_src_fixture ((import gb), 4, 4):() then curline_now:(2)
 
 // `a` is where the filename should start and `b` is just past its closing
 // quote. Markers without a filename leave curfile alone.
@@ -29,3 +33,5 @@ set_file(word base, int a, int b) {
     sset((import curfile), 0, s);
   }
 } return void;
+given init_lines given lex_src_fixture ((import gb), 26, 31):() then curfile_now:("f.c")
+given init_lines given lex_src_fixture ((import gb), 24, 25):() then curfile_now:("")

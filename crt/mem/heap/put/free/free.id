@@ -4,6 +4,8 @@ kfree(word p) {
     free_at(p - 16);
   }
 } return void;
+(0):() then calls free_at:[0]
+given crt_heap_fixture ((import p0)):() then calls free_at:[1]
 
 // Mark free, then merge with the next block and with the previous one. Both
 // directions matter: merging only forwards leaves the heap fragmented into
@@ -13,6 +15,8 @@ free_at(word h) {
   bset(h, hz, 0);
   coal_both(h);
 } return void;
+given crt_heap_fixture ((import h0)):() then h0_word:(64) then calls coal_both:[1]
+given crt_heap_fixture2 ((import h0)):() then h0_word:(128) then calls coal_both:[1]
 
 // Both directions, in one action. Split out of free_at so its block stays
 // under the three-action limit.
@@ -20,3 +24,5 @@ coal_both(word h) {
   coal_next(h);
   coal_prev(h);
 } return void;
+given crt_heap_fixture4 ((import h0)):() then calls coal_next:[1] then calls coal_prev:[1]
+given crt_heap_fixture ((import h0)):() then calls coal_next:[1] then calls coal_prev:[1]

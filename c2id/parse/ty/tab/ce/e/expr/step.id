@@ -3,8 +3,12 @@ ce_estep(int[] pos, int v) {
   advance(pos);
   int r = ce_estep2(pos, s, v);
 } return int r;
+given lexfix stdin "+ 3" ([0], 2):(5)
+given lexfix stdin "- 3" ([0], 10):(7)
 
 ce_estep2(int[] pos, string s, int v) {
   int rhs = ce_mul(pos);
   int r = ce_apply(s, v, rhs);
 } return int r;
+given lexfix stdin "3" ([0], "+", 2):(5)
+given lexfix stdin "3" ([0], "-", 10):(7)

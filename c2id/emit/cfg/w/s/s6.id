@@ -5,6 +5,8 @@ walk_stmt6(int id) {
     walk_stmt7(id);
   }
 } return void;
+given walk_ast_fixture (10):() then calls do_switch:[1]
+given walk_ast_fixture (5):() then calls walk_stmt7:[1]
 
 walk_stmt7(int id) {
   if(k_of(id) == "case") {
@@ -13,6 +15,8 @@ walk_stmt7(int id) {
     walk_stmt8(id);
   }
 } return void;
+given walk_ast_fixture (6):() then calls do_case:[1]
+given walk_ast_fixture (5):() then calls walk_stmt8:[1]
 
 walk_stmt8(int id) {
   if(k_of(id) == "label") {
@@ -21,3 +25,5 @@ walk_stmt8(int id) {
     walk_stmt9(id);
   }
 } return void;
+given walk_ast_fixture (2):() then calls do_label:[1]
+given walk_ast_fixture (5):() then calls walk_stmt9:[1]

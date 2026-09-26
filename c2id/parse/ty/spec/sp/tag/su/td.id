@@ -7,14 +7,20 @@ spec_td_ok(int[] pos, int[] sp) {
     ok = spec_td_kw(pos);
   }
 } return int ok;
+given typedef_x_fix given lexfix stdin "foo" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)
+given ty_setup given lexfix stdin "5" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)
 
 spec_td_kw(int[] pos) {
   string s = cur_text(pos);
   int ok = is_typedef(s);
 } return int ok;
+given ty_setup given lexfix stdin "foo" ([0]):(0)
+given typedef_x_fix given lexfix stdin "foo" ([0]):(1)
 
 spec_td_apply(int[] pos, int[] sp) {
   int ty = spec_td_find(pos);
   lset(sp, 10, ty);
   advance(pos);
 } return int 1;
+given typedef_x_fix given lexfix stdin "foo x" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1) then calls advance:[1]
+given typedef_x_fix given lexfix stdin "foo y" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1) then calls spec_td_find:[1]

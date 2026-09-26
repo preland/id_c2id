@@ -8,6 +8,8 @@ ce_neg(int[] pos) {
   int v = ce_un(pos);
   int r = 0 - v;
 } return int r;
+given lexfix stdin "- 5" ([0]):(-5)
+given lexfix stdin "- 3" ([0]):(-3)
 
 ce_prim(int[] pos) {
   int v = 0;
@@ -17,9 +19,13 @@ ce_prim(int[] pos) {
     v = ce_prim2(pos);
   }
 } return int v;
+given lexfix stdin "5" ([0]):(5)
+given lexfix stdin ")" ([0]):(0)
 
 ce_num(int[] pos) {
   string s = cur_text(pos);
   int v = num_val(s);
   advance(pos);
 } return int v;
+given lexfix stdin "5" ([0]):(5)
+given lexfix stdin "0xff" ([0]):(255)

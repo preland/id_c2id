@@ -7,6 +7,8 @@ assign_node(int[] pos, int left, string op) {
   int right = parse_assign(pos);
   int id = newleaf("assign", left, right, op, "");
 } return int id;
+given boot_a given lexfix stdin "5;" ([0], 0, "="):(1)
+given boot_a given lexfix stdin "x;" ([0], 3, "+"):(1)
 
 assign_check(int[] pos, int left, string op) {
   int node = left;
@@ -14,3 +16,5 @@ assign_check(int[] pos, int left, string op) {
     node = assign_tail(pos, left);
   }
 } return int node;
+given boot_a given lexfix stdin "= 5;" ([0], 0, "="):(1) then calls assign_tail:[1]
+given boot_a given lexfix stdin "5;" ([0], 0, ";"):(0) then calls assign_tail:[0]

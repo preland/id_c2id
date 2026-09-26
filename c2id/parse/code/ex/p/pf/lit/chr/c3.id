@@ -1,20 +1,12 @@
-// The named-escape table: esc_chars[i] means esc_vals[i]. Same shape as the
-// precedence table, same linear search.
-//
-//   \a 7  \b 8  \t 9  \n 10  \v 11  \f 12  \r 13  \" 34  \' 39  \? 63  \\ 92
-
-esc_chars() {
-  string[] ops = ["a", "b", "t", "n", "v", "f", "r", "\"", "'", "?", "\\"];
-} return string[] ops;
-
-esc_vals() {
-  int[] lvls = [7, 8, 9, 10, 11, 12, 13, 34, 39, 63, 92];
-} return int[] lvls;
+// The named-escape table is conf.id's esc_chars/esc_vals; this is the linear
+// search over it, the same shape as the precedence table.
 
 // c2.id's esc_named split off its call to find_op here: naming both nested
 // calls plus the result left no room in its own 3-action budget.
 esc_find(int c) {
   string ch = chr(c);
-  string[] ops = esc_chars();
+  string[] ops = (import esc_chars);
   int i = find_op(ops, ch);
 } return int i;
+(110):(3)
+(122):(-1)

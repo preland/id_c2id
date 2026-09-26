@@ -4,6 +4,8 @@ sw_close(int id, int blk, int alt, int mark) {
   term_jmp(c, alt);
   sw_close2(id, blk, alt, mark);
 } return void;
+given sw_ready_fixture ((import wswid), 0, 1, 0):() then term0:("jmp") then succ0:(1) then cur_blk:(1)
+given sw_ready_fixture ((import wswid), 0, 1, 0):() then calls sw_disp:[1]
 
 // The chain is built backwards from its tail -- the default block, or the
 // exit when there is no `default` -- so each test knows the block to fall to
@@ -13,9 +15,13 @@ sw_disp(int id, int blk, int alt, int mark) {
   nxt = sw_chain(id, mark, nxt);
   sw_done(blk, nxt, mark, alt);
 } return void;
+given walk_ast_fixture ((import wswid), 0, 1, 0):() then term0:("jmp") then succ0:(1) then cur_blk:(1)
+given case_ready_fixture ((import wswid), 0, 5, 0):() then term0:("jmp") then succ0:(1) then cur_blk:(5)
 
 sw_done(int blk, int nxt, int mark, int alt) {
   term_jmp(blk, nxt);
   drop_cases(mark);
   set_cur(alt);
 } return void;
+given walk_ast_fixture (0, 1, 0, 5):() then term0:("jmp") then succ0:(1) then cur_blk:(5)
+given case_ready_fixture (0, 1, 0, 5):() then term0:("jmp") then succ0:(1) then case_mark:(0)

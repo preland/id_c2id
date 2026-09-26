@@ -6,14 +6,20 @@ idx_sz(int id) {
   int ty = ex_ty(id);
   int sz = type_size(ty);
 } return int sz;
+given txt_fixture (0):(4) then calls ex_ty:(0)
+given txt_fixture (1):(4) then calls ex_ty:(1)
 
 idx_scaled(int id, int sz) {
   string exb = b_ex(id);
   string s = scale_txt(exb, sz, "*");
 } return string s;
+given txt_fixture (0, 4):("(NEEDS_CFG_prim * 4)")
+given txt_fixture (0, 1):("NEEDS_CFG_prim")
 
 idx_body(int id, int sz) {
   string exa = a_ex(id);
   string scaled = idx_scaled(id, sz);
   string out = "(" + exa + " + " + scaled + ")";
 } return string out;
+given txt_fixture (0, 4):("(NEEDS_CFG_prim + (NEEDS_CFG_prim * 4))")
+given txt_fixture (0, 1):("(NEEDS_CFG_prim + NEEDS_CFG_prim)")

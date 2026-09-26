@@ -6,6 +6,8 @@ ex10(int id) {
     s = str_txt(id);
   }
 } return string s;
+given txt_fixture (0):("NEEDS_CFG_prim")
+given txt_fixture (5):("NEEDS_CFG_ptr")
 
 // Reading an lvalue: build its address, then load the C type's width from it.
 // A struct or an array is not loaded at all -- its value *is* its address,
@@ -16,6 +18,8 @@ lval_txt(int id) {
   string s = addr_txt(id);
   string out = val_txt(ty, s);
 } return string out;
+given txt_fixture given pend_setup (0):("t1") then calls load_txt:(0, "NOT_AN_LVALUE_prim")
+given txt_fixture given pend_setup (5):("t1") then calls load_txt:(0, "NOT_AN_LVALUE_ptr")
 
 // `id` has no unary minus, so a literal that decoded to a negative value --
 // only reachable from a constant with bit 63 set -- has to be written as a
@@ -26,3 +30,5 @@ num_txt(int id) {
     s = "(0 - " + (0 - a_of(id)) + ")";
   }
 } return string s;
+given txt_fixture (0):("4")
+given txt_fixture (4):("1")
