@@ -1,0 +1,28 @@
+// Real heap-backed arguments for the smoke chain's word-taking functions,
+// which each dereference or manage what they are handed and so cannot take
+// an arbitrary literal: t_str2/t_str3 read through a and b, t_memset2 reads
+// through p what c_memset actually wrote.
+t_str2_fixture() {
+  export word ts_a = t_cs("hello");
+  export word ts_b = t_cs("hellp");
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+t_memset2_fixture() {
+  heap_init(65536);
+  export word tms_p = kmalloc(16);
+  c_memset((import tms_p), 65, 4);
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+// A second heap block written with a different byte, so t_memset2's own
+// cases see two distinct values rather than the same 65 twice.
+t_memset2_fixture2() {
+  heap_init(65536);
+  export word tms2_p = kmalloc(16);
+  c_memset((import tms2_p), 90, 4);
+} return void;
+():() then prints:("")
+():() then eprints:("")

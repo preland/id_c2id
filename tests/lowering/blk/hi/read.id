@@ -1,0 +1,23 @@
+// Read-back witnesses for the frame lo_frame_fixture builds, since a block's
+// return value alone never surfaces what it wrote to fp+16 or fp+0.
+lo_read_t() {
+  word x = peek32((import lfp) + 16);
+} return word x;
+given lo_frame_fixture ():(9000)
+given lo_after_blk0_fixture ():(0)
+
+lo_read_ret() {
+  word x = peek64((import lfp));
+} return word x;
+given lo_frame_fixture ():(7777)
+given lo_after_blk4_fixture ():(9000)
+
+// lo_frame_fixture with blk4's own write already applied (fp+0 = t), the
+// precondition lo_read_ret's second case needs to see something other than
+// the fixture's own initial sentinel.
+lo_after_blk4_fixture() {
+  lo_frame_fixture();
+  blk4((import lfp));
+} return void;
+():() then prints:("")
+():() then eprints:("")

@@ -5,6 +5,8 @@ blk1(word fp) {
     nxt = 2;
   }
 } return word nxt;
+given lo_frame_fixture ((import lfp)):(4)
+given lo_after_blk0_fixture ((import lfp)):(2)
 
 // t = t + i
 blk2(word fp) {
@@ -12,3 +14,14 @@ blk2(word fp) {
   word t1 = peek32(fp + 24);
   poke32(fp + 16, t0 + t1);
 } return word 3;
+given lo_frame_fixture ((import lfp)):(3) then lo_read_t:(18001)
+given lo_after_blk0_fixture ((import lfp)):(3) then lo_read_t:(1)
+
+// A read-back witness for lowering's block functions: the local `i` (fp+24)
+// after whatever block just ran, since blk1's dispatch and blk3's own return
+// value never surface it directly.
+lo_read_i() {
+  word x = peek32((import lfp) + 24);
+} return word x;
+given lo_frame_fixture ():(9001)
+given lo_after_blk0_fixture ():(1)

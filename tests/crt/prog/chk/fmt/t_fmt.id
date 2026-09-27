@@ -9,6 +9,8 @@ t_fmt() {
   t_fmt_b();
   t_fmt_c();
 } return void;
+():() then prints:("d=-42 u=4294967295 x=beef X=BEEF o=777\n[   42][42   ][00042][   hi][A]\nhh=44 h=4464 l=-1 pct=%\n")
+():() then calls t_fmt_a:[1] then calls t_fmt_b:[1] then calls t_fmt_c:[1]
 
 // Radix and sign. `%u` is given -1 rather than a literal four billion because
 // an `id` int is 32 bits and the two compilers disagree about the type of a
@@ -20,6 +22,8 @@ t_fmt_a() {
   word[] args = [(import wzero) - 42, 0 - 1, 48879, 48879, 511];
   c_printk(ad, args);
 } return void;
+():() then prints:("d=-42 u=4294967295 x=beef X=BEEF o=777\n")
+():() then calls c_printk:[1]
 
 // Width, the two flags, and the two conversions that take something other
 // than a number.
@@ -28,3 +32,5 @@ t_fmt_b() {
   word ad2 = t_cs("hi");
   t_fmt_b2(ad, ad2);
 } return void;
+():() then prints:("[   42][42   ][00042][   hi][A]\n")
+():() then calls t_cs:[2] then calls t_fmt_b2:[1]

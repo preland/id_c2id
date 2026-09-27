@@ -9,15 +9,21 @@ t_mem() {
   word q = kmalloc(64);
   t_mem2(p, q);
 } return void;
+given prog_heap_fixture ():() then prints:("apart 1\nreused 1\n")
+given prog_heap_fixture ():() then calls t_mem2:[1]
 
 t_mem2(word p, word q) {
   word apart = q - p;
   t_ok("apart", apart);
   t_mem3(p, q);
 } return void;
+given t_mem2_fixture ((import tm_p), (import tm_q)):() then prints:("apart 1\nreused 1\n")
+given t_mem2_fixture ((import tm_p), (import tm_q)):() then calls t_ok:[1] then calls t_mem3:[1]
 
 t_mem3(word p, word q) {
   kfree(p);
   word r = kmalloc(64);
   t_same("reused", r, p);
 } return void;
+given t_mem2_fixture ((import tm_p), (import tm_q)):() then prints:("reused 1\n")
+given t_mem2_fixture ((import tm_p), (import tm_q)):() then calls kfree:[1] then calls t_same:[1]

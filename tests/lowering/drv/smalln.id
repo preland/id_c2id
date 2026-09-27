@@ -1,0 +1,9 @@
+// lo_frame_fixture with n dropped from 10 to 3, so print_sum_to/c_sum_to
+// have a second, distinct sum (1+2+3=6) to be checked against -- proof the
+// loop's answer really tracks n rather than being hard-coded.
+lo_small_n_fixture() {
+  lo_frame_fixture();
+  poke64((import lfp) + 8, 3);
+} return void;
+():() then prints:("")
+():() then eprints:("")

@@ -1,0 +1,8 @@
+// crt's heap, the size main() itself uses: what t_mem/t_memset's own
+// zero-argument cases need before their first kmalloc, since only main's
+// real run calls heap_init first.
+prog_heap_fixture() {
+  heap_init(65536);
+} return void;
+():() then prints:("")
+():() then eprints:("")

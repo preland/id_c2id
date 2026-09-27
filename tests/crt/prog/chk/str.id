@@ -5,12 +5,16 @@ t_str() {
   word b = t_cs("hellp");
   t_str2(a, b);
 } return void;
+given prog_heap_fixture ():() then prints:("len 5\ncmp -1\nmemset 65\n")
+given prog_heap_fixture ():() then calls t_str2:[1] then calls t_cs:[2]
 
 t_str2(word a, word b) {
   word n = c_strlen(a);
   t_say("len", n);
   t_str3(a, b);
 } return void;
+given prog_heap_fixture given t_str2_fixture ((import ts_a), (import ts_b)):() then prints:("len 5\ncmp -1\nmemset 65\n")
+given prog_heap_fixture given t_str2_fixture ((import ts_a), (import ts_b)):() then calls c_strlen:[2] then calls c_strcmp:[1]
 
 // strcmp answers the difference of the first differing byte: 'o' - 'p'.
 t_str3(word a, word b) {
@@ -18,3 +22,5 @@ t_str3(word a, word b) {
   t_say("cmp", c);
   t_memset();
 } return void;
+given prog_heap_fixture given t_str2_fixture ((import ts_a), (import ts_b)):() then prints:("cmp -1\nmemset 65\n")
+given prog_heap_fixture given t_str2_fixture ((import ts_a), (import ts_b)):() then calls c_strcmp:[1] then calls t_memset:[1]

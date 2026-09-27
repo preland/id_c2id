@@ -1,0 +1,36 @@
+// The node store and the lexer's own tables, without go()'s stdin read --
+// what go/drain/one_more's own cases need to call the real parser on a
+// literal source string instead of stdin, and what st_str/kids_str/
+// lists_str/print_tree need as a real node to read fields from.
+harn_setup_fixture() {
+  boot_a();
+  init_lex();
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+// A leaf node ("5;", parsed as an expression statement) -- lists_str reads
+// empty l/m from it, the case where the loop in list_str never runs.
+harn_expr_fixture() {
+  harn_setup_fixture();
+  lex_all("5;");
+  int[] pp1 = [0];
+} chain () {
+  export int hef_id = parse_stmt(pp1);
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+// A node with real children ("if (1) { 2; } else { 3; }"): the then-branch
+// is hif_id's l (one block, so list_str sees a real, non-empty list), the
+// else-branch is its m.
+harn_if_fixture() {
+  harn_setup_fixture();
+  lex_all("if (1) { 2; } else { 3; }");
+  int[] pp2 = [0];
+} chain () {
+  export int hif_id = parse_stmt(pp2);
+  export int[] hif_kids = l_of(hif_id);
+} return void;
+():() then prints:("")
+():() then eprints:("")

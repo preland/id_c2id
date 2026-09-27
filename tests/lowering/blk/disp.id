@@ -7,3 +7,32 @@ disp_sum_to(word fp, word pc) {
     nxt = disp_hi(fp, pc);
   }
 } return word nxt;
+given lo_frame_fixture ((import lfp), 0):(1) then calls disp_lo:[1] then calls disp_hi:[0]
+given lo_frame_fixture ((import lfp), 4):(-1) then calls disp_hi:[1] then calls disp_lo:[0]
+
+// A real frame for the block functions to read and write: fp+0 return slot,
+// fp+8 param n, fp+16 local t, fp+24 local i, the layout drv/main.id builds.
+// Every slot starts at a sentinel distinct from any value a block actually
+// writes (7777/9000/9001), so a block that never runs leaves a witness
+// instead of a coincidentally-right 0.
+lo_frame_fixture() {
+  export word lfp = alloc(32);
+  poke64(lfp + 8, 10);
+  poke32(lfp + 16, 9000);
+} chain () {
+  poke32(lfp + 24, 9001);
+  poke64(lfp, 7777);
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+// lo_frame_fixture with blk0's own writes already applied (t=0, i=1), the
+// precondition blk1's true branch and blk2/blk3's real math need -- built by
+// calling blk0 itself rather than re-deriving its constants here, so this
+// fixture cannot drift from what blk0 actually does.
+lo_after_blk0_fixture() {
+  lo_frame_fixture();
+  blk0((import lfp));
+} return void;
+():() then prints:("")
+():() then eprints:("")

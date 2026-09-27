@@ -1,0 +1,18 @@
+// Real store addresses for t_fmt_b2's own cases: it formats through ad and
+// ad2 rather than taking their bytes as arguments, so neither can be an
+// arbitrary literal.
+t_fmt_b2_fixture() {
+  export word fmtb_ad = t_cs("[%5d][%-5d][%05d][%5s][%c]\n");
+  export word fmtb_ad2 = t_cs("hi");
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+// A second %5s argument, so t_fmt_b2's two cases see two distinct strings
+// rather than "hi" twice, composed alongside t_fmt_b2_fixture rather than
+// redeclaring fmtb_ad.
+t_fmt_b2_alt_fixture() {
+  export word fmtb_ad2c = t_cs("yo");
+} return void;
+():() then prints:("")
+():() then eprints:("")

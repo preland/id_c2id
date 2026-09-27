@@ -6,9 +6,13 @@ list_str(int[] ids) {
     i = i + 1;
   }
 } return string s;
+([]):("")
+given harn_if_fixture ((import hif_kids)):(" (block  a0 (expr  a1))")
 
 lists_str(int id) {
   int[] l = l_of(id);
   int[] m = m_of(id);
   string txt = list_str(l) + list_str(m);
 } return string txt;
+given harn_expr_fixture ((import hef_id)):("")
+given harn_if_fixture ((import hif_id)):(" (block  a0 (expr  a1)) (block  a0 (expr  a4))")

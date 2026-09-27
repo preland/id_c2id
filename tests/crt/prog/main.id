@@ -15,13 +15,23 @@ main(int argc, string[] argv) {
   t_fmt();
   t_rest();
 } return int 0;
+(0, []):(0) then prints:("d=-42 u=4294967295 x=beef X=BEEF o=777\n[   42][42   ][00042][   hi][A]\nhh=44 h=4464 l=-1 pct=%\nunk=%q\napart 1\nreused 1\nlen 5\ncmp -1\nmemset 65\n")
+(1, ["x"]):(0) then calls heap_init:[1] then calls t_fmt:[1] then calls t_rest:[1]
 
 // A C string in the flat store. mem_of_str copies the bytes and the NUL, which
 // is what every crt entry point wants.
+// mem_of_str's own address is the first thing this process ever allocates,
+// so it is the deterministic offset 8 every time -- what makes the copy
+// itself correct is checked downstream, through c_strlen/c_strcmp on what
+// t_str2/t_str3 read back from it.
 t_cs(string txt) {
   word ad = mem_of_str(txt);
 } return word ad;
+("hello"):(8)
+("hellp"):(8)
 
 t_say(string tag, word v) {
   print(tag + " " + v);
 } return void;
+("len", 5):() then prints:("len 5\n")
+("cmp", -1):() then prints:("cmp -1\n")

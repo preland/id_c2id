@@ -1,14 +1,20 @@
 st_str(int id) {
   string s = "(" + k_of(id) + kids_str(id) + ")";
 } return string s;
+given harn_expr_fixture ((import hef_id)):("(expr  a0)")
+given harn_if_fixture ((import hif_id)):("(if  a0 (block  a0 (expr  a1)) (block  a0 (expr  a4)))")
 
 kids_str(int id) {
   string s = " " + s_of(id) + " a" + a_of(id);
   string txt = lists_str(id);
   s = s + txt;
 } return string s;
+given harn_expr_fixture ((import hef_id)):("  a0")
+given harn_if_fixture ((import hif_id)):("  a0 (block  a0 (expr  a1)) (block  a0 (expr  a4))")
 
 print_tree(int n, int id) {
   string s = st_str(id);
   print("" + n + ": " + s);
 } return void;
+given harn_expr_fixture (0, (import hef_id)):() then prints:("0: (expr  a0)\n")
+given harn_if_fixture (42, (import hif_id)):() then prints:("42: (if  a0 (block  a0 (expr  a1)) (block  a0 (expr  a4)))\n")

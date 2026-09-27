@@ -1,0 +1,18 @@
+// Lexed but unparsed source, for drain/one_more's own cases: fixture.id's
+// harn_expr_fixture/harn_if_fixture already call parse_stmt once each to
+// export a real node id, and a second parse_stmt call (drain/one_more's own)
+// would then read whatever token comes after that already-consumed
+// statement instead of the statement itself.
+harn_expr_lex_fixture() {
+  harn_setup_fixture();
+  lex_all("5;");
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+harn_if_lex_fixture() {
+  harn_setup_fixture();
+  lex_all("if (1) { 2; } else { 3; }");
+} return void;
+():() then prints:("")
+():() then eprints:("")

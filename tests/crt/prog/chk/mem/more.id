@@ -5,14 +5,20 @@ t_rest() {
   t_mem();
   t_str();
 } return void;
+given prog_heap_fixture ():() then prints:("unk=%q\napart 1\nreused 1\nlen 5\ncmp -1\nmemset 65\n")
+given prog_heap_fixture ():() then calls t_fmt_unk:[1] then calls t_mem:[1] then calls t_str:[1]
 
 t_memset() {
   word p = kmalloc(16);
   c_memset(p, 65, 4);
   t_memset2(p);
 } return void;
+given prog_heap_fixture ():() then prints:("memset 65\n")
+given prog_heap_fixture ():() then calls c_memset:[1] then calls t_memset2:[1]
 
 t_memset2(word p) {
   word v = peek8(p + 3);
   t_say("memset", v);
 } return void;
+given t_memset2_fixture ((import tms_p)):() then prints:("memset 65\n")
+given t_memset2_fixture2 ((import tms2_p)):() then prints:("memset 90\n")

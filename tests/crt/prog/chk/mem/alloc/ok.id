@@ -1,0 +1,32 @@
+// The two invariants, as 1 or 0 rather than as an address.
+
+t_ok(string tag, word apart) {
+  word yes = 0;
+  if(apart >= 64) {
+    yes = 1;
+  }
+  t_say(tag, yes);
+} return void;
+("apart", 64):() then prints:("apart 1\n")
+("small", 10):() then prints:("small 0\n")
+
+t_same(string tag, word r, word p) {
+  word yes = 0;
+  if(r == p) {
+    yes = 1;
+  }
+  t_say(tag, yes);
+} return void;
+("reused", 100, 100):() then prints:("reused 1\n")
+("diff", 100, 200):() then prints:("diff 0\n")
+
+// Real heap addresses for t_mem2/t_mem3's own cases: p and q as kmalloc(64)
+// actually hands them back, since t_mem3 frees p and t_mem2 only subtracts
+// addresses -- neither can take an arbitrary literal.
+t_mem2_fixture() {
+  heap_init(65536);
+  export word tm_p = kmalloc(64);
+  export word tm_q = kmalloc(64);
+} return void;
+():() then prints:("")
+():() then eprints:("")

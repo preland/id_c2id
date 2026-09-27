@@ -4,15 +4,21 @@ go() {
   lex_all(src);
   drain([0], 0);
 } return void;
+given harn_setup_fixture stdin "5;\n" ():() then prints:("0: (expr  a0)\n")
+given harn_setup_fixture stdin "" ():() then calls drain:[1]
 
 drain(int[] pos, int n) {
   while(cur_kind(pos) != "eof") {
     n = one_more(pos, n);
   }
 } return void;
+given harn_expr_lex_fixture ([0], 0):() then prints:("0: (expr  a0)\n")
+given harn_if_lex_fixture ([0], 3):() then prints:("3: (if  a0 (block  a0 (expr  a1)) (block  a0 (expr  a4)))\n")
 
 one_more(int[] pos, int n) {
   int id = parse_stmt(pos);
   print_tree(n, id);
   n = n + 1;
 } return int n;
+given harn_expr_lex_fixture ([0], 0):(1) then prints:("0: (expr  a0)\n")
+given harn_if_lex_fixture ([0], 5):(6) then prints:("5: (if  a0 (block  a0 (expr  a1)) (block  a0 (expr  a4)))\n")

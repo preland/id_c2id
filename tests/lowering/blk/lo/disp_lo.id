@@ -6,6 +6,8 @@ disp_lo(word fp, word pc) {
     nxt = disp_lo2(fp, pc);
   }
 } return word nxt;
+given lo_frame_fixture ((import lfp), 0):(1) then calls blk0:[1] then calls disp_lo2:[0]
+given lo_frame_fixture ((import lfp), 1):(4) then calls disp_lo2:[1] then calls blk0:[0]
 
 disp_lo2(word fp, word pc) {
   word nxt = 0 - 1;
@@ -15,9 +17,13 @@ disp_lo2(word fp, word pc) {
     nxt = blk2(fp);
   }
 } return word nxt;
+given lo_frame_fixture ((import lfp), 1):(4) then calls blk1:[1] then calls blk2:[0]
+given lo_frame_fixture ((import lfp), 2):(3) then calls blk2:[1] then calls blk1:[0]
 
 // t = 0; i = 1;
 blk0(word fp) {
   poke32(fp + 16, 0);
   poke32(fp + 24, 1);
 } return word 1;
+given lo_frame_fixture ((import lfp)):(1) then lo_read_t:(0)
+given lo_frame_fixture ((import lfp)):(1) then lo_read_i:(1)

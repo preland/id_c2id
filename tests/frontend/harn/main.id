@@ -4,15 +4,21 @@ main(int argc, string[] argv) {
   init_nodes2();
   boot();
 } return int 0;
+stdin "5;\n" (0, []):(0) then prints:("0: (expr  a0)\n")
+(1, ["x"]):(0) then calls init_nodes:[1] then calls init_nodes2:[1] then calls boot:[1]
 
 boot() {
   init_nodes3();
   init_lex();
   go();
 } return void;
+given harn_setup_fixture stdin "5;\n" ():() then prints:("0: (expr  a0)\n")
+():() then calls init_nodes3:[1] then calls init_lex:[1] then calls go:[1]
 
 init_lex() {
   init_tokens();
   init_lines();
   ty_setup();
 } return void;
+():() then calls init_tokens:[1]
+():() then calls init_lines:[1] then calls ty_setup:[1]

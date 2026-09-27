@@ -6,12 +6,16 @@ disp_hi(word fp, word pc) {
     nxt = blk4(fp);
   }
 } return word nxt;
+given lo_frame_fixture ((import lfp), 3):(1) then calls blk3:[1] then calls blk4:[0]
+given lo_frame_fixture ((import lfp), 4):(-1) then calls blk4:[1] then calls blk3:[0]
 
 // the `for` step: i++
 blk3(word fp) {
   word t0 = peek32(fp + 24);
   poke32(fp + 24, t0 + 1);
 } return word 1;
+given lo_frame_fixture ((import lfp)):(1) then lo_read_i:(9002)
+given lo_after_blk0_fixture ((import lfp)):(1) then lo_read_i:(2)
 
 // return t
 blk4(word fp) {
@@ -19,3 +23,5 @@ blk4(word fp) {
   poke64(fp, t0);
   word nxt = 0 - 1;
 } return word nxt;
+given lo_frame_fixture ((import lfp)):(-1) then lo_read_ret:(9000)
+given lo_after_blk0_fixture ((import lfp)):(-1) then lo_read_ret:(0)

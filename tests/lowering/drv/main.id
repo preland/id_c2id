@@ -7,11 +7,15 @@ main(int argc, string[] argv) {
   poke64(fp + 8, 10);
   print_sum_to(fp);
 } return int 0;
+(0, []):(0) then prints:("55\n")
+(1, ["x"]):(0) then prints:("55\n")
 
 print_sum_to(word fp) {
   word t0 = c_sum_to(fp);
   print("" + t0);
 } return void;
+given lo_frame_fixture ((import lfp)):() then prints:("55\n")
+given lo_small_n_fixture ((import lfp)):() then prints:("6\n")
 
 // The driver loop: run blocks until one returns the end marker. Blocks return
 // to here rather than tail-calling each other, so a loop of any length runs in
@@ -23,3 +27,5 @@ c_sum_to(word fp) {
   }
   word t0 = peek64(fp);
 } return word t0;
+given lo_frame_fixture ((import lfp)):(55)
+given lo_small_n_fixture ((import lfp)):(6)
