@@ -12,17 +12,6 @@ main(int argc, string[] argv) {
 stdin "int x;" (0, []):(0) then calls parse_one:[1]
 stdin "" (0, []):(0) then calls parse_one:[0]
 
-// Every stage keeps its own exported lists and none of the init functions call
-// each other, so all fourteen have to be named somewhere. Three actions to a
-// block makes that a chain rather than a list.
-boot_a() {
-  init_nodes();
-  init_nodes2();
-  init_nodes3();
-} return void;
-():() then calls init_nodes:()
-():() then calls init_nodes3:()
-
 run() {
   string src = read_all();
   lex_all(src);

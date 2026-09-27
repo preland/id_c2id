@@ -1,0 +1,15 @@
+// The AST-store leg of the init chain (init_nodes/2/3, this file's other
+// neighbour): every stage keeps its own exported lists and none of the init
+// functions call each other, so all fourteen have to be named somewhere.
+// Three actions to a block makes that a chain rather than a list, and this
+// is the one leg every case that touches a node needs, so it lives beside
+// the three functions it calls rather than beside boot_b's chain
+// (c2id/emit/gen/out/top/init/boot.id), which lex/ and parse/ never call.
+
+boot_a() {
+  init_nodes();
+  init_nodes2();
+  init_nodes3();
+} return void;
+():() then calls init_nodes:()
+():() then calls init_nodes3:()
