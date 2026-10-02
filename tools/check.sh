@@ -11,7 +11,7 @@
 #                                   what a fully provisioned machine should use
 #
 # The steps:
-#   1. tools/lint3.sh          id's rule of 3 on c2id/ and crt/
+#   1. idc --check             id's structural rules on c2id/ and crt/
 #   2. tools/idprobe.sh        is there a usable id toolchain?          (gate)
 #   3. tests/crt/run.sh        crt against the same calls in C (needs step 2)
 #   4. tests/run.sh            the differential harness       (needs step 2)
@@ -43,8 +43,14 @@ bad()  { fail=$((fail + 1)); failed+=("$1"); printf 'FAIL  %s\n' "$1"; }
 meh()  { skip=$((skip + 1)); skipped+=("$1: $2"); printf 'SKIP  %s -- %s\n' "$1" "$2"; }
 
 # ---- 1. structural lint
-rule "tools/lint3.sh -- id's rule of 3"
-if "$here/tools/lint3.sh"; then ok layout; else bad layout; fi
+rule "idc --check -- id's structural rules"
+idc=${IDC:-$here/../idc/bin/idc}
+if [[ -x $idc ]]; then
+    layout_out=$("$idc" "$here/c2id" --check 2>&1 && "$idc" "$here/crt" --check 2>&1); layout_rc=$?
+    if (( layout_rc == 0 )); then ok layout; else grep -v ': warning:' <<<"$layout_out"; bad layout; fi
+else
+    meh layout "no id compiler at $idc; set IDC or clone id_development"
+fi
 
 # ---- 2. the id toolchain. tests/run.sh compiles real id, so without a usable
 # compiler it cannot run at all -- and saying so is far better than letting it

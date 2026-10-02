@@ -19,8 +19,8 @@ Last updated: 2026-09-13.
 
 ## The compiler itself (`../idc`)
 
-`bin/idc` is now the compiler. `idc.py` compiles nothing — it only bootstraps
-`idlex`/`idparse` on a cold cache, and `do_fallback` has been deleted.
+`bin/idc` is the compiler, and the only one: `idc.py` is deleted, and stage 0 is
+the checked-in C in `../idc/bootstrap/`.
 
 | item | state |
 | --- | --- |

@@ -4,11 +4,11 @@ name: ci
 # tick that means less than it looks like is worse than no tick.
 #
 # It CAN check, on a bare Ubuntu runner with only `cc`, `awk` and `git`:
-#   * id's structural rules over c2id/ and crt/          (tools/lint3.sh)
 #   * the differential harness                           (tests/run.sh)
 #   * that the developer entry point works                (tools/check.sh)
 #
-# And one dependency it can only try for:
+# And one dependency it can only try for (id's structural rules, `idc --check`
+# over c2id/ and crt/, need it too):
 #   * tests/run.sh compiles real `id`, so it needs the id toolchain from the
 #     id_development umbrella repository's idc/ submodule, on the branch that
 #     carries the systems extensions (docs/ID_EXTENSIONS.md). If that branch
@@ -69,12 +69,6 @@ jobs:
             echo "::notice title=id toolchain unavailable::branch $ID_REF is not published at $ID_REPO; tests/run.sh will be skipped"
           fi
 
-      # ---- checks that need nothing but the checkout ----
-
-      - name: id's rule of 3 (tools/lint3.sh)
-        working-directory: c2id
-        run: ./tools/lint3.sh
-
       # ---- checks that need the id compiler ----
 
       - name: Probe the id toolchain (tools/idprobe.sh)
@@ -94,6 +88,15 @@ jobs:
             fi
             echo "::notice title=tests/run.sh skipped::no id compiler available on this runner"
           fi
+
+      - name: id's structural rules (idc --check)
+        if: steps.idprobe.outputs.usable == 'yes'
+        working-directory: c2id
+        env:
+          IDC: ${{ github.workspace }}/id_development/idc/bin/idc
+        run: |
+          "$IDC" c2id --check
+          "$IDC" crt --check
 
       - name: The differential harness (tests/run.sh)
         if: steps.idprobe.outputs.usable == 'yes'

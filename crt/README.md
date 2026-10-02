@@ -22,11 +22,11 @@ unless it says otherwise.
 directory containing a `main` and build the pair:
 
 ```sh
-python3 ../idc/idc.py <project-dir> -o /tmp/out
+../idc/bin/idc <project-dir> -o /tmp/out
 ```
 
-Either compiler builds it, and `tests/crt/run.sh` requires both to. That
-sentence used to say "use `idc.py`, never `bin/idc`: only the reference
+`tests/crt/run.sh` builds it with `bin/idc`, the only compiler. This README
+once said "use `idc.py`, never `bin/idc`: only the reference
 compiler enforces the action limit, the nesting limit, the one-name-one-type
 rule and the duplicate-logic rule", and it was wrong -- `bin/idc` enforces all
 four and two rules besides, which is how 77 violations came to be sitting in

@@ -76,7 +76,7 @@ its directory map, its name→type registry, its node layout: `c2id/NOTES.md`.
 | `c2id/` | the C→`id` compiler itself, written in `id` (`lex/`, `parse/`, `emit/`) |
 | `c2id/NOTES.md` | the ABI: directory map, name→type registry, AST node layout |
 | `crt/` | C-semantics runtime (integer widths, memory, string/format helpers), in `id` |
-| `tools/` | thin bash drivers: `c2id.sh`, `check.sh`, `idprobe.sh`, `lint3.sh` |
+| `tools/` | thin bash drivers: `c2id.sh`, `check.sh`, `idprobe.sh` |
 | `tests/` | the differential corpus (`tests/c/`), the front-end harness (`tests/frontend/`), and the lowering reference (`tests/lowering/`) |
 
 ## Running it
@@ -90,7 +90,7 @@ tools/c2id.sh <in.c|in.i> <outdir>   # compile one translation unit
 tools/check.sh                       # everything to run before committing
 ```
 
-`tools/check.sh` runs `tools/lint3.sh` (id's rule of 3 over `c2id/` and
+`tools/check.sh` runs `idc --check` (id's structural rules over `c2id/` and
 `crt/`), `tools/idprobe.sh` (is there a usable `id` toolchain with the
 systems extensions this needs — `word`, `alloc`, `peek*`/`poke*`?), and
 `tests/run.sh` (the differential harness: compile with `cc`, translate with

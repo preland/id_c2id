@@ -205,5 +205,5 @@ Learned from `../../id_development/demos` and its `BLOCKERS.md`:
 * **Evaluation order within one expression is unspecified.** Never mutate and
   read the same structure in one expression.
 * **Build with `bin/idc`.** It enforces every rule above itself now, with
-  `file:line: error:` diagnostics; `idc.py` is bootstrap-only and there is no
+  `file:line: error:` diagnostics; there is no compiler other than `bin/idc` and no
   fallback.

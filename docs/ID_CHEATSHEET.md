@@ -30,7 +30,7 @@ guessing wastes a lot of time.
   ternary, or character literals.
 
 Build with `bin/idc`. It enforces every rule above and reports
-`file:line: error:` diagnostics; `idc.py` is bootstrap-only now and there is
+`file:line: error:` diagnostics; there is no compiler other than `bin/idc` and there is
 no fallback. One thing worth knowing: if `bin/idc` says
 `internal error: the self-hosted compiler emitted C that does not compile`,
 the C compiler's own diagnostic is printed just above it — that is usually a

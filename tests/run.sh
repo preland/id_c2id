@@ -34,12 +34,12 @@ matches() {
 
 # ---- structural lint: id's rule of 3 on the source trees, checked without
 # compiling so that layout mistakes in a half-written module surface early.
-if "$here/tools/lint3.sh" >"$work/lint.out" 2>&1; then
+if "$idc" "$here/c2id" --check >"$work/lint.out" 2>&1 && "$idc" "$here/crt" --check >>"$work/lint.out" 2>&1; then
     echo "PASS  layout-rule-of-3"
     pass=$((pass + 1))
 else
     echo "FAIL  layout-rule-of-3"
-    sed 's/^/    /' "$work/lint.out" | head -10
+    grep -v ': warning:' "$work/lint.out" | sed 's/^/    /' | head -10
     fail=$((fail + 1)); failed_names+=("layout-rule-of-3")
 fi
 

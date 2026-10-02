@@ -3,9 +3,9 @@
 #
 #   tools/c2id.sh <input.c|input.i> <output-project-dir>
 #
-# c2id itself is written in id, and id has no filesystem builtins, so it reads
-# preprocessed C on stdin and writes the whole output project to stdout as a
-# stream of tagged files:
+# c2id itself is written in id. idstd now has filesystem natives (fs_write,
+# fs_mkdir), but c2id still works as a filter: it reads preprocessed C on stdin
+# and writes the whole output project to stdout as a stream of tagged files:
 #
 #     ==== FILE b/0/0/0/0/0/f0.id
 #     <contents>
