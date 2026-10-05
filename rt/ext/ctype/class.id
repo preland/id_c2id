@@ -1,0 +1,22 @@
+// ctype over the ASCII range, answering 1 or 0 as C does (any non-zero is true,
+// and these answer exactly 1). The argument is an unsigned char value or EOF.
+c_isdigit(word cv) {
+  word r = 0;
+  if(cv >= 48 && cv <= 57) {
+    r = 1;
+  }
+} return word r;
+
+c_isupper(word cv) {
+  word r = 0;
+  if(cv >= 65 && cv <= 90) {
+    r = 1;
+  }
+} return word r;
+
+c_islower(word cv) {
+  word r = 0;
+  if(cv >= 97 && cv <= 122) {
+    r = 1;
+  }
+} return word r;

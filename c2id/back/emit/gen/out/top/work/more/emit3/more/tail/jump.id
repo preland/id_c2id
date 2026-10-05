@@ -1,0 +1,34 @@
+// A block that always goes to one place: a "jmp", or a "cond" on a literal.
+
+jump_like(int b) {
+  int ok = 0;
+  if((import bkind)[b] == "jmp") {
+    ok = 1;
+  } else {
+    ok = num_cond(b);
+  }
+} return int ok;
+given cfg_body_fixture (0):(0) then calls num_cond:(0)
+given cond_body_fixture (0):(1) then calls num_cond:(0)
+
+num_cond(int b) {
+  int ok = 0;
+  if((import bkind)[b] == "cond") {
+    int e = (import bex)[b];
+    if((import nk)[e] == "num") {
+      ok = 1;
+    }
+  }
+} return int ok;
+given cfg_body_fixture (0):(0)
+given cond_body_fixture (0):(1)
+
+empty_jump(int b) {
+  int ok = 0;
+  int[] xs = (import bstmt)[b];
+  if(len(xs) == 0) {
+    ok = jump_like(b);
+  }
+} return int ok;
+given cfg_body_fixture (0):(0) then calls jump_like:(0)
+given cond_body_fixture (1):(1) then calls jump_like:(1)

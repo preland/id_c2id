@@ -1,0 +1,32 @@
+// Everything a C function needs besides its blocks: the dispatch tree that
+// maps a block number to its block function, the runner that loops the tree
+// until a block answers -1, and the wrapper `c_NAME` that other code calls
+// (docs/EMITTER.md sections 0 and 4). emit_tail runs after the function's
+// blocks were printed, so its frame is complete and its size final.
+emit_tail(int fn, int n, int np, string name) {
+  int[] live = live_list(n);
+  int k = len(live);
+  string root = emit_tree(fn, live, 0, k);
+} chain (int fn, int n, int np, string name) {
+  int first = thread_blk(0);
+  emit_run(fn, root, first);
+  int sz = frame_bytes();
+} chain (int fn, int n, int np, string name) {
+  emit_wrap(fn, name, np, sz);
+} return void;
+
+// The blocks that were printed: the dead and the empty ones were not.
+live_list(int n) {
+  int[] live = [];
+  int b = 0;
+  while(b < n) {
+    live_add(live, b);
+    b = b + 1;
+  }
+} return int[] live;
+
+live_add(int[] live, int b) {
+  if(skip_blk(b) == 0) {
+    push(live, b);
+  }
+} return void;

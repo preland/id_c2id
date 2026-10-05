@@ -1,0 +1,24 @@
+// The newest renaming of `dn`, or "".
+env_find(string dn) {
+  int i = len((import envo)) - 1;
+  string nn = "";
+  while(i >= 0 && nn == "") {
+    nn = env_at(dn, i);
+    i = i - 1;
+  }
+} return string nn;
+
+// Drop the renamings of the scope being left: back to h of them.
+env_trunc(int h) {
+  while(len((import envo)) > h) {
+    pop((import envo));
+    pop((import envn));
+  }
+} return void;
+
+env_at(string dn, int i) {
+  string nn = "";
+  if((import envo)[i] == dn) {
+    nn = (import envn)[i];
+  }
+} return string nn;

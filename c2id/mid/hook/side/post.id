@@ -1,0 +1,27 @@
+// A side effect used as a value. `x++` is the value x had, then x + 1; `++x` is
+// x after; `x = e` is x after the store. Each becomes a statement in the current
+// block -- the effect -- and the expression is replaced by what the value was:
+// a temporary holding the old value, or a re-read of the lvalue.
+
+// `x++` / `x--`: the old value goes in a temporary before the effect.
+lower_post_val(int e) {
+  int x = lower_val((import na)[e]);
+  int xt = ex_ty(x);
+  int t = new_temp(xt);
+} chain (int e) {
+  assign_stmt(t, x);
+  effect_stmt(e);
+} return int t;
+
+// The expression `e` as a statement of its own: its value is thrown away.
+effect_stmt(int e) {
+  int stm = newleaf("expr", e, 0, "", "");
+  add_stmt(stm);
+} return void;
+
+// `++x` / `--x`: the effect, then x is read.
+lower_pre_val(int e) {
+  int x = lower_val((import na)[e]);
+  lset((import na), e, x);
+  effect_stmt(e);
+} return int x;

@@ -1,0 +1,21 @@
+cv_un(int e) {
+  int av = const_eval((import na)[e]);
+  int v = cv_unop((import ns)[e], av);
+} return int v;
+
+// `-x`, `~x`, `!x`; `+x` and anything else is x.
+cv_unop(string op, int av) {
+  int v = cv_not(op, av);
+  if(op == "-") {
+    v = 0 - av;
+  } else if(op == "~") {
+    v = ~av;
+  }
+} return int v;
+
+cv_not(string op, int av) {
+  int v = av;
+  if(op == "!") {
+    v = av == 0;
+  }
+} return int v;

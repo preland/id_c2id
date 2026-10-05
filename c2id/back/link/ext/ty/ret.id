@@ -1,0 +1,26 @@
+// The type of a call: the return type of the function it calls. The callee is
+// a function name (whose declared type is a function type) or a pointer to one.
+call_ty(int id) {
+  int ty = (import stdty)[0];
+  if((import nk)[id] == "call") {
+    int ft = ex_ty((import na)[id]);
+    ty = fn_ret(ft);
+  }
+} return int ty;
+
+fn_ret(int ft) {
+  int f = ft;
+  if((import nk)[ft] == "ptr") {
+    f = (import na)[ft];
+  }
+  int r = fn_ret2(f);
+} return int r;
+
+// A function type's return type; `int` for anything else, which is what C
+// assumes of a call to a function it has not seen.
+fn_ret2(int f) {
+  int r = (import stdty)[0];
+  if((import nk)[f] == "fn") {
+    r = (import na)[f];
+  }
+} return int r;

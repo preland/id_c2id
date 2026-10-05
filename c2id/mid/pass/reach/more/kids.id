@@ -1,0 +1,33 @@
+// The children of a node, by kind: conf.id's scan_a / scan_b hold the kinds whose
+// na / nb is a node, scan_l and scan_m those whose nl / nm is a list of nodes
+// (the other fields hold values, sizes, type nodes, or names).
+reach_kids(int id, string kn) {
+  if(find_str((import scan_a), kn) >= 0) {
+    reach_scan((import na)[id]);
+  }
+  if(find_str((import scan_b), kn) >= 0) {
+    reach_scan((import nb)[id]);
+  }
+  if(find_str((import scan_l), kn) >= 0) {
+    reach_list((import nl)[id]);
+  }
+} chain (int id, string kn) {
+  if(find_str((import scan_m), kn) >= 0) {
+    reach_list((import nm)[id]);
+  }
+} return void;
+
+reach_list(int[] l) {
+  int i = 0;
+  while(i < len(l)) {
+    reach_scan(l[i]);
+    i = i + 1;
+  }
+} return void;
+
+// Function i is emitted only if the program can reach it.
+emit_reached(int i) {
+  if((import reach)[i] == 1) {
+    emit_one(i);
+  }
+} return void;

@@ -1,0 +1,31 @@
+// The argument list of a call. An ordinary call passes each argument; a call to
+// a variadic runtime function passes its fixed arguments, then the rest as one
+// list literal (variadic.id).
+call_args(int[] ids, int id) {
+  int callee = (import na)[id];
+  int k = va_fixed((import ns)[callee]);
+  int n = len(ids);
+} chain (int[] ids, int id) {
+  string rest = call_args2(ids, k, n);
+  string out = ind_prefix(callee, rest);
+} return string out;
+
+call_args2(int[] ids, int k, int n) {
+  string out = "";
+  if(k >= 0) {
+    out = va_args(ids, k, n);
+  } else {
+    out = args_range(ids, 0, n, 0);
+  }
+} return string out;
+
+// Arguments from through to-1, comma-separated; `named` 1 binds each to a
+// temporary (a variadic argument).
+args_range(int[] ids, int from, int to, int named) {
+  string out = "";
+  int i = from;
+  while(i < to) {
+    out = out + arg_sep(i - from) + arg_item(ids[i], named);
+    i = i + 1;
+  }
+} return string out;

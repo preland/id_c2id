@@ -1,0 +1,19 @@
+c_isalpha(word cv) {
+  word up = c_isupper(cv);
+  word lo = c_islower(cv);
+  word r = up + lo;
+} return word r;
+
+c_isalnum(word cv) {
+  word al = c_isalpha(cv);
+  word dg = c_isdigit(cv);
+  word r = al + dg;
+} return word r;
+
+// Space, and the five control characters \t \n \v \f \r.
+c_isspace(word cv) {
+  word r = 0;
+  if(cv == 32 || cv >= 9 && cv <= 13) {
+    r = 1;
+  }
+} return word r;

@@ -1,0 +1,39 @@
+// The frame pass: every local a function declares gets its slot, and its type
+// is recorded, before any block is built. The lowering has to know a local's
+// type to type the temporary a conditional's value goes in, and the type of a
+// name is only known once its declaration has been seen -- which, left to the
+// emitter, happens block by block, long after.
+//
+// It also makes every local's name unique. C scopes names by block, so the same
+// name can be a different variable, of a different type, in each of several
+// blocks (`int i` here, `char i` there); the frame is flat, so a second
+// declaration of a name that already has a slot is renamed `name__N`, and every
+// use of the name in its scope is renamed with it. envo/envn hold the renamings
+// in force, innermost last, and a scope's end drops its own.
+bind_decls(int id) {
+  if(id >= 0) {
+    bind_node(id, (import nk)[id]);
+  }
+} return void;
+
+bind_node(int id, string kn) {
+  if(kn == "decl") {
+    bind_decl(id);
+  } else if(kn == "var") {
+    bind_var(id);
+  } else {
+    bind_kids(id, kn);
+  }
+} return void;
+
+// A declaration. The name keeps its own slot if it is new; otherwise it gets a
+// fresh name, a slot under that name, and a renaming for the rest of its scope.
+bind_decl(int id) {
+  string dn = (import ns)[id];
+  int ty = (import nb)[id];
+  string fresh = bind_name(dn);
+} chain (int id) {
+  sset((import ns), id, fresh);
+  int off = decl_slot(fresh, ty);
+  bind_decls((import na)[id]);
+} return void;

@@ -1,0 +1,31 @@
+// An initializer, as statements that store it at `addr` (text for an address).
+// `zf` is 1 for a local, whose frame holds whatever the last call left there,
+// so an aggregate is cleared first; a global was zeroed when it was made.
+init_stmts(int ty, string addr, int ex, int zf) {
+  if((import nk)[ex] == "init") {
+    init_list(ty, addr, ex, zf);
+  } else {
+    init_plain(ty, addr, ex);
+  }
+} return void;
+
+// A single value into a scalar, or a string literal into a char array.
+init_plain(int ty, string addr, int ex) {
+  if((import nk)[ty] == "arr" && (import nk)[ex] == "str") {
+    init_chars(ty, addr, ex);
+  } else {
+    string vtxt = ex_txt(ex);
+    string st = store_txt(ty, addr, vtxt);
+    pend_raw(st + ";");
+  }
+} return void;
+
+// `char s[8] = "abc";`: the array is cleared, then the literal's bytes copied in.
+init_chars(int ty, string addr, int ex) {
+  int j = str_slot((import ns)[ex]);
+  string src = name_val("peek64((import gbase) + " + (import soff)[j] + ")");
+  int sz = type_size(ty);
+} chain (int ty, string addr, int ex) {
+  pend_raw("c_memset(" + addr + ", 0, " + sz + ");");
+  pend_raw("c_strcpy(" + addr + ", " + src + ");");
+} return void;

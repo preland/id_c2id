@@ -1,0 +1,22 @@
+// One step of the scan: a plain character is copied, an escape is decoded.
+// Answers the index to continue from.
+lit_step(string raw, string[] acc, int i) {
+  int c = charat(raw, i);
+  int j = lit_next(raw, acc, i, c);
+} return int j;
+
+lit_next(string raw, string[] acc, int i, int c) {
+  int j = i + 1;
+  if(c == 92) {
+    j = lit_esc(raw, acc, i);
+  } else {
+    lit_put(acc, c);
+  }
+} return int j;
+
+lit_put(string[] acc, int c) {
+  string piece = acc[0] + chr(c);
+  if(c != 34) {
+    sset(acc, 0, piece);
+  }
+} return void;

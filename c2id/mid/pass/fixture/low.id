@@ -1,0 +1,45 @@
+// What the lowering's cases need before they can name an expression: the node
+// store, the emitter's registries, an empty frame and an empty control flow
+// graph, and a few expression nodes built by hand and exported (a case's own
+// arguments are literals, so a node is named by the number it was given).
+//
+//   0 x   1 y   2 z            variables
+//   3 x && y   4 x || y        short circuits
+//   5 x ? y : z                a conditional
+//   6 x++   7 ++x   8 x = y    side effects
+//   9 x, y                     the comma operator
+//   10 f   11 f(x && y)        a call with a short circuit in its arguments
+//   12 (x && y)[z]             an index with one in its base
+// Block 0 is open, the way cfg_build leaves it before it walks a body.
+low_fix() {
+  boot_a();
+  txt_setup();
+  init_frame();
+} chain () {
+  init_frame2();
+  cfg_init();
+  low_nodes();
+} chain () {
+  int b0 = new_block();
+} return void;
+():() then calls low_nodes:()
+():() then calls cfg_init:()
+
+low_nodes() {
+  export int lw_x = mk_var("x");
+  export int lw_y = mk_var("y");
+  export int lw_z = mk_var("z");
+} chain () {
+  low_ops();
+  low_fx();
+} return void;
+given boot_a ():() then calls low_ops:()
+given boot_a ():() then calls low_fx:()
+
+low_ops() {
+  export int lw_and = newleaf("bin", (import lw_x), (import lw_y), "&&", "");
+  export int lw_or = newleaf("bin", (import lw_x), (import lw_y), "||", "");
+  export int lw_cond = newnode("cond", (import lw_x), (import lw_y), "", "", [(import lw_z)], [0]);
+} return void;
+given low_fix ():() then calls newleaf:("bin", 0, 1, "||", "")
+given low_fix ():() then calls newnode:("cond", 0, 1, "", "", [2], [0])

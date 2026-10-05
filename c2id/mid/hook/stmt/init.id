@@ -1,0 +1,20 @@
+lower_decl(int id) {
+  if((import nk)[id] == "decl" && (import na)[id] >= 0) {
+    lower_init(id);
+  }
+} return void;
+
+// A brace initializer is not an expression; its elements are lowered where
+// they are stored (back/link/data/boot/init).
+lower_init(int id) {
+  int a = (import na)[id];
+  if((import nk)[a] != "init") {
+    int r = lower_val(a);
+    lset((import na), id, r);
+  }
+} return void;
+
+lower_top2(int e) {
+  int k = top_kind(e);
+  int r = lower_top3(e, k);
+} return int r;

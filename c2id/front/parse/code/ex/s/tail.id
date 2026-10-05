@@ -1,0 +1,44 @@
+// The postfix and the remaining expression kinds.
+
+es4(int id) {
+  string s = es5(id);
+  if((import nk)[id] == "idx") {
+    int a = (import na)[id];
+    int b = (import nb)[id];
+    s = "(" + expr_str(a) + "[" + expr_str(b) + "])";
+  }
+  if((import nk)[id] == "mem") {
+    int ty = (import na)[id];
+    s = "(" + expr_str(ty) + (import nt)[id] + (import ns)[id] + ")";
+  }
+} return string s;
+given boot_a given exprfix stdin "x[1];" ((import extop)):("(x[1])")
+given boot_a given exprfix stdin "x.y;" ((import extop)):("(x.y)")
+
+// A cast prints its type as `t<node id>`: types belong to parse/ty/, and this
+// module deliberately does not reach into them.
+es5(int id) {
+  string s = es6(id);
+  if((import nk)[id] == "call") {
+    s = call_str(id);
+  }
+  if((import nk)[id] == "cast") {
+    int b = (import nb)[id];
+    int a = (import na)[id];
+    s = "(cast " + type_ref(b) + " " + expr_str(a) + ")";
+  }
+} return string s;
+given boot_a given exprfix stdin "f(1);" ((import extop)):("f(1)")
+given boot_a given ty_setup given exprfix stdin "(int)1;" ((import extop)):("(cast t0 1)")
+
+es6(int id) {
+  string s = es7(id);
+  if((import nk)[id] == "cond") {
+    s = cond_str(id);
+  }
+  if((import nk)[id] == "sizeof") {
+    s = sizeof_str(id);
+  }
+} return string s;
+given boot_a given exprfix stdin "1 ? 2 : 3;" ((import extop)):("(1 ? 2 : 3)")
+given boot_a given exprfix stdin "sizeof x;" ((import extop)):("sizeof(x)")

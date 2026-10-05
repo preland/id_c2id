@@ -1,0 +1,21 @@
+
+// The tail of the type printer: records.
+
+ts_rec(int ty) {
+  string s = "?";
+  if((import nk)[ty] == "rec") {
+    s = ts_su(ty);
+  }
+} return string s;
+given tynode_fix (5):("struct point{99}")
+given tynode_fix (0):("?")
+
+ts_su(int ty) {
+  string s = "union ";
+  if((import nb)[ty] == 0) {
+    s = "struct ";
+  }
+  string out = s + (import ns)[ty] + "{" + (import na)[ty] + "}";
+} return string out;
+given tynode_fix (5):("struct point{99}")
+given tynode_fix (3):("union {0}")

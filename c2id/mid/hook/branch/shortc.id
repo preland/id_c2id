@@ -1,0 +1,15 @@
+branch_go(int k, int a, int nxt, int alt) {
+  if(k == 1 || k == 2) {
+    branch_sc(k, a, nxt, alt);
+  } else {
+    branch_go3(k, a, nxt, alt);
+  }
+} return void;
+
+branch_go3(int k, int a, int nxt, int alt) {
+  if(k == 3) {
+    branch_not(a, nxt, alt);
+  } else {
+    branch_plain(a, nxt, alt);
+  }
+} return void;

@@ -1,0 +1,22 @@
+// Mark function i reached, and queue it to be read for what it reaches.
+reach_mark(int i) {
+  if(i >= 0 && (import reach)[i] == 0) {
+    lset((import reach), i, 1);
+    push((import rwork), i);
+  }
+} return void;
+
+reach_every(int i, int n) {
+  while(i < n) {
+    reach_mark(i);
+    i = i + 1;
+  }
+} return void;
+
+// Read each queued function's body, until none is left.
+reach_drain() {
+  while(len((import rwork)) > 0) {
+    int i = pop((import rwork));
+    reach_scan((import fbodies)[i]);
+  }
+} return void;

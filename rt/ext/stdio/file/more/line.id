@@ -1,0 +1,33 @@
+// fgets: up to n - 1 bytes, stopping after a newline, then a NUL; NULL when
+// nothing was left to read.
+c_fgets(word rbuf, word rn, word rfile) {
+  word rpos = peek64(rfile + 16);
+  word rsz = peek64(rfile + 8);
+  word rend = rt_line_end(rfile, rpos, rsz, rn);
+} chain (word rbuf, word rn, word rfile) {
+  word got = rend - rpos;
+  word rres = rt_copy_line(rbuf, rfile, rpos, got);
+} return word rres;
+
+// Where the line that starts at rpos ends: after its newline, or at the end of
+// the file, or after rn - 1 bytes, whichever comes first.
+rt_line_end(word rfile, word rpos, word rsz, word rn) {
+  word rlim = re_min(rsz, rpos + rn - 1);
+  word rend = rpos;
+  while(rend < rlim && peek8(peek64(rfile) + rend) != 10) {
+    rend = rend + 1;
+  }
+} chain (word rfile, word rpos, word rsz, word rn) {
+  if(rend < rlim) {
+    rend = rend + 1;
+  }
+} return word rend;
+
+rt_copy_line(word rbuf, word rfile, word rpos, word got) {
+  word rres = 0;
+  if(got > 0) {
+    rres = c_memcpy(rbuf, peek64(rfile) + rpos, got);
+    poke8(rbuf + got, 0);
+    poke64(rfile + 16, rpos + got);
+  }
+} return word rres;

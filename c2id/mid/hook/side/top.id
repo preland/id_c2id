@@ -1,0 +1,30 @@
+// What a whole expression statement is: 1 for a call, 2 for `x++`, `++x`, 0 for
+// anything else. A call and an increment are statements already, so only their
+// parts are lowered; anything else is lowered for its value.
+top_kind(int e) {
+  int k = 0;
+  if(e >= 0 && (import nk)[e] == "call") {
+    k = 1;
+  }
+  if(e >= 0 && ((import nk)[e] == "post" || un_incdec(e) == 1)) {
+    k = 2;
+  }
+} return int k;
+
+lower_top3(int e, int k) {
+  int r = e;
+  if(k == 0) {
+    r = lower_val(e);
+  } else {
+    r = lower_top4(e, k);
+  }
+} return int r;
+
+lower_top4(int e, int k) {
+  int r = e;
+  if(k == 1) {
+    r = lower_call(e);
+  } else {
+    r = lower_kid1(e);
+  }
+} return int r;

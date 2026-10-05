@@ -1,0 +1,27 @@
+// The tree over fs[lo..hi): a node splits on the function's number, a leaf is
+// the one function. The entry is named crt_callN; a single function needs no
+// tree, only an entry that calls it.
+emit_ind_tree(int n, int[] fs) {
+  int k = len(fs);
+  string root = ind_node(n, fs, 0, k, 1);
+  if(k == 1) {
+    ind_print(n, "crt_call" + n, 0, root, root);
+  }
+} return void;
+
+// The call text for fs[lo..hi), printing the function of an interior node first.
+ind_node(int n, int[] fs, int lo, int hi, int top) {
+  string call = ind_call(n, fs, lo, hi);
+  if(hi - lo > 1) {
+    ind_split(n, fs, lo, hi, top);
+  }
+} return string call;
+
+// A leaf is `c_NAME(a0, a1)`; an interior node `indN_lo_hi(f, a0, a1)`.
+ind_call(int n, int[] fs, int lo, int hi) {
+  string ar = ind_rest(n, "");
+  string call = "ind" + n + "_" + lo + "_" + hi + "(f" + arg_sep(n) + ar + ")";
+  if(hi - lo == 1) {
+    call = "c_" + (import fnames)[fs[lo]] + "(" + ar + ")";
+  }
+} return string call;

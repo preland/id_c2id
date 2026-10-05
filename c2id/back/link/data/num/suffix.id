@@ -1,0 +1,17 @@
+suffix_at(string raw, int j) {
+  int sc = charat(raw, j);
+  string cs = chr(sc);
+  int k = str_find("uUlL", cs);
+} chain (string raw, int j) {
+  int ok = k >= 0;
+} return int ok;
+
+// The decoded value of a literal that fits an int, as text; a negative one (the
+// parser wraps 0xdeadbeef to a negative int) as `(0 - n)`, since id has no unary
+// minus.
+num_dec(int id) {
+  string s = "" + (import na)[id];
+  if((import na)[id] < 0) {
+    s = "(0 - " + (0 - (import na)[id]) + ")";
+  }
+} return string s;

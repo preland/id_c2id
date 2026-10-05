@@ -1,0 +1,28 @@
+// ptr_off's condition, and the two operand orders ptr_off2 gets called in
+// -- split out because id forbids nesting a_of(id)/b_of(id)/s_of(id)
+// straight into ptr_off2's argument list.
+
+// Whether id's a operand is the pointer -- ptr_off tests this in its
+// condition, so ex_ty(a_of(id)) has to be named before is_ptr can take it.
+is_a_ptr(int id) {
+  int aty = kid_ty((import na), id);
+  int ok = is_ptr(aty);
+} return int ok;
+given txt_fixture (0):(0) then calls kid_ty:((import na), 0)
+given txt_fixture (5):(0) then calls kid_ty:((import na), 5)
+
+ptr_off_ab(int id, string op) {
+  int a = (import na)[id];
+  int b = (import nb)[id];
+  string s = ptr_off2(a, b, op);
+} return string s;
+given txt_fixture (0, "int"):("(NEEDS_CFG_prim int (NEEDS_CFG_prim * 4))")
+given txt_fixture (5, ""):("(NEEDS_CFG_prim  (NEEDS_CFG_prim * 4))")
+
+ptr_off_ba(int id, string op) {
+  int a = (import na)[id];
+  int b = (import nb)[id];
+  string s = ptr_off2(b, a, op);
+} return string s;
+given txt_fixture (0, "int"):("(NEEDS_CFG_prim int (NEEDS_CFG_prim * 4))")
+given txt_fixture (5, ""):("(NEEDS_CFG_prim  (NEEDS_CFG_prim * 4))")

@@ -1,0 +1,25 @@
+// The name a declaration of `dn` takes: itself when no local has that name yet,
+// else a fresh one, noted in the renamings.
+bind_name(string dn) {
+  string fresh = dn;
+  if(frame_off(dn) >= 0) {
+    fresh = env_fresh(dn);
+  }
+} return string fresh;
+
+env_fresh(string dn) {
+  int n = (import lcnt)[0];
+  lset((import lcnt), 0, n + 1);
+  string fresh = dn + "__" + n;
+} chain (string dn) {
+  push((import envo), dn);
+  push((import envn), fresh);
+} return string fresh;
+
+// A use of a name that a renaming covers is renamed with it.
+bind_var(int id) {
+  string nn = env_find((import ns)[id]);
+  if(nn != "") {
+    sset((import ns), id, nn);
+  }
+} return void;

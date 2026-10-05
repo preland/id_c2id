@@ -1,0 +1,30 @@
+// A two-way branch on condition a, in block blk: to nxt when true, alt when
+// false. `&&`, `||` and `!` are not evaluated as values here but turned into
+// edges -- `a && b` is "a: false goes to alt, true goes on to b" -- which is
+// what makes them short-circuit with no temporary at all. The current block is
+// left as it was found, as the single edge this replaces left it.
+branch(int blk, int a, int nxt, int alt) {
+  int c0 = cur_blk();
+  set_cur(blk);
+  int k = branch_kind(a);
+} chain (int blk, int a, int nxt, int alt) {
+  branch_go(k, a, nxt, alt);
+  set_cur(c0);
+} return void;
+
+// 1 for `&&`, 2 for `||`, 3 for `!`, 0 for anything else.
+branch_kind(int a) {
+  int k = 0;
+  if(a >= 0 && (import nk)[a] == "bin") {
+    k = sc_kind((import ns)[a]);
+  } else {
+    k = not_kind(a);
+  }
+} return int k;
+
+not_kind(int a) {
+  int k = 0;
+  if(a >= 0 && (import nk)[a] == "un" && (import ns)[a] == "!") {
+    k = 3;
+  }
+} return int k;

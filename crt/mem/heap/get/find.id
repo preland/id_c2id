@@ -24,7 +24,7 @@ given crt_heap_fixture ((import h0), 999):(0)
 walk_next(word h) {
   word nx = h + bsize(h);
   word r = 0;
-  if(nx < heap_end()) {
+  if(nx < peek64((import crt_heap) + 8)) {
     r = nx;
   }
 } return word r;

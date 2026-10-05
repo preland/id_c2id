@@ -1,0 +1,32 @@
+// `c ? x : y` as a value: the arms store into a temporary of the type of x.
+lower_ternary(int e) {
+  int tt = ex_ty((import nb)[e]);
+  int ty = tern_ty(tt);
+  int t = new_temp(ty);
+} chain (int e) {
+  int c = lower_val((import na)[e]);
+  tern_blocks(e, t, c);
+} return int t;
+
+tern_blocks(int e, int t, int c) {
+  int tb = new_block();
+  int fb = new_block();
+  int jb = new_block();
+} chain (int e, int t, int c) {
+  int cc = cur_blk();
+  term_cond(cc, c, tb, fb);
+  tern_arm(tb, jb, t, (import nb)[e]);
+} chain (int e, int t, int c) {
+  int[] el = (import nl)[e];
+  tern_arm(fb, jb, t, el[0]);
+  set_cur(jb);
+} return void;
+
+tern_arm(int blk, int jb, int t, int x) {
+  set_cur(blk);
+  int v = lower_val(x);
+  tern_store(t, v);
+} chain (int blk, int jb, int t, int x) {
+  int cc = cur_blk();
+  term_jmp(cc, jb);
+} return void;

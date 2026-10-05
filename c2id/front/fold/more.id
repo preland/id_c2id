@@ -1,0 +1,28 @@
+// A cast does not change a constant's value here (the operands are ints), a
+// conditional picks an arm, sizeof is the size of its type; a name that is not
+// an enumerator (and so not folded by the parser) is 0, which is also what the
+// old grammar answered.
+cv4(int e) {
+  int v = 0;
+  if((import nk)[e] == "cast") {
+    v = const_eval((import na)[e]);
+  } else {
+    v = cv5(e);
+  }
+} return int v;
+
+cv5(int e) {
+  int v = 0;
+  if((import nk)[e] == "cond") {
+    v = cv_cond(e);
+  } else {
+    v = cv6(e);
+  }
+} return int v;
+
+cv6(int e) {
+  int v = 0;
+  if((import nk)[e] == "sizeof" && (import nb)[e] >= 0) {
+    v = type_size((import nb)[e]);
+  }
+} return int v;

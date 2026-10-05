@@ -1,0 +1,16 @@
+// The standard types, by name. Each is one cell of stdty; the literal index
+// is what tells these functions apart under id's duplicate-logic rule, which
+// is also why a single ty_std(i) does not exist -- the call sites would then
+// carry the magic numbers instead.
+
+ty_uint() {
+  int ty = (import stdty)[1];
+} return int ty;
+given txt_fixture ():(1)
+given txt_fixture ():(1) then ty_long:(2)
+
+ty_long() {
+  int ty = (import stdty)[2];
+} return int ty;
+given txt_fixture ():(2)
+given txt_fixture ():(2) then ty_ulong:(3)

@@ -19,7 +19,7 @@ given crt_heap_fixture ((import h0), 64, 555):() then h0_word:(64) then h0_prev:
 // Set a back link only if there really is a block there -- `h` may be the
 // end of the heap, which is not a block at all.
 fix_prev(word h, word p) {
-  if(h < heap_end()) {
+  if(h < peek64((import crt_heap) + 8)) {
     bsetprev(h, p);
   }
 } return void;

@@ -1,0 +1,20 @@
+// `x = e` and `x += e` as a value: the operands are lowered, the store is a
+// statement, and the value is x read back.
+lower_asg_val(int e) {
+  int r = lower_kid2(e);
+  effect_stmt(e);
+  int x = (import na)[e];
+} return int x;
+
+// 1 for `++x` and `--x`, which are unary nodes like `-x` and `!x`.
+un_incdec(int e) {
+  int ok = 0;
+  if((import nk)[e] == "un") {
+    ok = is_incdec((import ns)[e]);
+  }
+} return int ok;
+
+// 1 for `&&`, 2 for `||`, 0 for any other operator.
+sc_kind(string op) {
+  int k = find_str((import sc_ops), op) + 1;
+} return int k;

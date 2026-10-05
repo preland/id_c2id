@@ -1,0 +1,33 @@
+// Calls through a function pointer. A function's address is its place in the
+// program's function table plus one (0 is the null pointer); a name that is a
+// function, used as a value, reads as that number (glob_where). A call whose
+// callee is not a function's own name -- a variable holding a pointer, an
+// element of a table of them -- goes through crt_callN, N being its argument
+// count, which ind/emit.id generates as a dispatch over every function with N
+// parameters.
+direct_call(int a) {
+  int ok = 0;
+  if((import nk)[a] == "var" && frame_off((import ns)[a]) < 0) {
+    ok = fn_name((import ns)[a]);
+  }
+} return int ok;
+
+// A name that is not a local is a function when it was declared as one, and
+// is taken to be one when it was never declared at all (C's implicit declaration
+// is how a call to an undeclared function means anything).
+fn_name(string name) {
+  int i = find_str((import dnames), name);
+  int ok = 1;
+  if(i >= 0) {
+    ok = (import nk)[(import dtys)[i]] == "fn";
+  }
+} return int ok;
+
+// The pointer is the call's first argument.
+ind_prefix(int callee, string rest) {
+  string out = rest;
+  if(direct_call(callee) == 0) {
+    string cv = ex_txt(callee);
+    out = cv + arg_sep(len(rest)) + rest;
+  }
+} return string out;

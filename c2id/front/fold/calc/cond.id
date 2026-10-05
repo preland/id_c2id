@@ -1,0 +1,11 @@
+cv_cond(int e) {
+  int cnd = const_eval((import na)[e]);
+  int tv = const_eval((import nb)[e]);
+  int[] el = (import nl)[e];
+} chain (int e) {
+  int fv = const_eval(el[0]);
+  int v = fv;
+  if(cnd != 0) {
+    v = tv;
+  }
+} return int v;

@@ -1,0 +1,24 @@
+// The statements of c_globals for literal j: its string when it has no NUL, its
+// bytes when it has. The store is zeroed, so the terminator needs no write and
+// neither does a 0 byte.
+emit_slit(int j) {
+  int[] bs = lit_bytes((import slits)[j]);
+  int z = bytes_nul(bs);
+  emit_slit_as(j, z, bs);
+} return void;
+
+emit_slit_as(int j, int z, int[] bs) {
+  if(z > 0) {
+    emit_slit_bytes(j, bs);
+  } else {
+    emit_slit_text(j);
+  }
+} return void;
+
+emit_slit_bytes(int j, int[] bs) {
+  int n = len(bs) + 1;
+  emit_out("  word lit_p" + j + " = alloc(" + n + ");");
+  emit_bytes(j, bs);
+} chain (int j, int[] bs) {
+  emit_out("  poke64((import gbase) + " + (import soff)[j] + ", lit_p" + j + ");");
+} return void;

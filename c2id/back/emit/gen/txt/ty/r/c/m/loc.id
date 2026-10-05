@@ -1,0 +1,35 @@
+// Creating frame slots. emit/fr owns the offsets; this owns the types beside
+// them, and the two lists are only in step because every slot is made here.
+
+bind_local(string name, int ty) {
+  push((import lvtys), ty);
+  int off = frame_add(name, ty);
+} return int off;
+given txt_fixture given init_frame given init_frame2 ("x", 0):(8)
+given txt_fixture given init_frame given init_frame2 ("y", 2):(8)
+
+// The C type of a local. Not a local -- a global, or a name the frame pass
+// never saw -- answers `int`, which is what C itself assumes for an
+// undeclared name.
+local_ty(string name) {
+  int i = find_local(name);
+  int ty = glob_ty(name);
+  if(i >= 0) {
+    ty = (import lvtys)[i];
+  }
+} return int ty;
+given txt_fixture given init_frame given init_frame2 ("x"):(0)
+given txt_fixture given init_frame given init_frame2 ("y"):(0)
+
+// The slot a declaration names. The frame pass normally ran first, in which
+// case the offset is already there; when it has not -- a single pass over
+// straight-line code, which is how the emitter is tested -- the declaration
+// itself creates the slot.
+decl_slot(string name, int ty) {
+  int off = frame_off(name);
+  if(off < 0) {
+    off = bind_local(name, ty);
+  }
+} return int off;
+given txt_fixture given init_frame given init_frame2 ("x", 0):(8)
+given txt_fixture given init_frame given init_frame2 ("y", 2):(8)

@@ -1,0 +1,25 @@
+// The process a translated program runs in. `rt_boot` is called once by the
+// generated `main`: it makes the global-variable region (`gbase`), the call
+// stack (one block, `rtsp[0]` its next free byte), the heap malloc draws on,
+// and the cell `rtex[0]` that holds an exit status once the program calls
+// exit (-1 until then).
+rt_boot(word gsz) {
+  export word gbase = alloc(gsz + 8);
+  export word[] rtsp = [alloc(67108864)];
+  heap_init(67108864);
+} chain (word gsz) {
+  export int[] rtex = [0 - 1];
+} return void export rtsp;
+
+// A frame of n bytes off the stack; its address is the frame pointer. The store
+// is bounds-checked, so a stack that runs out traps at the first access past it
+// rather than overwriting whatever lies beyond.
+rt_enter(word n) {
+  word sp = (import rtsp)[0];
+  wset((import rtsp), 0, sp + n);
+} return word sp;
+
+rt_leave(word n) {
+  word sp = (import rtsp)[0] - n;
+  wset((import rtsp), 0, sp);
+} return void;

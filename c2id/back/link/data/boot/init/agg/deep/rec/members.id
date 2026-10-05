@@ -1,0 +1,24 @@
+init_rec(int ty, string addr, int ex, int zf) {
+  zero_fill(ty, addr, zf);
+  int[] items = (import nl)[ex];
+  init_members(ty, addr, items);
+} return void;
+
+init_members(int ty, string addr, int[] items) {
+  int k = 0;
+  int j = 0;
+  while(j < len(items)) {
+    k = init_member(ty, addr, items, j, k);
+    j = j + 1;
+  }
+} return void;
+
+// Member k of the record, or the one a `.name =` designator names.
+init_member(int ty, string addr, int[] items, int j, int k) {
+  int it = items[j];
+  int row = member_row(ty, it, k);
+  int val = item_val(it);
+} chain (int ty, string addr, int[] items, int j, int k) {
+  init_stmts((import syids)[row], addr + " + " + (import syoff)[row], val, 0);
+  int nxt = k + 1;
+} return int nxt;

@@ -1,0 +1,29 @@
+// The dispatch for calls through function pointers: for each argument count
+// 0..6 that some function has, a function crt_callN(f, a0..aN-1) that calls the
+// function numbered f. It is a binary tree over those functions, the same shape
+// as a function's block dispatch, so no function exceeds three actions.
+emit_inds() {
+  int n = 0;
+  while(n < 7) {
+    emit_ind(n);
+    n = n + 1;
+  }
+} return void;
+
+emit_ind(int n) {
+  int[] fs = fns_of(n);
+  if(len(fs) > 0) {
+    emit_ind_tree(n, fs);
+  }
+} return void;
+
+// The functions the program defines that take exactly n parameters, by their
+// index in the function table.
+fns_of(int n) {
+  int[] fs = [];
+  int i = 0;
+  while(i < len((import fnames))) {
+    fns_add(fs, n, i);
+    i = i + 1;
+  }
+} return int[] fs;

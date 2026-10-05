@@ -1,0 +1,23 @@
+// The initializers of the globals: `static void (*ops[])(void) = { f, g };`
+// makes f and g reachable without anything calling them.
+reach_inits(int i) {
+  while(i < len((import dinit))) {
+    reach_scan((import dinit)[i]);
+    i = i + 1;
+  }
+} return void;
+
+// Walk statement or expression node id. A name that is a defined function is
+// reached; every other node is followed into the children its kind has.
+reach_scan(int id) {
+  if(id >= 0 && (import nk)[id] == "var") {
+    reach_name((import ns)[id]);
+  } else if(id >= 0) {
+    reach_kids(id, (import nk)[id]);
+  }
+} return void;
+
+reach_name(string name) {
+  int i = find_str((import fnames), name);
+  reach_mark(i);
+} return void;

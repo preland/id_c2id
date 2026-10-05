@@ -1,0 +1,37 @@
+// Whether a comparison's usual type is the signed kind. Its own function
+// because cmp_txt's condition tests this to the right of || -- naming the
+// value ahead of the if would run the check even when the left side, "is
+// this == or !=", already answered.
+is_signed_cmp(int id) {
+  int uty = pair_uty(id);
+  int ok = ty_signed(uty);
+} return int ok;
+given txt_fixture (0):(1) then calls pair_uty:(0)
+given txt_fixture (1):(1) then calls pair_uty:(1)
+
+// Whether *both* operands are pointers -- bin_ty3 and ptr_bin test this to
+// the right of &&, so b's type is only asked for once a already answered
+// yes, matching && itself never evaluating its right side otherwise.
+is_ptr_pair(int id) {
+  int aty = kid_ty((import na), id);
+  int ok = is_ptr(aty);
+  if(ok == 1) {
+    int bty = kid_ty((import nb), id);
+    ok = is_ptr(bty);
+  }
+} return int ok;
+given txt_fixture (0):(0) then calls kid_ty:((import na), 0)
+given txt_fixture (1):(0) then calls kid_ty:((import na), 1)
+
+// Whether *either* operand is a pointer -- bin2 tests this to the right of
+// ||, so b's type is only asked for once a has already answered no.
+is_ptr_either(int id) {
+  int aty = kid_ty((import na), id);
+  int ok = is_ptr(aty);
+  if(ok == 0) {
+    int bty = kid_ty((import nb), id);
+    ok = is_ptr(bty);
+  }
+} return int ok;
+given txt_fixture (0):(0) then calls kid_ty:((import nb), 0)
+given txt_fixture (1):(0) then calls kid_ty:((import nb), 1)

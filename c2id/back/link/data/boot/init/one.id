@@ -1,0 +1,21 @@
+init_one(int i, int a, string addr, string name) {
+  if(a >= 0) {
+    init_stmts((import dtys)[i], addr, a, 0);
+  } else {
+    std_init(name, addr);
+  }
+} return void;
+
+// stdout, stderr and stdin are the small numbers rt/libc/io.id decides on.
+std_init(string name, string addr) {
+  int k = find_str((import std_names), name);
+  if(k >= 0) {
+    pend_raw("poke64(" + addr + ", " + (import std_vals)[k] + ");");
+  }
+} return void;
+
+// A statement the block emitter prints verbatim before the one it is building.
+pend_raw(string line) {
+  push((import pend), line);
+  push((import pendc), "");
+} return void;

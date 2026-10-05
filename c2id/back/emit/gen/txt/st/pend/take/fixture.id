@@ -1,0 +1,11 @@
+// unname_pop and flush_pend's real path both need at least one queued
+// temporary to act on -- pop((import pend)) traps on an empty list, and
+// flush_pend's loop never runs otherwise. name_val takes an argument, so it
+// cannot be a `given` itself; this wraps one call to it in a name a case can
+// give.
+pend_grow_fixture() {
+  string name = name_val("x");
+} return void;
+given pend_setup ():() then calls name_val:("x")
+given pend_setup ():() then calls name_push:("x", 0)
+

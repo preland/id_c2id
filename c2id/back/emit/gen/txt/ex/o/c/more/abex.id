@@ -1,0 +1,19 @@
+// The text of each operand of a two-child node, and the address form of
+// the first -- split out for the same reason as abty.id, and shared just
+// as widely across ex/d, ex/a, ex/o and st.
+
+kid_ex(int[] kids, int id) {
+  int a = kids[id];
+  string s = ex_txt(a);
+} return string s;
+given txt_fixture ((import na), 0):("NEEDS_CFG_prim") then calls ex_txt:(4)
+given txt_fixture ((import na), 1):("NEEDS_CFG_prim") then calls ex_txt:(4)
+given txt_fixture ((import nb), 0):("NEEDS_CFG_prim") then calls ex_txt:(1)
+given txt_fixture ((import nb), 1):("NEEDS_CFG_prim") then calls ex_txt:(0)
+
+a_addr(int id) {
+  int a = (import na)[id];
+  string s = addr_txt(a);
+} return string s;
+given txt_fixture (0):("NOT_AN_LVALUE_prim") then calls addr_txt:(4)
+given txt_fixture (1):("NOT_AN_LVALUE_prim") then calls addr_txt:(4)

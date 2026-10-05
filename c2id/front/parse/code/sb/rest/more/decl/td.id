@@ -1,0 +1,23 @@
+// A declaration at statement level: an ordinary one, or a `typedef`, which
+// declares no variable but adds a name to the table is_type_start reads, so a
+// later `size_t n;` is recognised as a declaration.
+parse_decl_top(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "typedef")) {
+    id = typedef_stmt(pos);
+  } else {
+    id = parse_decl_stmt(pos);
+  }
+} return int id;
+given boot_a given ty_setup given lexfix stdin "typedef int myint ;" ([0]):(1) then calls typedef_stmt:[1]
+given boot_a given ty_setup given lexfix stdin "int x;" ([0]):(2) then calls parse_decl_stmt:[1]
+
+// The statement a typedef becomes: an empty block, so the enclosing block's
+// statement list stays one node per source statement.
+typedef_stmt(int[] pos) {
+  parse_typedef(pos);
+  int[] empty = [];
+  int id = newlist("block", 0, 0, "", empty);
+} return int id;
+given boot_a given ty_setup given lexfix stdin "typedef int myint ;" ([0]):(1)
+given boot_a given ty_setup given lexfix stdin "typedef long q , r ;" ([0]):(1)

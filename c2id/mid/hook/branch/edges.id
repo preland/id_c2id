@@ -1,0 +1,24 @@
+// `a && b` and `a || b` as a branch: the left operand's block branches to a
+// block of its own (mb) that tests the right operand, and to the final edge the
+// left operand alone decides -- alt for &&, nxt for ||.
+branch_sc(int k, int a, int nxt, int alt) {
+  int c = cur_blk();
+  int mb = new_block();
+  branch_left(k, c, a, mb, nxt, alt);
+} chain (int k, int a, int nxt, int alt) {
+  branch(mb, (import nb)[a], nxt, alt);
+} return void;
+
+branch_left(int k, int c, int a, int mb, int nxt, int alt) {
+  if(k == 1) {
+    branch(c, (import na)[a], mb, alt);
+  } else {
+    branch(c, (import na)[a], nxt, mb);
+  }
+} return void;
+
+// `!a` swaps the two edges.
+branch_not(int a, int nxt, int alt) {
+  int c = cur_blk();
+  branch(c, (import na)[a], alt, nxt);
+} return void;

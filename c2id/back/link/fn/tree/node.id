@@ -1,0 +1,27 @@
+// One interior node of the dispatch tree.
+emit_dsp(string tnm, int cut, string lnm, string rnm) {
+  emit_mark();
+  print(tnm + "(word fp, word pc) {");
+  print("  word nxt = 0 - 1;");
+} chain (string tnm, int cut, string lnm, string rnm) {
+  print("  if(pc < " + cut + ") { nxt = " + lnm + "; } else { nxt = " + rnm + "; }");
+  print("} return word nxt;");
+} return void;
+
+// The runner: start at the first live block and follow the answers until one
+// says -1. Blocks return here rather than tail-calling each other, so a loop of
+// any length runs in constant stack.
+emit_run(int fn, string root, int first) {
+  emit_mark();
+  print("run" + fn + "(word fp) {");
+  print("  word pc = " + first + ";");
+} chain (int fn, string root, int first) {
+  print("  while(pc >= 0 && (import rtex)[0] < 0) { pc = " + root + "; }");
+  print("  word r = peek64(fp);");
+  print("} return word r;");
+} return void;
+
+// The frame is a whole number of 8-byte words, so the stack stays aligned.
+frame_bytes() {
+  int sz = align_up((import frsz)[0], 8);
+} return int sz;

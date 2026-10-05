@@ -1,0 +1,27 @@
+sc_arms(int e, int t, int k, int rb, int cb, int jb) {
+  sc_right(e, t, rb, jb);
+  sc_const(t, k, cb, jb);
+} return void;
+
+// The arm that evaluates the right operand.
+sc_right(int e, int t, int rb, int jb) {
+  set_cur(rb);
+  int r = lower_val((import nb)[e]);
+  int ne = mk_ne(r);
+} chain (int e, int t, int rb, int jb) {
+  assign_stmt(t, ne);
+  int cc = cur_blk();
+  term_jmp(cc, jb);
+} return void;
+
+// The arm the left operand alone decides, after which filling continues in the
+// join block.
+sc_const(int t, int k, int cb, int jb) {
+  set_cur(cb);
+  int kv = k - 1;
+  int n = mk_num(kv);
+} chain (int t, int k, int cb, int jb) {
+  assign_stmt(t, n);
+  term_jmp(cb, jb);
+  set_cur(jb);
+} return void;

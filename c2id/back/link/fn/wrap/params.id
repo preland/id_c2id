@@ -1,0 +1,25 @@
+// Parameters live in the callee's frame like locals, but each takes a whole
+// 8-byte slot starting at fp + 8, whatever its C type: the caller stores the
+// canonical 64-bit value there (wrap.id), and a narrower load of the low bytes
+// reads it back, the machine being little-endian.
+bind_params(int ft) {
+  int[] tys = (import nl)[ft];
+  string[] names = str_split((import ns)[ft], ",");
+  int i = 0;
+} chain (int ft) {
+  while(i < len(tys)) {
+    bind_one(names, tys, i);
+    i = i + 1;
+  }
+} return void;
+
+bind_one(string[] names, int[] tys, int i) {
+  string pn = names[i];
+  bind_param(pn, tys[i]);
+} return void;
+
+bind_param(string pname, int ty) {
+  push((import lvtys), ty);
+  int off = (import frsz)[0];
+  add_slot(pname, off, 8);
+} return void;

@@ -1,0 +1,14 @@
+// The side effects, the comma and the call of low_fix's nodes (low.id has the rest).
+low_fx() {
+  export int lw_post = newleaf("post", (import lw_x), 0, "++", "");
+  export int lw_pre = newleaf("un", (import lw_x), 0, "++", "");
+  export int lw_asg = newleaf("assign", (import lw_x), (import lw_y), "=", "");
+} chain () {
+  export int lw_comma = newleaf("bin", (import lw_x), (import lw_y), ",", "");
+  export int lw_f = mk_var("f");
+  export int lw_call = newnode("call", (import lw_f), 0, "", "", [(import lw_and)], [0]);
+} chain () {
+  export int lw_idx = newleaf("idx", (import lw_and), (import lw_z), "", "");
+} return void;
+given low_fix ():() then calls newleaf:("post", 0, 0, "++", "")
+given low_fix ():() then calls newnode:("call", 10, 0, "", "", [3], [0])

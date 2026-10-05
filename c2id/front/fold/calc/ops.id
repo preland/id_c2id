@@ -1,0 +1,20 @@
+cv_bin(int e) {
+  int lv = const_eval((import na)[e]);
+  int rv = const_eval((import nb)[e]);
+  int v = cv_apply((import ns)[e], lv, rv);
+} return int v;
+
+// The arithmetic and bitwise operators are ce_apply's; the comparisons and the
+// logical operators are answered 0 or 1 from one table.
+cv_apply(string op, int lv, int rv) {
+  int v = ce_apply(op, lv, rv);
+  int k = find_str((import cv_cmp_ops), op);
+  if(k >= 0) {
+    v = cv_cmp(k, lv, rv);
+  }
+} return int v;
+
+cv_cmp(int k, int lv, int rv) {
+  int[] rl = [lv == rv, lv != rv, lv < rv, lv > rv, lv <= rv, lv >= rv, lv != 0 && rv != 0, lv != 0 || rv != 0];
+  int v = rl[k];
+} return int v;

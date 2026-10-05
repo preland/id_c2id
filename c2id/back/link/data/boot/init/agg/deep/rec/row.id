@@ -1,0 +1,8 @@
+// The member-table row: found by name for a designated element, else the
+// k-th member in declaration order (nm[ty][0] is the alignment, rows follow).
+member_row(int ty, int it, int k) {
+  int row = (import nm)[ty][1 + k];
+  if((import nk)[it] == "dinit" && (import nb)[it] < 0) {
+    row = mem_find(ty, (import ns)[it]);
+  }
+} return int row;

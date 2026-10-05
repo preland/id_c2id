@@ -1,0 +1,36 @@
+// The chain, continued: unary operators, casts, and struct members.
+
+ety4(int id) {
+  int ty = 0;
+  if((import nk)[id] == "un") {
+    ty = un_ty(id);
+  } else {
+    ty = ety5(id);
+  }
+} return int ty;
+given txt_fixture (0):(0) then calls ety5:(0)
+given txt_fixture (5):(0) then calls ety5:(5)
+
+// A cast node carries the target type node in nb, so there is nothing to
+// infer.
+ety5(int id) {
+  int ty = 0;
+  if((import nk)[id] == "cast") {
+    ty = (import nb)[id];
+  } else {
+    ty = ety6(id);
+  }
+} return int ty;
+given txt_fixture (0):(0) then calls ety6:(0)
+given txt_fixture (5):(0) then calls ety6:(5)
+
+ety6(int id) {
+  int ty = 0;
+  if((import nk)[id] == "mem") {
+    ty = mem_ty(id);
+  } else {
+    ty = ety7(id);
+  }
+} return int ty;
+given txt_fixture (0):(0) then calls ety7:(0)
+given txt_fixture (5):(0) then calls ety7:(5)

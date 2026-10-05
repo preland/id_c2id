@@ -1,0 +1,38 @@
+// `a && b` and `a || b` as a value. The result lives in a temporary t. The left
+// operand is lowered first; then three blocks are made:
+//   rb  evaluates the right operand and stores (right != 0) in t
+//   cb  stores the constant the left operand alone decided: 0 for &&, 1 for ||
+//   jb  where both go on
+// and the block holding the left operand branches to rb or cb -- true goes to
+// rb for &&, false does for ||.
+lower_sc(int e) {
+  int t = new_temp((import stdty)[0]);
+  int lv = lower_val((import na)[e]);
+  int k = sc_kind((import ns)[e]);
+} chain (int e) {
+  sc_make(e, t, lv, k);
+} return int t;
+
+sc_make(int e, int t, int lv, int k) {
+  int rb = new_block();
+  int cb = new_block();
+  int jb = new_block();
+} chain (int e, int t, int lv, int k) {
+  int c = cur_blk();
+  if(k == 1) {
+    term_cond(c, lv, rb, cb);
+  } else {
+    term_cond(c, lv, cb, rb);
+  }
+} chain (int e, int t, int lv, int k) {
+  sc_arms(e, t, k, rb, cb, jb);
+} return void;
+
+// The kinds with one operand that is evaluated (a sizeof operand is not).
+one_kid(int e) {
+  string kn = (import nk)[e];
+  int ok = 0;
+  if(kn == "un" || kn == "post" || kn == "cast" || kn == "mem") {
+    ok = 1;
+  }
+} return int ok;

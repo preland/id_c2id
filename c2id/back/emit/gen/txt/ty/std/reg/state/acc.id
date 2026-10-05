@@ -1,0 +1,10 @@
+
+
+// One local bound with a literal name and type, so lvtys (and lvnames/
+// lvoff/frsz alongside it) is not empty going into a txt_reset case --
+// the only way to tell "cleared" from "was already empty."
+lvtys_grow_fixture() {
+  int off = bind_local("z", 0);
+} return void;
+given txt_fixture given init_frame given init_frame2 ():() then calls bind_local:("z", 0)
+given txt_fixture given init_frame given init_frame2 ():() then len((import lvtys)):(1)

@@ -1,0 +1,20 @@
+c_fclose(word rfile) {
+  if(rfile > 3) {
+    kfree(peek64(rfile));
+    kfree(rfile);
+  }
+} return word 0;
+
+// The next byte, or -1 (EOF) at the end.
+c_fgetc(word rfile) {
+  word rpos = peek64(rfile + 16);
+  word rbyte = 0 - 1;
+  if(rpos < peek64(rfile + 8)) {
+    rbyte = rt_take(rfile, rpos);
+  }
+} return word rbyte;
+
+rt_take(word rfile, word rpos) {
+  word rbyte = peek8(peek64(rfile) + rpos);
+  poke64(rfile + 16, rpos + 1);
+} return word rbyte;

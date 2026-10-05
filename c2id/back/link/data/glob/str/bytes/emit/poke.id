@@ -1,0 +1,22 @@
+emit_bytes(int j, int[] bs) {
+  int i = 0;
+  while(i < len(bs)) {
+    emit_byte(j, bs[i], i);
+    i = i + 1;
+  }
+} return void;
+
+emit_byte(int j, int bv, int i) {
+  if(bv != 0) {
+    emit_out("  poke8(lit_p" + j + " + " + i + ", " + bv + ");");
+  }
+} return void;
+
+// A literal with no NUL: the string, then its address in the slot.
+emit_slit_text(int j) {
+  string lexpr = lit_expr((import slits)[j]);
+  emit_out("  string lit_s" + j + " = " + lexpr + ";");
+  emit_out("  word lit_p" + j + " = mem_of_str(lit_s" + j + ");");
+} chain (int j) {
+  emit_out("  poke64((import gbase) + " + (import soff)[j] + ", lit_p" + j + ");");
+} return void;

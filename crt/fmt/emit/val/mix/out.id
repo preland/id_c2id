@@ -12,7 +12,7 @@ dec_of_padded(word v, word[] args, word[] st, word[] fs) {
 // This is extracted to a helper because the nested calls would exceed action budget.
 uns_of_padded(word v, word c, word[] args, word[] st, word[] fs) {
   word w = next_arg(args, st);
-  string out = uns_of(w, c, fs);
+  string out = uns_str(w, c, fs);
   string txt = pad_out(out, fs);
 } return string txt;
 (0, 120, [255], [0, 0], [0, 0, 0, 0, 0]):("ff")

@@ -1,0 +1,23 @@
+lower_call(int e) {
+  int[] args = (import nl)[e];
+  lower_list(args);
+} return int e;
+
+lower_list(int[] l) {
+  int i = 0;
+  while(i < len(l)) {
+    int x = lower_val(l[i]);
+    lset(l, i, x);
+    i = i + 1;
+  }
+} return void;
+
+// Both operands of a node with two (indexing, an assignment's target and value,
+// a binary operator that is not a short circuit), left first.
+lower_kid2(int e) {
+  int a = lower_val((import na)[e]);
+  lset((import na), e, a);
+  int b = lower_val((import nb)[e]);
+} chain (int e) {
+  lset((import nb), e, b);
+} return int e;

@@ -1,0 +1,38 @@
+ex7(int id) {
+  string s = "";
+  if((import nk)[id] == "cast") {
+    s = cast_txt(id);
+  } else {
+    s = ex8(id);
+  }
+} return string s;
+given txt_fixture (0):("NEEDS_CFG_prim") then calls ex8:(0)
+given txt_fixture (5):("NEEDS_CFG_ptr") then calls ex8:(5)
+
+ex8(int id) {
+  string s = "";
+  if((import nk)[id] == "sizeof") {
+    s = sizeof_txt(id);
+  } else {
+    s = ex9(id);
+  }
+} return string s;
+given txt_fixture (0):("NEEDS_CFG_prim") then calls ex9:(0)
+given txt_fixture (5):("NEEDS_CFG_ptr") then calls ex9:(5)
+
+// `x++` as a subexpression should yield the value *before* the increment,
+// which needs a frame temporary. What is emitted here is the increment
+// itself, which is right in the only place the straight-line emitter meets
+// one: as a whole expression statement.
+ex9(int id) {
+  string s = "";
+  if((import nk)[id] == "post") {
+    int a = (import na)[id];
+    string op = (import ns)[id];
+    s = step_txt(a, op);
+  } else {
+    s = ex10(id);
+  }
+} return string s;
+given txt_fixture (0):("NEEDS_CFG_prim") then calls ex10:(0)
+given txt_fixture (5):("NEEDS_CFG_ptr") then calls ex10:(5)

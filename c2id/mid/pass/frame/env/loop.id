@@ -1,0 +1,37 @@
+// A for loop in source order -- init, condition, step, body -- because the init
+// is what declares the loop variable the condition and step are about, and a
+// declaration's renaming only reaches what is walked after it. The loop variable
+// is in scope for the whole loop and no longer.
+bind_for(int id) {
+  int h = len((import envo));
+  bind_list((import nl)[id]);
+  bind_decls((import na)[id]);
+} chain (int id) {
+  bind_decls((import nb)[id]);
+  bind_list((import nm)[id]);
+  env_trunc(h);
+} return void;
+
+// A list that is only declarations (`int a, b;` is one such, a block of decls)
+// is no scope of its own: what it declares is in scope after it.
+decls_only(int[] l) {
+  int other = 0;
+  int i = 0;
+  while(i < len(l)) {
+    other = other + (decl_like(l[i]) == 0);
+    i = i + 1;
+  }
+} chain (int[] l) {
+  int only = other == 0;
+} return int only;
+
+// A declaration, or a block that holds nothing but declarations (the parser
+// wraps `int a, b;` in one).
+decl_like(int id) {
+  int ok = 0;
+  if((import nk)[id] == "decl") {
+    ok = 1;
+  } else if((import nk)[id] == "block") {
+    ok = decls_only((import nl)[id]);
+  }
+} return int ok;

@@ -1,0 +1,39 @@
+// The children of a node by kind (conf.id scan_a/b/l/m, as in the reachability
+// pass), in the order the fields come, each list its own scope; a for loop has
+// its own order (bind_for).
+bind_kids(int id, string kn) {
+  if(kn == "for") {
+    bind_for(id);
+  } else {
+    bind_kids2(id, kn);
+  }
+} return void;
+
+bind_kids2(int id, string kn) {
+  if(find_str((import scan_a), kn) >= 0) {
+    bind_decls((import na)[id]);
+  }
+  if(find_str((import scan_b), kn) >= 0) {
+    bind_decls((import nb)[id]);
+  }
+  if(find_str((import scan_l), kn) >= 0) {
+    bind_list((import nl)[id]);
+  }
+} chain (int id, string kn) {
+  if(find_str((import scan_m), kn) >= 0) {
+    bind_list((import nm)[id]);
+  }
+} return void;
+
+bind_list(int[] l) {
+  int h = len((import envo));
+  int i = 0;
+  while(i < len(l)) {
+    bind_decls(l[i]);
+    i = i + 1;
+  }
+} chain (int[] l) {
+  if(decls_only(l) == 0) {
+    env_trunc(h);
+  }
+} return void;

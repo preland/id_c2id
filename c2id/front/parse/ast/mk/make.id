@@ -1,0 +1,27 @@
+// Building nodes. newnode's id is the new length minus one, named in its
+// body and returned -- the return clause may only be a name or a literal.
+//
+// The pushes are split across three helpers for the same reason: three
+// exports' worth of pushing is three actions, and a block gets three.
+
+push_kab(string kind, int a, int b) {
+  push((import nk), kind);
+  push((import na), a);
+  push((import nb), b);
+} return void;
+given boot_a ("num", 5, 7):() then (import nk)[0]:("num") then (import na)[0]:(5) then (import nb)[0]:(7)
+given boot_a ("var", 9, 2):() then (import nk)[0]:("var") then (import na)[0]:(9) then (import nb)[0]:(2)
+
+push_st(string s, string tstr) {
+  push((import ns), s);
+  push((import nt), tstr);
+} return void;
+given boot_a ("x", "ty1"):() then (import ns)[0]:("x") then (import nt)[0]:("ty1")
+given boot_a ("y", "ty2"):() then (import ns)[0]:("y") then (import nt)[0]:("ty2")
+
+push_lm(int[] l, int[] m) {
+  push((import nl), l);
+  push((import nm), m);
+} return void;
+given boot_a ([1, 2], [3]):() then (import nl)[0]:([1, 2]) then (import nm)[0]:([3])
+given boot_a ([], []):() then (import nl)[0]:([]) then (import nm)[0]:([])

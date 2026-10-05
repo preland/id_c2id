@@ -1,0 +1,33 @@
+// The wrapper other code calls: `c_NAME(a0, a1, ...)` takes a frame off the
+// stack, stores the arguments in the parameter slots (8 bytes each, from fp +
+// 8), runs the function, gives the frame back and answers fp + 0.
+emit_wrap(int fn, string name, int np, int sz) {
+  string plist = wrap_params(np);
+  emit_mark();
+  emit_head(plist, "c_" + name + "(" + plist + ") {");
+} chain (int fn, string name, int np, int sz) {
+  emit_out("  word fp = rt_enter(" + sz + ");");
+  wrap_args(np);
+  emit_out("  word r = run" + fn + "(fp);");
+} chain (int fn, string name, int np, int sz) {
+  emit_out("  rt_leave(" + sz + ");");
+  emit_cut("} return word r;");
+} return void;
+
+// `word a0, word a1`
+wrap_params(int np) {
+  string out = "";
+  int i = 0;
+  while(i < np) {
+    out = out + arg_sep(i) + "word a" + i;
+    i = i + 1;
+  }
+} return string out;
+
+wrap_args(int np) {
+  int i = 0;
+  while(i < np) {
+    emit_out("  poke64(fp + " + (8 + 8 * i) + ", a" + i + ");");
+    i = i + 1;
+  }
+} return void;

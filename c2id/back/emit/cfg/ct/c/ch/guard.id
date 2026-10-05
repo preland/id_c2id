@@ -1,0 +1,10 @@
+// Split out of mk_test_cont: a call may not be an argument to a call, and
+// naming a_of(id) and case_val(i) leaves no room in mk_test_cont's own
+// block for eq_node's, case_blk's and term_cond's calls too.
+mk_test_cont2(int i, int nxt, int blk, int a, int val) {
+  int eq = eq_node(a, val);
+  int cblk = (import casb)[i];
+  branch(blk, eq, cblk, nxt);
+} return void;
+given case_ready_fixture (0, 99, 0, 5, 5):() then (import bkind)[0]:("cond") then (import bsa)[0]:(2) then (import bsb)[0]:(99) then (import bex)[0]:(11)
+given case_ready_fixture (1, 99, 0, 5, -1):() then (import bsa)[0]:(4) then (import bsb)[0]:(99)

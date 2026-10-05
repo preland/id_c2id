@@ -1,0 +1,27 @@
+
+// One enumerator: an optional `= value`, the constant itself, and the
+// increment that gives the next one its default.
+
+enum_set(int[] pos, int[] ev, string name) {
+  enum_eq(pos, ev);
+  en_add(name, ev[0]);
+  enum_next(pos, ev);
+} return void;
+given boot_a given ty_setup given lexfix stdin "= 5 ," ([0], [0], "x"):() then calls en_add:("x", 5)
+given boot_a given ty_setup given lexfix stdin ";" ([0], [0], "y"):() then calls en_add:("y", 0)
+
+enum_eq(int[] pos, int[] ev) {
+  if(at_text(pos, "=")) {
+    advance(pos);
+    ev[0] = ce_expr(pos);
+  }
+} return void;
+given boot_a given lexfix stdin "= 5" ([0], [0]):([2], [5])
+given lexfix stdin "," ([0], [3]):([0], [3])
+
+enum_next(int[] pos, int[] ev) {
+  ev[0] = ev[0] + 1;
+  skip_tok(pos, ",");
+} return void;
+given lexfix stdin "," ([0], [5]):([1], [6])
+given lexfix stdin ";" ([0], [3]):([0], [4])

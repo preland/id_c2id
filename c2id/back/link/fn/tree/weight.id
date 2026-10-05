@@ -1,0 +1,35 @@
+// What a printed line costs in actions (docs/SPEC.md section 9): a comment
+// nothing, an `if` with an `else` two (the `if` and the `else`), anything else
+// one.
+out_weight(string line) {
+  int w = 1;
+  if(str_starts(line, "  //") == 1) {
+    w = 0;
+  } else {
+    w = else_weight(line);
+  }
+} return int w;
+
+else_weight(string line) {
+  int w = 1;
+  if(str_find(line, "} else {") >= 0) {
+    w = 2;
+  }
+} return int w;
+
+// The break between two segments of a generated function. Every segment opens
+// with its tag (emit_tag), one action. A segment with one action left whose next
+// line costs two cannot take it, and may not be padded with `blank` either --
+// the continuation's first line, a tag, would have fitted -- so the next
+// segment's tag is placed here, in the room, and the continuation opens with the
+// line itself.
+emit_brk(int n) {
+  if(n == 2) {
+    emit_tag();
+    print("} chain (" + (import chp)[0] + ") {");
+    lset((import obn), 0, 0);
+  } else {
+    print("} chain (" + (import chp)[0] + ") {");
+    emit_tag();
+  }
+} return void;

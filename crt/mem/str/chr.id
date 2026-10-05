@@ -1,11 +1,11 @@
-// strchr. `cc` is converted to a byte first, so strchr(s, 0 - 1) looks for
+// strchr. `cw` is converted to a byte first, so strchr(s, 0 - 1) looks for
 // 0xff exactly as C's (char)c does. Searching for 0 finds the terminator,
 // which is also required by C.
-c_strchr(word s, int cc) {
+c_strchr(word s, word cw) {
   word i = 0;
   word x = 0;
   while(x == 0 && s_more(s, i) != 0) {
-    x = chr_hit(s, i, cc);
+    x = chr_hit(s, i, cw);
     i = i + 1;
   }
 } return word x;
@@ -14,9 +14,9 @@ given crt_str_fixture ((import cs), 120):(0)
 
 // A store address is never 0, so the address of a hit doubles as the
 // "found" flag.
-chr_hit(word s, word i, int cc) {
+chr_hit(word s, word i, word cw) {
   word x = 0;
-  if(peek8(s + i) == zx8(cc)) {
+  if(peek8(s + i) == zx8(cw)) {
     x = s + i;
   }
 } return word x;

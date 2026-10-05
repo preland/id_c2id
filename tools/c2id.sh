@@ -52,7 +52,12 @@ trap 'rm -rf "$work"' EXIT
 if [[ $src == *.i ]]; then
     cp "$src" "$work/in.i"
 else
-    cc -std=gnu11 -E "$src" -o "$work/in.i"
+    # c2id knows no compiler builtins, so the preprocessor is told there are
+    # none (a header then takes its portable path) and _Static_assert, which
+    # checks something at compile time, is dropped. C2ID_CPPFLAGS adds the
+    # program's own -I and -D flags.
+    # shellcheck disable=SC2086
+    cc -std=gnu11 -E -w -nostdinc -I "$here/include" -U__has_builtin '-D__has_builtin(x)=0' '-D_Static_assert(c,m)=' ${C2ID_CPPFLAGS:-} "$src" -o "$work/in.i"
 fi
 
 "$c2id_bin" < "$work/in.i" > "$work/out.txt"
@@ -117,6 +122,7 @@ END {
 
 # The generated project needs the C-semantics runtime compiled alongside it.
 cp -r "$here/crt" "$out/crt"
+cp -r "$here/rt" "$out/rt"
 # conf.id is only read at a root, so crt's constants move up to the project's.
 mv "$out/crt/conf.id" "$out/conf.id"
 echo "$out"

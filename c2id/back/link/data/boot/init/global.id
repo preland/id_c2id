@@ -1,0 +1,25 @@
+// The initializer of each global variable, as statements queued for c_globals:
+// every global starts zeroed (the region came from alloc), so only an explicit
+// initializer, or one of the three standard streams, has anything to store.
+emit_ginits() {
+  int i = 0;
+  while(i < len((import dnames))) {
+    emit_ginit(i);
+    i = i + 1;
+  }
+} return void;
+
+emit_ginit(int i) {
+  int off = (import goff)[i];
+  if(off >= 0) {
+    init_global(i, off);
+  }
+} return void;
+
+init_global(int i, int off) {
+  string name = (import dnames)[i];
+  int a = (import dinit)[i];
+  string addr = "(import gbase) + " + off;
+} chain (int i, int off) {
+  init_one(i, a, addr, name);
+} return void;

@@ -1,0 +1,11 @@
+c___builtin_ctzll(word xv) {
+  word n = rt_ctz(xv, 64);
+} return word n;
+
+c___builtin_clz(word xv) {
+  word n = rt_clz(xv, 32);
+} return word n;
+
+c___builtin_clzll(word xv) {
+  word n = rt_clz(xv, 64);
+} return word n;

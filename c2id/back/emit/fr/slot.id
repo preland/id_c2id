@@ -1,0 +1,34 @@
+// align_up lives in ../../parse/ty/tab/reg/mb/num.id -- struct members and
+// frame slots round up the same way, and id rejects a second function with
+// the same logic. C requires each local to sit at a multiple of its own
+// alignment; the emitted peek/poke would not care, since the store is
+// byte-addressed, but matching C's layout exactly is what lets a translated
+// struct be compared against the real one.
+
+// Give `name` a slot big enough for type `t`, and return its offset. Split
+// in two because naming frame_size(), type_align(t) and type_size(t) -- all
+// required, since a call may not be an argument to a call -- leaves no
+// fourth action here for add_slot's own call.
+frame_add(string name, int t) {
+  int sz = (import frsz)[0];
+  int al = type_align(t);
+  int off = frame_add2(name, t, sz, al);
+} return int off;
+given init_frame given init_frame2 given tynode_fix ("x", 0):(8) then (import lvoff)[0]:(8)
+given init_frame given init_frame2 given tynode_fix ("y", 3):(8) then len((import lvoff)):(1)
+
+frame_add2(string name, int t, int sz, int al) {
+  int off = align_up(sz, al);
+  int tsz = type_size(t);
+  add_slot(name, off, tsz);
+} return int off;
+given init_frame given init_frame2 given tynode_fix ("x", 0, 8, 4):(8) then (import frsz)[0]:(12)
+given init_frame given init_frame2 given tynode_fix ("y", 3, 8, 4):(8) then (import frsz)[0]:(20)
+
+add_slot(string name, int off, int sz) {
+  push((import lvnames), name);
+  push((import lvoff), off);
+  bump_size(off, sz);
+} return void;
+given init_frame given init_frame2 ("x", 8, 4):() then (import frsz)[0]:(12) then len((import lvoff)):(1)
+given init_frame given init_frame2 ("y", 8, 12):() then (import frsz)[0]:(20) then len((import lvoff)):(1)

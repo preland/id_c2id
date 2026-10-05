@@ -1,0 +1,18 @@
+// Ending the program. id has no exit call, so exit() records its status in
+// rtex[0] and every runner stops at its next block; the generated `main` then
+// answers that status, or the low byte of what C's main returned.
+c_exit(word code) {
+  int status = code & 255;
+  lset((import rtex), 0, status);
+} return void;
+
+rt_status(word r) {
+  int status = r & 255;
+  if((import rtex)[0] >= 0) {
+    status = (import rtex)[0];
+  }
+} return int status;
+
+c_abort() {
+  lset((import rtex), 0, 134);
+} return void;

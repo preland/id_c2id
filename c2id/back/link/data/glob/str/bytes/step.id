@@ -1,0 +1,28 @@
+// A backslash escape is decoded as in esc.id; a quote that is not escaped is the
+// seam of two adjacent literals ("a" "b") and is no byte.
+lit_bnext(string raw, int[] bs, int i, int c) {
+  int j = i + 1;
+  if(c == 92) {
+    j = lit_besc(raw, bs, i);
+  } else if(c != 34) {
+    push(bs, c);
+  }
+} return int j;
+
+lit_besc(string raw, int[] bs, int i) {
+  int j = esc_end(raw, i);
+  string seq = str_slice(raw, i, j);
+  int v = chr_val(seq);
+} chain (string raw, int[] bs, int i) {
+  push(bs, v);
+} return int j;
+
+// 1 when some byte is 0.
+bytes_nul(int[] bs) {
+  int z = 0;
+  int i = 0;
+  while(i < len(bs)) {
+    z = z + (bs[i] == 0);
+    i = i + 1;
+  }
+} return int z;

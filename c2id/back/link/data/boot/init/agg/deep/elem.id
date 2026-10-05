@@ -1,0 +1,26 @@
+// Element j of the list: stored at index k, or at its own `[n] =` designator.
+// Answers the index the next element takes.
+init_elem_at(int et, int esz, string addr, int[] items, int j, int k) {
+  int it = items[j];
+  int idx = item_idx(it, k);
+  int val = item_val(it);
+} chain (int et, int esz, string addr, int[] items, int j, int k) {
+  init_stmts(et, addr + " + " + (idx * esz), val, 0);
+  int nxt = idx + 1;
+} return int nxt;
+
+// An element's index: the `[n] =` of a designated one, else the running one.
+item_idx(int it, int k) {
+  int idx = k;
+  if((import nk)[it] == "dinit" && (import nb)[it] >= 0) {
+    idx = (import nb)[it];
+  }
+} return int idx;
+
+// An element's value: the expression after the `=` of a designated one.
+item_val(int it) {
+  int v = it;
+  if((import nk)[it] == "dinit") {
+    v = (import na)[it];
+  }
+} return int v;

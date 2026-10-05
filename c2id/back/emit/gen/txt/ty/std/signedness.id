@@ -1,0 +1,27 @@
+// The rest of stdty, and the signedness question every operator asks.
+
+ty_ulong() {
+  int ty = (import stdty)[3];
+} return int ty;
+given txt_fixture ():(3)
+given txt_fixture ():(3) then ty_charp:(5)
+
+// `char *`, the type of a string literal.
+ty_charp() {
+  int ty = (import stdty)[4];
+} return int ty;
+given txt_fixture ():(5)
+given txt_fixture ():(5) then ty_uint:(1)
+
+// 1 when C's signed operators are the right ones for `ty`. A pointer, an
+// array and a record are all "not signed": nothing divides or shifts them,
+// and comparing two pointers is an unsigned comparison, which is what
+// falling through to 0 here gives.
+ty_signed(int ty) {
+  int ok = 0;
+  if((import nk)[ty] == "prim") {
+    ok = (import nb)[ty];
+  }
+} return int ok;
+given txt_fixture (0):(1)
+given txt_fixture (1):(0)

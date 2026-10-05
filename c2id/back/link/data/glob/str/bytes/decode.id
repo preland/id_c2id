@@ -1,0 +1,20 @@
+// A string literal as the bytes it denotes, escapes decoded. An `id` string cannot
+// hold a NUL, so a literal with one ("\0", "ab\0cd") cannot be built as a
+// string; it is built byte by byte in the store instead (emit.id).
+lit_bytes(string raw) {
+  int[] bs = [];
+  int n = len(raw) - 1;
+  lit_bloop(raw, bs, n);
+} return int[] bs;
+
+lit_bloop(string raw, int[] bs, int n) {
+  int i = 1;
+  while(i < n) {
+    i = lit_bstep(raw, bs, i);
+  }
+} return void;
+
+lit_bstep(string raw, int[] bs, int i) {
+  int c = charat(raw, i);
+  int j = lit_bnext(raw, bs, i, c);
+} return int j;

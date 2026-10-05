@@ -1,0 +1,37 @@
+// Printing a block function's body three actions at a time. A block function
+// may spend at most three actions per segment (docs/SPEC.md section 9), and one
+// C statement can name five temporaries, so the body is cut into segments:
+// before a fourth statement line the function is continued with
+// `} chain (word fp) {`, which keeps `fp`, `nxt` and every temporary in scope.
+// obn[0] is how many statement lines the current segment has printed; chp[0]
+// is the parameter list a continuation restates (it must match the function
+// header exactly), `word fp` for a block function.
+
+// What a line costs in actions: a comment nothing, an `if` with an `else` two,
+// anything else one (out_weight). A line that does not fit what is left of the
+// segment starts the next one.
+emit_out(string line) {
+  int n = (import obn)[0];
+  int w = out_weight(line);
+  emit_out2(line, n, w);
+} return void;
+given init_gfn ("  word t0 = 1;"):() then prints:("  word t0 = 1;\n")
+given init_gfn ("  // x: fp + 8, 4 bytes"):() then prints:("  // x: fp + 8, 4 bytes\n")
+
+emit_out2(string line, int n, int w) {
+  if(n + w > 3 && w > 0) {
+    emit_brk(n);
+    n = (import obn)[0];
+  }
+  print(line);
+  lset((import obn), 0, n + w);
+} return void;
+given init_gfn ("  word t0 = 1;", 3, 1):() then prints:("} chain (word fp) {\n  word k0 = 0;\n  word t0 = 1;\n")
+given init_gfn ("  // c", 3, 0):() then prints:("  // c\n")
+
+emit_cut(string line) {
+  print(line);
+  lset((import obn), 0, 0);
+} return void;
+given init_gfn ("} return word 3;"):() then prints:("} return word 3;\n")
+given init_gfn ("} return void;"):() then prints:("} return void;\n")

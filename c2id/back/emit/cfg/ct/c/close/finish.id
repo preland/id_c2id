@@ -1,0 +1,27 @@
+// Running off the end of the last case is the same as `break`.
+sw_close(int id, int blk, int alt, int mark) {
+  int c = (import curb)[0];
+  term_jmp(c, alt);
+  sw_close2(id, blk, alt, mark);
+} return void;
+given sw_ready_fixture ((import wswid), 0, 1, 0):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1) then cur_blk:(1)
+given sw_ready_fixture ((import wswid), 0, 1, 0):() then calls sw_disp:[1]
+
+// The chain is built backwards from its tail -- the default block, or the
+// exit when there is no `default` -- so each test knows the block to fall to
+// when it does not match.
+sw_disp(int id, int blk, int alt, int mark) {
+  int nxt = sw_default(mark, alt);
+  nxt = sw_chain(id, mark, nxt);
+  sw_done(blk, nxt, mark, alt);
+} return void;
+given walk_ast_fixture ((import wswid), 0, 1, 0):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1) then cur_blk:(1)
+given case_ready_fixture ((import wswid), 0, 5, 0):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1) then cur_blk:(5)
+
+sw_done(int blk, int nxt, int mark, int alt) {
+  term_jmp(blk, nxt);
+  drop_cases(mark);
+  set_cur(alt);
+} return void;
+given walk_ast_fixture (0, 1, 0, 5):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1) then cur_blk:(5)
+given case_ready_fixture (0, 1, 0, 5):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1) then len((import casv)):(0)

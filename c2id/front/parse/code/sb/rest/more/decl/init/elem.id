@@ -1,0 +1,35 @@
+// `.name = value`: a dinit node, na the value, nb -1 (no index), ns the field.
+init_field(int[] pos) {
+  advance(pos);
+  string name = take_ident(pos);
+  skip_tok(pos, "=");
+} chain (int[] pos) {
+  int a = init_item(pos);
+  int id = newleaf("dinit", a, 0 - 1, name, "");
+} return int id;
+given boot_a given ty_setup given lexfix stdin ". x = 3" ([0]):(1)
+given boot_a given ty_setup given lexfix stdin ". y = 4" ([0]):(1)
+
+init_elem2(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "[")) {
+    id = init_index(pos);
+  } else {
+    id = init_item(pos);
+  }
+} return int id;
+given boot_a given ty_setup given lexfix stdin "[ 2 ] = 5" ([0]):(2)
+given boot_a given ty_setup given lexfix stdin "6" ([0]):(0)
+
+// `[const] = value`: a dinit node, na the value, nb the index, ns empty.
+init_index(int[] pos) {
+  advance(pos);
+  int ix = ce_expr(pos);
+  skip_tok(pos, "]");
+} chain (int[] pos) {
+  skip_tok(pos, "=");
+  int a = init_item(pos);
+  int id = newleaf("dinit", a, ix, "", "");
+} return int id;
+given boot_a given ty_setup given lexfix stdin "[ 1 ] = 5" ([0]):(2)
+given boot_a given ty_setup given lexfix stdin "[ 3 ] = 6" ([0]):(2)

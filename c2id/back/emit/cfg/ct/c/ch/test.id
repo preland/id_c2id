@@ -1,0 +1,26 @@
+// `default` is skipped: it is the chain's tail, not a test in it.
+sw_test(int id, int i, int nxt) {
+  int blk = nxt;
+  if((import casv)[i] >= 0) {
+    blk = mk_test(id, i, nxt);
+  }
+} return int blk;
+given case_ready_fixture ((import wswid), 1, 99):(99)
+given case_ready_fixture ((import wswid), 0, 99):(1)
+
+// One test block, holding no statements: the whole test is the terminator's
+// condition, `subject == case value`.
+mk_test(int id, int i, int nxt) {
+  int blk = new_block();
+  mk_test_cont(id, i, nxt, blk);
+} return int blk;
+given case_ready_fixture ((import wswid), 0, 99):(1) then len((import bkind)):(2)
+given case_ready_fixture ((import wswid), 1, 99):(1) then len((import bkind)):(2)
+
+mk_test_cont(int id, int i, int nxt, int blk) {
+  int a = (import na)[id];
+  int val = (import casv)[i];
+  mk_test_cont2(i, nxt, blk, a, val);
+} return void;
+given case_ready_fixture ((import wswid), 0, 99, 0):() then (import bkind)[0]:("cond") then (import bsa)[0]:(2) then (import bsb)[0]:(99) then (import bex)[0]:(11)
+given case_ready_fixture ((import wswid), 1, 99, 0):() then (import bsa)[0]:(4) then (import bsb)[0]:(99)

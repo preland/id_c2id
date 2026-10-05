@@ -1,0 +1,19 @@
+// A declaration's initializer is either one value stored into the slot, or an
+// aggregate -- a brace list, or a string literal for a char array -- which is
+// several stores, queued before the declaration's own line.
+init_agg(int ty, int a) {
+  int agg = 0;
+  if((import nk)[a] == "init" || (import nk)[ty] == "arr" && (import nk)[a] == "str") {
+    agg = 1;
+  }
+} return int agg;
+
+decl_agg(int id, int off, int ty, int a) {
+  init_stmts(ty, "fp + " + off, a, 1);
+  string s = "// " + (import ns)[id] + ": initialised";
+} return string s;
+
+decl_scalar(int id, int off, int ty) {
+  string exa = kid_ex((import na), id);
+  string s = store_txt(ty, "fp + " + off, exa) + ";";
+} return string s;

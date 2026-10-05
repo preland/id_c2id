@@ -1,0 +1,29 @@
+// `int a[] = {1, 2, 3};` and `char s[] = "abc";` declare an array whose length is
+// the initializer's: a type with bound -1 (what `[]` parses to) is replaced by
+// one with the real count, so the array has the storage and the sizeof it should.
+complete_arr(int ty, int a) {
+  int r = ty;
+  if(a >= 0 && (import nk)[ty] == "arr" && (import nb)[ty] < 0) {
+    int n = arr_len(a);
+    r = newleaf("arr", (import na)[ty], n, "", "");
+  }
+} return int r;
+
+// How many elements an initializer gives: a brace list's (counting designated
+// positions), or a string literal's bytes and its terminator.
+arr_len(int a) {
+  int n = 0;
+  if((import nk)[a] == "init") {
+    n = init_count((import nl)[a]);
+  } else {
+    n = str_count(a);
+  }
+} return int n;
+
+str_count(int a) {
+  int n = 0;
+  if((import nk)[a] == "str") {
+    int[] bs = lit_bytes((import ns)[a]);
+    n = len(bs) + 1;
+  }
+} return int n;

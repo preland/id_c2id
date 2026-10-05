@@ -1,0 +1,25 @@
+do_return(int id) {
+  int c = (import curb)[0];
+  int a = (import na)[id];
+  do_return2(c, a);
+} return void;
+given walk_ast_fixture (0):() then (import bkind)[0]:("end") then (import bex)[0]:(-1) then cur_blk:(1)
+given walk_ast_fixture (0):() then len((import bkind)):(2)
+
+do_goto(int id) {
+  int blk = (import curb)[0];
+  string s = (import ns)[id];
+  do_goto2(blk, s);
+} return void;
+given walk_ast_fixture (1):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(-1) then cur_blk:(1)
+given walk_ast_fixture (1):() then calls fix_add:[1]
+
+// A backward goto resolves here; a forward one leaves -1 in the edge and is
+// parked for the fix-up pass.
+goto_edge(int blk, string name) {
+  int nxt = label_blk(name);
+  term_jmp(blk, nxt);
+  need_fix(blk, name, nxt);
+} return void;
+given walk_ast_fixture (0, "lbl"):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(-1) then calls need_fix:[1]
+given walk_ast_fixture (0, "xyz"):() then (import bsa)[0]:(-1)

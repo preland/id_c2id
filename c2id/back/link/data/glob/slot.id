@@ -1,0 +1,19 @@
+// String literals live in the global region. Each distinct literal gets an
+// 8-byte slot holding the address of its bytes, filled once by c_globals; a use
+// of the literal reads the slot, so a loop that evaluates "abc" a million times
+// allocates nothing.
+str_slot(string raw) {
+  int j = find_str((import slits), raw);
+  if(j < 0) {
+    j = slit_add(raw);
+  }
+} return int j;
+
+slit_add(string raw) {
+  push((import slits), raw);
+  int off = align_up((import gsz)[0], 8);
+  lset((import gsz), 0, off + 8);
+} chain (string raw) {
+  push((import soff), off);
+  int j = len((import slits)) - 1;
+} return int j;

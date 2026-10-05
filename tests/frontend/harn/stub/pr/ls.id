@@ -10,8 +10,8 @@ list_str(int[] ids) {
 given harn_if_fixture ((import hif_kids)):(" (block  a0 (expr  a1))")
 
 lists_str(int id) {
-  int[] l = l_of(id);
-  int[] m = m_of(id);
+  int[] l = (import nl)[id];
+  int[] m = (import nm)[id];
   string txt = list_str(l) + list_str(m);
 } return string txt;
 given harn_expr_fixture ((import hef_id)):("")

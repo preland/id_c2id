@@ -1,0 +1,27 @@
+ind_split(int n, int[] fs, int lo, int hi, int top) {
+  int mid = (lo + hi) / 2;
+  string lc = ind_node(n, fs, lo, mid, 0);
+  string rc = ind_node(n, fs, mid, hi, 0);
+} chain (int n, int[] fs, int lo, int hi, int top) {
+  string fname = ind_name(n, lo, hi, top);
+  int cut = fs[mid] + 1;
+  ind_print(n, fname, cut, lc, rc);
+} return void;
+
+ind_name(int n, int lo, int hi, int top) {
+  string fname = "ind" + n + "_" + lo + "_" + hi;
+  if(top == 1) {
+    fname = "crt_call" + n;
+  }
+} return string fname;
+
+// One dispatch function: calls lc when f is below cut, rc otherwise.
+ind_print(int n, string fname, int cut, string lc, string rc) {
+  string plist = ind_params(n);
+  emit_mark();
+  emit_head(plist, fname + "(" + plist + ") {");
+} chain (int n, string fname, int cut, string lc, string rc) {
+  emit_out("  word r = 0;");
+  emit_out("  if(f < " + cut + ") { r = " + lc + "; } else { r = " + rc + "; }");
+  emit_cut("} return word r;");
+} return void;

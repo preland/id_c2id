@@ -1,0 +1,27 @@
+init_arr(int ty, string addr, int ex, int zf) {
+  zero_fill(ty, addr, zf);
+  int et = (import na)[ty];
+  int[] items = (import nl)[ex];
+} chain (int ty, string addr, int ex, int zf) {
+  init_items(et, addr, items);
+} return void;
+
+// A local aggregate holds whatever the frame did; a global was zeroed when the
+// region was made.
+zero_fill(int ty, string addr, int zf) {
+  int sz = type_size(ty);
+  if(zf > 0) {
+    pend_raw("c_memset(" + addr + ", 0, " + sz + ");");
+  }
+} return void;
+
+init_items(int et, string addr, int[] items) {
+  int esz = type_size(et);
+  int k = 0;
+  int j = 0;
+} chain (int et, string addr, int[] items) {
+  while(j < len(items)) {
+    k = init_elem_at(et, esz, addr, items, j, k);
+    j = j + 1;
+  }
+} return void;

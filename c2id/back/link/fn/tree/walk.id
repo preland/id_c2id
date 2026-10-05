@@ -1,0 +1,26 @@
+// The dispatch tree over a function's live blocks: a node splits its range in
+// two on the block number, one `if`/`else` of two calls, so no block function
+// exceeds three actions and a leaf is the block function itself.
+emit_tree(int fn, int[] live, int lo, int hi) {
+  string tnm = tree_name(fn, live, lo, hi);
+  if(hi - lo > 1) {
+    emit_node(fn, live, lo, hi);
+  }
+} return string tnm;
+
+tree_name(int fn, int[] live, int lo, int hi) {
+  string tnm = "dsp" + fn + "_" + lo + "_" + hi + "(fp, pc)";
+  if(hi - lo == 1) {
+    tnm = "blk" + fn + "_" + live[lo] + "(fp)";
+  }
+} return string tnm;
+
+emit_node(int fn, int[] live, int lo, int hi) {
+  int mid = (lo + hi) / 2;
+  string lnm = emit_tree(fn, live, lo, mid);
+  string rnm = emit_tree(fn, live, mid, hi);
+} chain (int fn, int[] live, int lo, int hi) {
+  string tnm = "dsp" + fn + "_" + lo + "_" + hi;
+  int cut = live[mid];
+  emit_dsp(tnm, cut, lnm, rnm);
+} return void;

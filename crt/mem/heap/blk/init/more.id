@@ -1,10 +1,3 @@
-// The heap's two small questions: where it ends, and how sizes are rounded.
-// One past the last block. Nothing at or above this is part of the heap.
-heap_end() {
-  word x = peek64((import crt_heap) + 8);
-} return word x;
-given crt_heap_fixture ():((import hend))
-given crt_heap_fixture3 ():((import hend2))
 
 // Round up to a multiple of 8. Every block size and every payload address
 // is 8-aligned, which is what C's max_align_t needs on this model.

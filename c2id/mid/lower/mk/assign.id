@@ -1,0 +1,24 @@
+// The statement `t = v;`, added to the current block.
+assign_stmt(int t, int v) {
+  int a = newleaf("assign", t, v, "=", "");
+  int stm = newleaf("expr", a, 0, "", "");
+  add_stmt(stm);
+} return void;
+
+// `r != 0`: the value of a condition taken as a C truth value.
+mk_ne(int r) {
+  int z = mk_num(0);
+  int id = newleaf("bin", r, z, "!=", "");
+} return int id;
+
+// The type of the temporary a conditional's value is kept in: an array decays
+// to a pointer, and void (a conditional used as a statement) to int.
+tern_ty(int ty) {
+  int r = ty;
+  if((import nk)[ty] == "arr") {
+    r = newleaf("ptr", (import na)[ty], 0, "", "");
+  }
+  if((import nk)[ty] == "prim" && (import ns)[ty] == "void") {
+    r = (import stdty)[0];
+  }
+} return int r;

@@ -1,0 +1,23 @@
+fns_add(int[] fs, int n, int i) {
+  int np = len((import nl)[(import ftys)[i]]);
+  if(np == n && (import reach)[i] == 1) {
+    push(fs, i);
+  }
+} return void;
+
+// `word f, word a0, word a1`: the pointer, then the n arguments.
+ind_params(int n) {
+  string ar = ind_rest(n, "word ");
+  string out = "word f" + arg_sep(n) + ar;
+} return string out;
+
+// `a0, a1, a2` with `ty` before each: the n arguments, as parameters or as
+// arguments to pass on.
+ind_rest(int n, string pre) {
+  string out = "";
+  int i = 0;
+  while(i < n) {
+    out = out + arg_sep(i) + pre + "a" + i;
+    i = i + 1;
+  }
+} return string out;

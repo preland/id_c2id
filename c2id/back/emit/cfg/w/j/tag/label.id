@@ -1,0 +1,28 @@
+// A label starts a block, and the statements before it fall into it -- code
+// can reach a label both by falling through and by jumping.
+do_label(int id) {
+  int blk = new_block();
+  int cur = (import curb)[0];
+  do_label_cont(id, cur, blk);
+} return void;
+given walk_ast_fixture (2):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1) then cur_blk:(1)
+given walk_ast_fixture (2):() then calls lab_add:[1]
+
+do_label_cont(int id, int cur, int blk) {
+  term_jmp(cur, blk);
+  string s = (import ns)[id];
+  lab_add(s, blk);
+} return void;
+given walk_ast_fixture (2, 0, 5):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(5) then calls lab_add:[1]
+given walk_ast_fixture (2, 0, 9):() then (import bsa)[0]:(9)
+
+// A `case` is the same thing with a different table: the fall-through edge
+// from the previous case is what makes C's fallthrough work with no effort at
+// all. do_switch turns the table into the dispatch chain afterwards.
+do_case(int id) {
+  int blk = new_block();
+  int c = (import curb)[0];
+  do_case2(id, blk, c);
+} return void;
+given walk_ast_fixture (6):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1) then cur_blk:(1)
+given walk_ast_fixture (6):() then calls case_add:[1]

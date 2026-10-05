@@ -1,0 +1,19 @@
+// Count trailing and leading zero bits of a value `lim` bits wide (32 or 64); the
+// answer for 0, which the builtins leave undefined, is lim.
+rt_ctz(word xv, word lim) {
+  word n = 0;
+  while(n < lim && (ushr(xv, n) & 1) == 0) {
+    n = n + 1;
+  }
+} return word n;
+
+rt_clz(word xv, word lim) {
+  word n = 0;
+  while(n < lim && (ushr(xv, lim - 1 - n) & 1) == 0) {
+    n = n + 1;
+  }
+} return word n;
+
+c___builtin_ctz(word xv) {
+  word n = rt_ctz(xv, 32);
+} return word n;

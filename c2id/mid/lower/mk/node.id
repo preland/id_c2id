@@ -1,0 +1,20 @@
+// Nodes the lowering makes up. They are ordinary AST nodes (NOTES.md section 4):
+// the emitter reads them as it reads any other.
+mk_var(string name) {
+  int id = newleaf("var", 0, 0, name, "");
+} return int id;
+
+mk_num(int v) {
+  int id = newleaf("num", v, 0, "" + v, "");
+} return int id;
+
+// A frame temporary: its slot is made at once (the frame pass has already run, so
+// nothing else will), and the node that reads it is answered.
+new_temp(int ty) {
+  int n = (import lcnt)[0];
+  lset((import lcnt), 0, n + 1);
+  string tname = "__tmp" + n;
+} chain (int ty) {
+  int off = decl_slot(tname, ty);
+  int v = mk_var(tname);
+} return int v;

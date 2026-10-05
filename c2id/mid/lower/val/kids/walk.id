@@ -1,0 +1,22 @@
+lower_bin(int e) {
+  int r = e;
+  if((import ns)[e] == ",") {
+    r = lower_comma(e);
+  } else {
+    r = lower_bin2(e);
+  }
+} return int r;
+
+lower_bin2(int e) {
+  int r = e;
+  if(sc_kind((import ns)[e]) > 0) {
+    r = lower_sc(e);
+  } else {
+    r = lower_kid2(e);
+  }
+} return int r;
+
+lower_kid1(int e) {
+  int a = lower_val((import na)[e]);
+  lset((import na), e, a);
+} return int e;

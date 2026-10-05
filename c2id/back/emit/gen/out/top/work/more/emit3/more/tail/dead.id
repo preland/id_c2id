@@ -1,0 +1,55 @@
+// The true edge and the close, split out because assigning it is three actions
+// once the successor has been named.
+
+emit_cond3(int b, string txt) {
+  int dest = (import bsa)[b];
+  int blk = thread_blk(dest);
+  emit_out("  if(" + txt + ") { nxt = " + blk + "; }");
+} chain (int b, string txt) {
+  emit_cut("} return word nxt;");
+} return void;
+given pend_setup given cond_body_fixture (0, "1"):() then prints:("  if(1) { nxt = 3; }\n} return word nxt;\n")
+given pend_setup given cond_body_fixture (0, "Y"):() then prints:("  if(Y) { nxt = 3; }\n} return word nxt;\n")
+
+// Check if block j references block b through any of its successors.
+// For "jmp" blocks, check the successor; for "cond" blocks, check both edges.
+check_block_ref(int j, int b) {
+  int result = 0;
+  if((import bkind)[j] == "jmp") {
+    if((import bsa)[j] == b) {
+      result = 1;
+    }
+  }
+  if((import bkind)[j] == "cond") {
+    if((import bsa)[j] == b) {
+      result = 1;
+    }
+    if((import bsb)[j] == b) {
+      result = 1;
+    }
+  }
+} return int result;
+given cfg_body_fixture (0, 1):(0)
+given cfg_body_fixture (1, 0):(0)
+
+// A block is dead if: not block 0, has no statements, terminates with "end"
+// with no return expression, and is not referenced by any other block.
+// cfg_stmts(b) is named up front -- a call may not be an argument to a call
+// -- rather than nested one level deeper under `b > 0`, which would push
+// the while below it past the two allowed levels of nesting; cfg_stmts is a
+// plain accessor and b is always a valid (non-negative) block number, so
+// reading it before the `b > 0` check changes nothing observable.
+is_dead(int b) {
+  int[] stmts = (import bstmt)[b];
+  int found_ref = 0;
+  if(b > 0 && len(stmts) == 0 && (import bkind)[b] == "end" && (import bex)[b] < 0) {
+    int j = 0;
+    while(j < len((import bkind)) && found_ref <= 0) {
+      found_ref = found_ref + check_block_ref(j, b);
+      j = j + 1;
+    }
+    found_ref = 1 - found_ref;
+  }
+} return int found_ref;
+given cfg_body_fixture (0):(0)
+given cfg_body_fixture (1):(1)

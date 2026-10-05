@@ -1,0 +1,29 @@
+// `return e`: the value is lowered, and the block that ends is the one the
+// lowering left current.
+lower_ret(int blk, int a) {
+  set_cur(blk);
+  int r = lower_val(a);
+  int c = cur_blk();
+} chain (int blk, int a) {
+  term_end(c, r);
+} return void;
+
+// A statement the walker has no control-flow form for, lowered and then added.
+// A declaration with no initializer is not added: its slot was made by the frame
+// pass, it emits no code, and a block of nothing else would be a function that
+// does nothing and answers a constant.
+add_lowered(int id) {
+  lower_stmt(id);
+  int skip = (import nk)[id] == "decl" && (import na)[id] < 0;
+  if(skip == 0) {
+    add_stmt(id);
+  }
+} return void;
+
+// A condition that is not a branch of its own: lowered as a value, then the
+// block that ended up current gets the two-way edge.
+branch_plain(int a, int nxt, int alt) {
+  int r = lower_val(a);
+  int c = cur_blk();
+  term_cond(c, r, nxt, alt);
+} return void;

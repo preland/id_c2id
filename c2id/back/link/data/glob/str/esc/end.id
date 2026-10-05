@@ -1,0 +1,24 @@
+// Where the escape that starts at raw[i] (a backslash) ends: `\x` takes every
+// hex digit after it, an octal escape up to three digits, any other escape one
+// character.
+esc_end(string raw, int i) {
+  int c = charat(raw, i + 1);
+  int j = esc_end2(raw, i, c);
+} return int j;
+
+esc_end2(string raw, int i, int c) {
+  int j = 0;
+  if(c == 120) {
+    j = scan_run(raw, i + 2, 16, 99);
+  } else {
+    j = esc_oct(raw, i, c);
+  }
+} return int j;
+
+esc_oct(string raw, int i, int c) {
+  int d = dig_val(c);
+  int j = i + 2;
+  if(d >= 0 && d < 8) {
+    j = scan_run(raw, i + 1, 8, 3);
+  }
+} return int j;

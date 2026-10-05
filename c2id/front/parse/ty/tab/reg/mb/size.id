@@ -1,0 +1,34 @@
+
+// sizeof. `prim` and `rec` both keep their size in na, so only arrays (whose
+// size is a product) and pointers/functions (always a machine word) need
+// arithmetic. LP64: a pointer is 8 bytes.
+
+type_size(int ty) {
+  int n = 0;
+  if((import nk)[ty] == "arr") {
+    n = arr_size(ty);
+  } else {
+    n = tsize2(ty);
+  }
+} return int n;
+given tynode_fix (3):(12)
+given tynode_fix (0):(4)
+
+arr_size(int ty) {
+  int n = 0;
+  if((import nb)[ty] > 0) {
+    int a = (import na)[ty];
+    n = type_size(a) * (import nb)[ty];
+  }
+} return int n;
+given tynode_fix (3):(12)
+given tynode_fix (2):(0)
+
+tsize2(int ty) {
+  int n = (import na)[ty];
+  if((import nk)[ty] == "ptr" || (import nk)[ty] == "fn") {
+    n = 8;
+  }
+} return int n;
+given tynode_fix (0):(4)
+given tynode_fix (2):(8)

@@ -1,0 +1,19 @@
+// The `id` expression that builds a C string literal. `raw` is the literal as
+// the lexer kept it -- between the quotes, escapes unresolved. A string cannot
+// carry the escapes C does (and its backends read some of them differently), so
+// every escape becomes `chr(code)` between two string pieces:
+//   a\nb  ->  "a" + chr(10) + "b"
+lit_expr(string raw) {
+  string[] acc = [chr(34)];
+  int n = len(raw) - 1;
+  lit_loop(raw, acc, n);
+} chain (string raw) {
+  string out = acc[0] + chr(34);
+} return string out;
+
+lit_loop(string raw, string[] acc, int n) {
+  int i = 1;
+  while(i < n) {
+    i = lit_step(raw, acc, i);
+  }
+} return void;

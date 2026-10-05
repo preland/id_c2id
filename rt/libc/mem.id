@@ -1,0 +1,6 @@
+// calloc, the one allocator call that is not crt's kmalloc/kfree/krealloc under
+// another name (c2id maps malloc, free and realloc onto those directly).
+c_calloc(word n, word m) {
+  word total = n * m;
+  word p = kzalloc(total);
+} return word p;

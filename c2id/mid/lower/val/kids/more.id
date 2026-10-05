@@ -1,0 +1,17 @@
+// A call, or an assignment whose value is used; anything else is a leaf.
+lower_v7(int e) {
+  int r = e;
+  if(e >= 0 && (import nk)[e] == "call") {
+    r = lower_call(e);
+  }
+  if(e >= 0 && (import nk)[e] == "assign") {
+    r = lower_asg_val(e);
+  }
+} return int r;
+
+// `a, b`: a is evaluated for its effect and thrown away, then the value is b.
+lower_comma(int e) {
+  int lx = lower_top((import na)[e]);
+  effect_stmt(lx);
+  int r = lower_val((import nb)[e]);
+} return int r;

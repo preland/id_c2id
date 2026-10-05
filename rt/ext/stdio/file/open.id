@@ -1,0 +1,33 @@
+// Files, read-only. fopen reads the whole file into the heap and answers a FILE
+// that is three words: [data address, size, position]. The standard streams are
+// the small numbers of rt/libc/io.id, so a FILE is told from them by being
+// large. Writing a file is not provided: fopen for anything but reading
+// answers NULL, as it does for a file that will not open.
+c_fopen(word rpath, word rmode) {
+  word rtn = c_strlen(rpath);
+  string rtxt = str_of_mem(rpath, rtn);
+  int rfd = fs_open(rtxt, "r");
+} chain (word rpath, word rmode) {
+  word rfile = rt_file(rfd, rtxt);
+} return word rfile;
+
+rt_file(int rfd, string rtxt) {
+  word rfile = 0;
+  if(rfd >= 0) {
+    rfile = rt_load(rfd, rtxt);
+  }
+} return word rfile;
+
+// The file's bytes into the heap, then the FILE that holds them.
+rt_load(int rfd, string rtxt) {
+  int rtsz = fs_size(rtxt);
+  word rdata = kmalloc(rtsz + 8);
+  int rtgot = fs_read_mem(rfd, rdata, rtsz);
+} chain (int rfd, string rtxt) {
+  int closed = fs_close(rfd);
+  word rfile = kmalloc(24);
+  poke64(rfile, rdata);
+} chain (int rfd, string rtxt) {
+  poke64(rfile + 8, rtsz);
+  poke64(rfile + 16, 0);
+} return word rfile;

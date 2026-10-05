@@ -30,7 +30,7 @@ harn_if_fixture() {
   int[] pp2 = [0];
 } chain () {
   export int hif_id = parse_stmt(pp2);
-  export int[] hif_kids = l_of(hif_id);
+  export int[] hif_kids = (import nl)[hif_id];
 } return void;
 ():() then prints:("")
 ():() then eprints:("")

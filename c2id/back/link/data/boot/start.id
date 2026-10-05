@@ -1,0 +1,30 @@
+// The last thing emitted: c_globals (the string literals and the initializers
+// of the global variables) and main. Both need the final size of the global
+// region, which is only known once every function has been emitted and every
+// literal interned, so they come after all of them.
+emit_boot() {
+  emit_ginits();
+  int gtot = align_up((import gsz)[0], 8);
+  emit_globals(gtot);
+} chain () {
+  int np = main_np();
+  emit_main(gtot, np);
+} return void;
+
+emit_globals(int gtot) {
+  emit_mark();
+  emit_head("", "c_globals() {");
+  emit_out("  poke64((import gbase) + " + gtot + ", 0);");
+} chain (int gtot) {
+  emit_slits();
+  flush_pend();
+  emit_cut("} return void;");
+} return void;
+
+emit_slits() {
+  int j = 0;
+  while(j < len((import slits))) {
+    emit_slit(j);
+    j = j + 1;
+  }
+} return void;

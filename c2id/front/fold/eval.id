@@ -1,0 +1,32 @@
+// Constant expressions -- array bounds, bitfield widths, enumerator values, case
+// labels -- are ordinary C expressions that happen to be constant. They are
+// parsed by the expression parser (parse_cond) and folded here over the AST, so
+// everything the parser accepts folds: casts, `!`, comparisons, `&&`, `?:`,
+// sizeof. (They used to be evaluated as they were read by a grammar of two
+// precedence levels, which looped without end on `1/(int)(!!(14 > 2))`.)
+const_eval(int e) {
+  int v = 0;
+  if((import nk)[e] == "num") {
+    v = (import na)[e];
+  } else {
+    v = cv2(e);
+  }
+} return int v;
+
+cv2(int e) {
+  int v = 0;
+  if((import nk)[e] == "bin") {
+    v = cv_bin(e);
+  } else {
+    v = cv3(e);
+  }
+} return int v;
+
+cv3(int e) {
+  int v = 0;
+  if((import nk)[e] == "un") {
+    v = cv_un(e);
+  } else {
+    v = cv4(e);
+  }
+} return int v;

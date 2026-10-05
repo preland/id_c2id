@@ -1,0 +1,19 @@
+fn_params(int[] pos) {
+  int[] ps = [];
+  advance(pos);
+  fill_params(pos, ps);
+} chain (int[] pos) {
+  int pc = len(ps);
+  pn_take(pc);
+} return int[] ps;
+given ty_setup given lexfix stdin "( )" ([0]):([])
+given boot_a given ty_setup given lexfix stdin "( int x )" ([0]):([0])
+
+// nxt_text(pos) must not run when at_text(pos, "(") is false, so the
+// short-circuited `&&` in is_group becomes this named step instead.
+grp_open_inside(int[] pos) {
+  string s = nxt_text(pos);
+  int ok = grp_inside(s);
+} return int ok;
+given ty_setup given lexfix stdin "( x" ([0]):(1)
+given ty_setup given lexfix stdin "( )" ([0]):(0)

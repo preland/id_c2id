@@ -9,9 +9,10 @@
 // so 0 is the lexer's end-of-input marker.
 //
 // tree_depth: how many directory levels a generated project's block tree has
-// (emit/gen/out/path.id). 3^5 = 243 leaf directories = 2187 functions. A
-// translated kernel file needs far fewer; a whole subsystem may need one more
-// level, and this is the only number to change.
+// (emit/gen/out/path.id). 3^8 = 6561 leaf directories = 59049 functions. A path
+// that runs out of room names two functions to one file, and the splitter
+// then keeps only the last, so this is the one number to raise for a program
+// with more block functions than that (cJSON, at 3000 lines, is about 3000).
 //
 // funcs_per_file: how many block functions share one generated file, which is
 // id's own limit.
@@ -43,10 +44,23 @@ int ch_dq = 34;
 int ch_sq = 39;
 int ch_nl = 10;
 int ch_eof = 0;
-int tree_depth = 5;
+int tree_depth = 8;
 int funcs_per_file = 3;
 string[] op_names = ["||", "&&", "|", "^", "&", "==", "!=", "<", ">", "<=", ">=", "<<", ">>", "+", "-", "*", "/", "%"];
 int[] op_levels = [0, 1, 2, 3, 4, 5, 5, 6, 6, 6, 6, 7, 7, 8, 8, 9, 9, 9];
+string[] std_names = ["stdout", "stderr", "stdin"];
+int[] std_vals = [1, 2, 3];
+string[] libc_names = ["malloc", "free", "realloc", "__builtin_memcpy", "__builtin_memmove", "__builtin_memset", "__builtin_strlen", "__builtin_memcmp"];
+string[] libc_crt = ["kmalloc", "kfree", "krealloc", "c_memcpy", "c_memmove", "c_memset", "c_strlen", "c_memcmp"];
+string[] va_names = ["printf", "fprintf", "sprintf", "snprintf", "sscanf"];
+int[] va_fixed_n = [1, 2, 2, 3, 2];
+string[] sc_ops = ["&&", "||"];
+string[] stmt_kinds = ["block", "if", "while", "dowhile", "for", "switch"];
+string[] cv_cmp_ops = ["==", "!=", "<", ">", "<=", ">=", "&&", "||"];
+string[] scan_a = ["bin", "un", "post", "call", "idx", "mem", "cast", "cond", "assign", "expr", "decl", "if", "while", "dowhile", "for", "switch", "case", "return", "dinit"];
+string[] scan_b = ["bin", "idx", "assign", "cond", "for"];
+string[] scan_l = ["call", "block", "if", "while", "dowhile", "for", "switch", "init", "cond"];
+string[] scan_m = ["if", "for"];
 string[] esc_chars = ["a", "b", "t", "n", "v", "f", "r", "\"", "'", "?", "\\"];
 int[] esc_vals = [7, 8, 9, 10, 11, 12, 13, 34, 39, 63, 92];
 string[] spec_words = ["void", "char", "short", "int", "long", "float", "double", "signed", "unsigned", "_Bool"];
