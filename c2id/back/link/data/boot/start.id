@@ -10,6 +10,8 @@ emit_boot() {
   int np = main_np();
   emit_main(gtot, np);
 } return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 8, 0);\n  poke32((import gbase) + 0, 5);\n} return void;\nmain(int argc, string[] argv) {\n  word k1 = 1;\n  rt_boot(8);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  word r = c_main();\n  int rc = rt_status(r);\n} chain (int argc, string[] argv) {\n  word k3 = 3;\n  flush();\n} return int rc;\n")
+given boot_a given boot_b given lexfix given tu_load stdin "int main(int a, int b) { return 0; }" ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 0, 0);\n} return void;\nmain(int argc, string[] argv) {\n  word k1 = 1;\n  rt_boot(0);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  word r = c_main(1, 0);\n  int rc = rt_status(r);\n} chain (int argc, string[] argv) {\n  word k3 = 3;\n  flush();\n} return int rc;\n")
 
 emit_globals(int gtot) {
   emit_mark();
@@ -20,6 +22,8 @@ emit_globals(int gtot) {
   flush_pend();
   emit_cut("} return void;");
 } return void;
+given init_tu (0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 0, 0);\n} return void;\n")
+given init_tu given lst_str_insert((import slits), 0, "\"ab\"") given lst_insert((import soff), 0, 0) given pend_raw("poke32(A, 5);") (16):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 16, 0);\n  string lit_s0 = \"ab\";\n} chain () {\n  word k1 = 1;\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 0, lit_p0);\n} chain () {\n  word k2 = 2;\n  poke32(A, 5);\n} return void;\n")
 
 emit_slits() {
   int j = 0;
@@ -28,3 +32,5 @@ emit_slits() {
     j = j + 1;
   }
 } return void;
+given init_tu ():() then prints:("")
+given init_tu given lst_str_insert((import slits), 0, "\"ab\"") given lst_insert((import soff), 0, 0) ():() then prints:("  string lit_s0 = \"ab\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 0, lit_p0);\n")

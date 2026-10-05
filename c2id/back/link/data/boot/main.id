@@ -13,6 +13,8 @@ emit_main(int gtot, int np) {
   emit_out("  flush();");
   emit_cut("} return int rc;");
 } return void;
+given init_gfn (8, 0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nmain(int argc, string[] argv) {\n  word k0 = 0;\n  rt_boot(8);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k1 = 1;\n  word r = c_main();\n  int rc = rt_status(r);\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  flush();\n} return int rc;\n")
+given init_gfn (16, 2):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nmain(int argc, string[] argv) {\n  word k0 = 0;\n  rt_boot(16);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k1 = 1;\n  word r = c_main(1, 0);\n  int rc = rt_status(r);\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  flush();\n} return int rc;\n")
 
 // `1, 0, 0` for as many parameters as main declares: argc is 1, the rest null.
 main_args(int np) {
@@ -21,6 +23,8 @@ main_args(int np) {
     out = "1" + str_repeat(", 0", np - 1);
   }
 } return string out;
+(0):("")
+(3):("1, 0, 0")
 
 // How many parameters the C program's main declares, 0 when it has none.
 main_np() {
@@ -30,3 +34,5 @@ main_np() {
     np = len((import nl)[(import dtys)[i]]);
   }
 } return int np;
+given boot_a given boot_b given lexfix given tu_load stdin "int main(int a, char **b) { return 0; }" ():(2)
+given boot_a given boot_b given lexfix given tu_load stdin "int x;" ():(0)

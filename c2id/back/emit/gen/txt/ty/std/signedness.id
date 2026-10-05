@@ -11,7 +11,7 @@ ty_charp() {
   int ty = (import stdty)[4];
 } return int ty;
 given txt_fixture ():(5)
-given txt_fixture ():(5) then ty_uint:(1)
+given txt_fixture ():(5) then ty_long:(2)
 
 // 1 when C's signed operators are the right ones for `ty`. A pointer, an
 // array and a record are all "not signed": nothing divides or shifts them,

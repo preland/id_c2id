@@ -17,7 +17,7 @@ given txt_fixture (1):(1)
 
 // suffixed u/U: unsigned int, or unsigned long if it says so or is too big
 num_uty(int id) {
-  int ty = ty_uint();
+  int ty = (import stdty)[1];
   string op = (import ns)[id];
   if(has_ch(op, 108, 76) == 1 || (import na)[id] > 4294967295) {
     ty = ty_ulong();

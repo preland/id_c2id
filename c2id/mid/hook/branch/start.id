@@ -11,6 +11,8 @@ branch(int blk, int a, int nxt, int alt) {
   branch_go(k, a, nxt, alt);
   set_cur(c0);
 } return void;
+given low_fix (0, 6, 1, 2):() then (import bkind)[0]:("cond") then (import bsa)[0]:(1) then (import bsb)[0]:(2) then cur_blk:(0)
+given low_fix (0, 9, 5, 2):() then (import bsa)[0]:(1) then (import bsb)[0]:(2) then (import bsa)[1]:(5) then cur_blk:(0)
 
 // 1 for `&&`, 2 for `||`, 3 for `!`, 0 for anything else.
 branch_kind(int a) {
@@ -21,6 +23,10 @@ branch_kind(int a) {
     k = not_kind(a);
   }
 } return int k;
+given boot_a given exprfix stdin "a && b;" ((import extop)):(1)
+given boot_a given exprfix stdin "a || b;" ((import extop)):(2)
+given boot_a given exprfix stdin "!a;" ((import extop)):(3)
+given boot_a given exprfix stdin "a + b;" ((import extop)):(0)
 
 not_kind(int a) {
   int k = 0;
@@ -28,3 +34,5 @@ not_kind(int a) {
     k = 3;
   }
 } return int k;
+given boot_a given exprfix stdin "!a;" ((import extop)):(3)
+given boot_a given exprfix stdin "-a;" ((import extop)):(0)

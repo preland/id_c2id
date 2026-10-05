@@ -8,6 +8,8 @@ str_slot(string raw) {
     j = slit_add(raw);
   }
 } return int j;
+given gl_setup ("\"ab\""):(0) then (import slits):(["\"ab\""]) then (import soff):([0])
+given gl_setup given lst_str_insert((import slits), 0, "\"ab\"") given lst_insert((import soff), 0, 0) given lst_str_insert((import slits), 1, "\"cd\"") given lst_insert((import soff), 1, 8) given lset((import gsz), 0, 16) ("\"cd\""):(1) then len((import slits)):(2)
 
 slit_add(string raw) {
   push((import slits), raw);
@@ -17,3 +19,5 @@ slit_add(string raw) {
   push((import soff), off);
   int j = len((import slits)) - 1;
 } return int j;
+given gl_setup ("\"ab\""):(0) then (import soff):([0]) then (import gsz)[0]:(8)
+given gl_setup given lst_str_insert((import slits), 0, "x") given lst_insert((import soff), 0, 0) given lset((import gsz), 0, 8) ("y"):(1) then (import soff):([0, 8])

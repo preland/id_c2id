@@ -8,6 +8,8 @@ branch_sc(int k, int a, int nxt, int alt) {
 } chain (int k, int a, int nxt, int alt) {
   branch(mb, (import nb)[a], nxt, alt);
 } return void;
+given low_fix (1, 9, 5, 2):() then (import bsa)[0]:(1) then (import bsb)[0]:(2) then (import bsa)[1]:(5) then (import bsb)[1]:(2)
+given low_fix (2, 10, 5, 2):() then (import bsa)[0]:(5) then (import bsb)[0]:(1) then (import bsa)[1]:(5) then (import bsb)[1]:(2)
 
 branch_left(int k, int c, int a, int mb, int nxt, int alt) {
   if(k == 1) {
@@ -16,9 +18,13 @@ branch_left(int k, int c, int a, int mb, int nxt, int alt) {
     branch(c, (import na)[a], nxt, mb);
   }
 } return void;
+given low_fix (1, 0, 9, 1, 5, 2):() then (import bsa)[0]:(1) then (import bsb)[0]:(2) then (import bex)[0]:(6)
+given low_fix (2, 0, 10, 1, 5, 2):() then (import bsa)[0]:(5) then (import bsb)[0]:(1)
 
 // `!a` swaps the two edges.
 branch_not(int a, int nxt, int alt) {
   int c = cur_blk();
   branch(c, (import na)[a], alt, nxt);
 } return void;
+given low_fix given exprfix stdin "!x;" ((import extop), 5, 6):() then (import bsa)[0]:(6) then (import bsb)[0]:(5) then (import bex)[0]:(19)
+given low_fix given exprfix stdin "!x;" ((import extop), 1, 2):() then (import bsa)[0]:(2) then (import bsb)[0]:(1)

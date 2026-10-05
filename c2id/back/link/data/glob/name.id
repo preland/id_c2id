@@ -13,6 +13,9 @@ glob_addr(string name) {
     s = "" + (find_str((import fnames), name) + 1);
   }
 } return string s;
+given boot_a given boot_b given lexfix given tu_load stdin "int a; int b; int f(void) { return 0; }" ("b"):("(import gbase) + 4")
+given boot_a given boot_b given lexfix given tu_load stdin "int a; int b; int f(void) { return 0; }" ("f"):("1")
+given boot_a given boot_b given lexfix given tu_load stdin "int a;" ("zz"):("g_zz")
 
 // Its type: what the declaration said, and `int` for a name never declared,
 // which is what C itself assumes.
@@ -23,6 +26,8 @@ glob_ty(string name) {
     ty = (import dtys)[i];
   }
 } return int ty;
+given boot_a given boot_b given lexfix given tu_load stdin "int a;" ("a"):(6)
+given boot_a given boot_b given lexfix given tu_load stdin "int a;" ("zz"):(0)
 
 // The tables of everything declared at file scope and of the string literals:
 // dnames/dtys/dinit hold each declaration's name, type node and initializer
@@ -46,3 +51,5 @@ gl_setup() {
   export string[] envo = [];
   export string[] envn = [];
 } return void export dnames;
+():() then len((import dnames)):(0)
+given gl_setup given lst_str_insert((import dnames), 0, "x") ():() then len((import dnames)):(0)

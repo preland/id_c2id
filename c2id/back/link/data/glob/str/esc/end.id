@@ -5,6 +5,9 @@ esc_end(string raw, int i) {
   int c = charat(raw, i + 1);
   int j = esc_end2(raw, i, c);
 } return int j;
+("\\x41g", 0):(4)
+("\\n", 0):(2)
+("\\1012", 0):(4)
 
 esc_end2(string raw, int i, int c) {
   int j = 0;
@@ -14,6 +17,8 @@ esc_end2(string raw, int i, int c) {
     j = esc_oct(raw, i, c);
   }
 } return int j;
+("\\x41g", 0, 120):(4)
+("\\n", 0, 110):(2)
 
 esc_oct(string raw, int i, int c) {
   int d = dig_val(c);
@@ -22,3 +27,5 @@ esc_oct(string raw, int i, int c) {
     j = scan_run(raw, i + 1, 8, 3);
   }
 } return int j;
+("\\1234", 0, 49):(4)
+("\\n", 0, 110):(2)

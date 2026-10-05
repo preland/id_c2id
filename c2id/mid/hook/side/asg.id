@@ -5,6 +5,8 @@ lower_asg_val(int e) {
   effect_stmt(e);
   int x = (import na)[e];
 } return int x;
+given low_fix (14):(6) then (import bstmt)[0]:([19])
+given low_fix given exprfix stdin "x = a && b;" ((import extop)):(19) then (import nb)[23]:(24) then (import bkind)[0]:("cond")
 
 // 1 for `++x` and `--x`, which are unary nodes like `-x` and `!x`.
 un_incdec(int e) {
@@ -13,8 +15,14 @@ un_incdec(int e) {
     ok = is_incdec((import ns)[e]);
   }
 } return int ok;
+given boot_a given exprfix stdin "++x;" ((import extop)):(1)
+given boot_a given exprfix stdin "-x;" ((import extop)):(0)
+given boot_a given exprfix stdin "x;" ((import extop)):(0)
 
 // 1 for `&&`, 2 for `||`, 0 for any other operator.
 sc_kind(string op) {
   int k = find_str((import sc_ops), op) + 1;
 } return int k;
+("&&"):(1)
+("||"):(2)
+("+"):(0)

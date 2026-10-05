@@ -12,6 +12,9 @@ const_eval(int e) {
     v = cv2(e);
   }
 } return int v;
+given boot_a given exprfix stdin "7;" ((import extop)):(7)
+given boot_a given exprfix stdin "1 + 2 * 3;" ((import extop)):(7)
+given boot_a given exprfix stdin "1 | 1 << 3;" ((import extop)):(9)
 
 cv2(int e) {
   int v = 0;
@@ -21,6 +24,8 @@ cv2(int e) {
     v = cv3(e);
   }
 } return int v;
+given boot_a given exprfix stdin "2 * 3;" ((import extop)):(6)
+given boot_a given exprfix stdin "!0;" ((import extop)):(1)
 
 cv3(int e) {
   int v = 0;
@@ -30,3 +35,5 @@ cv3(int e) {
     v = cv4(e);
   }
 } return int v;
+given boot_a given exprfix stdin "~0;" ((import extop)):(-1)
+given boot_a given exprfix stdin "(int)9;" ((import extop)):(9)

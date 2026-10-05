@@ -18,6 +18,8 @@ lower_val(int e) {
     r = lower_v2(e);
   }
 } return int r;
+given low_fix (9):(19) then calls lower_sc:(9)
+given low_fix (6):(6) then calls lower_v2:(6)
 
 lower_v2(int e) {
   int r = e;
@@ -27,6 +29,8 @@ lower_v2(int e) {
     r = lower_v3(e);
   }
 } return int r;
+given low_fix (11):(19) then calls lower_ternary:(11)
+given low_fix (6):(6) then calls lower_v3:(6)
 
 lower_v3(int e) {
   int r = e;
@@ -36,3 +40,5 @@ lower_v3(int e) {
     r = lower_v4(e);
   }
 } return int r;
+given low_fix (12):(19) then calls lower_post_val:(12)
+given low_fix (6):(6) then calls lower_v4:(6)

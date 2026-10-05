@@ -8,11 +8,15 @@ const_spell(string kind, string s, int val) {
     out = "#" + val;
   }
 } return string out;
+("num", "0x1f", 31):("0x1f")
+("chr", "'a'", 97):("#97")
 
 // The text of a character constant without its quotes: the lexer keeps them.
 unquote(string s) {
   string out = s;
   if(len(s) > 1 && charat(s, 0) == 39) {
-    out = str_slice(s, 1, len(s) - 1);
+    out = str_slice(s, 1, len(s) - 2);
   }
 } return string out;
+("'a'"):("a")
+("x"):("x")

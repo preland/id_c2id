@@ -6,6 +6,8 @@ lit_bytes(string raw) {
   int n = len(raw) - 1;
   lit_bloop(raw, bs, n);
 } return int[] bs;
+("\"ab\""):([97, 98])
+("\"a\\n\\0\""):([97, 10, 0])
 
 lit_bloop(string raw, int[] bs, int n) {
   int i = 1;
@@ -13,8 +15,12 @@ lit_bloop(string raw, int[] bs, int n) {
     i = lit_bstep(raw, bs, i);
   }
 } return void;
+("\"ab\"", [], 3):("\"ab\"", [97, 98], 3)
+("\"a\"\"b\"", [], 5):("\"a\"\"b\"", [97, 98], 5)
 
 lit_bstep(string raw, int[] bs, int i) {
   int c = charat(raw, i);
   int j = lit_bnext(raw, bs, i, c);
 } return int j;
+given init_cfg2 ("\"ab\"", (import bsb), 1):(2) then (import bsb):([97])
+given init_cfg2 ("\"\\n\"", (import bsb), 1):(3) then (import bsb):([10])

@@ -8,14 +8,18 @@ lit_bnext(string raw, int[] bs, int i, int c) {
     push(bs, c);
   }
 } return int j;
+given init_cfg2 ("\"ab\"", (import bsb), 1, 97):(2) then (import bsb):([97])
+given init_cfg2 ("\"a\"b\"", (import bsb), 2, 34):(3) then len((import bsb)):(0)
 
 lit_besc(string raw, int[] bs, int i) {
   int j = esc_end(raw, i);
-  string seq = str_slice(raw, i, j);
+  string seq = str_slice(raw, i, j - i);
   int v = chr_val(seq);
 } chain (string raw, int[] bs, int i) {
   push(bs, v);
 } return int j;
+given init_cfg2 ("\"a\\nb\"", (import bsb), 2):(4) then (import bsb):([10])
+given init_cfg2 ("\"\\x41\"", (import bsb), 1):(5) then (import bsb):([65])
 
 // 1 when some byte is 0.
 bytes_nul(int[] bs) {
@@ -26,3 +30,5 @@ bytes_nul(int[] bs) {
     i = i + 1;
   }
 } return int z;
+([97, 0, 0]):(2)
+([97, 98]):(0)

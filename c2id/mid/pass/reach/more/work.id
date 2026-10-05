@@ -5,6 +5,8 @@ reach_mark(int i) {
     push((import rwork), i);
   }
 } return void;
+given gl_setup given reach_init(2) (1):() then (import reach):([0, 1]) then (import rwork):([1])
+given gl_setup given reach_init(2) given reach_mark(1) (1):() then (import rwork):([1])
 
 reach_every(int i, int n) {
   while(i < n) {
@@ -12,6 +14,8 @@ reach_every(int i, int n) {
     i = i + 1;
   }
 } return void;
+given gl_setup given reach_init(3) (1, 3):() then (import reach):([0, 1, 1])
+given gl_setup given reach_init(3) (3, 3):() then (import reach):([0, 0, 0])
 
 // Read each queued function's body, until none is left.
 reach_drain() {
@@ -20,3 +24,5 @@ reach_drain() {
     reach_scan((import fbodies)[i]);
   }
 } return void;
+given boot_a given boot_b given lexfix given tu_load given reach_init(2) given reach_mark(1) stdin "int f(void) { return 1; } int g(void) { return f(); }" ():() then (import reach):([1, 1]) then len((import rwork)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_init(2) given reach_mark(0) stdin "int f(void) { return 1; } int g(void) { return f(); }" ():() then (import reach):([1, 0])

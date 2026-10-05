@@ -9,6 +9,8 @@ call_args(int[] ids, int id) {
   string rest = call_args2(ids, k, n);
   string out = ind_prefix(callee, rest);
 } return string out;
+given boot_a given boot_b given exprfix stdin "f(1, 2);" ([7, 8], (import extop)):("1, 2")
+given boot_a given boot_b given exprfix stdin "printf(\"x\", 1);" ([7, 8], (import extop)):("t0, [t1]") then (import pend):(["word t0 = peek64((import gbase) + 0);", "word t1 = 1;"])
 
 call_args2(int[] ids, int k, int n) {
   string out = "";
@@ -18,6 +20,8 @@ call_args2(int[] ids, int k, int n) {
     out = args_range(ids, 0, n, 0);
   }
 } return string out;
+given boot_a given boot_b given exprfix stdin "f(1, 2);" ([7, 8], -1, 2):("1, 2")
+given boot_a given boot_b given exprfix stdin "f(1, 2);" ([7, 8], 1, 2):("1, [t0]") then (import pend):(["word t0 = 2;"])
 
 // Arguments from through to-1, comma-separated; `named` 1 binds each to a
 // temporary (a variadic argument).
@@ -29,3 +33,5 @@ args_range(int[] ids, int from, int to, int named) {
     i = i + 1;
   }
 } return string out;
+given boot_a given boot_b given exprfix stdin "f(1, 2);" ([7, 8], 0, 2, 0):("1, 2")
+given boot_a given boot_b given exprfix stdin "f(1, 2);" ([7, 8], 1, 2, 0):("2")

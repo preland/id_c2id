@@ -4,6 +4,8 @@ lit_step(string raw, string[] acc, int i) {
   int c = charat(raw, i);
   int j = lit_next(raw, acc, i, c);
 } return int j;
+("\"ab\"", ["\""], 1):(2) then calls lit_put:(["\"a"], 97)
+("\"a\\nb\"", ["\"a"], 2):(4) then calls lit_esc:("\"a\\nb\"", ["\"a\" + chr(10) + \""], 2)
 
 lit_next(string raw, string[] acc, int i, int c) {
   int j = i + 1;
@@ -13,6 +15,8 @@ lit_next(string raw, string[] acc, int i, int c) {
     lit_put(acc, c);
   }
 } return int j;
+("\"ab\"", ["\""], 1, 97):(2) then calls lit_put:(["\"a"], 97)
+("\"a\\nb\"", ["\"a"], 2, 92):(4) then calls lit_esc:("\"a\\nb\"", ["\"a\" + chr(10) + \""], 2)
 
 lit_put(string[] acc, int c) {
   string piece = acc[0] + chr(c);
@@ -20,3 +24,5 @@ lit_put(string[] acc, int c) {
     sset(acc, 0, piece);
   }
 } return void;
+(["\""], 97):(["\"a"], 97)
+(["\"a"], 34):(["\"a"], 34)

@@ -8,6 +8,8 @@ lower_v7(int e) {
     r = lower_asg_val(e);
   }
 } return int r;
+given low_fix (17):(17) then calls lower_call:(17)
+given low_fix (14):(6) then calls lower_asg_val:(14)
 
 // `a, b`: a is evaluated for its effect and thrown away, then the value is b.
 lower_comma(int e) {
@@ -15,3 +17,5 @@ lower_comma(int e) {
   effect_stmt(lx);
   int r = lower_val((import nb)[e]);
 } return int r;
+given low_fix (15):(7) then (import bstmt)[0]:([19])
+given low_fix given lset((import na), 15, 9) (15):(7) then len((import bkind)):(4) then cur_blk:(3)

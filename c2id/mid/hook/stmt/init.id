@@ -3,6 +3,8 @@ lower_decl(int id) {
     lower_init(id);
   }
 } return void;
+given low_fix given sset((import nk), 12, "decl") given lset((import na), 12, 9) (12):() then calls lower_init:(12) then len((import bkind)):(4)
+given low_fix given sset((import nk), 12, "decl") given lset((import na), 12, -1) (12):() then calls lower_init:[0] then len((import bkind)):(1)
 
 // A brace initializer is not an expression; its elements are lowered where
 // they are stored (back/link/data/boot/init).
@@ -13,8 +15,12 @@ lower_init(int id) {
     lset((import na), id, r);
   }
 } return void;
+given low_fix given sset((import nk), 12, "decl") given lset((import na), 12, 9) (12):() then (import na)[12]:(19)
+given low_fix given sset((import nk), 12, "decl") given sset((import nk), 11, "init") given lset((import na), 12, 11) (12):() then (import na)[12]:(11) then len((import bkind)):(1)
 
 lower_top2(int e) {
   int k = top_kind(e);
   int r = lower_top3(e, k);
 } return int r;
+given low_fix (17):(17) then calls lower_call:(17)
+given low_fix (9):(19) then calls lower_val:(9)

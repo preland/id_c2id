@@ -10,6 +10,8 @@ cv4(int e) {
     v = cv5(e);
   }
 } return int v;
+given boot_a given exprfix stdin "(int)9;" ((import extop)):(9)
+given boot_a given exprfix stdin "0 ? 2 : 3;" ((import extop)):(3)
 
 cv5(int e) {
   int v = 0;
@@ -19,6 +21,8 @@ cv5(int e) {
     v = cv6(e);
   }
 } return int v;
+given boot_a given exprfix stdin "1 ? 2 : 3;" ((import extop)):(2)
+given boot_a given exprfix stdin "sizeof(int);" ((import extop)):(4)
 
 cv6(int e) {
   int v = 0;
@@ -26,3 +30,5 @@ cv6(int e) {
     v = type_size((import nb)[e]);
   }
 } return int v;
+given boot_a given exprfix stdin "sizeof(int);" ((import extop)):(4)
+given boot_a given exprfix stdin "x;" ((import extop)):(0)

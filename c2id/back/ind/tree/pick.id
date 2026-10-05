@@ -4,12 +4,16 @@ fns_add(int[] fs, int n, int i) {
     push(fs, i);
   }
 } return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a, int b) { return a; }" ([], 1, 0):([0], 1, 0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a, int b) { return a; }" ([], 1, 1):([], 1, 1)
 
 // `word f, word a0, word a1`: the pointer, then the n arguments.
 ind_params(int n) {
   string ar = ind_rest(n, "word ");
   string out = "word f" + arg_sep(n) + ar;
 } return string out;
+(0):("word f")
+(2):("word f, word a0, word a1")
 
 // `a0, a1, a2` with `ty` before each: the n arguments, as parameters or as
 // arguments to pass on.
@@ -21,3 +25,6 @@ ind_rest(int n, string pre) {
     i = i + 1;
   }
 } return string out;
+(2, "word "):("word a0, word a1")
+(3, ""):("a0, a1, a2")
+(0, "word "):("")

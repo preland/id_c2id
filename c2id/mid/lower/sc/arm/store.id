@@ -9,3 +9,5 @@ tern_store(int t, int v) {
     assign_stmt(t, v);
   }
 } return void;
+given low_fix (6, 7):() then calls assign_stmt:(6, 7) then (import bstmt)[0]:([20])
+given low_fix given exprfix stdin "(void)0;" (6, (import extop)):() then calls effect_stmt:(21) then (import bstmt)[0]:([22])

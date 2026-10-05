@@ -9,3 +9,5 @@ cv_cond(int e) {
     v = tv;
   }
 } return int v;
+given boot_a given exprfix stdin "1 ? 2 : 3;" ((import extop)):(2)
+given boot_a given exprfix stdin "0 ? 2 : 3;" ((import extop)):(3)

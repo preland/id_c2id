@@ -1,0 +1,12 @@
+// Every external declaration of the lexed source, parsed and recorded, nothing
+// emitted: what a case needs to look at the tables (dnames, fnames, ftys, goff)
+// the back end reads. Compose it after `given boot_a given boot_b given lexfix`;
+// `given reach_all` after it marks the functions main reaches.
+tu_load() {
+  int[] pos = [0];
+  while(cur_kind(pos) != "eof") {
+    parse_one(pos);
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "int x; int y;" ():() then len((import dnames)):(2)
+given boot_a given boot_b given lexfix stdin "int f(void) { return 1; }" ():() then (import fnames):(["f"])

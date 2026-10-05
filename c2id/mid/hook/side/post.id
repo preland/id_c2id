@@ -12,12 +12,16 @@ lower_post_val(int e) {
   assign_stmt(t, x);
   effect_stmt(e);
 } return int t;
+given low_fix (12):(19) then (import bstmt)[0]:([21, 22])
+given low_fix given exprfix stdin "y++;" ((import extop)):(21) then (import bstmt)[0]:([23, 24])
 
 // The expression `e` as a statement of its own: its value is thrown away.
 effect_stmt(int e) {
   int stm = newleaf("expr", e, 0, "", "");
   add_stmt(stm);
 } return void;
+given low_fix (13):() then (import bstmt)[0]:([19]) then calls newleaf:("expr", 13, 0, "", "")
+given low_fix given effect_stmt(13) (6):() then (import bstmt)[0]:([19, 20])
 
 // `++x` / `--x`: the effect, then x is read.
 lower_pre_val(int e) {
@@ -25,3 +29,5 @@ lower_pre_val(int e) {
   lset((import na), e, x);
   effect_stmt(e);
 } return int x;
+given low_fix (13):(6) then (import bstmt)[0]:([19])
+given low_fix given exprfix stdin "++y;" ((import extop)):(19) then (import bstmt)[0]:([21])

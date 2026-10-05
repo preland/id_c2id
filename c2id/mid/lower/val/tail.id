@@ -6,6 +6,8 @@ lower_v4(int e) {
     r = lower_v5(e);
   }
 } return int r;
+given low_fix (13):(6) then calls lower_pre_val:(13)
+given low_fix (6):(6) then calls lower_v5:(6)
 
 // The kinds with one child (unary, cast, member access) are one function;
 // indexing has two.
@@ -17,6 +19,8 @@ lower_v5(int e) {
     r = lower_v6(e);
   }
 } return int r;
+given low_fix given exprfix stdin "-x;" ((import extop)):((import extop)) then calls lower_kid1:(20)
+given low_fix (6):(6) then calls lower_v6:(6)
 
 lower_v6(int e) {
   int r = e;
@@ -26,3 +30,5 @@ lower_v6(int e) {
     r = lower_v7(e);
   }
 } return int r;
+given low_fix (18):(18) then calls lower_kid2:(18)
+given low_fix (6):(6) then calls lower_v7:(6)

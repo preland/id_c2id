@@ -16,6 +16,8 @@ reach_kids(int id, string kn) {
     reach_list((import nm)[id]);
   }
 } return void;
+given boot_a given boot_b given exprfix given tu_add("f", 0, 0) given tu_add("g", 0, 0) given reach_init(2) stdin "g(f);" ((import extop), "call"):() then (import reach):([1, 1])
+given boot_a given boot_b given exprfix given tu_add("f", 0, 0) given tu_add("g", 0, 0) given reach_init(2) stdin "g(f);" ((import extop), "num"):() then (import reach):([0, 0])
 
 reach_list(int[] l) {
   int i = 0;
@@ -24,6 +26,8 @@ reach_list(int[] l) {
     i = i + 1;
   }
 } return void;
+given boot_a given boot_b given exprfix given tu_add("f", 0, 0) given tu_add("g", 0, 0) given reach_init(2) stdin "g;" ([(import extop)]):() then (import reach):([0, 1])
+given boot_a given boot_b given exprfix given tu_add("f", 0, 0) given tu_add("g", 0, 0) given reach_init(2) stdin "g;" ([]):() then (import reach):([0, 0])
 
 // Function i is emitted only if the program can reach it.
 emit_reached(int i) {
@@ -31,3 +35,5 @@ emit_reached(int i) {
     emit_one(i);
   }
 } return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(void) { return 1; }" (0):() then calls emit_one:(0)
+given boot_a given boot_b given lexfix given tu_load given reach_init(1) stdin "int f(void) { return 1; }" (0):() then calls emit_one:[0]

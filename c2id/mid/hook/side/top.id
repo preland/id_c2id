@@ -10,6 +10,10 @@ top_kind(int e) {
     k = 2;
   }
 } return int k;
+given boot_a given exprfix stdin "f();" ((import extop)):(1)
+given boot_a given exprfix stdin "x++;" ((import extop)):(2)
+given boot_a given exprfix stdin "++x;" ((import extop)):(2)
+given boot_a given exprfix stdin "x + 1;" ((import extop)):(0)
 
 lower_top3(int e, int k) {
   int r = e;
@@ -19,6 +23,8 @@ lower_top3(int e, int k) {
     r = lower_top4(e, k);
   }
 } return int r;
+given low_fix (9, 0):(19) then calls lower_val:(9)
+given low_fix (17, 1):(17) then calls lower_call:(17)
 
 lower_top4(int e, int k) {
   int r = e;
@@ -28,3 +34,5 @@ lower_top4(int e, int k) {
     r = lower_kid1(e);
   }
 } return int r;
+given low_fix (17, 1):(17) then calls lower_call:(17)
+given low_fix (13, 2):(13) then calls lower_kid1:(13)

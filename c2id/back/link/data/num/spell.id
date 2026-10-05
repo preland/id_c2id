@@ -11,6 +11,9 @@ num_spell(string raw) {
     out = str_slice(raw, 0, e);
   }
 } return string out;
+("0x1fUL"):("0x1f")
+("010"):("")
+("4000000000u"):("4000000000")
 
 // 1 for a hex literal or a decimal one that does not start with 0.
 num_plain(string raw) {
@@ -21,6 +24,9 @@ num_plain(string raw) {
   int dec = c0 > 48 && c0 <= 57;
   int ok = hex + dec;
 } return int ok;
+("0x1f"):(1)
+("12"):(1)
+("010"):(0)
 
 // The index where the u/U/l/L suffixes begin.
 spell_end(string raw) {
@@ -29,3 +35,6 @@ spell_end(string raw) {
     e = e - 1;
   }
 } return int e;
+("0x1fUL"):(4)
+("123"):(3)
+("ULL"):(0)

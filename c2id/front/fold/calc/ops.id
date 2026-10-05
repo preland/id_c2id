@@ -3,6 +3,8 @@ cv_bin(int e) {
   int rv = const_eval((import nb)[e]);
   int v = cv_apply((import ns)[e], lv, rv);
 } return int v;
+given boot_a given exprfix stdin "6 / 3;" ((import extop)):(2)
+given boot_a given exprfix stdin "2 < 3;" ((import extop)):(1)
 
 // The arithmetic and bitwise operators are ce_apply's; the comparisons and the
 // logical operators are answered 0 or 1 from one table.
@@ -13,8 +15,15 @@ cv_apply(string op, int lv, int rv) {
     v = cv_cmp(k, lv, rv);
   }
 } return int v;
+("+", 2, 3):(5)
+("==", 4, 4):(1)
+("&&", 2, 0):(0)
 
 cv_cmp(int k, int lv, int rv) {
   int[] rl = [lv == rv, lv != rv, lv < rv, lv > rv, lv <= rv, lv >= rv, lv != 0 && rv != 0, lv != 0 || rv != 0];
   int v = rl[k];
 } return int v;
+(0, 3, 3):(1)
+(2, 5, 3):(0)
+(7, 0, 2):(1)
+(6, 2, 0):(0)

@@ -3,13 +3,18 @@
 // graph, and a few expression nodes built by hand and exported (a case's own
 // arguments are literals, so a node is named by the number it was given).
 //
-//   0 x   1 y   2 z            variables
-//   3 x && y   4 x || y        short circuits
-//   5 x ? y : z                a conditional
-//   6 x++   7 ++x   8 x = y    side effects
-//   9 x, y                     the comma operator
-//   10 f   11 f(x && y)        a call with a short circuit in its arguments
-//   12 (x && y)[z]             an index with one in its base
+// The numbers are what the cases below spell, counted from the six nodes the
+// registries make first: x is 6, y 7, z 8, x && y 9, x || y 10, x ? y : z 11,
+// x++ 12, ++x 13, x = y 14, x, y 15, f 16, f(x && y) 17, (x && y)[z] 18. The
+// cases of low_fx run low_fx a second time, after low_fix did, so there f is 23.
+//
+//   x  y  z                    variables
+//   x && y   x || y            short circuits
+//   x ? y : z                  a conditional
+//   x++   ++x   x = y          side effects
+//   x, y                       the comma operator
+//   f   f(x && y)              a call with a short circuit in its arguments
+//   (x && y)[z]                an index with one in its base
 // Block 0 is open, the way cfg_build leaves it before it walks a body.
 low_fix() {
   boot_a();
@@ -41,5 +46,5 @@ low_ops() {
   export int lw_or = newleaf("bin", (import lw_x), (import lw_y), "||", "");
   export int lw_cond = newnode("cond", (import lw_x), (import lw_y), "", "", [(import lw_z)], [0]);
 } return void;
-given low_fix ():() then calls newleaf:("bin", 0, 1, "||", "")
-given low_fix ():() then calls newnode:("cond", 0, 1, "", "", [2], [0])
+given low_fix ():() then calls newleaf:("bin", 6, 7, "||", "")
+given low_fix ():() then calls newnode:("cond", 6, 7, "", "", [8], [0])

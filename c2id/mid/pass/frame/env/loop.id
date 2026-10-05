@@ -11,6 +11,8 @@ bind_for(int id) {
   bind_list((import nm)[id]);
   env_trunc(h);
 } return void;
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { for (int i = 0; i < 2; i++) { } for (int i = 0; i < 2; i++) { } }" (19):() then (import lvnames):(["i"]) then len((import envn)):(0)
+given boot_a given boot_b given lexfix given tu_load given bind_for(19) stdin "void f(void) { for (int i = 0; i < 2; i++) { } for (int i = 0; i < 2; i++) { } }" (30):() then (import lvnames):(["i", "i__0"]) then (import ns)[24]:("i__0") then len((import envn)):(0)
 
 // A list that is only declarations (`int a, b;` is one such, a block of decls)
 // is no scope of its own: what it declares is in scope after it.
@@ -24,6 +26,8 @@ decls_only(int[] l) {
 } chain (int[] l) {
   int only = other == 0;
 } return int only;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { int b = a; return b; }" ([12]):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { int b = a; return b; }" ([12, 14]):(0)
 
 // A declaration, or a block that holds nothing but declarations (the parser
 // wraps `int a, b;` in one).
@@ -35,3 +39,6 @@ decl_like(int id) {
     ok = decls_only((import nl)[id]);
   }
 } return int ok;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { int b = a; return b; }" (11):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { int b = a; return b; }" (12):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { int b = a; return b; }" (14):(0)

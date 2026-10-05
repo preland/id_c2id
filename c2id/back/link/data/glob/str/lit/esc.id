@@ -4,13 +4,17 @@
 // program defines and the build says so.
 lit_esc(string raw, string[] acc, int i) {
   int j = esc_end(raw, i);
-  string seq = str_slice(raw, i, j);
+  string seq = str_slice(raw, i, j - i);
   int v = chr_val(seq);
 } chain (string raw, string[] acc, int i) {
   lit_code(acc, v);
 } return int j;
+("\"a\\nb\"", ["\"a"], 2):(4) then calls lit_code:(["\"a\" + chr(10) + \""], 10)
+("\"\\x41\"", ["\""], 1):(5) then calls lit_code:(["\"\" + chr(65) + \""], 65)
 
 lit_code(string[] acc, int v) {
   string piece = acc[0] + chr(34) + " + chr(" + v + ") + " + chr(34);
   sset(acc, 0, piece);
 } return void;
+(["\"a"], 10):(["\"a\" + chr(10) + \""], 10)
+(["\""], 0):(["\"\" + chr(0) + \""], 0)

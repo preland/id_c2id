@@ -5,6 +5,9 @@ suffix_at(string raw, int j) {
 } chain (string raw, int j) {
   int ok = k >= 0;
 } return int ok;
+("12u", 2):(1)
+("12u", 0):(0)
+("12L", 2):(1)
 
 // The decoded value of a literal that fits an int, as text; a negative one (the
 // parser wraps 0xdeadbeef to a negative int) as `(0 - n)`, since id has no unary
@@ -15,3 +18,5 @@ num_dec(int id) {
     s = "(0 - " + (0 - (import na)[id]) + ")";
   }
 } return string s;
+given boot_a given exprfix stdin "5;" ((import extop)):("5")
+given boot_a given exprfix stdin "0xdeadbeef;" ((import extop)):("(0 - 559038737)")

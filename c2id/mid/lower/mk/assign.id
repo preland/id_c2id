@@ -4,12 +4,16 @@ assign_stmt(int t, int v) {
   int stm = newleaf("expr", a, 0, "", "");
   add_stmt(stm);
 } return void;
+given low_fix (6, 7):() then (import bstmt)[0]:([20]) then calls newleaf:("assign", 6, 7, "=", "")
+given low_fix given assign_stmt(6, 7) (8, 9):() then (import bstmt)[0]:([20, 22])
 
 // `r != 0`: the value of a condition taken as a C truth value.
 mk_ne(int r) {
   int z = mk_num(0);
   int id = newleaf("bin", r, z, "!=", "");
 } return int id;
+given low_fix (6):(20) then calls newleaf:("bin", 6, 19, "!=", "")
+given low_fix (9):(20) then (import na)[20]:(9) then (import nb)[20]:(19)
 
 // The type of the temporary a conditional's value is kept in: an array decays
 // to a pointer, and void (a conditional used as a statement) to int.
@@ -22,3 +26,6 @@ tern_ty(int ty) {
     r = (import stdty)[0];
   }
 } return int r;
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3];" (8):(9) then calls newleaf:("ptr", 6, 0, "", "")
+given boot_a given boot_b given lexfix given tu_load stdin "void *p;" (6):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3];" (6):(6)

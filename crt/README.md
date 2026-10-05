@@ -38,7 +38,7 @@ this tree unnoticed. See the umbrella's `docs/GAPS.md` B6/B7.
 crt/
 ├── int/                    integer width semantics
 │   ├── sx.id               sx_bits, sx8, sx16
-│   ├── wide.id             sx32, wrap32
+│   ├── wide.id             sx32
 │   └── zx.id               zx8, zx16, zx32
 ├── mem/
 │   ├── raw/                memcpy / memmove / memset / memcmp
@@ -117,8 +117,7 @@ narrower type, or a cast demands one.
 | `sx_bits(word v, int bits) -> word` | sign-extend the low `bits` bits of `v` to 64. `bits` must be 1..64. |
 | `sx8(word v) -> word` | sign-extend from 8 bits. `sx8(0xff)` = −1, `sx8(0x7f)` = 127, `sx8(0x80)` = −128. |
 | `sx16(word v) -> word` | sign-extend from 16. `sx16(0xffff)` = −1, `sx16(0x8000)` = −32768. |
-| `sx32(word v) -> word` | sign-extend from 32. `sx32(0x80000000)` = −2147483648, `sx32(0xffffffff)` = −1. |
-| `wrap32(word v) -> word` | the result of C `int` arithmetic: keep the low 32 bits, read them signed. Identical in effect to `sx32`; separate because the call sites mean different things and `c2id` emits one per `int` operation. |
+| `sx32(word v) -> word` | sign-extend from 32. `sx32(0x80000000)` = −2147483648, `sx32(0xffffffff)` = −1. This is also the result of C `int` arithmetic (keep the low 32 bits, read them signed), and `c2id` emits one per `int` operation. There is no separate `wrap32`: it was identical to `sx32`, and `idc` rejects two functions with the same logic. |
 | `zx8(word v) -> word` | truncate to 8 bits, read unsigned. `zx8(0xff)` = 255, `zx8(0 - 1)` = 255. |
 | `zx16(word v) -> word` | truncate to 16. `zx16(0 - 1)` = 65535. |
 | `zx32(word v) -> word` | truncate to 32. `zx32(0 - 1)` = 4294967295. |

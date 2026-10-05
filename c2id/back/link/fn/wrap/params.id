@@ -12,14 +12,21 @@ bind_params(int ft) {
     i = i + 1;
   }
 } return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, int b) { return a; }" (9):() then (import lvnames):(["a", "b"]) then (import lvoff):([8, 16])
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 0; }" (8):() then len((import lvoff)):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(char a, long b) { return 0; }" (9):() then (import lvtys):([7, 8])
 
 bind_one(string[] names, int[] tys, int i) {
   string pn = names[i];
   bind_param(pn, tys[i]);
 } return void;
+given txt_fixture given init_frame given init_frame2 (["a", "b"], [0, 5], 1):() then (import lvnames):(["b"]) then (import lvoff):([8]) then (import lvtys):([5])
+given txt_fixture given init_frame given init_frame2 (["a", "b"], [0, 5], 0):() then (import lvnames):(["a"]) then (import frsz)[0]:(16) then (import lvtys):([0])
 
 bind_param(string pname, int ty) {
   push((import lvtys), ty);
   int off = (import frsz)[0];
   add_slot(pname, off, 8);
 } return void;
+given txt_fixture given init_frame given init_frame2 ("p", 0):() then (import lvnames):(["p"]) then (import lvtys):([0]) then (import lvoff):([8])
+given txt_fixture given init_frame given init_frame2 given bind_param("q", 5) ("p", 0):() then (import lvoff):([8, 16]) then (import lvtys):([5, 0])

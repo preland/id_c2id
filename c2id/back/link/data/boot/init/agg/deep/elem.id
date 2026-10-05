@@ -8,6 +8,8 @@ init_elem_at(int et, int esz, string addr, int[] items, int j, int k) {
   init_stmts(et, addr + " + " + (idx * esz), val, 0);
   int nxt = idx + 1;
 } return int nxt;
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (6, 4, "A", [9, 10], 1, 1):(2) then (import pend):(["poke32(A + 4, 2);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int g[] = { [2] = 5, 6 };" (6, 4, "A", [10, 11], 0, 0):(3) then (import pend):(["poke32(A + 8, 5);"])
 
 // An element's index: the `[n] =` of a designated one, else the running one.
 item_idx(int it, int k) {
@@ -16,6 +18,8 @@ item_idx(int it, int k) {
     idx = (import nb)[it];
   }
 } return int idx;
+given boot_a given boot_b given lexfix given tu_load stdin "int g[] = { [2] = 5, 6 };" (10, 0):(2)
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (9, 1):(1)
 
 // An element's value: the expression after the `=` of a designated one.
 item_val(int it) {
@@ -24,3 +28,5 @@ item_val(int it) {
     v = (import na)[it];
   }
 } return int v;
+given boot_a given boot_b given lexfix given tu_load stdin "int g[] = { [2] = 5, 6 };" (10):(9)
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (9):(9)

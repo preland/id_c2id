@@ -10,5 +10,5 @@ low_fx() {
 } chain () {
   export int lw_idx = newleaf("idx", (import lw_and), (import lw_z), "", "");
 } return void;
-given low_fix ():() then calls newleaf:("post", 0, 0, "++", "")
-given low_fix ():() then calls newnode:("call", 10, 0, "", "", [3], [0])
+given low_fix ():() then calls newleaf:("post", 6, 0, "++", "")
+given low_fix ():() then calls newnode:("call", 23, 0, "", "", [9], [0])

@@ -13,6 +13,8 @@ reach_all() {
   reach_roots(mi, n);
   reach_drain();
 } return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 1; } int g(void) { return 2; } int main(void) { return f(); }" ():() then (import reach):([1, 0, 1])
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 1; } int g(void) { return 2; }" ():() then (import reach):([1, 1])
 
 // A flag per function, all 0.
 reach_init(int n) {
@@ -20,6 +22,8 @@ reach_init(int n) {
     push((import reach), 0);
   }
 } return void;
+given gl_setup (3):() then (import reach):([0, 0, 0])
+given gl_setup given reach_init(2) (1):() then (import reach):([0, 0])
 
 // main and the functions the global initializers name; with no main, every
 // function.
@@ -31,3 +35,5 @@ reach_roots(int mi, int n) {
     reach_every(0, n);
   }
 } return void;
+given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "int f(void) { return 1; } int g(void) { return 2; }" (1, 2):() then (import reach):([0, 1])
+given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "int f(void) { return 1; } int g(void) { return 2; }" (-1, 2):() then (import reach):([1, 1])

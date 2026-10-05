@@ -8,6 +8,8 @@ emit_ind_tree(int n, int[] fs) {
     ind_print(n, "crt_call" + n, 0, root, root);
   }
 } return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; }" (1, [0]):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call1(word f, word a0) {\n  word k0 = 0;\n  word r = 0;\n  word k1 = 1;\n} chain (word f, word a0) {\n  if(f < 0) { r = c_f(a0); } else { r = c_f(a0); }\n} return word r;\n")
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a) { return a; }" (1, [0, 1]):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call1(word f, word a0) {\n  word k0 = 0;\n  word r = 0;\n  word k1 = 1;\n} chain (word f, word a0) {\n  if(f < 2) { r = c_f(a0); } else { r = c_g(a0); }\n} return word r;\n")
 
 // The call text for fs[lo..hi), printing the function of an interior node first.
 ind_node(int n, int[] fs, int lo, int hi, int top) {
@@ -16,6 +18,8 @@ ind_node(int n, int[] fs, int lo, int hi, int top) {
     ind_split(n, fs, lo, hi, top);
   }
 } return string call;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a) { return a; }" (1, [0, 1], 0, 2, 1):("ind1_0_2(f, a0)") then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call1(word f, word a0) {\n  word k0 = 0;\n  word r = 0;\n  word k1 = 1;\n} chain (word f, word a0) {\n  if(f < 2) { r = c_f(a0); } else { r = c_g(a0); }\n} return word r;\n")
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a) { return a; }" (1, [0, 1], 1, 2, 0):("c_g(a0)") then prints:("")
 
 // A leaf is `c_NAME(a0, a1)`; an interior node `indN_lo_hi(f, a0, a1)`.
 ind_call(int n, int[] fs, int lo, int hi) {
@@ -25,3 +29,5 @@ ind_call(int n, int[] fs, int lo, int hi) {
     call = "c_" + (import fnames)[fs[lo]] + "(" + ar + ")";
   }
 } return string call;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a) { return a; }" (1, [0, 1], 0, 1):("c_f(a0)")
+(2, [0, 1, 2], 0, 3):("ind2_0_3(f, a0, a1)")

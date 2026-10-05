@@ -3,10 +3,14 @@
 mk_var(string name) {
   int id = newleaf("var", 0, 0, name, "");
 } return int id;
+given boot_a ("v"):(0) then (import ns)[0]:("v")
+given boot_a ("w"):(0) then (import nk)[0]:("var")
 
 mk_num(int v) {
   int id = newleaf("num", v, 0, "" + v, "");
 } return int id;
+given boot_a (42):(0) then (import na)[0]:(42)
+given boot_a (-3):(0) then (import ns)[0]:("-3")
 
 // A frame temporary: its slot is made at once (the frame pass has already run, so
 // nothing else will), and the node that reads it is answered.
@@ -18,3 +22,5 @@ new_temp(int ty) {
   int off = decl_slot(tname, ty);
   int v = mk_var(tname);
 } return int v;
+given low_fix (0):(19) then (import ns)[19]:("__tmp0") then (import lcnt)[0]:(1)
+given low_fix given lset((import lcnt), 0, 1) (0):(19) then (import ns)[19]:("__tmp1") then (import lvnames):(["__tmp1"])

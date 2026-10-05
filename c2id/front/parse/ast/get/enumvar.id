@@ -9,8 +9,12 @@ var_or_enum(string name) {
     id = newleaf("var", 0, 0, name, "");
   }
 } return int id;
+given boot_a given boot_b given lexfix given tu_load stdin "enum E { A = 5, B };" ("A"):(8) then calls newleaf:("num", 5, 0, "#5", "")
+given boot_a given boot_b given lexfix given tu_load stdin "enum E { A = 5, B };" ("zz"):(8) then calls newleaf:("var", 0, 0, "zz", "")
 
 enum_num(string name) {
   int v = enum_val(name);
   int id = newleaf("num", v, 0, "#" + v, "");
 } return int id;
+given boot_a given boot_b given lexfix given tu_load stdin "enum E { A = 5, B };" ("B"):(8) then calls newleaf:("num", 6, 0, "#6", "")
+given boot_a given boot_b given lexfix given tu_load stdin "enum E { A = 5, B };" ("A"):(8) then (import ns)[8]:("#5")

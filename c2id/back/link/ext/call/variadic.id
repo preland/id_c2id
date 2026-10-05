@@ -4,6 +4,8 @@ arg_item(int id, int named) {
     etxt = name_val(etxt);
   }
 } return string etxt;
+given boot_a given boot_b given exprfix stdin "f(1, 2);" (7, 0):("1")
+given boot_a given boot_b given exprfix stdin "f(1, 2);" (8, 1):("t0") then (import pend):(["word t0 = 2;"])
 
 // `fixed, [v1, v2]`. id has no varargs, so the rest arrive as one list, every
 // element named first: a list literal takes its type from its first element and
@@ -15,6 +17,8 @@ va_args(int[] ids, int k, int n) {
 } chain (int[] ids, int k, int n) {
   string out = head + arg_sep(k) + tail;
 } return string out;
+given boot_a given boot_b given exprfix stdin "f(1, 2);" ([7, 8], 1, 2):("1, [t0]") then (import pend):(["word t0 = 2;"])
+given boot_a given boot_b given exprfix stdin "f(1, 2);" ([7, 8], 2, 2):("1, 2, [(import wzero)]")
 
 // The list holds a single zero when there are no extra arguments, so it is
 // never an untyped `[]`.
@@ -24,3 +28,5 @@ va_list_text(string rest) {
     tail = "[(import wzero)]";
   }
 } return string tail;
+("a, b"):("[a, b]")
+(""):("[(import wzero)]")

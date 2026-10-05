@@ -8,6 +8,8 @@ callee_name(string op) {
     fnm = (import libc_crt)[k];
   }
 } return string fnm;
+("malloc"):("kmalloc")
+("foo"):("c_foo")
 
 // How many arguments a variadic runtime function takes before its `...`, or -1
 // for a function that is not variadic. id has no varargs: the rest arrive in
@@ -19,3 +21,6 @@ va_fixed(string op) {
     fixed = (import va_fixed_n)[k];
   }
 } return int fixed;
+("printf"):(1)
+("snprintf"):(3)
+("puts"):(-1)

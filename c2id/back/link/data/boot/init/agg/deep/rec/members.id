@@ -3,6 +3,8 @@ init_rec(int ty, string addr, int ex, int zf) {
   int[] items = (import nl)[ex];
   init_members(ty, addr, items);
 } return void;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P p = { 3, 4 };" (6, "A", 11, 0):() then (import pend):(["poke32(A + 0, 3);", "poke32(A + 4, 4);"])
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P q = { .b = 9 };" (6, "A", 11, 1):() then (import pend):(["c_memset(A, 0, 8);", "poke32(A + 4, 9);"])
 
 init_members(int ty, string addr, int[] items) {
   int k = 0;
@@ -12,6 +14,8 @@ init_members(int ty, string addr, int[] items) {
     j = j + 1;
   }
 } return void;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P p = { 3, 4 };" (6, "A", [9, 10]):() then (import pend):(["poke32(A + 0, 3);", "poke32(A + 4, 4);"])
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P q = { .b = 9 };" (6, "A", [10]):() then (import pend):(["poke32(A + 4, 9);"])
 
 // Member k of the record, or the one a `.name =` designator names.
 init_member(int ty, string addr, int[] items, int j, int k) {
@@ -22,3 +26,5 @@ init_member(int ty, string addr, int[] items, int j, int k) {
   init_stmts((import syids)[row], addr + " + " + (import syoff)[row], val, 0);
   int nxt = k + 1;
 } return int nxt;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P p = { 3, 4 };" (6, "A", [9, 10], 1, 1):(2) then (import pend):(["poke32(A + 4, 4);"])
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P q = { .b = 9 };" (6, "A", [10], 0, 0):(1) then (import pend):(["poke32(A + 4, 9);"])

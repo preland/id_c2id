@@ -5,12 +5,16 @@ emit_bytes(int j, int[] bs) {
     i = i + 1;
   }
 } return void;
+given init_gfn (1, [97, 0, 98]):() then prints:("  poke8(lit_p1 + 0, 97);\n  poke8(lit_p1 + 2, 98);\n")
+given init_gfn (2, [10]):() then prints:("  poke8(lit_p2 + 0, 10);\n")
 
 emit_byte(int j, int bv, int i) {
   if(bv != 0) {
     emit_out("  poke8(lit_p" + j + " + " + i + ", " + bv + ");");
   }
 } return void;
+given init_gfn (0, 97, 3):() then prints:("  poke8(lit_p0 + 3, 97);\n")
+given init_gfn (0, 0, 3):() then prints:("")
 
 // A literal with no NUL: the string, then its address in the slot.
 emit_slit_text(int j) {
@@ -20,3 +24,5 @@ emit_slit_text(int j) {
 } chain (int j) {
   emit_out("  poke64((import gbase) + " + (import soff)[j] + ", lit_p" + j + ");");
 } return void;
+given init_tu given lst_str_insert((import slits), 0, "\"ab\"") given lst_insert((import soff), 0, 0) (0):() then prints:("  string lit_s0 = \"ab\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 0, lit_p0);\n")
+given init_tu given lst_str_insert((import slits), 0, "\"ab\"") given lst_insert((import soff), 0, 0) given lst_str_insert((import slits), 1, "\"cd\"") given lst_insert((import soff), 1, 8) (1):() then prints:("  string lit_s1 = \"cd\";\n  word lit_p1 = mem_of_str(lit_s1);\n  poke64((import gbase) + 8, lit_p1);\n")

@@ -5,6 +5,8 @@ branch_go(int k, int a, int nxt, int alt) {
     branch_go3(k, a, nxt, alt);
   }
 } return void;
+given low_fix (1, 9, 5, 2):() then calls branch_sc:(1, 9, 5, 2) then len((import bkind)):(2)
+given low_fix (0, 6, 5, 2):() then calls branch_go3:(0, 6, 5, 2) then (import bsa)[0]:(5)
 
 branch_go3(int k, int a, int nxt, int alt) {
   if(k == 3) {
@@ -13,3 +15,5 @@ branch_go3(int k, int a, int nxt, int alt) {
     branch_plain(a, nxt, alt);
   }
 } return void;
+given low_fix given exprfix stdin "!x;" (3, (import extop), 5, 6):() then calls branch_not:(20, 5, 6) then (import bsa)[0]:(6)
+given low_fix (0, 6, 5, 2):() then calls branch_plain:(6, 5, 2) then (import bsb)[0]:(2)

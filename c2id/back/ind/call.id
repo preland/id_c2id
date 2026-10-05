@@ -11,6 +11,8 @@ direct_call(int a) {
     ok = fn_name((import ns)[a]);
   }
 } return int ok;
+given boot_a given boot_b given exprfix given bind_param("p", 0) stdin "p;" ((import extop)):(0)
+given boot_a given boot_b given exprfix stdin "f;" ((import extop)):(1)
 
 // A name that is not a local is a function when it was declared as one, and
 // is taken to be one when it was never declared at all (C's implicit declaration
@@ -22,6 +24,9 @@ fn_name(string name) {
     ok = (import nk)[(import dtys)[i]] == "fn";
   }
 } return int ok;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 0; } int v;" ("f"):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 0; } int v;" ("v"):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int v;" ("zz"):(1)
 
 // The pointer is the call's first argument.
 ind_prefix(int callee, string rest) {
@@ -31,3 +36,6 @@ ind_prefix(int callee, string rest) {
     out = cv + arg_sep(len(rest)) + rest;
   }
 } return string out;
+given boot_a given boot_b given exprfix stdin "f;" ((import extop), "1, 2"):("1, 2")
+given boot_a given boot_b given exprfix given bind_param("p", 0) stdin "p;" ((import extop), "1"):("t1, 1") then (import pend):(["word t0 = peek32(fp + 8);", "word t1 = sx32(t0);"])
+given boot_a given boot_b given exprfix given bind_param("p", 0) stdin "p;" ((import extop), ""):("t1")

@@ -7,6 +7,8 @@ call_ty(int id) {
     ty = fn_ret(ft);
   }
 } return int ty;
+given boot_a given boot_b given lexfix given tu_load stdin "char *f(void); int g(void) { return f(); }" (14):(7)
+given boot_a given boot_b given lexfix given tu_load stdin "char *f(void); int g(void) { return f(); }" (13):(0)
 
 fn_ret(int ft) {
   int f = ft;
@@ -15,6 +17,8 @@ fn_ret(int ft) {
   }
   int r = fn_ret2(f);
 } return int r;
+given boot_a given boot_b given lexfix given tu_load stdin "char *f(void); int g(void) { return f(); }" (9):(7)
+given boot_a given boot_b given lexfix given tu_load stdin "int (*fp)(void);" (9):(6)
 
 // A function type's return type; `int` for anything else, which is what C
 // assumes of a call to a function it has not seen.
@@ -24,3 +28,5 @@ fn_ret2(int f) {
     r = (import na)[f];
   }
 } return int r;
+given boot_a given boot_b given lexfix given tu_load stdin "char *f(void); int g(void) { return f(); }" (9):(7)
+given boot_a given boot_b given lexfix given tu_load stdin "char *f(void); int g(void) { return f(); }" (6):(0)

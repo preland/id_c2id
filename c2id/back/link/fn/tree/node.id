@@ -7,6 +7,8 @@ emit_dsp(string tnm, int cut, string lnm, string rnm) {
   print("  if(pc < " + cut + ") { nxt = " + lnm + "; } else { nxt = " + rnm + "; }");
   print("} return word nxt;");
 } return void;
+given init_gfn ("dsp0_0_2", 2, "blk0_0(fp)", "blk0_2(fp)"):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ndsp0_0_2(word fp, word pc) {\n  word nxt = 0 - 1;\n  if(pc < 2) { nxt = blk0_0(fp); } else { nxt = blk0_2(fp); }\n} return word nxt;\n")
+given init_gfn given lset((import gfn), 0, 1) ("d", 5, "l", "r"):() then prints:("d(word fp, word pc) {\n  word nxt = 0 - 1;\n  if(pc < 5) { nxt = l; } else { nxt = r; }\n} return word nxt;\n")
 
 // The runner: start at the first live block and follow the answers until one
 // says -1. Blocks return here rather than tail-calling each other, so a loop of
@@ -20,8 +22,12 @@ emit_run(int fn, string root, int first) {
   print("  word r = peek64(fp);");
   print("} return word r;");
 } return void;
+given init_gfn (3, "dsp3_0_2(fp, pc)", 0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nrun3(word fp) {\n  word pc = 0;\n  while(pc >= 0 && (import rtex)[0] < 0) { pc = dsp3_0_2(fp, pc); }\n  word r = peek64(fp);\n} return word r;\n")
+given init_gfn (0, "blk0_4(fp)", 4):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nrun0(word fp) {\n  word pc = 4;\n  while(pc >= 0 && (import rtex)[0] < 0) { pc = blk0_4(fp); }\n  word r = peek64(fp);\n} return word r;\n")
 
 // The frame is a whole number of 8-byte words, so the stack stays aligned.
 frame_bytes() {
   int sz = align_up((import frsz)[0], 8);
 } return int sz;
+given init_frame given init_frame2 ():(8)
+given init_frame given init_frame2 given lset((import frsz), 0, 12) ():(16)
