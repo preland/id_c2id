@@ -17,7 +17,7 @@ set -uo pipefail
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 work=$here/build/tests
 idc=${IDC:-$here/../idc/bin/idc}
-c2id=${C2ID:-$here/tools/c2id.sh}
+c2id=${C2ID_SH:-$here/tools/c2id.sh}
 
 mkdir -p "$work"
 

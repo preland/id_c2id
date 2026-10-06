@@ -20,7 +20,7 @@
 set -euo pipefail
 
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-c2id_bin=${C2ID:-$here/build/c2id}
+c2id_bin=${C2ID_BIN:-$here/build/c2id}
 idc=${IDC:-$here/../idc/bin/idc}
 
 if [[ $# -ne 2 ]]; then

@@ -14,7 +14,7 @@ the command that prints them.
 | Differential test harness | works for the seven programs; **`frontend-integration` fails** | `tests/run.sh` — C oracle vs id, byte-for-byte; the front-end harness copies `front/lex` and `front/parse` alone, and `front/parse/.../decl_init.id` calls `complete_arr`, which lives in `back/link/ext/decl/size.id`, so it no longer builds (a `front` → `back` dependency the restructure introduced) |
 | Block-function lowering | **proven** | `tests/lowering/` — compiles under `bin/idc`, computes 55 |
 | c2id driver (stream → project tree) | works | `tools/c2id.sh`, which builds `c2id` with `bin/idc` under the default test requirement |
-| Pre-commit entry point | **1 known failure** (`tests`, from `frontend-integration` above) | `tools/check.sh`; `C2ID` means the translator binary to `tools/c2id.sh` and the driver to `tests/run.sh`, so setting it for one breaks the other |
+| Pre-commit entry point | **1 known failure** (`tests`, from `frontend-integration` above) | `tools/check.sh`; `C2ID_BIN` names the translator binary for `tools/c2id.sh`, and `C2ID_SH` names the driver script for `tests/run.sh` |
 | `id` toolchain probe | works | `tools/idprobe.sh` — 0 / 1 / 2 for usable / too old / absent |
 | CI | **unproven** | `.github/workflows/ci.yml` — clean under `actionlint` where checked; every command in it passes locally; never yet run on a GitHub runner |
 
