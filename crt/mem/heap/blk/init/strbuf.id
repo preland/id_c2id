@@ -3,7 +3,7 @@
 // literals, and a flat-store address only exists once something has built
 // it, so this lives here as a zero-argument setup (docs/TESTS.md, "Module
 // state") rather than a case literal. idstd_buf_t_setup's buf_ad/buf_ad2
-// (idstd/core/data/seq/buf/known.id) cover the byte-buffer half of crt's
+// (idstd/core/data/buf/known.id) cover the byte-buffer half of crt's
 // mem/raw/ -- this adds only what they cannot: a real C-string terminator.
 // cs is "hi" (2 bytes then NUL); cs0 is "" (NUL at byte 0).
 crt_str_fixture() {
