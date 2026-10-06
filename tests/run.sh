@@ -32,7 +32,7 @@ matches() {
     return 1
 }
 
-# ---- structural lint: id's rule of 3 on the source trees, checked without
+# ---- structural lint: id's layout rules on the source trees, checked without
 # compiling so that layout mistakes in a half-written module surface early.
 if "$idc" "$here/c2id" --check >"$work/lint.out" 2>&1 && "$idc" "$here/crt" --check >>"$work/lint.out" 2>&1; then
     echo "PASS  layout-rule-of-3"

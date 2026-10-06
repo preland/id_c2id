@@ -2,7 +2,7 @@
 
 `c2id` translates preprocessed C into [`id`](../idc), a deliberately tiny
 language that allows 3 actions per block, 2 levels of nesting, 3 functions per
-file and 3 entries per directory, and has no structs, no pointers, and no
+file, and has no structs, no pointers, and no
 bitwise operators. `c2id` is not a translation exercise bolted onto `id` from
 the outside — it is itself written in `id`, obeying every one of those rules
 with no exemptions.
@@ -50,10 +50,10 @@ modelled directly: a flat, bounds-checked byte memory plus a 64-bit `word`.
   edges in the graph — no special-casing in the emitter, and nesting never
   exceeds 2 because a basic block is straight-line code.
 * **No exemptions from `id`'s rules.** The generated project obeys the same
-  3-action, 2-nesting, 3-function, 3-entry, one-name-one-type, and
+  3-action, 2-nesting, 3-function, one-name-one-type, and
   duplicate-logic rules as hand-written `id`. A block over 3 actions is split
   into a chain of ordinary functions; the project layout scheme fills
-  directories under the rule of 3 automatically.
+  directories three files at a time automatically.
 * **Memory-safe by construction.** Every load and store goes through a
   bounds-checked primitive (`peek8/16/32/64`, `poke8/16/32/64`), so an
   out-of-bounds access traps instead of corrupting memory.
@@ -70,7 +70,7 @@ its directory map, its name→type registry, its node layout: `c2id/NOTES.md`.
 | `docs/EMITTER.md` | the emitter's spec: frames, CFG construction, calls, project layout |
 | `docs/ID_EXTENSIONS.md` | what `id` itself had to gain, and why each addition is unavoidable |
 | `docs/ID_CHEATSHEET.md` | how to write `id` without relearning it the slow way |
-| `docs/SELFHOST.md` | making `bin/idc` the compiler and retiring `idc.py` to bootstrap |
+| `docs/SELFHOST.md` | making `bin/idc` the compiler and retiring `idc.py` (since deleted) |
 | `docs/STATUS.md` | the honest ledger: what works, what does not, and the command that shows each |
 | `c2id/` | the C→`id` compiler itself, written in `id`: `front/` (`lex`, `parse`, `fold`), `mid/` (`hook`, `lower`, `pass`), `back/` (`emit`, `ind`, `link`) |
 | `c2id/NOTES.md` | the ABI: directory map, name→type registry, AST node layout |

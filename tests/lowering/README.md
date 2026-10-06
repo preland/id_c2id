@@ -38,8 +38,7 @@ int sum_to(int n) {
   Blocks return here rather than tail-calling each other, so a loop of any
   length runs in **constant stack** — `id` guarantees no tail calls.
 * **Every `id` rule satisfied without exemption**: at most 3 actions per
-  block, nesting never deeper than 2, 3 functions per file, 3 entries per
-  directory. Each block function ends with a distinct block-number literal,
+  block, nesting never deeper than 2, 3 functions per file. Each block function ends with a distinct block-number literal,
   which is also what keeps them distinct under `id`'s duplicate-logic rule.
 
 ## Verify it

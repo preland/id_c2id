@@ -282,8 +282,8 @@ dcl/                        declarators, records, enums
   e/one.id                  enum_set enum_eq enum_next
 ```
 
-74 files, 212 functions. The trees are deep because three entries to a
-directory and three functions to a file is all there is: a leaf holds nine
+The trees are deep because they were laid out three entries to a directory
+(a since-dropped rule) and three functions to a file: a leaf holds nine
 functions, and each level above multiplies by three.
 
 ## The one genuinely hard part

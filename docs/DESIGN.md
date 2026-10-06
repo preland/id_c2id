@@ -7,7 +7,7 @@
 * at most **3 actions per block** — and every block counts: the function body,
   each `if`, each `else`, each `while` body;
 * at most **2 levels of block nesting**;
-* at most **3 functions per file**, at most **3 entries per directory**;
+* at most **3 functions per file** (directories have no entry limit; the old 3-entries rule was dropped);
 * **a name has exactly one type program-wide**;
 * variables are function-private unless `export`ed and read via `(import x)`;
 * the return type is declared *after* the closing brace: `} return int 0;`
@@ -157,9 +157,9 @@ table of hand-written `crt` intrinsics (barriers, atomics, `cpuid`, port I/O);
 anything unmatched is reported as an explicit, countable gap rather than
 silently mistranslated.
 
-## 3. Layout under the rule of 3
+## 3. Layout under the (dropped) rule of 3
 
-`id`'s "at most 3 entries per directory" turns a project into a ternary tree.
+`id` once enforced "at most 3 entries per directory" (E0701, now retired); that rule turned a project into a ternary tree, and `c2id`'s layout still follows it.
 A program with N functions needs a tree of depth about log₃(N/3). `c2id`
 generates this automatically: it fills a directory with 3 `.id` files (3
 functions each = 9 functions), then starts a subdirectory, and so on. Names

@@ -195,7 +195,8 @@ that constraint is the point, and `tests/lowering/` proves it is met.
 * **3 actions**: guaranteed by the block-splitting in §3.
 * **Nesting 2**: a block function is straight-line; the driver loop is depth 1;
   a dispatch function is one `if`/`else`.
-* **3 functions per file, 3 entries per directory**: guaranteed by §5.
+* **3 functions per file** (and the generator's three-entries-per-directory
+  layout, a since-dropped rule): guaranteed by §5.
 * **One name, one type**: generated code uses `fp`, `nxt` and `pc` and the
   temporaries `t0`, `t1`, ... — every one of them a `word`. Nothing else.
 * **No constant function**: a block with no statements that only jumps, or

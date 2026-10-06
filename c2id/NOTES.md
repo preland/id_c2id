@@ -1,7 +1,7 @@
 # c2id — the ABI
 
 This file is the contract every part of `c2id` is written against. It is a
-`.md`, so it costs nothing against the 3-entries-per-directory rule, and it
+`.md`, so it is not part of the program, and it
 exists because in a language where a name has **one type program-wide** and
 functions must be **provably distinct**, the registries below are not
 documentation — they are the thing that keeps a 1000-function program from
@@ -34,8 +34,9 @@ three-line driver split it is the same bargain `bin/idc` already makes.
 
 ## 2. Directory map
 
-Every directory holds at most 3 entries; `.md` files are free. Leaf
-directories hold 3 `.id` files × 3 functions = 9 functions.
+The tree below was laid out three entries to a directory (a since-dropped
+rule; directories have no entry limit now). Leaf directories hold 3 `.id`
+files × 3 functions = 9 functions.
 
 ```
 c2id/
@@ -58,7 +59,7 @@ c2id/
       out/      project-tree writer, and `main`
 ```
 
-Every directory above holds at most 3 entries — count them. `main` lives in
+`main` lives in
 `emit/gen/out/` because the program *is* its final stage: read, lex, parse,
 emit.
 

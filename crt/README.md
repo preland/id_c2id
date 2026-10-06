@@ -1,7 +1,7 @@
 # `crt` — C semantics, written in `id`
 
 `crt` is the runtime layer that gives translated C its behaviour. It is a
-plain `id` project tree (3 entries per directory, 3 functions per file,
+plain `id` project tree (3 functions per file,
 3 actions per block, nesting depth 2 — no exemptions), and it is meant to be
 concatenated with `c2id`'s generated code at build time so that everything
 compiles as one `id` program.
@@ -99,7 +99,7 @@ crt/
 
 104 functions — 8 in `int/`, 44 in `mem/` (17 for the memory and string
 routines, 27 for the allocator) and 52 in `fmt/`. The tree is deep because
-the rule of 3 makes it deep: a
+the tree was laid out three entries to a directory (a since-dropped rule): a
 directory holds 9 functions, and a subtree of depth *L* holds 9 × 3ᴸ. The
 same shape is what `c2id` will generate (`docs/DESIGN.md` §3).
 

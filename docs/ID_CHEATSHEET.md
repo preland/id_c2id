@@ -14,10 +14,9 @@ guessing wastes a lot of time.
   The `return` clause after the closing brace is **free** and may compute.
 * **Nesting depth 2.** Function body is depth 0; `while { if { } }` is legal,
   one more level is not.
-* **3 functions per file. 3 entries per directory** (`.id` files +
-  subdirectories). **Non-`.id` files are free** — put as many `.md` notes as
-  you like. So a leaf directory holds 9 functions; a tree of depth *L* holds
-  9 × 3^L.
+* **3 functions per file.** Directories have no entry limit (the old
+  3-entries rule, E0701, is retired); layout checks are E0702..E0707 in
+  `docs/ERRORS.md`.
 * **A name has one type across the whole program**, parameters included.
 * **Variables are function-private** unless `export`ed; others read them with
   `(import name)`.
