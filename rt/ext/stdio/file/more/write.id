@@ -1,6 +1,6 @@
 // fwrite on a standard stream: the bytes go to the stream as they are, NULs and
 // all (stdio_write_mem), after whatever put has buffered. Answers the number of
-// complete elements written.
+// complete elements written; to a file opened for reading nothing is written.
 c_fwrite(word rptr, word rsize, word rcount, word rfile) {
   int rfd = 1;
   int rbytes = rsize * rcount;
@@ -8,5 +8,12 @@ c_fwrite(word rptr, word rsize, word rcount, word rfile) {
     rfd = 2;
   }
 } chain (word rptr, word rsize, word rcount, word rfile) {
-  int done = stdio_write_mem(rfd, rptr, rbytes);
+  int done = rt_put(rfile, rfd, rptr, rbytes);
 } return word rcount;
+
+rt_put(word rfile, int rfd, word rptr, int rbytes) {
+  int done = 0;
+  if(rfile == 1 || rfile == 2) {
+    done = stdio_write_mem(rfd, rptr, rbytes);
+  }
+} return int done;

@@ -10,6 +10,8 @@ lexfix() {
   init_tokens();
   string src = read_all();
   lex_all(src);
+} chain () {
+  init_nodes4();
 } return void;
 stdin "1;" ():() then calls lex_all:("1;")
 stdin "" ():() then calls lex_all:("")

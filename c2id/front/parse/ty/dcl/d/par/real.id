@@ -13,9 +13,12 @@ given boot_a given ty_setup given lexfix stdin "... ," ([0], []):([2], [])
 
 param_dots(int[] pos) {
   int ok = take_tok(pos, "...");
+  if(ok == 1) {
+    lset((import dots), 0, 1);
+  }
 } return int ok;
-given lexfix stdin "..." ([0]):(1)
-given lexfix stdin "x" ([0]):(0)
+given boot_a given lexfix stdin "..." ([0]):(1) then (import dots)[0]:(1)
+given boot_a given lexfix stdin "x" ([0]):(0) then (import dots)[0]:(0)
 
 param_real(int[] pos, int[] ps) {
   int inner = parse_specs(pos);

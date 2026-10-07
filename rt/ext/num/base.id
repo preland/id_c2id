@@ -1,0 +1,38 @@
+// Settle the base: a `0x` prefix makes it 16 when it was 16 or 0, and base 0
+// otherwise means 8 for a leading 0 and 10 for anything else.
+rt_pfx(word rs, word[] rst) {
+  word rbase = rst[1];
+  word rch = peek8(rs + rst[0]);
+  word rhex = rt_xp(rs + rst[0]);
+} chain (word rs, word[] rst) {
+  rt_setbase(rst, rbase, rch, rhex);
+} return void;
+
+// 1 when the bytes at rp are `0x` followed by a hex digit.
+rt_xp(word rp) {
+  word rz = peek8(rp);
+  word rx = peek8(rp + 1) | 32;
+  word r2 = peek8(rp + 2);
+} chain (word rp) {
+  word rd = rt_dv(r2);
+  word rok = 0;
+  if(rz == 48 && rx == 120 && rd < 16) {
+    rok = 1;
+  }
+} return word rok;
+
+rt_setbase(word[] rst, word rbase, word rch, word rhex) {
+  word rnb = rbase;
+  if(rbase == 0 && rch == 48) {
+    rnb = 8;
+  }
+  if(rbase == 0 && rch != 48) {
+    rnb = 10;
+  }
+} chain (word[] rst, word rbase, word rch, word rhex) {
+  if(rhex == 1 && (rbase == 0 || rbase == 16)) {
+    rnb = 16;
+    wset(rst, 0, rst[0] + 2);
+  }
+  wset(rst, 1, rnb);
+} return void;

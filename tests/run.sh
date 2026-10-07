@@ -4,11 +4,14 @@
 # For every C source in tests/c/:
 #   1. compile it with cc, run it, record stdout + exit status  (the oracle)
 #   2. translate it with c2id, build the id with idc, run it
-#   3. require the two to agree byte for byte
+#   3. require the two to agree byte for byte, standard output and standard
+#      error each on its own, so a write to the wrong stream is a difference
 #
 # A case that c2id cannot yet translate is reported as SKIP, not PASS -- the
 # whole point of this harness is that the status ledger in docs/STATUS.md
-# never gets ahead of the evidence.
+# never gets ahead of the evidence. A case NAME.c may have a NAME.in (its standard
+# input) or a NAME.refuse (lines the refusal must contain: the case then passes
+# only if c2id fails and says them).
 #
 # usage: tests/run.sh [name-substring ...]
 
@@ -99,7 +102,37 @@ for src in "$here"/tests/c/*.c; do
         sed 's/^/    /' "$work/$name.ccerr" | head -5
         fail=$((fail + 1)); failed_names+=("$name"); continue
     fi
-    "$work/$name.ref" > "$work/$name.refout" 2>&1
+
+    # A case with a .refuse file is a program c2id must refuse: the translation
+    # has to fail, and every line of the file has to appear in what it said. It
+    # is not run, since the point is that no id program comes out of it.
+    if [[ -f ${src%.c}.refuse ]]; then
+        if [[ ! -x $c2id ]]; then
+            skip=$((skip + 1)); continue
+        fi
+        rm -rf "$work/$name.id"
+        if "$c2id" "$src" "$work/$name.id" > "$work/$name.c2iderr" 2>&1; then
+            echo "FAIL  $name: c2id translated a program it has to refuse"
+            fail=$((fail + 1)); failed_names+=("$name"); continue
+        fi
+        missing=""
+        while IFS= read -r want; do
+            [[ -z $want ]] && continue
+            grep -qF -- "$want" "$work/$name.c2iderr" || missing="$missing [$want]"
+        done < "${src%.c}.refuse"
+        if [[ -n $missing ]]; then
+            echo "FAIL  $name: the refusal does not say:$missing"
+            sed 's/^/    /' "$work/$name.c2iderr" | head -6
+            fail=$((fail + 1)); failed_names+=("$name"); continue
+        fi
+        echo "PASS  $name (refused)"
+        pass=$((pass + 1)); continue
+    fi
+
+    # A .in file is the program's standard input, for the oracle and the port alike.
+    stdin_file=/dev/null
+    [[ -f ${src%.c}.in ]] && stdin_file=${src%.c}.in
+    "$work/$name.ref" > "$work/$name.refout" 2> "$work/$name.referr" < "$stdin_file"
     refstatus=$?
 
     # ---- 2. the port: C -> id -> binary
@@ -116,7 +149,7 @@ for src in "$here"/tests/c/*.c; do
         sed 's/^/    /' "$work/$name.idcerr" | head -5
         fail=$((fail + 1)); failed_names+=("$name"); continue
     fi
-    "$work/$name.out" > "$work/$name.gotout" 2>&1
+    "$work/$name.out" > "$work/$name.gotout" 2> "$work/$name.goterr" < "$stdin_file"
     gotstatus=$?
 
     # ---- 3. compare
@@ -124,7 +157,7 @@ for src in "$here"/tests/c/*.c; do
         echo "FAIL  $name: exit status $gotstatus, expected $refstatus"
         fail=$((fail + 1)); failed_names+=("$name"); continue
     fi
-    if ! diff -u "$work/$name.refout" "$work/$name.gotout" > "$work/$name.diff"; then
+    if ! diff -u "$work/$name.refout" "$work/$name.gotout" > "$work/$name.diff" || ! diff -u "$work/$name.referr" "$work/$name.goterr" >> "$work/$name.diff"; then
         echo "FAIL  $name: output differs"
         sed 's/^/    /' "$work/$name.diff" | head -12
         fail=$((fail + 1)); failed_names+=("$name"); continue

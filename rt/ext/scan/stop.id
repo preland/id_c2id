@@ -1,0 +1,23 @@
+// The scan ends: 2 when the input had run out, 1 when it did not match.
+rt_stop(word[] rst, word rin) {
+  word rs = 1;
+  if(rin == 0) {
+    rs = 2;
+  }
+  wset(rst, 4, rs);
+} return void;
+
+// %n: how many input bytes have been read, stored but not counted as a value.
+rt_count(word rsup, word rlen, word[] rargs, word[] rst) {
+  if(rsup == 0) {
+    word rp = rt_arg(rargs, rst);
+    rt_store(rp, rst[0], rlen);
+  }
+} return void;
+
+// %%, and any letter this scanner does not know: `%` must be next in the input
+// (after white space); an unknown letter ends the scan.
+rt_pct(word rstr, word rcv, word[] rst) {
+  rt_ws(rstr, rst);
+  rt_pct2(rstr, rcv, rst);
+} return void;

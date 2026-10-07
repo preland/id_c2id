@@ -271,4 +271,7 @@ Stated plainly, because a port claim is only as good as its gaps.
   literals into ±1 instead, so a differential test must disable builtins to
   compare exact values rather than signs.
 * `heap_init` cannot give the region back to the store, which has no `free`.
-* No floating point: `%f`, `%e`, `%g` are unsupported and echo.
+* No floating point: `%f`, `%e`, `%g` are unsupported and echo, as do precision
+  (`%.3s`, `%.*s`), a `*` width and the flags `+`, ` ` and `#`. c2id refuses a
+  literal format that uses any of them (`mid/check/fmt/`); a format held in a
+  variable is not seen at translate time and echoes at run time.

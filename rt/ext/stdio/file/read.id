@@ -5,12 +5,16 @@ c_fclose(word rfile) {
   }
 } return word 0;
 
-// The next byte, or -1 (EOF) at the end.
+// The next byte, or -1 (EOF) at the end. Standard input is read through its
+// FILE, refilled from the process's stdin when it runs dry.
 c_fgetc(word rfile) {
-  word rpos = peek64(rfile + 16);
+  word rs = rt_stream(rfile);
+  word rhave = rt_avail(rs);
   word rbyte = 0 - 1;
-  if(rpos < peek64(rfile + 8)) {
-    rbyte = rt_take(rfile, rpos);
+} chain (word rfile) {
+  word rpos = peek64(rs + 16);
+  if(rhave > 0) {
+    rbyte = rt_take(rs, rpos);
   }
 } return word rbyte;
 

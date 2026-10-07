@@ -1,0 +1,31 @@
+// sscanf over integers (%d %i %u %x %X %o, with h hh l ll z j t), strings (%s),
+// characters (%c), %n and %%. Floating-point conversions, and the set %[...],
+// are not provided: such a conversion ends the scan, and the translator refuses
+// a literal format that has a floating-point one. The scan state is five words:
+//
+//     rst[0]  offset of the next input byte
+//     rst[1]  offset of the next format byte
+//     rst[2]  how many values were stored
+//     rst[3]  the next argument
+//     rst[4]  0 while scanning, 1 after a mismatch, 2 once the input ended
+//
+// The answer is the number stored, or -1 when the input ended before the first
+// conversion could read anything.
+c_sscanf(word rstr, word rfmt, word[] rargs) {
+  word[] rst = [(import wzero), (import wzero), (import wzero), (import wzero), (import wzero)];
+  rt_scanloop(rstr, rfmt, rargs, rst);
+  word rres = rt_scanres(rst);
+} return word rres;
+
+rt_scanloop(word rstr, word rfmt, word[] rargs, word[] rst) {
+  while(rst[4] == 0 && peek8(rfmt + rst[1]) != 0) {
+    rt_one(rstr, rfmt, rargs, rst);
+  }
+} return void;
+
+rt_scanres(word[] rst) {
+  word rres = rst[2];
+  if(rst[4] == 2 && rst[2] == 0) {
+    rres = 0 - 1;
+  }
+} return word rres;

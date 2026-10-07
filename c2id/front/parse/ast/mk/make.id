@@ -22,6 +22,9 @@ given boot_a ("y", "ty2"):() then (import ns)[0]:("y") then (import nt)[0]:("ty2
 push_lm(int[] l, int[] m) {
   push((import nl), l);
   push((import nm), m);
+  int tk = tok_last();
+} chain (int[] l, int[] m) {
+  push((import ntok), tk);
 } return void;
-given boot_a ([1, 2], [3]):() then (import nl)[0]:([1, 2]) then (import nm)[0]:([3])
+given boot_a ([1, 2], [3]):() then (import nl)[0]:([1, 2]) then (import nm)[0]:([3]) then len((import ntok)):(1)
 given boot_a ([], []):() then (import nl)[0]:([]) then (import nm)[0]:([])

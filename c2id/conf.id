@@ -54,10 +54,15 @@ string[] libc_names = ["malloc", "free", "realloc", "__builtin_memcpy", "__built
 string[] libc_crt = ["kmalloc", "kfree", "krealloc", "c_memcpy", "c_memmove", "c_memset", "c_strlen", "c_memcmp"];
 string[] va_names = ["printf", "fprintf", "sprintf", "snprintf", "sscanf"];
 int[] va_fixed_n = [1, 2, 2, 3, 2];
+string[] rt_names = ["exit", "abort", "printf", "putchar", "calloc", "fgets", "sprintf", "snprintf", "fprintf", "fputs", "fputc", "fclose", "fgetc", "fopen", "fread", "fwrite", "fflush", "ungetc", "sscanf", "isdigit", "isupper", "islower", "isalpha", "isalnum", "isspace", "isxdigit", "isprint", "ispunct", "iscntrl", "isgraph", "toupper", "tolower", "__builtin_ctz", "__builtin_ctzll", "__builtin_clz", "__builtin_clzll", "__builtin_bswap32", "__builtin_bswap64", "__builtin_expect", "memcpy", "memmove", "memcmp", "memset", "memchr", "strlen", "strcpy", "strncpy", "strcmp", "strncmp", "strchr", "strrchr", "strstr", "strcat", "strncat", "strdup", "puts", "strtol", "time", "clock", "read", "write", "close"];
+string[] refuse_names = ["setjmp", "_setjmp", "sigsetjmp", "longjmp", "siglongjmp", "tcgetattr", "tcsetattr", "tcflush", "tcdrain", "cfmakeraw", "cfgetispeed", "cfgetospeed", "cfsetispeed", "cfsetospeed"];
+string[] refuse_why = ["non-local jumps cannot unwind the block-function frames", "non-local jumps cannot unwind the block-function frames", "non-local jumps cannot unwind the block-function frames", "non-local jumps cannot unwind the block-function frames", "non-local jumps cannot unwind the block-function frames", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model"];
+string[] float_names = ["float", "double", "long double"];
+string[] float_kinds = ["var", "mem", "cast", "num", "decl"];
 string[] sc_ops = ["&&", "||"];
 string[] stmt_kinds = ["block", "if", "while", "dowhile", "for", "switch"];
 string[] cv_cmp_ops = ["==", "!=", "<", ">", "<=", ">=", "&&", "||"];
-string[] scan_a = ["bin", "un", "post", "call", "idx", "mem", "cast", "cond", "assign", "expr", "decl", "if", "while", "dowhile", "for", "switch", "case", "return", "dinit"];
+string[] scan_a = ["bin", "un", "post", "call", "idx", "mem", "cast", "cond", "assign", "expr", "decl", "if", "while", "dowhile", "for", "switch", "case", "return", "dinit", "sizeof"];
 string[] scan_b = ["bin", "idx", "assign", "cond", "for"];
 string[] scan_l = ["call", "block", "if", "while", "dowhile", "for", "switch", "init", "cond"];
 string[] scan_m = ["if", "for"];

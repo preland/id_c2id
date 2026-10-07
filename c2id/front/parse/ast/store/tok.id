@@ -1,0 +1,30 @@
+// The token the parser has consumed up to: advance keeps it, and every node
+// made records the token before it as where the node came from, so a refusal
+// can name file:line (front/diag/). dots is 1 from the `...` of a parameter
+// list until the function type it ends is made. chk_flt is 1 once the check
+// pass has refused a floating-point use in the function it is in.
+init_nodes4() {
+  export int[] curtk = [0];
+  export int[] dots = [0];
+  export int[] chk_flt = [0];
+} return void export curtk;
+():() then (import curtk)[0]:(0)
+():() then eprints:("")
+
+// The last token consumed, never before the first.
+tok_last() {
+  int tk = (import curtk)[0] - 1;
+  if(tk < 0) {
+    tk = 0;
+  }
+} return int tk;
+given boot_a ():(0)
+given boot_a given lset((import curtk), 0, 5) ():(4)
+
+// Whether a `...` ended the parameter list being made; reading it clears it.
+dots_take() {
+  int dv = (import dots)[0];
+  lset((import dots), 0, 0);
+} return int dv;
+given init_nodes4 given lset((import dots), 0, 1) ():(1) then (import dots)[0]:(0)
+given init_nodes4 ():(0)

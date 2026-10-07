@@ -1,9 +1,10 @@
 // A stream is the number rt/libc/io.id gives it: 1 stdout, 2 stderr, 3 stdin.
-// Text for stderr goes to eprint, everything else to stdout.
+// Text for stdout goes to put and text for stderr to rt_err; a FILE from fopen
+// is open for reading only, so text written to one goes nowhere.
 rt_emit(word f, string txt) {
   if(f == 2) {
-    eprint(txt);
-  } else {
+    rt_err(txt);
+  } else if(f == 1) {
     put(txt);
   }
 } return void;

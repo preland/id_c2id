@@ -1,0 +1,36 @@
+// A declaration is a local, or a `static` one: a local that outlives its call.
+// A frame is gone when the call returns, so a static cannot live in it; it
+// becomes a global of its own (a name no other can take) holding the
+// declaration's initializer, which C runs once, and the declaration itself an
+// empty block, which still counts as a declaration for the scope rules.
+bind_decl(int id) {
+  if((import nt)[id] == "static") {
+    bind_static(id);
+  } else {
+    bind_auto(id);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { static int n = 5; return n; }" (11):() then (import nk)[11]:("block")
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int n = 5; return n; }" (11):() then (import nk)[11]:("decl")
+
+bind_static(int id) {
+  string dn = (import ns)[id];
+  string sn = static_name(dn);
+  int ty = (import nb)[id];
+} chain (int id) {
+  bind_decls((import na)[id]);
+  tu_dadd(sn, ty, (import na)[id]);
+  push((import envo), dn);
+} chain (int id) {
+  push((import envn), sn);
+  sset((import nk), id, "block");
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { static int n = 5; return n; }" (11):() then (import dnames):(["f", "n__s1"]) then (import envn):(["n__s1"])
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { static int n = 5; return n; }" (11):() then (import envo):(["n"]) then len((import dinit)):(2)
+
+// A global's name that cannot collide with a C name, a local's or another static's.
+static_name(string dn) {
+  string sn = dn + "__s" + len((import dnames));
+} return string sn;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int y;" ("a"):("a__s2")
+given boot_a given boot_b given lexfix given tu_load stdin "int x;" ("a"):("a__s1")

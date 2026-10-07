@@ -11,7 +11,7 @@ the command that prints them.
 
 | item | state | evidence |
 | --- | --- | --- |
-| Differential test harness | works for the seven programs; **`frontend-integration` fails** | `tests/run.sh` — C oracle vs id, byte-for-byte; the front-end harness copies `front/lex` and `front/parse` alone, and `front/parse/.../decl_init.id` calls `complete_arr`, which lives in `back/link/ext/decl/size.id`, so it no longer builds (a `front` → `back` dependency the restructure introduced) |
+| Differential test harness | works for the programs in `tests/c/` (stdout, stderr and exit status each compared; `NAME.in` is a program's stdin, `NAME.refuse` the lines a refusal must contain); **`frontend-integration` fails** | `tests/run.sh` — C oracle vs id, byte-for-byte; the front-end harness copies `front/lex` and `front/parse` alone, and `front/parse/.../decl_init.id` calls `complete_arr`, which lives in `back/link/ext/decl/size.id`, so it no longer builds (a `front` → `back` dependency the restructure introduced) |
 | Block-function lowering | **proven** | `tests/lowering/` — compiles under `bin/idc`, computes 55 |
 | c2id driver (stream → project tree) | works | `tools/c2id.sh`, which builds `c2id` with `bin/idc` under the default test requirement |
 | Pre-commit entry point | **1 known failure** (`tests`, from `frontend-integration` above) | `tools/check.sh`; `C2ID_BIN` names the translator binary for `tools/c2id.sh`, and `C2ID_SH` names the driver script for `tests/run.sh` |
@@ -90,8 +90,11 @@ translated program links against.
 | stage | state | evidence |
 | --- | --- | --- |
 | translator builds under the default test requirement | works | `idc c2id` exits 0: every function has two cases, and they pass |
-| C → id for integer C, pointers, structs, function pointers, initializers, string literals | works | the corpus below: 16 of 17 programs match `gcc -O2` |
-| floating point | **absent** | `double` has no model; `strtod`, `fabs`, `%f` and `sscanf("%lf")` do not translate; see "Floating point" below |
+| C → id for integer C, pointers, structs, function pointers, initializers, string literals | works | the corpus below: the programs there match `gcc -O2` |
+| floating point | **absent, refused** | `double` has no model; any use (a type, a literal, a call that returns one, `%f`) is a translate-time refusal with `file:line`; see "Floating point" below; `tests/c/915_refuse_float.c` |
+| refusals | works | what c2id cannot translate correctly it refuses with `file:line` and the construct, writes nothing and exits 1: a struct passed or returned by value, bitfields, compound literals, variadic definitions, `fopen` for writing, `setjmp`/`longjmp`, termios, floating point, printf-family conversions the runtime does not implement, and every called function nothing provides (one diagnostic lists them all); `tests/c/9*.c`, `c2id/NOTES.md` §7 |
+| `static` locals | works | a `static` local is a global of its own (`mid/pass/frame/static.id`); `tests/c/100_static.c` |
+| libc the runtime provides | works for the names in `rt_names` (`c2id/conf.id`) | strtol (and, over it, atoi, atol, strtoul, strtoll), the str* family, `qsort` and `bsearch` (C in `include/stdlib.h`, since they call back into the program), stdio over real stdin/stdout/stderr (`getchar`, `fgetc`, `ungetc`, `fgets`, `fread`, `fwrite`, `fputc`, `fflush`), `sscanf` over integers and strings, `time`, `clock`, `read`/`write`/`close` on 0, 1 and 2; `tests/c/080` to `165` |
 | block-function lowering and dispatch | works | `tests/lowering/`, and every corpus program |
 | indirect-call dispatch | works | `tests/c/060_funcptr.c`, and the function-pointer tables in the corpus |
 | speed | **75x to 183x slower than `gcc -O2`** | `docs/INTEROP.md`, "Performance against gcc -O2"; the optimizer level changes nothing measurable |
@@ -148,12 +151,13 @@ cJSON, two micro programs and the seven in `tests/c/`; they are not in this
 repository (the driver and the sources were kept in an earlier wave's scratch
 directory), and the table of results is in the umbrella's `docs/INTEROP.md`
 under "Translating C to id". The last run: every program matches except cJSON,
-which stops in `idc` on floating-point code.
+which c2id refuses at translate time because it uses floating point (it used to
+stop in `idc`, at link time, on the first missing function).
 
 ### Floating point
 
 `double` is the gap that stops cJSON, and it is a missing model rather than a
-bug. Where the work goes, once idc has a float bit-cast builtin (one that turns
+bug; until it exists every use is refused (`mid/check/flt.id`). Where the work goes, once idc has a float bit-cast builtin (one that turns
 a 64-bit pattern into a `float` and back):
 
 * `back/emit/gen/txt/ex/a/w/cv.id`: `load_txt` emits `peek<bits>(addr)` and
@@ -180,6 +184,18 @@ a 64-bit pattern into a `float` and back):
 
 Recorded here rather than left to be discovered:
 
+* **`exit()` and `abort()` do not end the block they are called in.** They record
+  the status (`rt/libc/exit.id`) and the dispatch loop stops at the next block
+  boundary, so a statement after the call in the same basic block still runs,
+  and so does the rest of a caller's block when the call was in a callee.
+  Nothing refuses this yet; `tests/c/165_abort.c` has nothing after the `abort()`
+  for that reason.
+* **printf formats held in a variable are not checked.** A literal format with a
+  conversion the runtime does not implement is refused; one built at run time
+  echoes the conversion instead (`crt/README.md`).
+* **`strtol` wraps instead of clamping** on a value out of range and does not set
+  `errno`; `sscanf` has no `%[...]`, no float conversions and ignores a width on
+  the integer conversions.
 * **Four names this repository defined and `idstd` already owned** — fixed.
   `lset` and `sset` were byte-identical to the library's, `max_int` was
   `fx_max` with its locals spelled differently, and `str_join` merely shared a

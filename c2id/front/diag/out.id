@@ -1,0 +1,28 @@
+// The end of a run that refused something: every refusal on stderr, one per
+// line, then how many. Nothing is written to stdout then, so a project that is
+// half translated is never mistaken for a whole one.
+diag_report() {
+  int n = len((import dgmsg));
+  diag_lines(n);
+  diag_tally(n);
+} return void;
+given boot_a given boot_b given diag_tok(0, "x") ():() then eprints:("<input>: error: x\nc2id: 1 refusal(s); nothing was written\n")
+given boot_a given boot_b ():() then eprints:("")
+
+diag_lines(int n) {
+  int i = 0;
+  while(i < n) {
+    eprint((import dgmsg)[i]);
+    i = i + 1;
+  }
+} return void;
+given boot_a given boot_b given diag_tok(0, "x") given diag_tok(0, "y") (2):() then eprints:("<input>: error: x\n<input>: error: y\n")
+given boot_a given boot_b given diag_tok(0, "x") (0):() then eprints:("")
+
+diag_tally(int n) {
+  if(n > 0) {
+    eprint("c2id: " + n + " refusal(s); nothing was written");
+  }
+} return void;
+(3):() then eprints:("c2id: 3 refusal(s); nothing was written\n")
+(0):() then eprints:("")

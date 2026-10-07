@@ -1,0 +1,1 @@
+911_refuse_structret.c:3: error: function 'make' returns a struct or union by value

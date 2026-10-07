@@ -47,7 +47,7 @@ Under that model:
 | `a[i]` | `peek32(a + i * 4)` |
 | `struct` | nothing at all — just offsets, computed at translation time |
 | `union` | nothing at all — overlapping offsets |
-| bitfield | a shift and a mask |
+| bitfield | refused at its declaration: the layout is computed (a shift and a mask is the plan) but no access uses the width yet |
 | `char *s` | an address |
 | function pointer | a small integer, dispatched by a generated function |
 

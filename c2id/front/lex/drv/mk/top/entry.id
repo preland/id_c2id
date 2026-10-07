@@ -17,6 +17,7 @@ init_tokens() {
 init_lines() {
   export int[] curline = [1];
   export string[] curfile = [""];
+  export string[] tfile = [];
 } return void export curline;
 ():() then (import curline)[0]:(1)
 ():() then eprints:("")

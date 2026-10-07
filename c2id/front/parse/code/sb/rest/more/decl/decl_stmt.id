@@ -7,12 +7,16 @@
 //   parse_declarator(int[] pos, int t) -> int full type node
 //   decl_name()                      -> string  name from the last declarator
 parse_decl_stmt(int[] pos) {
+  int st0 = pos[0];
   int t = parse_specs(pos);
   int[] l = fill_decls(pos, t);
+} chain (int[] pos) {
   int id = newlist("block", 0, 0, "", l);
+  mark_static(l, st0);
 } return int id;
 given boot_a given ty_setup given lexfix stdin "int x;" ([0]):(2) then calls one_decl:[1]
 given boot_a given ty_setup given lexfix stdin "int x, y;" ([0]):(3) then calls one_decl:[2]
+given boot_a given ty_setup given lexfix stdin "static int x;" ([0]):(2) then (import nt)[1]:("static")
 
 fill_decls(int[] pos, int t) {
   int[] l = [];

@@ -1,0 +1,33 @@
+// The functions a program calls that nothing provides, collected over the whole
+// program and reported as one diagnostic, each with where it was first named.
+unres_add(string name, int tk) {
+  if(find_str((import unres), name) < 0) {
+    push((import unres), name);
+    push((import unres_at), tk);
+  }
+} return void;
+given boot_a given boot_b ("atoi", 3):() then (import unres):(["atoi"]) then (import unres_at):([3])
+given boot_a given boot_b given unres_add("atoi", 3) ("atoi", 9):() then (import unres_at):([3]) then len((import unres)):(1)
+
+// One row per missing function, each starting on a new line.
+unres_lines() {
+  string rows = "";
+  int i = 0;
+  while(i < len((import unres))) {
+    rows = rows + "\n  " + (import unres)[i] + "  first called at " + tok_where((import unres_at)[i]);
+    i = i + 1;
+  }
+} return string rows;
+given boot_a given boot_b given lexfix given unres_add("atoi", 0) given unres_add("fread", 3) stdin "# 4 \"c.c\"\nint x;\nint y;" ():("\n  atoi  first called at c.c:4\n  fread  first called at c.c:5")
+given boot_a given boot_b ():("")
+
+// Adds the single diagnostic naming every missing function, when there are any.
+unres_flush() {
+  int n = len((import unres));
+  string rows = unres_lines();
+  if(n > 0) {
+    push((import dgmsg), "error: " + n + " function(s) called here are neither defined in this program nor provided by the c2id runtime:" + rows);
+  }
+} return void;
+given boot_a given boot_b given unres_add("atoi", 0) ():() then (import dgmsg):(["error: 1 function(s) called here are neither defined in this program nor provided by the c2id runtime:\n  atoi  first called at <input>"])
+given boot_a given boot_b ():() then len((import dgmsg)):(0)

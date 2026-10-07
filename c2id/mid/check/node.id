@@ -1,0 +1,38 @@
+// One node: a call is read for what it names and passes; a name, member, cast
+// or literal is read for the floating-point type it has.
+chk_here(int id) {
+  string kn = (import nk)[id];
+  if(kn == "call") {
+    chk_call(id);
+  } else if(find_str((import float_kinds), kn) >= 0) {
+    chk_val(id, kn);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (11):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { double d = 1; return d; }" (13):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { double d = 1; return d; }" (12):() then len((import dgmsg)):(0)
+
+chk_val(int id, string kn) {
+  chk_float(id, kn);
+  chk_more(id, kn);
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int nosuch(int); int main(void) { return nosuch(1); }" (12, "var"):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int nosuch(int); int main(void) { return nosuch(1); }" (12, "num"):() then len((import unres)):(0)
+
+chk_call(int id) {
+  string name = call_name(id);
+  chk_ext(name, id);
+  chk_refuse(name, id);
+} chain (int id) {
+  chk_args(id);
+  chk_fmt(name, id);
+  chk_open(name, id);
+} chain (int id) {
+  chk_float(id, "call");
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (11):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { printf(\"%f\", 1); return 0; }" (12):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { fopen(\"a\", \"w\"); return 0; }" (12):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { setjmp(0); return 0; }" (11):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(13, 21) stdin "struct P { int x; }; int g(int a, struct P p); int main(void) { struct P q; return g(1, q); }" (19):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "double d(void); int main(void) { d(); return 0; }" (13):() then len((import dgmsg)):(1)

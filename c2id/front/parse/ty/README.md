@@ -180,6 +180,8 @@ LP64, System V x86-64 — what the kernel assumes.
   struct's size is rounded up to the struct's alignment, which is the widest
   alignment among its members; a union's size is its widest member, likewise
   rounded.
+* A bitfield is refused where it is declared (`front/diag/bits.id`): the layout
+  below is right, but no access uses the width yet.
 * A bitfield of type `T` is placed at the cursor if it still fits in the
   `sizeof(T)`-wide storage unit it lands in, and otherwise starts a fresh unit.
   A zero-width field never fits, which is exactly what makes it force

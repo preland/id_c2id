@@ -1,0 +1,7 @@
+// The number the scan read, negated when a minus came first.
+rt_value(word[] rst) {
+  word rv = rst[3];
+  if(rst[2] == 1) {
+    rv = 0 - rv;
+  }
+} return word rv;

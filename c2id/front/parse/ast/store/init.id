@@ -29,7 +29,7 @@ given boot_a given exprfix stdin "1;" ():() then len((import ns)):(0)
 
 init_nodes3() {
   export int[][] nm = [];
-  export int[] nline = [];
+  export int[] ntok = [];
   export string[] code = [];
 } return void export nm;
 given lm_fixture ():() then len((import nm)):(0)

@@ -1,0 +1,16 @@
+// The digits themselves: each one below the base is taken into the value.
+rt_acc(word rs, word[] rst) {
+  word rch = peek8(rs + rst[0]);
+  word rd = rt_dv(rch);
+  while(rd < rst[1]) {
+    rt_step(rst, rd);
+    rch = peek8(rs + rst[0]);
+    rd = rt_dv(rch);
+  }
+} return void;
+
+rt_step(word[] rst, word rd) {
+  wset(rst, 3, rst[3] * rst[1] + rd);
+  wset(rst, 4, rst[4] + 1);
+  wset(rst, 0, rst[0] + 1);
+} return void;

@@ -16,7 +16,11 @@ int puts(const char *s);
 int putchar(int c);
 int fputs(const char *s, FILE *f);
 int fputc(int c, FILE *f);
-int getchar(void);
+int fgetc(FILE *f);
+int ungetc(int c, FILE *f);
+#define getchar() fgetc(stdin)
+#define getc(f) fgetc(f)
+#define putc(c, f) fputc(c, f)
 int fflush(FILE *f);
 FILE *fopen(const char *path, const char *mode);
 int fclose(FILE *f);

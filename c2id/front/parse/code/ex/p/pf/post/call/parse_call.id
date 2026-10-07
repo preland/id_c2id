@@ -5,9 +5,11 @@ parse_call(int[] pos, int a) {
   int[] ids = [];
   scan_args(pos, ids);
   int id = newlist("call", a, 0, "", ids);
+} chain (int[] pos, int a) {
+  lset((import ntok), id, (import ntok)[a]);
 } return int id;
 given boot_a given lexfix stdin "());" ([0], 0):(0)
-given boot_a given lexfix stdin "(1);" ([0], 0):(1)
+given boot_a given lexfix stdin "(1);" ([0], 0):(1) then (import ntok)[1]:(1)
 
 scan_args(int[] pos, int[] ids) {
   advance(pos);

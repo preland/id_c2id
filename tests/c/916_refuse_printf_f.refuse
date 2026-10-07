@@ -1,0 +1,1 @@
+916_refuse_printf_f.c:3: error: 'printf' format has the conversion '%5.2f'

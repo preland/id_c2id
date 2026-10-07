@@ -1,0 +1,37 @@
+// The mode argument of an fopen, when it is a literal.
+chk_mode(int id, int md) {
+  string lit = lit_of(md);
+  int w = mode_writes(lit);
+  if(w == 1) {
+    diag_node(id, "fopen with mode " + lit + ": opening a file for writing is not supported, only for reading");
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { fopen(\"a\", \"w\"); return 0; }" (12, 11):() then (import dgmsg):([":1: error: fopen with mode \"w\": opening a file for writing is not supported, only for reading"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { fopen(\"a\", \"r\"); return 0; }" (12, 11):() then len((import dgmsg)):(0)
+
+// The raw text of a string literal node, quotes included, or "" for any other node.
+lit_of(int a) {
+  string lit = "";
+  if((import nk)[a] == "str") {
+    lit = (import ns)[a];
+  }
+} return string lit;
+given boot_a given boot_b given lexfix given tu_load stdin "char *s = \"ab\"; int x = 1;" (8):("\"ab\"")
+given boot_a given boot_b given lexfix given tu_load stdin "char *s = \"ab\"; int x = 1;" (10):("")
+
+// 1 when a mode literal (quotes included) is not plain reading: not `r` first,
+// or a `+` after it.
+mode_writes(string lit) {
+  int w = 0;
+  if(len(lit) > 2 && charat(lit, 1) != 114) {
+    w = 1;
+  }
+  if(len(lit) > 3 && (charat(lit, 2) == 43 || charat(lit, 3) == 43)) {
+    w = 1;
+  }
+} return int w;
+("\"r\""):(0)
+("\"w\""):(1)
+("\"rb+\""):(1)
+("\"r+b\""):(1)
+("\"rb\""):(0)

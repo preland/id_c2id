@@ -1,0 +1,29 @@
+// The bytes at the stream's position, rn of them, moved to rdst; the position
+// follows them. Nothing moves for rn <= 0.
+rt_move(word rdst, word rn, word rs) {
+  word rpos = peek64(rs + 16);
+  word rx = 0;
+  if(rn > 0) {
+    rx = c_memcpy(rdst, peek64(rs) + rpos, rn);
+    poke64(rs + 16, rpos + rn);
+  }
+} return word rn;
+
+// ungetc: step the position back over the byte just read and put the pushed
+// byte there. Fails (EOF) when nothing has been read yet.
+c_ungetc(word rch, word rfile) {
+  word rs = rt_stream(rfile);
+  word rpos = peek64(rs + 16);
+  word rres = 0 - 1;
+} chain (word rch, word rfile) {
+  word rdat = peek64(rs);
+  if(rpos > 0 && rch >= 0) {
+    poke8(rdat + rpos - 1, rch);
+    poke64(rs + 16, rpos - 1);
+    rres = rch;
+  }
+} return word rres;
+
+c_fflush(word rfile) {
+  flush();
+} return word 0;

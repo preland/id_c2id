@@ -1,0 +1,29 @@
+// fread: up to size * count bytes from the stream, in as many pieces as the
+// stream's buffer needs; answers the number of whole elements read.
+c_fread(word rptr, word rsize, word rcount, word rfile) {
+  word rs = rt_stream(rfile);
+  word rwant = rsize * rcount;
+  word rdone = rt_read(rptr, rwant, rs);
+} chain (word rptr, word rsize, word rcount, word rfile) {
+  word ritems = 0;
+  if(rsize > 0) {
+    ritems = rdone / rsize;
+  }
+} return word ritems;
+
+// Copy until rwant bytes are in or the stream gives none more.
+rt_read(word rptr, word rwant, word rs) {
+  word rdone = 0;
+  word rstep = 1;
+  while(rdone < rwant && rstep > 0) {
+    rstep = rt_chunk(rptr + rdone, rwant - rdone, rs);
+    rdone = rdone + rstep;
+  }
+} return word rdone;
+
+// One piece: what the stream has now, up to rwant bytes of it.
+rt_chunk(word rdst, word rwant, word rs) {
+  word rhave = rt_avail(rs);
+  word rn = re_min(rhave, rwant);
+  word rgot = rt_move(rdst, rn, rs);
+} return word rgot;

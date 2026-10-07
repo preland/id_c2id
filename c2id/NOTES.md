@@ -91,6 +91,14 @@ error whose message points at an unrelated file four directories away.
 | `base` | `word` | store address of source byte 0 (lexer) |
 | `radix` | `int` | numeric base of an integer literal |
 | `inner` | `int` | the type a declarator is being applied to |
+| `tk` | `int` | a token index |
+| `msg` | `string` | the text of a refusal |
+| `bad` | `int` | the offset of a format conversion that is not implemented, or -1 |
+| `cch` | `int` | a character code in the check pass |
+| `lit` | `string` | the raw text of a string literal node, quotes included |
+| `fname` | `string` | the name of a base type in the check pass |
+| `bt` | `int` | the type a pointer or array finally points at |
+| `md` | `int` | the node of an `fopen` mode argument |
 
 `xs`/`ss` and `ty`/`tstr` are split precisely because a name may have only one
 type: `lset` and `sset` cannot share a parameter name, and the node ABI's `nt`
@@ -112,6 +120,11 @@ Exported globals (reserved program-wide, reachable only via `import`):
 | `synames`, `syoff`, `sysz` | `string[]`, `int[]`, `int[]` | struct member table |
 | `fnames`, `fnids` | `string[]`, `int[]` | function name → node id |
 | `code` | `string[]` | accumulated output lines |
+| `ntok` | `int[]` | per node: the index of the last token consumed when it was made |
+| `tfile` | `string[]` | per token: the file the preprocessor says it came from |
+| `curtk`, `dots`, `chk_flt` | `int[]` | one cell each: the token the parser has consumed up to; 1 after a `...` until its function type is made; 1 once the current function has had a floating-point use refused |
+| `dgmsg` | `string[]` | the refusals, one `file:line: error: ...` each |
+| `unres`, `unres_at` | `string[]`, `int[]` | functions called that nothing provides, and the token each was first named at |
 
 ## 4. Node ABI
 
@@ -136,6 +149,10 @@ s, t, l, m)` pushes one cell to each and returns the new id. Unused fields are
 | `cond` | condition | then | — | — | `[else]` | — |
 | `assign` | target | value | operator | — | — | — |
 | `sizeof` | operand or 0 | type node | — | — | — | — |
+
+`decl` nodes carry `nt` = `static` when the declaration's specifiers did (the
+frame pass then makes the variable a global); `fn` type nodes carry `nb` = 1 when
+the parameter list ended in `...`.
 
 ### Statements
 
@@ -208,3 +225,28 @@ Learned from `../../id_development/demos` and its `BLOCKERS.md`:
 * **Build with `bin/idc`.** It enforces every rule above itself now, with
   `file:line: error:` diagnostics; there is no compiler other than `bin/idc` and no
   fallback.
+
+## 7. Refusals
+
+A wrong translation is worse than none, so what c2id cannot translate
+correctly is refused at translate time with `file:line` and the construct's
+name, and nothing is written. Refusals are collected rather than raised: the
+parser records one (`front/diag/`: `diag_tok`, `diag_node`) and carries on, so
+a run lists every one it can find. Three places make them:
+
+* the parser, for what it sees as it reads, reached or not: a bitfield member
+  and a compound literal (`front/diag/bits.id` and `cast_tail`);
+* the check pass (`mid/check/`), over every function the program reaches with
+  its locals bound: a definition that is variadic or takes or returns a struct
+  by value (`front/diag/fnsig.id`, `fnpar.id`, called from `sig.id`),
+  floating-point types and literals, a struct passed by value to a call, a printf-family format with a conversion the runtime does not
+  implement, an `fopen` for writing, a call refused by name (`refuse_names` in
+  `conf.id`), and every called function that is neither defined in the program
+  nor provided by the runtime, reported as one diagnostic with where each was
+  first named. The runtime's names are `rt_names` in `conf.id`; keep it equal to
+  what `rt/` and `crt/` define (a case in `tests/c/` for each name keeps it so);
+* nowhere else: once `diag_status()` is non-zero the driver (`unit/settle.id`)
+  skips emission, `diag_report()` prints the lines, and `main` exits 1.
+
+`tests/c/NAME.refuse` lists the lines a refused program's diagnostics must
+contain.

@@ -1,0 +1,40 @@
+// printf, fprintf, sprintf, snprintf and sscanf take their format at the
+// position conf.id's va_fixed_n gives; a literal format naming a
+// floating-point conversion cannot be translated.
+chk_fmt(string name, int id) {
+  int k = va_fixed(name);
+  if(k >= 1) {
+    chk_fmt2(id, k - 1, name);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { printf(\"%f\", 1); return 0; }" ("printf", 12):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { printf(\"%f\", 1); return 0; }" ("nosuch", 12):() then len((import dgmsg)):(0)
+
+chk_fmt2(int id, int fi, string name) {
+  int[] ids = (import nl)[id];
+  string lit = "";
+  if(fi < len(ids)) {
+    lit = lit_of(ids[fi]);
+  }
+} chain (int id, int fi, string name) {
+  int sc = 0;
+  if(name == "sscanf") {
+    sc = 1;
+  }
+  int bad = fmt_bad(lit, sc);
+} chain (int id, int fi, string name) {
+  chk_fmtbad(id, name, lit, bad);
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { printf(\"%f\", 1); return 0; }" (12, 0, "printf"):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { printf(\"%d\", 1); return 0; }" (12, 0, "printf"):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { printf(\"%f\", 1); return 0; }" (12, 5, "printf"):() then len((import dgmsg)):(0)
+
+// fopen for anything but reading is not provided.
+chk_open(string name, int id) {
+  int[] ids = (import nl)[id];
+  if(name == "fopen" && len(ids) > 1) {
+    chk_mode(id, ids[1]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { fopen(\"a\", \"w\"); return 0; }" ("fopen", 12):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { fopen(\"a\", \"w\"); return 0; }" ("nosuch", 12):() then len((import dgmsg)):(0)

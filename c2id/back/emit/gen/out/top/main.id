@@ -8,14 +8,19 @@ main(int argc, string[] argv) {
   boot_a();
   boot_b();
   run();
-} return int 0;
+} chain (int argc, string[] argv) {
+  int dstat = diag_status();
+} return int dstat;
 stdin "int x;" (0, []):(0) then calls parse_one:[1]
-stdin "" (0, []):(0) then calls parse_one:[0]
+stdin "int x; int f(int a, ...) { return a; }" (0, []):(1)
 
 run() {
   string src = read_all();
   lex_all(src);
   drive();
+} chain () {
+  diag_report();
 } return void;
-given boot_a given boot_b stdin "int x;" ():() then calls parse_one:[1]
+given boot_a given boot_b stdin "int x;" ():() then calls parse_one:[1] then eprints:("")
+given boot_a given boot_b stdin "int main(void) { return nosuch(); }" ():() then eprints:("error: 1 function(s) called here are neither defined in this program nor provided by the c2id runtime:\n  nosuch  first called at :1\nc2id: 1 refusal(s); nothing was written\n")
 given boot_a given boot_b stdin "" ():() then calls parse_one:[0]

@@ -1,0 +1,12 @@
+// The check pass runs only on a program the parser accepted, and emission only
+// on one nothing was refused in: a refused program writes nothing.
+settle() {
+  if(diag_status() == 0) {
+    chk_all();
+  }
+  if(diag_status() == 0) {
+    emit_all();
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return 0; }" ():() then calls emit_all:[1]
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(); }" ():() then len((import dgmsg)):(1) then calls emit_all:[0]

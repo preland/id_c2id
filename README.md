@@ -117,9 +117,14 @@ do not and why — a row there says "works" only if a command shows it.
 
 C programs of real size translate, build with `idc` and run: the corpus in
 `docs/STATUS.md` (inih, the libmd digests, xxhash, lz4, miniz's inflate, and the
-seven programs in `tests/c/`) matches `gcc -O2` on stdout and exit status. What
-does not translate is floating point: `double` has no model, which is what stops
-cJSON. The translation is also slow, by the nature of the design (one flat
+programs in `tests/c/`) matches `gcc -O2` on stdout and exit status. What c2id
+cannot translate correctly it refuses, at translate time, with `file:line` and the
+construct's name, and writes nothing: floating point (`double` has no model, which
+is what stops cJSON), a struct passed or returned by value, bitfields, compound
+literals, variadic definitions, files opened for writing, `setjmp`, termios, and
+every called function that neither the program nor the runtime provides, all
+listed at once. `tests/run.sh` has a case for each (`tests/c/9*.c`, with a
+`.refuse` file naming the lines the refusal must contain). The translation is also slow, by the nature of the design (one flat
 bounds-checked store, one dispatch loop per call): `docs/STATUS.md` has the
 measured ratios against `gcc -O2`.
 

@@ -1,0 +1,28 @@
+// strstr: the first place the needle occurs in the haystack, or 0.
+c_strstr(word rh, word rnd) {
+  word rnl = c_strlen(rnd);
+  word rhl = c_strlen(rh);
+  word rix = rt_find(rh, rhl, rnd, rnl);
+} chain (word rh, word rnd) {
+  word rres = 0;
+  if(rix >= 0) {
+    rres = rh + rix;
+  }
+} return word rres;
+
+// The offset of the first match of the rnl bytes at rnd in the rhl at rh, or -1.
+rt_find(word rh, word rhl, word rnd, word rnl) {
+  word ri = 0;
+  word rpos = 0 - 1;
+  while(ri + rnl <= rhl && rpos < 0) {
+    rpos = rt_hit(rh + ri, rnd, rnl, ri);
+    ri = ri + 1;
+  }
+} return word rpos;
+
+rt_hit(word ra, word rb, word rn, word ri) {
+  word rpos = 0 - 1;
+  if(c_memcmp(ra, rb, rn) == 0) {
+    rpos = ri;
+  }
+} return word rpos;

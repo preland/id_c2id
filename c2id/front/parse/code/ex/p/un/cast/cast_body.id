@@ -17,13 +17,15 @@ given boot_a given ty_setup given lexfix stdin "char)x;" ([0]):(2)
 cast_tail(int[] pos, int ty) {
   int node = 0;
   if(at_text(pos, "{")) {
+    diag_tok(pos[0], "compound literal '(type){...}' is not supported: name the value and assign its members");
     node = compound_lit(pos, ty);
   } else {
     node = cast_rest(pos, ty);
   }
 } return int node;
 given boot_a given lexfix stdin "{1, 2};" ([0], 0):(3)
-given boot_a given lexfix stdin "1;" ([0], 0):(1)
+given boot_a given lexfix stdin "# 9 \"p.c\"\n{1,\n2};" ([0], 0):(3) then (import dgmsg):(["p.c:9: error: compound literal '(type){...}' is not supported: name the value and assign its members"])
+given boot_a given lexfix stdin "1;" ([0], 0):(1) then len((import dgmsg)):(0)
 
 cast_rest(int[] pos, int ty) {
   int a = parse_cast(pos);

@@ -1,0 +1,23 @@
+// A literal with a `.` or an exponent is a floating-point constant.
+chk_flit(int id) {
+  string spell = (import ns)[id];
+  int fl = is_float_lit(spell);
+  if(fl == 1 && (import chk_flt)[0] == 0) {
+    lset((import chk_flt), 0, 1);
+    diag_node(id, "floating-point literal " + spell + " is not supported: c2id has no float model yet");
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return 2.5; }" (9):() then (import dgmsg):([":1: error: floating-point literal 2.5 is not supported: c2id has no float model yet"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (10):() then len((import dgmsg)):(0)
+
+// What else a name or a literal can be refused for.
+chk_more(int id, string kn) {
+  if(kn == "var") {
+    chk_fnval(id);
+  } else if(kn == "num") {
+    chk_flit(id);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return 2.5; }" (9, "num"):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int nosuch(int); int main(void) { return nosuch(1); }" (12, "var"):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int nosuch(int); int main(void) { return nosuch(1); }" (13, "num"):() then len((import unres)):(0)

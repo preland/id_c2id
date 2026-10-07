@@ -1,0 +1,6 @@
+3 function(s) called here are neither defined in this program nor provided by the c2id runtime:
+strtok  first called at 
+rand  first called at 
+getpid  first called at 
+920_refuse_unresolved.c:7
+920_refuse_unresolved.c:8

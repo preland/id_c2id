@@ -1,0 +1,9 @@
+c_ispunct(word cv) {
+  word gr = c_isgraph(cv);
+  word al = c_isalnum(cv);
+  word r = 0;
+} chain (word cv) {
+  if(gr == 1 && al == 0) {
+    r = 1;
+  }
+} return word r;

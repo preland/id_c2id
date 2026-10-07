@@ -37,6 +37,7 @@ lex_tok_fixture() {
   add_tok("id", "x");
 } chain () {
   add_tok("op", "+");
+  init_nodes4();
 } return void;
 ():() then len((import tkind)):(2)
 ():() then last_tok_text:("+")

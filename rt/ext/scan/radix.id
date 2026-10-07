@@ -1,0 +1,27 @@
+rt_do3(word rstr, word rcv, word rsup, word rlen, word[] rargs, word[] rst) {
+  word rb = rt_radix(rcv);
+  if(rb >= 0) {
+    rt_int(rstr, rb, rsup, rlen, rargs, rst);
+  } else {
+    rt_pct(rstr, rcv, rst);
+  }
+} return void;
+
+// The base a conversion letter reads in: d and u decimal, i by prefix (0), x and
+// X hex, o octal; -1 for any other letter.
+rt_radix(word rcv) {
+  word rb = 0 - 1;
+  if(rcv == 100 || rcv == 117) {
+    rb = 10;
+  }
+  if(rcv == 105) {
+    rb = 0;
+  }
+} chain (word rcv) {
+  if(rcv == 120 || rcv == 88) {
+    rb = 16;
+  }
+  if(rcv == 111) {
+    rb = 8;
+  }
+} return word rb;

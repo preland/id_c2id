@@ -1,0 +1,10 @@
+// The refusal for a format whose conversion at `at` is not implemented.
+chk_fmtbad(int id, string name, string lit, int bad) {
+  if(bad >= 0) {
+    int j = fmt_end(lit, bad);
+    string spec = str_slice(lit, bad, j - bad);
+    diag_node(id, "'" + name + "' format has the conversion '" + spec + "', which the c2id runtime does not implement (floating point, precision, '*' width and the flags '+', ' ' and '#' for printf; floating point and '[' for sscanf)");
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { printf(\"%f\", 1); return 0; }" (12, "printf", "\"%f\"", 1):() then (import dgmsg):([":1: error: 'printf' format has the conversion '%f', which the c2id runtime does not implement (floating point, precision, '*' width and the flags '+', ' ' and '#' for printf; floating point and '[' for sscanf)"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { printf(\"%f\", 1); return 0; }" (12, "printf", "\"%f\"", -1):() then len((import dgmsg)):(0)

@@ -1,0 +1,8 @@
+rt_pct2(word rstr, word rcv, word[] rst) {
+  word rin = peek8(rstr + rst[0]);
+  if(rcv == 37 && rin == 37) {
+    wset(rst, 0, rst[0] + 1);
+  } else {
+    rt_stop(rst, rin);
+  }
+} return void;

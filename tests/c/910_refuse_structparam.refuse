@@ -1,0 +1,1 @@
+910_refuse_structparam.c:3: error: function 'shift' takes parameter 1 as a struct or union by value

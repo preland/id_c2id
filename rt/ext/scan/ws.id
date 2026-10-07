@@ -1,0 +1,8 @@
+// A format character that is not a conversion: white space or a character to match.
+rt_one2(word rstr, word rch, word[] rst) {
+  if(c_isspace(rch) == 1) {
+    rt_lws(rstr, rst);
+  } else {
+    rt_lch(rstr, rch, rst);
+  }
+} return void;

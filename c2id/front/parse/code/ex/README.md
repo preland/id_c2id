@@ -157,14 +157,15 @@ from `*p++`.
   adds float support should read `ns`, not `na`. `expr_str` prints the spelling
   for a float and the decoded value for an integer, which is how the decoder is
   tested.
-* **Compound literals `(T){…}` extend the ABI.** `NOTES.md` §4 has no node kind
-  for a brace initialiser, so `(T){a, b}` becomes a `cast` whose operand is a
-  `call` node with **callee -1** and the elements as its argument list. -1 is
-  never a node id and the ABI already spells "absent" that way (`decl`, `case`,
-  `return`). Nested braces are not flattened — an inner `{` is handed to
-  `parse_assign`, which does not know about it, so `{{1,2},{3,4}}` will not
-  parse. If an `init` kind is ever added, `p/un/cast/lit.id` and
-  `s/sub/args.id` are the only two places to change.
+* **Compound literals `(T){…}` are refused.** `cast_tail` records a refusal
+  (`front/diag/`) at the `{`, then still builds the node the parser always
+  built: a `cast` whose operand is a `call` node with **callee -1** and the
+  elements as its argument list, so parsing carries on to the end of the file
+  and every refusal in it is reported. The translation stops after parsing, so
+  nothing reads that node. If compound literals are ever translated, that node
+  shape is the starting point: nested braces are not flattened (an inner `{` is
+  handed to `parse_assign`), and `p/un/cast/lit.id` and `s/sub/args.id` are the
+  places to change.
 * **`sizeof` distinguishes its two forms by `nb`.** `nb != 0` means
   `sizeof(T)`. The ABI says `na` is "operand or 0", but 0 is a legitimate node
   id, so both fields are ambiguous in principle; in practice node 0 is created

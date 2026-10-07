@@ -5,7 +5,7 @@ bump_spec(int[] pos, int[] sp, int i) {
     advance(pos);
   }
 } return void;
-([0], [0, 0, 0], 1):([1], [0, 1, 0])
+given init_nodes4 ([0], [0, 0, 0], 1):([1], [0, 1, 0])
 ([0], [0, 0, 0], -1):([0], [0, 0, 0])
 
 has_idx(int i) {

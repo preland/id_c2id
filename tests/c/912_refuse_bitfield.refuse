@@ -1,0 +1,2 @@
+912_refuse_bitfield.c:2: error: bitfield member 'a' (width 3) is not supported
+bitfield member 'b' (width 5)

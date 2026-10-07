@@ -1,0 +1,17 @@
+// The value of a digit character in any base up to 36, or 99 for a byte that is not one.
+rt_dv(word rch) {
+  word rv = rt_dg(rch);
+  if(rch >= 97 && rch <= 122) {
+    rv = rch - 87;
+  }
+  if(rch >= 65 && rch <= 90) {
+    rv = rch - 55;
+  }
+} return word rv;
+
+rt_dg(word rch) {
+  word rv = 99;
+  if(rch >= 48 && rch <= 57) {
+    rv = rch - 48;
+  }
+} return word rv;

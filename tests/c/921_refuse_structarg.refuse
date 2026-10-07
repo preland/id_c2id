@@ -1,0 +1,1 @@
+921_refuse_structarg.c:8: error: argument 1 is a struct or union passed by value

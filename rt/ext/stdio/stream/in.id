@@ -1,0 +1,31 @@
+// Standard input as a FILE. The program's `stdin` is the number 3
+// (rt/libc/io.id); the FILE behind it is made the first time anything reads it,
+// 4096 bytes of buffer that are refilled from the process's stdin, so a pipe is
+// read as it arrives and a terminal line by line. Its kind word is 1; a file
+// opened with fopen holds its whole contents and has kind 0.
+rt_stdin() {
+  word rcur = (import rtin)[0];
+  if(rcur == 0) {
+    rcur = rt_mkin();
+  }
+} return word rcur;
+
+rt_mkin() {
+  word rbuf = kmalloc(4096);
+  word rfile = kmalloc(32);
+  poke64(rfile, rbuf);
+} chain () {
+  poke64(rfile + 8, 0);
+  poke64(rfile + 16, 0);
+  poke64(rfile + 24, 1);
+} chain () {
+  wset((import rtin), 0, rfile);
+} return word rfile;
+
+// The FILE a stream number reads through: standard input's own, or the FILE itself.
+rt_stream(word rfile) {
+  word rs = rfile;
+  if(rfile == 3) {
+    rs = rt_stdin();
+  }
+} return word rs;

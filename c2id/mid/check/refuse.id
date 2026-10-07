@@ -1,0 +1,34 @@
+// A call to something c2id has a reason not to translate (conf.id's
+// refuse_names, refuse_why).
+chk_refuse(string name, int id) {
+  int k = find_str((import refuse_names), name);
+  if(k >= 0) {
+    diag_node(id, "call to '" + name + "' is not supported: " + (import refuse_why)[k]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { setjmp(0); return 0; }" ("setjmp", 11):() then (import dgmsg):([":1: error: call to 'setjmp' is not supported: non-local jumps cannot unwind the block-function frames"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { setjmp(0); return 0; }" ("tcgetattr", 11):() then (import dgmsg):([":1: error: call to 'tcgetattr' is not supported: terminal control (termios) has no model"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { setjmp(0); return 0; }" ("printf", 11):() then len((import dgmsg)):(0)
+
+// Every argument of a call, in order.
+chk_args(int id) {
+  int[] ids = (import nl)[id];
+  int i = 0;
+  while(i < len(ids)) {
+    chk_arg(id, ids[i], i);
+    i = i + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(12, 19) stdin "struct P { int x; }; int g(struct P p); int main(void) { struct P q; return g(q); }" (17):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (11):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(13, 21) stdin "struct P { int x; }; int g(int a, struct P p); int main(void) { struct P q; return g(1, q); }" (19):() then (import dgmsg):([":1: error: argument 2 is a struct or union passed by value, which is not supported: the callee's writes would reach the caller's object; pass a pointer"])
+
+// A struct or union argument is passed by value, which has no translation.
+chk_arg(int id, int a, int i) {
+  int ty = ex_ty(a);
+  if((import nk)[ty] == "rec") {
+    diag_node(id, "argument " + (i + 1) + " is a struct or union passed by value, which is not supported: the callee's writes would reach the caller's object; pass a pointer");
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(12, 19) stdin "struct P { int x; }; int g(struct P p); int main(void) { struct P q; return g(q); }" (17, 16, 0):() then (import dgmsg):([":1: error: argument 1 is a struct or union passed by value, which is not supported: the callee's writes would reach the caller's object; pass a pointer"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (11, 10, 0):() then len((import dgmsg)):(0)
