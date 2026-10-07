@@ -1,0 +1,38 @@
+// A sum with an infinity in it: the infinity, or the indefinite NaN when the
+// two infinities have opposite signs. [] when both operands are finite.
+ld_sinf2(word[] lqa, word[] lqb, word lxka, word lxkb) {
+  word lxs = lqa[0];
+  if(lxka != 2) {
+    lxs = lqb[0];
+  }
+  word[] lqr = ld_inf(lxs);
+} chain (word[] lqa, word[] lqb, word lxka, word lxkb) {
+  if(lxka == 2 && lxkb == 2 && lqa[0] != lqb[0]) {
+    lqr = ld_indef(1);
+  }
+} return word[] lqr;
+([0, 32767, -9223372036854775808], [0, 16383, -9223372036854775808], 2, 1):([-9223372036854775808, 32767])
+([0, 32767, -9223372036854775808], [1, 32767, -9223372036854775808], 2, 2):([-4611686018427387904, 65535])
+([0, 16383, -9223372036854775808], [1, 32767, -9223372036854775808], 1, 2):([-9223372036854775808, 65535])
+
+ld_sinf(word[] lqa, word[] lqb, word lxka, word lxkb) {
+  word[] lqr = [];
+  if(lxka == 2 || lxkb == 2) {
+    lqr = ld_sinf2(lqa, lqb, lxka, lxkb);
+  }
+} return word[] lqr;
+([0, 16383, -9223372036854775808], [0, 16383, -9223372036854775808], 1, 1):([])
+([0, 32767, -9223372036854775808], [0, 16383, -9223372036854775808], 2, 1):([-9223372036854775808, 32767])
+
+// lxf is 1 for a subtraction: the sign of lqb is flipped once NaNs are out of
+// the way (a NaN keeps its sign).
+ld_sum3(word[] lqa, word[] lqb, word lxka, word lxkb, word lxf) {
+  lqb[0] = lqb[0] ^ lxf;
+  word[] lqr = ld_sinf(lqa, lqb, lxka, lxkb);
+  if(len(lqr) == 0) {
+    lqr = ld_sfin(lqa, lqb);
+  }
+} return word[] lqr;
+([0, 16383, -4611686018427387904], [0, 16383, -4611686018427387904], 1, 1, 0):([-4611686018427387904, 16384])
+([0, 16383, -4611686018427387904], [0, 16383, -4611686018427387904], 1, 1, 1):([0, 0])
+([0, 32767, -9223372036854775808], [0, 32767, -9223372036854775808], 2, 2, 1):([-4611686018427387904, 65535])

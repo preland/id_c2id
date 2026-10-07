@@ -1,0 +1,31 @@
+cld_cmp(word lxa, word lxb, word lxo) {
+  word lxr = ld_cmp(lxa, lxb);
+  word lxk = ushr(0xD26431, lxo * 4 + lxr) & 1;
+} return word lxk;
+given ld_cells ((import ldx), (import ldy), 0):(0)
+given ld_cells ((import ldx), (import ldy), 2):(1)
+given ld_cells ((import ldx), (import ldx), 1):(1)
+given ld_cells ((import ldx), (import ldx), 5):(0)
+given ld_cells given ld_cset((import ldz), -4611686018427387904, 32767) ((import ldx), (import ldz), 5):(1)
+given ld_cells given ld_cset((import ldz), -4611686018427387904, 32767) ((import ldx), (import ldz), 4):(0)
+
+// -a: the sign bit flipped, a NaN's too, as the x87's FCHS does.
+cld_neg(word lxd, word lxa) {
+  word lxs = peek16(lxa + 8) ^ 32768;
+  word lxm = peek64(lxa);
+  poke64(lxd, lxm);
+} chain (word lxd, word lxa) {
+  poke64(lxd + 8, lxs);
+} return word lxd;
+given ld_cells ((import ldz), (import ldx)):((import ldz)) then ld_zm:(-4611686018427387904) then ld_zs:(49151)
+given ld_cells ((import ldz), (import ldy)):((import ldz)) then ld_zm:(-9223372036854775808) then ld_zs:(16384)
+
+// 1 when a is not zero (a NaN is not).
+cld_nz(word lxa) {
+  word[] lqa = ld_get(lxa);
+  word lxk = ld_kind(lqa[1], lqa[2]);
+  word lxr = (lxk != 0);
+} return word lxr;
+given ld_cells ((import ldx)):(1)
+given ld_cells ((import ldz)):(0)
+given ld_cells given ld_cset((import ldz), -4611686018427387904, 32767) ((import ldz)):(1)

@@ -260,7 +260,7 @@ one is how a translator spins. Three places make them:
   its locals bound: the address of a function the runtime provides that has no
   wrapper (`printf` and the variadic rest: `mid/check/rtval.id`; one with a wrapper
   is rewritten to it instead, `mid/check/wrap.id`) or of one the program defines with `...`
-  (`mid/check/vaval.id`), `long double` types and literals, a struct passed by
+  (`mid/check/vaval.id`), a struct passed by
   value through the `...` of a variadic call (`chk_arg`), a printf-family
   format with a conversion the runtime does not implement, an `fopen` mode
   that is not r, w or a followed by b and `+` alone, a call refused by name (`refuse_names` in `conf.id`: termios,

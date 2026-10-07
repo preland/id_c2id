@@ -1,6 +1,6 @@
 // `!e` and `-e` on a floating-point operand. `!` is "equals zero", which for a
 // double is cfl_eq against the bits of +0.0 (so -0.0 is false and a NaN is
-// true); `-` flips the sign bit (cfl_neg), because 0 - x would turn +0.0 into
+// true; cld_nz for a long double); `-` flips the sign bit (cfl_neg), because 0 - x would turn +0.0 into
 // +0.0 instead of -0.0.
 not_txt(int a) {
   string flex = ex_txt(a);
@@ -8,7 +8,7 @@ not_txt(int a) {
   string s = "(" + flex + " == 0)";
 } chain (int a) {
   if(ty_fkind(ty) > 0) {
-    s = name_val("cfl_eq(" + flex + ", 0)");
+    s = fl_not_txt(ty_fkind(ty), flex);
   }
 } return string s;
 given txt_fixture given pend_setup given fl_fixture (9):("t1") then (import pend)[1]:("word t1 = cfl_eq(t0, 0);")

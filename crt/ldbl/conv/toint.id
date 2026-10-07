@@ -1,0 +1,16 @@
+cld_to_int(word lxa) {
+  word[] lqa = ld_get(lxa);
+  word lxk = ld_kind(lqa[1], lqa[2]);
+  word lxr = ld_toi(lqa, lxk, 63);
+} return word lxr;
+given ld_cells ((import ldx)):(1)
+given ld_cells ((import ldy)):(-2)
+given ld_cells given ld_cset((import ldz), -1, 16446) ((import ldz)):(-9223372036854775808)
+
+cld_to_uint(word lxa) {
+  word[] lqa = ld_get(lxa);
+  word lxk = ld_kind(lqa[1], lqa[2]);
+  word lxr = ld_toi(lqa, lxk, 64);
+} return word lxr;
+given ld_cells ((import ldx)):(1)
+given ld_cells given ld_cset((import ldz), -1, 16446) ((import ldz)):(-1)

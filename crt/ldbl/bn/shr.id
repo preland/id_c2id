@@ -1,0 +1,20 @@
+// x / 2, in place.
+bn_shr1(word[] lqx) {
+  int bxi = 0;
+  while(bxi < len(lqx)) {
+    bn_shrone(lqx, bxi);
+    bxi = bxi + 1;
+  }
+} return void;
+([4, 1]):([2147483650, 0])
+([6]):([3])
+
+bn_shrone(word[] lqx, int bxi) {
+  word lxn = 0;
+  if(bxi + 1 < len(lqx)) {
+    lxn = (lqx[bxi + 1] & 1) << 31;
+  }
+  lqx[bxi] = (lqx[bxi] >> 1) | lxn;
+} return void;
+([4, 1], 0):([2147483650, 1], 0)
+([4, 1], 1):([4, 0], 1)

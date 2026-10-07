@@ -1,0 +1,35 @@
+// Adding two finite operands [sign, exponent, significand]. A denormal's
+// exponent is read as 1 (ld_fixe), the operand of larger magnitude is the one
+// the other is shifted down to (ld_ge says which, ld_pk picks a word of it), and
+// the sum or difference is formed in 128 bits, the smaller operand's lost bits
+// kept as a sticky bit, so that ld_pack rounds the exact result once.
+ld_fixe(word[] lqa) {
+  if(lqa[1] == 0) {
+    lqa[1] = 1;
+  }
+} return void;
+([1, 0, 0]):([1, 1, 0])
+([0, 0, 5]):([0, 1, 5])
+
+// 1 when the magnitude of lqa is at least that of lqb (exponent, then significand).
+ld_ge(word[] lqa, word[] lqb) {
+  word lxg = lqa[1] > lqb[1];
+  if(lqa[1] == lqb[1]) {
+    lxg = 1 - ult(lqa[2], lqb[2]);
+  }
+} return word lxg;
+([0, 5, -9223372036854775808], [0, 4, -9223372036854775808]):(1)
+([0, 4, -9223372036854775808], [0, 5, -9223372036854775808]):(0)
+([0, 5, -9223372036854775808], [1, 5, -9223372036854775808]):(1)
+([0, 5, 1], [0, 5, 2]):(0)
+
+// Word bxi of lqa when lxc is 1, else of lqb. It names no list, so the operands
+// are never aliased (an alias is a list the compiler cannot prove it may free).
+ld_pk(word[] lqa, word[] lqb, word lxc, int bxi) {
+  word lxr = lqb[bxi];
+  if(lxc == 1) {
+    lxr = lqa[bxi];
+  }
+} return word lxr;
+([5, 6, 7], [8, 9, 10], 1, 2):(7)
+([5, 6, 7], [8, 9, 10], 0, 0):(8)

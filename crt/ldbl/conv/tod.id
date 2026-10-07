@@ -1,0 +1,49 @@
+// Long double to a narrower format, rounded once to nearest even. The result
+// is the 64 bits of a binary64: a double's own, or, for a float, the double that
+// holds the rounded float (which a float always fits in). lxp is the precision
+// of the target in bits (53 or 24) and lxn the exponent of its smallest normal
+// (-1022 or -126); its largest is 1 - lxn.
+//
+// ld_asm builds the bits of kept * 2^q (kept < 2^53, or exactly 2^53 after a
+// carry): an infinity above the target's largest, a denormal below -1022.
+ld_asm(word lxk, word lxq, word lxn) {
+  word lxt = ushr(lxk, 53);
+  word lxc = ushr(lxk, lxt);
+  word lxy = 64 - ld_clz(lxc);
+} chain (word lxk, word lxq, word lxn) {
+  word lxx = lxq + lxt + lxy - 1;
+  word lxz = ushr((lxc << (64 - lxy)) << 1, 12);
+  word lxr = ((lxx + 1023) << 52) | lxz;
+} chain (word lxk, word lxq, word lxn) {
+  if(lxk == 0 || lxx < 0 - 1022) {
+    lxr = lxk;
+  }
+  if(lxx > 1 - lxn && lxk != 0) {
+    lxr = 9218868437227405312;
+  }
+} return word lxr;
+(0, 5, -1022):(0)
+(4503599627370496, 0, -1022):(4841369599423283200)
+(4503599627370496, 1000, -1022):(9218868437227405312)
+(9007199254740992, -53, -1022):(4607182418800017408)
+(3, -1074, -1022):(3)
+(3, 130, -126):(9218868437227405312)
+
+ld_narf(word[] lqa, word lxp, word lxn) {
+  ld_fixn(lqa);
+  word lxu = lqa[1] - 16383;
+  word lxs = 64 - lxp;
+} chain (word[] lqa, word lxp, word lxn) {
+  if(lxn > lxu) {
+    lxs = lxs + lxn - lxu;
+  }
+  word lxk = ushr(lqa[2], lxs);
+  word lxl = ld_jaml(lqa[2], 0, lxs);
+} chain (word[] lqa, word lxp, word lxn) {
+  word lxq = lxu - 63 + lxs;
+  word lxb = ld_asm(lxk + ld_up(lxk, lxl), lxq, lxn);
+} return word lxb;
+([0, 16383, -9223372036854775808], 53, -1022):(4607182418800017408)
+([0, 16383, -4611686018427387904], 24, -126):(4609434218613702656)
+([1, 16384, -9223372036854775807], 53, -1022):(4611686018427387904)
+([0, 15309, -9223372036854775808], 53, -1022):(1)

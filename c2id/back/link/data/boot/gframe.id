@@ -1,0 +1,11 @@
+// An initializer that needs frame temporaries (a long double expression: its
+// result is written to one) is run by c_globals, which then has a frame of its
+// own, made here once the initializers have grown it.
+emit_gframe() {
+  int sz = frame_bytes();
+  if((import frsz)[0] > 8) {
+    emit_out("  word fp = alloc(" + sz + ");");
+  }
+} return void;
+given init_tu given init_frame given init_frame2 given lset((import frsz), 0, 20) ():() then prints:("  word fp = alloc(24);\n")
+given init_tu given init_frame given init_frame2 given lset((import frsz), 0, 40) ():() then prints:("  word fp = alloc(40);\n")

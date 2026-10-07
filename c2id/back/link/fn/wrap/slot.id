@@ -4,11 +4,12 @@
 
 par_slot(int ty) {
   int sz = 8;
-  if((import nk)[ty] == "rec") {
+  if(ty_agg(ty) == 1) {
     sz = align_up(type_size(ty), 8);
   }
 } return int sz;
 given tynode_fix (0):(8)
+given tynode_fix given sset((import ns), 0, "long double") given lset((import na), 0, 16) (0):(16)
 given boot_a given boot_b given lexfix given tu_load stdin "struct Q { char c[13]; } q;" (6):(16)
 
 par_off(int ft, int i) {

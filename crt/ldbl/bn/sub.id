@@ -1,0 +1,32 @@
+// x - y in place, for x not below y: bn_subone does one limb with the borrow in
+// lxw and answers the borrow out.
+bn_subone(word[] lqa, word[] lqb, int bxi, word lxw) {
+  word lxt = lqa[bxi] - bn_limb(lqb, bxi) - lxw;
+  lqa[bxi] = lxt & 4294967295;
+  word lxn = (lxt < 0);
+} return word lxn;
+([5, 1], [3], 0, 0):(0)
+([1], [3], 0, 0):(1)
+
+bn_sub(word[] lqa, word[] lqb) {
+  int bxi = 0;
+  word lxw = 0;
+  while(bxi < len(lqa)) {
+    lxw = bn_subone(lqa, lqb, bxi, lxw);
+    bxi = bxi + 1;
+  }
+} return void;
+([0, 1], [1]):([4294967295, 0], [1])
+([9], [4]):([5], [4])
+
+// x * 5^lxn in place, 13 powers at a time (5^13 is the largest below 2^32).
+bn_mul5(word[] lqx, word lxn) {
+  while(lxn >= 13) {
+    bn_mul(lqx, 1220703125, 0);
+    lxn = lxn - 13;
+  }
+  int bxk = lxn;
+  bn_mul(lqx, dg_pw(5, bxk), 0);
+} return void;
+([1], 2):([25], 2)
+([1], 14):([1808548329, 1], 14)

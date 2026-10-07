@@ -1,7 +1,6 @@
 // The initializers of the globals: a table of callbacks names functions too.
 chk_inits() {
   txt_reset();
-  lset((import chk_flt), 0, 0);
   chk_dloop(0);
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int missing(int); int (*tbl[])(int) = { missing }; int main(void) { return 0; }" ():() then (import unres):(["missing"])

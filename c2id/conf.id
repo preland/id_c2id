@@ -35,7 +35,8 @@
 //
 // fl_ops[i] is an operator that has a floating-point operand and fl_fns[i] the
 // crt function (crt/flt) that does it; keep the two lists the same length and in
-// the same order. float_names is what the check pass refuses: long double.
+// the same order. ld_fns[i] is the crt function (crt/ldbl) that does the
+// arithmetic operator fl_ops[i] (the first four) on long doubles.
 //
 // esc_chars[i] means esc_vals[i]:
 //
@@ -62,7 +63,7 @@ string[] libc_names = ["malloc", "free", "realloc", "_longjmp", "__builtin_memcp
 string[] libc_crt = ["kmalloc", "kfree", "krealloc", "c_longjmp", "c_memcpy", "c_memmove", "c_memset", "c_strlen", "c_memcmp", "c_exit"];
 string[] va_names = ["printf", "fprintf", "sprintf", "snprintf", "sscanf"];
 int[] va_fixed_n = [1, 2, 2, 3, 2];
-string[] rt_names = ["exit", "abort", "printf", "putchar", "calloc", "fgets", "sprintf", "snprintf", "fprintf", "fputs", "fputc", "fclose", "fgetc", "__c2id_load", "__c2id_store", "__c2id_rmw", "__c2id_cas", "__c2id_gcas", "__c2id_gxchg", "__c2id_vcas", "__c2id_bcas", "__c2id_tas", "__c2id_clear", "fopen", "remove", "rename", "tmpfile", "fread", "fwrite", "fflush", "ungetc", "sscanf", "isdigit", "isupper", "islower", "isalpha", "isalnum", "isspace", "isxdigit", "isprint", "ispunct", "iscntrl", "isgraph", "toupper", "tolower", "__builtin_ctz", "__builtin_ctzll", "__builtin_clz", "__builtin_clzll", "__builtin_bswap32", "__builtin_bswap64", "__builtin_expect", "memcpy", "memmove", "memcmp", "memset", "memchr", "strlen", "strcpy", "strncpy", "strcmp", "strncmp", "strchr", "strrchr", "strstr", "strcat", "strncat", "strdup", "puts", "strtol", "time", "clock", "read", "write", "close", "sqrt", "cbrt", "hypot", "sin", "cos", "tan", "asin", "acos", "atan", "atan2", "pow", "fmod", "sinh", "cosh", "tanh", "exp", "exp2", "log", "log2", "log10", "ldexp", "floor", "ceil", "round", "trunc", "fabs", "copysign", "fmin", "fmax", "isnan", "isinf", "isfinite", "__builtin_nan", "__builtin_inf", "strtod", "vsnprintf", "vsprintf", "vprintf", "vfprintf", "getenv", "gettimeofday", "setjmp", "_setjmp", "longjmp"];
+string[] rt_names = ["exit", "abort", "printf", "putchar", "calloc", "fgets", "sprintf", "snprintf", "fprintf", "fputs", "fputc", "fclose", "fgetc", "__c2id_load", "__c2id_store", "__c2id_rmw", "__c2id_cas", "__c2id_gcas", "__c2id_gxchg", "__c2id_vcas", "__c2id_bcas", "__c2id_tas", "__c2id_clear", "fopen", "remove", "rename", "tmpfile", "fread", "fwrite", "fflush", "ungetc", "sscanf", "isdigit", "isupper", "islower", "isalpha", "isalnum", "isspace", "isxdigit", "isprint", "ispunct", "iscntrl", "isgraph", "toupper", "tolower", "__builtin_ctz", "__builtin_ctzll", "__builtin_clz", "__builtin_clzll", "__builtin_bswap32", "__builtin_bswap64", "__builtin_expect", "memcpy", "memmove", "memcmp", "memset", "memchr", "strlen", "strcpy", "strncpy", "strcmp", "strncmp", "strchr", "strrchr", "strstr", "strcat", "strncat", "strdup", "puts", "strtol", "time", "clock", "read", "write", "close", "sqrt", "cbrt", "hypot", "sin", "cos", "tan", "asin", "acos", "atan", "atan2", "pow", "fmod", "sinh", "cosh", "tanh", "exp", "exp2", "log", "log2", "log10", "ldexp", "floor", "ceil", "round", "trunc", "fabs", "copysign", "fmin", "fmax", "isnan", "isinf", "isfinite", "__builtin_nan", "__builtin_inf", "strtod", "strtold", "vsnprintf", "vsprintf", "vprintf", "vfprintf", "getenv", "gettimeofday", "setjmp", "_setjmp", "longjmp"];
 string[] refuse_names = ["tcgetattr", "tcsetattr", "tcflush", "tcdrain", "cfmakeraw", "cfgetispeed", "cfgetospeed", "cfsetispeed", "cfsetospeed", "signal", "raise", "sigaction", "sigprocmask", "sigemptyset", "sigaddset", "alarm"];
 string[] refuse_why = ["terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program"];
 string[] c_keywords = ["if", "else", "while", "for", "do", "switch", "case", "default", "return", "sizeof", "goto", "break", "continue", "typedef", "struct", "union", "enum", "static", "extern", "register", "auto", "const", "volatile", "inline", "restrict", "signed", "unsigned", "void", "char", "short", "int", "long", "float", "double", "_Bool", "_Alignas", "_Alignof", "_Atomic", "_Generic", "_Noreturn", "_Static_assert", "_Thread_local", "typeof", "__typeof__", "asm", "__asm__", "__attribute__", "__extension__"];
@@ -70,8 +71,7 @@ string[] kw_su = ["struct", "union"];
 string[] packed_names = ["packed", "__packed__", "vector_size", "__vector_size__", "mode", "__mode__"];
 string[] jmp_names = ["setjmp", "_setjmp"];
 string[] wide_names = ["__int128", "__uint128_t", "__int128_t"];
-string[] float_names = ["long double"];
-string[] float_kinds = ["var", "mem", "cast", "num", "decl"];
+string[] ld_fns = ["cld_add", "cld_sub", "cld_mul", "cld_div"];
 string[] fl_ops = ["+", "-", "*", "/", "<", "<=", ">", ">=", "==", "!="];
 string[] fl_fns = ["cfl_add", "cfl_sub", "cfl_mul", "cfl_div", "cfl_lt", "cfl_le", "cfl_gt", "cfl_ge", "cfl_eq", "cfl_ne"];
 string[] sc_ops = ["&&", "||"];

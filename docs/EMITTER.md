@@ -218,7 +218,8 @@ holding the address past the last. The function has one more parameter than its
 type lists, `char *__va`, in the slot after the named ones (`bind_va`), and
 `include/stdarg.h` is plain C over it: `va_list` is a one-element array of
 `{cur, end}`, `va_start` sets both from `__va`, `va_arg(ap, T)` is
-`*(T *)((ap->cur += 8) - 8)`. A `va_list` passed to another function therefore
+`*(T *)((ap->cur += S) - S)` with `S` the size of `T` rounded up to 8 (a
+`long double` takes two slots). A `va_list` passed to another function therefore
 shares its position, as C's does, and `vsnprintf`, `vsprintf`, `vprintf` and
 `vfprintf` (`rt/ext/stdio/vprint.id`) hand the words left to the formatter. The
 wrapper gives the slots back after the function returns (`rt_va_drop`).
@@ -263,6 +264,47 @@ A file opened for anything but plain reading is a longer FILE of kind 2: eight w
 ## 4g. Atomic builtins and the address of runtime functions
 
 The frame pass (`mid/pass/frame/atom/`) rewrites a call of a GCC `__atomic_*` or `__sync_*` builtin into a call of `c___c2id_load`, `_store`, `_rmw`, `_cas` and the others in `rt/ext/builtin/atom*.id`, adding the size of the object the first argument points at (and an operation code) and casting the answer to that object's type; the order arguments are dropped, since the program has one thread. A runtime function used as a value is rewritten by the check pass to its C wrapper `__c2id_w_NAME` from the headers (`mid/check/wrap.id`), because a pointer is a place in the program's own function table.
+
+## 4h. Long double
+
+`long double` is the x86-64 80-bit extended format: 16 bytes at alignment 16 (so
+`sizeof` and a struct's layout are gcc's), whose first ten bytes are the 64-bit
+significand with its integer bit explicit and then the sign and the 15-bit biased
+exponent; the other six are zero. No `word` holds one, so it is handled as a
+struct is: `ty_agg` is 1 for it, its value in an expression is the address of
+its 16 bytes (`val_txt`), a store copies them (`store_plain`), a parameter takes
+a 16-byte slot copied from the caller's object (`par_slot`, `wrap_copy`), and a
+function returning one has the hidden result pointer (`fn_node`, `sret_arg`).
+
+Arithmetic, conversion and comparison are `crt/ldbl` (`cld_add`, `cld_sub`,
+`cld_mul`, `cld_div`, `cld_neg`, `cld_cmp`, `cld_nz`, `cld_of_int`,
+`cld_of_uint`, `cld_of_dbl`, `cld_to_int`, `cld_to_uint`, `cld_to_dbl`,
+`cld_to_flt`, `cld_lit`), written to the address of a 16-byte frame temporary
+the emitter makes for each use (`ld_tmp`: the slot is grown into the frame while
+the blocks are printed, which is allowed because `emit_tail` runs after them; a
+global initializer that needs one gets a frame of its own, `emit_gframe`), and
+answered. `ty_fkind` is 3. The usual conversions make the pair a `long double`
+when either operand is one (`fl_join`), so `ld + 1`, `ld * 2.5` and `ld < n`
+convert the other side first. A literal with the suffix `l` or `L` is `cld_lit`
+of its text (`ld_lit_txt`): the decimal is rounded once, exactly, to nearest even
+at run time. Each of `+ - * /` is rounded once to nearest even at 64 bits, as the
+x87 does, with its NaN, infinity, zero and denormal rules; `(double)` and
+`(float)` of one round once from the 64-bit significand (not through a double),
+a conversion to an integer truncates toward zero and gives the x87's "integer
+indefinite" (the word `0x8000000000000000`) when the value does not fit.
+
+Through `...` a `long double` is two words (`va_item`): printf's `%Lf %Le %Lg %LF
+%LE %LG` read them (`conv_fl`, with the exact digits as for a double), and a
+user function reads it with `va_arg(ap, long double)`. `strtold` is
+`rt/ext/num/ldbl.id`; `float.h` has the `LDBL_` constants.
+
+Not provided, and visible when used: the `l` libm functions (`sqrtl`, `fabsl`, ...
+are not declared, so a call is the usual "neither defined nor provided" refusal
+with `file:line`), `%La`, `sscanf` with `%Lf`, and printing the x87's invalid
+encodings (unnormals, pseudo-NaNs and pseudo-infinities); arithmetic, comparison
+and conversion do treat them as the hardware does (the indefinite NaN, or
+unordered). The 16-byte alignment is in the layout, not in the addresses: the
+store hands out 8-aligned addresses.
 
 ## 5. Laying out the project
 

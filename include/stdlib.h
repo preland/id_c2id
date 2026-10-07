@@ -11,6 +11,7 @@ void exit(int code);
 void _Exit(int code);
 long strtol(const char *s, char **end, int base);
 double strtod(const char *s, char **end);
+long double strtold(const char *s, char **end);
 static double atof(const char *s) { return strtod(s, (char **)0); }
 char *getenv(const char *name);
 static float strtof(const char *s, char **end) { return (float)strtod(s, end); }
@@ -84,5 +85,6 @@ static void __c2id_w_abort(void) { abort(); }
 static void __c2id_w_exit(int code) { exit(code); }
 static long __c2id_w_strtol(const char *s, char **end, int base) { return strtol(s, end, base); }
 static double __c2id_w_strtod(const char *s, char **end) { return strtod(s, end); }
+static long double __c2id_w_strtold(const char *s, char **end) { return strtold(s, end); }
 static char *__c2id_w_getenv(const char *name) { return getenv(name); }
 #endif

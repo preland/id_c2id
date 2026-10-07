@@ -1,0 +1,18 @@
+// strtold: the same prefix as strtod reads (rt_dscan, rt_dend), converted by
+// crt's cld_lit, which rounds a decimal text exactly to the 64-bit significand of
+// a long double. The result is written to rd, the hidden first argument a
+// function returning a long double takes, and answered.
+c_strtold(word rd, word rs, word rend) {
+  word[] rdsc = rt_dscan(rs);
+  rt_dend(rs, rend, rdsc);
+  string rtx = rt_dtext(rs, rdsc);
+} chain (word rd, word rs, word rend) {
+  cld_lit(rd, rtx);
+} return word rd;
+
+rt_dtext(word rs, word[] rdsc) {
+  string rtx = "";
+  if(rdsc[2] == 1) {
+    rtx = str_of_mem(rs + rdsc[0], rdsc[1] - rdsc[0]);
+  }
+} return string rtx;

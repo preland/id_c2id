@@ -1,0 +1,36 @@
+// Rounding a working value into a long double. The working value lqw is
+// [sign, biased exponent, high word, low word]: the 128-bit significand
+// hi:lo, whose top bit stands for 2^(exponent - 16383), with no rounding done
+// and everything below lo folded into lo's bottom bit. ld_pack shifts it so the
+// top bit of hi is set (or, below the smallest normal exponent, shifts it right
+// until it is a denormal), rounds hi:lo to hi at nearest even, and answers the
+// two words [significand, sign and exponent] of the result.
+//
+// ld_nrm1: a zero high word is replaced by the low one, 64 exponent steps down.
+ld_nrm1(word[] lqw) {
+  if(lqw[2] == 0) {
+    lqw[2] = lqw[3];
+    lqw[3] = 0;
+    lqw[1] = lqw[1] - 64;
+  }
+} return void;
+([0, 100, 0, 5]):([0, 36, 5, 0])
+([1, 70, 0, 9]):([1, 6, 9, 0])
+
+ld_nrm2(word[] lqw) {
+  word lxk = ld_clz(lqw[2]);
+  word lxh = ld_shlh(lqw[2], lqw[3], lxk);
+  lqw[3] = lqw[3] << lxk;
+} chain (word[] lqw) {
+  lqw[2] = lxh;
+  lqw[1] = lqw[1] - lxk;
+} return void;
+([0, 100, 1, 0]):([0, 37, -9223372036854775808, 0])
+([0, 100, 1, -9223372036854775808]):([0, 37, -4611686018427387904, 0])
+
+ld_nrm(word[] lqw) {
+  ld_nrm1(lqw);
+  ld_nrm2(lqw);
+} return void;
+([0, 100, 0, 5]):([0, -25, -6917529027641081856, 0])
+([0, 100, 3, 0]):([0, 38, -4611686018427387904, 0])

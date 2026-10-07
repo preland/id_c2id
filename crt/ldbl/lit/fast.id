@@ -1,0 +1,19 @@
+// The value of a decimal reading that is cheap to make exactly: at most 19
+// digits (an integer a word holds, so exact as a long double) and a power of ten
+// between -27 and 27 (10^27 = 5^27 * 2^27, exact too), so that one multiplication
+// or division of two exact operands, rounded once, is the correctly rounded
+// value of the text. ld_unp turns a result [significand, sign and exponent] back
+// into an operand [sign, exponent, significand] for ld_bin2; ld_p10 is 10^lxk.
+ld_unp(word[] lqr) {
+  word[] lqa = [ushr(lqr[1], 15), lqr[1] & 32767, lqr[0]];
+} return word[] lqa;
+([-9223372036854775808, 49152]):([1, 16384, -9223372036854775808])
+([-4611686018427387904, 16383]):([0, 16383, -4611686018427387904])
+
+ld_p10(word lxk) {
+  int bxk = lxk;
+  word[] lqr = ld_ofu(dg_pw(5, bxk), 0);
+  lqr[1] = lqr[1] + lxk;
+} return word[] lqr;
+(0):([-9223372036854775808, 16383])
+(3):([-432345564227567616, 16392])

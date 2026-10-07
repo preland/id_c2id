@@ -1,0 +1,12 @@
+// long double to double, and to float (the double that holds the float).
+cld_to_dbl(word lxa) {
+  word lxr = ld_nar(lxa, 53, 0 - 1022);
+} return word lxr;
+given ld_cells ((import ldx)):(4609434218613702656)
+given ld_cells given ld_cset((import ldz), -9223372036854775808, 15309) ((import ldz)):(1)
+
+cld_to_flt(word lxa) {
+  word lxr = ld_nar(lxa, 24, 0 - 126);
+} return word lxr;
+given ld_cells ((import ldy)):(-4611686018427387904)
+given ld_cells given ld_cset((import ldz), -9223372036854775808, 15309) ((import ldz)):(0)

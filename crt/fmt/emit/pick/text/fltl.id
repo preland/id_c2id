@@ -1,0 +1,20 @@
+conv_fv(word c, word[] args, word[] st, word[] fs) {
+  word w = next_arg(args, st);
+  int cc = c;
+  string txt = "";
+} chain (word c, word[] args, word[] st, word[] fs) {
+  if(fs[4] == 4) {
+    txt = conv_fl(w, cc, args, st, fs);
+  } else {
+    txt = fl_conv(w, cc, fs);
+  }
+} return string txt;
+(102, [4609434218613702656], [0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("1.500000")
+(102, [-4611686018427387904, 16383], [0, 0], [0, 0, 0, 0, 4, 0, 0, 0, 0, 0]):("1.500000")
+
+conv_fl(word w, int cc, word[] args, word[] st, word[] fs) {
+  word w2 = next_arg(args, st);
+  string txt = fl_convl(w, w2, cc, fs);
+} return string txt;
+(-4611686018427387904, 102, [16383], [0, 0], [0, 0, 0, 0, 4, 0, 0, 0, 0, 0]):("1.500000")
+(-4611686018427387904, 101, [49151], [0, 0], [0, 0, 0, 0, 4, 0, 0, 0, 1, 2]):("-1.50e+00")

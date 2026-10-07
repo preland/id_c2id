@@ -1,0 +1,29 @@
+// lqw gets hi:lo = lxs:lxl, and when the high words' addition carried (lxc is
+// 1) that carry is shifted back in: right by one, the lost bit kept sticky, and
+// the exponent raised.
+ld_shr1(word[] lqw) {
+  lqw[3] = ushr(lqw[3], 1) | (lqw[2] << 63) | (lqw[3] & 1);
+  lqw[2] = ushr(lqw[2], 1) | (import ldtop);
+  lqw[1] = lqw[1] + 1;
+} return void;
+([0, 100, 3, 1]):([0, 101, -9223372036854775807, -9223372036854775807])
+([1, 5, 0, 0]):([1, 6, -9223372036854775808, 0])
+
+ld_pset(word[] lqw, word lxs, word lxl, word lxc) {
+  lqw[2] = lxs;
+  lqw[3] = lxl;
+  if(lxc == 1) {
+    ld_shr1(lqw);
+  }
+} return void;
+([0, 100, 0, 0], 5, 7, 0):([0, 100, 5, 7], 5, 7, 0)
+([0, 100, 0, 0], 4, 0, 1):([0, 101, -9223372036854775806, 0], 4, 0, 1)
+
+// Same signs: lxx (the larger significand, in the high word) plus lxh:lxl.
+ld_padd(word[] lqw, word lxx, word lxh, word lxl) {
+  word lxs = lxx + lxh;
+  word lxc = ult(lxs, lxx);
+  ld_pset(lqw, lxs, lxl, lxc);
+} return void;
+([0, 100, 0, 0], -9223372036854775808, -9223372036854775808, 0):([0, 101, -9223372036854775808, 0], -9223372036854775808, -9223372036854775808, 0)
+([0, 100, 0, 0], 5, 6, 7):([0, 100, 11, 7], 5, 6, 7)

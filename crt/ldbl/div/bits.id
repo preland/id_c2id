@@ -1,0 +1,31 @@
+// Quotient of two normalised significands, a bit at a time. lqs is
+// [remainder, quotient high, quotient low]; the quotient register is shifted up
+// one place and takes the new bit. ld_dstep brings down one more bit: double
+// the remainder, and if it reached the divisor (it did if its top bit shifted
+// out) subtract and answer 1.
+ld_dput(word[] lqs, word lxr, word lxq) {
+  lqs[1] = (lqs[1] << 1) | ushr(lqs[2], 63);
+  lqs[2] = (lqs[2] << 1) | lxq;
+  lqs[0] = lxr;
+} return void;
+([5, 0, 3], 9, 1):([9, 0, 7], 9, 1)
+([1, 1, -9223372036854775808], 2, 0):([2, 3, 0], 2, 0)
+
+ld_dstep(word[] lqs, word lxb) {
+  word lxr = lqs[0] << 1;
+  word lxq = (lqs[0] < 0) | (1 - ult(lxr, lxb));
+  ld_dput(lqs, lxr - lxq * lxb, lxq);
+} return void;
+([3, 0, 0], 5):([1, 0, 1], 5)
+([1, 0, 1], 5):([2, 0, 2], 5)
+([-9223372036854775808, 0, 0], 5):([-5, 0, 1], 5)
+
+ld_dloop(word[] lqs, word lxb) {
+  word lxi = 0;
+  while(lxi < 65) {
+    ld_dstep(lqs, lxb);
+    lxi = lxi + 1;
+  }
+} return void;
+([1, 0, 0], 3):([2, 0, -6148914691236517206], 3)
+([0, 0, 1], 3):([0, 2, 0], 3)

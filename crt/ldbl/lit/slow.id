@@ -1,0 +1,24 @@
+ld_slow(string lbs, word[] lqp) {
+  word[] lqn = ld_bign(lbs);
+  word[] lqd = [1];
+  ld_five(lqn, lqd, lqp[2]);
+} chain (string lbs, word[] lqp) {
+  word lxs = 66 + bn_bits(lqd) - bn_bits(lqn);
+  word[] lqq = ld_qdiv(lqn, lqd, lxs);
+  word[] lqr = ld_qpack(lqp, lqq, lxs);
+} return word[] lqr;
+("1.5e30", [0, 0, 29, 2, 15, 2]):([-7532807652434412761, 16483])
+("0.1", [0, 0, -1, 1, 1, 2]):([-3689348814741910323, 16379])
+
+// A reading with digits in range: ld_fast when the text is cheap to make
+// exactly, else ld_slow.
+ld_litf(string lbs, word[] lqp) {
+  word[] lqr = [];
+  if(lqp[3] <= 19 && lqp[2] >= 0 - 27 && lqp[2] <= 27) {
+    lqr = ld_fast(lqp);
+  } else {
+    lqr = ld_slow(lbs, lqp);
+  }
+} return word[] lqr;
+("1.5", [0, 0, -1, 2, 15, 2]):([-4611686018427387904, 16383])
+("123456789012345678901234567890", [0, 0, 0, 30, 0, 30]):([-4074482249117339529, 16479])

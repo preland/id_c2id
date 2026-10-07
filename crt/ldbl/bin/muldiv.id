@@ -1,0 +1,13 @@
+cld_mul(word lxd, word lxa, word lxb) {
+  word[] lqr = ld_bin(lxa, lxb, 2);
+  ld_put(lxd, lqr);
+} return word lxd;
+given ld_cells ((import ldz), (import ldx), (import ldy)):((import ldz)) then ld_zm:(-4611686018427387904) then ld_zs:(49152)
+given ld_cells ((import ldz), (import ldx), (import ldx)):((import ldz)) then ld_zm:(-8070450532247928832) then ld_zs:(16384)
+
+cld_div(word lxd, word lxa, word lxb) {
+  word[] lqr = ld_bin(lxa, lxb, 3);
+  ld_put(lxd, lqr);
+} return word lxd;
+given ld_cells ((import ldz), (import ldx), (import ldy)):((import ldz)) then ld_zm:(-4611686018427387904) then ld_zs:(49150)
+given ld_cells ((import ldz), (import ldx), (import ldx)):((import ldz)) then ld_zm:(-9223372036854775808) then ld_zs:(16383)

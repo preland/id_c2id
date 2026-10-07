@@ -3,10 +3,11 @@
 // region, which is only known once every function has been emitted and every
 // literal interned, so they come after all of them.
 emit_boot() {
+  txt_reset();
   emit_ginits();
   int gtot = align_up((import gsz)[0], 8);
-  emit_globals(gtot);
 } chain () {
+  emit_globals(gtot);
   int np = main_np();
   emit_main(gtot, np);
 } return void;
@@ -18,12 +19,14 @@ emit_globals(int gtot) {
   emit_head("", "c_globals() {");
   emit_out("  poke64((import gbase) + " + gtot + ", 0);");
 } chain (int gtot) {
+  emit_gframe();
   emit_slits();
   flush_pend();
+} chain (int gtot) {
   emit_cut("} return void;");
 } return void;
-given init_tu (0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 0, 0);\n} return void;\n")
-given init_tu given lst_str_insert((import slits), 0, "\"ab\"") given lst_insert((import soff), 0, 0) given pend_raw("poke32(A, 5);") (16):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 16, 0);\n  string lit_s0 = \"ab\";\n} chain () {\n  word k1 = 1;\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 0, lit_p0);\n} chain () {\n  word k2 = 2;\n  poke32(A, 5);\n} return void;\n")
+given init_tu given init_frame given init_frame2 (0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 0, 0);\n} return void;\n")
+given init_tu given init_frame given init_frame2 given lst_str_insert((import slits), 0, "\"ab\"") given lst_insert((import soff), 0, 0) given pend_raw("poke32(A, 5);") (16):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 16, 0);\n  string lit_s0 = \"ab\";\n} chain () {\n  word k1 = 1;\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 0, lit_p0);\n} chain () {\n  word k2 = 2;\n  poke32(A, 5);\n} return void;\n")
 
 emit_slits() {
   int j = 0;

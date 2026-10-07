@@ -7,7 +7,7 @@
 fl_cvt(int to, int from, string s) {
   int kt = ty_fkind(to);
   int kf = ty_fkind(from);
-  string out = fl_cvt2(to, from, s, kt, kf);
+  string out = fl_cvt1(to, from, s, kt, kf);
 } return string out;
 given txt_fixture given pend_setup given fl_types (6, 0, "t5"):("t0") then (import pend)[0]:("word t0 = cfl_of_int(t5);")
 given txt_fixture given pend_setup given fl_types (0, 6, "t5"):("t1") then (import pend)[0]:("word t0 = cfl_to_int(t5);")

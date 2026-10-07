@@ -1,0 +1,13 @@
+// One extra argument of a variadic call, named (see va_args). A long double is
+// two words, its significand and its sign and exponent, which is what the
+// callee's va_arg(ap, long double) reads back from two slots in a row.
+va_item(int id, string etxt) {
+  string out = name_val(etxt);
+  if(ty_fkind(ex_ty(id)) == 3) {
+    string vlo = name_val("peek64(" + out + ")");
+    string vhi = name_val("peek64(" + out + " + 8)");
+    out = vlo + ", " + vhi;
+  }
+} return string out;
+given txt_fixture given pend_setup given fl_fixture given ld_fixture ((import ldx), "t9"):("t1, t2") then (import pend)[1]:("word t1 = peek64(t0);") then (import pend)[2]:("word t2 = peek64(t0 + 8);")
+given txt_fixture given pend_setup given fl_fixture ((import fli), "t9"):("t0") then (import pend)[0]:("word t0 = t9;")

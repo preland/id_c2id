@@ -1,0 +1,23 @@
+// Three long double cells in the flat store for the cases of crt/ldbl: ldx holds
+// 1.5, ldy holds -2.0 and ldz is zero (its 16 bytes, from alloc), each 16 bytes
+// apart. A case's own arguments are literals and an address only exists once
+// something has built it, so they are a setup (docs/TESTS.md, "Module state").
+// ld_cset sets a cell to the words m and se.
+ld_cells() {
+  word lxb = alloc(48);
+  export word ldx = lxb;
+  export word ldy = lxb + 16;
+} chain () {
+  export word ldz = lxb + 32;
+  ld_cset(lxb, (import ldqnan), 16383);
+  ld_cset(lxb + 16, (import ldtop), 49152);
+} return void export ldx;
+():() then ld_zm:(0)
+():() then ld_zs:(0)
+
+ld_cset(word lxp, word lxm, word lxe) {
+  poke64(lxp, lxm);
+  poke64(lxp + 8, lxe);
+} return void;
+given ld_cells ((import ldz), 7, 9):() then ld_zm:(7) then ld_zs:(9)
+given ld_cells ((import ldz), -1, 40000):() then ld_zm:(-1) then ld_zs:(40000)

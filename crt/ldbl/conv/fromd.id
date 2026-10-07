@@ -1,0 +1,26 @@
+// A double (the 64 bits of its binary64) to long double, exact. A denormal
+// double is normal in extended precision; a signalling NaN becomes quiet.
+ld_ofdn(word lxb, word lxe) {
+  word lxm = ((lxb & 4503599627370495) | 4503599627370496) << 11;
+  word[] lqr = [lxm, (ushr(lxb, 63) << 15) | (lxe + 15360)];
+} return word[] lqr;
+(4607182418800017408, 1023):([-9223372036854775808, 16383])
+(-4611686018427387904, 1024):([-9223372036854775808, 49152])
+
+ld_ofdd(word lxf, word lxs) {
+  word lxk = ld_clz(lxf);
+  word[] lqr = [lxf << lxk, (lxs << 15) | (15372 - lxk)];
+} return word[] lqr;
+(1, 0):([-9223372036854775808, 15309])
+(3, 1):([-4611686018427387904, 48078])
+
+ld_ofdz(word lxb) {
+  word lxf = lxb & 4503599627370495;
+  word[] lqr = [0, ushr(lxb, 63) << 15];
+  if(lxf != 0) {
+    lqr = ld_ofdd(lxf, ushr(lxb, 63));
+  }
+} return word[] lqr;
+(0):([0, 0])
+(-9223372036854775808):([0, 32768])
+(1):([-9223372036854775808, 15309])

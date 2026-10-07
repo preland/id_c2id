@@ -36,11 +36,12 @@ store_plain(int ty, string s, string out) {
   string txt = "poke" + bits + "(" + s + ", " + out + ")";
 } chain (int ty, string s, string out) {
   int recsz = type_size(ty);
-  if((import nk)[ty] == "rec") {
+  if(ty_agg(ty) == 1) {
     txt = "c_memcpy(" + s + ", " + out + ", " + recsz + ")";
   }
 } return string txt;
 given txt_fixture (0, "A", "B"):("poke32(A, B)")
 given txt_fixture (5, "A", "B"):("poke64(A, B)")
+given txt_fixture given ldt_types (6, "A", "B"):("c_memcpy(A, B, 16)")
 given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P p;" (6, "A", "B"):("c_memcpy(A, B, 8)")
 given boot_a given boot_b given lexfix given tu_load stdin "struct Q { char c[5]; int d; }; struct Q q;" (6, "X", "Y"):("c_memcpy(X, Y, 12)")

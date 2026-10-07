@@ -1,0 +1,38 @@
+// The x87 80-bit extended `long double`, on words. A value lives in 16 bytes
+// of the store: the 64-bit significand (its integer bit explicit) at +0, then
+// 16 bits holding the sign (bit 15) and the 15-bit biased exponent at +8, six
+// bytes of zero after. Everything here is exact: sums, products and quotients
+// are formed with their full width and rounded once, to nearest even, at 64
+// bits, as the x87 does.
+//
+// Word primitives first. ld_clz counts the leading zero bits of a non-zero
+// word (a word with the top bit set answers 0); ld_mulhi is the high 64 bits of
+// the 128-bit product of two unsigned words, from 32-bit limbs.
+ld_clz(word lxv) {
+  word lxn = 0;
+  while(lxv > 0) {
+    lxv = lxv << 1;
+    lxn = lxn + 1;
+  }
+} return word lxn;
+(1):(63)
+(4611686018427387904):(1)
+(-1):(0)
+
+ld_mulmid(word lxa, word lxb) {
+  word lxm = 4294967295;
+  word lxl = ushr((lxa & lxm) * (lxb & lxm), 32);
+  word lxs = lxl + (((lxa & lxm) * ushr(lxb, 32)) & lxm) + ((ushr(lxa, 32) * (lxb & lxm)) & lxm);
+} return word lxs;
+(4294967297, 4294967297):(2)
+(4294967295, 4294967295):(4294967294)
+
+ld_mulhi2(word lxa, word lxb) {
+  word lxm = 4294967295;
+  word lxu = ushr(lxb, 32);
+  word lxv = ushr(lxa, 32);
+} chain (word lxa, word lxb) {
+  word lxh = lxv * lxu + ushr((lxa & lxm) * lxu, 32) + ushr(lxv * (lxb & lxm), 32);
+} return word lxh;
+(4294967297, 4294967297):(1)
+(-4294967296, 4294967295):(4294967294)

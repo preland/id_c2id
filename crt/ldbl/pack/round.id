@@ -1,0 +1,36 @@
+// Below the smallest normal exponent the value is a denormal: its exponent is
+// forced to 0 and the significand shifted right by the exponent it lacks.
+ld_dnrm(word[] lqw) {
+  if(lqw[1] <= 0) {
+    ld_jam(lqw, 1 - lqw[1]);
+    lqw[1] = 0;
+  }
+} return void;
+([0, -3, -9223372036854775808, 0]):([0, 0, 576460752303423488, 0])
+([0, 0, 8, 3]):([0, 0, 4, 1])
+
+// 1 when hi:lo is to be rounded up to hi + 1: lo is past one half, or exactly
+// one half and hi is odd.
+ld_up(word lxh, word lxo) {
+  word lxu = ult((import ldtop), lxo);
+  if(lxo == (import ldtop)) {
+    lxu = lxh & 1;
+  }
+} return word lxu;
+(1, -9223372036854775808):(1)
+(2, -9223372036854775808):(0)
+(0, -1):(1)
+(5, 7):(0)
+
+ld_rnd(word[] lqw) {
+  word lxu = ld_up(lqw[2], lqw[3]);
+  word lxh = lqw[2] + lxu;
+  word lxc = lxu & (lxh == 0);
+} chain (word[] lqw) {
+  lqw[2] = lxh | (lxc << 63);
+  lqw[1] = lqw[1] + lxc;
+  lqw[3] = 0;
+} return void;
+([0, 100, 5, -1]):([0, 100, 6, 0])
+([0, 100, -1, -1]):([0, 101, -9223372036854775808, 0])
+([0, 100, 4, -9223372036854775808]):([0, 100, 4, 0])

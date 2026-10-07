@@ -22,13 +22,15 @@ scan_len(word fmt, word[] st, word[] fs) {
 given crt_fmt_fixture ((import fmtbuf), [3], [0, 0, 0, 0, 0]):(100) then calls take_len:[1]
 given crt_fmt_fixture ((import fmtbuf), [4], [0, 0, 0, 0, 0]):(100) then calls take_len:[0]
 
-// 'l', 'h', 'z'. glibc also accepts 'j', 't' and the BSD 'q'; those are not
-// implemented, so they are echoed rather than silently treated as 'll'.
+// 'l', 'h', 'z', and 'L' (a long double). glibc also accepts 'j', 't' and the
+// BSD 'q'; those are not implemented, so they are echoed rather than silently
+// treated as 'll'.
 is_lenc(word c) {
   int go = 0;
-  if(c == 108 || c == 104 || c == 122) {
+  if(c == 108 || c == 104 || c == 122 || c == 76) {
     go = 1;
   }
 } return int go;
 (108):(1)
+(76):(1)
 (100):(0)

@@ -1,0 +1,22 @@
+ld_lexp(string lbs, word[] lqp, int bxi) {
+  int bxc = charat(lbs, bxi);
+  if(bxc == 101 || bxc == 69) {
+    ld_lexv(lbs, lqp, bxi + 1);
+  }
+} return void;
+("1e5", [0, 0, 0, 1, 1, 1], 1):("1e5", [0, 0, 5, 1, 1, 1], 1)
+("1E-2", [0, 0, 0, 1, 1, 1], 1):("1E-2", [0, 0, -2, 1, 1, 1], 1)
+
+ld_lex(string lbs) {
+  word[] lqp = [0, 0, 0, 0, 0, 0];
+  int bxi = ld_lsign(lbs, lqp);
+  bxi = ld_lmant(lbs, lqp, bxi);
+} chain (string lbs) {
+  ld_lword(lbs, lqp, bxi);
+  ld_lexp(lbs, lqp, bxi);
+} return word[] lqp;
+("-12.5e3"):([1, 0, 2, 3, 125, 3])
+("0.00123"):([0, 0, -5, 3, 123, 6])
+("inf"):([0, 1, 0, 0, 0, 0])
+("-nan"):([1, 2, 0, 0, 0, 0])
+("zz"):([0, 3, 0, 0, 0, 0])

@@ -15,17 +15,19 @@ mid_ok(string lit, int from, int to, int scan) {
 ("%*d", 1, 2, 1):(1)
 
 // Digits and the lengths l, h and z are implemented by both families; the flags,
-// the precision and `*` (an argument) by printf, and `*` (a value read but not
-// stored), j and t by sscanf.
+// the precision, `*` (an argument) and the length L (a long double) by printf,
+// and `*` (a value read but not stored), j and t by sscanf.
 mid_char(int c, int scan) {
   int ok = 0;
   if(c >= 48 && c <= 57 || c == 108 || c == 104 || c == 122) {
     ok = 1;
   }
-  if(scan == 0 && (c == 45 || c == 46 || c == 43 || c == 32 || c == 35 || c == 42) || scan == 1 && (c == 42 || c == 106 || c == 116)) {
+  if(scan == 0 && (c == 45 || c == 46 || c == 43 || c == 32 || c == 35 || c == 42 || c == 76) || scan == 1 && (c == 42 || c == 106 || c == 116)) {
     ok = 1;
   }
 } return int ok;
+(76, 0):(1)
+(76, 1):(0)
 (45, 0):(1)
 (45, 1):(0)
 (42, 1):(1)

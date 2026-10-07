@@ -12,12 +12,13 @@ given boot_a given boot_b given lexfix given tu_load stdin "struct P { int x; };
 sret_call(int e) {
   int ft = ex_ty((import na)[e]);
   int rt = fn_ret(ft);
-  if((import nk)[rt] == "rec") {
+  if(ty_agg(rt) == 1) {
     sret_slot(e, rt);
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "struct P { int x; }; struct P f(void); int g(void) { return f().x; }" (15):() then (import nb)[15]:(1)
 given boot_a given boot_b given lexfix given tu_load stdin "struct P { int x; }; int f(void); int g(void) { return f(); }" (15):() then (import nb)[15]:(0)
+given boot_a given boot_b given lexfix given tu_load stdin "long double f(void); int g(void) { return f(); }" (14):() then (import nb)[14]:(1)
 
 sret_slot(int e, int rt) {
   if((import nb)[e] == 0) {

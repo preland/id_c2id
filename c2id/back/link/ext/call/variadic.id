@@ -1,7 +1,7 @@
 arg_item(int id, int named) {
   string etxt = ex_txt(id);
   if(named > 0) {
-    etxt = name_val(etxt);
+    etxt = va_item(id, etxt);
   }
 } return string etxt;
 given boot_a given boot_b given exprfix stdin "f(1, 2);" (7, 0):("1")

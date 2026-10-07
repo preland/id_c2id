@@ -1,0 +1,23 @@
+// dst = a op b for the addresses dst, a and b of long doubles; the result is
+// written to dst and dst answered. lxo is the operation's code (see ld_bin4).
+ld_bin(word lxa, word lxb, word lxo) {
+  word[] lqa = ld_get(lxa);
+  word[] lqb = ld_get(lxb);
+  word[] lqr = ld_bin2(lqa, lqb, lxo);
+} return word[] lqr;
+given ld_cells ((import ldx), (import ldy), 0):([-9223372036854775808, 49150])
+given ld_cells ((import ldx), (import ldy), 2):([-4611686018427387904, 49152])
+
+cld_add(word lxd, word lxa, word lxb) {
+  word[] lqr = ld_bin(lxa, lxb, 0);
+  ld_put(lxd, lqr);
+} return word lxd;
+given ld_cells ((import ldz), (import ldx), (import ldy)):((import ldz)) then ld_zm:(-9223372036854775808) then ld_zs:(49150)
+given ld_cells ((import ldz), (import ldx), (import ldx)):((import ldz)) then ld_zm:(-4611686018427387904) then ld_zs:(16384)
+
+cld_sub(word lxd, word lxa, word lxb) {
+  word[] lqr = ld_bin(lxa, lxb, 1);
+  ld_put(lxd, lqr);
+} return word lxd;
+given ld_cells ((import ldz), (import ldx), (import ldy)):((import ldz)) then ld_zm:(-2305843009213693952) then ld_zs:(16384)
+given ld_cells ((import ldz), (import ldy), (import ldx)):((import ldz)) then ld_zm:(-2305843009213693952) then ld_zs:(49152)

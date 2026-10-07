@@ -9,13 +9,15 @@ wrap_sret(int fn) {
 } return void;
 given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "struct Q { int c; }; struct Q f(int a) { struct Q q; return q; }" (0):() then prints:("  poke64(fp, a0);\n")
 given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "int f(int a) { return a; }" (0):() then prints:("")
+given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "long double f(int a) { long double q = a; return q; }" (0):() then prints:("  poke64(fp, a0);\n")
 
 sret_fn(int fn) {
   int rets = 0;
   if(fn < len((import ftys))) {
     int rt = fn_ret((import ftys)[fn]);
-    rets = (import nk)[rt] == "rec";
+    rets = ty_agg(rt);
   }
 } return int rets;
 given boot_a given boot_b given lexfix given tu_load stdin "struct Q { int c; }; struct Q f(int a) { struct Q q; return q; }" (0):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "long double f(int a) { long double q = a; return q; }" (0):(1)
 given boot_a given boot_b given lexfix given tu_load stdin "struct Q { int c; }; struct Q f(int a) { struct Q q; return q; }" (4):(0)

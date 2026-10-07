@@ -1,0 +1,22 @@
+// A long double literal (a floating literal ending in l or L) is made at run time
+// by crt's cld_lit from its decimal text, which rounds it once, exactly, to
+// nearest even, into a temporary of its own. The text is the literal without its
+// suffix, a string in the generated code.
+ld_lit_txt(string op) {
+  string dst = ld_tmp();
+  string flbody = fl_norm(op);
+  string s = name_val("cld_lit(" + dst + ", \"" + flbody + "\")");
+} return string s;
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset ("1.5L"):("t0") then (import pend)[0]:("word t0 = cld_lit((fp + 16), \"1.5\");")
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset (".5l"):("t0") then (import pend)[0]:("word t0 = cld_lit((fp + 16), \"0.5\");")
+
+fl_lit_pick(string op) {
+  string s = "";
+  if(has_ch(op, 108, 76) == 1) {
+    s = ld_lit_txt(op);
+  } else {
+    s = fl_lit_txt(op);
+  }
+} return string s;
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset ("2.5L"):("t0") then (import pend)[0]:("word t0 = cld_lit((fp + 16), \"2.5\");")
+given txt_fixture given pend_setup ("2.5"):("t0") then (import pend)[0]:("word t0 = bits_of_float(2.5);")

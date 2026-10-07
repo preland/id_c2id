@@ -6,18 +6,26 @@
 // storing a `float` converts between the 4-byte slot and that word.
 //
 // ty_fkind: 0 for a type that is not floating point, 1 for float, 2 for double.
-// `long double` is refused by the check pass and read here as a double.
+// 3 for long double, which is not a word: its value in an expression is the
+// address of its 16 bytes, as a struct's is (ty_agg), and crt/ldbl does its
+// arithmetic on those addresses.
 fk_of(string fkn) {
   int k = 0;
   if(fkn == "float") {
     k = 1;
   }
-  if(fkn == "double" || fkn == "long double") {
+  if(fkn == "double") {
     k = 2;
+  }
+} chain (string fkn) {
+  if(fkn == "long double") {
+    k = 3;
   }
 } return int k;
 ("float"):(1)
 ("double"):(2)
+("long double"):(3)
+("int"):(0)
 
 ty_fkind(int ty) {
   int k = 0;

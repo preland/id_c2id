@@ -1,0 +1,26 @@
+// Integers to long double: exact (64 bits hold any 64-bit integer). ld_ofu is the
+// value of the unsigned magnitude lxu with sign lxs, [significand, sign and
+// exponent]; zero is +0.
+ld_ofu(word lxu, word lxs) {
+  word[] lqr = [0, 0];
+  if(lxu != 0) {
+    lqr = ld_ofu2(lxu, lxs);
+  }
+} return word[] lqr;
+(1, 0):([-9223372036854775808, 16383])
+(3, 1):([-4611686018427387904, 49152])
+(0, 1):([0, 0])
+
+ld_ofu2(word lxu, word lxs) {
+  word lxk = ld_clz(lxu);
+  word[] lqr = [lxu << lxk, (lxs << 15) | (16446 - lxk)];
+} return word[] lqr;
+(1, 0):([-9223372036854775808, 16383])
+(-1, 0):([-1, 16446])
+
+cld_of_uint(word lxd, word lxu) {
+  word[] lqr = ld_ofu(lxu, 0);
+  ld_put(lxd, lqr);
+} return word lxd;
+given ld_cells ((import ldz), 5):((import ldz)) then ld_zm:(-6917529027641081856) then ld_zs:(16385)
+given ld_cells ((import ldz), -1):((import ldz)) then ld_zm:(-1) then ld_zs:(16446)

@@ -1,0 +1,42 @@
+// %Lf %Le %Lg: the argument is the two words of a long double (its significand,
+// then its sign and exponent), and the digits come as for a double (fmt/dec):
+// the exact value is m * 2^e with m the 64-bit significand, which needs the
+// unsigned digit split dg_ofu and the unsigned shift fd_normu in place of dg_of
+// and fd_norm.
+dg_ofu(word dgn) {
+  word[] dgo = [];
+  while(dgn != 0) {
+    push(dgo, umod(dgn, 10));
+    dgn = udiv(dgn, 10);
+  }
+  if(len(dgo) == 0) {
+    push(dgo, 0);
+  }
+} return word[] dgo;
+(1234):([4, 3, 2, 1])
+(0):([0])
+(-1):([5, 1, 6, 1, 5, 5, 9, 0, 7, 3, 7, 0, 4, 4, 7, 6, 4, 4, 8, 1])
+
+fd_normu(word[] fdm) {
+  while(fdm[1] < 0 && fdm[0] != 0 && (fdm[0] & 1) == 0) {
+    fdm[0] = ushr(fdm[0], 1);
+    fdm[1] = fdm[1] + 1;
+  }
+} return word[] fdm;
+([12, -3]):([3, -1])
+([-9223372036854775808, -3]):([1152921504606846976, 0])
+
+// [m, e] of a long double, normalised: a denormal's exponent field reads as 1,
+// and zero is m = 0 with e = 0.
+fd_statel(word lfm, word lfe) {
+  word lfx = lfe & 32767;
+  word[] fdm = [lfm, lfx + (lfx == 0) - 16446];
+  if(lfm == 0) {
+    fdm[1] = 0;
+  }
+} chain (word lfm, word lfe) {
+  fdm = fd_normu(fdm);
+} return word[] fdm;
+(-4611686018427387904, 16383):([3, -1])
+(0, 0):([0, 0])
+(1, 0):([1, -16445])

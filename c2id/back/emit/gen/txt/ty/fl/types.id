@@ -19,5 +19,5 @@ fl_make() {
   lset((import fltys), 2, f);
   lset((import fltys), 0, 1);
 } return void;
-given txt_fixture ():() then (import fltys):([1, 6, 7])
+given txt_fixture ():() then (import fltys):([1, 6, 7, 0])
 given txt_fixture ():() then (import ns)[7]:("float")

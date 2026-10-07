@@ -1,0 +1,36 @@
+// The long double a decimal text names, [significand, sign and exponent]: zero
+// without digits, an infinity or a NaN by the reading's class, else ld_litn; the
+// sign is put on whatever it is.
+ld_litv(string lbs, word[] lqp) {
+  word[] lqr = [0, 0];
+  if(lqp[1] == 1) {
+    lqr = ld_inf(0);
+  }
+  if(lqp[1] == 2) {
+    lqr = ld_indef(0);
+  }
+} chain (string lbs, word[] lqp) {
+  if(lqp[3] > 0) {
+    lqr = ld_litn(lbs, lqp);
+  }
+} return word[] lqr;
+("inf", [0, 1, 0, 0, 0, 0]):([-9223372036854775808, 32767])
+("nan", [0, 2, 0, 0, 0, 0]):([-4611686018427387904, 32767])
+("1.5", [0, 0, -1, 2, 15, 2]):([-4611686018427387904, 16383])
+("x", [0, 3, 0, 0, 0, 0]):([0, 0])
+
+ld_lit(string lbs) {
+  word[] lqp = ld_lex(lbs);
+  word[] lqr = ld_litv(lbs, lqp);
+  lqr[1] = lqr[1] | (lqp[0] << 15);
+} return word[] lqr;
+("-2.5"):([-6917529027641081856, 49152])
+("1e5"):([-4372995238176751616, 16399])
+("-0"):([0, 32768])
+
+cld_lit(word lxd, string lbs) {
+  word[] lqr = ld_lit(lbs);
+  ld_put(lxd, lqr);
+} return word lxd;
+given ld_cells ((import ldz), "1.5"):((import ldz)) then ld_zm:(-4611686018427387904) then ld_zs:(16383)
+given ld_cells ((import ldz), "-100"):((import ldz)) then ld_zm:(-4035225266123964416) then ld_zs:(49157)

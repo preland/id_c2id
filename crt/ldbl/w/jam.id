@@ -1,0 +1,35 @@
+// The low word of the 128-bit lxh:lxo shifted right by lxk, any lxk >= 0, with
+// every bit shifted out below it kept as a 1 in the bottom bit. Past 64 the
+// high word is the one that is shifted; past 128 only the sticky bit is left.
+ld_jamhi(word lxh, word lxo, word lxk) {
+  word lxr = ((lxh | lxo) != 0);
+  if(lxk < 64) {
+    lxr = ushr(lxh, lxk) | (((lxh << (64 - lxk)) | lxo) != 0);
+  }
+} return word lxr;
+(8, 0, 3):(1)
+(16, 1, 3):(3)
+(5, 0, 70):(1)
+(0, 0, 70):(0)
+
+ld_jaml(word lxh, word lxo, word lxk) {
+  word lxr = 0;
+  if(lxk < 64) {
+    lxr = ld_jamlo(lxh, lxo, lxk);
+  } else {
+    lxr = ld_jamhi(lxh, lxo, lxk - 64);
+  }
+} return word lxr;
+(1, 3, 1):(-9223372036854775807)
+(16, 1, 67):(3)
+(0, 0, 200):(0)
+
+// lqw is the working value [sign, biased exponent, high word, low word]; shift
+// its 128-bit significand right by lxk, sticky bit kept.
+ld_jam(word[] lqw, word lxk) {
+  word lxo = ld_jaml(lqw[2], lqw[3], lxk);
+  lqw[2] = ushr(lqw[2], lxk);
+  lqw[3] = lxo;
+} return void;
+([0, 100, 8, 16], 2):([0, 100, 2, 4], 2)
+([1, 5, 1, 0], 1):([1, 5, 0, -9223372036854775808], 1)

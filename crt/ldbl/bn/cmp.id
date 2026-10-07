@@ -1,0 +1,35 @@
+// Limb bxi of x, 0 past its length. bn_cmp orders two numbers: 0 when lqa is
+// less than lqb, 1 when equal, 2 when greater (a leading zero limb is nothing).
+bn_limb(word[] lqx, int bxi) {
+  word lxl = 0;
+  if(bxi < len(lqx)) {
+    lxl = lqx[bxi];
+  }
+} return word lxl;
+([5, 6], 1):(6)
+([5], 3):(0)
+
+bn_cmpone(word[] lqa, word[] lqb, int bxi) {
+  word lxa = bn_limb(lqa, bxi);
+  word lxb = bn_limb(lqb, bxi);
+  word lxr = (lxa > lxb) + (lxa >= lxb);
+} return word lxr;
+([5, 0], [3], 0):(2)
+([5], [7], 0):(0)
+([5], [5], 0):(1)
+
+bn_cmp(word[] lqa, word[] lqb) {
+  int bxi = len(lqa);
+  word lxr = 1;
+  if(len(lqb) > bxi) {
+    bxi = len(lqb);
+  }
+} chain (word[] lqa, word[] lqb) {
+  while(bxi > 0 && lxr == 1) {
+    bxi = bxi - 1;
+    lxr = bn_cmpone(lqa, lqb, bxi);
+  }
+} return word lxr;
+([5, 0], [5]):(1)
+([1, 1], [5]):(2)
+([4], [1, 1]):(0)

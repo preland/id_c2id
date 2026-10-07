@@ -1,0 +1,37 @@
+// Reading a decimal floating-point text (a literal, or what strtold scanned): an
+// optional sign, digits with an optional point, an optional exponent, an optional
+// f or l suffix after it, which is not read; or inf, infinity or nan in any case.
+// The reading is lqp:
+//
+//   lqp[0]  1 for a minus sign
+//   lqp[1]  0 a number, 1 an infinity, 2 a NaN, 3 neither
+//   lqp[2]  the decimal exponent: the value is the digits (as an integer) times
+//           ten to this, so each digit after the point lowers it by one
+//   lqp[3]  how many digits there are from the first non-zero one
+//   lqp[4]  those digits as a word (meaningful when there are at most 19)
+//   lqp[5]  how many digits there are at all
+ld_lsign(string lbs, word[] lqp) {
+  int bxc = charat(lbs, 0);
+  lqp[0] = (bxc == 45);
+  int bxi = (bxc == 43) + (bxc == 45);
+} return int bxi;
+("-5", [0, 0, 0, 0, 0, 0]):(1)
+("+5", [0, 0, 0, 0, 0, 0]):(1)
+("5", [0, 0, 0, 0, 0, 0]):(0)
+
+ld_lacc(word[] lqp, int bxd) {
+  lqp[5] = lqp[5] + 1;
+  if(lqp[3] > 0 || bxd > 0) {
+    lqp[3] = lqp[3] + 1;
+    lqp[4] = lqp[4] * 10 + bxd;
+  }
+} return void;
+([0, 0, 0, 0, 0, 0], 0):([0, 0, 0, 0, 0, 1], 0)
+([0, 0, 0, 2, 12, 2], 5):([0, 0, 0, 3, 125, 3], 5)
+
+ld_ldig1(word[] lqp, int bxd, word lxf) {
+  ld_lacc(lqp, bxd);
+  lqp[2] = lqp[2] - lxf;
+} return void;
+([0, 0, 0, 0, 0, 0], 7, 1):([0, 0, -1, 1, 7, 1], 7, 1)
+([0, 0, 0, 0, 0, 0], 7, 0):([0, 0, 0, 1, 7, 1], 7, 0)

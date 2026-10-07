@@ -1,0 +1,35 @@
+// Big non-negative integers for converting long double to and from decimal: a
+// word list of base 2^32 limbs, least significant first, each limb in a word.
+// Leading zero limbs are allowed. All of it is in place on the list given,
+// unless it says it makes a new one.
+//
+// bn_mulone is one limb times lxm plus the carry lxc: the limb is replaced by
+// the low 32 bits and the rest is the new carry. bn_mul does x = x * lxm + lxc
+// for a multiplier and an addend below 2^32.
+bn_mulone(word[] lqx, int bxi, word lxm, word lxc) {
+  word lxt = lqx[bxi] * lxm + lxc;
+  lqx[bxi] = lxt & 4294967295;
+  word lxr = ushr(lxt, 32);
+} return word lxr;
+([4294967295], 0, 2, 0):(1)
+([5], 0, 10, 7):(0)
+
+bn_flush(word[] lqx, word lxc) {
+  while(lxc != 0) {
+    push(lqx, lxc & 4294967295);
+    lxc = ushr(lxc, 32);
+  }
+} return void;
+([1], 5):([1, 5], 5)
+([1], 12884901895):([1, 7, 3], 12884901895)
+
+bn_mul(word[] lqx, word lxm, word lxc) {
+  int bxi = 0;
+  while(bxi < len(lqx)) {
+    lxc = bn_mulone(lqx, bxi, lxm, lxc);
+    bxi = bxi + 1;
+  }
+  bn_flush(lqx, lxc);
+} return void;
+([4294967295], 2, 0):([4294967294, 1], 2, 0)
+([1, 1], 10, 5):([15, 10], 10, 5)

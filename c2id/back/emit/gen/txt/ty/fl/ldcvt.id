@@ -1,0 +1,42 @@
+// Conversions to and from long double (crt/ldbl/conv). Into one: an integer is
+// exact (cld_of_int, cld_of_uint for an unsigned 64-bit one), a float or double
+// is its word (cld_of_dbl), and the result is written to a temporary of its own.
+// Out of one: a double or float is rounded once from the 64-bit significand
+// (cld_to_dbl, cld_to_flt), an integer truncates toward zero (cld_to_int,
+// cld_to_uint, then the width conversion), and _Bool is "is not zero".
+fl_cvt1(int to, int from, string s, int kt, int kf) {
+  string out = "";
+  if(kt == 3 || kf == 3) {
+    out = ld_cvt(to, from, s, kt, kf);
+  } else {
+    out = fl_cvt2(to, from, s, kt, kf);
+  }
+} return string out;
+given txt_fixture given pend_setup given fl_types (6, 0, "t5", 2, 0):("t0") then (import pend)[0]:("word t0 = cfl_of_int(t5);")
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset given ldt_types (6, 0, "t5", 3, 0):("t0") then (import pend)[0]:("word t0 = cld_of_int((fp + 16), t5);")
+
+ld_cvt(int to, int from, string s, int kt, int kf) {
+  string out = s;
+  if(kt == 3 && kf != 3) {
+    out = ld_from(from, kf, s);
+  }
+  if(kf == 3 && kt != 3) {
+    out = ld_to(to, kt, s);
+  }
+} return string out;
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset given ldt_types (6, 0, "t5", 3, 0):("t0") then (import pend)[0]:("word t0 = cld_of_int((fp + 16), t5);")
+given txt_fixture given pend_setup given fl_types given ldt_types (6, 8, "t5", 2, 3):("t0") then (import pend)[0]:("word t0 = cld_to_dbl(t5);")
+given txt_fixture given pend_setup given ldt_types (6, 6, "t5", 3, 3):("t5")
+
+ld_ofname(int from, int kf) {
+  string fnm = "cld_of_int";
+  if(kf > 0) {
+    fnm = "cld_of_dbl";
+  }
+  if(kf == 0 && type_size(from) == 8 && ty_signed(from) == 0) {
+    fnm = "cld_of_uint";
+  }
+} return string fnm;
+given txt_fixture (0, 0):("cld_of_int")
+given txt_fixture (3, 0):("cld_of_uint")
+given txt_fixture (0, 2):("cld_of_dbl")

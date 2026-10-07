@@ -97,6 +97,9 @@ crt/
                 └── out.id  c_printk
 ```
 
+`ldbl/` is the x87 80-bit `long double` (section 4b); it is not in the tree
+above, which lists the 104 functions this section counts.
+
 104 functions — 8 in `int/`, 44 in `mem/` (17 for the memory and string
 routines, 27 for the allocator) and 52 in `fmt/`. The tree is deep because
 the tree was laid out three entries to a directory (a since-dropped rule): a
@@ -233,7 +236,7 @@ as `long long` and inserts no widening cast, so an `int` expression in a
 ### Supported
 
 * conversions `%d %i %u %x %X %o %c %s %p %%` and `%f %F %e %E %g %G` (the argument is the
-  bits of a double; see fmt/dec and fmt/flt)
+  bits of a double, or with `L` the two words of a long double; see fmt/dec, fmt/flt and ldbl/fmt)
 * length modifiers `hh` (8-bit), `h` (16), none (32, i.e. C `int`),
   `l`, `ll`, `z` (64)
 * flags `-` (left justify), `0` (zero pad), `+`, space and `#`
@@ -254,7 +257,7 @@ for null and `0x`-prefixed lowercase hex otherwise.
 
 An unrecognised specifier is **echoed literally**, from its `%` through the
 character that ended it, so a gap shows up in the output instead of silently
-disappearing. This covers the length modifiers `j`, `t`, `L`, `q`, `%a`, `%n`, and any
+disappearing. This covers the length modifiers `j`, `t`, `q`, `%a`, `%n`, and any
 unknown conversion letter.
 conversion letter.
 
@@ -269,6 +272,42 @@ chain, lazy rather than eager so that an arm which is not taken does not
 consume an argument. `narrow_s` / `narrow_u` apply the length modifier;
 `pad_out` / `pad_str` apply the width and flags; `wset` / `lgetw` are the
 list accessors `id` requires for a list that arrived as a parameter.
+
+## 4b. `ldbl/` — the x87 `long double`
+
+A `long double` is 16 bytes of the store: the 64-bit significand with its integer
+bit explicit at +0, the sign (bit 15) and 15-bit biased exponent at +8, six zero
+bytes after. Every function takes and answers the addresses of such cells (and
+`word`s for the integers and doubles it converts), so none of it needs a type the
+language does not have. It is exact: a sum, product or quotient is formed with its
+full width and rounded once, to nearest even, at 64 bits.
+
+| function | contract |
+| --- | --- |
+| `cld_add(d, a, b)`, `cld_sub`, `cld_mul`, `cld_div` | `*d = *a op *b`; answers `d`. NaN operands answer the larger-significand one quieted (the positive on a tie), an invalid operation the indefinite NaN, and denormals, zeros and infinities follow the x87. |
+| `cld_neg(d, a)` | the sign bit flipped, a NaN's too (FCHS) |
+| `cld_cmp(a, b, op)` | 0 or 1 for `op` 0 `<`, 1 `<=`, 2 `>`, 3 `>=`, 4 `==`, 5 `!=`; false for a NaN except `!=` |
+| `cld_nz(a)` | 1 when `*a` is not zero (a NaN is not) |
+| `cld_of_int(d, w)`, `cld_of_uint`, `cld_of_dbl(d, bits)` | exact |
+| `cld_to_int(a)`, `cld_to_uint`, `cld_to_dbl`, `cld_to_flt` | truncation toward zero (the word `0x8000000000000000` when it does not fit, as the x87's `fisttp`), and one rounding from the 64-bit significand to a double or a float (answered as the bits of the double that holds it) |
+| `cld_lit(d, text)` | the decimal text rounded once, exactly: a text of at most 19 digits and a power of ten within 27 is one division or multiplication of two exact values; any other is a big-integer quotient (`bn_`, `ld_qdiv`) good for the whole range, denormals and overflow included |
+| `fl_convl`, `conv_fl` | `%Lf %Le %Lg` and capitals, the exact digits of `m * 2^e` as for a double |
+
+Internals: `ld_pack` rounds a working value `[sign, exponent, hi, lo]` (the 128-bit
+significand with a sticky bit) into `[significand, sign and exponent]`; addition
+shifts the smaller operand down with the lost bits kept as the sticky bit, and
+multiplication and division work on normalised operands (a 64x64 product from 32-bit
+limbs; division bit by bit). The x87's invalid encodings (an unnormal, a pseudo-NaN,
+a pseudo-infinity) are recognised and treated as the hardware does: arithmetic
+and narrowing answer the indefinite NaN whatever the other operand is, a
+comparison is unordered, an integer conversion the "integer indefinite". They
+are not printed as glibc prints them. A pseudo-denormal (exponent field 0, integer
+bit set) is a denormal of exponent 1 to the arithmetic and the comparisons, as on
+the hardware; glibc's `printf` drops its integer bit, and `%Lf` here does not.
+
+Proof: `tests/c/227_ld_basic.c` to `231_ld_sweep_d.c` compare the translated
+program with the compiler's x87 (the sweeps fold millions of random operand pairs
+through every operation into one hash), and each function has its own cases.
 
 ## 5. Known divergences from C
 

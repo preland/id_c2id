@@ -1,0 +1,17 @@
+// Long double nodes, for the cases that emit them: ldx and ldy are the int 5 and
+// the double 1.5 cast to long double (their type is the cast's), ldb, ldc and ldk
+// are ldx + ldy, ldx < ldy and ldx % ldy, ldn is -ldx and ldl the literal 1.5L.
+ld_fixture() {
+  ldt_types();
+  export int ldx = newleaf("cast", (import fli), (import fltys)[3], "", "");
+  export int ldy = newleaf("cast", (import flf), (import fltys)[3], "", "");
+} chain () {
+  export int ldb = newleaf("bin", (import ldx), (import ldy), "+", "");
+  export int ldc = newleaf("bin", (import ldx), (import ldy), "<", "");
+  export int ldk = newleaf("bin", (import ldx), (import ldy), "%", "");
+} chain () {
+  export int ldn = newleaf("un", (import ldx), 0, "-", "");
+  export int ldl = newleaf("num", 0, 0, "1.5L", "");
+} return void;
+given txt_fixture given fl_fixture ():() then (import nk)[11]:("cast")
+given txt_fixture given fl_fixture ():() then (import ns)[10]:("long double")

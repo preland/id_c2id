@@ -1,0 +1,35 @@
+// x * 2^lxk as a new list: lxk / 32 zero limbs, then every limb shifted up by
+// lxk % 32 bits with the bits that spill carried to the next limb.
+bn_shone(word[] lqy, word lxl, word lxr, word lxc) {
+  word lxt = (lxl << lxr) | lxc;
+  push(lqy, lxt & 4294967295);
+  word lxn = ushr(lxt, 32);
+} return word lxn;
+([], 3, 2, 1):(0)
+([], 4294967295, 4, 0):(15)
+
+bn_zeros(word lxn) {
+  word[] lqz = [];
+  word lxi = 0;
+  while(lxi < lxn) {
+    push(lqz, 0);
+    lxi = lxi + 1;
+  }
+} return word[] lqz;
+(0):([])
+(3):([0, 0, 0])
+
+bn_shl(word[] lqx, word lxk) {
+  word[] lqy = bn_zeros(lxk / 32);
+  word lxc = 0;
+  int bxi = 0;
+} chain (word[] lqx, word lxk) {
+  while(bxi < len(lqx)) {
+    lxc = bn_shone(lqy, lqx[bxi], lxk % 32, lxc);
+    bxi = bxi + 1;
+  }
+  bn_flush(lqy, lxc);
+} return word[] lqy;
+([1], 33):([0, 2])
+([3, 1], 4):([48, 16])
+([4294967295], 1):([4294967294, 1])

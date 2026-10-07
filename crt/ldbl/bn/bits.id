@@ -1,0 +1,29 @@
+// The index of the top non-zero limb, -1 for zero; the length in bits (0 for
+// zero); 1 when the number is zero.
+bn_top(word[] lqx) {
+  int bxi = len(lqx) - 1;
+  while(bxi >= 0 && lqx[bxi] == 0) {
+    bxi = bxi - 1;
+  }
+} return int bxi;
+([0, 5, 0]):(1)
+([0, 0]):(-1)
+
+bn_bits(word[] lqx) {
+  int bxi = bn_top(lqx);
+  word lxb = 0;
+  if(bxi >= 0) {
+    lxb = bxi * 32 + 32 - ld_clz(lqx[bxi] << 32);
+  }
+} return word lxb;
+([1]):(1)
+([0, 1]):(33)
+([4294967295, 0]):(32)
+([0, 0]):(0)
+
+bn_zero(word[] lqx) {
+  int bxi = bn_top(lqx);
+  word lxz = (bxi < 0);
+} return word lxz;
+([0, 0]):(1)
+([0, 1]):(0)

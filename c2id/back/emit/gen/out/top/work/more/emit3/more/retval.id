@@ -16,9 +16,10 @@ given txt_fixture given pend_setup (-1):("0")
 ret_none() {
   int rt = (import retty)[0];
   string txt = "0";
-  if((import nk)[rt] == "rec") {
+  if(ty_agg(rt) == 1) {
     txt = name_val("peek64(fp + 8)");
   }
 } return string txt;
 given txt_fixture given pend_setup ():("0")
 given txt_fixture given pend_setup given lset((import retty), 0, 5) given sset((import nk), 5, "rec") ():("t0") then (import pend):(["word t0 = peek64(fp + 8);"])
+given txt_fixture given pend_setup given ldt_types given lset((import retty), 0, 6) ():("t0") then (import pend):(["word t0 = peek64(fp + 8);"])

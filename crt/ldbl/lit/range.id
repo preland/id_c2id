@@ -1,0 +1,25 @@
+// A reading with digits. A value at or above 10^4933 is past the largest long
+// double (an infinity) and one below 10^-4952 is under half the smallest (zero);
+// otherwise ld_litf.
+ld_litm(string lbs, word[] lqp) {
+  word[] lqr = [];
+  if(lqp[2] + lqp[3] <= 0 - 4952) {
+    lqr = ld_zero(0);
+  } else {
+    lqr = ld_litf(lbs, lqp);
+  }
+} return word[] lqr;
+("1e-5000", [0, 0, -5000, 1, 1, 1]):([0, 0])
+("1.5", [0, 0, -1, 2, 15, 2]):([-4611686018427387904, 16383])
+
+ld_litn(string lbs, word[] lqp) {
+  word[] lqr = [];
+  if(lqp[2] + lqp[3] >= 4934) {
+    lqr = ld_inf(0);
+  } else {
+    lqr = ld_litm(lbs, lqp);
+  }
+} return word[] lqr;
+("1e5000", [0, 0, 5000, 1, 1, 1]):([-9223372036854775808, 32767])
+("1.5", [0, 0, -1, 2, 15, 2]):([-4611686018427387904, 16383])
+("1e-5000", [0, 0, -5000, 1, 1, 1]):([0, 0])

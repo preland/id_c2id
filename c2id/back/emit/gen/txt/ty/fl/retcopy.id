@@ -3,12 +3,13 @@
 // of the result is the pointer, and that is what the end block stores at fp + 0.
 ret_conv(int rt, string txt) {
   string out = conv_txt(rt, txt);
-  if((import nk)[rt] == "rec") {
+  if(ty_agg(rt) == 1) {
     out = ret_copy(rt, txt);
   }
 } return string out;
 given txt_fixture given pend_setup (0, "X"):("t0")
 given txt_fixture given pend_setup given sset((import nk), 5, "rec") given lset((import na), 5, 12) (5, "A"):("t1") then (import pend):(["word t0 = peek64(fp + 8);", "word t1 = c_memcpy(t0, A, 12);"])
+given txt_fixture given pend_setup given ldt_types (6, "A"):("t1") then (import pend):(["word t0 = peek64(fp + 8);", "word t1 = c_memcpy(t0, A, 16);"])
 
 ret_copy(int rt, string txt) {
   string dst = name_val("peek64(fp + 8)");

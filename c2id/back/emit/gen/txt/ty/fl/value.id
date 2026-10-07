@@ -30,8 +30,9 @@ cond_val(int e) {
   int fk = ty_fkind(ty);
 } chain (int e) {
   if(fk > 0) {
-    txt = name_val("cfl_ne(" + txt + ", 0)");
+    txt = fl_ne0_txt(fk, txt);
   }
 } return string txt;
 given txt_fixture given pend_setup given fl_fixture (9):("t1") then (import pend)[1]:("word t1 = cfl_ne(t0, 0);")
 given txt_fixture given pend_setup given fl_fixture (8):("5")
+

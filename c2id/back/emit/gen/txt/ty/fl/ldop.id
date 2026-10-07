@@ -1,0 +1,24 @@
+ld_op_txt(int k, string sa, string sb) {
+  string s = "";
+  if(k >= 4) {
+    s = name_val("cld_cmp(" + sa + ", " + sb + ", " + (k - 4) + ")");
+  } else {
+    s = ld_arith(k, sa, sb);
+  }
+} return string s;
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset (4, "a", "b"):("t0") then (import pend)[0]:("word t0 = cld_cmp(a, b, 0);")
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset (9, "a", "b"):("t0") then (import pend)[0]:("word t0 = cld_cmp(a, b, 5);")
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset (1, "a", "b"):("t0") then (import pend)[0]:("word t0 = cld_sub((fp + 16), a, b);")
+
+ld_bin_txt(int id, int rt) {
+  int ca = fl_coerce(rt, (import na)[id]);
+  int cb = fl_coerce(rt, (import nb)[id]);
+  int k = find_str((import fl_ops), (import ns)[id]);
+} chain (int id, int rt) {
+  string sa = ex_txt(ca);
+  string sb = ex_txt(cb);
+  string s = ld_op_txt(k, sa, sb);
+} return string s;
+given txt_fixture given pend_setup given fl_fixture given ld_fixture given init_frame given init_frame2 given txt_reset ((import ldb), 10):("t3") then (import pend)[0]:("word t0 = cld_of_int((fp + 16), 5);") then (import pend)[1]:("word t1 = bits_of_float(1.5);") then (import pend)[2]:("word t2 = cld_of_dbl((fp + 32), t1);") then (import pend)[3]:("word t3 = cld_add((fp + 48), t0, t2);")
+given txt_fixture given pend_setup given fl_fixture given ld_fixture given init_frame given init_frame2 given txt_reset ((import ldc), 10):("t3") then (import pend)[3]:("word t3 = cld_cmp(t0, t2, 0);")
+given txt_fixture given pend_setup given fl_fixture given ld_fixture given init_frame given init_frame2 given txt_reset ((import ldk), 10):("t3") then (import pend)[3]:("word t3 = cld_unsupported((fp + 48), t0, t2);")
