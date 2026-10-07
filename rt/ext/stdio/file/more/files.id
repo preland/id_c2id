@@ -1,0 +1,28 @@
+// remove and rename answer 0 on success.
+c_remove(word rpath) {
+  word rwn = c_strlen(rpath);
+  string rwt = str_of_mem(rpath, rwn);
+  word rwv = fs_remove(rwt);
+} return word rwv;
+
+c_rename(word rold, word rnew) {
+  word rwn = c_strlen(rold);
+  word rwm = c_strlen(rnew);
+  string rwt = str_of_mem(rold, rwn);
+} chain (word rold, word rnew) {
+  string rwu = str_of_mem(rnew, rwm);
+  word rwv = fs_rename(rwt, rwu);
+} return word rwv;
+
+// tmpfile: a scratch file opened `w+` and deleted when it is closed.
+c_tmpfile() {
+  string rwt = fs_mktemp("c2id_tmp_", 0);
+  int rwl = len(rwt);
+  word rwp = kmalloc(rwl + 8);
+} chain () {
+  str_blit(rwt, 0, rwl, rwp);
+  poke8(rwp + rwl, 0);
+  word rwf = rt_wmake(rwp, 77);
+} chain () {
+  kfree(rwp);
+} return word rwf;

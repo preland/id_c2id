@@ -1,1 +1,1 @@
-931_refuse_addr_of_libc_fn.c:5: error: the address of 'strlen'
+931_refuse_addr_of_libc_fn.c:4: error: the address of 'sprintf'

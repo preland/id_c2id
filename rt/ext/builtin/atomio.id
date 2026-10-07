@@ -1,0 +1,56 @@
+// The GCC atomic and __sync builtins, for a program that runs on one thread. The
+// translator (mid/pass/frame/atom) rewrites each call into one of these, with the
+// size of the object it works on as the last argument: 1, 2, 4 or 8 bytes. An
+// atomic operation here is the plain one, and answers what the builtin answers:
+// the old value, the new value, or whether a swap happened.
+
+// The bytes at an address, zero-extended: what an operation sees.
+c___c2id_load(word axp, word axs) {
+  word axv = 0;
+  if(axs == 1) {
+    axv = peek8(axp) & 255;
+  }
+  if(axs == 2) {
+    axv = peek16(axp) & 65535;
+  }
+} chain (word axp, word axs) {
+  if(axs == 4) {
+    axv = peek32(axp);
+    axv = axv & 4294967295;
+  }
+  if(axs == 8) {
+    axv = peek64(axp);
+  }
+} return word axv;
+
+// A value stored in the low axs bytes at an address; answers 0.
+c___c2id_store(word axp, word axv, word axs) {
+  if(axs == 1) {
+    poke8(axp, axv);
+  }
+  if(axs == 2) {
+    poke16(axp, axv);
+  }
+  if(axs == 4) {
+    poke32(axp, axv);
+  }
+} chain (word axp, word axv, word axs) {
+  if(axs == 8) {
+    poke64(axp, axv);
+  }
+} return word 0;
+
+// A value cut to axs bytes, zero-extended, so it compares with what c___c2id_load read.
+rt_axmask(word axv, word axs) {
+  word axm = axv;
+  if(axs == 1) {
+    axm = axv & 255;
+  }
+  if(axs == 2) {
+    axm = axv & 65535;
+  }
+} chain (word axv, word axs) {
+  if(axs == 4) {
+    axm = axv & 4294967295;
+  }
+} return word axm;

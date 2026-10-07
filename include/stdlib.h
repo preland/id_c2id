@@ -76,4 +76,13 @@ static void *bsearch(const void *key, const void *base, size_t n, size_t sz, int
   }
   return (void *)0;
 }
+static void *__c2id_w_malloc(size_t n) { return malloc(n); }
+static void *__c2id_w_calloc(size_t n, size_t m) { return calloc(n, m); }
+static void *__c2id_w_realloc(void *p, size_t n) { return realloc(p, n); }
+static void __c2id_w_free(void *p) { free(p); }
+static void __c2id_w_abort(void) { abort(); }
+static void __c2id_w_exit(int code) { exit(code); }
+static long __c2id_w_strtol(const char *s, char **end, int base) { return strtol(s, end, base); }
+static double __c2id_w_strtod(const char *s, char **end) { return strtod(s, end); }
+static char *__c2id_w_getenv(const char *name) { return getenv(name); }
 #endif

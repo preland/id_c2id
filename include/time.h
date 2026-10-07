@@ -9,4 +9,6 @@ struct tm *localtime(const time_t *t);
 struct tm *gmtime(const time_t *t);
 time_t mktime(struct tm *tm);
 #define CLOCKS_PER_SEC 1000000
+static time_t __c2id_w_time(time_t *t) { return time(t); }
+static clock_t __c2id_w_clock(void) { return clock(); }
 #endif

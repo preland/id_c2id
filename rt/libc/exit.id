@@ -13,6 +13,8 @@ rt_status(word r) {
   if(rtxs != 0) {
     status = rtxs - 1;
   }
+} chain (word r) {
+  rt_wall();
 } return int status;
 
 c_abort() {

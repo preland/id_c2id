@@ -92,7 +92,7 @@ translated program links against.
 | translator builds under the default test requirement | works | `idc c2id` exits 0: every function has two cases, and they pass |
 | C → id for integer C, pointers, structs, function pointers, initializers, string literals | works | the corpus below: the programs there match `gcc -O2` |
 | floating point | works for `float` and `double`; `long double` is refused | a double is the 64 bits of its binary64 in a `word`, a float the same word holding a binary32 value (rounded after every operation); `crt/flt` does the arithmetic through the float bit-cast builtins, `crt/fmt/dec` and `crt/fmt/flt` print `%f %e %g` from the exact digits, `rt/ext/math` is libm over idstd's `flt_`, `rt/ext/num/dbl*.id` is `strtod`; `tests/c/174_float_arith.c` to `179_libm.c`, and the four float bench programs (fasta, mandel, nbody, spectral) match `gcc -O2`; `tests/c/915_refuse_float.c` is the `long double` refusal |
-| refusals | works | what c2id cannot translate correctly it refuses with `file:line` and the construct, writes nothing and exits 1 (a syntax error among them, which also ends the parse): a struct passed through the `...` of a variadic call, a bitfield of an enum type, compound literals, `fopen` for writing, termios, signals, `long double`, a 128-bit integer, `packed` on a struct with several members, the address of a runtime function (`{ malloc, free }` as a hooks table) or of a function defined with `...`, printf-family conversions the runtime does not implement, and every called function nothing provides (one diagnostic lists them all); `tests/c/9*.c`, `c2id/NOTES.md` §7 |
+| refusals | works | what c2id cannot translate correctly it refuses with `file:line` and the construct, writes nothing and exits 1 (a syntax error among them, which also ends the parse): a struct passed through the `...` of a variadic call, a bitfield of an enum type, compound literals, an `fopen` mode that is not r, w or a followed by b and `+` alone, termios, signals, `long double`, a 128-bit integer, `packed` on a struct with several members, the address of a runtime function that has no wrapper (printf and the other variadic ones) or of a function defined with `...`, printf-family conversions the runtime does not implement, and every called function nothing provides (one diagnostic lists them all); `tests/c/9*.c`, `c2id/NOTES.md` §7 |
 | statement expressions `({ ... })` | works | a `stmtx` node lowered into the graph, its value in a frame temporary; `tests/c/193`, `194` |
 | block scope of typedef names, tags and enumerators | works | a name declared in a block ends with it, and the innermost wins; `tests/c/192` |
 | variadic definitions, `va_list`, `vsnprintf` and friends | works | `docs/EMITTER.md` "Variadic definitions"; `tests/c/196`, `197`, `198`, `208` |
@@ -101,6 +101,9 @@ translated program links against.
 | `switch` subject with side effects | works | evaluated once; `tests/c/214` (it was evaluated once per case test) |
 | `static` locals | works | a `static` local is a global of its own (`mid/pass/frame/static.id`); `tests/c/100_static.c` |
 | structs and unions passed and returned by value | works | the caller passes the address of a struct argument and the wrapper copies it into a frame slot of the struct's size; a function returning one takes a hidden first parameter, a pointer to a frame temporary the frame pass gives each call (`docs/EMITTER.md`, "Struct values"); direct and function-pointer calls, `f().x`, `f(g(), g())`, initialisers (also brace lists), assignment, conditions and loops, recursion, callees that exit; `tests/c/057`, `058`, `059`, `189` to `191`. Refused: a struct passed through `...` (`tests/c/921`) |
+| files written | works | `fopen` with `w`, `a`, `r+`, `w+`, `a+` (and `b`), then `fwrite`, `fputs`, `fputc`, `fprintf`, `fflush`, `fclose`, `fseek`/`ftell`, `remove`, `rename`, `tmpfile`; a written file is held whole in the heap and saved to its path by `fflush`, `fclose` and when the program ends, so another reader sees the bytes only after one of those (`rt/ext/stdio/file/w*.id`, `docs/EMITTER.md` "Files written"); `tests/c/224_file_write.c` writes, appends, overwrites and reads files back, and `933` refuses a mode such as `wx`. Not done: `fseek` past the end of a written file (answers -1), `abort` saves the written files where C's does not |
+| GCC atomic and `__sync` builtins | works | single-threaded, so each is the plain operation with the builtin's answer: `__atomic_load_n`, `_store_n`, `_exchange_n`, `_compare_exchange_n`, the `fetch_OP` and `OP_fetch` forms, `test_and_set`, `clear`, the fences, the generic forms (`__atomic_load`, `_store`, `_exchange`, `_compare_exchange`) and the `__sync_*` family, on objects of 1, 2, 4 and 8 bytes (any size for the generic copies); a call is rewritten in the frame pass (`mid/pass/frame/atom/`, tables in `conf.id` `atom_*`) because the size and the type of the answer come from the type of the first argument; `tests/c/225_atomic_builtins.c`. C11 `<stdatomic.h>` is not provided (`932`) |
+| address of a runtime function | works for the functions the headers wrap | the headers define `__c2id_w_NAME` for the string, ctype, math, stdlib, stdio, unistd and time functions the runtime provides, and a name used as a value (`{ malloc, free }`, `qsort(.., strcmp)`, a table of `strlen`) is rewritten to its wrapper, which is reached and so has a place in the function table (`mid/check/wrap.id`); `tests/c/226_libc_fn_addr.c`; the variadic ones (printf, sprintf, sscanf, ...) have no wrapper and are refused (`924`, `931`) |
 | libc the runtime provides | works for the names in `rt_names` (`c2id/conf.id`) | strtol (and, over it, atoi, atol, strtoul, strtoll), the str* family, `qsort` and `bsearch` (C in `include/stdlib.h`, since they call back into the program), stdio over real stdin/stdout/stderr (`getchar`, `fgetc`, `ungetc`, `fgets`, `fread`, `fwrite`, `fputc`, `fflush`), `sscanf` over integers and strings, `time`, `clock`, `read`/`write`/`close` on 0, 1 and 2; `tests/c/080` to `165` |
 | block-function lowering and dispatch | works | `tests/lowering/`, and every corpus program |
 | indirect-call dispatch | works | `tests/c/060_funcptr.c`, and the function-pointer tables in the corpus |
@@ -157,14 +160,13 @@ are inih, the libmd digests (md5, sha1, sha2), xxhash, lz4, miniz's inflate,
 cJSON, two micro programs and the seven in `tests/c/`; they are not in this
 repository (the driver and the sources were kept in an earlier wave's scratch
 directory), and the table of results is in the umbrella's `docs/INTEROP.md`
-under "Translating C to id". The last run: every program matches except cJSON.
-cJSON now translates past its floating point (parse_number's strtod, print_number's
-`sprintf("%1.15g")`), and stops at two things that are not floating point. Its
-`global_hooks = { malloc, free, realloc }` takes the address of runtime functions,
-which used to compile to a table of zeros and recurse without end in `cJSON_New_Item`
-(a silent miscompile; it is now a translate-time refusal, `mid/check/rtval.id`). With
-the table written as wrapper functions (the file's own MSVC branch) it builds and runs,
-but `cJSON_Parse` used to fail on every string and number. The cause: a struct assigned
+under "Translating C to id". The last run: every program matches, cJSON among them.
+cJSON's `global_hooks = { malloc, free, realloc }` takes the address of runtime
+functions, which used to compile to a table of zeros and recurse without end in
+`cJSON_New_Item` (a silent miscompile, then a translate-time refusal); the headers now
+define a wrapper for each such function and the address is the wrapper's
+(`mid/check/wrap.id`, `tests/c/226`), so the original file translates and parses
+JSON. Before that, `cJSON_Parse` used to fail on every string and number. The cause: a struct assigned
 or initialised from another struct (`buffer.hooks = global_hooks;`, `B c = b;`,
 `t->slots[h] = old[i];`) was stored as the 8-byte address of the source, not copied.
 `store_raw` (`back/emit/gen/txt/ex/a/w/cv.id`) now emits a `c_memcpy` of the type's

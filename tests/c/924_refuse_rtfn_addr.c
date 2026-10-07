@@ -1,16 +1,14 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 typedef struct {
-  void *(*allocate)(size_t size);
-  void (*deallocate)(void *p);
+  int (*write)(const char *fmt, ...);
+  int (*puts)(const char *s);
 } hooks;
 
-static hooks h = {malloc, free};
+static hooks h = {printf, puts};
 
 int main(void) {
-  char *p = h.allocate(8);
-  printf("%d\n", p != 0);
-  h.deallocate(p);
+  h.write("%d\n", 1);
+  h.puts("x");
   return 0;
 }

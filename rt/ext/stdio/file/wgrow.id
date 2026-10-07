@@ -1,0 +1,27 @@
+rt_wpos(word rwf) {
+  word rwpos = peek64(rwf + 16);
+  word rwfl = peek64(rwf + 48);
+  if((rwfl & 2) != 0) {
+    rwpos = peek64(rwf + 8);
+  }
+} return word rwpos;
+
+// The data address, after room for rwend bytes has been made.
+rt_wgrow(word rwf, word rwend) {
+  word rwd = peek64(rwf);
+  word rwcap = peek64(rwf + 32);
+  if(rwend > rwcap) {
+    rwd = rt_wbig(rwf, rwend, rwcap);
+  }
+} return word rwd;
+
+rt_wbig(word rwf, word rwend, word rwcap) {
+  word rwnc = rwcap * 2;
+  if(rwend + 8 > rwnc) {
+    rwnc = rwend + 8;
+  }
+  word rwd = krealloc(peek64(rwf), rwnc);
+} chain (word rwf, word rwend, word rwcap) {
+  poke64(rwf, rwd);
+  poke64(rwf + 32, rwnc);
+} return word rwd;

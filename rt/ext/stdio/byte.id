@@ -1,0 +1,15 @@
+// A NUL cannot be in a string, so it goes out as a byte through fwrite, and so
+// does anything written to a FILE.
+rt_fbyte(word rfile, int rcc) {
+  word rwx = 0;
+  if(rfile > 3 || rcc == 0) {
+    rwx = rt_wbyte(rfile, rcc);
+  } else {
+    rt_fchar(rfile, rcc);
+  }
+} return void;
+
+rt_fchar(word rfile, int rcc) {
+  string rtxt = chr(rcc);
+  rt_emit(rfile, rtxt);
+} return void;

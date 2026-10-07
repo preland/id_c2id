@@ -1,0 +1,31 @@
+// The call's arguments are replaced in place.
+atom_fill(int id, int[] aolst) {
+  int[] l = (import nl)[id];
+  while(len(l) > 0) {
+    pop(l);
+  }
+  lst_extend(l, aolst);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, [7, 8]):() then (import nl)[14]:([7, 8])
+given boot_a given boot_b given lexfix given tu_load stdin "int g(void) { __atomic_thread_fence(0); return 0; }" (11, [3]):() then (import nl)[11]:([3])
+
+atom_wrap(int id, int k, int aoty) {
+  if((import atom_how)[k] >= 2) {
+    atom_cast(id, aoty);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 0, 7):() then (import nk)[14]:("cast")
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 1, 7):() then (import nk)[14]:("call")
+
+// The node becomes a cast of the call, which moves to a node of its own.
+atom_cast(int id, int aoty) {
+  int c = (import na)[id];
+  int inner = newlist("call", c, 0, "", (import nl)[id]);
+  lset((import ntok), inner, (import ntok)[id]);
+} chain (int id, int aoty) {
+  sset((import nk), id, "cast");
+  lset((import na), id, inner);
+  lset((import nb), id, aoty);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 7):() then (import nb)[14]:(7) then (import nk)[17]:("call") then (import na)[14]:(17)
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 6):() then (import nb)[14]:(6) then (import nl)[17]:([12, 13])

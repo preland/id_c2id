@@ -2,13 +2,15 @@
 // that is four words: [data address, size, position, kind], kind 0 for a file
 // held whole. The standard streams are the small numbers of rt/libc/io.id, so a
 // FILE is told from them by being large; standard input becomes a FILE of kind 1
-// (rt/ext/stdio/stream/) when it is first read. Writing a file is not provided:
-// fopen for anything but reading answers NULL, as it does for a file that will
-// not open.
+// (rt/ext/stdio/stream/) when it is first read. A file opened for anything but
+// plain reading is a longer FILE, kind 2 (wopen.id); a mode that is none of the
+// ones C names answers NULL, as does a file that will not open.
 c_fopen(word rpath, word rmode) {
   word rfile = 0;
   if(rt_reads(rmode) == 1) {
     rfile = rt_open(rpath);
+  } else {
+    rfile = rt_wopen(rpath, rmode);
   }
 } return word rfile;
 

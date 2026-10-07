@@ -1,0 +1,4 @@
+// __atomic_clear and __sync_lock_release: the object becomes 0.
+c___c2id_clear(word axp, word axs) {
+  word axz = c___c2id_store(axp, 0, axs);
+} return word axz;

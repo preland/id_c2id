@@ -28,6 +28,7 @@ rt_boot(word gsz) {
   export word[] rtin = [0];
 } chain (word gsz) {
   export word rtje = alloc(8);
+  export word[] rtwf = [0];
 } return void export rtc;
 
 // A frame of n bytes off the stack; its address is the frame pointer. The store

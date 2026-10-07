@@ -1,0 +1,17 @@
+// A FILE made by rt_open (four words) or rt_wnew (eight) becomes a writable one:
+// room for eight words, a copy of the path, the flags, its place in the chain.
+rt_wbind(word rwf, word rpath, word rwfl) {
+  word rwg = krealloc(rwf, 64);
+  word rwn = c_strlen(rpath);
+  word rwp = kmalloc(rwn + 1);
+} chain (word rwf, word rpath, word rwfl) {
+  word rwx = c_memcpy(rwp, rpath, rwn + 1);
+  poke64(rwg + 24, 2);
+  poke64(rwg + 40, rwp);
+} chain (word rwf, word rpath, word rwfl) {
+  word rwsz = peek64(rwg + 8);
+  poke64(rwg + 32, rwsz + 8);
+  poke64(rwg + 48, rwfl);
+} chain (word rwf, word rpath, word rwfl) {
+  rt_wlink(rwg);
+} return word rwg;

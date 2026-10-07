@@ -1,1 +1,1 @@
-917_refuse_fopen_w.c:3: error: fopen with mode "w"
+917_refuse_fopen_w.c:3: error: fopen with mode "wx"

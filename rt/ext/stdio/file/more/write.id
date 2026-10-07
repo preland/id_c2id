@@ -9,11 +9,14 @@ c_fwrite(word rptr, word rsize, word rcount, word rfile) {
   }
 } chain (word rptr, word rsize, word rcount, word rfile) {
   int done = rt_put(rfile, rfd, rptr, rbytes);
-} return word rcount;
+  word rres = rt_wcount(rfile, done, rsize, rcount);
+} return word rres;
 
 rt_put(word rfile, int rfd, word rptr, int rbytes) {
   int done = 0;
   if(rfile == 1 || rfile == 2) {
     done = stdio_write_mem(rfd, rptr, rbytes);
+  } else if(rfile > 3) {
+    done = rt_wput(rfile, rptr, rbytes);
   }
 } return int done;

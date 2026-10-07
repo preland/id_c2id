@@ -257,12 +257,13 @@ one is how a translator spins. Three places make them:
   (`front/diag/wide.id`; `tools/c2id.sh` undefines `__SIZEOF_INT128__` so a
   header takes its portable path);
 * the check pass (`mid/check/`), over every function the program reaches with
-  its locals bound: the address of a function the runtime provides (`malloc`,
-  `free`, ...: `mid/check/rtval.id`) or of one the program defines with `...`
+  its locals bound: the address of a function the runtime provides that has no
+  wrapper (`printf` and the variadic rest: `mid/check/rtval.id`; one with a wrapper
+  is rewritten to it instead, `mid/check/wrap.id`) or of one the program defines with `...`
   (`mid/check/vaval.id`), `long double` types and literals, a struct passed by
   value through the `...` of a variadic call (`chk_arg`), a printf-family
-  format with a conversion the runtime does not implement, an `fopen` for
-  writing, a call refused by name (`refuse_names` in `conf.id`: termios,
+  format with a conversion the runtime does not implement, an `fopen` mode
+  that is not r, w or a followed by b and `+` alone, a call refused by name (`refuse_names` in `conf.id`: termios,
   signals), and every called function that is neither defined in the program
   nor provided by the runtime, reported as one diagnostic with where each was
   first named; a C keyword read as a function (`unres_add`) is reported as a
@@ -290,3 +291,13 @@ contain.
 * **setjmp/longjmp**: see `docs/EMITTER.md`, "setjmp and longjmp".
 * **A `switch` subject** that is more than a name or a number is evaluated once,
   into a frame temporary (`sw_subject`), not once per case test.
+* **Atomic builtins** (`__atomic_*`, `__sync_*`): the frame pass rewrites the call
+  once its arguments are bound (`mid/pass/frame/atom/`, tables `atom_*` in
+  `conf.id`): the callee becomes a function of `rt/ext/builtin/atom*.id`, the order
+  arguments are dropped, the operation code and the size of the object the first
+  argument points at are added, and an answer that is a value of that object is cast
+  to its type. A fence or a lock-free test becomes the constant.
+* **The address of a runtime function**: a name used as a value that is a function
+  the runtime provides is rewritten, in the check pass, to the function
+  `__c2id_w_NAME` the header that declares it defines in C, which is marked reached
+  (`mid/check/wrap.id`).

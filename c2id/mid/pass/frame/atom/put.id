@@ -1,0 +1,34 @@
+atom_put(int id, int k, int[] args, int aoty) {
+  if((import atom_fns)[k] == "") {
+    atom_const(id, k);
+  } else {
+    atom_set(id, k, args, aoty);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(void) { __atomic_thread_fence(0); return 0; }" (11, 18, [10], 0):() then (import nk)[11]:("num")
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 0, [12, 13], 7):() then (import nk)[14]:("cast")
+
+// A fence, or a lock-free test, is its constant.
+atom_const(int id, int k) {
+  int v = (import atom_ops)[k];
+  sset((import nk), id, "num");
+  lset((import na), id, v);
+} chain (int id, int k) {
+  sset((import ns), id, "" + v);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(void) { __atomic_thread_fence(0); return 0; }" (11, 18):() then (import na)[11]:(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int g(void) { __atomic_thread_fence(0); return 0; }" (11, 20):() then (import na)[11]:(1) then (import ns)[11]:("1")
+
+// The callee gets the function's name and the call the new arguments; a builtin
+// that answers the value of the object is wrapped in a cast to the object's type,
+// so the result has the type the builtin has.
+atom_set(int id, int k, int[] args, int aoty) {
+  int[] aolst = atom_list(args, k, aoty);
+  int c = (import na)[id];
+  sset((import ns), c, (import atom_fns)[k]);
+} chain (int id, int k, int[] args, int aoty) {
+  atom_fill(id, aolst);
+  atom_wrap(id, k, aoty);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "unsigned char c; int g(void) { return __atomic_fetch_add(&c, 3, 0); }" (15, 4, [12, 13, 14], 7):() then (import ns)[10]:("__c2id_rmw") then (import nk)[15]:("cast")
+given boot_a given boot_b given lexfix given tu_load stdin "struct T { char a; char b; char c; } t; int g(void) { return __atomic_fetch_add(&t, 1, 0); }" (18, 22, [15, 16, 17], 6):() then (import ns)[13]:("memcpy") then (import nk)[18]:("call")

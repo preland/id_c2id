@@ -3,6 +3,7 @@
 bind_sret(int id, string kn) {
   if(kn == "call") {
     sret_call(id);
+    atom_call(id);
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "struct P { int x; }; struct P f(void); int g(void) { return f().x; }" (15, "call"):() then (import nb)[15]:(1)

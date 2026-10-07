@@ -1,0 +1,29 @@
+// The arguments the rewritten call takes: the ones the builtin keeps, its operation
+// code if it has one, and the size of the object.
+atom_list(int[] args, int k, int aoty) {
+  int[] aolst = atom_picks(args, (import atom_pick)[k]);
+  atom_op(aolst, k);
+  atom_sz(aolst, k, aoty);
+} return int[] aolst;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([12, 13], 0, 7):([12, 17])
+given boot_a given boot_b given lexfix given tu_load stdin "unsigned char c; int g(void) { return __atomic_fetch_add(&c, 3, 0); }" ([12, 13, 14], 4, 7):([12, 13, 18, 19])
+
+// The arguments the digits of apick name, in that order.
+atom_picks(int[] args, string aopick) {
+  int[] aolst = [];
+  int i = 0;
+  while(i < len(aopick)) {
+    int a = atom_nth(args, aopick, i);
+    push(aolst, a);
+    i = i + 1;
+  }
+} return int[] aolst;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([12, 13], "10"):([13, 12])
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([12, 13], "0"):([12])
+
+atom_nth(int[] args, string aopick, int i) {
+  int aod = charat(aopick, i);
+  int a = args[aod - 48];
+} return int a;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([12, 13], "10", 0):(13)
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([12, 13], "10", 1):(12)

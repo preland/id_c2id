@@ -1,0 +1,30 @@
+// The object the first argument points at, and whether the builtin can work on it.
+atom_make(int id, int k, int[] args) {
+  int aoty = atom_ty(args, k);
+  int bad = atom_bad(k, aoty);
+  atom_go(id, k, args, aoty, bad);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 0, [12, 13]):() then (import nk)[14]:("cast")
+given boot_a given boot_b given lexfix given tu_load stdin "struct T { char a; char b; char c; } t; int g(void) { return __atomic_fetch_add(&t, 1, 0); }" (18, 4, [15, 16, 17]):() then len((import dgmsg)):(1)
+
+// The type node of the object the first argument points at (the pointee, or the
+// element of an array), -1 when it is neither, 0 when the builtin needs none.
+atom_ty(int[] args, int k) {
+  int aoty = 0;
+  if(((import atom_how)[k] & 1) == 1) {
+    int aot = ex_ty(args[0]);
+    aoty = atom_obj(aot);
+  }
+} return int aoty;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([12, 13], 0):(6)
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([12, 13], 18):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "struct T { char a; char b; char c; } t; int g(void) { return __atomic_fetch_add(&t, 1, 0); }" ([15, 16, 17], 4):(6)
+
+atom_obj(int aot) {
+  int aoty = -1;
+  if((import nk)[aot] == "ptr" || (import nk)[aot] == "arr") {
+    aoty = (import na)[aot];
+  }
+} return int aoty;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (5):(4)
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (7):(-1)

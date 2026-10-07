@@ -12,8 +12,7 @@ rt_err(string rtxt) {
 // fputc: the byte to the stream; answers it as an unsigned char.
 c_fputc(word rch, word rfile) {
   int rcc = rch & 255;
-  string rtxt = chr(rcc);
-  rt_emit(rfile, rtxt);
-} chain (word rch, word rfile) {
+  rt_fbyte(rfile, rcc);
   word rb = rcc;
 } return word rb;
+

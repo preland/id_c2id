@@ -21,13 +21,14 @@ rt_fn(string name) {
 given boot_a given boot_b given lexfix given tu_load stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("malloc"):(1)
 given boot_a given boot_b given lexfix given tu_load stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("g"):(0)
 
-// The address of a runtime function cannot be taken: a pointer is a place in the
+// The address of a runtime function cannot be taken as it is: a pointer is a place in the
 // program's own function table, which holds only the functions it defines, so
-// `{ malloc, free }` would store a number that names the wrong function. The
-// callee of a direct call is not an address (chk_cal holds its node).
+// `{ malloc, free }` would store a number that names the wrong function. The headers
+// define a wrapper for most of them, `__c2id_w_NAME`, and the address is the wrapper's
+// (chk_wrap). The callee of a direct call is not an address (chk_cal holds its node).
 chk_rtval(string name, int id) {
   if(rt_fn(name) == 1 && (import chk_cal)[0] != id) {
-    diag_node(id, "the address of '" + name + "', a function the c2id runtime provides, is taken: only a function this program defines can be called through a pointer; wrap it in a function of its own");
+    chk_wrap(name, id);
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("malloc", 0):() then len((import dgmsg)):(1)

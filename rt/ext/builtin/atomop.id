@@ -1,0 +1,38 @@
+// The value an operation leaves: 0 stores axb, 1 adds, 2 subtracts, 3 ands, 4 ors, 5
+// xors and 6 is nand, over the old value axa.
+rt_axop(word axo, word axa, word axb) {
+  word axn = axb;
+  if(axo == 1) {
+    axn = axa + axb;
+  }
+  if(axo == 2) {
+    axn = axa - axb;
+  }
+} chain (word axo, word axa, word axb) {
+  if(axo == 3) {
+    axn = axa & axb;
+  }
+  if(axo == 4) {
+    axn = axa | axb;
+  }
+  if(axo == 5) {
+    axn = axa ^ axb;
+  }
+} chain (word axo, word axa, word axb) {
+  if(axo == 6) {
+    axn = ~(axa & axb);
+  }
+} return word axn;
+
+// Fetch-and-operate and exchange: the object takes the operation's value; the old
+// value comes back, or the new one when axo is 8 or more.
+c___c2id_rmw(word axp, word axv, word axo, word axs) {
+  word axa = c___c2id_load(axp, axs);
+  word axn = rt_axop(axo & 7, axa, axv);
+  word axz = c___c2id_store(axp, axn, axs);
+} chain (word axp, word axv, word axo, word axs) {
+  word axr = axa;
+  if(axo >= 8) {
+    axr = axn;
+  }
+} return word axr;

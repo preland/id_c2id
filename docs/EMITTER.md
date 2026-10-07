@@ -256,6 +256,14 @@ loop that asks `rt_resume` whether a jump was to its frame
 (`back/link/fn/tree/jump.id`). `sigsetjmp`/`siglongjmp`, `_setjmp`/`_longjmp` are the
 same. Locals keep their latest values (they live in the frame), which C allows.
 
+## 4f. Files written
+
+A file opened for anything but plain reading is a longer FILE of kind 2: eight words, [data address, size, position, kind, capacity, a NUL-terminated copy of the path, flags, the next writable FILE open] (`rt/ext/stdio/file/wopen.id`). Its contents are held whole in the heap, like a file opened for reading: `r+` and `a` load what is on disk, `w` and `w+` empty the file at once. Writes (`rt_wput`) go to the position, or to the end for `a`, growing the buffer, and mark the FILE unsaved; `fflush`, `fclose` and the end of the program (`rt_status`, over the chain `rtwf`) save it with `fs_save`. `tmpfile` is a `w+` file with a flag that deletes it when it is closed. The cost is that a file is saved whole each time it is flushed, and that another reader sees nothing until then.
+
+## 4g. Atomic builtins and the address of runtime functions
+
+The frame pass (`mid/pass/frame/atom/`) rewrites a call of a GCC `__atomic_*` or `__sync_*` builtin into a call of `c___c2id_load`, `_store`, `_rmw`, `_cas` and the others in `rt/ext/builtin/atom*.id`, adding the size of the object the first argument points at (and an operation code) and casting the answer to that object's type; the order arguments are dropped, since the program has one thread. A runtime function used as a value is rewritten by the check pass to its C wrapper `__c2id_w_NAME` from the headers (`mid/check/wrap.id`), because a pointer is a place in the program's own function table.
+
 ## 5. Laying out the project
 
 `emit/gen/out/` already implements this and it is tested. Function number *N*

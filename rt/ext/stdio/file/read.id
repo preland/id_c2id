@@ -1,9 +1,9 @@
 c_fclose(word rfile) {
+  word rwv = 0;
   if(rfile > 3) {
-    kfree(peek64(rfile));
-    kfree(rfile);
+    rwv = rt_fdrop(rfile);
   }
-} return word 0;
+} return word rwv;
 
 // The next byte, or -1 (EOF) at the end. Standard input is read through its
 // FILE, refilled from the process's stdin when it runs dry.

@@ -66,4 +66,23 @@ static char *strerror(int e) {
   }
   return "Unknown error";
 }
+/* The address of a function the runtime provides is the address of the wrapper of
+   the same name: a pointer is a place in the program's own function table, which
+   holds only functions the program defines (mid/check/rtval.id). */
+static void *__c2id_w_memcpy(void *d, const void *s, size_t n) { return memcpy(d, s, n); }
+static void *__c2id_w_memmove(void *d, const void *s, size_t n) { return memmove(d, s, n); }
+static void *__c2id_w_memset(void *d, int c, size_t n) { return memset(d, c, n); }
+static int __c2id_w_memcmp(const void *a, const void *b, size_t n) { return memcmp(a, b, n); }
+static void *__c2id_w_memchr(const void *s, int c, size_t n) { return memchr(s, c, n); }
+static size_t __c2id_w_strlen(const char *s) { return strlen(s); }
+static int __c2id_w_strcmp(const char *a, const char *b) { return strcmp(a, b); }
+static int __c2id_w_strncmp(const char *a, const char *b, size_t n) { return strncmp(a, b, n); }
+static char *__c2id_w_strcpy(char *d, const char *s) { return strcpy(d, s); }
+static char *__c2id_w_strncpy(char *d, const char *s, size_t n) { return strncpy(d, s, n); }
+static char *__c2id_w_strchr(const char *s, int c) { return strchr(s, c); }
+static char *__c2id_w_strrchr(const char *s, int c) { return strrchr(s, c); }
+static char *__c2id_w_strstr(const char *h, const char *n) { return strstr(h, n); }
+static char *__c2id_w_strcat(char *d, const char *s) { return strcat(d, s); }
+static char *__c2id_w_strncat(char *d, const char *s, size_t n) { return strncat(d, s, n); }
+static char *__c2id_w_strdup(const char *s) { return strdup(s); }
 #endif

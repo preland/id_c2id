@@ -1,2 +1,1 @@
-924_refuse_rtfn_addr.c:9: error: the address of 'malloc'
-924_refuse_rtfn_addr.c:9: error: the address of 'free'
+924_refuse_rtfn_addr.c:8: error: the address of 'printf'

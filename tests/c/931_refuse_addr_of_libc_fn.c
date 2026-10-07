@@ -1,6 +1,5 @@
-/* refused: address of a runtime-provided libc function (strlen) stored in a table */
+/* refused: address of a runtime-provided libc function with no wrapper (sprintf) stored in a table */
 #include <stdio.h>
-#include <string.h>
-typedef struct { const char *name; size_t (*fn)(const char *); } Ent;
-static const Ent tab[] = { { "strlen", strlen } };
-int main(void){ printf("%d\n", (int)tab[0].fn("hello")); return 0; }
+typedef struct { const char *name; int (*fn)(char *, const char *, ...); } Ent;
+static const Ent tab[] = { { "sprintf", sprintf } };
+int main(void){ char b[16]; tab[0].fn(b, "%d", 5); printf("%s\n", b); return 0; }

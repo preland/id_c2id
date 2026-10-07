@@ -1,0 +1,40 @@
+// 0 when the builtin can work on an object of type aoty; 1 when that is no object
+// (the first argument is no pointer); 2 when its size is not 1, 2, 4 or 8, which
+// every builtin but the generic copies needs.
+atom_bad(int k, int aoty) {
+  int bad = 0;
+  if(aoty < 0) {
+    bad = 1;
+  }
+  if(aoty > 0 && atom_wide(k, aoty) == 1) {
+    bad = 2;
+  }
+} return int bad;
+given boot_a given boot_b given lexfix given tu_load stdin "struct T { char a; char b; char c; } t; int g(void) { return __atomic_fetch_add(&t, 1, 0); }" (4, 6):(2)
+given boot_a given boot_b given lexfix given tu_load stdin "struct T { char a; char b; char c; } t; int g(void) { return __atomic_fetch_add(&t, 1, 0); }" (22, 6):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "struct T { char a; char b; char c; } t; int g(void) { return __atomic_fetch_add(&t, 1, 0); }" (4, -1):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "struct T { char a; char b; char c; } t; int g(void) { return __atomic_fetch_add(&t, 1, 0); }" (4, 7):(0)
+
+atom_wide(int k, int aoty) {
+  int aosz = type_size(aoty);
+  int wide = 1;
+  if(aosz == 1 || aosz == 2 || aosz == 4 || aosz == 8 || (import atom_fns)[k] == "memcpy") {
+    wide = 0;
+  }
+} return int wide;
+given boot_a given boot_b given lexfix given tu_load stdin "char a; short b; long c; int g(void) { return 0; }" (4, 6):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "char a; short b; long c; int g(void) { return 0; }" (4, 7):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "char a; short b; long c; int g(void) { return 0; }" (4, 8):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "char a; short b; long c; int g(void) { return 0; }" (4, 10):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "struct T { char a; char b; char c; } t; int g(void) { return __atomic_fetch_add(&t, 1, 0); }" (4, 6):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "struct T { char a; char b; char c; } t; int g(void) { return __atomic_fetch_add(&t, 1, 0); }" (22, 6):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "struct T { char a; char b; char c; } t; int g(void) { return __atomic_fetch_add(&t, 1, 0); }" (4, 7):(0)
+
+atom_why(int k, int bad) {
+  string msg = (import atom_names)[k] + ": the first argument is not a pointer";
+  if(bad == 2) {
+    msg = (import atom_names)[k] + ": the object is not 1, 2, 4 or 8 bytes, the sizes an atomic operation is translated for";
+  }
+} return string msg;
+(0, 1):("__atomic_load_n: the first argument is not a pointer")
+(4, 2):("__atomic_fetch_add: the object is not 1, 2, 4 or 8 bytes, the sizes an atomic operation is translated for")
