@@ -129,10 +129,13 @@ for src in "$here"/tests/c/*.c; do
         pass=$((pass + 1)); continue
     fi
 
-    # A .in file is the program's standard input, for the oracle and the port alike.
+    # A .in file is the program's standard input and a .args file its arguments,
+    # one per line, for the oracle and the port alike.
     stdin_file=/dev/null
     [[ -f ${src%.c}.in ]] && stdin_file=${src%.c}.in
-    "$work/$name.ref" > "$work/$name.refout" 2> "$work/$name.referr" < "$stdin_file"
+    args=()
+    [[ -f ${src%.c}.args ]] && mapfile -t args < "${src%.c}.args"
+    "$work/$name.ref" "${args[@]}" > "$work/$name.refout" 2> "$work/$name.referr" < "$stdin_file"
     refstatus=$?
 
     # ---- 2. the port: C -> id -> binary
@@ -149,7 +152,7 @@ for src in "$here"/tests/c/*.c; do
         sed 's/^/    /' "$work/$name.idcerr" | head -5
         fail=$((fail + 1)); failed_names+=("$name"); continue
     fi
-    "$work/$name.out" > "$work/$name.gotout" 2> "$work/$name.goterr" < "$stdin_file"
+    "$work/$name.out" "${args[@]}" > "$work/$name.gotout" 2> "$work/$name.goterr" < "$stdin_file"
     gotstatus=$?
 
     # ---- 3. compare

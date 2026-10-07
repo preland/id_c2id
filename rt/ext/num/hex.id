@@ -1,0 +1,18 @@
+// After a leading 0: an `x` and then a hex digit make a `0x` prefix.
+rt_xq(word rp) {
+  word rx = peek8(rp + 1) | 32;
+  word rok = 0;
+  if(rx == 120) {
+    rok = rt_xd(rp);
+  }
+} return word rok;
+
+rt_xd(word rp) {
+  word r2 = peek8(rp + 2);
+  word rd = rt_dv(r2);
+  word rok = 0;
+} chain (word rp) {
+  if(rd < 16) {
+    rok = 1;
+  }
+} return word rok;

@@ -8,16 +8,13 @@ rt_pfx(word rs, word[] rst) {
   rt_setbase(rst, rbase, rch, rhex);
 } return void;
 
-// 1 when the bytes at rp are `0x` followed by a hex digit.
+// 1 when the bytes at rp are `0x` followed by a hex digit. Each byte is read
+// only once the one before it matched, so a string that ends at the last byte of
+// the store is never read past its NUL.
 rt_xp(word rp) {
-  word rz = peek8(rp);
-  word rx = peek8(rp + 1) | 32;
-  word r2 = peek8(rp + 2);
-} chain (word rp) {
-  word rd = rt_dv(r2);
   word rok = 0;
-  if(rz == 48 && rx == 120 && rd < 16) {
-    rok = 1;
+  if(peek8(rp) == 48) {
+    rok = rt_xq(rp);
   }
 } return word rok;
 

@@ -157,13 +157,20 @@ cJSON now translates past its floating point (parse_number's strtod, print_numbe
 which used to compile to a table of zeros and recurse without end in `cJSON_New_Item`
 (a silent miscompile; it is now a translate-time refusal, `mid/check/rtval.id`). With
 the table written as wrapper functions (the file's own MSVC branch) it builds and runs,
-but `cJSON_Parse` fails on every string and number (null, true, false, [] and {} parse). The
-cause found, not yet fixed: a struct assigned or initialised
-from another struct (`buffer.hooks = global_hooks;`, `B c = b;`) is stored as the
-8-byte address of the source, not copied (`store_raw` in `back/emit/gen/txt/ex/a/w/cv.id`
-has no record case; the fix is a `c_memcpy` of the type's size, and a case in
-`tests/c/050_structs.c`'s family). A 20-line program with that struct copy traps in the
-translated build (`store address -8 out of range`) and is fine in C.
+but `cJSON_Parse` used to fail on every string and number. The cause: a struct assigned
+or initialised from another struct (`buffer.hooks = global_hooks;`, `B c = b;`,
+`t->slots[h] = old[i];`) was stored as the 8-byte address of the source, not copied.
+`store_raw` (`back/emit/gen/txt/ex/a/w/cv.id`) now emits a `c_memcpy` of the type's
+size for a record; `tests/c/051_struct_copy.c` covers nested structs, arrays of
+structs and copies through pointers, and `tests/c/054_struct_table_grow.c` is the
+hash-table growth that made `bench/ref/c/knuc.c` print a wrong count on inputs of
+about 6 KB and more (the table grows past 512 distinct keys). A struct passed or
+returned by value is still refused.
+
+A program now receives its arguments: the generated `main` calls `rt_args`
+(`rt/args.id`), which copies `argv` into the store, and passes `argc, argv` on to
+`c_main` as far as the C `main` declares parameters (`tests/c/052_argv.c`, with its
+arguments in `052_argv.args`).
 
 ### Floating point
 
