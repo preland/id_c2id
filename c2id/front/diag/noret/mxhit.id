@@ -9,10 +9,15 @@ given noret_init given boot_a given boot_b given lexfix given tu_load given mx_f
 
 mx_node(int id) {
   int hit = call_listed(id, (import mxnames));
+  if(hit == 0 && (import mxmode)[0] == 1) {
+    hit = call_ind(id);
+  }
   if(hit == 0) {
     hit = mx_kids(id);
   }
 } return int hit;
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture given lset((import mxmode), 0, 1) stdin "void f(void) { p(); }" ((import mxb)):(1)
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { p(); }" ((import mxb)):(0)
 given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { if (1) { exit(1); } }" ((import mxb)):(1)
 given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { if (1) { puts(\"a\"); } }" ((import mxb)):(0)
 

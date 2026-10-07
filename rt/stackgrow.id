@@ -1,0 +1,33 @@
+// The stack's chunks. A chunk starts with a 48-byte header and its frames follow:
+//
+//     base + 0     the stack pointer to return to when the chunk is left
+//     base + 8     the end of the chunk it returns to
+//     base + 16    the chunk that follows this one, once there is one (kept, so
+//                  a call that crosses a boundary and returns does not allocate)
+//     base + 24    the end of this chunk
+//     base + 32    the chunk it returns to
+//     base + 40    the floor it returns to
+//
+// The first frame of a chunk begins at base + 48, which is the floor: leaving a
+// frame that lands on the floor means that frame was the chunk's first.
+rt_grow(word n) {
+  word cb = peek64((import rtc) + 24);
+  word nb = rt_nextck(cb, n);
+  word fp = rt_switch(cb, nb);
+} return word fp;
+
+rt_nextck(word cb, word n) {
+  word nx = peek64(cb + 16);
+  word r = nx;
+  if(nx == 0 || peek64(nx + 24) - nx < n + 48) {
+    r = rt_fresh(cb, n);
+  }
+} return word r;
+
+rt_fresh(word cb, word n) {
+  word sz = rt_size(n);
+  word nb = alloc(sz);
+  poke64(nb + 24, nb + sz);
+} chain (word cb, word n) {
+  poke64(cb + 16, nb);
+} return word nb;

@@ -154,14 +154,20 @@ obtained from `alloc`, in `id`.
 
 ### Region and block layout
 
-`heap_init(bytes)` takes `align8(bytes) + 16` bytes from the store and
+`heap_init(bytes)` takes `align8(bytes) + 32` bytes from the store and
 exports the base as `crt_heap`:
 
 ```
-crt_heap + 0      unused; keeps the first block header 16-byte aligned
-crt_heap + 8      end address, one past the last block
-crt_heap + 16     first block header
+crt_heap + 0      the rover: the block the next search starts at
+crt_heap + 8      the sentinel that ends the last island
+crt_heap + 16     first block header of the first island
 ```
+
+The blocks of one *island* end in a 16-byte sentinel: a size word of 0 and a
+link word holding the first block of the next island, or 0. When no free block
+is big enough the heap grows by an island of at least a mebibyte
+(`grow_heap`), so a program pays for the memory it uses and not for a fixed
+reserve. A request over a gigabyte is refused with 0.
 
 Every block is contiguous with its neighbours — an *implicit* list, walked by
 address — and carries a 16-byte header:
@@ -180,14 +186,18 @@ bytes (16 header + 16 payload), so a split never produces a block too small
 to be linked, and a remainder below 32 bytes is left attached to the
 allocation instead of being lost.
 
-Search is **first fit** over the implicit list. Freeing merges with the next
-block and then with the previous one; merging in only one direction leaves the
-heap a staircase of fragments that never recovers.
+Search is **next fit** over the implicit list: it starts at the rover, which
+a free or an allocation leaves on the block it touched, and wraps to the first
+block only if nothing past the rover fits. A first-fit walk from the start
+crossed every block ever handed out for each request, and made an
+allocation-heavy program quadratic. Freeing merges with the next block and then
+with the previous one (never across an island); merging in only one direction
+leaves the heap a staircase of fragments that never recovers.
 
 | function | contract |
 | --- | --- |
-| `heap_init(word bytes)` | take a region of `align8(bytes)` usable bytes from the store and lay it out as one free block. Must be called before any other heap function. Calling it again abandons the old region (the store never reclaims it). |
-| `kmalloc(word n) -> word` | address of `n` usable bytes, 8-byte aligned, or **0** if the heap cannot satisfy it. Contents are undefined. |
+| `heap_init(word bytes)` | take a first island of `align8(bytes)` usable bytes from the store and lay it out as one free block. Must be called before any other heap function. Calling it again abandons the old region (the store never reclaims it). |
+| `kmalloc(word n) -> word` | address of `n` usable bytes, 8-byte aligned, or **0** if the request is over a gigabyte. Contents are undefined. |
 | `kfree(word p)` | return the block whose payload is `p` to the free list, coalescing with free neighbours on both sides. `p` = 0 is a no-op. `p` must be a live `kmalloc`/`kzalloc`/`krealloc` result. |
 | `kzalloc(word n) -> word` | `kmalloc` plus zeroing, or 0. Real work: a reused block is not zero. |
 | `krealloc(word p, word n) -> word` | resize. `n` = 0 frees `p` and returns 0; `p` = 0 allocates. Otherwise allocates a fresh block, copies `min(old payload, n)` bytes, frees `p`, and returns the new address — or returns 0 leaving `p` untouched if the allocation fails. There is no in-place grow. |

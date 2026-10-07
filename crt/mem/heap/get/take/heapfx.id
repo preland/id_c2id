@@ -11,6 +11,8 @@ crt_heap_fixture() {
   export word hend = (import crt_heap) + 80;
 } chain () {
   export word p0 = (import h0) + 16;
+  export word hnext = (import crt_heap) + 96;
+  export word hsent1 = (import hnext) + 1048576;
 } return void;
 ():() then prints:("")
 ():() then eprints:("")

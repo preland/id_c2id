@@ -1,0 +1,35 @@
+// A call through a pointer can reach any function, including one that exits, so
+// it counts as a call that may exit. A call is direct when its callee is the
+// name of a function the program declares or defines; any other callee -- a
+// variable, a member, a table element, or a name never declared -- is not known
+// to be one.
+call_ind(int id) {
+  int ind = 0;
+  if((import nk)[id] == "call") {
+    ind = callee_ind((import na)[id]);
+  }
+} return int ind;
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void g(void); void f(void) { g(); }" ((import mxc)):(0)
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { p(); }" ((import mxc)):(1)
+
+callee_ind(int a) {
+  int ind = 1;
+  if(a >= 0 && (import nk)[a] == "var") {
+    int known = decl_fn((import ns)[a]);
+    ind = 1 - known;
+  }
+} return int ind;
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void g(void); void f(void) { g(); }" ((import mxv)):(0)
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { p(); }" ((import mxv)):(1)
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int v;" (-1):(1)
+
+decl_fn(string name) {
+  int i = find_str((import dnames), name);
+  int ok = 0;
+  if(i >= 0) {
+    ok = (import nk)[(import dtys)[i]] == "fn";
+  }
+} return int ok;
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return a; } int v;" ("f"):(1)
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return a; } int v;" ("v"):(0)
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int v;" ("zz"):(0)

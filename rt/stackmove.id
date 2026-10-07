@@ -1,0 +1,31 @@
+// A chunk is 256 KiB unless one frame needs more, rounded up to 8.
+rt_size(word n) {
+  word sz = 262144;
+  if(n + 48 > sz) {
+    sz = (n + 55) & ~7;
+  }
+} return word sz;
+
+// Make `nb` the current chunk, remembering where `cb` stood. The stack pointer
+// itself is the caller's to set past the frame; this answers the frame's address.
+rt_switch(word cb, word nb) {
+  poke64(nb, peek64((import rtc)));
+  poke64(nb + 8, peek64((import rtc) + 8));
+  poke64(nb + 32, cb);
+} chain (word cb, word nb) {
+  poke64(nb + 40, peek64((import rtc) + 16));
+  poke64((import rtc) + 8, peek64(nb + 24));
+  poke64((import rtc) + 16, nb + 48);
+} chain (word cb, word nb) {
+  poke64((import rtc) + 24, nb);
+  word fp = nb + 48;
+} return word fp;
+
+rt_unwind() {
+  word nb = peek64((import rtc) + 24);
+  poke64((import rtc), peek64(nb));
+  poke64((import rtc) + 8, peek64(nb + 8));
+} chain () {
+  poke64((import rtc) + 16, peek64(nb + 40));
+  poke64((import rtc) + 24, peek64(nb + 32));
+} return void;

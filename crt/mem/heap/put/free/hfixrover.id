@@ -1,0 +1,10 @@
+// The three blocks with the first in use and the rover left on the last, so a
+// free of the middle one has a rover to move and a neighbour it cannot merge
+// with.
+crt_heap_fixture9() {
+  crt_heap_fixture7();
+  bset((import trio0), 32, 1);
+  poke64((import crt_heap), (import trio2));
+} return void;
+():() then prints:("")
+():() then eprints:("")

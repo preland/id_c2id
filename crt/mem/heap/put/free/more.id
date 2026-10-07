@@ -1,18 +1,34 @@
 // Absorb `nx` (which must be the block immediately after `h`) into `h`, then
-// repair the back link of whatever now follows the merged block.
+// repair the back link of whatever now follows the merged block. The merged
+// size is read again for that: the block that follows is `nx`'s successor, not
+// `nx`, and a stale link there let a later free merge into a block that no
+// longer existed.
 merge_blk(word h, word nx) {
   word hz = bsize(h);
   merge_set(h, hz, nx);
-  fix_prev(h + hz, h);
+  word hy = bsize(h);
+} chain (word h, word nx) {
+  fix_prev(h + hy, h);
 } return void;
 given crt_heap_fixture4 ((import h0), (import h1)):() then h0_word:(64)
-given crt_heap_fixture ((import h0), (import h0)):() then h0_word:(128)
+given crt_heap_fixture7 ((import trio0), (import trio1)):() then trio2_prev:(16)
 
-// The merged size written, split out of merge_blk so its block stays under the
-// three-action limit.
+// The merged size written and the rover kept on a live block, split out of
+// merge_blk so its block stays under the three-action limit.
 merge_set(word h, word hz, word nx) {
   word nz = bsize(nx);
   bset(h, hz + nz, 0);
+  rover_fix(h, nx);
 } return void;
 given crt_heap_fixture4 ((import h0), 32, (import h1)):() then h0_word:(64)
 given crt_heap_fixture ((import h0), 10, (import h0)):() then h0_word:(74)
+
+// A rover standing on the block that was just absorbed would point into the
+// middle of its neighbour; move it to the block that now holds it.
+rover_fix(word h, word nx) {
+  if(peek64((import crt_heap)) == nx) {
+    poke64((import crt_heap), h);
+  }
+} return void;
+given crt_heap_fixture4 ((import h1), (import h0)):() then rover_off:(48)
+given crt_heap_fixture4 ((import h1), (import h1)):() then rover_off:(16)

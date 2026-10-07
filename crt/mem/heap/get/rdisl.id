@@ -1,0 +1,24 @@
+// The size word of the second island's first block, which is where the island
+// grow_heap added begins.
+isl1_word() {
+  word x = peek64((import crt_heap) + 96);
+} return word x;
+given crt_heap_fixture5 ():(1048576)
+given crt_heap_fixture6 ():(2097152)
+
+// A heap that has grown once: the 64-byte island and, after its sentinel, a
+// mebibyte island at hnext.
+crt_heap_fixture5() {
+  crt_heap_fixture();
+  grow_heap(32);
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+// The same, grown by a request bigger than a mebibyte.
+crt_heap_fixture6() {
+  crt_heap_fixture();
+  grow_heap(2097152);
+} return void;
+():() then prints:("")
+():() then eprints:("")

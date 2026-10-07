@@ -1,0 +1,41 @@
+// Walk from `h` until a free block is big enough or `stop` is reached; `r` is
+// both the answer and the early-exit flag. With stop 0 it is the walk to the
+// end of the heap.
+fit_from(word h, word need, word stop) {
+  word r = 0;
+  while(r == 0 && h != stop) {
+    r = fit_at(h, need);
+    h = walk_next(h);
+  }
+} return word r;
+given crt_heap_fixture ((import h0), 32, 0):((import h0))
+given crt_heap_fixture4 ((import h1), 32, (import h1)):(0)
+
+// What find_fit does after the walk from the rover: if it found nothing, try
+// the blocks before the rover, then a new island; and leave the rover on what
+// was found, so the next search starts there.
+fit_wrap(word r, word hrv, word need) {
+  if(r == 0) {
+    r = fit_from((import crt_heap) + 16, need, hrv);
+  }
+  if(r == 0) {
+    r = grow_heap(need);
+  }
+  if(r != 0) {
+    poke64((import crt_heap), r);
+  }
+} return word r;
+given crt_heap_fixture4 ((import h1), (import h0), 32):((import h1)) then rover_off:(48)
+given crt_heap_fixture4 (0, (import h1), 32):((import h0)) then rover_off:(16)
+
+// The block physically after `h`, or 0 if `h` ends its island. Coalescing must
+// not cross into the next island, which is not next to it in the store.
+adj_next(word h) {
+  word nx = h + bsize(h);
+  word r = nx;
+  if(peek64(nx) == 0) {
+    r = 0;
+  }
+} return word r;
+given crt_heap_fixture4 ((import h0)):((import h1))
+given crt_heap_fixture5 ((import h0)):(0)

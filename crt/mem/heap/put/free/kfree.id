@@ -16,13 +16,15 @@ free_at(word h) {
   coal_both(h);
 } return void;
 given crt_heap_fixture ((import h0)):() then h0_word:(64) then calls coal_both:[1]
-given crt_heap_fixture2 ((import h0)):() then h0_word:(128) then calls coal_both:[1]
+given crt_heap_fixture4 ((import h0)):() then h0_word:(64) then calls coal_both:[1]
 
-// Both directions, in one action. Split out of free_at so its block stays
-// under the three-action limit.
+// The rover moves to the freed block, then both directions are merged. Split
+// out of free_at so its block stays under the three-action limit.
 coal_both(word h) {
+  poke64((import crt_heap), h);
   coal_next(h);
   coal_prev(h);
 } return void;
 given crt_heap_fixture4 ((import h0)):() then calls coal_next:[1] then calls coal_prev:[1]
 given crt_heap_fixture ((import h0)):() then calls coal_next:[1] then calls coal_prev:[1]
+given crt_heap_fixture9 ((import trio1)):() then rover_off:(48)
