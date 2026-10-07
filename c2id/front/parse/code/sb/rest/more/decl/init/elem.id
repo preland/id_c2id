@@ -21,15 +21,18 @@ init_elem2(int[] pos) {
 given boot_a given ty_setup given lexfix stdin "[ 2 ] = 5" ([0]):(2)
 given boot_a given ty_setup given lexfix stdin "6" ([0]):(0)
 
-// `[const] = value`: a dinit node, na the value, nb the index, ns empty.
+// `[const] = value`: a dinit node, na the value, nb the index, ns empty, nl the
+// last index of a range (equal to nb when it is not one).
 init_index(int[] pos) {
   advance(pos);
   int ix = ce_expr(pos);
-  skip_tok(pos, "]");
+  int hi = init_upto(pos, ix);
 } chain (int[] pos) {
+  skip_tok(pos, "]");
   skip_tok(pos, "=");
   int a = init_item(pos);
-  int id = newleaf("dinit", a, ix, "", "");
+} chain (int[] pos) {
+  int id = newlist("dinit", a, ix, "", [hi]);
 } return int id;
 given boot_a given ty_setup given lexfix stdin "[ 1 ] = 5" ([0]):(2)
 given boot_a given ty_setup given lexfix stdin "[ 3 ] = 6" ([0]):(2)

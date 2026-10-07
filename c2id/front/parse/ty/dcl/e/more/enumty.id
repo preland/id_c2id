@@ -1,0 +1,31 @@
+// The type of the enum just read, whose enumerators are the ones after the first n0
+// in the constant table: made, and registered, when it had a body, and looked
+// up when it only names a tag.
+enum_ty(int n0, string tag) {
+  int r = 0;
+  if(len((import ecvals)) > n0) {
+    r = enum_make(n0, tag);
+  } else {
+    r = enum_ref(tag);
+  }
+} return int r;
+given boot_a (0, "e"):(0)
+given boot_a given en_add("a", 1) (0, "e"):(0)
+
+enum_make(int n0, string tag) {
+  int neg = enum_neg(n0);
+  int r = enum_pick(neg);
+  enum_reg(tag, r);
+} return int r;
+given boot_a given en_add("a", 1) (0, "e"):(0)
+given boot_a given en_add("a", -1) (0, "e"):(0)
+
+// An enum with a tag already read is that type again; any other `enum tag` is an int.
+enum_ref(string tag) {
+  int r = ty_find("enum " + tag);
+  if(r < 0) {
+    r = int_type();
+  }
+} return int r;
+given boot_a ("e"):(0)
+given boot_a given enum_reg("e", 7) ("e"):(7)

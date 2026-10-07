@@ -1,0 +1,29 @@
+// The value of a node cv6 could not fold. `sizeof` of a string literal is its
+// bytes and the NUL, which needs no type; anything else is not a constant the
+// folder knows, and sets cunk (ce_expr turns that into a refusal).
+cv7(int e) {
+  int v = 0;
+  if((import nk)[e] == "sizeof" && cv_is_str((import na)[e]) == 1) {
+    v = cv_strsz((import na)[e]);
+  } else {
+    lset((import cunk), 0, 1);
+  }
+} return int v;
+given boot_a given exprfix stdin "sizeof(\"hello\");" (1):(6) then (import cunk)[0]:(0)
+given boot_a given exprfix stdin "x;" (0):(0) then (import cunk)[0]:(1)
+
+cv_is_str(int a) {
+  int ok = 0;
+  if(a >= 0 && (import nk)[a] == "str") {
+    ok = 1;
+  }
+} return int ok;
+given boot_a given exprfix stdin "\"hi\";" ((import extop)):(1)
+given boot_a given exprfix stdin "x;" ((import extop)):(0)
+
+cv_strsz(int a) {
+  int[] bs = lit_bytes((import ns)[a]);
+  int n = len(bs) + 1;
+} return int n;
+given boot_a given exprfix stdin "\"hi\";" ((import extop)):(3)
+given boot_a given exprfix stdin "\"a\" \"bc\";" ((import extop)):(4)

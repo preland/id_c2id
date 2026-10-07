@@ -11,6 +11,7 @@ given boot_a given lexfix stdin ";" ([0], 0):(0)
 given boot_a given lexfix stdin " ;" ([0], 0):(0)
 
 goto_tail(int[] pos, string name) {
+  goto_chk(pos, name);
   advance(pos);
   int id = goto_done(pos, name);
 } return int id;

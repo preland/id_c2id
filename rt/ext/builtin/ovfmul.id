@@ -1,0 +1,28 @@
+ovf_mul(word[] ovfx, word ovfsa, word ovfma, word ovfsb, word ovfmb) {
+  word ovfm = ovfma * ovfmb;
+  word ovfc = 0;
+  word ovfs = ovfsa != ovfsb;
+} chain (word[] ovfx, word ovfsa, word ovfma, word ovfsb, word ovfmb) {
+  if(ovfma != 0 && udiv(ovfm, ovfma) != ovfmb) {
+    ovfc = 1;
+  }
+  ovfx[0] = ovfs;
+  ovfx[1] = ovfm;
+} chain (word[] ovfx, word ovfsa, word ovfma, word ovfsb, word ovfmb) {
+  ovfx[2] = ovfc;
+} return void;
+
+// 1 when the exact result in ovfx fits the type with info ovfri: no carry out of 64
+// bits, and a magnitude no larger than the type's largest value of that sign.
+ovf_fits(word[] ovfx, word ovfri) {
+  word ovfl = ovf_limit(ovfx[0], ovfri);
+  word ovff = 0;
+  if(ovfx[2] == 0 && ult(ovfl, ovfx[1]) == 0) {
+    ovff = 1;
+  }
+} return word ovff;
+
+ovf_limit(word ovfs, word ovfri) {
+  word ovfb = 8 * (ovfri / 2);
+  word ovfl = ovf_pick(ovfs, ovfri, ovfb);
+} return word ovfl;

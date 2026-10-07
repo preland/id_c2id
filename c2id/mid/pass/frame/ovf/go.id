@@ -1,0 +1,29 @@
+ovf_res(int k, int pptr) {
+  int info = (import ovf_info)[k];
+  if(info < 0) {
+    int pt = ex_ty(pptr);
+    info = ovf_pointee(pt);
+  }
+} return int info;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (0, 17):(9)
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (12, 17):(8)
+
+ovf_pointee(int pt) {
+  int info = 0 - 1;
+  if((import nk)[pt] == "ptr" || (import nk)[pt] == "arr") {
+    int ty = (import na)[pt];
+    info = ovf_enc(ty);
+  }
+} return int info;
+given tynode_fix (2):(9)
+given tynode_fix (0):(-1)
+
+ovf_go(int id, int k, int[] args, int ai, int bi, int ri) {
+  if(ri < 0) {
+    diag_node(id, (import ovf_names)[k] + ": the third argument must point at the integer the result is stored in");
+  } else {
+    ovf_set(id, k, args, ai, bi, ri);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (18, 0, [14, 15, 17], 9, 9, -1):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (18, 0, [14, 15, 17], 9, 9, 9):() then (import ns)[13]:("__c2id_ovf")

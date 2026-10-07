@@ -239,8 +239,8 @@ the unit, clears the field, puts in the value cut to the width (0 or 1 for a
 `_Bool`) and writes the unit back. A field narrower than an int is an int in an
 expression (`bfx_prom`, in `mem_ty`), as C says. Brace initialisers take the
 same path and skip unnamed fields (`skip_unnamed`). Refused: a field wider than its
-type, and one of an enum type, because gcc picks signed or unsigned for it from the
-enumerators and the parser makes an enum an int.
+type. A field of enum type is unsigned unless an enumerator is negative, as the type of the enum is
+(`parse/ty/dcl/e/more/enumty.id`).
 
 ## 4e. setjmp and longjmp
 

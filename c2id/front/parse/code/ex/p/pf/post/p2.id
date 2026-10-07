@@ -5,7 +5,7 @@
 postfix_one(int[] pos, int a) {
   int node = 0;
   if(at_text(pos, "(")) {
-    node = parse_call(pos, a);
+    node = parse_call0(pos, a);
   } else {
     node = postfix2(pos, a);
   }

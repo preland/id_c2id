@@ -1,4 +1,4 @@
-// The last unary link: `sizeof`, else fall through to postfix.
+// The last unary link: `sizeof`, then the alignof spellings (parse_unary4), else postfix.
 //
 // `sizeof` arrives from the lexer as an ordinary identifier token, so the test
 // is on the text. That is safe: C reserves the word, so no object can be
@@ -9,11 +9,11 @@ parse_unary3(int[] pos) {
   if(cur_text(pos) == "sizeof") {
     node = parse_sizeof(pos);
   } else {
-    node = parse_postfix(pos);
+    node = parse_unary4(pos);
   }
 } return int node;
 given boot_a given lexfix stdin "sizeof x;" ([0]):(1) then calls parse_sizeof:[1]
-given boot_a given lexfix stdin "x;" ([0]):(0) then calls parse_postfix:[1]
+given boot_a given lexfix stdin "x;" ([0]):(0) then calls parse_unary4:[1]
 
 // unary_op's and pre_incdec's constructors: unary.id and prefix.id each already
 // spend their 3-action budget on reading the operator token and advancing,

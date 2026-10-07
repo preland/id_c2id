@@ -1,0 +1,13 @@
+// A constant expression the folder could not evaluate (an array bound that names
+// a variable is a variable length array) used to be taken as 0 and the program
+// run wrong; it is refused where written, unless a parse error has already ended
+// the read (the cursor is past the last token).
+ce_chk(int[] pos) {
+  int tk = tok_last();
+  if((import cunk)[0] == 1 && pos[0] < len((import ttext))) {
+    diag_tok(tk, "constant expression is not a constant c2id can evaluate (an array of variable length, or a size or value that depends on a variable): the program would run and be wrong");
+  }
+} return void;
+given boot_a given boot_b given lexfix given lset((import cunk), 0, 1) stdin "# 4 \"c.c\"\nx y" ([1]):() then (import dgmsg):(["c.c:4: error: constant expression is not a constant c2id can evaluate (an array of variable length, or a size or value that depends on a variable): the program would run and be wrong"])
+given boot_a given boot_b given lexfix stdin "x" ([1]):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given lset((import cunk), 0, 1) stdin "x" ([2]):() then len((import dgmsg)):(0)

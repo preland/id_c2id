@@ -1,0 +1,1 @@
+typeof of an expression and __auto_type are translated in the declaration of a local variable only

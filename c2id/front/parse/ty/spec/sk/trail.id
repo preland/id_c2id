@@ -1,0 +1,19 @@
+// What may follow a whole declarator: attributes and an asm name for the symbol
+// (`int *p __attribute__((unused)) = 0;`, `int f(int) asm("g");`).
+skip_trail(int[] pos) {
+  while(trail_at(pos) == 1) {
+    skip_attr(pos);
+  }
+} return void;
+given lexfix stdin "__attribute__((a)) __asm__(\"b\") x" ([0]):([10])
+given lexfix stdin "x" ([0]):([0])
+
+trail_at(int[] pos) {
+  string s = cur_text(pos);
+  int ok = is_attr(s);
+  if(s == "_Alignas") {
+    ok = 0;
+  }
+} return int ok;
+given lexfix stdin "__asm__" ([0]):(1)
+given lexfix stdin "_Alignas" ([0]):(0)

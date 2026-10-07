@@ -1,0 +1,9 @@
+// `__builtin_constant_p(x)` asks whether x is known at compile time, and 0 --
+// "not known" -- is always a true answer for a program that has to work either
+// way. x is not evaluated, so it is skipped, not parsed.
+bi_const_p(int[] pos) {
+  skip_bal(pos);
+  int id = newleaf("num", 0, 0, "0", "");
+} return int id;
+given boot_a given lexfix stdin "f(1) ) ;" ([0]):(0)
+given boot_a given lexfix stdin "x ) y" ([0]):(0)

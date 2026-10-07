@@ -1,7 +1,8 @@
 // A cast does not change a constant's value here (the operands are ints), a
 // conditional picks an arm, sizeof is the size of its type; a name that is not
-// an enumerator (and so not folded by the parser) is 0, which is also what the
-// old grammar answered.
+// an enumerator (and so not folded by the parser), a `sizeof` of an expression
+// and anything else that is not a constant is 0 with cunk set, which ce_expr
+// turns into a refusal.
 cv4(int e) {
   int v = 0;
   if((import nk)[e] == "cast") {
@@ -26,9 +27,12 @@ given boot_a given exprfix stdin "sizeof(int);" ((import extop)):(4)
 
 cv6(int e) {
   int v = 0;
-  if((import nk)[e] == "sizeof" && (import nb)[e] >= 0) {
-    v = type_size((import nb)[e]);
+  if((import nk)[e] == "sizeof" && ((import nb)[e] != 0 || (import na)[e] == 0)) {
+    v = sizeof_meas(e, (import nb)[e]);
+  } else {
+    v = cv7(e);
   }
 } return int v;
 given boot_a given exprfix stdin "sizeof(int);" ((import extop)):(4)
-given boot_a given exprfix stdin "x;" ((import extop)):(0)
+given boot_a given exprfix stdin "x;" ((import extop)):(0) then (import cunk)[0]:(1)
+given boot_a given exprfix stdin "sizeof(int);" ((import extop)):(4) then (import cunk)[0]:(0)

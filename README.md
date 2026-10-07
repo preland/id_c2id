@@ -119,8 +119,8 @@ C programs of real size translate, build with `idc` and run: the corpus in
 `docs/STATUS.md` (inih, the libmd digests, xxhash, lz4, miniz's inflate, and the
 programs in `tests/c/`) matches `gcc -O2` on stdout and exit status. What c2id
 cannot translate correctly it refuses, at translate time, with `file:line` and the
-construct's name, and writes nothing: compound
-literals, a struct passed through `...`, an `fopen` mode outside r, w and a with b and `+`, the address of a variadic runtime function, signals, termios, 128-bit integers, `packed` structs, and
+construct's name, and writes nothing:
+inline asm that does anything, variable length arrays, `_Generic`, a struct passed through `...`, an `fopen` mode outside r, w and a with b and `+`, the address of a variadic runtime function, signals, termios, 128-bit integers, `packed` structs, and
 every called function that neither the program nor the runtime provides, all
 listed at once. `tests/run.sh` has a case for each (`tests/c/9*.c`, with a
 `.refuse` file naming the lines the refusal must contain). The translation is also slow, by the nature of the design (one flat

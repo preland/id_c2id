@@ -1,0 +1,14 @@
+// One more than the index of the lowest set bit, 0 for no bit set.
+c___builtin_ffs(word pcv) {
+  word pcn = 0;
+  if((pcv & 4294967295) != 0) {
+    pcn = rt_ctz(pcv & 4294967295, 32) + 1;
+  }
+} return word pcn;
+
+c___builtin_ffsll(word pcv) {
+  word pcn = 0;
+  if(pcv != 0) {
+    pcn = rt_ctz(pcv, 64) + 1;
+  }
+} return word pcn;

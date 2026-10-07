@@ -19,8 +19,6 @@ ty_init4() {
   export string[] pnq = [];
   export int[] scmk = [];
   export string[] pnj = [""];
-} chain () {
-  export int[] bfenum = [0];
 } return void;
 ():() then prints:("")
 given ty_setup ():() then prints:("")

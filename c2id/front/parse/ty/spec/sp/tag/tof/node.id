@@ -1,0 +1,21 @@
+// The node standing for a type that is not known yet: kind "tof" holds the
+// expression whose type it is in na, kind "auto" takes the declaration's
+// initializer. Outside the specifiers of a local declaration nothing resolves
+// it, so it is refused where written.
+tof_node(int e, string kind) {
+  if((import tofok)[0] == 0) {
+    diag_tok(tok_last(), "typeof of an expression and __auto_type are translated in the declaration of a local variable only: this is another place a type is written, where c2id does not know the type of the expression");
+  }
+  int ty = newleaf(kind, e, 0, "", "");
+} return int ty;
+given boot_a given boot_b given lexfix given lset((import tofok), 0, 1) stdin "x" (3, "tof"):(6) then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix stdin "x" (3, "tof"):(6) then len((import dgmsg)):(1)
+
+is_tof_kw(string s) {
+  int ok = 0;
+  if(s == "typeof" || s == "__typeof__" || s == "__typeof" || s == "typeof_unqual" || s == "__typeof_unqual__" || s == "__auto_type") {
+    ok = 1;
+  }
+} return int ok;
+("__auto_type"):(1)
+("sizeof"):(0)

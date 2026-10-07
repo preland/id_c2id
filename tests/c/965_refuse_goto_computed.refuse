@@ -1,0 +1,1 @@
+a computed goto ('goto *expression') is not translated

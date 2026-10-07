@@ -1,0 +1,35 @@
+// A local declared with `typeof(expr)` or `__auto_type` has a type node that
+// stands for the type of an expression (front/parse/ty/spec/sp/tag/tof/). Its
+// slot needs the real type, and the expression's type is known now: every
+// earlier local has its slot, and the names in the expression are bound here.
+// For `__auto_type` the expression is the initializer, bound here and so not
+// again by bind_auto (tof_bind answers 1).
+tof_bind(int id) {
+  int ty = (import nb)[id];
+  int ibound = 0;
+  if(tof_has(ty) == 1) {
+    ibound = tof_resolve(id, ty);
+  }
+} return int ibound;
+given boot_a given boot_b given lexfix given tu_load given bind_decls(12) stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (15):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; int b = a; return b; }" (15):(0)
+
+tof_resolve(int id, int ty) {
+  int leaf = ty_base(ty);
+  int rty = tof_infer(id, leaf);
+  tof_store(id, ty, rty);
+} chain (int id, int ty) {
+  int ibound = (import nk)[leaf] == "auto";
+} return int ibound;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (15, 13):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; typeof(a) b = 2; return b; }" (16, 14):(0)
+
+tof_has(int ty) {
+  int leaf = ty_base(ty);
+  int ok = 0;
+  if((import nk)[leaf] == "tof" || (import nk)[leaf] == "auto") {
+    ok = 1;
+  }
+} return int ok;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; int b = a; return b; }" (0):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (13):(1)

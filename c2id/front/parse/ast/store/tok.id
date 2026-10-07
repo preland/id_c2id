@@ -1,10 +1,19 @@
 // The token the parser has consumed up to: advance keeps it, and every node
 // made records the token before it as where the node came from, so a refusal
 // can name file:line (front/diag/). dots is 1 from the `...` of a parameter
-// list until the function type it ends is made.
+// list until the function type it ends is made. cunk is 1 once a constant
+// expression has met an operand the folder cannot evaluate. tofok is 1 while
+// the specifiers of a local declaration are read: the only place a typeof of an
+// expression or an __auto_type is translated. infn is 1 while a function body is
+// read, regnames lists the variables bound to a machine register.
 init_nodes4() {
   export int[] curtk = [0];
   export int[] dots = [0];
+  export int[] cunk = [0];
+} chain () {
+  export int[] tofok = [0];
+  export int[] infn = [0];
+  export string[] regnames = [];
 } return void export curtk;
 ():() then (import curtk)[0]:(0)
 ():() then eprints:("")

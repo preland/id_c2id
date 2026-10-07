@@ -35,12 +35,14 @@ given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int x
 // fresh name, a slot under that name, and a renaming for the rest of its scope.
 bind_auto(int id) {
   string dn = (import ns)[id];
-  int ty = (import nb)[id];
+  int ibound = tof_bind(id);
   string fresh = bind_name(dn);
 } chain (int id) {
   sset((import ns), id, fresh);
+  int ty = (import nb)[id];
   int off = decl_slot(fresh, ty);
-  bind_decls((import na)[id]);
+} chain (int id) {
+  tof_init(id, ibound);
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int x = 1; int x = 2; }" (11):() then (import lvnames):(["x"]) then (import ns)[11]:("x")
 given boot_a given boot_b given lexfix given tu_load given bind_auto(11) stdin "void f(void) { int x = 1; int x = 2; }" (15):() then (import lvnames):(["x", "x__0"]) then (import ns)[15]:("x__0")

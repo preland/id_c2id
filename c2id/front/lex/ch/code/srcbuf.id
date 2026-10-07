@@ -21,10 +21,11 @@
 //   44 ".7"          a '.' not followed by a digit is member-access, but
 //                    this one is -- the two branches of is_num_dot_at
 // eb is "a\zb" quoted (6 bytes: '"' 'a' '\' 'z' 'b' '"'), for the escape scan
-// in tok/lt/esc.id.
+// in tok/lt/esc.id. xb is "__extension__ x" (identifiers that are dropped / kept).
 lex_src_fixture() {
   export word gb = mem_of_str("12ab 3e+2 \"hi\"\n/* c */\n#5 \"f.c\"\n->x.<<=u8\"z\".7");
   export word eb = mem_of_str("\"a\\zb\"");
+  export word xb = mem_of_str("__extension__ x");
 } return void;
 ():() then prints:("")
 ():() then eprints:("")

@@ -1,0 +1,29 @@
+// `_Static_assert(cond, "msg");` checks something when the program is compiled
+// and does nothing when it runs, so a program that gets this far has passed it
+// and the declaration is skipped: wherever a declaration or a statement may
+// stand, and between the members of a struct.
+skip_sassert(int[] pos) {
+  advance(pos);
+  skip_paren(pos);
+  skip_semi(pos);
+} return void;
+given lexfix stdin "_Static_assert ( 1 , \"m\" ) ; x" ([0]):([7])
+given lexfix stdin "_Static_assert ( ( 1 ) , \"m\" ) ; x" ([0]):([9])
+
+at_sassert(int[] pos) {
+  string s = cur_text(pos);
+  int ok = 0;
+  if(s == "_Static_assert" || s == "static_assert") {
+    ok = 1;
+  }
+} return int ok;
+given lexfix stdin "_Static_assert" ([0]):(1)
+given lexfix stdin "static" ([0]):(0)
+
+parse_sassert(int[] pos) {
+  advance(pos);
+  skip_paren(pos);
+  int id = parse_empty(pos);
+} return int id;
+given boot_a given lexfix stdin "_Static_assert ( 1 , \"m\" ) ;" ([0]):(0)
+given boot_a given lexfix stdin "_Static_assert ( 1 , \"m\" ) ; ;" ([0]):(0)

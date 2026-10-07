@@ -1,0 +1,24 @@
+// A static local is a global, whose type must be known when the translation
+// unit is read; the type of an expression is not, so it is refused.
+tof_static(int id) {
+  int ty = (import nb)[id];
+  if((import nt)[id] == "static" && tof_has(ty) == 1) {
+    diag_node(id, "typeof of an expression and __auto_type are not translated for a static variable: its type is needed before the function is read");
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; static int b = 2; return b; }" (16):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; typeof(a) b = 2; return b; }" (16):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; static typeof(a) b = 2; return b; }" (16):() then len((import dgmsg)):(1)
+
+// The type of the expression found. An `__auto_type` with no initializer has
+// none to take it from: that is refused, and the variable is an int meanwhile.
+tof_ex(int id, int e) {
+  int rty = (import stdty)[0];
+  if(e >= 0) {
+    rty = ex_ty(e);
+  } else {
+    diag_node(id, "__auto_type needs an initializer to take its type from");
+  }
+} return int rty;
+given boot_a given boot_b given lexfix given tu_load given bind_decls(12) stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (15, 14):(9)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; __auto_type b; return b; }" (15, -1):(0) then len((import dgmsg)):(1)

@@ -1,2 +1,1 @@
-error: expression expected
-925_refuse_parse_error.c:3: error: expression expected, found '&&'
+925_refuse_parse_error.c:3: error: the address of a label ('&&label') is not translated

@@ -1,0 +1,10 @@
+// What is said when nothing can start an expression: `&&` there is the address
+// of a label, a GNU extension for computed goto.
+bad_msg(int[] pos) {
+  string msg = "expression expected, found '" + cur_text(pos) + "'";
+  if(at_text(pos, "&&")) {
+    msg = "the address of a label ('&&label') is not translated: a computed goto jumps to a place chosen when the program runs, which c2id's blocks cannot express";
+  }
+} return string msg;
+given boot_a given lexfix stdin "&& l" ([0]):("the address of a label ('&&label') is not translated: a computed goto jumps to a place chosen when the program runs, which c2id's blocks cannot express")
+given boot_a given lexfix stdin ") l" ([0]):("expression expected, found ')'")

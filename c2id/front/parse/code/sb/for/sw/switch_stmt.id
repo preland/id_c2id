@@ -12,7 +12,7 @@ given boot_a given ty_setup given lexfix stdin "){x;}" ([0], 0):(3) then calls p
 parse_case(int[] pos) {
   advance(pos);
   int a = parse_cond(pos);
-  int id = case_close(pos, a);
+  int id = case_tail(pos, a);
 } return int id;
 given boot_a given ty_setup given lexfix stdin "case 1:" ([0]):(1) then calls parse_cond:[1]
 given boot_a given ty_setup given lexfix stdin "case 2:" ([0]):(1) then calls parse_cond:[1]

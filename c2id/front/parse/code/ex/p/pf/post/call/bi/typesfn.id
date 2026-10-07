@@ -1,0 +1,32 @@
+// A pointer or an array is the same as another when what it holds is, and an
+// array of known length when the lengths agree.
+types_elem(int a, int b) {
+  int sub = types_same((import na)[a], (import na)[b]);
+  int ok = sub;
+  if((import nk)[a] == "arr" && (import nb)[a] >= 0 && (import nb)[b] >= 0 && (import nb)[a] != (import nb)[b]) {
+    ok = 0;
+  }
+} return int ok;
+given tynode_fix (2, 2):(1)
+given tynode_fix (3, 3):(1)
+
+// A function type is the same as another when the result and every parameter are.
+types_fn(int a, int b) {
+  int ok = types_same((import na)[a], (import na)[b]);
+  if(ok == 1) {
+    ok = types_params((import nl)[a], (import nl)[b]);
+  }
+} return int ok;
+given tynode_fix (4, 4):(1)
+given tynode_fix (4, 3):(0)
+
+types_params(int[] la, int[] lb) {
+  int ok = len(la) == len(lb);
+  int i = 0;
+  while(ok == 1 && i < len(la)) {
+    ok = types_same(la[i], lb[i]);
+    i = i + 1;
+  }
+} return int ok;
+([], []):(1)
+([0], []):(0)

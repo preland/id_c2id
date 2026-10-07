@@ -68,7 +68,7 @@ ex/
       cast/
         parse_cast.id   parse_cast  paren_head  paren_body
         cast_body.id  cast_body  cast_tail  cast_rest
-        lit.id    paren_expr  compound_lit  scan_inits
+        lit.id    paren_expr  compound_lit
       op/
         unary.id     parse_unary  is_unop  unary_op
         op2/
@@ -157,21 +157,19 @@ from `*p++`.
   adds float support should read `ns`, not `na`. `expr_str` prints the spelling
   for a float and the decoded value for an integer, which is how the decoder is
   tested.
-* **Compound literals `(T){…}` are refused.** `cast_tail` records a refusal
-  (`front/diag/`) at the `{`, then still builds the node the parser always
-  built: a `cast` whose operand is a `call` node with **callee -1** and the
-  elements as its argument list, so parsing carries on to the end of the file
-  and every refusal in it is reported. The translation stops after parsing, so
-  nothing reads that node. If compound literals are ever translated, that node
-  shape is the starting point: nested braces are not flattened (an inner `{` is
-  handed to `parse_assign`), and `p/un/cast/lit.id` and `s/sub/args.id` are the
-  places to change.
+* **A compound literal `(T){…}` is a statement expression.** `compound_lit` reads the
+  braces as a declaration's initializer is read and `lit_node` (`p/un/sz/overflow.id`)
+  makes `({ T __clN = {…}; __clN; })`: a local of a name no other can take, which a
+  flat frame keeps for the whole call. One inside a brace initializer is refused
+  (`mid/hook/stmt/stx.id`), as a statement expression there is.
 * **`sizeof` distinguishes its two forms by `nb`.** `nb != 0` means
   `sizeof(T)`. The ABI says `na` is "operand or 0", but 0 is a legitimate node
   id, so both fields are ambiguous in principle; in practice node 0 is created
   long before any expression is parsed.
-* **`_Generic`, `_Alignof`, `__builtin_*`, and GCC statement expressions
-  (`({...})`) are not handled.** Neither are digraphs.
+* **`_Generic` is refused** (a `refuse` node, refused when its function is
+  reached), **and digraphs are not handled.** `__builtin_constant_p`,
+  `__builtin_choose_expr` and `__builtin_types_compatible_p` are read in
+  `p/pf/post/call/bi/`; the other `__builtin_*` are functions of `rt/`.
 * **Multi-character constants** (`'ab'`) take the value of the first character.
 * **Wide/UTF literals** (`L'a'`, `u8"x"`) are not recognised; the prefix is
   assumed to have been dealt with by the lexer.

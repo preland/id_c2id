@@ -1,10 +1,11 @@
+// `enum`, its attributes, and its tag (empty for an enum with no tag).
 enum_head(int[] pos) {
   advance(pos);
   skip_attrs(pos);
-  take_ident(pos);
-} return void;
-given lexfix stdin "x y" ([0]):([2])
-given lexfix stdin "x 5" ([0]):([1])
+  string tag = take_ident(pos);
+} return string tag;
+given lexfix stdin "enum x" ([0]):("x")
+given lexfix stdin "enum { y }" ([0]):("")
 
 // One registered enumerator, "answer" -> 42, for en_add's own cases and for
 // has_enum/enum_val's found branch.

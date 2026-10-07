@@ -8,12 +8,20 @@ sizeof_expr(int[] pos) {
 given boot_a given lexfix stdin "x;" ([0]):(1)
 given boot_a given lexfix stdin "!y;" ([0]):(2)
 
-// ../cast/lit.id's compound_lit: it already spends its 3-action budget on
-// scanning the initialisers, leaving no room to name the newlist()+newleaf()
-// pair it must return. un/cast/ has no room for a sibling file; sz/ does.
-lit_node(int ty, int[] ids) {
-  int a = newlist("call", 0 - 1, 0, "", ids);
-  int id = newleaf("cast", a, ty, "", "");
-} return int id;
-given boot_a (0, []):(1)
-given boot_a (0, [1, 2]):(1)
+// A compound literal as a statement expression: `({ T __clN = { ... }; __clN; })`,
+// the object being a local of its own whose name no other can take. A frame is
+// flat, so the object lives as long as the function does, which is longer than
+// C asks and so enough.
+lit_node(int[] pos, int ty, int init) {
+  string name = "__cl" + len((import nk));
+  int d = newleaf("decl", init, ty, name, "");
+  int blk = newlist("block", 0, 0, "", [d]);
+} chain (int[] pos, int ty, int init) {
+  int v = newleaf("var", 0, 0, name, "");
+  int es = newleaf("expr", v, 0, "", "");
+  int sx = newlist("stmtx", 0, 0, "", [blk, es]);
+} chain (int[] pos, int ty, int init) {
+  int node = postfix_tail(pos, sx);
+} return int node;
+given boot_a given ty_setup given lexfix stdin ";" ([0], 0, 0):(4)
+given boot_a given ty_setup given lexfix stdin ".x" ([0], 0, 0):(5)

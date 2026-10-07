@@ -1,0 +1,11 @@
+// The verdict: a goto or an output already decided it; a real template with
+// nothing else is an instruction.
+asm_code(int[] asmst) {
+  int acode = asmst[2];
+  if(acode == 0 && asmst[1] == 1) {
+    acode = 3;
+  }
+} return int acode;
+([2, 1, 0]):(3)
+([2, 0, 0]):(0)
+([2, 1, 2]):(2)

@@ -11,24 +11,13 @@ paren_expr(int[] pos) {
 given boot_a given lexfix stdin "1);" ([0]):(0)
 given boot_a given lexfix stdin "x);" ([0]):(0)
 
-// `(T){ a, b }`. NOTES.md section 4 has no node kind for a brace initialiser,
-// so this is a `cast` whose operand is a `call` node with callee -1: -1 is
-// never a node id, and the ABI already spells "absent" that way (see `decl`,
-// `case`, `return`). Nested braces are not flattened -- an inner `{` is parsed
-// by parse_assign, which does not know about it. See README.md.
+// `(T){ a, b }`, a compound literal: an object of type T that holds the braced
+// initializer, which is what lit_node (sz/overflow.id) builds. The initializer
+// is read as a declaration's is, so designators and nested braces are all there.
 compound_lit(int[] pos, int ty) {
-  int[] ids = [];
-  scan_inits(pos, ids);
-  int id = lit_node(ty, ids);
+  int init = parse_init_list(pos);
+  int ty2 = complete_arr(ty, init);
+  int id = lit_node(pos, ty2, init);
 } return int id;
-given boot_a given lexfix stdin "{1, 2};" ([0], 0):(3)
-given boot_a given lexfix stdin "{};" ([0], 0):(1)
-
-// '{' element, element ... '}'
-scan_inits(int[] pos, int[] ids) {
-  advance(pos);
-  fill_list(pos, ids, "}");
-  advance(pos);
-} return void;
-given boot_a given lexfix stdin "{1, 2};" ([0], []):([5])
-given boot_a given lexfix stdin "{};" ([0], []):([2])
+given boot_a given ty_setup given lexfix stdin "{1, 2};" ([0], 0):(7)
+given boot_a given ty_setup given lexfix stdin "{};" ([0], 0):(5)

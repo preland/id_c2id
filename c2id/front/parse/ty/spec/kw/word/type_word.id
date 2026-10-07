@@ -27,6 +27,10 @@ is_tw3(string s) {
   if(ok == 0) {
     ok = is_attr(s);
   }
+  if(ok == 0) {
+    ok = is_tof_kw(s);
+  }
 } return int ok;
   ("struct"):(1)
+  ("__auto_type"):(1)
   ("zzz"):(0)

@@ -4,7 +4,7 @@ mk_prim_leaf(int i) {
   int ty = mk_prim_leaf2(i, sz, sg);
 } return int ty;
 given boot_a (7):(0) then calls newleaf:("prim", 4, 1, "int", "")
-given boot_a (0):(0) then calls newleaf:("prim", 0, 0, "void", "")
+given boot_a (0):(0) then calls newleaf:("prim", 1, 0, "void", "")
 
 mk_prim_leaf2(int i, int sz, int sg) {
   string name = (import prim_names)[i];

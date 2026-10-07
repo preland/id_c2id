@@ -1,0 +1,11 @@
+// Nodes for the cases of stx.id: a statement expression (node 0), a number
+// (node 1) and a brace initializer holding the first (node 2).
+stx_fix() {
+  boot_a();
+  int v = newleaf("stmtx", 0, 0, "", "");
+  int w = newleaf("num", 1, 0, "1", "");
+} chain () {
+  int a = newlist("init", 0, 0, "", [v]);
+} return void;
+():() then len((import nk)):(3)
+():() then (import nk)[2]:("init")

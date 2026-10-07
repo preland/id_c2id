@@ -1,0 +1,26 @@
+ovf_pick(word ovfs, word ovfri, word ovfb) {
+  word ovfl = 0;
+  if((ovfri & 1) == 1) {
+    ovfl = ovf_slim(ovfb, ovfs);
+  } else {
+    ovfl = ovf_ulim(ovfb, ovfs);
+  }
+} return word ovfl;
+
+// The largest magnitude a signed type ovfb bits wide holds with the sign ovfs
+// (1 for a negative value): 2^(ovfb-1), less one for a positive one.
+ovf_slim(word ovfb, word ovfs) {
+  word ovfl = 1 << (ovfb - 1);
+  if(ovfs == 0) {
+    ovfl = ovfl - 1;
+  }
+} return word ovfl;
+
+// The same for an unsigned type: nothing negative fits, and the positive limit is
+// all ones.
+ovf_ulim(word ovfb, word ovfs) {
+  word ovfl = 0;
+  if(ovfs == 0) {
+    ovfl = ovf_umax(ovfb);
+  }
+} return word ovfl;

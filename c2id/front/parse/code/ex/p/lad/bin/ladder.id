@@ -16,11 +16,12 @@
 // right-associative.
 cond_tail(int[] pos, int left) {
   advance(pos);
-  int a = parse_expr(pos);
+  int a = cond_mid(pos, left);
   int id = cond_node(pos, left, a);
 } return int id;
-given boot_a given lexfix stdin "2 : 3" ([0], 0):(2)
-given boot_a given lexfix stdin "x : y" ([0], 5):(2)
+given boot_a given lexfix stdin "? 2 : 3" ([0], 0):(2)
+given boot_a given lexfix stdin "? : 3" ([0], 5):(1) then (import nb)[1]:(5)
+given boot_a given lexfix stdin "? x : y" ([0], 5):(2)
 
 parse_bin(int[] pos, int lvl) {
   int left = parse_next(pos, lvl);

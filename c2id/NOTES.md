@@ -249,8 +249,8 @@ project written), and it also ends the parse (`diag_bail`: the cursor moves to
 the end of the tokens, so no recovery loop can run on), since reading on after
 one is how a translator spins. Three places make them:
 
-* the parser, for what it sees as it reads, reached or not: a compound literal
-  (`cast_tail`), a bitfield wider than its type or of an enum type
+* the parser, for what it sees as it reads, reached or not: a bitfield wider
+  than its type
   (`front/diag/bits.id`), `__attribute__((packed))` on a struct with more than
   one member, `vector_size` and `mode` (`front/diag/packed*.id`), and a
   128-bit integer type, which `wide_scan` finds in the tokens
@@ -270,6 +270,12 @@ one is how a translator spins. Three places make them:
   limit of the parser instead, not as a missing function. The runtime's names
   are `rt_names` in `conf.id`; keep it equal to what `rt/` and `crt/` define (a
   case in `tests/c/` for each name keeps it so);
+  Constructs a header holds in functions nothing calls reach this pass as a
+  `refuse` node (`front/diag/refuse.id`: an `asm` statement that does
+  something, `_Generic`) or as a name (`regnames`: a variable bound to a
+  machine register), and are refused here, `mid/check/extra.id`, only if the
+  function is reached; a `typeof(expression)` is resolved here too, by the
+  frame pass (`mid/pass/frame/tof/`), which has the types of the locals;
 * nowhere else: once `diag_status()` is non-zero the driver (`unit/settle.id`)
   skips emission, `diag_report()` prints the lines, and `main` exits 1.
 

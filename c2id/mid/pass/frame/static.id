@@ -4,6 +4,7 @@
 // declaration's initializer, which C runs once, and the declaration itself an
 // empty block, which still counts as a declaration for the scope rules.
 bind_decl(int id) {
+  tof_static(id);
   if((import nt)[id] == "static") {
     bind_static(id);
   } else {

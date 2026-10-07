@@ -1,0 +1,19 @@
+// A tagged enum is registered by its tag, as a struct is; an untagged one is
+// not named by anything.
+enum_reg(string tag, int ty) {
+  if(tag != "") {
+    ty_add("enum " + tag, ty);
+  }
+} return void;
+given ty_setup ("e", 7):() then check_foo_ty:(-1)
+given ty_setup ("", 7):() then len((import tynames)):(0)
+
+uint_type() {
+  int[] sp = spec_init();
+  lset(sp, 3, 1);
+  lset(sp, 8, 1);
+} chain () {
+  int ty = mk_prim(sp);
+} return int ty;
+given boot_a ():(0) then calls mk_prim:([0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -1])
+given boot_a ():(0) then calls newleaf:("prim", 4, 0, "unsigned int", "")

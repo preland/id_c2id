@@ -1,0 +1,13 @@
+// `__builtin_types_compatible_p(T1, T2)`: 1 when the types are the same type,
+// qualifiers aside, which c2id does not keep.
+bi_compat(int[] pos) {
+  int t1 = parse_typename(pos);
+  skip_tok(pos, ",");
+  int t2 = parse_typename(pos);
+} chain (int[] pos) {
+  skip_tok(pos, ")");
+  int same = types_same(t1, t2);
+  int id = newleaf("num", same, 0, "" + same, "");
+} return int id;
+given boot_a given ty_setup given lexfix stdin "int , int ) ;" ([0]):(2) then (import na)[2]:(1)
+given boot_a given ty_setup given lexfix stdin "int , long ) ;" ([0]):(2) then (import na)[2]:(0)

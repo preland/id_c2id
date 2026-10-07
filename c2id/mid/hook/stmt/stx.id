@@ -1,0 +1,38 @@
+// A brace initializer's elements are stored where the initializer is (back/link/
+// data/boot/init), which has no blocks to put a statement expression's
+// statements in; a compound literal is one. Either is refused where written.
+init_stx(int a) {
+  int[] l = (import nl)[a];
+  int i = 0;
+  int bad = 0;
+} chain (int a) {
+  while(i < len(l) && bad == 0) {
+    bad = init_stx_one(l[i]);
+    i = i + 1;
+  }
+} return int bad;
+given stx_fix given lexfix stdin "x" (2):(1) then len((import dgmsg)):(1)
+given stx_fix given lexfix stdin "x" (0):(0) then len((import dgmsg)):(0)
+
+init_stx_one(int e) {
+  int bad = 0;
+  if((import nk)[e] == "stmtx") {
+    diag_node(e, "a compound literal or a statement expression inside a brace initializer is not translated: assign it to a variable first and name the variable");
+    bad = 1;
+  } else {
+    bad = init_stx_sub(e);
+  }
+} return int bad;
+given stx_fix given lexfix stdin "x" (0):(1) then len((import dgmsg)):(1)
+given stx_fix given lexfix stdin "x" (1):(0) then len((import dgmsg)):(0)
+
+init_stx_sub(int e) {
+  int bad = 0;
+  if((import nk)[e] == "init") {
+    bad = init_stx(e);
+  } else if((import nk)[e] == "dinit") {
+    bad = init_stx_one((import na)[e]);
+  }
+} return int bad;
+given stx_fix given lexfix stdin "x" (1):(0)
+given stx_fix given lexfix stdin "x" (2):(1)

@@ -1,0 +1,30 @@
+// Three builtins take arguments that are not all values (a type, an expression
+// that is never evaluated), so they are read here rather than as calls: callee a
+// names one when conf.id's bi_special lists it.
+parse_call0(int[] pos, int a) {
+  int k = bi_kind(a);
+  int id = bi_pick(pos, a, k);
+} return int id;
+given boot_a given lexfix stdin "();" ([0], 0):(0)
+given boot_a given lexfix stdin "( x );" ([0], 0):(1) then len((import nk)):(2)
+
+bi_pick(int[] pos, int a, int k) {
+  int id = 0;
+  if(k >= 0) {
+    id = parse_special(pos, k);
+  } else {
+    id = parse_call(pos, a);
+  }
+} return int id;
+given boot_a given lexfix stdin "();" ([0], 0, -1):(0) then calls parse_call:([2], 0)
+given boot_a given lexfix stdin "( x );" ([0], 0, 0):(0) then calls parse_special:([3], 0)
+
+bi_kind(int a) {
+  string bin = "";
+  if(a < len((import nk)) && (import nk)[a] == "var") {
+    bin = (import ns)[a];
+  }
+  int k = find_str((import bi_special), bin);
+} return int k;
+given boot_a given exprfix stdin "__builtin_constant_p;" (0):(0)
+given boot_a given exprfix stdin "x;" (0):(-1)

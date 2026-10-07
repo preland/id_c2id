@@ -9,4 +9,4 @@ mk_prim(int[] sp) {
   int ty = mk_prim_leaf(i);
 } return int ty;
 given boot_a ([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, -1]):(0) then calls newleaf:("prim", 4, 1, "int", "")
-given boot_a ([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0) then calls newleaf:("prim", 0, 0, "void", "")
+given boot_a ([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0) then calls newleaf:("prim", 1, 0, "void", "")

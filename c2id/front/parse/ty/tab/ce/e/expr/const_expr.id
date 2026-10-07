@@ -9,11 +9,16 @@
 // unparenthesised array bound does not happen in practice.
 
 ce_expr(int[] pos) {
+  lset((import cunk), 0, 0);
   int e = parse_cond(pos);
   int r = const_eval(e);
+} chain (int[] pos) {
+  ce_chk(pos);
 } return int r;
 given boot_a given lexfix stdin "2 + 3" ([0]):(5)
 given boot_a given lexfix stdin "2 * 3 + 1" ([0]):(7)
+given boot_a given boot_b given lexfix stdin "n + 1" ([0]):(1) then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix stdin "2 + 3" ([0]):(5) then len((import dgmsg)):(0)
 
 ce_eloop(int[] pos, int v) {
   while(ce_more(pos)) {

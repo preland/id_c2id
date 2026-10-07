@@ -19,7 +19,7 @@ parse_stmt14(int[] pos) {
   if(cur_kind(pos) == "id" && nxt_text(pos) == ":") {
     id = parse_label(pos);
   } else {
-    id = parse_stmt15(pos);
+    id = parse_stmt_asm(pos);
   }
 } return int id;
 given boot_a given lexfix stdin "foo: x;" ([0]):(0) then calls parse_label:[1]

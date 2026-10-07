@@ -1,0 +1,25 @@
+tof_left(int id, int nty) {
+  if(tof_has(nty) == 1) {
+    diag_node(id, "typeof of an expression and __auto_type are translated for a variable, through pointers and arrays only: this declaration puts the type somewhere else (a function type)");
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (16, 0):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (15, 13):() then len((import dgmsg)):(1)
+
+tof_decay(int rty) {
+  int r = rty;
+  if((import nk)[rty] == "arr") {
+    r = newleaf("ptr", (import na)[rty], 0, "", "");
+  }
+} return int r;
+given tynode_fix (3):(6)
+given tynode_fix (0):(0)
+given tynode_fix given sset((import nk), 5, "arr") (5):(6) then (import na)[6]:(99)
+
+tof_init(int id, int ibound) {
+  if(ibound == 0) {
+    bind_decls((import na)[id]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; int b = a; return b; }" (16, 0):() then calls bind_decls:[1]
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; int b = a; return b; }" (16, 1):() then calls bind_decls:[0]

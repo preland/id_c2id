@@ -21,7 +21,7 @@ given boot_a given boot_b given lexfix stdin "{ }" ([0], "f", 0):(0) then calls 
 given boot_a given boot_b given lexfix stdin ", y;" ([0], "x", 0):(1) then calls tu_var:[1]
 
 tu_fndef(int[] pos, string name, int r) {
-  int b = parse_stmt(pos);
+  int b = parse_body(pos);
   tu_add(name, b, r);
 } return void;
 given boot_a given boot_b given lexfix stdin "{ }" ([0], "f", 0):() then calls tu_add:("f", 6, 0)

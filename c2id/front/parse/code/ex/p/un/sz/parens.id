@@ -12,7 +12,7 @@ given boot_a given ty_setup given lexfix stdin "int);" ([0]):(1)
 given boot_a given ty_setup given lexfix stdin "char);" ([0]):(1)
 
 sizeof_type(int[] pos) {
-  int ty = parse_typename(pos);
+  int ty = parse_typename_fn(pos);
   advance(pos);
   int id = newleaf("sizeof", 0, ty, "", "");
 } return int id;

@@ -1,0 +1,18 @@
+reg_stop(int j) {
+  string s = (import ttext)[j];
+  int stop = 0;
+  if(s == ";" || s == "{" || s == "}" || s == ")") {
+    stop = 1;
+  }
+} return int stop;
+given boot_a given boot_b given lexfix stdin "x ; y" (1):(1)
+given boot_a given boot_b given lexfix stdin "x ; y" (2):(0)
+
+reg_hit(int j) {
+  int found = 0;
+  if((import ttext)[j] == "register") {
+    found = 1;
+  }
+} return int found;
+given boot_a given boot_b given lexfix stdin "register x" (0):(1)
+given boot_a given boot_b given lexfix stdin "register x" (1):(0)

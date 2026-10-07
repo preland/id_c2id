@@ -1,0 +1,17 @@
+is_asm_kw(string s) {
+  int ok = 0;
+  if(s == "asm" || s == "__asm__" || s == "__asm") {
+    ok = 1;
+  }
+} return int ok;
+("__asm__"):(1)
+("__attribute__"):(0)
+
+is_asm_qual(string s) {
+  int ok = 0;
+  if(s == "volatile" || s == "__volatile__" || s == "__volatile" || s == "inline" || s == "__inline__" || s == "__inline" || s == "goto") {
+    ok = 1;
+  }
+} return int ok;
+("goto"):(1)
+("const"):(0)

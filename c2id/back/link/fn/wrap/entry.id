@@ -3,15 +3,17 @@
 // 8), runs the function, gives the frame back and answers fp + 0.
 emit_wrap(int fn, string name, int np, int sz) {
   string plist = wrap_plist(fn, np);
+  string idn = fn_idname(name);
   emit_mark();
-  emit_head(plist, "c_" + name + "(" + plist + ") {");
 } chain (int fn, string name, int np, int sz) {
+  emit_head(plist, idn + "(" + plist + ") {");
   emit_out("  word fp = rt_enter(" + sz + ");");
   wrap_args(np, fn);
-  wrap_va(fn, np);
 } chain (int fn, string name, int np, int sz) {
+  wrap_va(fn, np);
   emit_out("  word r = run" + fn + "(fp);");
   wrap_end(fn, sz);
+} chain (int fn, string name, int np, int sz) {
   emit_cut("} return word r;");
 } return void;
 given boot_a given boot_b given init_gfn (0, "f", 0, 8):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_f() {\n  word k0 = 0;\n  word fp = rt_enter(8);\n  word r = run0(fp);\n} chain () {\n  word k1 = 1;\n  rt_leave(8);\n} return word r;\n")

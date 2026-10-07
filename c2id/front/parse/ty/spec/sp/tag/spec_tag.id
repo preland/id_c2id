@@ -29,7 +29,7 @@ spec_en(int[] pos, int[] sp) {
     lset(sp, 10, ty);
     ok = 1;
   } else {
-    ok = spec_td(pos, sp);
+    ok = spec_tof(pos, sp);
   }
 } return int ok;
 given boot_a given ty_setup given lexfix stdin "enum { x }" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)

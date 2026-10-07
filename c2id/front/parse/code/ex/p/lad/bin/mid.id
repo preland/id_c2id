@@ -1,0 +1,11 @@
+// The middle of `c ? x : y`. With nothing there, `c ?: y` (a GNU form), the value
+// is c when c is not zero: the middle is c's own node, which says so to the
+// lowering (tern_elvis), where c is computed once.
+cond_mid(int[] pos, int left) {
+  int a = left;
+  if(at_text(pos, ":") == 0) {
+    a = parse_expr(pos);
+  }
+} return int a;
+given boot_a given lexfix stdin ": y" ([0], 5):(5)
+given boot_a given lexfix stdin "2 : y" ([0], 5):(0)

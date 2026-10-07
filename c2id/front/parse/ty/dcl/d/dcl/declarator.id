@@ -20,6 +20,7 @@
 parse_declarator(int[] pos, int inner) {
   int r = apply_stars(pos, inner);
   int d = dcl_direct(pos, r);
+  skip_trail(pos);
 } return int d;
 given boot_a given ty_setup given lexfix stdin "x" ([0], 0):(0)
 given boot_a given ty_setup given lexfix stdin "* x" ([0], 5):(0) then calls newleaf:("ptr", 5, 0, "", "")

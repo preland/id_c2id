@@ -1,21 +1,25 @@
-
-// enum. The type is plain `int`; what matters is the enumerators, which go
-// into the constant table so array bounds, bitfield widths and the
-// expression parser can all resolve them.
+// enum. The enumerators go into the constant table so array bounds, bitfield
+// widths and the expression parser can all resolve them. The type is the one gcc
+// gives the enum: unsigned int when no enumerator is negative, int when one is
+// (which is what makes a bit-field of enum type unsigned or signed). It is
+// registered under "enum TAG", so that `enum TAG` later names it, and a
+// typedef of it keeps it.
 
 parse_enum(int[] pos) {
-  enum_head(pos);
-  int r = enum_body(pos);
+  string tag = enum_head(pos);
+  int r = enum_body(pos, tag);
 } return int r;
-given boot_a given boot_a given ty_setup given lexfix stdin "enum { x }" ([0]):(0) then calls scan_enums:([4])
+given boot_a given boot_a given ty_setup given lexfix stdin "enum { x }" ([0]):(0) then calls uint_type:()
 given boot_a given boot_a given ty_setup given lexfix stdin "enum foo" ([0]):(0) then calls int_type:()
 
-enum_body(int[] pos) {
+enum_body(int[] pos, string tag) {
+  int n0 = len((import ecvals));
   enum_items(pos);
-  int r = int_type();
+  int r = enum_ty(n0, tag);
 } return int r;
-given boot_a given boot_a given ty_setup given lexfix stdin "{ x }" ([0]):(0) then calls scan_enums:([3])
-given boot_a given boot_a given ty_setup given lexfix stdin "x" ([0]):(0) then calls int_type:()
+given boot_a given boot_a given ty_setup given lexfix stdin "{ x = -1 }" ([0], "e"):(2) then calls int_type:()
+given boot_a given boot_a given ty_setup given lexfix stdin "x" ([0], ""):(0) then calls int_type:()
+
 
 enum_items(int[] pos) {
   if(at_text(pos, "{")) {

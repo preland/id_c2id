@@ -22,7 +22,11 @@ packed_at(int tk, int ast) {
   if(find_str((import packed_names), (import ttext)[tk]) >= 0 && packed_fits(tk, ast) == 0) {
     diag_tok(tk, "attribute '" + (import ttext)[tk] + "' changes the layout or the type, which c2id does not model: the program would run and be wrong");
   }
+  if(find_str((import bad_attrs), (import ttext)[tk]) >= 0) {
+    diag_tok(tk, "attribute '" + (import ttext)[tk] + "' runs, replaces or renames code, which c2id does not translate: the program would run and be wrong");
+  }
 } return void;
+given boot_a given boot_b given lexfix stdin "# 3 \"p.c\"\nx __attribute__((cleanup(f)))" (4, 1):() then (import dgmsg):(["p.c:3: error: attribute 'cleanup' runs, replaces or renames code, which c2id does not translate: the program would run and be wrong"])
 given boot_a given boot_b given lexfix stdin "# 3 \"p.c\"\nx __attribute__((packed))" (4, 1):() then (import dgmsg):(["p.c:3: error: attribute 'packed' changes the layout or the type, which c2id does not model: the program would run and be wrong"])
 given boot_a given boot_b given lexfix stdin "aligned" (0, 0):() then len((import dgmsg)):(0)
 

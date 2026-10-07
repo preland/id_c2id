@@ -17,11 +17,11 @@ tu_item(int[] pos) {
   if(at_text(pos, "typedef")) {
     parse_typedef(pos);
   } else {
-    tu_decl(pos);
+    tu_item2(pos);
   }
 } return void;
 given boot_a given boot_b given lexfix stdin "typedef int q;" ([0]):() then calls parse_typedef:[1]
-given boot_a given boot_b given lexfix stdin "int x;" ([0]):() then calls tu_decl:[1]
+given boot_a given boot_b given lexfix stdin "int x;" ([0]):() then calls tu_item2:[1]
 
 // `struct S { int a; };` declares no variable: after the specifiers the `;`
 // ends it. Otherwise the declarators follow.

@@ -1,0 +1,7 @@
+// A leaf of the indirect-call tree: the direct call of the function f.
+ind_leaf(int f, string ar) {
+  string idn = fn_idname((import fnames)[f]);
+  string call = idn + "(" + ar + ")";
+} return string call;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return a; } int g(int a) { return a; }" (1, "a0"):("c_g(a0)")
+given boot_a given boot_b given lexfix given tu_load stdin "int memcmp(int a) { return a; }" (0, "a0"):("u_memcmp(a0)")

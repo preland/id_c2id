@@ -4,7 +4,8 @@ lower_ternary(int e) {
   int ty = tern_ty(tt);
   int t = new_temp(ty);
 } chain (int e) {
-  int c = lower_val((import na)[e]);
+  int c0 = lower_val((import na)[e]);
+  int c = tern_once(e, c0);
   tern_blocks(e, t, c);
 } return int t;
 given low_fix (11):(19) then (import bsa)[0]:(1) then (import bsb)[0]:(2) then cur_blk:(3) then len((import bkind)):(4)

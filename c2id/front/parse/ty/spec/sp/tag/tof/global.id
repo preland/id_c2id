@@ -1,0 +1,30 @@
+// At file scope typeof(name) names a global or a function declared before, and
+// its type is known now. In a function a local may hide the global, so the frame
+// pass decides there (a "tof" node).
+tof_expr(int e) {
+  int ty = tof_global(e);
+  if(ty < 0) {
+    ty = tof_node(e, "tof");
+  }
+} return int ty;
+given boot_a given boot_b given lexfix given tu_load stdin "int g; int f(void) { return g; }" (10):(6) then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given lset((import infn), 0, 1) stdin "int g; int f(void) { return g; }" (10):(13) then len((import dgmsg)):(1)
+
+tof_global(int e) {
+  int ty = 0 - 1;
+  if((import infn)[0] == 0 && (import nk)[e] == "var") {
+    ty = tof_gty((import ns)[e]);
+  }
+} return int ty;
+given boot_a given boot_b given lexfix given tu_load stdin "int g; int f(void) { return g; }" (10):(6)
+given boot_a given boot_b given lexfix given tu_load given lset((import infn), 0, 1) stdin "int g; int f(void) { return g; }" (10):(-1)
+
+tof_gty(string tfname) {
+  int i = find_str((import dnames), tfname);
+  int ty = 0 - 1;
+  if(i >= 0) {
+    ty = (import dtys)[i];
+  }
+} return int ty;
+given boot_a given boot_b given lexfix given tu_load stdin "int g;" ("g"):(6)
+given boot_a given boot_b given lexfix given tu_load stdin "int g;" ("h"):(-1)

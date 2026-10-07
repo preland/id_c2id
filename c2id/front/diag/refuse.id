@@ -1,0 +1,10 @@
+// A construct that is refused only if the function holding it is reached: the
+// parser cannot tell, and a header is full of inline functions nothing calls. The
+// check pass (mid/check/extra.id) refuses a "refuse" node with the reason in ns, at
+// the token the construct began at.
+refuse_node(string why, int tk) {
+  int id = newleaf("refuse", 0, 0, why, "");
+  lset((import ntok), id, tk);
+} return int id;
+given boot_a given lexfix stdin "x y" ("no", 1):(0) then (import ntok)[0]:(1)
+given boot_a given lexfix stdin "x y" ("because", 0):(0) then (import ns)[0]:("because")

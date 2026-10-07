@@ -26,7 +26,7 @@ ind_call(int n, int[] fs, int lo, int hi) {
   string ar = ind_rest(n, "");
   string call = "ind" + n + "_" + lo + "_" + hi + "(f" + arg_sep(n) + ar + ")";
   if(hi - lo == 1) {
-    call = "c_" + (import fnames)[fs[lo]] + "(" + ar + ")";
+    call = ind_leaf(fs[lo], ar);
   }
 } return string call;
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a) { return a; }" (1, [0, 1], 0, 1):("c_f(a0)")

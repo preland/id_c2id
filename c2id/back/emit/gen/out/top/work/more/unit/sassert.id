@@ -1,0 +1,11 @@
+// An external declaration that is `_Static_assert(...);` has nothing to add to
+// the unit (skip_sassert): the rest are declarations.
+tu_item2(int[] pos) {
+  if(at_sassert(pos)) {
+    skip_sassert(pos);
+  } else {
+    tu_decl(pos);
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "_Static_assert ( 1 , \"m\" ) ;" ([0]):([7])
+given boot_a given boot_b given lexfix stdin "int x;" ([0]):([3]) then calls tu_decl:[1]

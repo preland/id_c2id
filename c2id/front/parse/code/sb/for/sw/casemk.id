@@ -1,0 +1,30 @@
+// The cases lv to hv, as a block of `case` nodes with a number each. The
+// closing `:` is read here. A range wider than range_max, or bounds the folder
+// could not evaluate, is refused with the range left empty.
+case_block(int[] pos, int lv, int hv) {
+  int[] l = [];
+  case_fill(pos, l, lv, hv);
+  advance(pos);
+} chain (int[] pos, int lv, int hv) {
+  int id = newlist("block", 0, 0, "", l);
+} return int id;
+given boot_a given boot_b given lexfix stdin ":" ([0], 1, 3):(12) then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix stdin ":" ([0], 3, 1):(6) then len((import dgmsg)):(0)
+
+case_fill(int[] pos, int[] l, int lv, int hv) {
+  int bad = case_bad(pos, lv, hv);
+  int v = lv;
+  while(bad == 0 && v <= hv) {
+    push(l, case_one(v));
+    v = v + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin ":" ([0], [], 1, 3):([0], [7, 9, 11])
+given boot_a given boot_b given lexfix stdin ":" ([0], [], 3, 1):([0], [])
+
+case_one(int v) {
+  int num = newleaf("num", v, 0, "" + v, "");
+  int cnode = newleaf("case", num, 0, "", "");
+} return int cnode;
+given boot_a (5):(1)
+given boot_a (-2):(1)

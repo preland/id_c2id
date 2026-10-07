@@ -1,0 +1,50 @@
+// A value of a type with info ovfi as the 64-bit word its type reads as: sign-
+// extended from its size when signed, cut to its size when not.
+ovf_norm(word ovfv, word ovfi) {
+  word ovfz = ovfi / 2;
+  word ovfn = ovfv;
+  word ovfb = 64 - 8 * ovfz;
+} chain (word ovfv, word ovfi) {
+  if(ovfz < 8 && (ovfi & 1) == 1) {
+    ovfn = (ovfv << ovfb) >> ovfb;
+  }
+  if(ovfz < 8 && (ovfi & 1) == 0) {
+    ovfn = ushr(ovfv << ovfb, ovfb);
+  }
+} return word ovfn;
+
+ovf_apply(word ovfo, word[] ovfda, word[] ovfdb) {
+  word[] ovfx = [0, 0, 0];
+  if(ovfo == 0) {
+    ovf_add(ovfx, ovfda[0], ovfda[1], ovfdb[0], ovfdb[1]);
+  }
+  if(ovfo == 1) {
+    ovf_add(ovfx, ovfda[0], ovfda[1], 1 - ovfdb[0], ovfdb[1]);
+  }
+} chain (word ovfo, word[] ovfda, word[] ovfdb) {
+  if(ovfo == 2) {
+    ovf_mul(ovfx, ovfda[0], ovfda[1], ovfdb[0], ovfdb[1]);
+  }
+  if(ovfx[1] == 0 && ovfx[2] == 0) {
+    ovfx[0] = 0;
+  }
+} return word[] ovfx;
+
+ovf_add(word[] ovfx, word ovfsa, word ovfma, word ovfsb, word ovfmb) {
+  word ovfm = ovfma + ovfmb;
+  word ovfc = 0;
+  word ovfs = ovfsa;
+} chain (word[] ovfx, word ovfsa, word ovfma, word ovfsb, word ovfmb) {
+  if(ovfsa == ovfsb) {
+    ovfc = ult(ovfm, ovfma);
+  } else if(ult(ovfma, ovfmb)) {
+    ovfm = ovfmb - ovfma;
+    ovfs = ovfsb;
+  } else {
+    ovfm = ovfma - ovfmb;
+  }
+} chain (word[] ovfx, word ovfsa, word ovfma, word ovfsb, word ovfmb) {
+  ovfx[0] = ovfs;
+  ovfx[1] = ovfm;
+  ovfx[2] = ovfc;
+} return void;

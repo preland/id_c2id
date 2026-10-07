@@ -1,0 +1,32 @@
+// `case 1 ... 3:` is a GNU range. It is read as the cases it lists, one after
+// another in a block, which is what they mean: the labels of a switch are all
+// the same place. The bounds are constants, and a range of more values than
+// range_max is refused rather than listed.
+case_tail(int[] pos, int a) {
+  int id = 0;
+  if(at_text(pos, "...")) {
+    id = case_range(pos, a);
+  } else {
+    id = case_close(pos, a);
+  }
+} return int id;
+given boot_a given lexfix stdin ":" ([0], 0):(0) then calls case_close:[1]
+given boot_a given ty_setup given lexfix stdin "... 3 :" ([0], 0):(3) then calls case_range:[1]
+
+case_range(int[] pos, int lo) {
+  advance(pos);
+  int hi = parse_cond(pos);
+  int id = case_expand(pos, lo, hi);
+} return int id;
+given boot_a given ty_setup given lexfix stdin "... 3 :" ([0], 0):(3) then calls parse_cond:[1]
+given boot_a given ty_setup given lexfix stdin "... 5 :" ([0], 0):(3) then calls case_expand:[1]
+
+case_expand(int[] pos, int lo, int hi) {
+  lset((import cunk), 0, 0);
+  int lv = const_eval(lo);
+  int hv = const_eval(hi);
+} chain (int[] pos, int lo, int hi) {
+  int id = case_block(pos, lv, hv);
+} return int id;
+given boot_a given ty_setup given exprfix stdin "1 + 3;" ([0], 0, 1):(9) then len((import dgmsg)):(0)
+given boot_a given ty_setup given exprfix stdin "x + 3;" ([0], 0, 1):(3) then len((import dgmsg)):(1)

@@ -11,14 +11,16 @@ given boot_a given ty_setup given lexfix stdin "{}" ([0]):(0)
 given boot_a given ty_setup given lexfix stdin "{typedef int q;}" ([0]):(2) then len((import tynames)):(0)
 
 // The eof guard matters: without it a source file with unbalanced braces
-// spins here forever instead of ending.
+// spins here forever instead of ending. Ending at the eof is an error of its own,
+// reported by block_close: a function body cut off by the end of the file used to
+// be accepted.
 fill_block(int[] pos) {
   int[] l = [];
   while(at_text(pos, "}") == 0 && cur_kind(pos) != "eof") {
     int id = parse_stmt(pos);
     push(l, id);
   }
-  advance(pos);
+  block_close(pos);
 } return int[] l;
 given boot_a given lexfix stdin ";}" ([0]):([0])
 given boot_a given lexfix stdin "}" ([0]):([])

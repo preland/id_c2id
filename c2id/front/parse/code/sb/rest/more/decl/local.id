@@ -1,0 +1,9 @@
+// The specifiers of a local declaration, the one place `typeof(expr)` and
+// `__auto_type` are translated: tofok says so while they are read.
+parse_specs_local(int[] pos) {
+  lset((import tofok), 0, 1);
+  int t = parse_specs(pos);
+  lset((import tofok), 0, 0);
+} return int t;
+given boot_a given ty_setup given lexfix stdin "int x" ([0]):(0) then (import tofok)[0]:(0)
+given boot_a given boot_b given ty_setup given lexfix stdin "typeof ( x ) y" ([0]):(7) then len((import dgmsg)):(0)

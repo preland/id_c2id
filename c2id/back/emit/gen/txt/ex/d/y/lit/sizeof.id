@@ -1,15 +1,28 @@
 // The byte count sizeof(T) measures, split out so sizeof_txt has room to
-// name the concatenation its string return requires.
+// name the concatenation its string return requires. An alignof node (ns
+// "align") measures the alignment of the same type.
 sizeof_sz(int id) {
-  int sz = 8;
-  if((import nb)[id] != 0) {
-    int b = (import nb)[id];
-    sz = type_size(b);
-  } else {
-    int a = (import na)[id];
-    int aty = ex_ty(a);
-    sz = type_size(aty);
-  }
+  int ty = sizeof_ty(id);
+  int sz = sizeof_meas(id, ty);
 } return int sz;
 given txt_fixture (0):(4)
 given txt_fixture (1):(4) then calls ex_ty:(4)
+
+sizeof_ty(int id) {
+  int ty = (import nb)[id];
+  if(ty == 0) {
+    int a = (import na)[id];
+    ty = ex_ty(a);
+  }
+} return int ty;
+given txt_fixture (1):(0) then calls ex_ty:(4)
+given txt_fixture (5):(0)
+
+sizeof_meas(int id, int ty) {
+  int sz = type_size(ty);
+  if((import ns)[id] == "align") {
+    sz = type_align(ty);
+  }
+} return int sz;
+given tynode_fix (0, 3):(12)
+given tynode_fix given sset((import ns), 0, "align") (0, 3):(4)

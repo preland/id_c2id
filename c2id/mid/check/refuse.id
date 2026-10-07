@@ -1,14 +1,15 @@
 // A call to something c2id has a reason not to translate (conf.id's
-// refuse_names, refuse_why).
+// refuse_names, refuse_why) unless the program defines a function of that name.
 chk_refuse(string name, int id) {
   int k = find_str((import refuse_names), name);
-  if(k >= 0) {
+  if(k >= 0 && find_str((import fnames), name) < 0) {
     diag_node(id, "call to '" + name + "' is not supported: " + (import refuse_why)[k]);
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { signal(0, 0); return 0; }" ("signal", 11):() then (import dgmsg):([":1: error: call to 'signal' is not supported: signals have no model: nothing delivers one to a translated program"])
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { tcgetattr(0); return 0; }" ("tcgetattr", 11):() then (import dgmsg):([":1: error: call to 'tcgetattr' is not supported: terminal control (termios) has no model"])
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { tcgetattr(0); return 0; }" ("printf", 11):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int signal(int a, int b) { return a; } int main(void) { signal(0, 0); return 0; }" ("signal", 11):() then len((import dgmsg)):(0)
 
 // Every argument of a call, in order.
 chk_args(int id) {

@@ -13,6 +13,8 @@ chk_bind(int ft, int body) {
   bind_params(ft);
   bind_decls(body);
 } return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(unsigned a, long b) { int r; return __builtin_add_overflow(a, b, &r); }" (9, 20):() then (import ns)[13]:("__c2id_ovf") then (import na)[23]:(8) then (import na)[24]:(17) then (import na)[25]:(9)
+given boot_a given boot_b given lexfix given tu_load stdin "int g(unsigned a, long b) { short r; return __builtin_mul_overflow(a, b, &r); }" (9, 20):() then (import na)[22]:(2) then (import na)[25]:(5)
 given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { int b = a; return b; }" (8, 15):() then (import lvnames):(["a", "b"])
 given boot_a given boot_b given lexfix given tu_load given add_slot("zz", 8, 4) stdin "int f(int a) { int b = a; return b; }" (8, 15):() then (import lvnames):(["a", "b"])
 
@@ -21,6 +23,7 @@ chk_scan(int id) {
   if(id >= 0) {
     chk_here(id);
     chk_kids(id, (import nk)[id]);
+    chk_extra(id);
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (13):() then (import unres):(["nosuch"])

@@ -21,7 +21,7 @@ given boot_a given lexfix stdin "(0);" ([0]):(0)
 // the cursor moves to the end, so no caller can spin on it, and a zero comes
 // back so the callers above still return.
 prim_bad(int[] pos) {
-  string msg = "expression expected, found '" + cur_text(pos) + "'";
+  string msg = bad_msg(pos);
   diag_halt(pos, msg);
   int id = bad_advance(pos);
 } return int id;

@@ -1,0 +1,19 @@
+tof_infer(int id, int leaf) {
+  int e = (import na)[leaf];
+  if((import nk)[leaf] == "auto") {
+    e = (import na)[id];
+  }
+  int rty = tof_type_of(id, e, leaf);
+} return int rty;
+given boot_a given boot_b given lexfix given tu_load given bind_decls(12) stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (15, 13):(9)
+given boot_a given boot_b given lexfix given tu_load given bind_decls(12) stdin "int f(void) { int a = 1; typeof(a) b = 2; return b; }" (16, 14):(9)
+
+tof_type_of(int id, int e, int leaf) {
+  bind_decls(e);
+  int rty = tof_ex(id, e);
+  if((import nk)[leaf] == "auto") {
+    rty = tof_decay(rty);
+  }
+} return int rty;
+given boot_a given boot_b given lexfix given tu_load given bind_decls(12) stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (15, 14, 13):(9)
+given boot_a given boot_b given lexfix given tu_load given bind_decls(12) stdin "int f(void) { int a = 1; typeof(a) b = 2; return b; }" (16, 13, 14):(9)

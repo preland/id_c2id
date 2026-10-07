@@ -1,0 +1,30 @@
+tof_type(int[] pos, string kw) {
+  int ty = 0;
+  if(kw == "__auto_type") {
+    ty = tof_node(0, "auto");
+  } else {
+    ty = tof_open(pos);
+  }
+} return int ty;
+given boot_a given boot_b given ty_setup given lexfix stdin "( int )" ([0], "typeof"):(6)
+given boot_a given boot_b given ty_setup given lexfix stdin "x" ([0], "__auto_type"):(6) then len((import dgmsg)):(1)
+
+tof_open(int[] pos) {
+  skip_tok(pos, "(");
+  int ty = tof_arg(pos);
+  skip_tok(pos, ")");
+} return int ty;
+given boot_a given boot_b given ty_setup given lexfix stdin "( int )" ([0]):(6)
+given boot_a given boot_b given ty_setup given lexfix stdin "( x )" ([0]):(7)
+
+tof_arg(int[] pos) {
+  int ty = 0;
+  if(is_type_start(pos)) {
+    ty = parse_typename(pos);
+  } else {
+    int e = parse_expr(pos);
+    ty = tof_expr(e);
+  }
+} return int ty;
+given boot_a given boot_b given ty_setup given lexfix stdin "int )" ([0]):(6)
+given boot_a given boot_b given ty_setup given lexfix stdin "x )" ([0]):(7)

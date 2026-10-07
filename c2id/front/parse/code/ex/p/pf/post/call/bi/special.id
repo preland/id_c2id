@@ -1,0 +1,29 @@
+// The '(' is the next token; k says which of conf.id's bi_special it is.
+parse_special(int[] pos, int k) {
+  advance(pos);
+  int id = parse_special1(pos, k);
+} return int id;
+given boot_a given lexfix stdin "( x );" ([0], 0):(0)
+given boot_a given ty_setup given lexfix stdin "( 1 , 2 , 3 );" ([0], 1):(1)
+
+parse_special1(int[] pos, int k) {
+  int id = 0;
+  if(k == 0) {
+    id = bi_const_p(pos);
+  } else {
+    id = parse_special2(pos, k);
+  }
+} return int id;
+given boot_a given lexfix stdin "x ) ;" ([0], 0):(0)
+given boot_a given ty_setup given lexfix stdin "1 , 2 , 3 ) ;" ([0], 1):(1)
+
+parse_special2(int[] pos, int k) {
+  int id = 0;
+  if(k == 1) {
+    id = bi_choose(pos);
+  } else {
+    id = bi_compat(pos);
+  }
+} return int id;
+given boot_a given ty_setup given lexfix stdin "1 , 2 , 3 );" ([0], 1):(1)
+given boot_a given ty_setup given lexfix stdin "int , long );" ([0], 2):(2)

@@ -1,0 +1,32 @@
+// One token of an asm statement. asmst is [where, template, code]: where is 0
+// before the `(`, 1 in the template and 2, 3, 4 in the sections after each `:`;
+// template is 1 once a non-empty string has been seen there; code is what the
+// statement turned out to be (0 nothing, 1 goto, 2 output, 3 instruction).
+asm_step(int[] asmst, int i) {
+  string kind = (import tkind)[i];
+  string txt = (import ttext)[i];
+  asm_note(asmst, kind, txt);
+} return void;
+given boot_a given boot_b given lexfix stdin "asm goto(" ([0, 0, 0], 1):([0, 0, 1])
+given boot_a given boot_b given lexfix stdin "asm goto(" ([0, 0, 0], 2):([1, 0, 0])
+
+asm_note(int[] asmst, string kind, string txt) {
+  if(asmst[0] == 0) {
+    asm_head(asmst, txt);
+  } else {
+    asm_body(asmst, kind, txt);
+  }
+} return void;
+([0, 0, 0], "id", "goto"):([0, 0, 1])
+([1, 0, 0], "str", "\"nop\""):([1, 1, 0])
+
+asm_head(int[] asmst, string txt) {
+  if(txt == "goto") {
+    lset(asmst, 2, 1);
+  }
+  if(txt == "(") {
+    lset(asmst, 0, 1);
+  }
+} return void;
+([0, 0, 0], "goto"):([0, 0, 1])
+([0, 0, 0], "("):([1, 0, 0])
