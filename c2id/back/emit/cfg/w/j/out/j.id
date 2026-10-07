@@ -4,11 +4,11 @@ walk_stmt12(int id) {
   if((import nk)[id] == "continue") {
     do_jump((import ctgt));
   } else {
-    add_lowered(id);
+    walk_plain(id);
   }
 } return void;
 given walk_ast_fixture (4):() then calls do_jump:((import ctgt))
-given walk_ast_fixture (5):() then calls add_lowered:[1]
+given walk_ast_fixture (5):() then calls walk_plain:[1]
 
 do_jump(int[] tgts) {
   int c = (import curb)[0];

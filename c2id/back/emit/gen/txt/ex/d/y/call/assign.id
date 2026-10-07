@@ -4,7 +4,8 @@
 // `x = e`: aty and addr are ex_ty(a_of(id)) and addr_txt(a_of(id)),
 // computed by the caller so this only has to name b's text.
 assign_store(int id, int aty, string addr) {
-  string exb = kid_ex((import nb), id);
+  int cb = fl_coerce(aty, (import nb)[id]);
+  string exb = ex_txt(cb);
   string s = store_txt(aty, addr, exb);
 } return string s;
 given txt_fixture (0, 0, "fp + 8"):("poke32(fp + 8, NEEDS_CFG_prim)")

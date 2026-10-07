@@ -1,0 +1,6 @@
+fl_digit_at(string flbody, int i) {
+  int c = charat(flbody, i);
+  int ok = c >= 48 && c <= 57;
+} return int ok;
+("1.5", 2):(1)
+("1.e", 2):(0)

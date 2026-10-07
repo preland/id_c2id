@@ -35,7 +35,7 @@ ret_st(int id) {
   string s = "poke64(fp, 0);";
   if((import na)[id] >= 0) {
     int a = (import na)[id];
-    s = "poke64(fp, " + ex_txt(a) + ");";
+    s = "poke64(fp, " + retval_txt(a) + ");";
   }
 } return string s;
 given txt_fixture (0):("poke64(fp, NEEDS_CFG_prim);")

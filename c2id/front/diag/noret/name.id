@@ -1,0 +1,29 @@
+noret_name_at(int tk) {
+  int i = tk;
+  int n = len((import ttext));
+  while(i < n - 1 && (import ttext)[i + 1] != "(") {
+    i = i + 1;
+  }
+} return int i;
+given lexfix stdin "void static die(void);" (0):(2)
+given lexfix stdin "void f ( x" (1):(1)
+
+noret_after(int tk) {
+  int i = noret_name_at(tk);
+  string name = (import ttext)[i];
+  noret_add(name);
+} return void;
+given noret_init given lexfix stdin "_Noreturn static void die(void);" (0):() then (import nrnames)[3]:("die")
+given noret_init given lexfix stdin "_Noreturn void quit(int c);" (0):() then (import nrnames)[3]:("quit")
+
+noret_open_of(int tk) {
+  int i = tk;
+  int depth = 1;
+  while(depth > 0 && i > 0) {
+    i = i - 1;
+    string nrt = (import ttext)[i];
+    depth = depth - noret_delta(nrt);
+  }
+} return int i;
+given lexfix stdin "f(a(b), c) x" (8):(1)
+given lexfix stdin "f(a(b), c) x" (5):(3)

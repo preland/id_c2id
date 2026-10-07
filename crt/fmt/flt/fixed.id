@@ -1,0 +1,24 @@
+// %f: the digits ds (first digit weight 10^ffx0) rounded at ffp places after the
+// point, as "ip.fp" -- always with the point, which the caller drops for a
+// precision of 0. A number so small that even the first place is out of reach
+// is zero.
+ff_zero(int ffp) {
+  string fft = "0." + rep_ch("0", ffp);
+} return string fft;
+(2):("0.00")
+(0):("0.")
+
+ff_carry(string ffr, int ffq, int ffx0) {
+  int ffc = len(ffr) - ffq;
+  int ffx = ffx0 + ffc;
+} return int ffx;
+("123", 3, 2):(2)
+("1000", 3, 2):(3)
+
+ff_join(string ffr, int ffx) {
+  string ffi = fx_ip(ffr, ffx);
+  string fff = fx_fp(ffr, ffx);
+  string fft = ffi + "." + fff;
+} return string fft;
+("12345", 1):("12.345")
+("12345", -2):("0.012345")

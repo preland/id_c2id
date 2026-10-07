@@ -1,0 +1,7 @@
+// The callee of the call node being checked, so that chk_rtval can tell a call
+// of a runtime function from taking its address.
+chk_mark(int id) {
+  lset((import chk_cal), 0, (import na)[id]);
+} return void;
+given txt_fixture (3):() then (import chk_cal)[0]:(8)
+given txt_fixture (4):() then (import chk_cal)[0]:(1)

@@ -1,0 +1,31 @@
+// The sign of a floating-point conversion: - for a negative value (a negative
+// zero too), else + or a space if those flags were given.
+fl_plus(word[] fs) {
+  string fls = "";
+  if(fs[6] != 0) {
+    fls = " ";
+  }
+  if(fs[5] != 0) {
+    fls = "+";
+  }
+} return string fls;
+([0, 0, 0, 0, 0, 0, 1, 0, 0, 0]):(" ")
+([0, 0, 0, 0, 0, 1, 1, 0, 0, 0]):("+")
+([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("")
+
+fl_sign(int fln, word[] fs) {
+  string fls = fl_plus(fs);
+  if(fln == 1) {
+    fls = "-";
+  }
+} return string fls;
+(1, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0]):("-")
+(0, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0]):("+")
+
+fl_pad(word flb, int flc, string fle, word[] fs) {
+  string flt = fl_body(flb, flc, fs);
+  int flg = fl_finite(flb);
+  string flo = pad_num(fle, flt, flg, fs);
+} return string flo;
+(4609434218613702656, 102, "-", [0, 0, 1, 8, 0, 0, 0, 0, 1, 1]):("-00001.5")
+(9218868437227405312, 102, "", [0, 0, 1, 6, 0, 0, 0, 0, 0, 0]):("   inf")

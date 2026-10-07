@@ -125,6 +125,8 @@ Exported globals (reserved program-wide, reachable only via `import`):
 | `curtk`, `dots`, `chk_flt` | `int[]` | one cell each: the token the parser has consumed up to; 1 after a `...` until its function type is made; 1 once the current function has had a floating-point use refused |
 | `dgmsg` | `string[]` | the refusals, one `file:line: error: ...` each |
 | `unres`, `unres_at` | `string[]`, `int[]` | functions called that nothing provides, and the token each was first named at |
+| `nrnames`, `mxnames` | `string[]` | the functions that never return (exit, abort, _Exit and the `_Noreturn` ones, read from the tokens by `front/diag/noret/`), and every function that may reach one: a call to one of these ends its block, a statement calling one of the second is followed by a block boundary |
+| `retty`, `fltys` | `int[]` | the return type of the function being emitted; whether the float and double type nodes exist yet (`[0]`) and their node ids (`[1]`, `[2]`) |
 
 ## 4. Node ABI
 
@@ -238,8 +240,9 @@ a run lists every one it can find. Three places make them:
   and a compound literal (`front/diag/bits.id` and `cast_tail`);
 * the check pass (`mid/check/`), over every function the program reaches with
   its locals bound: a definition that is variadic or takes or returns a struct
-  by value (`front/diag/fnsig.id`, `fnpar.id`, called from `sig.id`),
-  floating-point types and literals, a struct passed by value to a call, a printf-family format with a conversion the runtime does not
+  by value (`front/diag/fnsig.id`, `fnpar.id`, called from `sig.id`), the address of
+  a function the runtime provides (`malloc`, `free`, ...: `mid/check/rtval.id`),
+  `long double` types and literals, a struct passed by value to a call, a printf-family format with a conversion the runtime does not
   implement, an `fopen` for writing, a call refused by name (`refuse_names` in
   `conf.id`), and every called function that is neither defined in the program
   nor provided by the runtime, reported as one diagnostic with where each was

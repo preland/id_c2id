@@ -13,6 +13,7 @@
 // describes is a *function*, not an expression, so it cannot be emitted from
 // here anyway. Until then this is the argument-passing form.
 call_txt(int id) {
+  fl_args(id);
   string s = call_head(id);
   string out = call_wrap(s, id);
 } return string out;

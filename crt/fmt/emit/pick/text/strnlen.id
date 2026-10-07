@@ -1,0 +1,11 @@
+// strnlen: the length of the string at s, not counting past n bytes. %s with a
+// precision reads at most that many bytes, so a buffer with no terminator can be
+// printed with %.*s; strncpy and the width of a sscanf %s use it too.
+str_nlen(word s, word n) {
+  word snk = 0;
+  while(snk < n && peek8(s + snk) != 0) {
+    snk = snk + 1;
+  }
+} return word snk;
+given crt_str_fixture ((import cs), 10):(2)
+given crt_str_fixture ((import cs), 1):(1)

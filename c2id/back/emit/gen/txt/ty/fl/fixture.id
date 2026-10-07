@@ -1,0 +1,30 @@
+// An int literal and a floating one, for the cases that coerce them.
+fl_fixture() {
+  fl_types();
+  export int fli = newleaf("num", 5, 0, "5", "");
+  export int flf = newleaf("num", 0, 0, "1.5", "");
+} return void;
+given txt_fixture ():() then (import na)[8]:(5)
+given txt_fixture ():() then (import ns)[9]:("1.5")
+
+fl_bin_fixture() {
+  export int flb = newleaf("bin", (import fli), (import flf), "+", "");
+  export int fli_b = newleaf("bin", (import fli), (import fli), "+", "");
+  export int flc = newleaf("bin", (import flf), (import fli), "<", "");
+} chain () {
+  export int fls = newleaf("num", 0, 0, "2.5f", "");
+  export int flg = newleaf("bin", (import fls), (import fls), "+", "");
+} return void;
+given txt_fixture given fl_fixture ():() then (import nk)[12]:("bin")
+given txt_fixture given fl_fixture ():() then (import ns)[13]:("2.5f")
+
+fl_cond_fixture() {
+  int[] els = [(import flf)];
+  int[] ints = [(import fli)];
+  export int flq = newnode("cond", (import fli), (import fli), "", "", els, els);
+} chain () {
+  export int fln = newnode("cond", (import fli), (import fli), "", "", ints, ints);
+  export int flfn = newnode("fn", 6, 0, "", "", ints, ints);
+} return void;
+given txt_fixture given fl_fixture ():() then (import nk)[11]:("cond")
+given txt_fixture given fl_fixture ():() then (import nk)[12]:("fn")

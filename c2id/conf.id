@@ -30,6 +30,10 @@
 // Note the C oddity this encodes: shift (7) is *looser* than additive (8), so
 // `1 << 2 + 3` is `1 << (2 + 3)`.
 //
+// fl_ops[i] is an operator that has a floating-point operand and fl_fns[i] the
+// crt function (crt/flt) that does it; keep the two lists the same length and in
+// the same order. float_names is what the check pass refuses: long double.
+//
 // esc_chars[i] means esc_vals[i]:
 //
 //   \a 7  \b 8  \t 9  \n 10  \v 11  \f 12  \r 13  \" 34  \' 39  \? 63  \\ 92
@@ -50,15 +54,17 @@ string[] op_names = ["||", "&&", "|", "^", "&", "==", "!=", "<", ">", "<=", ">="
 int[] op_levels = [0, 1, 2, 3, 4, 5, 5, 6, 6, 6, 6, 7, 7, 8, 8, 9, 9, 9];
 string[] std_names = ["stdout", "stderr", "stdin"];
 int[] std_vals = [1, 2, 3];
-string[] libc_names = ["malloc", "free", "realloc", "__builtin_memcpy", "__builtin_memmove", "__builtin_memset", "__builtin_strlen", "__builtin_memcmp"];
-string[] libc_crt = ["kmalloc", "kfree", "krealloc", "c_memcpy", "c_memmove", "c_memset", "c_strlen", "c_memcmp"];
+string[] libc_names = ["malloc", "free", "realloc", "__builtin_memcpy", "__builtin_memmove", "__builtin_memset", "__builtin_strlen", "__builtin_memcmp", "_Exit"];
+string[] libc_crt = ["kmalloc", "kfree", "krealloc", "c_memcpy", "c_memmove", "c_memset", "c_strlen", "c_memcmp", "c_exit"];
 string[] va_names = ["printf", "fprintf", "sprintf", "snprintf", "sscanf"];
 int[] va_fixed_n = [1, 2, 2, 3, 2];
-string[] rt_names = ["exit", "abort", "printf", "putchar", "calloc", "fgets", "sprintf", "snprintf", "fprintf", "fputs", "fputc", "fclose", "fgetc", "fopen", "fread", "fwrite", "fflush", "ungetc", "sscanf", "isdigit", "isupper", "islower", "isalpha", "isalnum", "isspace", "isxdigit", "isprint", "ispunct", "iscntrl", "isgraph", "toupper", "tolower", "__builtin_ctz", "__builtin_ctzll", "__builtin_clz", "__builtin_clzll", "__builtin_bswap32", "__builtin_bswap64", "__builtin_expect", "memcpy", "memmove", "memcmp", "memset", "memchr", "strlen", "strcpy", "strncpy", "strcmp", "strncmp", "strchr", "strrchr", "strstr", "strcat", "strncat", "strdup", "puts", "strtol", "time", "clock", "read", "write", "close"];
+string[] rt_names = ["exit", "abort", "printf", "putchar", "calloc", "fgets", "sprintf", "snprintf", "fprintf", "fputs", "fputc", "fclose", "fgetc", "fopen", "fread", "fwrite", "fflush", "ungetc", "sscanf", "isdigit", "isupper", "islower", "isalpha", "isalnum", "isspace", "isxdigit", "isprint", "ispunct", "iscntrl", "isgraph", "toupper", "tolower", "__builtin_ctz", "__builtin_ctzll", "__builtin_clz", "__builtin_clzll", "__builtin_bswap32", "__builtin_bswap64", "__builtin_expect", "memcpy", "memmove", "memcmp", "memset", "memchr", "strlen", "strcpy", "strncpy", "strcmp", "strncmp", "strchr", "strrchr", "strstr", "strcat", "strncat", "strdup", "puts", "strtol", "time", "clock", "read", "write", "close", "sqrt", "cbrt", "hypot", "sin", "cos", "tan", "asin", "acos", "atan", "atan2", "pow", "fmod", "sinh", "cosh", "tanh", "exp", "exp2", "log", "log2", "log10", "ldexp", "floor", "ceil", "round", "trunc", "fabs", "copysign", "fmin", "fmax", "isnan", "isinf", "isfinite", "__builtin_nan", "__builtin_inf", "strtod"];
 string[] refuse_names = ["setjmp", "_setjmp", "sigsetjmp", "longjmp", "siglongjmp", "tcgetattr", "tcsetattr", "tcflush", "tcdrain", "cfmakeraw", "cfgetispeed", "cfgetospeed", "cfsetispeed", "cfsetospeed"];
 string[] refuse_why = ["non-local jumps cannot unwind the block-function frames", "non-local jumps cannot unwind the block-function frames", "non-local jumps cannot unwind the block-function frames", "non-local jumps cannot unwind the block-function frames", "non-local jumps cannot unwind the block-function frames", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model"];
-string[] float_names = ["float", "double", "long double"];
+string[] float_names = ["long double"];
 string[] float_kinds = ["var", "mem", "cast", "num", "decl"];
+string[] fl_ops = ["+", "-", "*", "/", "<", "<=", ">", ">=", "==", "!="];
+string[] fl_fns = ["cfl_add", "cfl_sub", "cfl_mul", "cfl_div", "cfl_lt", "cfl_le", "cfl_gt", "cfl_ge", "cfl_eq", "cfl_ne"];
 string[] sc_ops = ["&&", "||"];
 string[] stmt_kinds = ["block", "if", "while", "dowhile", "for", "switch"];
 string[] cv_cmp_ops = ["==", "!=", "<", ">", "<=", ">=", "&&", "||"];

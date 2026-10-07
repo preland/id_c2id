@@ -5,7 +5,7 @@
 // before the comparison, and an emitter that answered "signed" here would
 // emit `<` and be right for every input except the ones that matter.
 
-usual_ty(int ty, int inner) {
+usual_int(int ty, int inner) {
   int r = ty;
   if(is_ptr(ty) == 0) {
     r = usual2(ty, inner);

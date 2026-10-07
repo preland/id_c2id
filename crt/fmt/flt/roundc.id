@@ -1,0 +1,27 @@
+rd_head(string rdy, int rdb) {
+  string rdh = str_slice(rdy, 0, rdb - 1);
+  int rdc = charat(rdy, rdb - 1) + 1;
+  string rdv = rdh + chr(rdc);
+} return string rdv;
+("129", 2):("13")
+("5", 1):("6")
+
+rd_bump(string rdy, int rdb, int rdn) {
+  string rdz = rep_ch("0", rdn);
+  string rdv = "1" + rdz;
+  if(rdb > 0) {
+    rdv = rd_head(rdy, rdb) + rdz;
+  }
+} return string rdv;
+("129", 2, 1):("130")
+("999", 0, 3):("1000")
+
+// The decimal string plus one: 129 -> 130, 99 -> 100, "" -> 1.
+rd_inc(string rdy) {
+  int rdn = rd_nines(rdy);
+  int rdb = len(rdy) - rdn;
+  string rdv = rd_bump(rdy, rdb, rdn);
+} return string rdv;
+("129"):("130")
+("99"):("100")
+(""):("1")

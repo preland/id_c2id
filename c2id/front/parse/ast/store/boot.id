@@ -14,7 +14,10 @@ boot_a() {
   ty_setup();
   diag_init();
   init_nodes4();
+} chain () {
+  noret_init();
 } return void;
 ():() then calls init_nodes:()
 ():() then calls init_nodes3:()
 ():() then calls diag_init:()
+():() then calls noret_init:()

@@ -3,7 +3,9 @@
 // computed by the caller and passed in.
 comp_store(int a, int id, int aty) {
   string addr = addr_txt(a);
-  string exid = ex_txt(id);
+  int cid = fl_coerce(aty, id);
+  string exid = ex_txt(cid);
+} chain (int a, int id, int aty) {
   string s = store_txt(aty, addr, exid);
 } return string s;
 given txt_fixture (4, 0, 0):("poke32(NOT_AN_LVALUE_prim, NEEDS_CFG_prim)")

@@ -1,0 +1,30 @@
+mx_kids(int id) {
+  string kn = (import nk)[id];
+  int hit = 0;
+  if(find_str((import scan_a), kn) >= 0) {
+    hit = mx_hit((import na)[id]);
+  }
+} chain (int id) {
+  if(hit == 0 && find_str((import scan_b), kn) >= 0) {
+    hit = mx_hit((import nb)[id]);
+  }
+  if(hit == 0 && find_str((import scan_l), kn) >= 0) {
+    hit = mx_list((import nl)[id]);
+  }
+  if(hit == 0 && find_str((import scan_m), kn) >= 0) {
+    hit = mx_list((import nm)[id]);
+  }
+} return int hit;
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { puts(\"a\"); exit(1); }" ((import mxb)):(1)
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { puts(\"a\"); puts(\"b\"); }" ((import mxb)):(0)
+
+mx_list(int[] l) {
+  int hit = 0;
+  int i = 0;
+  while(hit == 0 && i < len(l)) {
+    hit = mx_hit(l[i]);
+    i = i + 1;
+  }
+} return int hit;
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { puts(\"a\"); exit(1); }" ((import mxl)):(1)
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { puts(\"a\"); }" ((import mxl)):(0)

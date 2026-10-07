@@ -1,0 +1,37 @@
+// Floating point, as the emitter sees it. A C `double` is an 8-byte slot and a
+// `float` a 4-byte one, but in an expression both are the same thing: a `word`
+// holding the bits of an IEEE binary64 (a float's value is rounded to binary32
+// first, so it is always one a binary32 holds). Arithmetic on those words is
+// done by crt/flt, which turns them into id floats and back; loading and
+// storing a `float` converts between the 4-byte slot and that word.
+//
+// ty_fkind: 0 for a type that is not floating point, 1 for float, 2 for double.
+// `long double` is refused by the check pass and read here as a double.
+fk_of(string fkn) {
+  int k = 0;
+  if(fkn == "float") {
+    k = 1;
+  }
+  if(fkn == "double" || fkn == "long double") {
+    k = 2;
+  }
+} return int k;
+("float"):(1)
+("double"):(2)
+
+ty_fkind(int ty) {
+  int k = 0;
+  if((import nk)[ty] == "prim") {
+    string fkn = (import ns)[ty];
+    k = fk_of(fkn);
+  }
+} return int k;
+given txt_fixture given fl_types (6):(2)
+given txt_fixture given fl_types (7):(1)
+
+ty_double() {
+  fl_types();
+  int ty = (import fltys)[1];
+} return int ty;
+given txt_fixture ():(6)
+given txt_fixture ():(6) then ty_float:(7)

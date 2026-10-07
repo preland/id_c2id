@@ -9,7 +9,7 @@ chk_one(int i) {
   chk_scan((import fbodies)[i]);
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (0):() then (import unres):(["nosuch"])
-given boot_a given boot_b given lexfix given tu_load given reach_all given lset((import chk_flt), 0, 1) stdin "int main(void) { double d = 1; return d; }" (0):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all given lset((import chk_flt), 0, 1) stdin "int main(void) { long double d = 1; return d; }" (0):() then len((import dgmsg)):(1)
 
 chk_bind(int ft, int body) {
   txt_reset();

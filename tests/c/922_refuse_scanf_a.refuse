@@ -1,0 +1,1 @@
+922_refuse_scanf_a.c:4: error: 'sscanf' format has the conversion '%a'

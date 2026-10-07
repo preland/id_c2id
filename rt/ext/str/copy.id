@@ -1,18 +1,10 @@
 // The string functions crt does not have. strncpy copies at most n bytes and
 // pads with NULs up to n.
 c_strncpy(word rd, word rs, word rn) {
-  word rl = rt_nlen(rs, rn);
+  word rl = str_nlen(rs, rn);
   word rx = c_memcpy(rd, rs, rl);
   word ry = c_memset(rd + rl, 0, rn - rl);
 } return word rd;
-
-// strnlen: the length of the string at rs, not counting past rn bytes.
-rt_nlen(word rs, word rn) {
-  word rl = 0;
-  while(rl < rn && peek8(rs + rl) != 0) {
-    rl = rl + 1;
-  }
-} return word rl;
 
 c_strcat(word rd, word rs) {
   word rn = c_strlen(rd);

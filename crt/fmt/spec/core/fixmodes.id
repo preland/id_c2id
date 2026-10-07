@@ -1,0 +1,9 @@
+// More known format strings, for the flags, '*' and precision scanners:
+// modbuf is "+ #5.3f" (three flags, a width, a precision, a conversion) and
+// starbuf is "*.*s" (a width and a precision that each take an argument).
+crt_fmt_modes() {
+  export word modbuf = mem_of_str("+ #5.3f");
+  export word starbuf = mem_of_str("*.*s");
+} return void;
+():() then prints:("")
+():() then eprints:("")

@@ -11,11 +11,11 @@
 bin_txt(int id) {
   string s = "NEEDS_CFG_SHORTCIRCUIT";
   if((import ns)[id] != "&&" && (import ns)[id] != "||" && (import ns)[id] != ",") {
-    s = bin1(id);
+    s = bin_pick(id);
   }
 } return string s;
-given txt_fixture given pend_setup (0):("t0") then calls bin1:(0)
-given txt_fixture given pend_setup (5):("t0") then calls bin1:(5)
+given txt_fixture given pend_setup (0):("t0") then calls bin_pick:(0)
+given txt_fixture given pend_setup (5):("t0") then calls bin_pick:(5)
 
 bin1(int id) {
   string s = "";

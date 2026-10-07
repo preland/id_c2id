@@ -1,0 +1,29 @@
+// The first rdt digits of rds, padded with zeros when it has fewer.
+rd_keep(string rds, int rdt) {
+  int rdn = len(rds);
+  string rdy = rd_keep2(rds, rdt, rdn);
+} return string rdy;
+("12345", 3):("123")
+("12", 4):("1200")
+rd_fin(string rdy, int rdu) {
+  string rdr = rdy;
+  if(rdu == 1) {
+    rdr = rd_inc(rdy);
+  }
+} return string rdr;
+("129", 1):("130")
+("129", 0):("129")
+
+// rds rounded to rdt digits. The answer has rdt digits, or rdt + 1 when the
+// round carried out of the top ("999" to 2 digits is "100").
+rd_round(string rds, int rdt) {
+  string rdy = rd_keep(rds, rdt);
+  int rdu = rd_up(rds, rdt);
+  string rdr = rd_fin(rdy, rdu);
+} return string rdr;
+("12365", 3):("124")
+("1250", 2):("12")
+("1350", 2):("14")
+("999", 2):("100")
+("5", 0):("")
+("6", 0):("1")

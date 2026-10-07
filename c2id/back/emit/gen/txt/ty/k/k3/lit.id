@@ -5,7 +5,7 @@
 // The expression parser drops the suffix while decoding the value but keeps
 // the whole spelling in ns, so it is still there to be read.
 
-num_ty(int id) {
+num_ity(int id) {
   int ty = num_sty(id);
   string op = (import ns)[id];
   if(has_ch(op, 117, 85) == 1) {

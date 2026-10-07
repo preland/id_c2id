@@ -1,0 +1,19 @@
+// %f without its point when the precision is 0 and the # flag is absent.
+ff_dot(string fft, int ffp, int fea) {
+  int ffn = len(fft) - 1;
+  string ffo = fft;
+  if(ffp == 0 && fea == 0) {
+    ffo = str_slice(fft, 0, ffn);
+  }
+} return string ffo;
+("12.", 0, 0):("12")
+("12.", 0, 1):("12.")
+("12.5", 1, 0):("12.5")
+
+ff_text(string ds, int ffx0, int ffp, int fea) {
+  string fft = ff_fixed(ds, ffx0, ffp);
+  string ffo = ff_dot(fft, ffp, fea);
+} return string ffo;
+("125", -1, 2, 0):("0.12")
+("15", 0, 0, 0):("2")
+("25", 0, 0, 1):("2.")

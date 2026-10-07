@@ -1,0 +1,29 @@
+star_width(word[] args, word[] st, word[] fs) {
+  word sn = star_arg(args, st);
+  wset(st, 0, st[0] + 1);
+  set_width(sn, fs);
+} return void;
+given crt_fmt_fixture ([6], [0, 0], [0, 0, 0, 0, 0]):([6], [1, 1], [0, 0, 0, 6, 0])
+given crt_fmt_fixture ([-3], [0, 0], [0, 0, 0, 0, 0]):([-3], [1, 1], [0, 1, 0, 3, 0])
+
+scan_width(word fmt, word[] args, word[] st, word[] fs) {
+  word c = peek8(fmt + st[0]);
+  if(c == 42) {
+    star_width(args, st, fs);
+  } else {
+    scan_digits(fmt, st, fs, 3);
+  }
+} return void;
+given crt_fmt_fixture ((import fmtbuf), [], [2], [0, 0, 0, 0, 0]):((import fmtbuf), [], [3], [0, 0, 0, 5, 0])
+given crt_fmt_fixture given crt_fmt_modes ((import starbuf), [9], [0, 0], [0, 0, 0, 0, 0]):((import starbuf), [9], [1, 1], [0, 0, 0, 9, 0])
+
+star_prec(word[] args, word[] st, word[] fs) {
+  word sn = star_arg(args, st);
+  wset(st, 0, st[0] + 1);
+  if(sn >= 0) {
+    wset(fs, 8, 1);
+    wset(fs, 9, sn);
+  }
+} return void;
+([4], [0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):([4], [1, 1], [0, 0, 0, 0, 0, 0, 0, 0, 1, 4])
+([-4], [0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):([-4], [1, 1], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0])

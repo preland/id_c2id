@@ -1,0 +1,31 @@
+// Where the decimal point goes. rds holds the digits of a number from the weight
+// 10^fxx down (fxx is the decimal exponent of its first digit), already rounded
+// to the wanted number of them.
+//
+// The part before the point: the first fxx + 1 digits, or "0" for a number below 1.
+fx_ip(string rds, int fxx) {
+  string fxi = "0";
+  if(fxx >= 0) {
+    fxi = str_slice(rds, 0, fxx + 1);
+  }
+} return string fxi;
+("12345", 1):("12")
+("12345", -1):("0")
+
+// The part after it: the rest of the digits, behind the zeros a number below 0.1
+// has between the point and its first digit.
+fx_fp(string rds, int fxx) {
+  string fxf = rep_ch("0", 0 - fxx - 1) + rds;
+  if(fxx >= 0) {
+    fxf = fx_tail(rds, fxx);
+  }
+} return string fxf;
+("12345", 1):("345")
+("12345", -2):("012345")
+
+fx_tail(string rds, int fxx) {
+  int fxm = len(rds) - fxx;
+  string fxf = str_slice(rds, fxx + 1, fxm - 1);
+} return string fxf;
+("12345", 1):("345")
+("12345", 4):("")

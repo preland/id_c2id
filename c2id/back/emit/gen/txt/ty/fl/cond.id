@@ -1,0 +1,22 @@
+// The type of `c ? a : b`. The then-arm answers for both unless one arm is
+// floating point, when the two meet at a common type (`n ? x : 0` with a double
+// x is a double, not an int).
+cond_ty(int id) {
+  int b = (import nb)[id];
+  int[] el = (import nl)[id];
+  int tb = ex_ty(b);
+} chain (int id) {
+  int te = ex_ty(el[0]);
+  int ty = fl_cond(tb, te);
+} return int ty;
+given txt_fixture given fl_fixture given fl_cond_fixture ((import flq)):(6)
+given txt_fixture given fl_fixture given fl_cond_fixture ((import fln)):(0)
+
+fl_cond(int tb, int te) {
+  int r = fl_pair(tb, te);
+  if(r < 0) {
+    r = tb;
+  }
+} return int r;
+given txt_fixture given fl_types (0, 6):(6)
+given txt_fixture (1, 0):(1)

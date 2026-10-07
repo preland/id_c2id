@@ -34,7 +34,7 @@ un3(int id) {
   string s = "";
   if((import ns)[id] == "!") {
     int a = (import na)[id];
-    s = "(" + ex_txt(a) + " == 0)";
+    s = not_txt(a);
   } else {
     s = un4(id);
   }

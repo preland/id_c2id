@@ -1,0 +1,20 @@
+rt_dsame(word rs, word[] rdsc, string rpat, int rdi) {
+  word rch = peek8(rs + rdsc[1] + rdi) | 32;
+  int rdw = charat(rpat, rdi);
+  word rok = rch == rdw;
+} return word rok;
+
+rt_dgo(word[] rdsc, int rdl) {
+  wset(rdsc, 1, rdsc[1] + rdl);
+  wset(rdsc, 2, 1);
+} return void;
+
+rt_dend(word rs, word rend, word[] rdsc) {
+  word rpos = 0;
+  if(rdsc[2] == 1) {
+    rpos = rdsc[1];
+  }
+  if(rend != 0) {
+    poke64(rend, rs + rpos);
+  }
+} return void;

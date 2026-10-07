@@ -7,14 +7,14 @@ emit_wrap(int fn, string name, int np, int sz) {
   emit_head(plist, "c_" + name + "(" + plist + ") {");
 } chain (int fn, string name, int np, int sz) {
   emit_out("  word fp = rt_enter(" + sz + ");");
-  wrap_args(np);
+  wrap_args(np, fn);
   emit_out("  word r = run" + fn + "(fp);");
 } chain (int fn, string name, int np, int sz) {
   emit_out("  rt_leave(" + sz + ");");
   emit_cut("} return word r;");
 } return void;
-given init_gfn (0, "f", 0, 8):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_f() {\n  word k0 = 0;\n  word fp = rt_enter(8);\n  word r = run0(fp);\n} chain () {\n  word k1 = 1;\n  rt_leave(8);\n} return word r;\n")
-given init_gfn (2, "g", 2, 24):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_g(word a0, word a1) {\n  word k0 = 0;\n  word fp = rt_enter(24);\n  poke64(fp + 8, a0);\n} chain (word a0, word a1) {\n  word k1 = 1;\n  poke64(fp + 16, a1);\n  word r = run2(fp);\n} chain (word a0, word a1) {\n  word k2 = 2;\n  rt_leave(24);\n} return word r;\n")
+given boot_a given boot_b given init_gfn (0, "f", 0, 8):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_f() {\n  word k0 = 0;\n  word fp = rt_enter(8);\n  word r = run0(fp);\n} chain () {\n  word k1 = 1;\n  rt_leave(8);\n} return word r;\n")
+given boot_a given boot_b given init_gfn (2, "g", 2, 24):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_g(word a0, word a1) {\n  word k0 = 0;\n  word fp = rt_enter(24);\n  poke64(fp + 8, a0);\n} chain (word a0, word a1) {\n  word k1 = 1;\n  poke64(fp + 16, a1);\n  word r = run2(fp);\n} chain (word a0, word a1) {\n  word k2 = 2;\n  rt_leave(24);\n} return word r;\n")
 
 // `word a0, word a1`
 wrap_params(int np) {
@@ -28,12 +28,13 @@ wrap_params(int np) {
 (0):("")
 (2):("word a0, word a1")
 
-wrap_args(int np) {
+wrap_args(int np, int fn) {
   int i = 0;
   while(i < np) {
-    emit_out("  poke64(fp + " + (8 + 8 * i) + ", a" + i + ");");
+    int wk = wrap_kind(fn, i);
+    wrap_arg(i, wk);
     i = i + 1;
   }
 } return void;
-given init_gfn (1):() then prints:("  poke64(fp + 8, a0);\n")
-given init_gfn (4):() then prints:("  poke64(fp + 8, a0);\n  poke64(fp + 16, a1);\n  poke64(fp + 24, a2);\n} chain (word fp) {\n  word k0 = 0;\n  poke64(fp + 32, a3);\n")
+given boot_a given boot_b given init_gfn (1, 0):() then prints:("  poke64(fp + 8, a0);\n")
+given boot_a given boot_b given init_gfn (4, 0):() then prints:("  poke64(fp + 8, a0);\n  poke64(fp + 16, a1);\n  poke64(fp + 24, a2);\n} chain (word fp) {\n  word k0 = 0;\n  poke64(fp + 32, a3);\n")

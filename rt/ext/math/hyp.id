@@ -1,0 +1,18 @@
+c_sinh(word a) {
+  float cmx = float_of_bits(a);
+  float cmz = flt_sinh(cmx);
+  word cmr = bits_of_float(cmz);
+} return word cmr;
+
+c_cosh(word a) {
+  float cmx = float_of_bits(a);
+  float cmz = flt_cosh(cmx);
+  word cmr = bits_of_float(cmz);
+} return word cmr;
+
+c_tanh(word a) {
+  float cmx = float_of_bits(a);
+  float cmz = flt_tanh(cmx);
+  word cmr = bits_of_float(cmz);
+} return word cmr;
+

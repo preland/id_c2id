@@ -1,0 +1,31 @@
+rd_tie(string rds, int rdt) {
+  int rdq = rd_rest(rds, rdt + 1);
+  int rdl = rd_dig(rds, rdt - 1);
+  int rdw = rdq + rdl % 2;
+} return int rdw;
+("12500", 2):(0)
+("13500", 2):(1)
+("12501", 2):(1)
+
+// 1 when keeping rdt digits of rds rounds the kept part up.
+rd_up(string rds, int rdt) {
+  int rdd = rd_dig(rds, rdt);
+  int rdw = rd_tie(rds, rdt);
+  int rdu = rd_up2(rdd, rdw);
+} return int rdu;
+("125", 2):(0)
+("135", 2):(1)
+("1251", 2):(1)
+("124", 2):(0)
+
+// How many 9s end the string.
+rd_nines(string rdy) {
+  int rdn = 0;
+  int rdi = len(rdy) - 1;
+  while(rdi >= 0 && charat(rdy, rdi) == 57) {
+    rdn = rdn + 1;
+    rdi = rdi - 1;
+  }
+} return int rdn;
+("1299"):(2)
+("12"):(0)

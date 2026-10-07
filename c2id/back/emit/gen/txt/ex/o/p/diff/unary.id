@@ -16,7 +16,7 @@ un4(int id) {
   if((import ns)[id] == "-" || (import ns)[id] == "~") {
     string op = (import ns)[id];
     string pre = un_pre(op);
-    s = pre_txt(id, pre);
+    s = neg_pick(id, pre);
   } else {
     s = incdec_txt(id);
   }

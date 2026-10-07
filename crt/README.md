@@ -222,11 +222,15 @@ as `long long` and inserts no widening cast, so an `int` expression in a
 
 ### Supported
 
-* conversions `%d %i %u %x %X %o %c %s %p %%`
+* conversions `%d %i %u %x %X %o %c %s %p %%` and `%f %F %e %E %g %G` (the argument is the
+  bits of a double; see fmt/dec and fmt/flt)
 * length modifiers `hh` (8-bit), `h` (16), none (32, i.e. C `int`),
   `l`, `ll`, `z` (64)
-* flags `-` (left justify) and `0` (zero pad)
-* minimum field width, in decimal
+* flags `-` (left justify), `0` (zero pad), `+`, space and `#`
+* minimum field width, in decimal or `*` (the next argument; negative means `-`)
+* precision, `.` then decimal or `*`: the minimum digits of an integer, the places
+  or digits of a float, the most bytes of a `%s` (so `%.*s` prints a buffer with
+  no terminator)
 
 The length modifier narrows the argument before it is printed, exactly as
 C's `va_arg` would: `%d` of a 64-bit word prints its low 32 bits
@@ -240,16 +244,17 @@ for null and `0x`-prefixed lowercase hex otherwise.
 
 An unrecognised specifier is **echoed literally**, from its `%` through the
 character that ended it, so a gap shows up in the output instead of silently
-disappearing. This covers precision (`%.3s`), `*` widths, the flags `+`,
-`' '` and `#`, the length modifiers `j`, `t`, `L`, `q`, and any unknown
+disappearing. This covers the length modifiers `j`, `t`, `L`, `q`, `%a`, `%n`, and any
+unknown conversion letter.
 conversion letter.
 
 Internal structure: `c_format` walks the format string with a two-element
 cursor (`st[0]` byte offset, `st[1]` next argument); `fmt_spec` allocates a
-five-element parse state per specifier (`fs[0]` the offset of the `%`,
-`fs[1]` `-`, `fs[2]` `0`, `fs[3]` width, `fs[4]` length code 0/1/2/3);
-`scan_flags` / `scan_width` / `scan_len` fill it in; `conv_do` → `conv_num` →
-`conv_uns` → `conv_cs` → `conv_sp` → `conv_p` → `spec_txt` is the dispatch
+ten-element parse state per specifier (`fs[0]` the offset of the `%`,
+`fs[1]` `-`, `fs[2]` `0`, `fs[3]` width, `fs[4]` length code 0/1/2/3, `fs[5]` `+`,
+`fs[6]` space, `fs[7]` `#`, `fs[8]` 1 when there is a precision, `fs[9]` the precision);
+`scan_flags` / `scan_width` / `scan_prec` / `scan_len` fill it in; `conv_do` → `conv_num` →
+`conv_uns` → `conv_cs` → `conv_sp` → `conv_p` → `conv_f` → `spec_txt` is the dispatch
 chain, lazy rather than eager so that an arm which is not taken does not
 consume an argument. `narrow_s` / `narrow_u` apply the length modifier;
 `pad_out` / `pad_str` apply the width and flags; `wset` / `lgetw` are the
@@ -271,7 +276,9 @@ Stated plainly, because a port claim is only as good as its gaps.
   literals into ±1 instead, so a differential test must disable builtins to
   compare exact values rather than signs.
 * `heap_init` cannot give the region back to the store, which has no `free`.
-* No floating point: `%f`, `%e`, `%g` are unsupported and echo, as do precision
-  (`%.3s`, `%.*s`), a `*` width and the flags `+`, ` ` and `#`. c2id refuses a
-  literal format that uses any of them (`mid/check/fmt/`); a format held in a
-  variable is not seen at translate time and echoes at run time.
+* `%a` and `%n` echo. c2id refuses a literal format that uses an unsupported
+  conversion (`mid/check/fmt/`); a format held in a variable is not seen at
+  translate time and echoes at run time. `%#g` of a value whose rounding carries
+  into the next power of ten has no trailing zeros, as in glibc (`999999.5` is
+  `1.e+06`); the float conversions are exact (the digits of the double, rounded
+  half to even), so they match glibc to the last digit.

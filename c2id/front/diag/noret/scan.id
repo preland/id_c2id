@@ -1,0 +1,36 @@
+// The functions that never return. A call to one ends the basic block it is in
+// (back/emit/cfg/w/j/plain.id), so nothing after it in the block runs. exit,
+// abort and _Exit are always on the list; a program adds the functions it
+// declares `_Noreturn` or `__attribute__((noreturn))`. The attributes are
+// dropped by the parser, so this reads the token list before parsing. mxnames
+// is the wider list of functions that may exit: those and every function that
+// calls one, closed over the program (front/diag/noret/mx*.id). A statement
+// calling one ends its block so the runner sees the exit before the next block.
+// chk_cal is the callee node of the call the check pass is at (mid/check/mark.id).
+noret_init() {
+  export string[] nrnames = ["exit", "abort", "_Exit"];
+  export string[] mxnames = ["exit", "abort", "_Exit"];
+  export int[] chk_cal = [0 - 1];
+} return void export nrnames;
+():() then len((import nrnames)):(3)
+():() then (import nrnames)[2]:("_Exit")
+
+noret_add(string name) {
+  if(find_str((import nrnames), name) < 0) {
+    push((import nrnames), name);
+    push((import mxnames), name);
+  }
+} return void;
+given noret_init ("die"):() then (import nrnames)[3]:("die") then (import mxnames)[3]:("die")
+given noret_init ("exit"):() then len((import nrnames)):(3)
+
+noret_scan() {
+  noret_init();
+  int i = 0;
+  while(i < len((import ttext))) {
+    noret_at(i);
+    i = i + 1;
+  }
+} return void;
+given boot_a given lexfix stdin "_Noreturn void die(void);" ():() then (import nrnames)[3]:("die")
+given boot_a given lexfix stdin "void f(void);" ():() then len((import nrnames)):(3)

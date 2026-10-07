@@ -14,13 +14,16 @@ str_txt(int id) {
 given txt_fixture given pend_setup (0):("t0") then calls name_val:("peek64((import gbase) + 0)")
 given txt_fixture given pend_setup (5):("t0") then calls name_val:("peek64((import gbase) + 0)")
 
-// A cast is exactly the width conversion, which is the same operation an
+// A cast is exactly the width conversion (a floating-point type on either side is
+// fl_cvt's), which is the same operation an
 // assignment or a load performs; casting to a pointer or to any 8-byte type
 // is then nothing at all, because the value is already 64 bits wide.
 cast_txt(int id) {
   int b = (import nb)[id];
   string exa = kid_ex((import na), id);
-  string s = conv_txt(b, exa);
+  int fa = kid_ty((import na), id);
+} chain (int id) {
+  string s = cast_conv(b, fa, exa);
 } return string s;
 given txt_fixture given pend_setup (0):("t0") then calls conv_txt:(1, "NEEDS_CFG_prim")
 given txt_fixture given pend_setup (5):("t0") then calls conv_txt:(0, "NEEDS_CFG_prim")

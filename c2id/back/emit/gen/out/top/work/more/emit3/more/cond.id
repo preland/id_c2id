@@ -5,7 +5,7 @@
 // statement emits, so an end block always does something.
 emit_ret(int e) {
   if(e >= 0) {
-    string txt = ex_txt(e);
+    string txt = retval_txt(e);
     flush_pend();
     emit_out("  poke64(fp, " + txt + ");");
   } else {
@@ -17,11 +17,11 @@ given txt_fixture given pend_setup (-1):() then prints:("  poke64(fp, 0);\n")
 
 emit_cond(int b) {
   int e = (import bex)[b];
-  string txt = ex_txt(e);
+  string txt = cond_val(e);
   emit_cond2(b, txt);
 } return void;
-given pend_setup given cond_body_fixture (0):() then prints:("  word nxt = 3;\n  if(1) { nxt = 3; }\n} return word nxt;\n")
-given pend_setup given cond_body_fixture (0):() then calls emit_cond2:(0, "1")
+given txt_fixture given pend_setup given cond_body_fixture (0):() then prints:("  word nxt = 3;\n  if(1) { nxt = 3; }\n} return word nxt;\n")
+given txt_fixture given pend_setup given cond_body_fixture (0):() then calls emit_cond2:(0, "1")
 
 emit_cond2(int b, string txt) {
   flush_pend();

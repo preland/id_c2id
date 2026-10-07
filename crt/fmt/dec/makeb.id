@@ -1,0 +1,27 @@
+// [m, e] of a double, normalised.
+fd_state(word fdb) {
+  word fdv = fd_mant(fdb);
+  word fdx = fd_exp(fdb);
+  word[] fdm = fd_norm([fdv, fdx]);
+} return word[] fdm;
+(4609434218613702656):([3, -1])
+(4604930618986332160):([3, -2])
+
+// m * 2^e as the digits of a big integer, or, for a negative e, m * 5^-e: the
+// same digits with -e of them after the decimal point.
+fd_apply(word[] fdg, int fdi) {
+  word[] fdr = dg_scale(fdg, 0 - fdi, 5, 17);
+  if(fdi >= 0) {
+    fdr = dg_scale(fdg, fdi, 2, 40);
+  }
+} return word[] fdr;
+([3], 2):([2, 1])
+([3], -2):([5, 7])
+
+fd_big(word[] fdm) {
+  word[] fdg = dg_of(fdm[0]);
+  int fdi = fdm[1];
+  word[] fdr = fd_apply(fdg, fdi);
+} return word[] fdr;
+([3, -1]):([5, 1])
+([3, 2]):([2, 1])

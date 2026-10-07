@@ -119,8 +119,7 @@ C programs of real size translate, build with `idc` and run: the corpus in
 `docs/STATUS.md` (inih, the libmd digests, xxhash, lz4, miniz's inflate, and the
 programs in `tests/c/`) matches `gcc -O2` on stdout and exit status. What c2id
 cannot translate correctly it refuses, at translate time, with `file:line` and the
-construct's name, and writes nothing: floating point (`double` has no model, which
-is what stops cJSON), a struct passed or returned by value, bitfields, compound
+construct's name, and writes nothing: `long double` (`float` and `double` are modelled; cJSON needs only those), a struct passed or returned by value, bitfields, compound
 literals, variadic definitions, files opened for writing, `setjmp`, termios, and
 every called function that neither the program nor the runtime provides, all
 listed at once. `tests/run.sh` has a case for each (`tests/c/9*.c`, with a

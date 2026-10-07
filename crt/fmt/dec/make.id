@@ -1,0 +1,35 @@
+// The exact decimal digits of a double (its bits are the word fdb) and the
+// decimal exponent of the first one.
+//
+// A double is m * 2^e. fd_mant gives m (the 52 fraction bits, and the hidden bit
+// unless the exponent field is 0, a subnormal), fd_exp gives e, and fd_norm
+// shifts factors of 2 out of m while e is negative, which shrinks the work for
+// the common doubles (0.5, 1.25) that have few significant bits.
+fd_mant(word fdb) {
+  word fde = ushr(fdb, 52) & 2047;
+  word fdq = fdb & 4503599627370495;
+  if(fde != 0) {
+    fdq = fdq | 4503599627370496;
+  }
+} return word fdq;
+(4609434218613702656):(6755399441055744)
+(1):(1)
+
+fd_exp(word fdb) {
+  word fde = ushr(fdb, 52) & 2047;
+  word fdx = fde - 1075;
+  if(fde == 0) {
+    fdx = 0 - 1074;
+  }
+} return word fdx;
+(4609434218613702656):(-52)
+(1):(-1074)
+
+fd_norm(word[] fdm) {
+  while(fdm[1] < 0 && fdm[0] % 2 == 0) {
+    wset(fdm, 0, fdm[0] / 2);
+    wset(fdm, 1, fdm[1] + 1);
+  }
+} return word[] fdm;
+([12, -3]):([3, -1])
+([5, -2]):([5, -2])

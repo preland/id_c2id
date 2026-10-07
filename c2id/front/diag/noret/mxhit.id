@@ -1,0 +1,18 @@
+mx_hit(int id) {
+  int hit = 0;
+  if(id >= 0) {
+    hit = mx_node(id);
+  }
+} return int hit;
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { exit(1); }" ((import mxb)):(1)
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { puts(\"a\"); }" ((import mxb)):(0)
+
+mx_node(int id) {
+  int hit = call_listed(id, (import mxnames));
+  if(hit == 0) {
+    hit = mx_kids(id);
+  }
+} return int hit;
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { if (1) { exit(1); } }" ((import mxb)):(1)
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { if (1) { puts(\"a\"); } }" ((import mxb)):(0)
+

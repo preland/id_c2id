@@ -1,0 +1,15 @@
+uns_fin(word u, word c, string dgt, word[] fs) {
+  string dp = prec_pad(dgt, fs);
+  string oa = oct_alt(dp, c, fs);
+  string txt = uns_pad(u, c, oa, fs);
+} return string txt;
+(255, 120, "ff", [0, 0, 0, 6, 0, 0, 0, 1, 1, 4]):("0x00ff")
+(8, 111, "10", [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]):("010")
+
+uns_field(word w, word c, word[] fs) {
+  string dgt = uns_str(w, c, fs);
+  word u = u_of(w, fs);
+  string txt = uns_fin(u, c, dgt, fs);
+} return string txt;
+(255, 120, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("ff")
+(4294967295, 117, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("4294967295")

@@ -1,0 +1,24 @@
+dec_pad(string pre, string dgt, word[] fs) {
+  string dp = prec_pad(dgt, fs);
+  int dz = dec_z(fs);
+  string txt = pad_num(pre, dp, dz, fs);
+} return string txt;
+("-", "42", [0, 0, 1, 6, 0, 0, 0, 0, 0, 0]):("-00042")
+("+", "7", [0, 1, 0, 3, 0, 1, 0, 0, 1, 2]):("+07")
+
+dec_fin(word nv, string dgt, word[] fs) {
+  int ng = nv < 0;
+  string pre = fl_sign(ng, fs);
+  string txt = dec_pad(pre, dgt, fs);
+} return string txt;
+(-5, "5", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("-5")
+(5, "5", [0, 0, 0, 0, 0, 1, 0, 0, 0, 0]):("+5")
+(5, "5", [0, 0, 0, 0, 0, 0, 1, 0, 0, 0]):(" 5")
+
+dec_field(word w, word[] fs) {
+  string dgt = dec_of(w, fs);
+  word nv = narrow_s(w, fs[4]);
+  string txt = dec_fin(nv, dgt, fs);
+} return string txt;
+(4294967295, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("-1")
+(42, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("42")

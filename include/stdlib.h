@@ -8,8 +8,10 @@ void *realloc(void *p, size_t n);
 void free(void *p);
 void abort(void);
 void exit(int code);
+void _Exit(int code);
 long strtol(const char *s, char **end, int base);
 double strtod(const char *s, char **end);
+static double atof(const char *s) { return strtod(s, (char **)0); }
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 #define RAND_MAX 2147483647

@@ -1,0 +1,14 @@
+rt_putflt(word rstr, word[] rdsc, word rsup, word rlen, word[] rargs, word[] rst) {
+  word rv = rt_dfull(rstr + rst[0], rdsc);
+  wset(rst, 0, rst[0] + rdsc[1]);
+  rt_fgive(rv, rsup, rlen, rargs, rst);
+} return void;
+
+// A float is stored as binary32, a double as it is.
+rt_fgive(word rv, word rsup, word rlen, word[] rargs, word[] rst) {
+  word rfv = rv;
+  if(rlen == 4) {
+    rfv = cfl_st32(rv);
+  }
+  rt_give(rfv, rsup, rlen, rargs, rst);
+} return void;

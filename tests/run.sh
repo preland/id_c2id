@@ -97,7 +97,7 @@ for src in "$here"/tests/c/*.c; do
     matches "$name" || continue
 
     # ---- 1. the oracle: what the real C compiler does
-    if ! cc -std=gnu11 -w -o "$work/$name.ref" "$src" 2>"$work/$name.ccerr"; then
+    if ! cc -std=gnu11 -w -o "$work/$name.ref" "$src" -lm 2>"$work/$name.ccerr"; then
         echo "ERROR $name: reference C does not compile"
         sed 's/^/    /' "$work/$name.ccerr" | head -5
         fail=$((fail + 1)); failed_names+=("$name"); continue

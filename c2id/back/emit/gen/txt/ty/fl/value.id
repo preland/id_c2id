@@ -1,0 +1,33 @@
+// The text of expression ex stored into, or initialising, an object of type ty.
+init_val(int ty, int ex) {
+  int cx = fl_coerce(ty, ex);
+  string vtxt = ex_txt(cx);
+} return string vtxt;
+given txt_fixture given pend_setup given fl_fixture (6, 8):("t0") then (import pend)[0]:("word t0 = cfl_of_int(5);")
+given txt_fixture given pend_setup given fl_fixture (0, 8):("5")
+
+// The text of expression e returned from the function being emitted, in the
+// function's return type. retty[0] is that type, set when its parameters are
+// bound.
+retval_txt(int e) {
+  int rt = (import retty)[0];
+  int ce = fl_coerce(rt, e);
+  string txt = ex_txt(ce);
+} return string txt;
+given txt_fixture given pend_setup given fl_fixture given lset((import retty), 0, 6) (8):("t0")
+given txt_fixture given pend_setup given fl_fixture given lset((import retty), 0, 0) (8):("5")
+
+// The text of the condition of a branch: a floating-point one is compared with
+// zero first, since its bits are not a truth value (-0.0 is false, and every
+// NaN is true).
+cond_val(int e) {
+  string txt = ex_txt(e);
+  int ty = ex_ty(e);
+  int fk = ty_fkind(ty);
+} chain (int e) {
+  if(fk > 0) {
+    txt = name_val("cfl_ne(" + txt + ", 0)");
+  }
+} return string txt;
+given txt_fixture given pend_setup given fl_fixture (9):("t1") then (import pend)[1]:("word t1 = cfl_ne(t0, 0);")
+given txt_fixture given pend_setup given fl_fixture (8):("5")

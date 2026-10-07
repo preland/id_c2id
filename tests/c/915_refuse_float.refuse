@@ -1,1 +1,1 @@
-915_refuse_float.c:3: error: floating-point value of type 'double' is not supported
+915_refuse_float.c:3: error: floating-point value of type 'long double' is not supported

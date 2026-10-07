@@ -1,0 +1,30 @@
+// A float lives in memory as binary32 and in an expression as the bits of a
+// double. load_conv turns what peek32 read into the latter (a double, and every
+// other type, is conv_txt's as before); store_txt turns the value to be stored
+// back before poke32 writes it.
+load_conv(int ty, string raw) {
+  string out = "";
+  if(ty_fkind(ty) == 1) {
+    out = name_val("cfl_ld32(" + raw + ")");
+  } else {
+    out = conv_txt(ty, raw);
+  }
+} return string out;
+given txt_fixture given pend_setup given fl_types (7, "t5"):("t0") then (import pend)[0]:("word t0 = cfl_ld32(t5);")
+given txt_fixture given pend_setup (0, "t5"):("t0") then (import pend)[0]:("word t0 = sx32(t5);")
+
+store_val(int ty, string out) {
+  string sv = out;
+  if(ty_fkind(ty) == 1) {
+    sv = name_val("cfl_st32(" + out + ")");
+  }
+} return string sv;
+given txt_fixture given pend_setup given fl_types (7, "t5"):("t0") then (import pend)[0]:("word t0 = cfl_st32(t5);")
+given txt_fixture given pend_setup given fl_types (6, "t5"):("t5")
+
+store_txt(int ty, string s, string out) {
+  string sv = store_val(ty, out);
+  string txt = store_raw(ty, s, sv);
+} return string txt;
+given txt_fixture given pend_setup given fl_types (7, "A", "B"):("poke32(A, t0)")
+given txt_fixture given pend_setup given fl_types (6, "A", "B"):("poke64(A, B)")

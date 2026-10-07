@@ -1,0 +1,25 @@
+fe_abs(int fex) {
+  int fev = fex;
+  if(fex < 0) {
+    fev = 0 - fex;
+  }
+} return int fev;
+(-3):(3)
+(4):(4)
+
+// The exponent's magnitude, two digits at least.
+fe_pad(string fed) {
+  int feq = len(fed);
+  string fet = rep_ch("0", 2 - feq) + fed;
+} return string fet;
+("5"):("05")
+("12"):("12")
+("100"):("100")
+
+fe_dig(int fev) {
+  string fed = "" + fev;
+  string fet = fe_pad(fed);
+} return string fet;
+(5):("05")
+(12):("12")
+(100):("100")

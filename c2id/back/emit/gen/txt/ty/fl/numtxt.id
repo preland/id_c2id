@@ -1,0 +1,34 @@
+// A numeric literal's text: a floating one is its bits (fl_lit_txt), an integer
+// literal is num_itxt's.
+num_txt(int id) {
+  string op = (import ns)[id];
+  string s = num_itxt(id);
+  int fl = is_float_lit(op);
+} chain (int id) {
+  if(fl == 1) {
+    s = fl_lit_txt(op);
+  }
+} return string s;
+given txt_fixture given pend_setup given fl_fixture ((import fli)):("5")
+given txt_fixture given pend_setup given fl_fixture ((import flf)):("t0") then (import pend)[0]:("word t0 = bits_of_float(1.5);")
+
+num_ty(int id) {
+  string op = (import ns)[id];
+  int ty = num_ity(id);
+  int fl = is_float_lit(op);
+} chain (int id) {
+  if(fl == 1) {
+    ty = fl_lit_ty(op);
+  }
+} return int ty;
+given txt_fixture given fl_fixture ((import fli)):(0)
+given txt_fixture given fl_fixture ((import flf)):(6)
+
+fl_lit_ty(string op) {
+  int ty = ty_double();
+  if(has_ch(op, 102, 70) == 1) {
+    ty = ty_float();
+  }
+} return int ty;
+given txt_fixture ("1.5"):(6)
+given txt_fixture ("1.5f"):(7)

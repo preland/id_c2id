@@ -1,6 +1,6 @@
-// `c ? x : y` as a value: the arms store into a temporary of the type of x.
+// `c ? x : y` as a value: the arms store into a temporary of the arms' common type (x's, unless one is floating point).
 lower_ternary(int e) {
-  int tt = ex_ty((import nb)[e]);
+  int tt = cond_ty(e);
   int ty = tern_ty(tt);
   int t = new_temp(ty);
 } chain (int e) {

@@ -1,0 +1,16 @@
+fl_args_run(int[] ids, int[] ptys) {
+  int i = 0;
+  while(i < len(ids) && i < len(ptys)) {
+    fl_arg_one(ids, ptys, i);
+    i = i + 1;
+  }
+} return void;
+given txt_fixture given fl_fixture ([8], [6]):() then len((import nk)):(11)
+given txt_fixture given fl_fixture ([9], [6]):() then len((import nk)):(10)
+
+fl_arg_one(int[] ids, int[] ptys, int i) {
+  int ca = fl_coerce(ptys[i], ids[i]);
+  lset(ids, i, ca);
+} return void;
+given txt_fixture given fl_fixture ([8, 9], [0, 0], 1):() then len((import nk)):(11)
+given txt_fixture given fl_fixture ([8, 9], [0, 6], 0):() then len((import nk)):(10)

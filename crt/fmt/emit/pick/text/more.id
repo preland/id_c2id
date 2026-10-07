@@ -1,6 +1,6 @@
-// %p, and then the end of the chain: anything unrecognised is echoed
-// verbatim, so a specifier this runtime does not implement shows up in the
-// output as a visible gap instead of vanishing.
+// %p, then the floating-point conversions (conv_f); anything unrecognised is
+// echoed verbatim, so a specifier this runtime does not implement shows up in
+// the output as a visible gap instead of vanishing.
 conv_p(word fmt, word c, word[] args, word[] st, word[] fs) {
   string txt = "";
   if(c == 112) {
@@ -8,8 +8,8 @@ conv_p(word fmt, word c, word[] args, word[] st, word[] fs) {
     string out = ptr_str(w);
     txt = pad_out(out, fs);
   } else {
-    txt = spec_txt(fmt, st, fs);
+    txt = conv_f(fmt, c, args, st, fs);
   }
 } return string txt;
-given crt_fmt_fixture ((import fmtbuf), 112, [0], [0, 0], [0, 0, 0, 0, 0]):("(nil)")
-given crt_fmt_fixture ((import fmtbuf), 122, [0], [3, 0], [0, 0, 0, 0, 0]):("-05")
+given crt_fmt_fixture ((import fmtbuf), 112, [0], [0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("(nil)")
+given crt_fmt_fixture ((import fmtbuf), 122, [0], [3, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("-05")

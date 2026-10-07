@@ -1,0 +1,18 @@
+// The digits as text, most significant first.
+dg_str(word[] dgs) {
+  string dgt = "";
+  int dgi = len(dgs) - 1;
+  while(dgi >= 0) {
+    dgt = dgt + dg_chr(dgs[dgi]);
+    dgi = dgi - 1;
+  }
+} return string dgt;
+([4, 3, 2, 1]):("1234")
+([0, 9]):("90")
+
+dg_chr(word dgd) {
+  int dgq = 48 + dgd;
+  string dgt = chr(dgq);
+} return string dgt;
+(7):("7")
+(0):("0")

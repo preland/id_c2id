@@ -20,8 +20,7 @@ given txt_fixture (5):(0) then calls ety11:(5)
 ety11(int id) {
   int ty = 0;
   if((import nk)[id] == "cond") {
-    int b = (import nb)[id];
-    ty = ex_ty(b);
+    ty = cond_ty(id);
   } else {
     ty = ety12(id);
   }

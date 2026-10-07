@@ -3,7 +3,7 @@ rt_do3(word rstr, word rcv, word rsup, word rlen, word[] rargs, word[] rst) {
   if(rb >= 0) {
     rt_int(rstr, rb, rsup, rlen, rargs, rst);
   } else {
-    rt_pct(rstr, rcv, rst);
+    rt_do4(rstr, rcv, rsup, rlen, rargs, rst);
   }
 } return void;
 

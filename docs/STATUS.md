@@ -91,8 +91,8 @@ translated program links against.
 | --- | --- | --- |
 | translator builds under the default test requirement | works | `idc c2id` exits 0: every function has two cases, and they pass |
 | C → id for integer C, pointers, structs, function pointers, initializers, string literals | works | the corpus below: the programs there match `gcc -O2` |
-| floating point | **absent, refused** | `double` has no model; any use (a type, a literal, a call that returns one, `%f`) is a translate-time refusal with `file:line`; see "Floating point" below; `tests/c/915_refuse_float.c` |
-| refusals | works | what c2id cannot translate correctly it refuses with `file:line` and the construct, writes nothing and exits 1: a struct passed or returned by value, bitfields, compound literals, variadic definitions, `fopen` for writing, `setjmp`/`longjmp`, termios, floating point, printf-family conversions the runtime does not implement, and every called function nothing provides (one diagnostic lists them all); `tests/c/9*.c`, `c2id/NOTES.md` §7 |
+| floating point | works for `float` and `double`; `long double` is refused | a double is the 64 bits of its binary64 in a `word`, a float the same word holding a binary32 value (rounded after every operation); `crt/flt` does the arithmetic through the float bit-cast builtins, `crt/fmt/dec` and `crt/fmt/flt` print `%f %e %g` from the exact digits, `rt/ext/math` is libm over idstd's `flt_`, `rt/ext/num/dbl*.id` is `strtod`; `tests/c/174_float_arith.c` to `179_libm.c`, and the four float bench programs (fasta, mandel, nbody, spectral) match `gcc -O2`; `tests/c/915_refuse_float.c` is the `long double` refusal |
+| refusals | works | what c2id cannot translate correctly it refuses with `file:line` and the construct, writes nothing and exits 1: a struct passed or returned by value, bitfields, compound literals, variadic definitions, `fopen` for writing, `setjmp`/`longjmp`, termios, `long double`, the address of a runtime function (`{ malloc, free }` as a hooks table), printf-family conversions the runtime does not implement, and every called function nothing provides (one diagnostic lists them all); `tests/c/9*.c`, `c2id/NOTES.md` §7 |
 | `static` locals | works | a `static` local is a global of its own (`mid/pass/frame/static.id`); `tests/c/100_static.c` |
 | libc the runtime provides | works for the names in `rt_names` (`c2id/conf.id`) | strtol (and, over it, atoi, atol, strtoul, strtoll), the str* family, `qsort` and `bsearch` (C in `include/stdlib.h`, since they call back into the program), stdio over real stdin/stdout/stderr (`getchar`, `fgetc`, `ungetc`, `fgets`, `fread`, `fwrite`, `fputc`, `fflush`), `sscanf` over integers and strings, `time`, `clock`, `read`/`write`/`close` on 0, 1 and 2; `tests/c/080` to `165` |
 | block-function lowering and dispatch | works | `tests/lowering/`, and every corpus program |
@@ -150,51 +150,86 @@ are inih, the libmd digests (md5, sha1, sha2), xxhash, lz4, miniz's inflate,
 cJSON, two micro programs and the seven in `tests/c/`; they are not in this
 repository (the driver and the sources were kept in an earlier wave's scratch
 directory), and the table of results is in the umbrella's `docs/INTEROP.md`
-under "Translating C to id". The last run: every program matches except cJSON,
-which c2id refuses at translate time because it uses floating point (it used to
-stop in `idc`, at link time, on the first missing function).
+under "Translating C to id". The last run: every program matches except cJSON.
+cJSON now translates past its floating point (parse_number's strtod, print_number's
+`sprintf("%1.15g")`), and stops at two things that are not floating point. Its
+`global_hooks = { malloc, free, realloc }` takes the address of runtime functions,
+which used to compile to a table of zeros and recurse without end in `cJSON_New_Item`
+(a silent miscompile; it is now a translate-time refusal, `mid/check/rtval.id`). With
+the table written as wrapper functions (the file's own MSVC branch) it builds and runs,
+but `cJSON_Parse` fails on every string and number (null, true, false, [] and {} parse). The
+cause found, not yet fixed: a struct assigned or initialised
+from another struct (`buffer.hooks = global_hooks;`, `B c = b;`) is stored as the
+8-byte address of the source, not copied (`store_raw` in `back/emit/gen/txt/ex/a/w/cv.id`
+has no record case; the fix is a `c_memcpy` of the type's size, and a case in
+`tests/c/050_structs.c`'s family). A 20-line program with that struct copy traps in the
+translated build (`store address -8 out of range`) and is fine in C.
 
 ### Floating point
 
-`double` is the gap that stops cJSON, and it is a missing model rather than a
-bug; until it exists every use is refused (`mid/check/flt.id`). Where the work goes, once idc has a float bit-cast builtin (one that turns
-a 64-bit pattern into a `float` and back):
+A C `double` is the 64 bits of its IEEE binary64 in a `word`; a `float` is the
+same word holding a value that binary32 represents, so both are one thing in an
+expression and the type only decides what happens at a load, a store and the end
+of an operation. The pieces, each with cases:
 
-* `back/emit/gen/txt/ex/a/w/cv.id`: `load_txt` emits `peek<bits>(addr)` and
-  `store_txt` emits `poke<bits>(addr, v)`; for a `double` they become
-  `bits_to_float(peek64(addr))` and `poke64(addr, float_to_bits(v))`, and a
-  C `float` goes through the 32-bit pair. The width table beside it
-  (`.../wid/width.id`, `load_wid`, `wid_bits`) needs the float rows.
-* `back/link/fn/wrap/entry.id` and `back/link/ext/call/args.id`: a call passes
-  `word` arguments through frame slots with `poke64(fp + 8 + 8 * i, aN)` and
-  reads the result with `peek64(fp)`. A `double` parameter or result must be
-  bit-cast on both sides, so the wrapper `c_NAME` has to know which parameters
-  are floating.
-* `front/parse/code/ex/p/pf/lit/num/n1.id` and `front/parse/code/ex/s/sub/s3.id`:
-  a floating literal has no value yet (`is_float_lit` keeps the spelling).
-  Its value is emitted as a float literal in
-  `back/emit/gen/txt/ex/d/y/lit/atoms.id`.
-* the operators and conversions in `back/emit/gen/txt/ex/` (`conv_txt` in
-  `cv.id`): `+ - * /` and comparisons on floating operands run on `float`
-  variables, and int/float casts are conversions, not bit-casts.
-* `rt/ext/stdio/out.id` and `rt/ext/builtin/`: `%f`/`%g`, `strtod`, `fabs`,
-  `sscanf("%lf")` over the bit-cast.
+* `back/emit/gen/txt/ty/fl/`: `ty_fkind` (0, float 1, double 2), the usual
+  conversions (`usual_ty`, `fl_pair`), a literal's type and text (`fl_lit_txt`:
+  `.5`, `5.`, `1.f` are rewritten to the form id reads, and an `f` literal is
+  rounded to binary32), binary operators on floating operands (`fl_bin_txt`:
+  both operands converted to the common type, the result rounded to binary32 for
+  `float`), `-` (a sign flip, so `-0.0` stays), `!`, the truth test of a branch
+  (`cond_val`: -0.0 is false, a NaN is true), and the conversions (`fl_cvt`:
+  int to double exactly, double to int truncating toward zero, double to float
+  rounding to nearest even).
+* Conversions are made explicit as `cast` nodes where a value is stored,
+  initialises, is passed or is returned (`fl_coerce`; `assign_store`,
+  `comp_store`, `init_val`, `fl_args` for a call's arguments, `retval_txt` for a
+  `return`), so `double d = 3;`, `sqrt(2)`, `int i = 2.9;` and `return 0;` in a
+  `double` function all convert; a float parameter is stored as binary32 by the
+  call wrapper (`wrap_arg`).
+* `crt/flt/`: `cfl_add`, `cfl_sub`, `cfl_mul`, `cfl_div`, the six comparisons
+  (false for a NaN except `!=`), `cfl_neg`, `cfl_rnd32`, `cfl_ld32`, `cfl_st32`
+  and the integer conversions, over the four float bit-cast builtins.
+* `crt/fmt/dec/`, `crt/fmt/flt/`: `%f %F %e %E %g %G` from the exact decimal
+  digits of the double (the mantissa times a power of 2 or 5 as a big decimal),
+  rounded half to even as glibc does, with the flags `- 0 + space #`, width and
+  precision, `inf`/`nan`/`-nan`. One glibc quirk is copied on purpose: `%#g` of a
+  value whose rounding carries into the next power of ten has no trailing zeros
+  (`999999.5` prints `1.e+06`).
+* `rt/ext/math/`: libm over idstd's `flt_` natives (sqrt, cbrt, hypot, the
+  trigonometric, hyperbolic, exponential and logarithmic functions, pow, fmod,
+  atan2, floor, ceil, round, trunc, fabs, copysign, fmin, fmax, ldexp, isnan,
+  isinf, isfinite, and `NAN`/`INFINITY`); `rt/ext/num/dbl*.id`: `strtod` (and
+  `atof` over it) and the `%f %e %g` conversions of `sscanf`, through idstd's
+  `flt_parse` (decimal only; `inf` and `nan` are made here).
+
+What is not done: `long double` (refused), hexadecimal floating literals and
+`%a`, `frexp`/`modf` (they write through a pointer), the single-precision libm
+names (`sqrtf` and the rest; refused as unprovided), a `float` literal's double
+rounding (see `fl_lit_txt`), and a conversion of an out-of-range double to an
+integer, which is undefined in C and gives whatever the hardware does.
 
 ## Known gaps in what is built
 
 Recorded here rather than left to be discovered:
 
-* **`exit()` and `abort()` do not end the block they are called in.** They record
-  the status (`rt/libc/exit.id`) and the dispatch loop stops at the next block
-  boundary, so a statement after the call in the same basic block still runs,
-  and so does the rest of a caller's block when the call was in a callee.
-  Nothing refuses this yet; `tests/c/165_abort.c` has nothing after the `abort()`
-  for that reason.
+* **`exit()` and `abort()` end the block they are called in; what runs after a
+  call that exits in the middle of a statement does not stop.** A call to `exit`,
+  `abort`, `_Exit` or a function declared `_Noreturn` or
+  `__attribute__((noreturn))` ends its basic block (`back/emit/cfg/w/j/plain.id`,
+  the names from `front/diag/noret/`), and a statement that calls a function which
+  may reach one (any function that calls one, closed over the program:
+  `mx_close`) is followed by a block boundary, where the runner sees the exit
+  status; so the statements after such a call never run (`tests/c/166` to
+  `173`). Not covered: an `exit` reached in the middle of one statement, as in
+  `printf("%d", die())`, where the rest of that statement (the `printf` itself)
+  still runs, and a call through a function pointer to a function that exits.
+  `_Exit` flushes the output buffer, which C's does not.
 * **printf formats held in a variable are not checked.** A literal format with a
   conversion the runtime does not implement is refused; one built at run time
   echoes the conversion instead (`crt/README.md`).
 * **`strtol` wraps instead of clamping** on a value out of range and does not set
-  `errno`; `sscanf` has no `%[...]`, no float conversions and ignores a width on
+  `errno`; `sscanf` has no `%[...]` or `%a`, and ignores a width on the float and
   the integer conversions.
 * **Four names this repository defined and `idstd` already owned** — fixed.
   `lset` and `sset` were byte-identical to the library's, `max_int` was

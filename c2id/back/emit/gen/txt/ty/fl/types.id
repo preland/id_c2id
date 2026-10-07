@@ -1,0 +1,23 @@
+// The two floating-point types, made on first use rather than with the standard
+// ones: every node made at start-up moves the ids of everything parsed after it,
+// and a program without floating point has no need of them. fltys[0] is 1 once
+// they exist, fltys[1] the double and fltys[2] the float.
+fl_types() {
+  int made = (import fltys)[0];
+  if(made == 0) {
+    fl_make();
+  }
+} return void;
+given txt_fixture ():() then len((import nk)):(8)
+given txt_fixture given fl_types ():() then len((import nk)):(8)
+
+fl_make() {
+  int d = newleaf("prim", 8, 1, "double", "");
+  int f = newleaf("prim", 4, 1, "float", "");
+  lset((import fltys), 1, d);
+} chain () {
+  lset((import fltys), 2, f);
+  lset((import fltys), 0, 1);
+} return void;
+given txt_fixture ():() then (import fltys):([1, 6, 7])
+given txt_fixture ():() then (import ns)[7]:("float")

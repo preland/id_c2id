@@ -1,0 +1,10 @@
+c_ldexp(word a, word e) {
+  int cmn = e;
+  word cmr = cm_ldexp(a, cmn);
+} return word cmr;
+
+cm_ldexp(word a, int cmn) {
+  float cmx = float_of_bits(a);
+  float cmz = flt_ldexp(cmx, cmn);
+  word cmr = bits_of_float(cmz);
+} return word cmr;

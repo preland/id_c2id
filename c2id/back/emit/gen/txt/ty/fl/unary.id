@@ -1,0 +1,34 @@
+// `!e` and `-e` on a floating-point operand. `!` is "equals zero", which for a
+// double is cfl_eq against the bits of +0.0 (so -0.0 is false and a NaN is
+// true); `-` flips the sign bit (cfl_neg), because 0 - x would turn +0.0 into
+// +0.0 instead of -0.0.
+not_txt(int a) {
+  string flex = ex_txt(a);
+  int ty = ex_ty(a);
+  string s = "(" + flex + " == 0)";
+} chain (int a) {
+  if(ty_fkind(ty) > 0) {
+    s = name_val("cfl_eq(" + flex + ", 0)");
+  }
+} return string s;
+given txt_fixture given pend_setup given fl_fixture (9):("t1") then (import pend)[1]:("word t1 = cfl_eq(t0, 0);")
+given txt_fixture given pend_setup given fl_fixture (8):("(5 == 0)")
+
+neg_pick(int id, string pre) {
+  int ty = ex_ty(id);
+  int fk = ty_fkind(ty);
+  string s = neg_sel(id, pre, fk);
+} return string s;
+given txt_fixture given pend_setup given fl_fixture given fl_un_fixture ((import flm), "0 - "):("t1") then (import pend)[1]:("word t1 = cfl_neg(t0);")
+given txt_fixture given pend_setup given fl_fixture given fl_un_fixture ((import fln2), "0 - "):("t0") then (import pend)[0]:("word t0 = sx32((0 - 5));")
+
+neg_sel(int id, string pre, int fk) {
+  string s = "";
+  if(fk > 0) {
+    s = fl_neg_txt(id);
+  } else {
+    s = pre_txt(id, pre);
+  }
+} return string s;
+given txt_fixture given pend_setup given fl_fixture given fl_un_fixture ((import flm), "0 - ", 2):("t1")
+given txt_fixture given pend_setup given fl_fixture given fl_un_fixture ((import fln2), "0 - ", 0):("t0")

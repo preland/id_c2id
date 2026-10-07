@@ -1,7 +1,10 @@
 // The order the whole run happens in: parse every external declaration, then
 // check what was reached, and emit only what nothing refused.
 drive() {
+  noret_scan();
   tu_load();
+  mx_close();
+} chain () {
   reach_all();
   settle();
 } return void;

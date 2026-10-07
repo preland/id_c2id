@@ -1,0 +1,9 @@
+// %f %F %e %E %g %G: the argument is the bits of a double.
+fl_conv(word flb, int flc, word[] fs) {
+  int fln = flb < 0;
+  string fle = fl_sign(fln, fs);
+  string flo = fl_pad(flb, flc, fle, fs);
+} return string flo;
+(4609434218613702656, 102, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("1.500000")
+(-4613937818241073152, 101, [0, 0, 0, 0, 0, 0, 0, 0, 1, 2]):("-1.50e+00")
+(4609434218613702656, 103, [0, 1, 0, 8, 0, 1, 0, 0, 0, 0]):("+1.5    ")

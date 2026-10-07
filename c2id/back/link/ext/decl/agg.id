@@ -19,7 +19,8 @@ given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int a
 given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { char s[8] = \"ab\"; char c = 65; }" (13, 16, 11, 12):("// s: initialised") then (import pend):(["word t0 = peek64((import gbase) + 0);", "c_memset(fp + 16, 0, 8);", "c_strcpy(fp + 16, t0);"])
 
 decl_scalar(int id, int off, int ty) {
-  string exa = kid_ex((import na), id);
+  int da = (import na)[id];
+  string exa = init_val(ty, da);
   string s = store_txt(ty, "fp + " + off, exa) + ";";
 } return string s;
 given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int a[3] = {1, 2}; int x = 5; }" (19, 8, 17):("poke32(fp + 8, 5);")

@@ -1,0 +1,28 @@
+stmt_noreturn(int id) {
+  int hit = 0;
+  if((import nk)[id] == "expr" && (import na)[id] >= 0) {
+    int e = (import na)[id];
+    hit = call_listed(e, (import nrnames));
+  }
+} return int hit;
+given boot_a given noret_init given noret_fixture ((import nre)):(1)
+given boot_a given noret_init given noret_fixture ((import nrf)):(0)
+
+walk_cut(int id) {
+  int mx = mx_hit(id);
+  if(mx == 1) {
+    walk_split();
+  }
+} return void;
+given noret_init given walk_ast_fixture given noret_fixture ((import nre)):() then calls walk_split:[1]
+given noret_init given walk_ast_fixture given noret_fixture ((import nrf)):() then calls walk_split:[0]
+
+walk_split() {
+  int c = (import curb)[0];
+  int n = new_block();
+  term_jmp(c, n);
+} chain () {
+  set_cur(n);
+} return void;
+given walk_ast_fixture ():() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1) then cur_blk:(1)
+given walk_ast_fixture ():() then len((import bkind)):(2)

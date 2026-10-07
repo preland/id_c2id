@@ -1,0 +1,25 @@
+fl_digits(word flb, int flc, word[] fs) {
+  word[] flz = [(import wzero)];
+  string ds = fd_make(flb, flz);
+  string flt = fl_style(ds, flz, flc, fs);
+} return string flt;
+(4609434218613702656, 102, [0, 0, 0, 0, 0, 0, 0, 0, 1, 2]):("1.50")
+(4604930618986332160, 103, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("0.75")
+(4591870180066957722, 102, [0, 0, 0, 0, 0, 0, 0, 0, 1, 20]):("0.10000000000000000555")
+
+// 1 for a finite double, 0 for an infinity or a NaN (exponent field all ones).
+fl_finite(word flb) {
+  word flq = ushr(flb, 52) & 2047;
+  int flk = flq != 2047;
+} return int flk;
+(4609434218613702656):(1)
+(9218868437227405312):(0)
+
+fl_word(word flb) {
+  string fls = "inf";
+  if((flb & 4503599627370495) != 0) {
+    fls = "nan";
+  }
+} return string fls;
+(9218868437227405312):("inf")
+(9221120237041090560):("nan")

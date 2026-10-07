@@ -22,7 +22,7 @@ rt_chr(word rstr, word rsup, word rwid, word[] rargs, word[] rst) {
   if(rwid == 0) {
     rw = 1;
   }
-  word rn = rt_nlen(rstr + rst[0], rw);
+  word rn = str_nlen(rstr + rst[0], rw);
 } chain (word rstr, word rsup, word rwid, word[] rargs, word[] rst) {
   rt_fin(rstr, rn, rsup, 0, rargs, rst);
 } return void;

@@ -1,0 +1,11 @@
+c_atan2(word a, word b) {
+  float cmy = float_of_bits(b);
+  word cmr = cm_atan2(a, cmy);
+} return word cmr;
+
+cm_atan2(word a, float cmy) {
+  float cmx = float_of_bits(a);
+  float cmz = flt_atan2(cmx, cmy);
+  word cmr = bits_of_float(cmz);
+} return word cmr;
+

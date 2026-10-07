@@ -16,7 +16,7 @@ init_plain(int ty, string addr, int ex) {
   if((import nk)[ty] == "arr" && (import nk)[ex] == "str") {
     init_chars(ty, addr, ex);
   } else {
-    string vtxt = ex_txt(ex);
+    string vtxt = init_val(ty, ex);
     string st = store_txt(ty, addr, vtxt);
     pend_raw(st + ";");
   }

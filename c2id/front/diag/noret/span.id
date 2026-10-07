@@ -1,0 +1,37 @@
+noret_delta(string nrt) {
+  int d = 0;
+  if(nrt == "(") {
+    d = 1;
+  }
+  if(nrt == ")") {
+    d = 0 - 1;
+  }
+} return int d;
+("("):(1)
+(")"):(-1)
+
+noret_attr_end(int tk) {
+  int i = tk + 1;
+  int depth = 0;
+  while(i < len((import ttext)) && (depth > 0 || i == tk + 1)) {
+    string nrt = (import ttext)[i];
+    depth = depth + noret_delta(nrt);
+    i = i + 1;
+  }
+} return int i;
+given lexfix stdin "__attribute__((noreturn)) void f(void);" (0):(6)
+given lexfix stdin "__attribute__((a(1), b)) x" (0):(11)
+
+noret_has(int tk, int e) {
+  int hit = 0;
+  int i = tk;
+  while(i < e) {
+    string nrt = (import ttext)[i];
+    if(nrt == "noreturn" || nrt == "__noreturn__") {
+      hit = 1;
+    }
+    i = i + 1;
+  }
+} return int hit;
+given lexfix stdin "__attribute__((noreturn)) void f(void);" (0, 6):(1)
+given lexfix stdin "__attribute__((packed)) void f(void);" (0, 6):(0)

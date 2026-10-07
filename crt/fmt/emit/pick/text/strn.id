@@ -1,0 +1,27 @@
+str_mem(word s, word n) {
+  word snk = str_nlen(s, n);
+  string txt = str_of_mem(s, snk);
+} return string txt;
+given crt_str_fixture ((import cs), 10):("hi")
+given crt_str_fixture ((import cs), 1):("h")
+
+str_at_n(word s, word n) {
+  string txt = "(null)";
+  if(s != 0) {
+    txt = str_mem(s, n);
+  }
+} return string txt;
+given crt_str_fixture ((import cs), 1):("h")
+(0, 3):("(null)")
+
+// The string argument of %s: all of it, or its first fs[9] bytes.
+str_prec(word s, word[] fs) {
+  string txt = "";
+  if(fs[8] != 0) {
+    txt = str_at_n(s, fs[9]);
+  } else {
+    txt = str_at(s);
+  }
+} return string txt;
+given crt_str_fixture ((import cs), [0, 0, 0, 0, 0, 0, 0, 0, 1, 1]):("h")
+given crt_str_fixture ((import cs), [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]):("hi")

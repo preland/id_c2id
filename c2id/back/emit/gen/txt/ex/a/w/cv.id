@@ -8,7 +8,7 @@
 // a record, none of which is a number.
 conv_txt(int ty, string s) {
   string out = s;
-  if((import nk)[ty] == "prim" && load_wid(ty) < 8) {
+  if((import nk)[ty] == "prim" && load_wid(ty) < 8 && ty_fkind(ty) == 0) {
     string head = cvt_name(ty);
     out = name_val(head + "(" + s + ")");
   }
@@ -22,14 +22,14 @@ given txt_fixture (5, "Y"):("Y")
 load_txt(int ty, string s) {
   string bits = cvt_suffix(ty);
   string raw = name_val("peek" + bits + "(" + s + ")");
-  string out = conv_txt(ty, raw);
+  string out = load_conv(ty, raw);
 } return string out;
 given txt_fixture given pend_setup (0, "ADDR"):("t1")
 given txt_fixture given pend_setup (5, "ADDR2"):("t0")
 
 // poke truncates to its width, which is exactly C's conversion on assignment:
 // `char c = 300` leaves 44 behind either way.
-store_txt(int ty, string s, string out) {
+store_raw(int ty, string s, string out) {
   int w = load_wid(ty);
   string bits = wid_bits(w);
   string txt = "poke" + bits + "(" + s + ", " + out + ")";

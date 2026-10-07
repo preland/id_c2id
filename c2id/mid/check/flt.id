@@ -1,12 +1,13 @@
-// Floating point has no model: a double would be read and written as an
-// integer, so every use is refused where it appears, once per function.
+// A long double has no model (a double is a word of binary64 bits, and a long
+// double is more than 64 bits), so every use is refused where it appears, once
+// per function. A float and a double are modelled.
 chk_float(int id, string kn) {
   int ty = chk_ty(id, kn);
   chk_fty(id, ty);
 } return void;
-given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { double d = 1; return d; }" (13, "var"):() then (import dgmsg):([":1: error: floating-point value of type 'double' is not supported: c2id has no float model yet"])
-given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { double d = 1; return d; }" (11, "decl"):() then (import dgmsg):([":1: error: floating-point value of type 'double' is not supported: c2id has no float model yet"])
-given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { double d = 1; return d; }" (10, "num"):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { long double d = 1; return d; }" (13, "var"):() then (import dgmsg):([":1: error: floating-point value of type 'long double' is not supported: c2id models float and double, not long double"])
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { long double d = 1; return d; }" (11, "decl"):() then (import dgmsg):([":1: error: floating-point value of type 'long double' is not supported: c2id models float and double, not long double"])
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { long double d = 1; return d; }" (10, "num"):() then len((import dgmsg)):(0)
 
 // The type a node is checked as: a declaration's own, any other node's value type.
 chk_ty(int id, string kn) {
@@ -15,8 +16,8 @@ chk_ty(int id, string kn) {
     ty = ex_ty(id);
   }
 } return int ty;
-given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { double d = 1; return d; }" (13, "var"):(9)
-given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { double d = 1; return d; }" (11, "decl"):(9)
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { long double d = 1; return d; }" (13, "var"):(9)
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { long double d = 1; return d; }" (11, "decl"):(9)
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (10, "num"):(0)
 
 chk_fty(int id, int ty) {
@@ -26,9 +27,9 @@ chk_fty(int id, int ty) {
 } chain (int id, int ty) {
   if(fl >= 0 && (import nk)[bt] == "prim" && (import chk_flt)[0] == 0) {
     lset((import chk_flt), 0, 1);
-    diag_node(id, "floating-point value of type '" + fname + "' is not supported: c2id has no float model yet");
+    diag_node(id, "floating-point value of type '" + fname + "' is not supported: c2id models float and double, not long double");
   }
 } return void;
-given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { double d = 1; return d; }" (13, 9):() then (import dgmsg):([":1: error: floating-point value of type 'double' is not supported: c2id has no float model yet"])
-given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { double d = 1; return d; }" (13, 6):() then len((import dgmsg)):(0)
-given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) given lset((import chk_flt), 0, 1) stdin "int main(void) { double d = 1; return d; }" (13, 9):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { long double d = 1; return d; }" (13, 9):() then (import dgmsg):([":1: error: floating-point value of type 'long double' is not supported: c2id models float and double, not long double"])
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) stdin "int main(void) { long double d = 1; return d; }" (13, 6):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(8, 15) given lset((import chk_flt), 0, 1) stdin "int main(void) { long double d = 1; return d; }" (13, 9):() then len((import dgmsg)):(0)

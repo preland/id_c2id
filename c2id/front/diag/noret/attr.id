@@ -1,0 +1,28 @@
+noret_at(int tk) {
+  string nrt = (import ttext)[tk];
+  if(nrt == "_Noreturn") {
+    noret_after(tk);
+  } else {
+    noret_attr(tk, nrt);
+  }
+} return void;
+given noret_init given boot_a given lexfix stdin "_Noreturn void die(void);" (0):() then (import nrnames)[3]:("die")
+given noret_init given boot_a given lexfix stdin "void die(void);" (0):() then len((import nrnames)):(3)
+
+noret_attr(int tk, string nrt) {
+  if(nrt == "__attribute__" || nrt == "__attribute") {
+    noret_group(tk);
+  }
+} return void;
+given noret_init given boot_a given lexfix stdin "__attribute__((noreturn)) void die(void);" (0, "__attribute__"):() then (import nrnames)[3]:("die")
+given noret_init given boot_a given lexfix stdin "__attribute__((noreturn)) void die(void);" (0, "void"):() then len((import nrnames)):(3)
+
+noret_group(int tk) {
+  int e = noret_attr_end(tk);
+  int has = noret_has(tk, e);
+  if(has == 1) {
+    noret_place(tk, e);
+  }
+} return void;
+given noret_init given boot_a given lexfix stdin "__attribute__((noreturn)) void die(void);" (0):() then (import nrnames)[3]:("die")
+given noret_init given boot_a given lexfix stdin "__attribute__((packed)) void die(void);" (0):() then len((import nrnames)):(3)

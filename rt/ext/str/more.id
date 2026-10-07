@@ -1,6 +1,6 @@
 // strncat: at most n bytes of rs after the end of rd, then a NUL.
 c_strncat(word rd, word rs, word rn) {
-  word rl = rt_nlen(rs, rn);
+  word rl = str_nlen(rs, rn);
   word rend = c_strlen(rd);
   word rx = c_memcpy(rd + rend, rs, rl);
 } chain (word rd, word rs, word rn) {

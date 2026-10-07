@@ -1,0 +1,35 @@
+// A conversion made explicit. The type to convert to is known where a value is
+// stored, passed or returned; fl_coerce answers the node to emit in the
+// expression's place: the expression itself when no floating-point conversion
+// is involved, else a cast to `to`. A node that already has the kind it is
+// wanted at is left alone, so coercing twice adds one cast, not two.
+fl_cast(int e, int to) {
+  int[] none = [];
+  int c = newnode("cast", e, to, "", "", none, none);
+} return int c;
+given txt_fixture (3, 6):(6) then (import nk)[6]:("cast")
+given txt_fixture (3, 6):(6) then (import na)[6]:(3)
+
+fl_coerce(int to, int e) {
+  int from = ex_ty(e);
+  int kt = ty_fkind(to);
+  int kf = ty_fkind(from);
+} chain (int to, int e) {
+  int r = e;
+  if(kt != kf && fl_skip(to) == 0) {
+    r = fl_cast(e, to);
+  }
+} return int r;
+given txt_fixture given fl_fixture (6, 8):(10)
+given txt_fixture given fl_fixture (6, 9):(9)
+given txt_fixture given fl_fixture (0, 9):(10)
+given txt_fixture given fl_fixture (0, 8):(8)
+
+fl_skip(int to) {
+  int v = 0;
+  if((import nk)[to] == "prim" && type_size(to) == 0) {
+    v = 1;
+  }
+} return int v;
+given txt_fixture (0):(0)
+given txt_fixture given lset((import na), 1, 0) (1):(1)

@@ -1,0 +1,24 @@
+// The digits of a finite double as text, in the style of the conversion letter flc.
+fl_prec(word[] fs) {
+  int flp = 6;
+  if(fs[8] != 0) {
+    flp = fs[9];
+  }
+} return int flp;
+([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):(6)
+([0, 0, 0, 0, 0, 0, 0, 0, 1, 3]):(3)
+
+fl_pick(string ds, int flxi, int flc, int flp, word[] fs) {
+  int fla = fs[7];
+  string flt = fl_pick2(ds, flxi, flc, flp, fla);
+} return string flt;
+("125", -1, 102, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("0.12")
+("5", 0, 102, 0, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]):("5.")
+
+fl_style(string ds, word[] flz, int flc, word[] fs) {
+  int flxi = flz[0];
+  int flp = fl_prec(fs);
+  string flt = fl_pick(ds, flxi, flc, flp, fs);
+} return string flt;
+("125", [-1], 102, [0, 0, 0, 0, 0, 0, 0, 0, 1, 2]):("0.12")
+("125", [-1], 101, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("1.250000e-01")

@@ -1,0 +1,10 @@
+rd_keep2(string rds, int rdt, int rdn) {
+  string rdy = "";
+  if(rdt >= rdn) {
+    rdy = rds + rep_ch("0", rdt - rdn);
+  } else {
+    rdy = str_slice(rds, 0, rdt);
+  }
+} return string rdy;
+("12345", 3, 5):("123")
+("12", 4, 2):("1200")

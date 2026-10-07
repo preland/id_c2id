@@ -1,2 +1,0 @@
-922_refuse_printf_prec.c:5: error: 'printf' format has the conversion '%.*s'
-'printf' format has the conversion

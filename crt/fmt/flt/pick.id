@@ -1,0 +1,20 @@
+// The conversion letter chooses the layout: e and E, g and G, f and F.
+fl_pick3(string ds, int flxi, int flc, int flp, int fll, int fla) {
+  string flt = ff_text(ds, flxi, flp, fla);
+  if(fll == 103) {
+    flt = fg_text(ds, flxi, flp, flc, fla);
+  }
+} return string flt;
+("125", -1, 102, 2, 102, 0):("0.12")
+("125", -1, 103, 3, 103, 0):("0.125")
+("125", -1, 71, 3, 103, 0):("0.125")
+
+fl_pick2(string ds, int flxi, int flc, int flp, int fla) {
+  int fll = flc | 32;
+  string flt = fl_pick3(ds, flxi, flc, flp, fll, fla);
+  if(fll == 101) {
+    flt = fe_text(ds, flxi, flp, flc, fla);
+  }
+} return string flt;
+("125", -1, 102, 2, 0):("0.12")
+("125", -1, 69, 2, 0):("1.25E-01")

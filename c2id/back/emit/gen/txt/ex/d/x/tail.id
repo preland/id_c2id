@@ -24,7 +24,7 @@ given txt_fixture given pend_setup (5):("t1") then calls load_txt:(0, "NOT_AN_LV
 // `id` has no unary minus, so a literal that decoded to a negative value --
 // only reachable from a constant with bit 63 set -- has to be written as a
 // subtraction.
-num_txt(int id) {
+num_itxt(int id) {
   string s = num_dec(id);
   string spell = num_spell((import ns)[id]);
   if(spell != "") {

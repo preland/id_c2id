@@ -1,7 +1,8 @@
-// sscanf over integers (%d %i %u %x %X %o, with h hh l ll z j t), strings (%s),
-// characters (%c), %n and %%. Floating-point conversions, and the set %[...],
+// sscanf over integers (%d %i %u %x %X %o, with h hh l ll z j t), floating point
+// (%f %e %g %E %G), strings (%s),
+// characters (%c), %n and %%. The set %[...] and %a
 // are not provided: such a conversion ends the scan, and the translator refuses
-// a literal format that has a floating-point one. The scan state is five words:
+// a literal format that has one. The scan state is five words:
 //
 //     rst[0]  offset of the next input byte
 //     rst[1]  offset of the next format byte

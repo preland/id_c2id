@@ -1,0 +1,17 @@
+cfl_lt(word a, word b) {
+  int cfk = float_of_bits(a) < float_of_bits(b);
+} return int cfk;
+(4609434218613702656, 4612248968380809216):(1)
+(4609434218613702656, 4609434218613702656):(0)
+
+cfl_le(word a, word b) {
+  int cfk = float_of_bits(a) <= float_of_bits(b);
+} return int cfk;
+(4609434218613702656, 4609434218613702656):(1)
+(4612248968380809216, 4609434218613702656):(0)
+
+cfl_gt(word a, word b) {
+  int cfk = float_of_bits(a) > float_of_bits(b);
+} return int cfk;
+(4612248968380809216, 4609434218613702656):(1)
+(4609434218613702656, 4609434218613702656):(0)
