@@ -1,0 +1,35 @@
+// A GNU statement expression `({ s1; s2; e; })` as a value. Its statements are
+// walked into the graph here, in order, like the statements of a block; the
+// value of the last expression statement is stored in a temporary of its own,
+// so that what the rest of the expression evaluates later cannot change it, and
+// the temporary stands for the whole expression.
+lower_sx(int e) {
+  int r = e;
+  if(e >= 0 && (import nk)[e] == "stmtx") {
+    r = lower_stmtx(e);
+  } else {
+    r = lower_v4(e);
+  }
+} return int r;
+given low_fix given sx_fix (22):(26) then calls lower_stmtx:(22)
+given low_fix given sx_fix (6):(6) then calls lower_v4:(6)
+
+lower_stmtx(int e) {
+  int[] sl = (import nl)[e];
+  int n = len(sl) - 1;
+  walk_upto(sl, n);
+} chain (int e) {
+  int r = stmtx_value(e);
+} return int r;
+given low_fix given sx_fix (22):(26) then (import bstmt)[0]:([28])
+given low_fix given sx_fix (23):(26) then (import bstmt)[0]:([21, 28])
+
+stmtx_value(int e) {
+  int[] sl = (import nl)[e];
+  int r = mk_num(0);
+  if(len(sl) > 0) {
+    r = stmtx_tail(sl[len(sl) - 1]);
+  }
+} return int r;
+given low_fix given sx_fix (22):(26) then (import bstmt)[0]:([28])
+given low_fix given sx_fix (23):(26) then (import bstmt)[0]:([28])

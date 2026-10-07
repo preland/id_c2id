@@ -1,0 +1,38 @@
+// A literal the parser glued from several (`"%" "ld"`, which is what
+// `"%" PRId64` becomes) is one raw text with the closing and opening quotes of
+// the pieces still inside it. This takes them out, so a format reads as the one
+// string it is: an unescaped quote that is neither first nor last is a join.
+lit_join(string lit) {
+  string out = "";
+  int i = 0;
+  while(i < len(lit)) {
+    out = out + join_keep(lit, i);
+    i = i + join_step(lit, i);
+  }
+} return string out;
+("\"%\"\"ld\""):("\"%ld\"")
+("\"a\\\"b\""):("\"a\\\"b\"")
+
+// What position i contributes: an escape, both its characters; a join quote,
+// nothing; anything else, itself.
+join_keep(string lit, int i) {
+  string out = str_slice(lit, i, 1);
+  if(charat(lit, i) == 92) {
+    out = str_slice(lit, i, 2);
+  }
+  if(charat(lit, i) == 34 && i > 0 && i < len(lit) - 1) {
+    out = "";
+  }
+} return string out;
+("ab", 0):("a")
+("a\\nb", 1):("\\n")
+("\"x\"\"y\"", 2):("")
+
+join_step(string lit, int i) {
+  int n = 1;
+  if(charat(lit, i) == 92) {
+    n = 2;
+  }
+} return int n;
+("ab", 0):(1)
+("\\n", 0):(2)

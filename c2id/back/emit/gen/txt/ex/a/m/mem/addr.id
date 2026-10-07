@@ -3,7 +3,8 @@
 // The member offset is a translation-time constant, so `p->f` is one
 // addition. A member the layout pass cannot find would otherwise emit
 // `+ -1`, which is a plausible-looking address, so it emits a name instead.
-mem_addr(int id) {
+// (mem_addr, in bf.id, takes a bit-field away first.)
+mem_plain(int id) {
   int off = mem_col_at((import syoff), id);
   string s = "UNKNOWN_MEMBER_" + (import ns)[id];
   if(off >= 0) {

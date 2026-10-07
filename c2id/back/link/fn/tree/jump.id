@@ -1,0 +1,30 @@
+// The runner of a function that called setjmp. When its blocks stop it asks
+// whether a longjmp was to it (rt_resume) and, if so, goes on at the block the
+// jump named; the inner loop is the ordinary runner, so an exit or a jump to a
+// function further down ends both loops.
+emit_run_sj(int fn, string root, int first) {
+  emit_mark();
+  print("run" + fn + "(word fp) {");
+  print("  word pc = " + first + ";");
+} chain (int fn, string root, int first) {
+  print("  while(pc >= 0) {");
+  print("    while(pc >= 0 && peek64((import rtxc)) == 0) { pc = " + root + "; }");
+  print("    pc = rt_resume(fp);");
+} chain (int fn, string root, int first) {
+  print("  }");
+  print("  word r = peek64(fp);");
+  print("} return word r;");
+} return void;
+given init_gfn (3, "dsp3_0_2(fp, pc)", 0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nrun3(word fp) {\n  word pc = 0;\n  while(pc >= 0) {\n    while(pc >= 0 && peek64((import rtxc)) == 0) { pc = dsp3_0_2(fp, pc); }\n    pc = rt_resume(fp);\n  }\n  word r = peek64(fp);\n} return word r;\n")
+given init_gfn (0, "blk0_4(fp)", 4):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nrun0(word fp) {\n  word pc = 4;\n  while(pc >= 0) {\n    while(pc >= 0 && peek64((import rtxc)) == 0) { pc = blk0_4(fp); }\n    pc = rt_resume(fp);\n  }\n  word r = peek64(fp);\n} return word r;\n")
+
+// Which runner a function gets: the one that takes jumps when lowering met a setjmp in it.
+emit_runner(int fn, string root, int first, int chk) {
+  if((import sjf)[0] == 1) {
+    emit_run_sj(fn, root, first);
+  } else {
+    emit_run(fn, root, first, chk);
+  }
+} return void;
+given init_gfn given init_frame given init_frame2 (3, "dsp3_0_2(fp, pc)", 0, 1):() then calls emit_run:[1]
+given init_gfn given init_frame given init_frame2 given lset((import sjf), 0, 1) (3, "dsp3_0_2(fp, pc)", 0, 1):() then calls emit_run_sj:[1]

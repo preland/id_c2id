@@ -1,0 +1,23 @@
+// A 128-bit integer is refused. The machine word is 64 bits, so a product or a
+// shift of one would run and be truncated: every word that names the type is
+// refused where it is written, whether or not the function using it is reached.
+// A program that has a portable path (xxhash's, behind __SIZEOF_INT128__, which
+// tools/c2id.sh undefines) is translated by the preprocessor taking that path.
+wide_scan() {
+  int i = 0;
+  while(i < len((import ttext))) {
+    wide_at(i);
+    i = i + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "int x; __int128 y;" ():() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix stdin "int x; long y;" ():() then len((import dgmsg)):(0)
+
+wide_at(int tk) {
+  string name = (import ttext)[tk];
+  if(find_str((import wide_names), name) >= 0) {
+    diag_tok(tk, "128-bit integer type '" + name + "' is not supported: arithmetic on it would be truncated to 64 bits");
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "# 3 \"w.c\"\n__uint128_t p;" (0):() then (import dgmsg):(["w.c:3: error: 128-bit integer type '__uint128_t' is not supported: arithmetic on it would be truncated to 64 bits"])
+given boot_a given boot_b given lexfix stdin "uint128 p;" (0):() then len((import dgmsg)):(0)

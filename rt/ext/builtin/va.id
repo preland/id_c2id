@@ -1,0 +1,22 @@
+// The extra arguments of a call to a variadic function the program defines
+// arrive in one word[], the way a call to printf passes them. The callee keeps
+// them in memory, one 8-byte slot each, on the stack above its frame, behind one
+// more word that holds the address just past the last: __va, its hidden last
+// parameter, is the address of the first, and va_arg walks it. The wrapper gives
+// the slots back after the function returns (rt_va_drop).
+rt_va_pack(word[] rva) {
+  word rvp = rt_enter(8 * len(rva) + 8);
+  int rvi = 0;
+  poke64(rvp, rvp + 8 + 8 * len(rva));
+} chain (word[] rva) {
+  while(rvi < len(rva)) {
+    poke64(rvp + 8 + 8 * rvi, rva[rvi]);
+    rvi = rvi + 1;
+  }
+  word rvq = rvp + 8;
+} return word rvq;
+
+rt_va_drop(word[] rva) {
+  rt_leave(8 * len(rva) + 8);
+} return void;
+

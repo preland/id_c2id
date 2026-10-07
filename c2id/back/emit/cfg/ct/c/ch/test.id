@@ -22,5 +22,5 @@ mk_test_cont(int id, int i, int nxt, int blk) {
   int val = (import casv)[i];
   mk_test_cont2(i, nxt, blk, a, val);
 } return void;
-given case_ready_fixture ((import wswid), 0, 99, 0):() then (import bkind)[0]:("cond") then (import bsa)[0]:(2) then (import bsb)[0]:(99) then (import bex)[0]:(11)
+given case_ready_fixture ((import wswid), 0, 99, 0):() then (import bkind)[0]:("cond") then (import bsa)[0]:(2) then (import bsb)[0]:(99) then (import bex)[0]:(12)
 given case_ready_fixture ((import wswid), 1, 99, 0):() then (import bsa)[0]:(4) then (import bsb)[0]:(99)

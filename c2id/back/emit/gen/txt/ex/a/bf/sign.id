@@ -1,0 +1,11 @@
+// A signed field is sign-extended from its own top bit: shifted up to the top of
+// the word and arithmetically back down.
+bfx_sign(string[] bfp, string bfw) {
+  string bfz = bfw;
+  if(bfp[5] == "s") {
+    int up = 64 - to_int(bfp[4]);
+    bfz = name_val("(" + bfw + " << " + up + ") >> " + up);
+  }
+} return string bfz;
+given txt_fixture given pend_setup (["BF", "(p + 0)", "4", "3", "5", "s"], "t2"):("t0") then (import pend):(["word t0 = (t2 << 59) >> 59;"])
+given txt_fixture given pend_setup (["BF", "(p + 0)", "4", "3", "5", "u"], "t2"):("t2") then len((import pend)):(0)

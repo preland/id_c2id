@@ -1,11 +1,10 @@
 // One function: its parameters and locals bound as the emitter will bind them,
-// then its signature and its body read for what is refused.
+// then its body read for what is refused.
 chk_one(int i) {
   lset((import chk_flt), 0, 0);
   int ft = (import ftys)[i];
   chk_bind(ft, (import fbodies)[i]);
 } chain (int i) {
-  chk_sig(i);
   chk_scan((import fbodies)[i]);
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (0):() then (import unres):(["nosuch"])

@@ -28,4 +28,27 @@ size_t fread(void *p, size_t sz, size_t n, FILE *f);
 size_t fwrite(const void *p, size_t sz, size_t n, FILE *f);
 char *fgets(char *s, int n, FILE *f);
 int sscanf(const char *s, const char *fmt, ...);
+int vsprintf(char *buf, const char *fmt, va_list ap);
+int vprintf(const char *fmt, va_list ap);
+int vfprintf(FILE *f, const char *fmt, va_list ap);
+#define SEEK_SET 0
+#define SEEK_CUR 1
+#define SEEK_END 2
+static long ftell(FILE *fp) {
+  long *f = (long *)fp;
+  if ((unsigned long)fp <= 3 || f[3] != 0) return -1L;
+  return f[2];
+}
+static int fseek(FILE *fp, long off, int whence) {
+  long *f = (long *)fp;
+  long p;
+  if ((unsigned long)fp <= 3 || f[3] != 0) return -1;
+  p = off;
+  if (whence == 1) p = f[2] + off;
+  if (whence == 2) p = f[1] + off;
+  if (p < 0 || p > f[1]) return -1;
+  f[2] = p;
+  return 0;
+}
+static void rewind(FILE *fp) { fseek(fp, 0L, 0); }
 #endif

@@ -1,0 +1,1 @@
+926_refuse_int128.c:5: error: 128-bit integer type '__uint128_t' is not supported

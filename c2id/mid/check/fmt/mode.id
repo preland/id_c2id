@@ -13,10 +13,11 @@ given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int 
 lit_of(int a) {
   string lit = "";
   if((import nk)[a] == "str") {
-    lit = (import ns)[a];
+    lit = lit_join((import ns)[a]);
   }
 } return string lit;
 given boot_a given boot_b given lexfix given tu_load stdin "char *s = \"ab\"; int x = 1;" (8):("\"ab\"")
+given boot_a given boot_b given lexfix given tu_load stdin "char *s = \"a\" \"b\"; int x = 1;" (8):("\"ab\"")
 given boot_a given boot_b given lexfix given tu_load stdin "char *s = \"ab\"; int x = 1;" (10):("")
 
 // 1 when a mode literal (quotes included) is not plain reading: not `r` first,

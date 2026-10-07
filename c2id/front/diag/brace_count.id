@@ -1,0 +1,39 @@
+// How many members the group between token open and token close declares: its
+// semicolons that are not inside a group of their own.
+brace_semis(int open, int close) {
+  int bxi = open + 1;
+  int depth = 0;
+  int n = 0;
+} chain (int open, int close) {
+  while(bxi < close) {
+    n = n + brace_semi((import ttext)[bxi], depth);
+    depth = depth - brace_back((import ttext)[bxi]);
+    bxi = bxi + 1;
+  }
+} return int n;
+given boot_a given boot_b given lexfix stdin "{ int a ; char b ; }" (0, 7):(2)
+given boot_a given boot_b given lexfix stdin "{ struct { int a ; int c ; } s ; }" (0, 12):(1)
+
+// 1 for a semicolon outside every group opened since the scan began.
+brace_semi(string btx, int depth) {
+  int bsm = 0;
+  if(btx == ";" && depth == 0) {
+    bsm = 1;
+  }
+} return int bsm;
+(";", 0):(1)
+(";", 1):(0)
+
+// The `{` of the first group after token bat that comes before a `;`, or -1: what
+// tells `struct __attribute__((packed)) S { ... }` from a use of the tag.
+brace_next(int bat) {
+  int bxi = bat;
+  while(bxi < len((import ttext)) - 1 && (import ttext)[bxi] != "{" && (import ttext)[bxi] != ";") {
+    bxi = bxi + 1;
+  }
+  if((import ttext)[bxi] != "{") {
+    bxi = 0 - 1;
+  }
+} return int bxi;
+given boot_a given boot_b given lexfix stdin "x ; struct S { int a ; }" (0):(-1)
+given boot_a given boot_b given lexfix stdin "struct S { int a ; }" (0):(2)

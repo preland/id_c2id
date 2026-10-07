@@ -1,0 +1,8 @@
+// Two switch nodes for the cases of sw_subject, made after low_fix's: one over
+// x && y (19) and one over x (20), each with an empty body.
+sw_fix() {
+  export int sw_s1 = newnode("switch", 9, 0, "", "", [0], [0]);
+  export int sw_s2 = newnode("switch", 6, 0, "", "", [0], [0]);
+} return void;
+given low_fix ():() then calls newnode:("switch", 9, 0, "", "", [0], [0])
+given low_fix ():() then calls newnode:("switch", 6, 0, "", "", [0], [0])

@@ -19,7 +19,7 @@ given txt_fixture (5, "Y"):("Y")
 // peek8/16/32/64 zero-extend, so a signed narrow load needs sx*; the zx* on
 // an unsigned one is a no-op the store already performed, and is emitted
 // anyway so that the generated text says what type it is reading.
-load_txt(int ty, string s) {
+load_plain(int ty, string s) {
   string bits = cvt_suffix(ty);
   string raw = name_val("peek" + bits + "(" + s + ")");
   string out = load_conv(ty, raw);
@@ -30,7 +30,7 @@ given txt_fixture given pend_setup (5, "ADDR2"):("t0")
 // poke truncates to its width, which is exactly C's conversion on assignment:
 // `char c = 300` leaves 44 behind either way. A record is never a number: its
 // value is the source's address, so what is stored is its bytes.
-store_raw(int ty, string s, string out) {
+store_plain(int ty, string s, string out) {
   int w = load_wid(ty);
   string bits = wid_bits(w);
   string txt = "poke" + bits + "(" + s + ", " + out + ")";

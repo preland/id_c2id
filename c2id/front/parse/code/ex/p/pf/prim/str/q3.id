@@ -17,13 +17,13 @@ prim_paren(int[] pos) {
 given boot_a given lexfix stdin "(1);" ([0]):(0)
 given boot_a given lexfix stdin "(0);" ([0]):(0)
 
-// Nothing here can start an expression. Report it, consume the token so the
-// caller cannot spin forever, and hand back a zero so the rest of the
-// translation unit still parses.
+// Nothing here can start an expression. Report it and stop reading the unit:
+// the cursor moves to the end, so no caller can spin on it, and a zero comes
+// back so the callers above still return.
 prim_bad(int[] pos) {
-  string msg = "c2id: expression expected, found '" + cur_text(pos) + "'";
-  print(msg);
+  string msg = "expression expected, found '" + cur_text(pos) + "'";
+  diag_halt(pos, msg);
   int id = bad_advance(pos);
 } return int id;
-given boot_a given lexfix stdin ";" ([0]):(0)
-given boot_a given lexfix stdin "+" ([0]):(0)
+given boot_a given lexfix stdin "# 4 \"e.c\"\n;" ([0]):(0) then (import dgmsg):(["e.c:4: error: expression expected, found ';'"])
+given boot_a given lexfix stdin "+" ([0]):(0) then len((import dgmsg)):(1)

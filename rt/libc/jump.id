@@ -1,0 +1,29 @@
+// setjmp and longjmp. A C function is run by a loop over its blocks, and a call
+// is an id call on the id stack, which id cannot cut short: longjmp does what
+// exit does, which is to stop every runner at its next block, and the runner of
+// the function that called setjmp then takes the jump. The jmp_buf holds three
+// words: that function's frame, the block setjmp's value is taken in, and the
+// frame slot that value is in. rtxc holds -1 while a jump is on its way and
+// rtje the jmp_buf it goes to.
+c___c2id_setjmp(word renv, word rslot, word roff, word rblk) {
+  poke64(renv, rslot - roff);
+  poke64(renv + 8, rblk);
+  poke64(renv + 16, rslot);
+} chain (word renv, word rslot, word roff, word rblk) {
+  poke32(rslot, 0);
+} return void;
+
+c_longjmp(word renv, word rjx) {
+  word rjv = rt_jval(rjx);
+  poke32(peek64(renv + 16), rjv);
+  poke64((import rtje), renv);
+} chain (word renv, word rjx) {
+  poke64((import rtxc), 0 - 1);
+} return void;
+
+rt_jval(word rjx) {
+  word rjv = rjx & 4294967295;
+  if(rjv == 0) {
+    rjv = 1;
+  }
+} return word rjv;

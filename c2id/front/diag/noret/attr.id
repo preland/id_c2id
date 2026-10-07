@@ -6,16 +6,16 @@ noret_at(int tk) {
     noret_attr(tk, nrt);
   }
 } return void;
-given noret_init given boot_a given lexfix stdin "_Noreturn void die(void);" (0):() then (import nrnames)[3]:("die")
-given noret_init given boot_a given lexfix stdin "void die(void);" (0):() then len((import nrnames)):(3)
+given noret_init given boot_a given lexfix stdin "_Noreturn void die(void);" (0):() then (import nrnames)[5]:("die")
+given noret_init given boot_a given lexfix stdin "void die(void);" (0):() then len((import nrnames)):(5)
 
 noret_attr(int tk, string nrt) {
   if(nrt == "__attribute__" || nrt == "__attribute") {
     noret_group(tk);
   }
 } return void;
-given noret_init given boot_a given lexfix stdin "__attribute__((noreturn)) void die(void);" (0, "__attribute__"):() then (import nrnames)[3]:("die")
-given noret_init given boot_a given lexfix stdin "__attribute__((noreturn)) void die(void);" (0, "void"):() then len((import nrnames)):(3)
+given noret_init given boot_a given lexfix stdin "__attribute__((noreturn)) void die(void);" (0, "__attribute__"):() then (import nrnames)[5]:("die")
+given noret_init given boot_a given lexfix stdin "__attribute__((noreturn)) void die(void);" (0, "void"):() then len((import nrnames)):(5)
 
 noret_group(int tk) {
   int e = noret_attr_end(tk);
@@ -24,5 +24,5 @@ noret_group(int tk) {
     noret_place(tk, e);
   }
 } return void;
-given noret_init given boot_a given lexfix stdin "__attribute__((noreturn)) void die(void);" (0):() then (import nrnames)[3]:("die")
-given noret_init given boot_a given lexfix stdin "__attribute__((packed)) void die(void);" (0):() then len((import nrnames)):(3)
+given noret_init given boot_a given lexfix stdin "__attribute__((noreturn)) void die(void);" (0):() then (import nrnames)[5]:("die")
+given noret_init given boot_a given lexfix stdin "__attribute__((packed)) void die(void);" (0):() then len((import nrnames)):(5)

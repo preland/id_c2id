@@ -1,0 +1,25 @@
+// Functions registered with atexit run after main returns and after exit() has
+// been called. stdlib.h keeps the table and the loop that runs it
+// (__c2id_atexit_run); a program that reaches atexit reaches the loop too. The
+// runners stop at once while an exit status is held, so the status is set aside
+// while the handlers run and put back after, unless a handler exited itself.
+emit_atexit() {
+  if(atexit_hooked() == 1) {
+    emit_out("  word rxs = rt_atexit_begin();");
+    emit_out("  c___c2id_atexit_run();");
+    emit_out("  rt_atexit_end(rxs);");
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all given init_gfn stdin "static void __c2id_atexit_run(void) {} static int atexit(void) { if (1 < 0) __c2id_atexit_run(); return 0; } int main(void) { atexit(); return 0; }" ():() then prints:("  word rxs = rt_atexit_begin();\n  c___c2id_atexit_run();\n  rt_atexit_end(rxs);\n")
+given boot_a given boot_b given lexfix given tu_load given reach_all given init_gfn stdin "int main(void) { return 0; }" ():() then prints:("")
+
+// 1 when the program defines the atexit loop and reaches it.
+atexit_hooked() {
+  int i = find_str((import fnames), "__c2id_atexit_run");
+  int ok = 0;
+  if(i >= 0) {
+    ok = (import reach)[i];
+  }
+} return int ok;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return 0; }" ():(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "static void __c2id_atexit_run(void) {} int main(void) { __c2id_atexit_run(); return 0; }" ():(1)

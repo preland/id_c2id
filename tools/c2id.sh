@@ -54,10 +54,13 @@ if [[ $src == *.i ]]; then
 else
     # c2id knows no compiler builtins, so the preprocessor is told there are
     # none (a header then takes its portable path) and _Static_assert, which
-    # checks something at compile time, is dropped. C2ID_CPPFLAGS adds the
-    # program's own -I and -D flags.
+    # checks something at compile time, is dropped. Nor does it know 128-bit
+    # integers or SIMD, so the macros that announce them are undefined and a
+    # header takes its portable path there too. __builtin_offsetof is the
+    # address of a member of a struct at address 0, and __builtin_prefetch, a
+    # hint, does nothing. C2ID_CPPFLAGS adds the program's own -I and -D flags.
     # shellcheck disable=SC2086
-    cc -std=gnu11 -E -w -nostdinc -I "$here/include" -U__has_builtin '-D__has_builtin(x)=0' '-D_Static_assert(c,m)=' ${C2ID_CPPFLAGS:-} "$src" -o "$work/in.i"
+    cc -std=gnu11 -E -w -nostdinc -I "$here/include" -U__has_builtin -U__SIZEOF_INT128__ -U__SSE__ -U__SSE2__ -U__MMX__ -U__AVX__ -U__AVX2__ '-D__has_builtin(x)=0' '-D_Static_assert(c,m)=' '-D__builtin_offsetof(t,m)=((unsigned long)&((t *)0)->m)' '-D__builtin_prefetch(...)=((void)0)' ${C2ID_CPPFLAGS:-} "$src" -o "$work/in.i"
 fi
 
 "$c2id_bin" < "$work/in.i" > "$work/out.txt"

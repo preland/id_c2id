@@ -21,9 +21,7 @@ given boot_a given ty_setup given lexfix stdin "static int x;" ([0]):(2) then (i
 fill_decls(int[] pos, int t) {
   int[] l = [];
   while(at_text(pos, ";") == 0 && cur_kind(pos) != "eof") {
-    int id = one_decl(pos, t);
-    push(l, id);
-    skip_comma(pos);
+    decl_step(pos, t, l);
   }
   skip_semi(pos);
 } return int[] l;

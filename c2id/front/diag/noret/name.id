@@ -13,8 +13,8 @@ noret_after(int tk) {
   string name = (import ttext)[i];
   noret_add(name);
 } return void;
-given noret_init given lexfix stdin "_Noreturn static void die(void);" (0):() then (import nrnames)[3]:("die")
-given noret_init given lexfix stdin "_Noreturn void quit(int c);" (0):() then (import nrnames)[3]:("quit")
+given noret_init given lexfix stdin "_Noreturn static void die(void);" (0):() then (import nrnames)[5]:("die")
+given noret_init given lexfix stdin "_Noreturn void quit(int c);" (0):() then (import nrnames)[5]:("quit")
 
 noret_open_of(int tk) {
   int i = tk;

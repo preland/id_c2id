@@ -92,7 +92,13 @@ translated program links against.
 | translator builds under the default test requirement | works | `idc c2id` exits 0: every function has two cases, and they pass |
 | C → id for integer C, pointers, structs, function pointers, initializers, string literals | works | the corpus below: the programs there match `gcc -O2` |
 | floating point | works for `float` and `double`; `long double` is refused | a double is the 64 bits of its binary64 in a `word`, a float the same word holding a binary32 value (rounded after every operation); `crt/flt` does the arithmetic through the float bit-cast builtins, `crt/fmt/dec` and `crt/fmt/flt` print `%f %e %g` from the exact digits, `rt/ext/math` is libm over idstd's `flt_`, `rt/ext/num/dbl*.id` is `strtod`; `tests/c/174_float_arith.c` to `179_libm.c`, and the four float bench programs (fasta, mandel, nbody, spectral) match `gcc -O2`; `tests/c/915_refuse_float.c` is the `long double` refusal |
-| refusals | works | what c2id cannot translate correctly it refuses with `file:line` and the construct, writes nothing and exits 1: a struct passed through the `...` of a variadic call, bitfields, compound literals, variadic definitions, `fopen` for writing, `setjmp`/`longjmp`, termios, `long double`, the address of a runtime function (`{ malloc, free }` as a hooks table), printf-family conversions the runtime does not implement, and every called function nothing provides (one diagnostic lists them all); `tests/c/9*.c`, `c2id/NOTES.md` §7 |
+| refusals | works | what c2id cannot translate correctly it refuses with `file:line` and the construct, writes nothing and exits 1 (a syntax error among them, which also ends the parse): a struct passed through the `...` of a variadic call, a bitfield of an enum type, compound literals, `fopen` for writing, termios, signals, `long double`, a 128-bit integer, `packed` on a struct with several members, the address of a runtime function (`{ malloc, free }` as a hooks table) or of a function defined with `...`, printf-family conversions the runtime does not implement, and every called function nothing provides (one diagnostic lists them all); `tests/c/9*.c`, `c2id/NOTES.md` §7 |
+| statement expressions `({ ... })` | works | a `stmtx` node lowered into the graph, its value in a frame temporary; `tests/c/193`, `194` |
+| block scope of typedef names, tags and enumerators | works | a name declared in a block ends with it, and the innermost wins; `tests/c/192` |
+| variadic definitions, `va_list`, `vsnprintf` and friends | works | `docs/EMITTER.md` "Variadic definitions"; `tests/c/196`, `197`, `198`, `208` |
+| bit-fields | works | shift and mask on the declared type's unit, layout as gcc's on x86-64 (sizes compared in `tests/c/210`); an enum-typed field is refused |
+| `setjmp`/`longjmp`, `sigsetjmp`/`siglongjmp` | works | `docs/EMITTER.md` "setjmp and longjmp"; `tests/c/213`, `215`, `216` |
+| `switch` subject with side effects | works | evaluated once; `tests/c/214` (it was evaluated once per case test) |
 | `static` locals | works | a `static` local is a global of its own (`mid/pass/frame/static.id`); `tests/c/100_static.c` |
 | structs and unions passed and returned by value | works | the caller passes the address of a struct argument and the wrapper copies it into a frame slot of the struct's size; a function returning one takes a hidden first parameter, a pointer to a frame temporary the frame pass gives each call (`docs/EMITTER.md`, "Struct values"); direct and function-pointer calls, `f().x`, `f(g(), g())`, initialisers (also brace lists), assignment, conditions and loops, recursion, callees that exit; `tests/c/057`, `058`, `059`, `189` to `191`. Refused: a struct passed through `...` (`tests/c/921`) |
 | libc the runtime provides | works for the names in `rt_names` (`c2id/conf.id`) | strtol (and, over it, atoi, atol, strtoul, strtoll), the str* family, `qsort` and `bsearch` (C in `include/stdlib.h`, since they call back into the program), stdio over real stdin/stdout/stderr (`getchar`, `fgetc`, `ungetc`, `fgets`, `fread`, `fwrite`, `fputc`, `fflush`), `sscanf` over integers and strings, `time`, `clock`, `read`/`write`/`close` on 0, 1 and 2; `tests/c/080` to `165` |
@@ -268,10 +274,7 @@ Recorded here rather than left to be discovered:
   `1 | 1 << 3` is 9; `const_eval`'s cases include it.
 * **K&R parameter lists** (`int f(a,b) int a,b;`) mis-parse. Not reachable
   with one token of lookahead.
-* **`__attribute__((packed))` / `((aligned(N)))`** are parsed and skipped
-  correctly but do not affect layout. Structures that rely on `packed` will
-  have wrong offsets — this needs closing before any on-the-wire structure is
-  ported.
+* **`__attribute__((aligned(N)))`** is parsed and skipped, and so is `packed` on a union or a struct with one member; `packed` on a struct with several members is refused. Alignment above the natural one is therefore ignored: sizeof of a struct with such a member differs from gcc's.
 * **Octal literals read as decimal** in the type module's constant evaluator
   (`010` → 10).
 * **`%c` of NUL emits nothing** in `crt`. An `id` string cannot carry an

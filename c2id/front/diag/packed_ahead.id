@@ -1,0 +1,34 @@
+// `struct __attribute__((packed)) S { ... }`: the group follows the attribute, if
+// there is one before a `;`.
+packed_ahead(int ast) {
+  int open = brace_next(ast);
+  int ok = (import ttext)[ast - 1] == "union";
+  if(open >= 0 && ok == 0) {
+    ok = brace_semis(open, brace_close(open)) <= 1;
+  }
+} return int ok;
+given boot_a given boot_b given lexfix stdin "struct __attribute__((packed)) S { int a; char b; } x;" (1):(0)
+given boot_a given boot_b given lexfix stdin "struct __attribute__((packed)) S { int a; } x;" (1):(1)
+
+// Whether the group opened at token open belongs to a union: `union {` or `union U {`.
+brace_union(int open) {
+  int ok = 0;
+  if(open > 0 && (import ttext)[open - 1] == "union") {
+    ok = 1;
+  }
+  if(open > 1 && (import ttext)[open - 2] == "union") {
+    ok = 1;
+  }
+} return int ok;
+given boot_a given boot_b given lexfix stdin "union U { int a ; }" (2):(1)
+given boot_a given boot_b given lexfix stdin "{ int a ; }" (0):(0)
+
+// The text of the token before tk, "" before the first.
+tok_before(int tk) {
+  string btx = "";
+  if(tk > 0) {
+    btx = (import ttext)[tk - 1];
+  }
+} return string btx;
+given boot_a given boot_b given lexfix stdin "a b" (1):("a")
+given boot_a given boot_b given lexfix stdin "a b" (0):("")

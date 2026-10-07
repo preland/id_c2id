@@ -20,6 +20,7 @@ given init_frame given init_frame2 ():() then len((import lvoff)):(0)
 
 init_frame2() {
   export int[] frsz = [8];
+  export int[] sjf = [0];
 } return void export frsz;
 given onefr_fixture ():() then (import frsz)[0]:(8)
 given init_frame given init_frame2 ():() then (import frsz)[0]:(8)

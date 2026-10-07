@@ -10,7 +10,7 @@ emit_tail(int fn, int n, int np, string name) {
 } chain (int fn, int n, int np, string name) {
   int first = thread_blk(0);
   int chk = run_chk(name);
-  emit_run(fn, root, first, chk);
+  emit_runner(fn, root, first, chk);
 } chain (int fn, int n, int np, string name) {
   int sz = frame_bytes();
   emit_wrap(fn, name, np, sz);

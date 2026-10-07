@@ -6,9 +6,9 @@ chk_refuse(string name, int id) {
     diag_node(id, "call to '" + name + "' is not supported: " + (import refuse_why)[k]);
   }
 } return void;
-given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { setjmp(0); return 0; }" ("setjmp", 11):() then (import dgmsg):([":1: error: call to 'setjmp' is not supported: non-local jumps cannot unwind the block-function frames"])
-given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { setjmp(0); return 0; }" ("tcgetattr", 11):() then (import dgmsg):([":1: error: call to 'tcgetattr' is not supported: terminal control (termios) has no model"])
-given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { setjmp(0); return 0; }" ("printf", 11):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { signal(0, 0); return 0; }" ("signal", 11):() then (import dgmsg):([":1: error: call to 'signal' is not supported: signals have no model: nothing delivers one to a translated program"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { tcgetattr(0); return 0; }" ("tcgetattr", 11):() then (import dgmsg):([":1: error: call to 'tcgetattr' is not supported: terminal control (termios) has no model"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { tcgetattr(0); return 0; }" ("printf", 11):() then len((import dgmsg)):(0)
 
 // Every argument of a call, in order.
 chk_args(int id) {
@@ -28,7 +28,7 @@ given boot_a given boot_b given lexfix given tu_load given reach_all given chk_b
 // function are a list of words, which has no room for one.
 chk_arg(int id, int a, int i) {
   int ty = ex_ty(a);
-  int k = va_fixed((import ns)[(import na)[id]]);
+  int k = va_any((import ns)[(import na)[id]]);
   if((import nk)[ty] == "rec" && k >= 0 && i >= k) {
     diag_node(id, "argument " + (i + 1) + " is a struct or union passed by value through '...', which is not supported: pass a pointer");
   }

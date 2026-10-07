@@ -1,0 +1,34 @@
+// Reading a bit-field: the whole unit is loaded, shifted down to bit 0, cut to
+// the width and, for a signed type, sign-extended from the field's own top bit.
+// Every step is one temporary, as everywhere else in the emitter. The value is
+// in the canonical form of its type, so it is an int (see mem_ty) when it is
+// narrower than one.
+bfx_load(string s) {
+  string[] bfp = str_split(s, "|");
+  string bfr = bfx_peek(bfp);
+  string bfv = bfx_cut(bfp, bfr);
+} chain (string s) {
+  string out = bfx_sign(bfp, bfv);
+} return string out;
+given txt_fixture given pend_setup ("BF|(p + 0)|4|3|5|u"):("t2")
+given txt_fixture given pend_setup ("BF|(p + 2)|2|0|3|s"):("t2")
+
+// The unit itself, loaded at its width.
+bfx_peek(string[] bfp) {
+  int by = to_int(bfp[2]);
+  string bits = wid_bits(by);
+  string raw = name_val("peek" + bits + "(" + bfp[1] + ")");
+} return string raw;
+given txt_fixture given pend_setup (["BF", "(p + 0)", "4", "3", "5", "u"]):("t0") then (import pend):(["word t0 = peek32((p + 0));"])
+given txt_fixture given pend_setup (["BF", "(q + 1)", "1", "0", "2", "u"]):("t0") then (import pend):(["word t0 = peek8((q + 1));"])
+
+// Down to bit 0 and cut to the width.
+bfx_cut(string[] bfp, string raw) {
+  int bfq = to_int(bfp[3]);
+  int w = to_int(bfp[4]);
+  string sh = bfx_down(raw, bfq);
+} chain (string[] bfp, string raw) {
+  string bfw = bfx_mask(sh, w);
+} return string bfw;
+given txt_fixture given pend_setup (["BF", "(p + 0)", "4", "3", "5", "u"], "t6"):("t1") then (import pend):(["word t0 = ushr(t6, 3);", "word t1 = t0 & 31;"])
+given txt_fixture given pend_setup (["BF", "(p + 0)", "4", "0", "64", "u"], "t6"):("t6") then len((import pend)):(0)

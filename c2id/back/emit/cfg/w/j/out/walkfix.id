@@ -27,6 +27,8 @@ walk_ast_fixture() {
   export int wforid = newnode("for", -1, defid, "", "", finit, empty);
 } chain () {
   export int wswid = newnode("switch", defid, 0, "", "", empty, empty);
+  export int wsub = newleaf("var", 0, 0, "x", "");
+  lset((import na), wswid, wsub);
 } return void;
 ():() then len((import bkind)):(1)
 ():() then cur_blk:(0)

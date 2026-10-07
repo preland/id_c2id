@@ -5,8 +5,8 @@ noret_place(int tk, int e) {
   }
   noret_place2(tk, e, before);
 } return void;
-given noret_init given lexfix stdin "void die ( void ) __attribute__ ( ( noreturn ) ) ;" (5, 11):() then (import nrnames)[3]:("die")
-given noret_init given lexfix stdin "__attribute__ ( ( noreturn ) ) void die ( void ) ;" (0, 6):() then (import nrnames)[3]:("die")
+given noret_init given lexfix stdin "void die ( void ) __attribute__ ( ( noreturn ) ) ;" (5, 11):() then (import nrnames)[5]:("die")
+given noret_init given lexfix stdin "__attribute__ ( ( noreturn ) ) void die ( void ) ;" (0, 6):() then (import nrnames)[5]:("die")
 
 noret_place2(int tk, int e, string before) {
   if(before == ")") {
@@ -16,5 +16,5 @@ noret_place2(int tk, int e, string before) {
     noret_after(e);
   }
 } return void;
-given noret_init given lexfix stdin "void die ( void ) __attribute__ ( ( noreturn ) ) ;" (5, 11, ")"):() then (import nrnames)[3]:("die")
-given noret_init given lexfix stdin "__attribute__ ( ( noreturn ) ) void die ( void ) ;" (0, 6, ";"):() then (import nrnames)[3]:("die")
+given noret_init given lexfix stdin "void die ( void ) __attribute__ ( ( noreturn ) ) ;" (5, 11, ")"):() then (import nrnames)[5]:("die")
+given noret_init given lexfix stdin "__attribute__ ( ( noreturn ) ) void die ( void ) ;" (0, 6, ";"):() then (import nrnames)[5]:("die")

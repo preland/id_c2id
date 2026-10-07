@@ -205,8 +205,56 @@ without a value (a call that never returns) answers it, so a callee that exits
 leaves the caller a pointer to its own temporary.
 
 **Still refused.** A struct or union passed through the `...` of a variadic call
-(`printf("%d", s)`): the extra arguments are a list of words. Variadic
-definitions were never supported.
+(`printf("%d", s)`): the extra arguments are a list of words.
+
+## 4c. Variadic definitions
+
+A function defined with `...` takes its extra arguments the way the runtime's
+`printf` does: the call site passes the fixed arguments, then the rest as one
+`word[]` (`va_any`, `back/link/ext/call/`), and the wrapper `c_NAME(a0, ..., word[] va)`
+(`back/link/fn/wrap/va.id`) copies them into one 8-byte slot each on the stack
+above the callee's frame (`rt_va_pack`, `rt/ext/builtin/va.id`), behind a word
+holding the address past the last. The function has one more parameter than its
+type lists, `char *__va`, in the slot after the named ones (`bind_va`), and
+`include/stdarg.h` is plain C over it: `va_list` is a one-element array of
+`{cur, end}`, `va_start` sets both from `__va`, `va_arg(ap, T)` is
+`*(T *)((ap->cur += 8) - 8)`. A `va_list` passed to another function therefore
+shares its position, as C's does, and `vsnprintf`, `vsprintf`, `vprintf` and
+`vfprintf` (`rt/ext/stdio/vprint.id`) hand the words left to the formatter. The
+wrapper gives the slots back after the function returns (`rt_va_drop`).
+`float` arguments are promoted at the call (a double reads back), and the
+address of such a function cannot be taken (`mid/check/vaval.id`): a call through
+a pointer passes fixed slots only.
+
+## 4d. Bit-fields
+
+The layout was always computed (`bf_pos`: a field goes at the cursor if it still
+fits in an aligned unit of its declared type, else it starts the next one;
+`: 0` forces that). An access goes through a marker in place of an address,
+`BF|<unit address>|<unit bytes>|<bit>|<width>|<kind>` (`back/emit/gen/txt/ex/a/bf/`),
+which `load_txt` and `store_raw` read: a load is the unit, shifted down, cut to the
+width and, for a signed type, sign-extended from the field's top bit; a store reads
+the unit, clears the field, puts in the value cut to the width (0 or 1 for a
+`_Bool`) and writes the unit back. A field narrower than an int is an int in an
+expression (`bfx_prom`, in `mem_ty`), as C says. Brace initialisers take the
+same path and skip unnamed fields (`skip_unnamed`). Refused: a field wider than its
+type, and one of an enum type, because gcc picks signed or unsigned for it from the
+enumerators and the parser makes an enum an int.
+
+## 4e. setjmp and longjmp
+
+A call is an id call and id cannot cut its stack short, so `longjmp` does what
+`exit` does: it makes every runner stop at its next block (`rtxc` holds -1, and
+`longjmp` is on `nrnames`/`mxnames`, so a statement calling anything that may
+reach it is followed by a block boundary), and the runner of the function that
+called `setjmp` takes the jump. `setjmp(env)` is not a call: the lowering
+(`mid/lower/mk/jmp.id`) makes a frame temporary `t`, stores the frame, a new
+block's number and `&t` in `env` (`__c2id_setjmp`, `rt/libc/jump.id`), ends the
+block with a jump to the new one and answers `t`; `longjmp` stores its value in
+`t` (1 for 0) and a function that has such a block gets a runner with a second
+loop that asks `rt_resume` whether a jump was to its frame
+(`back/link/fn/tree/jump.id`). `sigsetjmp`/`siglongjmp`, `_setjmp`/`_longjmp` are the
+same. Locals keep their latest values (they live in the frame), which C allows.
 
 ## 5. Laying out the project
 

@@ -1,0 +1,9 @@
+// One function nothing provides, noted once with where it was first named.
+unres_new(string name, int tk) {
+  if(find_str((import unres), name) < 0) {
+    push((import unres), name);
+    push((import unres_at), tk);
+  }
+} return void;
+given boot_a given boot_b given unres_add("atoi", 3) ("atoi", 9):() then (import unres_at):([3]) then len((import unres)):(1)
+given boot_a given boot_b ("zz", 4):() then (import unres):(["zz"]) then (import unres_at):([4])

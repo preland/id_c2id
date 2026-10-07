@@ -3,7 +3,7 @@
 // list literal (variadic.id).
 call_args(int[] ids, int id) {
   int callee = (import na)[id];
-  int k = va_fixed((import ns)[callee]);
+  int k = va_any((import ns)[callee]);
   int n = len(ids);
 } chain (int[] ids, int id) {
   string rest = call_args2(ids, k, n);

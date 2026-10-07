@@ -1,11 +1,16 @@
-// A bitfield is laid out (place_bf keeps the width) but every access reads and
-// writes the whole declared type, so a program that uses one would run and be
-// wrong; the declaration is refused at the width it names.
-bit_refuse(int[] pos, string name, int w) {
-  if(w >= 0) {
-    diag_tok(pos[0] - 1, "bitfield member '" + name + "' (width " + w + ") is not supported: accesses would ignore the width");
+// A bit-field is read and written through the shift and mask its position in the
+// storage unit gives (back/emit/gen/txt/ex/a/bf/), so what is refused is what
+// that cannot be right for: one wider than its own type, and one declared with an
+// enum type, whose signedness gcc picks from the enumerators and the parser,
+// which turns an enum into int, no longer knows.
+bit_check(int[] pos, string name, int w, int r) {
+  if(w > 8 * type_size(r)) {
+    diag_tok(pos[0] - 1, "bitfield member '" + name + "' has width " + w + ", wider than its type");
+  }
+  if(w >= 0 && (import bfenum)[0] == 1) {
+    diag_tok(pos[0] - 1, "bitfield member '" + name + "' has an enum type: gcc takes it as signed or unsigned by what its enumerators are, which c2id does not keep; declare it 'int' or 'unsigned int'");
   }
 } return void;
-given boot_a given lexfix stdin "# 4 \"s.c\"\nint x : 3 ;" ([3], "x", 3):() then (import dgmsg):(["s.c:4: error: bitfield member 'x' (width 3) is not supported: accesses would ignore the width"])
-given boot_a given lexfix stdin "int x ;" ([3], "x", -1):() then len((import dgmsg)):(0)
-given boot_a given lexfix stdin "int : 0 ;" ([3], "", 0):() then len((import dgmsg)):(1)
+given tynode_fix given ty_setup given lexfix stdin "# 4 \"s.c\"\nint x : 40 ;" ([3], "x", 40, 0):() then (import dgmsg):(["s.c:4: error: bitfield member 'x' has width 40, wider than its type"])
+given tynode_fix given ty_setup given lexfix stdin "int x : 3 ;" ([3], "x", 3, 0):() then len((import dgmsg)):(0)
+given tynode_fix given ty_setup given lexfix given lset((import bfenum), 0, 1) stdin "# 4 \"s.c\"\nint x : 3 ;" ([3], "x", 3, 0):() then len((import dgmsg)):(1)

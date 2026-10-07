@@ -12,9 +12,11 @@ bind_params(int ft) {
     i = i + 1;
   }
   note_ret(ft);
+  bind_va(ft);
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, int b) { return a; }" (9):() then (import lvnames):(["a", "b"]) then (import lvoff):([8, 16])
 given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 0; }" (8):() then len((import lvoff)):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, ...) { return a; }" (8):() then (import lvnames):(["a", "__va"]) then (import lvoff):([8, 16])
 given boot_a given boot_b given lexfix given tu_load stdin "int f(char a, long b) { return 0; }" (9):() then (import lvtys):([7, 8])
 
 bind_one(string[] names, int[] tys, int i) {

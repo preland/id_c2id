@@ -10,12 +10,14 @@ emit_main(int gtot, int np) {
   emit_out("  word rv = rt_args(argc, argv);");
   emit_out("  word r = c_main(" + main_args(np) + ");");
 } chain (int gtot, int np) {
+  emit_atexit();
   emit_out("  int rc = rt_status(r);");
   emit_out("  flush();");
+} chain (int gtot, int np) {
   emit_cut("} return int rc;");
 } return void;
-given init_gfn (8, 0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nmain(int argc, string[] argv) {\n  word k0 = 0;\n  rt_boot(8);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k1 = 1;\n  word rv = rt_args(argc, argv);\n  word r = c_main();\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  int rc = rt_status(r);\n  flush();\n} return int rc;\n")
-given init_gfn (16, 2):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nmain(int argc, string[] argv) {\n  word k0 = 0;\n  rt_boot(16);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k1 = 1;\n  word rv = rt_args(argc, argv);\n  word r = c_main(argc, rv);\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  int rc = rt_status(r);\n  flush();\n} return int rc;\n")
+given boot_a given boot_b given init_gfn (8, 0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nmain(int argc, string[] argv) {\n  word k0 = 0;\n  rt_boot(8);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k1 = 1;\n  word rv = rt_args(argc, argv);\n  word r = c_main();\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  int rc = rt_status(r);\n  flush();\n} return int rc;\n")
+given boot_a given boot_b given init_gfn (16, 2):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nmain(int argc, string[] argv) {\n  word k0 = 0;\n  rt_boot(16);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k1 = 1;\n  word rv = rt_args(argc, argv);\n  word r = c_main(argc, rv);\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  int rc = rt_status(r);\n  flush();\n} return int rc;\n")
 
 // `argc, rv, 0` for as many parameters as main declares: argc and argv are the
 // process's own, the rest null.

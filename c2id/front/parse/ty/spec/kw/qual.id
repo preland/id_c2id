@@ -24,9 +24,10 @@ is_su_kw(string s) {
 
 is_attr(string s) {
   int ok = 0;
-  if(s == "__attribute__" || s == "__attribute" || s == "__asm__" || s == "__asm" || s == "asm" || s == "__declspec") {
+  if(s == "__attribute__" || s == "__attribute" || s == "__asm__" || s == "__asm" || s == "asm" || s == "__declspec" || s == "_Alignas") {
     ok = 1;
   }
 } return int ok;
   ("__asm__"):(1)
+  ("_Alignas"):(1)
   ("int"):(0)

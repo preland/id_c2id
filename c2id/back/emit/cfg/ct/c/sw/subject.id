@@ -1,0 +1,32 @@
+// The subject of a switch is evaluated once. The dispatch chain tests it against
+// each case in a block of its own, and a subject that is more than a name or a
+// number (`switch (next())`, `switch (i++)`, `switch (setjmp(env))`) would be
+// evaluated again for every test, so it is lowered once here, in the block the
+// switch is entered from, into a frame temporary the tests read.
+sw_subject(int id) {
+  int a = (import na)[id];
+  if(sw_plain(a) == 0) {
+    sw_once(id, a);
+  }
+} return void;
+given low_fix given sw_fix (19):() then calls sw_once:[1]
+given low_fix given sw_fix (20):() then calls sw_once:[0]
+
+sw_plain(int a) {
+  int ok = 0;
+  if((import nk)[a] == "var" || (import nk)[a] == "num") {
+    ok = 1;
+  }
+} return int ok;
+given low_fix (6):(1)
+given low_fix (9):(0)
+
+sw_once(int id, int a) {
+  int swv = lower_val(a);
+  int et = ex_ty(swv);
+  int swt = hoist_temp(swv, et);
+} chain (int id, int a) {
+  lset((import na), id, swt);
+} return void;
+given low_fix given sw_fix (19, 9):() then (import na)[19]:(29)
+given low_fix given sw_fix (20, 6):() then (import na)[20]:(21)

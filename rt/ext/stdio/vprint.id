@@ -1,0 +1,16 @@
+// printf over a va_list: the list's remaining words are handed to the formatter
+// as the extra arguments, so the conversions of the format take them in order.
+c_vsnprintf(word rbuf, word rn, word rfmt, word rap) {
+  word[] ral = rt_va_list(rap);
+  word rres = c_snprintf(rbuf, rn, rfmt, ral);
+} return word rres;
+
+c_vsprintf(word rbuf, word rfmt, word rap) {
+  word[] ral = rt_va_list(rap);
+  word rres = c_sprintf(rbuf, rfmt, ral);
+} return word rres;
+
+c_vprintf(word rfmt, word rap) {
+  word[] ral = rt_va_list(rap);
+  word rres = c_printf(rfmt, ral);
+} return word rres;

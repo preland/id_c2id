@@ -1,0 +1,18 @@
+// The new value in the field's place: cut to the width, or 0/1 for a _Bool, and
+// shifted up to the field's position.
+bfx_put(string[] bfp, string out) {
+  string bfc = bfx_cutval(bfp, out);
+  string txt = name_val(bfc + " << " + bfp[3]);
+} return string txt;
+given txt_fixture given pend_setup (["BF", "(p + 0)", "4", "3", "5", "u"], "t9"):("t0") then (import pend):(["word t0 = (t9 & 31) << 3;"])
+given txt_fixture given pend_setup (["BF", "(p + 0)", "1", "2", "1", "b"], "t9"):("t0") then (import pend):(["word t0 = (t9 != 0) << 2;"])
+
+bfx_cutval(string[] bfp, string out) {
+  int w = to_int(bfp[4]);
+  string bfc = "(" + out + " & " + bfx_maskval(w) + ")";
+  if(bfp[5] == "b") {
+    bfc = "(" + out + " != 0)";
+  }
+} return string bfc;
+(["BF", "(p + 0)", "4", "3", "5", "u"], "t9"):("(t9 & 31)")
+(["BF", "(p + 0)", "1", "0", "1", "b"], "t9"):("(t9 != 0)")

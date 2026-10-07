@@ -1,0 +1,21 @@
+// The words a va_list has left, as the word[] the formatters take: the list
+// cell is {cur, end}, which stdarg.h's va_start and va_arg keep.
+rt_va_list(word rap) {
+  word rcur = peek64(rap);
+  int ran = (peek64(rap + 8) - rcur) / 8;
+  word[] ral = rt_va_head(rcur, ran);
+} chain (word rap) {
+  int rai = 1;
+  while(rai < ran) {
+    push(ral, peek64(rcur + 8 * rai));
+    rai = rai + 1;
+  }
+} return word[] ral;
+
+rt_va_head(word rcur, int ran) {
+  word rvf = 0;
+  if(ran > 0) {
+    rvf = peek64(rcur);
+  }
+  word[] ral = [rvf];
+} return word[] ral;

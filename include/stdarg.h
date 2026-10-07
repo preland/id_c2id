@@ -1,8 +1,9 @@
 #ifndef C2ID_STDARG_H
 #define C2ID_STDARG_H
-typedef __builtin_va_list va_list;
-#define va_start(v, l) __builtin_va_start(v, l)
-#define va_end(v) __builtin_va_end(v)
-#define va_arg(v, t) __builtin_va_arg(v, t)
-#define va_copy(d, s) __builtin_va_copy(d, s)
+typedef struct { char *cur; char *end; } __c2id_va_cell;
+typedef __c2id_va_cell va_list[1];
+#define va_start(v, l) ((v)->cur = __va, (v)->end = *(char **)(__va - 8))
+#define va_end(v) ((void)0)
+#define va_arg(v, t) (*(t *)(((v)->cur += 8) - 8))
+#define va_copy(d, s) ((d)->cur = (s)->cur, (d)->end = (s)->end)
 #endif

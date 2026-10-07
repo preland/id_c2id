@@ -1,0 +1,27 @@
+// `({ statements; value; })`, the GNU statement expression: a block whose last
+// expression statement is the value. The '(' is consumed and the cursor is on
+// the '{'. The node keeps the block's statements in nl; the lowering walks them
+// into the control flow graph and answers a temporary holding the value.
+
+stmtx_parse(int[] pos) {
+  int blk = parse_block(pos);
+  advance(pos);
+  int a = newlist("stmtx", 0, 0, "", (import nl)[blk]);
+} chain (int[] pos) {
+  int node = postfix_tail(pos, a);
+} return int node;
+given boot_a given ty_setup given lexfix stdin "{ 1; })" ([0]):(3)
+given boot_a given ty_setup given lexfix stdin "{ int t = 3; t; })" ([0]):(7)
+
+// What follows a '(' that is not a type name: a statement expression or an
+// ordinary parenthesised expression.
+paren_more(int[] pos) {
+  int node = 0;
+  if(at_text(pos, "{")) {
+    node = stmtx_parse(pos);
+  } else {
+    node = paren_expr(pos);
+  }
+} return int node;
+given boot_a given ty_setup given lexfix stdin "{ 1; })" ([0]):(3)
+given boot_a given ty_setup given lexfix stdin "1);" ([0]):(0)

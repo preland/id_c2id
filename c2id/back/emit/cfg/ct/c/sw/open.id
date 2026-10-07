@@ -16,8 +16,10 @@
 // loop, which is why the break and continue stacks are separate.
 
 do_switch(int id) {
+  sw_subject(id);
   int blk = (import curb)[0];
   int alt = new_block();
+} chain (int id) {
   sw_body(id, blk, alt);
 } return void;
 given walk_ast_fixture ((import wswid)):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1)

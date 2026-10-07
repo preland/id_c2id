@@ -1,0 +1,23 @@
+// One declarator of a declaration, and what follows it. A token no declarator
+// can start with (`int x : 3;` in a function, a `}` after an unclosed `(`) would
+// otherwise be met again and again with nothing consumed, and the loop would
+// push a node for each time until the memory ran out; it is an error, and ends
+// the parse.
+decl_step(int[] pos, int t, int[] l) {
+  int dsk = pos[0];
+  int id = one_decl(pos, t);
+  push(l, id);
+} chain (int[] pos, int t, int[] l) {
+  skip_comma(pos);
+  decl_stuck(pos, dsk);
+} return void;
+given boot_a given ty_setup given lexfix stdin "x;" ([0], 0, []):() then calls one_decl:[1]
+given boot_a given ty_setup given lexfix stdin "x, y;" ([0], 0, []):() then calls skip_comma:[1]
+
+decl_stuck(int[] pos, int dsk) {
+  if(pos[0] == dsk) {
+    diag_halt(pos, "declaration expected, found '" + cur_text(pos) + "'");
+  }
+} return void;
+given boot_a given ty_setup given lexfix stdin "# 5 \"d.c\"\n: 3 ;" ([0], 0):() then (import dgmsg):(["d.c:5: error: declaration expected, found ':'"])
+given boot_a given ty_setup given lexfix stdin "x ;" ([1], 0):() then len((import dgmsg)):(0)

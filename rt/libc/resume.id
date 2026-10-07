@@ -1,0 +1,19 @@
+// The runner of a function that called setjmp asks, when its blocks stop, whether
+// a jump was to it: the block to go on at, or -1 when none was, in which case
+// nothing is touched, so an exit goes on and a jump to a function further down
+// the stack goes on stopping the runners between.
+rt_resume(word rfp) {
+  word rblk = 0 - 1;
+  if(peek64((import rtxc)) == 0 - 1) {
+    rblk = rt_resume2(rfp);
+  }
+} return word rblk;
+
+rt_resume2(word rfp) {
+  word renv = peek64((import rtje));
+  word rblk = 0 - 1;
+  if(peek64(renv) == rfp) {
+    rblk = peek64(renv + 8);
+    poke64((import rtxc), 0);
+  }
+} return word rblk;

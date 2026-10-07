@@ -1,0 +1,12 @@
+// Nodes for the statement-expression type cases: a string literal (6), an
+// expression statement of it (7), a statement expression ending in that (8),
+// and one whose only statement is not an expression statement (9).
+sx_tfix() {
+  export int sx_str = newleaf("str", 0, 0, "\"a\"", "");
+  export int sx_st = newnode("expr", (import sx_str), 0, "", "", [0], [0]);
+  export int sx_se = newnode("stmtx", 0, 0, "", "", [(import sx_st)], [0]);
+} chain () {
+  export int sx_sn = newnode("stmtx", 0, 0, "", "", [(import sx_str)], [0]);
+} return void;
+given txt_fixture ():() then calls newnode:("stmtx", 0, 0, "", "", [7], [0])
+given txt_fixture ():() then calls newnode:("stmtx", 0, 0, "", "", [6], [0])

@@ -27,14 +27,16 @@ given boot_a given ty_setup given lexfix stdin "(int)1;" ([0]):(2)
 given boot_a given ty_setup given lexfix stdin "(x);" ([0]):(0)
 
 // '(' is gone. A type name means a cast (or a compound literal); anything else
-// is a parenthesised expression.
+// is a parenthesised expression or a statement expression.
 paren_body(int[] pos) {
   int node = 0;
   if(is_type_start(pos)) {
     node = cast_body(pos);
   } else {
-    node = paren_expr(pos);
+    node = paren_more(pos);
   }
 } return int node;
 given boot_a given ty_setup given lexfix stdin "int)1;" ([0]):(2)
 given boot_a given ty_setup given lexfix stdin "char)x;" ([0]):(2)
+given boot_a given ty_setup given lexfix stdin "1);" ([0]):(0) then calls paren_more:[1]
+given boot_a given ty_setup given lexfix stdin "int)1;" ([0]):(2) then calls paren_more:[0]

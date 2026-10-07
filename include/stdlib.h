@@ -12,6 +12,22 @@ void _Exit(int code);
 long strtol(const char *s, char **end, int base);
 double strtod(const char *s, char **end);
 static double atof(const char *s) { return strtod(s, (char **)0); }
+char *getenv(const char *name);
+static float strtof(const char *s, char **end) { return (float)strtod(s, end); }
+static void (*__c2id_atexit_fns[32])(void);
+static int __c2id_atexit_n;
+static void __c2id_atexit_run(void) {
+  while (__c2id_atexit_n > 0) {
+    __c2id_atexit_n--;
+    __c2id_atexit_fns[__c2id_atexit_n]();
+  }
+}
+static int atexit(void (*fn)(void)) {
+  if (__c2id_atexit_n >= 32) return -1;
+  if (__c2id_atexit_n < 0) __c2id_atexit_run();
+  __c2id_atexit_fns[__c2id_atexit_n++] = fn;
+  return 0;
+}
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 #define RAND_MAX 2147483647

@@ -1,0 +1,31 @@
+// An unnamed bit-field (`int : 3;`, `int : 0;`) is padding, and a brace list
+// skips it: the next value goes to the next member that has a name.
+skip_unnamed(int ty, int k) {
+  int kk = k;
+  while(1 + kk < len((import nm)[ty]) && unnamed_row((import nm)[ty][1 + kk]) == 1) {
+    kk = kk + 1;
+  }
+} return int kk;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int : 3; int b; }; struct P p = { 3, 4 };" (6, 1):(2)
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P p = { 3, 4 };" (6, 1):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int : 3; int : 0; int b; }; struct P p = { 3, 4 };" (6, 1):(3)
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int : 3; }; struct P p = { 3 };" (6, 1):(2)
+
+unnamed_row(int row) {
+  int ok = 0;
+  if((import synames)[row] == "" && (import sywid)[row] >= 0) {
+    ok = 1;
+  }
+} return int ok;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int : 3; int b; }; struct P p = { 3, 4 };" (1):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int : 3; int b; }; struct P p = { 3, 4 };" (0):(0)
+
+// Where a member is: the record's address plus its offset, or a bit-field's marker.
+member_at(int row, string addr) {
+  string s = bfx_marker(row, addr);
+  if(s == "") {
+    s = addr + " + " + (import syoff)[row];
+  }
+} return string s;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b : 4; }; struct P p;" (0, "A"):("A + 0")
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b : 4; }; struct P p;" (1, "A"):("BF|(A + 4)|4|0|4|s")

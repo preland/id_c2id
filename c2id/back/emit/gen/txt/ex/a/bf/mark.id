@@ -1,0 +1,40 @@
+// A bit-field has no address of its own, only a place inside the storage unit of
+// its declared type. Where an ordinary member's address is text (`(p + 8)`), a
+// bit-field's is a marker the loads and stores know how to read:
+//
+//   BF|<address of the unit>|<unit bytes>|<bit position in the unit>|<width>|<kind>
+//
+// kind is `s` for a signed type, `u` for an unsigned one and `b` for _Bool. The
+// unit is the declared type's size, aligned to it, which is where the layout
+// pass (bf_pos) never lets a field cross out of; its bits are counted from the
+// least significant, as on x86-64.
+bfx_marker(int row, string bfa) {
+  string out = "";
+  if((import sywid)[row] > 0) {
+    out = bfx_text(row, bfa);
+  }
+} return string out;
+given boot_a given boot_b given lexfix given tu_load stdin "struct S { int a : 3; unsigned b : 5; char c; _Bool d : 1; long e : 40; }; struct S s;" (0, "p"):("BF|(p + 0)|4|0|3|s")
+given boot_a given boot_b given lexfix given tu_load stdin "struct S { int a : 3; unsigned b : 5; char c; _Bool d : 1; long e : 40; }; struct S s;" (2, "p"):("")
+
+bfx_text(int row, string bfa) {
+  int n = (import syoff)[row] * 8 + (import sybit)[row];
+  int sz = (import sysz)[row];
+  int uo = (n / (8 * sz)) * sz;
+} chain (int row, string bfa) {
+  string kind = bfx_kind((import syids)[row]);
+  string out = "BF|(" + bfa + " + " + uo + ")|" + sz + "|" + (n - 8 * uo) + "|" + (import sywid)[row] + "|" + kind;
+} return string out;
+given boot_a given boot_b given lexfix given tu_load stdin "struct S { int a : 3; unsigned b : 5; char c; _Bool d : 1; long e : 40; }; struct S s;" (1, "q"):("BF|(q + 0)|4|3|5|u")
+given boot_a given boot_b given lexfix given tu_load stdin "struct S { int a : 3; unsigned b : 5; char c; _Bool d : 1; long e : 40; }; struct S s;" (3, "q"):("BF|(q + 2)|1|0|1|b")
+
+bfx_kind(int ty) {
+  string kind = "u";
+  if((import ns)[ty] == "_Bool") {
+    kind = "b";
+  } else if(ty_signed(ty) == 1) {
+    kind = "s";
+  }
+} return string kind;
+given txt_fixture (0):("s")
+given txt_fixture (1):("u")

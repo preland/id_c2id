@@ -1,0 +1,12 @@
+// The address of a function the program defines with `...` cannot be taken: a
+// call through a pointer passes its arguments in fixed slots, and a variadic
+// function takes its extra ones as a list, so the call would land on the wrong
+// parameters. The callee of a direct call is not an address (chk_cal holds its node).
+chk_vaval(string name, int id) {
+  int i = find_str((import fnames), name);
+  if(i >= 0 && fn_variadic(i) == 1 && frame_off(name) < 0 && (import chk_cal)[0] != id) {
+    diag_node(id, "the address of '" + name + "', a function this program defines with '...', is taken: a call through a pointer cannot pass the extra arguments; wrap it in a function of its own");
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int n, ...) { return n; }\nint main(void) { int (*p)(int, ...) = f; return 0; }" ("f", 11):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int n) { return n; }" ("f", 11):() then len((import dgmsg)):(0)

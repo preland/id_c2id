@@ -1,0 +1,32 @@
+// A statement expression has the type of its last statement's expression, and
+// is plain `int` (node 0, as for any node nothing claims) when that is not an
+// expression statement.
+sx_ty(int id) {
+  int[] sl = (import nl)[id];
+  int ty = 0;
+  if(len(sl) > 0) {
+    ty = sx_last(sl[len(sl) - 1]);
+  }
+} return int ty;
+given txt_fixture given sx_tfix (8):(5)
+given txt_fixture given sx_tfix (9):(0)
+
+sx_last(int stm) {
+  int ty = 0;
+  if((import nk)[stm] == "expr" && (import na)[stm] >= 0) {
+    ty = ex_ty((import na)[stm]);
+  }
+} return int ty;
+given txt_fixture given sx_tfix (7):(5)
+given txt_fixture given sx_tfix (6):(0)
+
+ety13(int id) {
+  int ty = 0;
+  if((import nk)[id] == "stmtx") {
+    ty = sx_ty(id);
+  } else {
+    ty = call_ty(id);
+  }
+} return int ty;
+given txt_fixture given sx_tfix (8):(5)
+given txt_fixture (0):(0) then calls call_ty:(0)

@@ -10,11 +10,11 @@
 // A call through a pointer can reach any function, so it counts as a call that
 // may exit, both in the closure and in cutting a statement after it.
 noret_init() {
-  export string[] nrnames = ["exit", "abort", "_Exit"];
-  export string[] mxnames = ["exit", "abort", "_Exit"];
+  export string[] nrnames = ["exit", "abort", "_Exit", "longjmp", "_longjmp"];
+  export string[] mxnames = ["exit", "abort", "_Exit", "longjmp", "_longjmp"];
   export int[] chk_cal = [0 - 1];
 } return void export nrnames;
-():() then len((import nrnames)):(3)
+():() then len((import nrnames)):(5)
 ():() then (import nrnames)[2]:("_Exit")
 
 noret_add(string name) {
@@ -23,8 +23,8 @@ noret_add(string name) {
     push((import mxnames), name);
   }
 } return void;
-given noret_init ("die"):() then (import nrnames)[3]:("die") then (import mxnames)[3]:("die")
-given noret_init ("exit"):() then len((import nrnames)):(3)
+given noret_init ("die"):() then (import nrnames)[5]:("die") then (import mxnames)[5]:("die")
+given noret_init ("exit"):() then len((import nrnames)):(5)
 
 noret_scan() {
   noret_init();
@@ -34,5 +34,5 @@ noret_scan() {
     i = i + 1;
   }
 } return void;
-given boot_a given lexfix stdin "_Noreturn void die(void);" ():() then (import nrnames)[3]:("die")
-given boot_a given lexfix stdin "void f(void);" ():() then len((import nrnames)):(3)
+given boot_a given lexfix stdin "_Noreturn void die(void);" ():() then (import nrnames)[5]:("die")
+given boot_a given lexfix stdin "void f(void);" ():() then len((import nrnames)):(5)

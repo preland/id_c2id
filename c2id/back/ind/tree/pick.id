@@ -1,11 +1,12 @@
 fns_add(int[] fs, int n, int i) {
   int np = len((import nl)[(import ftys)[i]]);
-  if(np == n && (import reach)[i] == 1) {
+  if(np == n && (import reach)[i] == 1 && fn_variadic(i) == 0) {
     push(fs, i);
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a, int b) { return a; }" ([], 1, 0):([0], 1, 0)
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a, int b) { return a; }" ([], 1, 1):([], 1, 1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a, ...) { return a; }" ([], 1, 1):([], 1, 1)
 
 // `word f, word a0, word a1`: the pointer, then the n arguments.
 ind_params(int n) {

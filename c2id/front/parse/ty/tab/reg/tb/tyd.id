@@ -19,7 +19,7 @@ given ty_setup ("bar", 9):() then check_foo_ty:(-1)
 
 // the type node registered for `name`, or -1
 ty_find(string name) {
-  int i = find_str((import tynames), name);
+  int i = find_last((import tynames), name);
   int ty = 0 - 1;
   if(i >= 0) {
     ty = (import tyids)[i];

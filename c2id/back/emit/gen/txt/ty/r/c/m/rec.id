@@ -21,6 +21,7 @@ mem_ty(int id) {
   if(ty < 0) {
     ty = (import stdty)[0];
   }
+  ty = bfx_prom(id, ty);
 } return int ty;
 given txt_fixture given ty_setup (0):(0)
 given txt_fixture given ty_setup (5):(0)

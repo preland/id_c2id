@@ -1,0 +1,23 @@
+// Loads and stores go through here: a bit-field's marker is read and written
+// bit by bit, any other address as the C type's width.
+load_txt(int ty, string s) {
+  string out = "";
+  if(bfx_is(s) == 1) {
+    out = bfx_load(s);
+  } else {
+    out = load_plain(ty, s);
+  }
+} return string out;
+given txt_fixture given pend_setup (0, "ADDR"):("t1")
+given txt_fixture given pend_setup (5, "BF|(p + 0)|4|3|5|u"):("t2")
+
+store_raw(int ty, string s, string out) {
+  string txt = "";
+  if(bfx_is(s) == 1) {
+    txt = bfx_store(s, out);
+  } else {
+    txt = store_plain(ty, s, out);
+  }
+} return string txt;
+given txt_fixture (0, "A", "B"):("poke32(A, B)")
+given txt_fixture given pend_setup (0, "BF|(q + 2)|1|0|1|b", "t7"):("poke8((q + 2), t3)")

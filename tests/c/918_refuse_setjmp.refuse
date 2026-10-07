@@ -1,2 +1,0 @@
-918_refuse_setjmp.c:5: error: call to 'setjmp' is not supported
-call to 'longjmp' is not supported

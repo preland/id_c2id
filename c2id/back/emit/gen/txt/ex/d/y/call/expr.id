@@ -17,8 +17,8 @@ call_txt(int id) {
   string s = call_head(id);
   string out = call_wrap(s, id);
 } return string out;
-given txt_fixture given pend_setup (0):("t0") then calls call_wrap:("crt_call0", 0)
-given txt_fixture given pend_setup (5):("t0") then calls call_wrap:("crt_call0", 5)
+given txt_fixture given boot_b given pend_setup (0):("t0") then calls call_wrap:("crt_call0", 0)
+given txt_fixture given boot_b given pend_setup (5):("t0") then calls call_wrap:("crt_call0", 5)
 
 // `x = e` is a store, and the store's width truncates for free -- poke8 of
 // 300 leaves 44 behind, which is what C's conversion to char does. A compound

@@ -1,0 +1,31 @@
+// The last statement of a statement expression: an expression statement gives
+// the value, anything else is walked and the value is a zero nothing reads.
+stmtx_tail(int stm) {
+  int r = 0;
+  if((import nk)[stm] == "expr" && (import na)[stm] >= 0) {
+    r = stmtx_val((import na)[stm]);
+  } else {
+    walk_stmt(stm);
+    r = mk_num(0);
+  }
+} return int r;
+given low_fix given sx_fix (20):(25) then (import bstmt)[0]:([27])
+given low_fix given sx_fix (24):(25) then (import bstmt)[0]:([20])
+
+stmtx_val(int x) {
+  int v = lower_val(x);
+  int et = ex_ty(v);
+  int r = hoist_store(v, et);
+} return int r;
+given low_fix given sx_fix (19):(25) then (import bstmt)[0]:([27])
+given low_fix given sx_fix (7):(25) then (import bstmt)[0]:([27])
+
+walk_upto(int[] ids, int n) {
+  int i = 0;
+  while(i < n) {
+    walk_stmt(ids[i]);
+    i = i + 1;
+  }
+} return void;
+given low_fix given sx_fix ([21, 20], 1):() then (import bstmt)[0]:([21])
+given low_fix given sx_fix ([20], 0):() then (import bstmt)[0]:([])

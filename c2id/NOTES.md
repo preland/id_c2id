@@ -151,6 +151,7 @@ s, t, l, m)` pushes one cell to each and returns the new id. Unused fields are
 | `cond` | condition | then | — | — | `[else]` | — |
 | `assign` | target | value | operator | — | — | — |
 | `sizeof` | operand or 0 | type node | — | — | — | — |
+| `stmtx` | — | — | — | — | statements | — |
 
 `decl` nodes carry `nt` = `static` when the declaration's specifiers did (the
 frame pass then makes the variable a global); `fn` type nodes carry `nb` = 1 when
@@ -242,23 +243,50 @@ A wrong translation is worse than none, so what c2id cannot translate
 correctly is refused at translate time with `file:line` and the construct's
 name, and nothing is written. Refusals are collected rather than raised: the
 parser records one (`front/diag/`: `diag_tok`, `diag_node`) and carries on, so
-a run lists every one it can find. Three places make them:
+a run lists every one it can find. A syntax error is a refusal too
+(`expression expected, found ...`, `file:line: error:` on stderr, exit 1, no
+project written), and it also ends the parse (`diag_bail`: the cursor moves to
+the end of the tokens, so no recovery loop can run on), since reading on after
+one is how a translator spins. Three places make them:
 
-* the parser, for what it sees as it reads, reached or not: a bitfield member
-  and a compound literal (`front/diag/bits.id` and `cast_tail`);
+* the parser, for what it sees as it reads, reached or not: a compound literal
+  (`cast_tail`), a bitfield wider than its type or of an enum type
+  (`front/diag/bits.id`), `__attribute__((packed))` on a struct with more than
+  one member, `vector_size` and `mode` (`front/diag/packed*.id`), and a
+  128-bit integer type, which `wide_scan` finds in the tokens
+  (`front/diag/wide.id`; `tools/c2id.sh` undefines `__SIZEOF_INT128__` so a
+  header takes its portable path);
 * the check pass (`mid/check/`), over every function the program reaches with
-  its locals bound: a definition that is variadic
-  (`front/diag/fnsig.id`, called from `sig.id`), the address of
-  a function the runtime provides (`malloc`, `free`, ...: `mid/check/rtval.id`),
-  `long double` types and literals, a struct passed by value through the `...` of a
-  variadic call (`chk_arg`), a printf-family format with a conversion the runtime does not
-  implement, an `fopen` for writing, a call refused by name (`refuse_names` in
-  `conf.id`), and every called function that is neither defined in the program
+  its locals bound: the address of a function the runtime provides (`malloc`,
+  `free`, ...: `mid/check/rtval.id`) or of one the program defines with `...`
+  (`mid/check/vaval.id`), `long double` types and literals, a struct passed by
+  value through the `...` of a variadic call (`chk_arg`), a printf-family
+  format with a conversion the runtime does not implement, an `fopen` for
+  writing, a call refused by name (`refuse_names` in `conf.id`: termios,
+  signals), and every called function that is neither defined in the program
   nor provided by the runtime, reported as one diagnostic with where each was
-  first named. The runtime's names are `rt_names` in `conf.id`; keep it equal to
-  what `rt/` and `crt/` define (a case in `tests/c/` for each name keeps it so);
+  first named; a C keyword read as a function (`unres_add`) is reported as a
+  limit of the parser instead, not as a missing function. The runtime's names
+  are `rt_names` in `conf.id`; keep it equal to what `rt/` and `crt/` define (a
+  case in `tests/c/` for each name keeps it so);
 * nowhere else: once `diag_status()` is non-zero the driver (`unit/settle.id`)
   skips emission, `diag_report()` prints the lines, and `main` exits 1.
 
 `tests/c/NAME.refuse` lists the lines a refused program's diagnostics must
 contain.
+
+## 8. Constructs the translator rewrites
+
+* **Statement expressions** `({ ...; e; })`: a `stmtx` node (children in `nl`,
+  in `scan_l`). The lowering (`mid/lower/val/stmtx*.id`) walks its statements
+  into the graph where the expression is and stores the value of the last
+  expression statement in a frame temporary.
+* **Block scope of types**: typedef names, struct and union tags and
+  enumerators end with the block that declared them (`ty_mark`/`ty_drop` around
+  `parse_block`, `front/parse/ty/tab/reg/tb/scope.id`), and the innermost
+  declaration of a name wins (`find_last`).
+* **Variadic definitions**: see `docs/EMITTER.md`, "Variadic definitions".
+* **Bit-fields**: see `docs/EMITTER.md`, "Bit-fields".
+* **setjmp/longjmp**: see `docs/EMITTER.md`, "setjmp and longjmp".
+* **A `switch` subject** that is more than a name or a number is evaluated once,
+  into a frame temporary (`sw_subject`), not once per case test.

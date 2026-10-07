@@ -1,13 +1,16 @@
 // The functions a program calls that nothing provides, collected over the whole
 // program and reported as one diagnostic, each with where it was first named.
+// A keyword or a type specifier named as a function is not one of them: the
+// parser read a construct it does not know as a call, so it is reported as that.
 unres_add(string name, int tk) {
-  if(find_str((import unres), name) < 0) {
-    push((import unres), name);
-    push((import unres_at), tk);
+  if(find_str((import c_keywords), name) >= 0) {
+    diag_tok(tk, "'" + name + "' is a C keyword read as a function call: the parser did not recognise the construct it begins, so this is a limit of c2id, not a missing function");
+  } else {
+    unres_new(name, tk);
   }
 } return void;
 given boot_a given boot_b ("atoi", 3):() then (import unres):(["atoi"]) then (import unres_at):([3])
-given boot_a given boot_b given unres_add("atoi", 3) ("atoi", 9):() then (import unres_at):([3]) then len((import unres)):(1)
+given boot_a given boot_b given lexfix stdin "int if" ("if", 1):() then len((import unres)):(0) then len((import dgmsg)):(1)
 
 // One row per missing function, each starting on a new line.
 unres_lines() {

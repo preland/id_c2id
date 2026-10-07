@@ -1,0 +1,32 @@
+// Block scope for typedef names, struct and union tags and enumerators. A
+// block remembers how many of each there were when it opened (scmk, two cells
+// per open block) and forgets what it declared when it closes, so a typedef
+// local to one function never answers for another function's.
+
+ty_mark() {
+  push((import scmk), len((import tynames)));
+  push((import scmk), len((import ecnames)));
+} return void;
+given ty_setup ():() then (import scmk):([0, 0])
+given ty_setup given ty_add("a", 1) ():() then (import scmk):([1, 0])
+
+ty_drop() {
+  int ecut = pop((import scmk));
+  int tcut = pop((import scmk));
+  ty_trim(tcut, ecut);
+} return void;
+given ty_setup given ty_mark given ty_add("a", 1) ():() then len((import tynames)):(0)
+given ty_setup given ty_add("a", 1) given ty_mark given en_add("e", 2) ():() then len((import ecnames)):(0)
+
+ty_trim(int tcut, int ecut) {
+  while(len((import tynames)) > tcut) {
+    pop((import tynames));
+    pop((import tyids));
+  }
+  while(len((import ecnames)) > ecut) {
+    pop((import ecnames));
+    pop((import ecvals));
+  }
+} return void;
+given ty_setup given ty_add("a", 1) given ty_add("b", 2) (1, 0):() then (import tynames):(["a"])
+given ty_setup given en_add("e", 2) given en_add("f", 3) (0, 1):() then (import ecvals):([2])

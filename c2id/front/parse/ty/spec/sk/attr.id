@@ -9,14 +9,17 @@ skip_attrs(int[] pos) {
   }
 } return void;
 given lexfix stdin "x" ([0]):([0])
-given lexfix stdin "__attribute__(x)" ([0]):([4])
+given boot_a given boot_b given lexfix stdin "__attribute__(x)" ([0]):([4])
 
 skip_attr(int[] pos) {
+  int ast = pos[0];
   advance(pos);
   skip_paren(pos);
+} chain (int[] pos) {
+  packed_scan(pos, ast);
 } return void;
-given lexfix stdin "y z" ([0]):([1])
-given lexfix stdin "y(x)" ([0]):([4])
+given boot_a given boot_b given lexfix stdin "y z" ([0]):([1])
+given boot_a given boot_b given lexfix stdin "y(x)" ([0]):([4])
 
 skip_paren(int[] pos) {
   if(at_text(pos, "(")) {

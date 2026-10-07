@@ -1,0 +1,1 @@
+929_refuse_bitfield_enum.c:3: error: bitfield member 'm' has an enum type

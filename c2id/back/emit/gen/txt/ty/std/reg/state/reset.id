@@ -4,6 +4,8 @@
 txt_reset() {
   clear_ints((import lvtys));
   frame_reset();
+  lset((import sjf), 0, 0);
 } return void;
 given txt_fixture given init_frame given init_frame2 given lvtys_grow_fixture ():() then len((import lvtys)):(0)
 given txt_fixture given init_frame given init_frame2 given lvtys_grow_fixture ():() then (import frsz)[0]:(8)
+given txt_fixture given init_frame given init_frame2 given lvtys_grow_fixture given lset((import sjf), 0, 1) ():() then (import sjf)[0]:(0)

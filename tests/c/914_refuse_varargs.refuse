@@ -1,1 +1,0 @@
-914_refuse_varargs.c:3: error: function 'sum' is defined with '...'

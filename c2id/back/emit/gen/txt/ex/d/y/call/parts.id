@@ -17,8 +17,8 @@ call_wrap(string s, int id) {
   string txt = call_args(ids, id);
   string out = name_val(s + "(" + txt + ")");
 } return string out;
-given txt_fixture given pend_setup ("crt_call", 0):("t0")
-given txt_fixture given pend_setup ("c_foo", 5):("t0")
+given txt_fixture given boot_b given pend_setup ("crt_call", 0):("t0")
+given txt_fixture given boot_b given pend_setup ("c_foo", 5):("t0")
 
 // s_of(id), read once and turned into the C operator it stands for.
 assign_head(int id) {

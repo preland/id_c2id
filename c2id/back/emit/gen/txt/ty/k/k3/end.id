@@ -34,7 +34,7 @@ ety12(int id) {
     int a = (import na)[id];
     ty = ex_ty(a);
   } else {
-    ty = call_ty(id);
+    ty = ety13(id);
   }
 } return int ty;
 given txt_fixture (0):(0)

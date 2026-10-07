@@ -1,0 +1,2 @@
+928_refuse_signal.c:5: error: call to 'signal' is not supported: signals have no model
+928_refuse_signal.c:6: error: call to 'raise' is not supported

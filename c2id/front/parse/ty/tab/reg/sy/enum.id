@@ -22,7 +22,7 @@ given answer_enum_fix ("answer"):(1)
 // the value of enumerator `name`, or 0 when there is no such enumerator --
 // callers that need to tell those apart ask has_enum first.
 enum_val(string name) {
-  int i = find_str((import ecnames), name);
+  int i = find_last((import ecnames), name);
   int v = 0;
   if(i >= 0) {
     v = (import ecvals)[i];
