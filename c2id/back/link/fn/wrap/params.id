@@ -26,8 +26,9 @@ given txt_fixture given init_frame given init_frame2 (["a", "b"], [0, 5], 0):() 
 
 bind_param(string pname, int ty) {
   push((import lvtys), ty);
-  int off = (import frsz)[0];
-  add_slot(pname, off, 8);
+  int sz = par_slot(ty);
+  add_slot(pname, (import frsz)[0], sz);
 } return void;
 given txt_fixture given init_frame given init_frame2 ("p", 0):() then (import lvnames):(["p"]) then (import lvtys):([0]) then (import lvoff):([8])
 given txt_fixture given init_frame given init_frame2 given bind_param("q", 5) ("p", 0):() then (import lvoff):([8, 16]) then (import lvtys):([5, 0])
+given boot_a given boot_b given lexfix given tu_load stdin "struct Q { char c[13]; } q;" ("p", 6):() then (import frsz)[0]:(24)

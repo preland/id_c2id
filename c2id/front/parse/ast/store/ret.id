@@ -1,0 +1,8 @@
+// The return type of the function being emitted (note_ret sets it), kept where
+// the node store is made because the lowering and the emitter both read it, and
+// a case that builds a body without the emitter's registries still has one.
+ret_init() {
+  export int[] retty = [0];
+} return void export retty;
+():() then (import retty)[0]:(0)
+():() then len((import retty)):(1)

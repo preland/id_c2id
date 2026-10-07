@@ -32,7 +32,7 @@ Layout, assigned at translation time and emitted as literal constants:
 ```
 fp + 0    return value        (8 bytes, always)
 fp + 8    parameter 0
-fp + …    parameter 1, …      (each padded to its alignment)
+fp + …    parameter 1, …      (8 bytes each; a struct or union by value takes its size, to 8)
 fp + …    locals in declaration order
 ```
 
@@ -175,6 +175,38 @@ id. `ops->read(a, b, c)` becomes `crt_call3(id, a, b, c)`, where `crt_callN`
 is a dispatch tree over every address-taken function of that arity, generated
 by the emitter. `struct file_operations` and its relatives then work
 unchanged.
+
+## 4b. Struct values
+
+A struct or union is an address everywhere in an expression (the value of a
+record is its own address, `val_txt`), so passing and returning one is passing
+and returning an address plus a copy at the right place.
+
+**By value in.** The caller passes the address of the object. The callee's
+parameter slot is the object itself: `par_slot` makes it the type's size rounded
+up to 8 bytes instead of one 8-byte word, the offsets of the parameters after it
+move with it (`par_off`), and the wrapper `c_NAME` copies the caller's bytes into
+the slot with `c_memcpy` before the function runs (`wrap_copy`). The callee owns
+that copy, so a write to the parameter never reaches the caller's object. The
+copy is made when the call is made, after every argument has been evaluated.
+
+**By value out.** A function whose return type is a struct or union has a hidden
+first parameter, a pointer to the caller's result object (`fn_node`): its type
+lists it before the named parameters, so the wrapper, the `crt_callN` dispatch and
+the frame all count it as parameter 0, at `fp + 8`. The frame pass gives each call
+of such a function a frame temporary of its own and passes its address as that
+argument (`sret_arg`), so `f(g(), g())` and a recursion never share an object. An
+end block stores `c_memcpy(peek64(fp + 8), value, size)`, which answers its
+destination, at `fp + 0` (`ret_copy`), so the call's value is the temporary's
+address, and `f().x` and the call as an initialiser, an argument or an assignment
+source all read it like any other record. The wrapper also stores the hidden
+argument at `fp + 0` as the frame is made, and a block that ends the function
+without a value (a call that never returns) answers it, so a callee that exits
+leaves the caller a pointer to its own temporary.
+
+**Still refused.** A struct or union passed through the `...` of a variadic call
+(`printf("%d", s)`): the extra arguments are a list of words. Variadic
+definitions were never supported.
 
 ## 5. Laying out the project
 

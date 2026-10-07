@@ -1,0 +1,25 @@
+// How a parameter is passed: its floating-point kind (ty_fkind), or 3 for a
+// struct or union, whose argument is the address of the caller's object.
+wrap_ty_kind(int ty) {
+  int k = ty_fkind(ty);
+  if((import nk)[ty] == "rec") {
+    k = 3;
+  }
+} return int k;
+given tynode_fix (5):(3)
+given tynode_fix (0):(0)
+
+// The size of the struct or union that parameter i of function fn is.
+wrap_rsz(int fn, int i) {
+  int[] tys = (import nl)[(import ftys)[fn]];
+  int rsz = type_size(tys[i]);
+} return int rsz;
+given boot_a given boot_b given lexfix given tu_load stdin "struct Q { char c[13]; } q; int f(int a, struct Q b) { return a; }" (0, 1):(13)
+given boot_a given boot_b given lexfix given tu_load stdin "struct Q { int c[3]; } q; int f(int a, struct Q b) { return a; }" (0, 1):(12)
+
+wrap_poke(int fn, int i, string src) {
+  int off = wrap_off(fn, i);
+  emit_out("  poke64(fp + " + off + ", " + src + ");");
+} return void;
+given boot_a given boot_b given init_gfn (0, 0, "a0"):() then prints:("  poke64(fp + 8, a0);\n")
+given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "struct Q { char c[13]; } q; int f(int a, struct Q b, long c) { return a; }" (0, 2, "a2"):() then prints:("  poke64(fp + 32, a2);\n")

@@ -156,6 +156,14 @@ s, t, l, m)` pushes one cell to each and returns the new id. Unused fields are
 frame pass then makes the variable a global); `fn` type nodes carry `nb` = 1 when
 the parameter list ended in `...`.
 
+A function that returns a struct or union has a hidden first parameter: its `fn`
+type node (`fn_node`, `front/parse/ty/dcl/d/sfx/more/sret.id`) lists a pointer to
+the result type first and names it `sret_var` (`conf.id`), so every consumer of
+the type (the wrapper, the `crt_callN` dispatch, `bind_params`) sees one more
+parameter than the C source writes. A `call` node whose callee returns a struct
+or union carries `nb` = 1 once the frame pass has put `&__tmpN` in front of its
+arguments (`mid/pass/frame/sret.id`); `nb` is 0 on every other call.
+
 ### Statements
 
 | kind | `na` | `nb` | `ns` | `nt` | `nl` | `nm` |
@@ -239,10 +247,11 @@ a run lists every one it can find. Three places make them:
 * the parser, for what it sees as it reads, reached or not: a bitfield member
   and a compound literal (`front/diag/bits.id` and `cast_tail`);
 * the check pass (`mid/check/`), over every function the program reaches with
-  its locals bound: a definition that is variadic or takes or returns a struct
-  by value (`front/diag/fnsig.id`, `fnpar.id`, called from `sig.id`), the address of
+  its locals bound: a definition that is variadic
+  (`front/diag/fnsig.id`, called from `sig.id`), the address of
   a function the runtime provides (`malloc`, `free`, ...: `mid/check/rtval.id`),
-  `long double` types and literals, a struct passed by value to a call, a printf-family format with a conversion the runtime does not
+  `long double` types and literals, a struct passed by value through the `...` of a
+  variadic call (`chk_arg`), a printf-family format with a conversion the runtime does not
   implement, an `fopen` for writing, a call refused by name (`refuse_names` in
   `conf.id`), and every called function that is neither defined in the program
   nor provided by the runtime, reported as one diagnostic with where each was

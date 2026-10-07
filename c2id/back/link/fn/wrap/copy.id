@@ -1,0 +1,19 @@
+// A struct or union parameter is copied into the callee's frame, so the callee
+// owns the object it was given and a write to it does not reach the caller's.
+wrap_arg(int fn, int i, int wk) {
+  if(wk == 3) {
+    wrap_copy(fn, i);
+  } else {
+    wrap_word(fn, i, wk);
+  }
+} return void;
+given boot_a given boot_b given init_gfn (0, 0, 0):() then prints:("  poke64(fp + 8, a0);\n")
+given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "struct Q { char c[13]; } q; int f(int a, struct Q b) { return a; }" (0, 1, 3):() then prints:("  c_memcpy(fp + 16, a1, 13);\n")
+
+wrap_copy(int fn, int i) {
+  int off = wrap_off(fn, i);
+  int rsz = wrap_rsz(fn, i);
+  emit_out("  c_memcpy(fp + " + off + ", a" + i + ", " + rsz + ");");
+} return void;
+given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "struct Q { char c[13]; } q; int f(int a, struct Q b) { return a; }" (0, 1):() then prints:("  c_memcpy(fp + 16, a1, 13);\n")
+given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "struct Q { int c[3]; } q; int f(struct Q b, struct Q d) { return 1; }" (0, 1):() then prints:("  c_memcpy(fp + 24, a1, 12);\n")

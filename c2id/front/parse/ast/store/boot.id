@@ -16,6 +16,7 @@ boot_a() {
   init_nodes4();
 } chain () {
   noret_init();
+  ret_init();
 } return void;
 ():() then calls init_nodes:()
 ():() then calls init_nodes3:()

@@ -19,16 +19,19 @@ chk_args(int id) {
     i = i + 1;
   }
 } return void;
-given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(12, 19) stdin "struct P { int x; }; int g(struct P p); int main(void) { struct P q; return g(q); }" (17):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(12, 19) stdin "struct P { int x; }; int g(struct P p); int main(void) { struct P q; return g(q); }" (17):() then len((import dgmsg)):(0)
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (11):() then len((import dgmsg)):(0)
-given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(13, 21) stdin "struct P { int x; }; int g(int a, struct P p); int main(void) { struct P q; return g(1, q); }" (19):() then (import dgmsg):([":1: error: argument 2 is a struct or union passed by value, which is not supported: the callee's writes would reach the caller's object; pass a pointer"])
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(10, 20) stdin "struct P { int x; }; int main(void) { struct P q; printf(\"%d\", q); return 0; }" (16):() then (import dgmsg):([":1: error: argument 2 is a struct or union passed by value through '...', which is not supported: pass a pointer"])
 
-// A struct or union argument is passed by value, which has no translation.
+// A struct or union is passed by value to every function the program defines
+// (the wrapper copies it); the arguments after the fixed ones of a variadic
+// function are a list of words, which has no room for one.
 chk_arg(int id, int a, int i) {
   int ty = ex_ty(a);
-  if((import nk)[ty] == "rec") {
-    diag_node(id, "argument " + (i + 1) + " is a struct or union passed by value, which is not supported: the callee's writes would reach the caller's object; pass a pointer");
+  int k = va_fixed((import ns)[(import na)[id]]);
+  if((import nk)[ty] == "rec" && k >= 0 && i >= k) {
+    diag_node(id, "argument " + (i + 1) + " is a struct or union passed by value through '...', which is not supported: pass a pointer");
   }
 } return void;
-given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(12, 19) stdin "struct P { int x; }; int g(struct P p); int main(void) { struct P q; return g(q); }" (17, 16, 0):() then (import dgmsg):([":1: error: argument 1 is a struct or union passed by value, which is not supported: the callee's writes would reach the caller's object; pass a pointer"])
-given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (11, 10, 0):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(10, 20) stdin "struct P { int x; }; int main(void) { struct P q; printf(\"%d\", q); return 0; }" (16, 15, 1):() then (import dgmsg):([":1: error: argument 2 is a struct or union passed by value through '...', which is not supported: pass a pointer"])
+given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(12, 19) stdin "struct P { int x; }; int g(struct P p); int main(void) { struct P q; return g(q); }" (17, 16, 0):() then len((import dgmsg)):(0)

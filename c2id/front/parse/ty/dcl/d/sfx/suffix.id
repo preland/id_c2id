@@ -10,7 +10,7 @@ ty_suffix2(int[] pos, int inner) {
   }
 } return int r;
 given boot_a given lexfix stdin "x" ([0], 0):(0)
-given boot_a given ty_setup given lexfix stdin "( )" ([0], 0):(0) then calls fn_suffix:([2], 0)
+given tynode_fix given ty_setup given lexfix stdin "( )" ([0], 0):(6) then calls fn_suffix:([2], 0)
 
 arr_suffix(int[] pos, int inner) {
   advance(pos);

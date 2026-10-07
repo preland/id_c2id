@@ -25,6 +25,7 @@ bind_kids2(int id, string kn) {
   if(find_str((import scan_m), kn) >= 0) {
     bind_list((import nm)[id]);
   }
+  bind_sret(id, kn);
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int x = 1; int x = 2; }" (17, "block"):() then (import lvnames):(["x", "x__0"]) then (import ns)[15]:("x__0")
 given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { int b = a; return b; }" (14, "return"):() then calls bind_var:(13) then len((import lvnames)):(0)

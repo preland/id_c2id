@@ -1,0 +1,24 @@
+// What an end block stores at fp + 0: the returned value, or for a block that
+// ends the function without one (a call that never returns) a zero, except in a
+// function that returns a struct or union, where it is the pointer to the
+// caller's object so the caller's copy of the result reads its own temporary.
+ret_text(int e) {
+  string txt = "0";
+  if(e >= 0) {
+    txt = retval_txt(e);
+  } else {
+    txt = ret_none();
+  }
+} return string txt;
+given txt_fixture given pend_setup (0):("t0")
+given txt_fixture given pend_setup (-1):("0")
+
+ret_none() {
+  int rt = (import retty)[0];
+  string txt = "0";
+  if((import nk)[rt] == "rec") {
+    txt = name_val("peek64(fp + 8)");
+  }
+} return string txt;
+given txt_fixture given pend_setup ():("0")
+given txt_fixture given pend_setup given lset((import retty), 0, 5) given sset((import nk), 5, "rec") ():("t0") then (import pend):(["word t0 = peek64(fp + 8);"])

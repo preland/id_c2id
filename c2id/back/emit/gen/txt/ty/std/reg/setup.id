@@ -21,7 +21,6 @@ txt_setup() {
   fill_std();
 } chain () {
   gl_setup();
-  export int[] retty = [0];
   export int[] fltys = [0, 0, 0];
 } return void;
 given boot_a ():() then len((import stdty)):(5)

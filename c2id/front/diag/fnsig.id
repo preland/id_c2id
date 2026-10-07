@@ -1,16 +1,9 @@
-// What a function definition's type may not be. A struct or union passed or
-// returned by value has no translation yet: the callee would write through the
-// caller's object and a returned value would be garbage, so the definition is
-// refused (by the check pass, so only when the program reaches the function) at
-// the end of its parameter list.
-fn_refuse(int tk, string name, int r) {
-  fn_va_refuse(tk, name, r);
-  fn_ret_refuse(tk, name, r);
-  fn_par_refuse(tk, name, r);
-} return void;
-given boot_a given boot_b given lexfix given tu_load stdin "int f(int n, ...);" (0, "f", 8):() then len((import dgmsg)):(1)
-given boot_a given boot_b given lexfix given tu_load stdin "struct P { int x; }; struct P f(int n);" (0, "f", 9):() then len((import dgmsg)):(1)
-given boot_a given boot_b given lexfix given tu_load stdin "struct P { int x; }; int g(struct P p);" (0, "g", 9):() then len((import dgmsg)):(1)
+// What a function definition's type may not be. A variadic definition has no
+// translation (va_start and va_arg need the caller's argument list, which a
+// frame of fixed 8-byte slots does not keep), so it is refused (by the check
+// pass, so only when the program reaches the function) at the end of its
+// parameter list. A struct or union passed or returned by value is supported:
+// docs/EMITTER.md, "Struct values".
 
 // `int f(int n, ...)`: the fn node's nb is 1 when its parameter list ended in `...`.
 fn_va_refuse(int tk, string name, int r) {
@@ -19,13 +12,4 @@ fn_va_refuse(int tk, string name, int r) {
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "# 5 \"v.c\"\nint f(int n, ...);" (0, "f", 8):() then (import dgmsg):(["v.c:5: error: function 'f' is defined with '...': variadic definitions (va_start, va_arg) are not supported"])
-given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, int b);" (0, "f", 9):() then len((import dgmsg)):(0)
-
-// A struct or union result.
-fn_ret_refuse(int tk, string name, int r) {
-  if((import nk)[r] == "fn" && (import nk)[(import na)[r]] == "rec") {
-    diag_tok(tk, "function '" + name + "' returns a struct or union by value, which is not supported: a caller would read garbage; return it through a pointer parameter");
-  }
-} return void;
-given boot_a given boot_b given lexfix given tu_load stdin "# 5 \"v.c\"\nstruct P { int x; }; struct P f(int n);" (0, "f", 9):() then (import dgmsg):(["v.c:5: error: function 'f' returns a struct or union by value, which is not supported: a caller would read garbage; return it through a pointer parameter"])
 given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, int b);" (0, "f", 9):() then len((import dgmsg)):(0)

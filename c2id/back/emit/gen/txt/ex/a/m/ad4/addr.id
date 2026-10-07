@@ -4,7 +4,7 @@
 // peephole but the definition. Every other unary operator, and every other
 // node kind, has no address at all.
 ad4(int id) {
-  string s = "NOT_AN_LVALUE_" + (import nk)[id];
+  string s = ad5(id);
   if((import nk)[id] == "un" && (import ns)[id] == "*") {
     int a = (import na)[id];
     s = ex_txt(a);

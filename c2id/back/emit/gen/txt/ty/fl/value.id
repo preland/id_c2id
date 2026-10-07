@@ -15,7 +15,7 @@ retval_txt(int e) {
   int ce = fl_coerce(rt, e);
   string txt = ex_txt(ce);
 } chain (int e) {
-  string out = conv_txt(rt, txt);
+  string out = ret_conv(rt, txt);
 } return string out;
 given txt_fixture given pend_setup given fl_fixture given lset((import retty), 0, 6) (8):("t0")
 given txt_fixture given pend_setup given fl_fixture given lset((import retty), 0, 0) (8):("t0")

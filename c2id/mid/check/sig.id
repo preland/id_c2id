@@ -2,7 +2,7 @@
 // be (front/diag/fnsig.id), refused at the token its parameter list ended on.
 chk_sig(int i) {
   int ft = (import ftys)[i];
-  fn_refuse((import ntok)[ft], (import fnames)[i], ft);
+  fn_va_refuse((import ntok)[ft], (import fnames)[i], ft);
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "# 6 \"s.c\"\nint x;\nint f(int n, ...) { return n; }" (0):() then (import dgmsg):(["s.c:7: error: function 'f' is defined with '...': variadic definitions (va_start, va_arg) are not supported"])
 given boot_a given boot_b given lexfix given tu_load stdin "int f(int n) { return n; }" (0):() then len((import dgmsg)):(0)

@@ -1,0 +1,14 @@
+// A call that returns a struct or union is its result's address, the hidden
+// argument's temporary, so `f().x` reads its member through it. Nothing else
+// that is not an lvalue has one.
+ad5(int id) {
+  string s = "NOT_AN_LVALUE_" + (import nk)[id];
+  int ty = ex_ty(id);
+  if((import nk)[id] == "call" && (import nk)[ty] == "rec") {
+    s = ex_txt(id);
+  }
+} return string s;
+given txt_fixture (0):("NOT_AN_LVALUE_prim")
+given txt_fixture (5):("NOT_AN_LVALUE_ptr")
+given boot_a given boot_b given lexfix given tu_load given pend_setup stdin "struct P { int x; }; struct P f(void); int g(void) { return f().x; }" (15):("t0")
+given boot_a given boot_b given lexfix given tu_load given pend_setup stdin "struct P { int x; }; int f(void); int g(void) { return f(); }" (15):("NOT_AN_LVALUE_call")

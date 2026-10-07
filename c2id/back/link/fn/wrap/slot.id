@@ -1,0 +1,36 @@
+// Where each parameter lives in the callee's frame. A scalar takes a whole
+// 8-byte slot from fp + 8; a struct or union passed by value takes its own size
+// rounded up to 8 bytes, the wrapper copying the caller's object into it.
+
+par_slot(int ty) {
+  int sz = 8;
+  if((import nk)[ty] == "rec") {
+    sz = align_up(type_size(ty), 8);
+  }
+} return int sz;
+given tynode_fix (0):(8)
+given boot_a given boot_b given lexfix given tu_load stdin "struct Q { char c[13]; } q;" (6):(16)
+
+par_off(int ft, int i) {
+  int[] tys = (import nl)[ft];
+  int off = 8;
+  int j = 0;
+} chain (int ft, int i) {
+  while(j < i) {
+    off = off + par_slot(tys[j]);
+    j = j + 1;
+  }
+} return int off;
+given boot_a given boot_b given lexfix given tu_load stdin "struct Q { char c[13]; } q; int f(int a, struct Q b, long c) { return a; }" (13, 0):(8)
+given boot_a given boot_b given lexfix given tu_load stdin "struct Q { char c[13]; } q; int f(int a, struct Q b, long c) { return a; }" (13, 2):(32)
+
+// The offset of parameter i of function fn; a function with no type on record
+// (a fixture's) has only 8-byte slots.
+wrap_off(int fn, int i) {
+  int off = 8 + 8 * i;
+  if(fn < len((import ftys))) {
+    off = par_off((import ftys)[fn], i);
+  }
+} return int off;
+given boot_a given boot_b given lexfix given tu_load stdin "struct Q { char c[13]; } q; int f(int a, struct Q b, long c) { return a; }" (0, 2):(32)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return a; }" (3, 2):(24)

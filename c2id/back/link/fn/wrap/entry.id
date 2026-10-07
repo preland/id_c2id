@@ -32,9 +32,11 @@ wrap_args(int np, int fn) {
   int i = 0;
   while(i < np) {
     int wk = wrap_kind(fn, i);
-    wrap_arg(i, wk);
+    wrap_arg(fn, i, wk);
     i = i + 1;
   }
+  wrap_sret(fn);
 } return void;
 given boot_a given boot_b given init_gfn (1, 0):() then prints:("  poke64(fp + 8, a0);\n")
 given boot_a given boot_b given init_gfn (4, 0):() then prints:("  poke64(fp + 8, a0);\n  poke64(fp + 16, a1);\n  poke64(fp + 24, a2);\n} chain (word fp) {\n  word k0 = 0;\n  poke64(fp + 32, a3);\n")
+given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "struct Q { int c; }; struct Q f(int a) { struct Q q; return q; }" (2, 0):() then prints:("  poke64(fp + 8, a0);\n  poke64(fp + 16, a1);\n  poke64(fp, a0);\n")

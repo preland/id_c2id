@@ -17,6 +17,9 @@
 // funcs_per_file: how many block functions share one generated file, which is
 // id's own limit.
 //
+// sret_var: the name of the hidden first parameter of a function that returns a
+// struct or union, a pointer to the caller's object the result is written to.
+//
 // op_names[i] is a binary operator token; op_levels[i] is its level, 0 being
 // the loosest. Keep the two lists the same length and in the same order.
 //
@@ -48,6 +51,7 @@ int ch_dq = 34;
 int ch_sq = 39;
 int ch_nl = 10;
 int ch_eof = 0;
+string sret_var = "__ret";
 int tree_depth = 8;
 int funcs_per_file = 3;
 string[] op_names = ["||", "&&", "|", "^", "&", "==", "!=", "<", ">", "<=", ">=", "<<", ">>", "+", "-", "*", "/", "%"];
