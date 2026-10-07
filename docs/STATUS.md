@@ -220,18 +220,22 @@ integer, which is undefined in C and gives whatever the hardware does.
 
 Recorded here rather than left to be discovered:
 
-* **`exit()` and `abort()` end the block they are called in; what runs after a
-  call that exits in the middle of a statement does not stop.** A call to `exit`,
+* **`exit()` and `abort()` end the block they are called in.** A call to `exit`,
   `abort`, `_Exit` or a function declared `_Noreturn` or
   `__attribute__((noreturn))` ends its basic block (`back/emit/cfg/w/j/plain.id`,
   the names from `front/diag/noret/`), and a statement that calls a function which
-  may reach one (any function that calls one, closed over the program:
-  `mx_close`) is followed by a block boundary, where the runner sees the exit
-  status; so the statements after such a call never run (`tests/c/166` to
-  `173`). Not covered: an `exit` reached in the middle of one statement, as in
-  `printf("%d", die())`, where the rest of that statement (the `printf` itself)
-  still runs, and a call through a function pointer to a function that exits.
-  `_Exit` flushes the output buffer, which C's does not.
+  may reach one (any function that calls one or calls through a pointer, closed
+  over the program: `mx_close`) is followed by a block boundary, where the runner
+  sees the exit status; so the statements after such a call never run
+  (`tests/c/166` to `173`, `184`). A call of that kind inside a larger expression,
+  as in `printf("%d", die())`, is stored into a temporary and the block is cut
+  after it (`mid/lower/val/call.id`, `tests/c/187`, `188`), except a call through
+  a name nothing declares (a runtime builtin), which is not. `_Exit` flushes the
+  output buffer, which C's does not.
+* **Stack depth.** The stack grows in chunks and traps with `stack overflow` past
+  64 MiB of them (`rt/stackcap.id`, `tests/c/185`), but a program with small
+  frames reaches the host stack limit first (about 170000 nested calls under an
+  8 MiB limit) and dies with SIGSEGV and no message.
 * **printf formats held in a variable are not checked.** A literal format with a
   conversion the runtime does not implement is refused; one built at run time
   echoes the conversion instead (`crt/README.md`).

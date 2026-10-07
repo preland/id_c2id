@@ -1,0 +1,37 @@
+// A call used for its value, as in `printf("%d", die())`: its arguments are
+// lowered, and when the callee may exit the call becomes a statement of its own
+// storing into a temporary, and the block is cut after it. The runner looks at
+// the exit status between blocks, so the rest of the expression (the printf)
+// never runs once the callee has exited. A call that cannot exit stays in place.
+lower_call_val(int e) {
+  int r = lower_call(e);
+  int hit = mx_hoist(r);
+  if(hit == 1) {
+    r = hoist_call(e);
+  }
+} return int r;
+given low_fix given lst_str_insert((import dnames), 0, "f") given lst_insert((import dtys), 0, 6) given sset((import nk), 6, "ptr") (17):(27)
+given low_fix (17):(17)
+
+hoist_call(int e) {
+  int et = ex_ty(e);
+  int r = hoist_store(e, et);
+  walk_split();
+} return int r;
+given low_fix (17):(19) then len((import bkind)):(2) then (import bstmt)[0]:([21])
+given low_fix (17):(19) then cur_blk:(1)
+
+// A call with a value goes into a temporary that stands for it; a void one has
+// none, so it is just the statement, and what stands for it is a zero nothing
+// reads.
+hoist_store(int e, int et) {
+  int r = 0;
+  if((import nk)[et] == "prim" && (import ns)[et] == "void") {
+    effect_stmt(e);
+    r = mk_num(0);
+  } else {
+    r = hoist_temp(e, et);
+  }
+} return int r;
+given low_fix (17, 6):(19) then (import bstmt)[0]:([21])
+given low_fix given sset((import nk), 11, "prim") given sset((import ns), 11, "void") (17, 11):(20) then (import bstmt)[0]:([19])

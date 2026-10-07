@@ -10,7 +10,8 @@
 # A case that c2id cannot yet translate is reported as SKIP, not PASS -- the
 # whole point of this harness is that the status ledger in docs/STATUS.md
 # never gets ahead of the evidence. A case NAME.c may have a NAME.in (its standard
-# input) or a NAME.refuse (lines the refusal must contain: the case then passes
+# input), a NAME.trap (the program must exit 1 and say the lines on stderr; the C
+# oracle is not run) or a NAME.refuse (lines the refusal must contain: the case then passes
 # only if c2id fails and says them).
 #
 # usage: tests/run.sh [name-substring ...]
@@ -126,6 +127,31 @@ for src in "$here"/tests/c/*.c; do
             fail=$((fail + 1)); failed_names+=("$name"); continue
         fi
         echo "PASS  $name (refused)"
+        pass=$((pass + 1)); continue
+    fi
+
+    # A case with a .trap file is a program that has no defined C behaviour (it
+    # recurses forever): its oracle is not run. The port has to be translated
+    # and built, exit with status 1, and say every line of the file on stderr.
+    if [[ -f ${src%.c}.trap ]]; then
+        rm -rf "$work/$name.id"
+        if ! "$c2id" "$src" "$work/$name.id" > "$work/$name.c2iderr" 2>&1 \
+            || ! "$idc" "$work/$name.id" --allow-untested -o "$work/$name.out" > "$work/$name.idcerr" 2>&1; then
+            echo "FAIL  $name: does not translate and build"
+            fail=$((fail + 1)); failed_names+=("$name"); continue
+        fi
+        "$work/$name.out" > "$work/$name.gotout" 2> "$work/$name.goterr" < /dev/null
+        gotstatus=$?
+        missing=""
+        while IFS= read -r want; do
+            [[ -z $want ]] && continue
+            grep -qF -- "$want" "$work/$name.goterr" || missing="$missing [$want]"
+        done < "${src%.c}.trap"
+        if [[ $gotstatus -ne 1 || -n $missing ]]; then
+            echo "FAIL  $name: exit status $gotstatus (expected 1), stderr lacks:$missing"
+            fail=$((fail + 1)); failed_names+=("$name"); continue
+        fi
+        echo "PASS  $name (trapped)"
         pass=$((pass + 1)); continue
     fi
 

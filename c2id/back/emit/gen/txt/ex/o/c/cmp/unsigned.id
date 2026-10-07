@@ -4,18 +4,21 @@
 
 ucmp_body(int id) {
   string s = "";
-  if((import ns)[id] == ">" || (import ns)[id] == "<=") {
-    string exb = kid_ex((import nb), id);
-    string exa = kid_ex((import na), id);
+  int cty = pair_uty(id);
+  string op = (import ns)[id];
+} chain (int id) {
+  if(op == ">" || op == "<=") {
+    string exb = kid_cv((import nb), id, cty);
+    string exa = kid_cv((import na), id, cty);
     s = ult_txt(exb, exa);
   } else {
-    string exa2 = kid_ex((import na), id);
-    string exb2 = kid_ex((import nb), id);
+    string exa2 = kid_cv((import na), id, cty);
+    string exb2 = kid_cv((import nb), id, cty);
     s = ult_txt(exa2, exb2);
   }
 } return string s;
-given txt_fixture given pend_setup (0):("t0")
-given txt_fixture given pend_setup (5):("t0")
+given txt_fixture given pend_setup (0):("t2")
+given txt_fixture given pend_setup (5):("t2")
 
 ucmp_final(string s, int id) {
   string op = (import ns)[id];

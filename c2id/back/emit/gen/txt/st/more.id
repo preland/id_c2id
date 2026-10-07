@@ -38,5 +38,5 @@ ret_st(int id) {
     s = "poke64(fp, " + retval_txt(a) + ");";
   }
 } return string s;
-given txt_fixture (0):("poke64(fp, NEEDS_CFG_prim);")
-given txt_fixture (1):("poke64(fp, NEEDS_CFG_prim);")
+given txt_fixture given pend_setup (0):("poke64(fp, t0);")
+given txt_fixture given pend_setup (1):("poke64(fp, t0);")

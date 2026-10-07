@@ -5,8 +5,9 @@
 // `rtin[0]` that holds the FILE standard input is read through once something
 // reads it (0 until then).
 //
-// `rtc` is the address of four words in the store: the next free stack byte, the
-// end of the chunk, the floor, and the base of the chunk. The stack is a chain
+// `rtc` is the address of five words in the store: the next free stack byte, the
+// end of the chunk, the floor, the base of the chunk, and the bytes of the chunks made
+// after the first (rt_budget caps them at 64 MiB). The stack is a chain
 // of chunks (rt/stackgrow.id): a frame that does not fit in the current one
 // starts the next, so a program pays for the stack it uses, not for a worst
 // case. The floor is where the first frame of a later chunk begins, and 0 in the
@@ -16,7 +17,7 @@
 rt_boot(word gsz) {
   export word gbase = alloc(gsz + 8);
   word sb = alloc(262144);
-  export word rtc = alloc(32);
+  export word rtc = alloc(40);
 } chain (word gsz) {
   poke64((import rtc), sb + 48);
   poke64((import rtc) + 8, sb + 262144);

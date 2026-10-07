@@ -1,6 +1,6 @@
-// The type of `c ? a : b`. The then-arm answers for both unless one arm is
-// floating point, when the two meet at a common type (`n ? x : 0` with a double
-// x is a double, not an int).
+// The type of `c ? a : b`: the two arms meet at the usual arithmetic
+// conversions' common type (`n ? x : 0` with a double x is a double, and
+// `n ? 0 : 1L + k` is a long, not the int the then-arm alone would say).
 cond_ty(int id) {
   int b = (import nb)[id];
   int[] el = (import nl)[id];
@@ -13,10 +13,12 @@ given txt_fixture given fl_fixture given fl_cond_fixture ((import flq)):(6)
 given txt_fixture given fl_fixture given fl_cond_fixture ((import fln)):(0)
 
 fl_cond(int tb, int te) {
-  int r = fl_pair(tb, te);
-  if(r < 0) {
-    r = tb;
+  int r = tb;
+  if(tb != te) {
+    r = usual_ty(tb, te);
   }
 } return int r;
 given txt_fixture given fl_types (0, 6):(6)
 given txt_fixture (1, 0):(1)
+given txt_fixture (0, 2):(2)
+given txt_fixture (2, 0):(2)

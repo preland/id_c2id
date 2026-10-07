@@ -6,7 +6,7 @@ mx_fn(int i) {
   }
 } return int hit;
 given noret_init given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { exit(1); }" (0):(1) then (import mxnames)[3]:("f")
-given noret_init given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { puts(\"a\"); }" (0):(0) then len((import mxnames)):(3)
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int puts(char *s); void f(void) { puts(\"a\"); }" (0):(0) then len((import mxnames)):(3)
 
 mx_add(int i, string mxn) {
   int hit = mx_hit((import fbodies)[i]);
@@ -15,7 +15,7 @@ mx_add(int i, string mxn) {
   }
 } return int hit;
 given noret_init given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { exit(1); }" (0, "f"):(1) then (import mxnames)[3]:("f")
-given noret_init given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { puts(\"a\"); }" (0, "f"):(0) then len((import mxnames)):(3)
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int puts(char *s); void f(void) { puts(\"a\"); }" (0, "f"):(0) then len((import mxnames)):(3)
 
 mx_pass() {
   int added = 0;
@@ -26,4 +26,4 @@ mx_pass() {
   }
 } return int added;
 given noret_init given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { exit(1); } void g(void) { f(); }" ():(2)
-given noret_init given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { puts(\"a\"); }" ():(0)
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int puts(char *s); void f(void) { puts(\"a\"); }" ():(0)

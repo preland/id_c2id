@@ -1,0 +1,31 @@
+// Whether a call lowered for its value has to be cut after. It does when its
+// callee is on mxnames, or when it goes through a pointer whose type is known.
+// A name no declaration gives a type (a runtime builtin the program never
+// declared) is not cut: its result type would be guessed as int, and the
+// temporary that carries the value across the cut would narrow it.
+mx_hoist(int id) {
+  int hit = call_listed(id, (import mxnames));
+  if(hit == 0) {
+    hit = hoist_ind(id);
+  }
+} return int hit;
+given low_fix given lst_str_insert((import mxnames), 3, "f") (17):(1)
+given low_fix (17):(0)
+
+hoist_ind(int id) {
+  int hit = call_ind(id);
+  if(hit == 1) {
+    int ft = ex_ty((import na)[id]);
+    hit = (import nk)[ft] == "ptr" || (import nk)[ft] == "fn";
+  }
+} return int hit;
+given low_fix given lst_str_insert((import dnames), 0, "f") given lst_insert((import dtys), 0, 6) given sset((import nk), 6, "ptr") (17):(1)
+given low_fix (17):(0)
+
+hoist_temp(int e, int et) {
+  int ty = tern_ty(et);
+  int t = new_temp(ty);
+  assign_stmt(t, e);
+} return int t;
+given low_fix (17, 6):(19) then (import bstmt)[0]:([21])
+given low_fix (17, 7):(19) then (import ns)[19]:("__tmp0")

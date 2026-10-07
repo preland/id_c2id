@@ -7,15 +7,12 @@
 // calls one, closed over the program (front/diag/noret/mx*.id). A statement
 // calling one ends its block so the runner sees the exit before the next block.
 // chk_cal is the callee node of the call the check pass is at (mid/check/mark.id).
-// mxmode is 1 while the closure is being made, and then a call through a pointer
-// counts as a call that may exit; once it is 0 a statement is cut only after a
-// call to a function that is listed.
+// A call through a pointer can reach any function, so it counts as a call that
+// may exit, both in the closure and in cutting a statement after it.
 noret_init() {
   export string[] nrnames = ["exit", "abort", "_Exit"];
   export string[] mxnames = ["exit", "abort", "_Exit"];
   export int[] chk_cal = [0 - 1];
-} chain () {
-  export int[] mxmode = [0];
 } return void export nrnames;
 ():() then len((import nrnames)):(3)
 ():() then (import nrnames)[2]:("_Exit")

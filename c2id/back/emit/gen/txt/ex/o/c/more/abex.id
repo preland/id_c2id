@@ -17,3 +17,14 @@ a_addr(int id) {
 } return string s;
 given txt_fixture (0):("NOT_AN_LVALUE_prim") then calls addr_txt:(4)
 given txt_fixture (1):("NOT_AN_LVALUE_prim") then calls addr_txt:(4)
+
+// The text of one operand of a two-child node, converted to ty -- what an
+// unsigned division or comparison needs so that an `int` operand arrives as
+// the 32-bit pattern the usual arithmetic conversions give it, not as a
+// sign-extended 64-bit word that outranks every unsigned value.
+kid_cv(int[] kids, int id, int ty) {
+  string s = kid_ex(kids, id);
+  string out = conv_txt(ty, s);
+} return string out;
+given txt_fixture given pend_setup ((import na), 0, 0):("t0")
+given txt_fixture given pend_setup ((import na), 0, 5):("NEEDS_CFG_prim")

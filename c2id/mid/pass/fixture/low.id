@@ -26,6 +26,7 @@ low_fix() {
   low_nodes();
 } chain () {
   int b0 = new_block();
+  noret_init();
 } return void;
 ():() then calls low_nodes:()
 ():() then calls cfg_init:()

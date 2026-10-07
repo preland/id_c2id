@@ -18,9 +18,11 @@ given txt_fixture given uop_fixture (6):("udiv")
 given txt_fixture given uop_fixture (7):("umod")
 
 uop_body(int id, string name) {
-  string exa = kid_ex((import na), id);
-  string exb = kid_ex((import nb), id);
+  int ty = ex_ty(id);
+  string exa = kid_cv((import na), id, ty);
+  string exb = kid_cvb(id, name, ty);
+} chain (int id, string name) {
   string s = name_val(name + "(" + exa + ", " + exb + ")");
 } return string s;
-given txt_fixture given pend_setup (0, "udiv"):("t0")
-given txt_fixture given pend_setup (5, "umod"):("t0")
+given txt_fixture given pend_setup (0, "udiv"):("t2")
+given txt_fixture given pend_setup (5, "umod"):("t2")

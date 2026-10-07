@@ -29,5 +29,6 @@ rt_fresh(word cb, word n) {
   word nb = alloc(sz);
   poke64(nb + 24, nb + sz);
 } chain (word cb, word n) {
+  rt_budget(sz);
   poke64(cb + 16, nb);
 } return word nb;

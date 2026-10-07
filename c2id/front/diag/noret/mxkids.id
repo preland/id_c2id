@@ -16,7 +16,7 @@ mx_kids(int id) {
   }
 } return int hit;
 given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { puts(\"a\"); exit(1); }" ((import mxb)):(1)
-given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { puts(\"a\"); puts(\"b\"); }" ((import mxb)):(0)
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "int puts(char *s); void f(void) { puts(\"a\"); puts(\"b\"); }" ((import mxb)):(0)
 
 mx_list(int[] l) {
   int hit = 0;
@@ -27,4 +27,4 @@ mx_list(int[] l) {
   }
 } return int hit;
 given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { puts(\"a\"); exit(1); }" ((import mxl)):(1)
-given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { puts(\"a\"); }" ((import mxl)):(0)
+given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "int puts(char *s); void f(void) { puts(\"a\"); }" ((import mxl)):(0)

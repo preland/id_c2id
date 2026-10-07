@@ -8,14 +8,18 @@ given txt_fixture given pend_setup given fl_fixture (0, 8):("5")
 
 // The text of expression e returned from the function being emitted, in the
 // function's return type. retty[0] is that type, set when its parameters are
-// bound.
+// bound. A narrow integer type wraps the value (`short f(int x) { return x; }`
+// answers 4464 for 70000), exactly as a store into one would.
 retval_txt(int e) {
   int rt = (import retty)[0];
   int ce = fl_coerce(rt, e);
   string txt = ex_txt(ce);
-} return string txt;
+} chain (int e) {
+  string out = conv_txt(rt, txt);
+} return string out;
 given txt_fixture given pend_setup given fl_fixture given lset((import retty), 0, 6) (8):("t0")
-given txt_fixture given pend_setup given fl_fixture given lset((import retty), 0, 0) (8):("5")
+given txt_fixture given pend_setup given fl_fixture given lset((import retty), 0, 0) (8):("t0")
+given txt_fixture given pend_setup given fl_fixture given lset((import retty), 0, 5) (8):("5")
 
 // The text of the condition of a branch: a floating-point one is compared with
 // zero first, since its bits are not a truth value (-0.0 is false, and every

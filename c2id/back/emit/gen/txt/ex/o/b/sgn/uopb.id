@@ -1,0 +1,11 @@
+// The right operand of an unsigned `/`, `%` or `>>`. The first two convert it
+// to the pair's common type, as C does; a shift's count is not part of that
+// pair, so it is left as written.
+kid_cvb(int id, string name, int ty) {
+  string exb = kid_ex((import nb), id);
+  if(name != "ushr") {
+    exb = conv_txt(ty, exb);
+  }
+} return string exb;
+given txt_fixture given pend_setup (0, "udiv", 0):("t0")
+given txt_fixture given pend_setup (0, "ushr", 0):("NEEDS_CFG_prim")

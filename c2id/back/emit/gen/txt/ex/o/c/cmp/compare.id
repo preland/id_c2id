@@ -36,5 +36,5 @@ ucmp_txt(int id) {
   string s = ucmp_body(id);
   string out = ucmp_final(s, id);
 } return string out;
-given txt_fixture given pend_setup (0):("t0") then calls ucmp_body:(0)
-given txt_fixture given pend_setup (5):("t0") then calls ucmp_body:(5)
+given txt_fixture given pend_setup (0):("t2") then calls ucmp_body:(0)
+given txt_fixture given pend_setup (5):("t2") then calls ucmp_body:(5)
