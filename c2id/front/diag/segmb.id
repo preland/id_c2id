@@ -1,0 +1,27 @@
+// A record with a poisoned record or array of one as a member (by value, not through a
+// pointer) is poisoned too: its size and offsets depend on the one it holds.
+seg_member(int sb_ty, int sb_r) {
+  int sb_e = seg_elem(sb_r);
+  int sb_i = lst_index_of((import sgt), sb_e);
+  if(sb_i >= 0) {
+    seg_inherit(sb_ty, sb_i);
+  }
+} return void;
+given tynode_fix given lst_extend((import sgt), [5]) given lst_str_insert((import sgtm), 0, "why") (1, 5):() then (import sgt):([5, 1]) then (import sgtm):(["why", "why"])
+given tynode_fix (1, 5):() then len((import sgt)):(0)
+
+seg_elem(int se_r) {
+  int se_t = se_r;
+  while((import nk)[se_t] == "arr") {
+    se_t = (import na)[se_t];
+  }
+} return int se_t;
+given tynode_fix (3):(0)
+given tynode_fix (5):(5)
+
+seg_inherit(int si_ty, int si_i) {
+  push((import sgt), si_ty);
+  push((import sgtm), (import sgtm)[si_i]);
+} return void;
+given boot_a given lst_extend((import sgt), [5]) given lst_str_insert((import sgtm), 0, "why") (9, 0):() then (import sgt):([5, 9])
+given boot_a given lst_extend((import sgt), [5]) given lst_str_insert((import sgtm), 0, "why") (9, 0):() then (import sgtm):(["why", "why"])

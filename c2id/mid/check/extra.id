@@ -1,6 +1,7 @@
 // A node that is refused for what it is: a "refuse" node the parser left for a
 // construct it could not tell was reached (front/diag/refuse.id), and a use of a
-// variable the program bound to a machine register with asm("name").
+// variable the program bound to a machine register with asm("name"), and a node
+// that holds a 128-bit integer (chk_wide).
 chk_extra(int id) {
   string kn = (import nk)[id];
   if(kn == "refuse") {
@@ -8,6 +9,9 @@ chk_extra(int id) {
   } else if(kn == "var") {
     chk_regvar(id);
   }
+} chain (int id) {
+  chk_wide(id);
+  chk_seg(id);
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return _Generic(1, int: 2); }" (9):() then len((import dgmsg)):(1)
 given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 1; }" (9):() then len((import dgmsg)):(0)

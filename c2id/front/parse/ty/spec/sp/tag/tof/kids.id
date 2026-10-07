@@ -1,0 +1,42 @@
+// The names tof_free counts under the children of a node, by kind, as chk_kids
+// reads them (conf.id: scan_a, scan_b, scan_l, scan_m).
+tof_free_kids(int tk_id, string tk_kn) {
+  int tk_n = 0;
+  if(find_str((import scan_a), tk_kn) >= 0) {
+    tk_n = tof_free((import na)[tk_id]);
+  }
+  if(find_str((import scan_b), tk_kn) >= 0) {
+    tk_n = tk_n + tof_free((import nb)[tk_id]);
+  }
+} chain (int tk_id, string tk_kn) {
+  if(find_str((import scan_l), tk_kn) >= 0) {
+    tk_n = tk_n + tof_free_list((import nl)[tk_id]);
+  }
+  if(find_str((import scan_m), tk_kn) >= 0) {
+    tk_n = tk_n + tof_free_list((import nm)[tk_id]);
+  }
+} return int tk_n;
+given boot_a given boot_b given exprfix stdin "g + 1;" ((import extop), "bin"):(1)
+given boot_a given boot_b given exprfix stdin "1 + 2;" ((import extop), "bin"):(0)
+
+tof_free_list(int[] tl_l) {
+  int tl_i = 0;
+  int tl_n = 0;
+  while(tl_i < len(tl_l)) {
+    tl_n = tl_n + tof_free(tl_l[tl_i]);
+    tl_i = tl_i + 1;
+  }
+} return int tl_n;
+given boot_a given boot_b given exprfix stdin "g;" ([(import extop)]):(1)
+given boot_a given boot_b given exprfix stdin "g;" ([]):(0)
+
+tof_free_nv(int tv_id, string tv_kn) {
+  int tv_n = 0;
+  if(find_str((import tof_bad), tv_kn) >= 0) {
+    tv_n = 1;
+  } else {
+    tv_n = tof_free_kids(tv_id, tv_kn);
+  }
+} return int tv_n;
+given boot_a given boot_b given exprfix stdin "1 + 2;" ((import extop), "decl"):(1)
+given boot_a given boot_b given exprfix stdin "g + 1;" ((import extop), "bin"):(1)

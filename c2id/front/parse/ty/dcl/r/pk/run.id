@@ -1,0 +1,32 @@
+// The index just past the run of attributes that starts at token ar_from.
+attr_run_end(int ar_from) {
+  int[] ar_c = [ar_from];
+  while(attrs_more(ar_c) == 1) {
+    skip_head(ar_c);
+    skip_paren(ar_c);
+  }
+  int ar_end = ar_c[0];
+} return int ar_end;
+given boot_a given boot_b given lexfix stdin "__attribute__ ( ( packed ) ) x" (0):(6)
+given boot_a given boot_b given lexfix stdin "x" (0):(0)
+
+// The number in `aligned(N)`, or -1 when the argument is not one literal.
+attr_num(int an_t) {
+  int an_n = 0 - 1;
+  if((import tkind)[an_t] == "num" && (import ttext)[an_t + 1] == ")") {
+    an_n = num_val((import ttext)[an_t]);
+  }
+} return int an_n;
+given boot_a given boot_b given lexfix stdin "( 8 )" (1):(8)
+given boot_a given boot_b given lexfix stdin "( x )" (1):(-1)
+
+// The alignment the `aligned` at token av_g asks for: the argument, or 16 when
+// there is none, as gcc's largest alignment on x86-64.
+attr_arg(int av_g) {
+  int av_n = 16;
+  if((import ttext)[av_g + 1] == "(") {
+    av_n = attr_num(av_g + 2);
+  }
+} return int av_n;
+given boot_a given boot_b given lexfix stdin "( aligned ( 4 ) )" (1):(4)
+given boot_a given boot_b given lexfix stdin "( aligned )" (1):(16)

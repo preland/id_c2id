@@ -1,0 +1,18 @@
+// The smallest of 1, 2, 4 and 8 bytes that holds the given number of bits.
+bfx_bytes(int by_bits) {
+  int by_n = 8;
+  if(by_bits <= 32) {
+    by_n = 4;
+  }
+  if(by_bits <= 16) {
+    by_n = 2;
+  }
+} chain (int by_bits) {
+  if(by_bits <= 8) {
+    by_n = 1;
+  }
+} return int by_n;
+(5):(1)
+(11):(2)
+(33):(8)
+(32):(4)

@@ -1,0 +1,17 @@
+// The names declared below file scope in the external declaration being read:
+// every parameter and every local. A typeof is resolved at parse time only for a
+// name that is not among them (tof_name_bad), since one of them may hide a global.
+lname_add(string ln_name) {
+  push((import lnames), ln_name);
+} return void;
+given init_nodes4 ("a"):() then (import lnames):(["a"])
+given init_nodes4 given lname_add("a") ("b"):() then len((import lnames)):(2)
+
+lnames_reset() {
+  while(len((import lnames)) > 0) {
+    pop((import lnames));
+  }
+} return void;
+given init_nodes4 given lname_add("a") ():() then len((import lnames)):(0)
+given init_nodes4 ():() then len((import lnames)):(0)
+

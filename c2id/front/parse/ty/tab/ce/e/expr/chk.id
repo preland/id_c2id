@@ -5,9 +5,23 @@
 ce_chk(int[] pos) {
   int tk = tok_last();
   if((import cunk)[0] == 1 && pos[0] < len((import ttext))) {
-    diag_tok(tk, "constant expression is not a constant c2id can evaluate (an array of variable length, or a size or value that depends on a variable): the program would run and be wrong");
+    ce_bad(tk);
   }
 } return void;
 given boot_a given boot_b given lexfix given lset((import cunk), 0, 1) stdin "# 4 \"c.c\"\nx y" ([1]):() then (import dgmsg):(["c.c:4: error: constant expression is not a constant c2id can evaluate (an array of variable length, or a size or value that depends on a variable): the program would run and be wrong"])
 given boot_a given boot_b given lexfix stdin "x" ([1]):() then len((import dgmsg)):(0)
 given boot_a given boot_b given lexfix given lset((import cunk), 0, 1) stdin "x" ([2]):() then len((import dgmsg)):(0)
+
+// An array bound that cannot be folded does not decide the unit: the record or the
+// variable it sizes is poisoned, and a reached function that uses it is refused
+// (front/diag/defers.id). Anywhere else the expression is refused at once.
+ce_bad(int cb_tk) {
+  string cb_m = "constant expression is not a constant c2id can evaluate (an array of variable length, or a size or value that depends on a variable): the program would run and be wrong";
+  if((import arrdim)[0] == 1) {
+    defer_seg(cb_tk, cb_m);
+  } else {
+    diag_tok(cb_tk, cb_m);
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "x" (0):() then len((import dgmsg)):(1) then len((import pdtk)):(0)
+given boot_a given boot_b given lexfix given lset((import arrdim), 0, 1) stdin "x" (0):() then len((import dgmsg)):(0) then len((import pdsg)):(1)

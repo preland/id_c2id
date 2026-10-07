@@ -56,7 +56,7 @@
 //
 // spec_words: the counted specifier words, in the slot order sp uses.
 //
-// prim_names/prim_sizes/prim_signs: the sixteen canonical prim types every C
+// prim_names/prim_sizes/prim_signs: the eighteen canonical prim types every C
 // combination collapses onto, their LP64 sizes (long and long long are both
 // 8), and 1 where the type is signed. Plain `char` is signed on x86-64, which
 // is the only place that matters. `void` is 1 byte, as GNU C makes sizeof(void)
@@ -82,13 +82,28 @@ string[] refuse_names = ["tcgetattr", "tcsetattr", "tcflush", "tcdrain", "cfmake
 string[] refuse_why = ["terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program"];
 string[] c_keywords = ["if", "else", "while", "for", "do", "switch", "case", "default", "return", "sizeof", "goto", "break", "continue", "typedef", "struct", "union", "enum", "static", "extern", "register", "auto", "const", "volatile", "inline", "restrict", "signed", "unsigned", "void", "char", "short", "int", "long", "float", "double", "_Bool", "_Alignas", "_Alignof", "_Atomic", "_Generic", "_Noreturn", "_Static_assert", "_Thread_local", "typeof", "__typeof__", "asm", "__asm__", "__attribute__", "__extension__"];
 string[] kw_su = ["struct", "union"];
+string[] kw_sue = ["struct", "union", "enum"];
+string[] seg_words = ["__seg_gs", "__seg_fs"];
+string[] local_words = ["static", "inline", "__inline", "__inline__"];
+string[] used_attr = ["used", "__used__"];
+string[] tof_bad = ["decl", "stmtx", "refuse", "tof", "auto"];
+string[] brace_stop = [";", "{", "}"];
 string[] packed_names = ["packed", "__packed__", "vector_size", "__vector_size__", "mode", "__mode__"];
-string[] bad_attrs = ["cleanup", "__cleanup__", "constructor", "__constructor__", "destructor", "__destructor__", "alias", "__alias__"];
+string[] packed_attr = ["packed", "__packed__"];
+string[] aligned_attr = ["aligned", "__aligned__"];
+string[] cleanup_attrs = ["cleanup", "__cleanup__"];
+string[] bad_attrs = ["constructor", "__constructor__", "destructor", "__destructor__", "alias", "__alias__"];
 string[] jmp_names = ["setjmp", "_setjmp"];
 string[] rt_hidden = ["format", "printk"];
 string[] bi_special = ["__builtin_constant_p", "__builtin_choose_expr", "__builtin_types_compatible_p"];
 string[] wide_names = ["__int128", "__uint128_t", "__int128_t"];
+string[] wide_prims = ["__int128", "unsigned __int128"];
+string[] wide_kinds = ["num", "var", "bin", "un", "post", "call", "idx", "mem", "cast", "cond", "assign"];
 string[] ld_fns = ["cld_add", "cld_sub", "cld_mul", "cld_div"];
+string[] wd_ops = ["+", "-", "*", "/", "%", "&", "|", "^", "<<", ">>"];
+string[] wd_sfn = ["ci128_add", "ci128_sub", "ci128_mul", "ci128_divs", "ci128_mods", "ci128_and", "ci128_or", "ci128_xor", "ci128_shl", "ci128_sar"];
+string[] wd_ufn = ["ci128_add", "ci128_sub", "ci128_mul", "ci128_divu", "ci128_modu", "ci128_and", "ci128_or", "ci128_xor", "ci128_shl", "ci128_shr"];
+string[] wd_cmp_ops = ["<", "<=", ">", ">=", "==", "!="];
 string[] fl_ops = ["+", "-", "*", "/", "<", "<=", ">", ">=", "==", "!="];
 string[] fl_fns = ["cfl_add", "cfl_sub", "cfl_mul", "cfl_div", "cfl_lt", "cfl_le", "cfl_gt", "cfl_ge", "cfl_eq", "cfl_ne"];
 string[] sc_ops = ["&&", "||"];
@@ -101,9 +116,9 @@ string[] scan_m = ["if", "for"];
 string[] esc_chars = ["a", "b", "t", "n", "v", "f", "r", "\"", "'", "?", "\\"];
 int[] esc_vals = [7, 8, 9, 10, 11, 12, 13, 34, 39, 63, 92];
 string[] spec_words = ["void", "char", "short", "int", "long", "float", "double", "signed", "unsigned", "_Bool"];
-string[] prim_names = ["void", "_Bool", "char", "signed char", "unsigned char", "short", "unsigned short", "int", "unsigned int", "long", "unsigned long", "long long", "unsigned long long", "float", "double", "long double"];
-int[] prim_sizes = [1, 1, 1, 1, 1, 2, 2, 4, 4, 8, 8, 8, 8, 4, 8, 16];
-int[] prim_signs = [0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1];
+string[] prim_names = ["void", "_Bool", "char", "signed char", "unsigned char", "short", "unsigned short", "int", "unsigned int", "long", "unsigned long", "long long", "unsigned long long", "float", "double", "long double", "__int128", "unsigned __int128"];
+int[] prim_sizes = [1, 1, 1, 1, 1, 2, 2, 4, 4, 8, 8, 8, 8, 4, 8, 16, 16, 16];
+int[] prim_signs = [0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0];
 // The GCC atomic and __sync builtins. A call to atom_names[i] is rewritten
 // (mid/pass/frame/atom) into a call of atom_fns[i] -- a function of rt/ext/builtin, or
 // `memcpy` -- over the arguments atom_pick[i] names (digits, the order in which

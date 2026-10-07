@@ -1,0 +1,33 @@
+// `__attribute__((cleanup(fn)))` on a local runs fn(&var) when the variable goes out
+// of scope. In a function body whose argument is a plain name the name is kept for
+// the declaration (parse/code/sb/cl/); anything else, or any other place, is not
+// translated: in a function body that is told only if the function is reached (a
+// header's scoped-guard helpers are mostly never called), elsewhere at once.
+cleanup_note(int cn_tk) {
+  string cn_f = cl_name(cn_tk);
+  string cn_m = "attribute '" + (import ttext)[cn_tk] + "' runs, replaces or renames code, which c2id does not translate: the program would run and be wrong";
+  cleanup_say(cn_tk, cn_f, cn_m);
+} return void;
+given boot_a given boot_b given lexfix given lset((import infn), 0, 1) stdin "cleanup ( f )" (0):() then (import clfn):(["f"]) then len((import pdtk)):(0)
+given boot_a given boot_b given lexfix given lset((import infn), 0, 1) stdin "cleanup ( f ( 1 ) )" (0):() then len((import pdtk)):(1)
+
+cleanup_say(int cy_tk, string cy_f, string cy_m) {
+  if((import infn)[0] == 1 && cy_f != "") {
+    sset((import clfn), 0, cy_f);
+  } else if((import infn)[0] == 1) {
+    defer_tok(cy_tk, cy_m);
+  } else {
+    diag_tok(cy_tk, cy_m);
+  }
+} return void;
+given boot_a given boot_b given lexfix given lset((import infn), 0, 1) stdin "x" (0, "f", "m"):() then (import clfn):(["f"])
+given boot_a given boot_b given lexfix stdin "x" (0, "f", "m"):() then len((import dgmsg)):(1)
+
+cl_name(int cm_tk) {
+  string cm_f = "";
+  if(tok_at(cm_tk + 1) == "(" && tok_at(cm_tk + 3) == ")" && (import tkind)[cm_tk + 2] == "id") {
+    cm_f = tok_at(cm_tk + 2);
+  }
+} return string cm_f;
+given boot_a given boot_b given lexfix stdin "cleanup ( fn )" (0):("fn")
+given boot_a given boot_b given lexfix stdin "cleanup ( fn ( 1 ) )" (0):("")

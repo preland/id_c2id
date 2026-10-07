@@ -19,8 +19,8 @@ given boot_a given boot_b given lexfix given tu_load stdin "struct S { int a : 3
 
 bfx_text(int row, string bfa) {
   int n = (import syoff)[row] * 8 + (import sybit)[row];
-  int sz = (import sysz)[row];
-  int uo = (n / (8 * sz)) * sz;
+  int sz = bfx_unit(n, (import sysz)[row], (import sywid)[row]);
+  int uo = bfx_uoff(n, (import sysz)[row], (import sywid)[row]);
 } chain (int row, string bfa) {
   string kind = bfx_kind((import syids)[row]);
   string out = "BF|(" + bfa + " + " + uo + ")|" + sz + "|" + (n - 8 * uo) + "|" + (import sywid)[row] + "|" + kind;

@@ -1,0 +1,30 @@
+// A refusal for a named address space (`__seg_gs`, `__seg_fs`): a read or write
+// through it reaches the segment, and the flat store has none. Kept like any
+// deferred refusal for the function it turns out to be in; a declaration that
+// defines no function (a per-CPU variable, a typedef, a struct) is not told at
+// once but poisons what it declares (defer_poison).
+defer_seg(int dg_tk, string dg_msg) {
+  push((import pdtk), dg_tk);
+  push((import pdmsg), dg_msg);
+  push((import pdsg), 1);
+} return void;
+given boot_a (5, "m"):() then (import pdsg):([1])
+given boot_a given defer_tok(2, "n") (6, "m"):() then (import pdsg):([0, 1])
+
+defer_say(int dy_i) {
+  if((import pdsg)[dy_i] == 0) {
+    diag_tok((import pdtk)[dy_i], (import pdmsg)[dy_i]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given defer_tok(0, "m") (0):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given defer_seg(0, "m") (0):() then len((import dgmsg)):(0)
+
+defer_has(int dh_i) {
+  int dh_n = 0;
+  while(dh_i < len((import pdsg))) {
+    dh_n = dh_n + (import pdsg)[dh_i];
+    dh_i = dh_i + 1;
+  }
+} return int dh_n;
+given boot_a given defer_tok(1, "a") given defer_seg(2, "b") (0):(1)
+given boot_a given defer_tok(1, "a") (0):(0)

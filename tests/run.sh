@@ -97,8 +97,18 @@ for src in "$here"/tests/c/*.c; do
     name=$(basename "$src" .c)
     matches "$name" || continue
 
+    # A NAME.cflags file holds extra flags for the oracle; -funsigned-char among
+    # them makes c2id's plain char unsigned too (C2ID_UNSIGNED_CHAR, which the
+    # kernel's preprocessed files need, since they do not record the flag).
+    cflags=""
+    [[ -f ${src%.c}.cflags ]] && cflags=$(< "${src%.c}.cflags")
+    uchar=0
+    [[ $cflags == *-funsigned-char* ]] && uchar=1
+    export C2ID_UNSIGNED_CHAR=$uchar
+
     # ---- 1. the oracle: what the real C compiler does
-    if ! cc -std=gnu11 -w -o "$work/$name.ref" "$src" -lm 2>"$work/$name.ccerr"; then
+    # shellcheck disable=SC2086
+    if ! cc -std=gnu11 -w $cflags -o "$work/$name.ref" "$src" -lm 2>"$work/$name.ccerr"; then
         echo "ERROR $name: reference C does not compile"
         sed 's/^/    /' "$work/$name.ccerr" | head -5
         fail=$((fail + 1)); failed_names+=("$name"); continue

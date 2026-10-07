@@ -1,0 +1,28 @@
+// A statement that leaves the scope, or defines a label in it.
+cl_exit(int ce_id, string ce_kn, int ce_brk, int ce_cont) {
+  if((import clmode)[0] == 0) {
+    cl_label(ce_id, ce_kn);
+  } else {
+    cl_jump(ce_id, ce_kn, ce_brk, ce_cont);
+  }
+} return void;
+given cl_fix given lset((import clmode), 0, 0) (6, "label", 0, 0):() then (import cllab):(["in", "in"])
+given cl_fix (5, "continue", 0, 0):() then (import nk)[5]:("block")
+
+cl_label(int cb_id, string cb_kn) {
+  if(cb_kn == "label") {
+    push((import cllab), (import ns)[cb_id]);
+  }
+} return void;
+given cl_fix (6, "label"):() then (import cllab):(["in", "in"])
+given cl_fix (5, "continue"):() then (import cllab):(["in"])
+
+cl_jump(int cj_id, string cj_kn, int cj_brk, int cj_cont) {
+  if(cj_kn == "return") {
+    cl_ret(cj_id);
+  } else {
+    cl_jump2(cj_id, cj_kn, cj_brk, cj_cont);
+  }
+} return void;
+given cl_fix (1, "return", 0, 0):() then (import nk)[1]:("block")
+given cl_fix (4, "break", 1, 1):() then (import nk)[4]:("break")

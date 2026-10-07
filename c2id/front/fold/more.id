@@ -29,6 +29,7 @@ cv6(int e) {
   int v = 0;
   if((import nk)[e] == "sizeof" && ((import nb)[e] != 0 || (import na)[e] == 0)) {
     v = sizeof_meas(e, (import nb)[e]);
+    seg_fold(e);
   } else {
     v = cv7(e);
   }

@@ -6,12 +6,10 @@ drive() {
   mx_close();
 } chain () {
   reach_all();
-  wide_scan();
   settle();
 } return void;
 given boot_a given boot_b given lexfix stdin "int x;" ():() then calls parse_one:[1]
 given boot_a given boot_b given lexfix stdin "" ():() then calls parse_one:[0]
-given boot_a given boot_b given lexfix stdin "__int128 x;" ():() then len((import dgmsg)):(1)
 
 tu_decl2(int[] pos, int t, int bare) {
   if(bare > 0) {

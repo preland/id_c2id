@@ -1,0 +1,28 @@
+// A call through a pointer with n arguments has been written, so crt_callN has to
+// exist even if the program defines no function with n parameters (a library whose
+// callbacks come from outside; then it is a stub, ind_stub). An argument count past
+// the dispatch's 6 is left alone.
+ind_note(int in_id) {
+  int in_a = (import na)[in_id];
+  int in_n = len((import nl)[in_id]);
+  if(direct_call(in_a) == 0 && in_n < 7) {
+    lset((import indn), in_n, 1);
+  }
+} return void;
+given boot_a given boot_b given exprfix given bind_param("p", 0) stdin "p(1);" ((import extop)):() then (import indn):([0, 1, 0, 0, 0, 0, 0])
+given boot_a given boot_b given exprfix stdin "f(1);" ((import extop)):() then (import indn):([0, 0, 0, 0, 0, 0, 0])
+
+// The dispatch for an argument count some call through a pointer has and no function
+// the program defines matches: the pointer can only be to code the program does not
+// have, so reaching it ends the program the way abort does.
+ind_stub(int is_n) {
+  string is_p = ind_params(is_n);
+  emit_mark();
+  emit_head(is_p, "crt_call" + is_n + "(" + is_p + ") {");
+} chain (int is_n) {
+  emit_out("  word r = 0;");
+  emit_out("  c_abort();");
+  emit_cut("} return word r;");
+} return void;
+given boot_a given boot_b given init_gfn (2):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call2(word f, word a0, word a1) {\n  word k0 = 0;\n  word r = 0;\n  c_abort();\n} return word r;\n")
+given boot_a given boot_b given init_gfn (0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call0(word f) {\n  word k0 = 0;\n  word r = 0;\n  c_abort();\n} return word r;\n")

@@ -33,6 +33,10 @@ chk_arg(int id, int a, int i) {
   if((import nk)[ty] == "rec" && k >= 0 && i >= k) {
     diag_node(id, "argument " + (i + 1) + " is a struct or union passed by value through '...', which is not supported: pass a pointer");
   }
+} chain (int id, int a, int i) {
+  if(wd_kind(ty) > 0 && k >= 0 && i >= k) {
+    diag_node(id, "argument " + (i + 1) + " is a 128-bit integer passed through '...', which is not supported: pass a pointer or convert it");
+  }
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(10, 20) stdin "struct P { int x; }; int main(void) { struct P q; printf(\"%d\", q); return 0; }" (16, 15, 1):() then (import dgmsg):([":1: error: argument 2 is a struct or union passed by value through '...', which is not supported: pass a pointer"])
 given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(12, 19) stdin "struct P { int x; }; int g(struct P p); int main(void) { struct P q; return g(q); }" (17, 16, 0):() then len((import dgmsg)):(0)

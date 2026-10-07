@@ -1,0 +1,33 @@
+// `-e` and `~e` on a 128-bit operand: crt/i128 negates or complements it into a
+// temporary of its own. `!e` and a branch's condition ask whether it is zero.
+wd_un_txt(int id) {
+  string wsa = ex_txt((import na)[id]);
+  string wfn = wd_unfn((import ns)[id]);
+  int wk = wd_kind(ex_ty(id));
+} chain (int id) {
+  string wdst = wd_tmp(wk);
+  string wout = name_val(wfn + "(" + wdst + ", " + wsa + ")");
+} return string wout;
+given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (19):("t1") then (import pend):(["word t0 = ci128_of_s((fp + 16), 5);", "word t1 = ci128_neg((fp + 32), t0);"])
+given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (22):("t1") then (import pend):(["word t0 = ci128_of_s((fp + 16), 5);", "word t1 = ci128_not((fp + 32), t0);"])
+
+wd_unfn(string wop) {
+  string wfn = "ci128_not";
+  if(wop == "-") {
+    wfn = "ci128_neg";
+  }
+} return string wfn;
+("-"):("ci128_neg")
+("~"):("ci128_not")
+
+// `-e` or `~e`: a 128-bit operand is crt/i128's, any other the plain operator.
+wd_pre_txt(int id, string pre) {
+  string wout = "";
+  if(wd_kind(ex_ty(id)) > 0) {
+    wout = wd_un_txt(id);
+  } else {
+    wout = pre_txt(id, pre);
+  }
+} return string wout;
+given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (19, "0 - "):("t1")
+given txt_fixture given pend_setup given fl_fixture given fl_un_fixture given wd_types ((import fln2), "0 - "):("t0")

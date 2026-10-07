@@ -18,6 +18,7 @@ skip_attr(int[] pos) {
 } chain (int[] pos) {
   packed_scan(pos, ast);
   reg_scan(pos, ast);
+  used_scan(pos, ast);
 } return void;
 given boot_a given boot_b given lexfix stdin "y z" ([0]):([1])
 given boot_a given boot_b given lexfix stdin "y(x)" ([0]):([4])

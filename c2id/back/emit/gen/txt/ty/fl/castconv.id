@@ -4,6 +4,9 @@
 cast_conv(int to, int from, string exa) {
   int kk = ty_fkind(to) + ty_fkind(from);
   string s = cast_pick(to, from, exa, kk);
+  if(wd_kind(to) + wd_kind(from) > 0 && fl_skip(to) == 0) {
+    s = wd_cvt(to, from, exa);
+  }
 } return string s;
 given txt_fixture given pend_setup (0, 1, "t5"):("t0") then (import pend)[0]:("word t0 = sx32(t5);")
 given txt_fixture given pend_setup given fl_types (0, 6, "t5"):("t1") then (import pend)[0]:("word t0 = cfl_to_int(t5);")

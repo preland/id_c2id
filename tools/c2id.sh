@@ -54,8 +54,10 @@ if [[ $src == *.i ]]; then
 else
     # c2id knows no compiler builtins, so the preprocessor is told there are
     # none (a header then takes its portable path) and _Static_assert, which
-    # checks something at compile time, is dropped. Nor does it know 128-bit
-    # integers or SIMD, so the macros that announce them are undefined and a
+    # checks something at compile time, is dropped. It does accept __int128
+    # written out, but not SIMD, and __SIZEOF_INT128__ is kept undefined so
+    # that headers keep their portable paths; the macros that announce SIMD are
+    # undefined as well and a
     # header takes its portable path there too. __builtin_offsetof is the
     # address of a member of a struct at address 0, and __builtin_prefetch, a
     # hint, does nothing. C2ID_CPPFLAGS adds the program's own -I and -D flags.

@@ -1,0 +1,16 @@
+// What is cleared and noted when an external declaration begins: the `static` seen
+// (statk), the names declared below file scope (lnames), and how many globals and
+// type names there are (itm0), which tells what this declaration declared.
+item_reset() {
+  lset((import statk), 0, 0);
+  lset((import usedk), 0, 0);
+  lnames_reset();
+} chain () {
+  lset((import itm0), 0, len((import dnames)));
+  lset((import itm0), 1, len((import tyids)));
+} return void;
+given boot_a given boot_b given lset((import statk), 0, 1) ():() then (import statk):([0])
+given boot_a given boot_b given lset((import usedk), 0, 1) ():() then (import usedk):([0])
+given boot_a given boot_b given lname_add("a") ():() then len((import lnames)):(0)
+given boot_a given boot_b given ty_add("t", 3) ():() then (import itm0):([0, 1])
+

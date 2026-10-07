@@ -1,0 +1,25 @@
+// The high 64 bits of the 128-bit product of two unsigned 64-bit words, from their
+// 32-bit halves: no partial product or sum below overflows a word.
+wq_mulhi(word wqe, word wqf) {
+  word wqm = 4294967295;
+  word wqp = (wqe & wqm) * (wqf & wqm);
+  word wqq = ushr(wqe, 32) * (wqf & wqm) + ushr(wqp, 32);
+} chain (word wqe, word wqf) {
+  word wqr = (wqe & wqm) * ushr(wqf, 32) + (wqq & wqm);
+  word wqt = ushr(wqe, 32) * ushr(wqf, 32) + ushr(wqq, 32);
+  word wqs = wqt + ushr(wqr, 32);
+} return word wqs;
+(-1, -1):(-2)
+(4294967296, 4294967296):(1)
+
+// a * b modulo 2^128: the low word is the low half of the low words' product, the high
+// word adds the carry out of that product and the two cross products' low halves.
+ci128_mul(word wqd, word wqa, word wqb) {
+  word wql = peek64(wqa) * peek64(wqb);
+  word wqc = wq_mulhi(peek64(wqa), peek64(wqb));
+  word wqh = wqc + peek64(wqa) * peek64(wqb + 8) + peek64(wqa + 8) * peek64(wqb);
+} chain (word wqd, word wqa, word wqb) {
+  ld_cset(wqd, wql, wqh);
+} return word wqd;
+given wq_cells ((import wqz), (import wqx), (import wqy)):((import wqz)) then wq_zl:(-2) then wq_zh:(3)
+given wq_cells ((import wqz), (import wqx), (import wqx)):((import wqz)) then wq_zl:(1) then wq_zh:(-4)

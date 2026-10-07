@@ -251,11 +251,24 @@ one is how a translator spins. Three places make them:
 
 * the parser, for what it sees as it reads, reached or not: a bitfield wider
   than its type
-  (`front/diag/bits.id`), `__attribute__((packed))` on a struct with more than
-  one member, `vector_size` and `mode` (`front/diag/packed*.id`), and a
-  128-bit integer type, which `wide_scan` finds in the tokens
-  (`front/diag/wide.id`; `tools/c2id.sh` undefines `__SIZEOF_INT128__` so a
-  header takes its portable path);
+  (`front/diag/bits.id`), `vector_size`, `mode` and a `packed` that is on
+  something other than a struct, union, enum or member (`front/diag/packed*.id`),
+  `constructor`, `destructor` and `alias`, a zero-width or over-long bit-field in
+  a packed record. What it cannot yet tell is needed is *deferred*
+  (`front/diag/defer*.id`): the refusal is kept with the external declaration
+  being read, and when that declaration ends it is kept for the function it
+  defined (the check pass tells it, `mid/check/deferred.id`, only if the
+  function is reached) or, if it defined none, told at once, except for the
+  kinds that poison instead: a named address space (`__seg_gs`) or an array
+  bound the folder cannot evaluate, in a declaration that defines no function,
+  poisons the globals and types it declared (`sgv`, `sgt`; a record that holds a
+  poisoned one by value is poisoned too, `seg_member`), and the check pass
+  (`mid/check/seg*.id`) refuses a reached function that names a poisoned
+  variable, takes a member of a poisoned record or its `sizeof`. The
+  deferred kinds are the `typeof` that cannot be resolved, a `cleanup` of
+  something other than a plain function name, a `__builtin_choose_expr`
+  whose condition is not constant, a named address space and an unfoldable
+  array bound inside a function;
 * the check pass (`mid/check/`), over every function the program reaches with
   its locals bound: the address of a function the runtime provides that has no
   wrapper (`printf` and the variadic rest: `mid/check/rtval.id`; one with a wrapper
@@ -307,3 +320,28 @@ contain.
   the runtime provides is rewritten, in the check pass, to the function
   `__c2id_w_NAME` the header that declares it defines in C, which is marked reached
   (`mid/check/wrap.id`).
+* **`cleanup`** (`front/parse/code/sb/cl/`): `T v __attribute__((cleanup(fn))) = e;`
+  in a block makes the statements after it one nested block of their own, ending
+  with `fn(p);`, where `p` is `__auto_type __cl_pN = &v;` declared just before (a
+  name nothing else can take, so a shadowing declaration below cannot capture the
+  call). A `return e;` in it becomes `{ __auto_type __cl_rN = e; fn(p); return
+  __cl_rN; }`, a `return;`, `break` or `continue` that leaves the scope and a
+  `goto` to a label outside it get `fn(p);` before them (`cl_scan`: `brk` and
+  `cont` count the loops entered below the scope, mode 0 collects its labels).
+  Two cleanups in one declaration nest, the second inside the first. A cleanup
+  declared in a `for` initialiser is refused.
+* **`packed` and `aligned`** (`front/parse/ty/dcl/r/pk/`): the attributes before
+  the `{` and after the `}` of a struct or union are read before any member is
+  placed (`rec_attr`: the node's `nt` is "packed"), every member then aligns to one
+  byte (`mem_align`), a bit-field starts at the next bit (`bf_packed`), and
+  `rec_aln` sets the alignment from `aligned(N)` (N exactly if packed, else the
+  larger of N and the members'). A bit-field that spans its type's aligned unit is
+  read through the bytes it spans, 1, 2, 4 or 8 of them
+  (`back/emit/gen/txt/ex/a/bf/span.id`). A packed enum is the smallest integer
+  type that holds its enumerators (`e/pk/`).
+* **128-bit integers**: see `docs/EMITTER.md` "128-bit integers".
+* **Which functions a unit emits**: from `main` and the initializers of its
+  external variables; with no `main`, from every function that is not `static` or
+  `inline` (`extern inline` included), those with a `used` attribute, and what
+  they name. A `static` global nothing reached names is dropped, with its
+  initializer (`greach`, `mid/pass/reach/more/glob.id`).

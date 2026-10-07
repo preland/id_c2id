@@ -7,13 +7,17 @@
 
 parse_one(int[] pos) {
   int k = pos[0];
+  int n0 = len((import fnames));
   tu_item(pos);
+} chain (int[] pos) {
   unstick(pos, k);
+  defer_settle(n0);
 } return void;
 given boot_a given boot_b given lexfix stdin "int x;" ([0]):() then calls tu_item:[1]
 given boot_a given boot_b given lexfix stdin "int f(){}" ([0]):() then calls tu_item:[1]
 
 tu_item(int[] pos) {
+  item_reset();
   if(at_text(pos, "typedef")) {
     parse_typedef(pos);
   } else {
@@ -22,6 +26,7 @@ tu_item(int[] pos) {
 } return void;
 given boot_a given boot_b given lexfix stdin "typedef int q;" ([0]):() then calls parse_typedef:[1]
 given boot_a given boot_b given lexfix stdin "int x;" ([0]):() then calls tu_item2:[1]
+given boot_a given boot_b given lexfix given lset((import statk), 0, 1) stdin "int x;" ([0]):() then (import statk):([0])
 
 // `struct S { int a; };` declares no variable: after the specifiers the `;`
 // ends it. Otherwise the declarators follow.

@@ -1,0 +1,15 @@
+ci128_divs(word wqd, word wqa, word wqb) {
+  word[] wqu = wq_load(wqa, wqb, 1);
+  wq_udivmod(wqu);
+  wq_out(wqd, wqu, 0);
+} return word wqd;
+given wq_cells ((import wqz), (import wqx), (import wqy)):((import wqz)) then wq_zl:(-1) then wq_zh:(0)
+given wq_cells given ld_cset((import wqx), 0, -4) ((import wqz), (import wqx), (import wqy)):((import wqz)) then wq_zl:(0) then wq_zh:(-2)
+
+ci128_mods(word wqd, word wqa, word wqb) {
+  word[] wqu = wq_load(wqa, wqb, 1);
+  wq_udivmod(wqu);
+  wq_out(wqd, wqu, 1);
+} return word wqd;
+given wq_cells ((import wqz), (import wqx), (import wqy)):((import wqz)) then wq_zl:(1) then wq_zh:(0)
+given wq_cells given ld_cset((import wqx), 5, -1) ((import wqz), (import wqx), (import wqy)):((import wqz)) then wq_zl:(-1) then wq_zh:(-1)

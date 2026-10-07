@@ -306,6 +306,28 @@ and conversion do treat them as the hardware does (the indefinite NaN, or
 unordered). The 16-byte alignment is in the layout, not in the addresses: the
 store hands out 8-aligned addresses.
 
+## 4i. 128-bit integers
+
+`__int128` and `unsigned __int128` are 16 bytes at alignment 16 and are handled
+as a long double is: `ty_agg` is 1, the value in an expression is the address of
+its bytes (low word first), a store copies them, and a parameter or result is a
+16-byte slot (`wrap_ty_kind`). The two type nodes are made on first use
+(`wd_types`), and `wd_kind` answers 1 or 2 for them, 0 for anything else.
+
+Every operation is `crt/i128`, given the address of a 16-byte frame temporary
+for the result and the addresses of its operands, and answering the temporary:
+`ci128_add sub mul neg not and or xor shl shr sar divu modu divs mods cmps cmpu
+nz lo of_s of_u`. Arithmetic wraps modulo 2^128; a shift count outside 0 to 127
+is as undefined as in C. `ci128_lo` is the low word, where a conversion to any
+narrower integer starts, and `ci128_of_s` or `ci128_of_u` widen a word by sign
+or zero extension. The result of a comparison, `&&`, `||` and `!` is an `int`.
+Division by zero is undefined in C; here the quotient is 0 and the remainder
+the dividend. The routines were compared with gcc over four million random
+operand pairs in all.
+
+Not tested, and possibly wrong: `__int128` bit-fields and `__int128` through
+`...`. A literal is at most a word.
+
 ## 5. Laying out the project
 
 `emit/gen/out/` already implements this and it is tested. Function number *N*

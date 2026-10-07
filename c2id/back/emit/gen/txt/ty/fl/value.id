@@ -32,6 +32,9 @@ cond_val(int e) {
   if(fk > 0) {
     txt = fl_ne0_txt(fk, txt);
   }
+  if(wd_kind(ty) > 0) {
+    txt = wd_nz_txt(txt);
+  }
 } return string txt;
 given txt_fixture given pend_setup given fl_fixture (9):("t1") then (import pend)[1]:("word t1 = cfl_ne(t0, 0);")
 given txt_fixture given pend_setup given fl_fixture (8):("5")

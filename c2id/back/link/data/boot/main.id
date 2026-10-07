@@ -8,7 +8,7 @@ emit_main(int gtot, int np) {
 } chain (int gtot, int np) {
   emit_out("  c_globals();");
   emit_out("  word rv = rt_args(argc, argv);");
-  emit_out("  word r = c_main(" + main_args(np) + ");");
+  emit_out("  word r = " + main_call(np) + ";");
 } chain (int gtot, int np) {
   emit_atexit();
   emit_out("  int rc = rt_status(r);");
@@ -35,13 +35,15 @@ main_args(int np) {
 (2):("argc, rv")
 (3):("argc, rv, 0")
 
-// How many parameters the C program's main declares, 0 when it has none.
+// How many parameters the C program's main declares, 0 when it has none, -1 when the
+// unit has no main.
 main_np() {
   int i = find_str((import dnames), "main");
-  int np = 0;
+  int np = 0 - 1;
   if(i >= 0) {
     np = len((import nl)[(import dtys)[i]]);
   }
 } return int np;
 given boot_a given boot_b given lexfix given tu_load stdin "int main(int a, char **b) { return 0; }" ():(2)
-given boot_a given boot_b given lexfix given tu_load stdin "int x;" ():(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int x;" ():(-1)
+given boot_a given boot_b given lexfix given tu_load stdin "int main(void) { return 0; }" ():(0)

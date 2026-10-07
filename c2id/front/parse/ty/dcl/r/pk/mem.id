@@ -1,0 +1,31 @@
+// What a packed record changes about where its members go: a member aligns to
+// one byte, and a bit-field starts at the very next bit, even across the edge of
+// the unit of its declared type (the access then reads the bytes it spans,
+// back/emit/gen/txt/ex/a/bf/mark.id).
+mem_align(int ma_ty, int ma_r) {
+  int ma_al = 1;
+  if((import nt)[ma_ty] != "packed") {
+    ma_al = mem_pk_align(ma_r);
+  }
+} return int ma_al;
+given tynode_fix (5, 0):(4)
+given tynode_fix given sset((import nt), 5, "packed") (5, 0):(1)
+given tynode_fix given lset((import mpk), 0, 1) (5, 0):(1)
+
+bf_packed(int bk_ty, int[] bk_lay, int bk_bp) {
+  int bk_at = bk_bp;
+  if((import nt)[bk_ty] == "packed") {
+    bk_at = bk_lay[0];
+  }
+} return int bk_at;
+given tynode_fix (5, [10, 0, 0], 32):(32)
+given tynode_fix given sset((import nt), 5, "packed") (5, [10, 0, 0], 32):(10)
+
+pack_zero(int[] pz_pos, int pz_ty, int pz_w) {
+  if(pz_w == 0 && (import nt)[pz_ty] == "packed") {
+    diag_tok(pz_pos[0] - 1, "a zero-width bit-field in a packed record: where gcc puts the next member is not modelled");
+  }
+} return void;
+given tynode_fix given ty_setup given lexfix stdin "# 4 \"s.c\"\nint : 0 ;" ([3], 5, 0):() then len((import dgmsg)):(0)
+given tynode_fix given ty_setup given lexfix given sset((import nt), 5, "packed") stdin "# 4 \"s.c\"\nint : 0 ;" ([3], 5, 0):() then (import dgmsg):(["s.c:4: error: a zero-width bit-field in a packed record: where gcc puts the next member is not modelled"])
+

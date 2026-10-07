@@ -14,7 +14,7 @@ given boot_a given en_add("a", 1) (0, "e"):(0)
 
 enum_make(int n0, string tag) {
   int neg = enum_neg(n0);
-  int r = enum_pick(neg);
+  int r = enum_final(n0, neg);
   enum_reg(tag, r);
 } return int r;
 given boot_a given en_add("a", 1) (0, "e"):(0)

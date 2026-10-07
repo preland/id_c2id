@@ -1,0 +1,21 @@
+// Whether plain `char` is signed. It is, as on x86-64 userspace, unless the
+// environment says the code was built with -funsigned-char (the kernel is); a
+// preprocessed file does not record the flag.
+char_env() {
+  string ce_v = env_text("C2ID_UNSIGNED_CHAR");
+  if(ce_v == "1") {
+    lset((import chrsg), 0, 0);
+  }
+} return void;
+given boot_a given env_put("C2ID_UNSIGNED_CHAR", "1") ():() then (import chrsg):([0])
+given boot_a given env_put("C2ID_UNSIGNED_CHAR", "0") ():() then (import chrsg):([1])
+
+prim_sign(int pg_i) {
+  int pg_s = (import prim_signs)[pg_i];
+  if(pg_i == 2) {
+    pg_s = (import chrsg)[0];
+  }
+} return int pg_s;
+given boot_a (7):(1)
+given boot_a (2):(1)
+given boot_a given lset((import chrsg), 0, 0) (2):(0)

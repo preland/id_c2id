@@ -19,7 +19,7 @@ given txt_fixture ():() then calls fill_std5:()
 // `char *`, the type of a string literal -- the one entry that is itself
 // built from a nested type, so its own newleaf has to be named first.
 fill_std5() {
-  int charty = newleaf("prim", 1, 1, "char", "");
+  int charty = newleaf("prim", 1, (import chrsg)[0], "char", "");
   int t = newleaf("ptr", charty, 0, "", "");
   push((import stdty), t);
 } return void;

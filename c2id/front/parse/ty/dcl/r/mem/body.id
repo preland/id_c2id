@@ -13,6 +13,7 @@ given ty_setup (0, "", 5):() then calls ty_add:[0]
 
 fill_rec(int[] pos, int ty) {
   if(at_text(pos, "{")) {
+    rec_attr(pos, ty);
     rec_members(pos, ty);
   }
 } return void;

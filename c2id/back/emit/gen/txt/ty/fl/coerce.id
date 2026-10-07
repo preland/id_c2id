@@ -16,7 +16,7 @@ fl_coerce(int to, int e) {
   int kf = ty_fkind(from);
 } chain (int to, int e) {
   int r = e;
-  if(kt != kf && fl_skip(to) == 0) {
+  if((kt != kf || wd_kind(to) != wd_kind(from)) && fl_skip(to) == 0) {
     r = fl_cast(e, to);
   }
 } return int r;

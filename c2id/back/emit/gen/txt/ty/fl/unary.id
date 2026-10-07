@@ -10,6 +10,9 @@ not_txt(int a) {
   if(ty_fkind(ty) > 0) {
     s = fl_not_txt(ty_fkind(ty), flex);
   }
+  if(wd_kind(ty) > 0) {
+    s = wd_not_txt(flex);
+  }
 } return string s;
 given txt_fixture given pend_setup given fl_fixture (9):("t1") then (import pend)[1]:("word t1 = cfl_eq(t0, 0);")
 given txt_fixture given pend_setup given fl_fixture (8):("(5 == 0)")
@@ -27,7 +30,7 @@ neg_sel(int id, string pre, int fk) {
   if(fk > 0) {
     s = fl_neg_txt(id);
   } else {
-    s = pre_txt(id, pre);
+    s = wd_pre_txt(id, pre);
   }
 } return string s;
 given txt_fixture given pend_setup given fl_fixture given fl_un_fixture ((import flm), "0 - ", 2):("t1")

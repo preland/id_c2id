@@ -12,7 +12,7 @@ emit_all() {
   emit_boot();
 } return void;
 given init_tu given boot_a given txt_setup given init_frame given init_frame2 ():() then calls emit_loop:(0, 0)
-given init_tu given boot_a given txt_setup given init_frame given init_frame2 ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 0, 0);\n} return void;\nmain(int argc, string[] argv) {\n  word k1 = 1;\n  rt_boot(0);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  word rv = rt_args(argc, argv);\n  word r = c_main();\n} chain (int argc, string[] argv) {\n  word k3 = 3;\n  int rc = rt_status(r);\n  flush();\n} return int rc;\n")
+given init_tu given boot_a given txt_setup given init_frame given init_frame2 ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 0, 0);\n} return void;\nmain(int argc, string[] argv) {\n  word k1 = 1;\n  rt_boot(0);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  word rv = rt_args(argc, argv);\n  word r = 0;\n} chain (int argc, string[] argv) {\n  word k3 = 3;\n  int rc = rt_status(r);\n  flush();\n} return int rc;\n")
 
 emit_loop(int i, int n) {
   while(i < n) {

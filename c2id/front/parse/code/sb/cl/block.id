@@ -1,0 +1,39 @@
+// The variables of the declaration just read have cleanups; the rest of the block is
+// read here as their scope. For each variable a pointer to it is declared first,
+// under a name no other can take, so that a shadowing declaration below cannot
+// capture the call. The rest then becomes one block (cl_wrap_all) that the block
+// being read ends with.
+cl_block(int[] cb_pos, int[] cb_l) {
+  string[] cb_n = cl_drain((import clpn));
+  string[] cb_f = cl_drain((import clpf));
+  string[] cb_p = cl_ptrs(cb_l, cb_n);
+} chain (int[] cb_pos, int[] cb_l) {
+  int[] cb_rest = fill_stmts(cb_pos);
+  int cb_w = cl_wrap_all(cb_rest, cb_f, cb_p);
+  push(cb_l, cb_w);
+} return void;
+given lexfix given cl_fix given cl_push("v", "f") stdin "}" ([0], [4]):() then len((import clpn)):(0)
+given lexfix given cl_fix given cl_push("v", "f") stdin "}" ([0], [4]):([0], [4, 17, 22]) then len((import clpf)):(0)
+
+// A copy of the strings of a list, emptying the list.
+cl_drain(string[] cd_src) {
+  string[] cd_out = [];
+  while(len(cd_src) > 0) {
+    push(cd_out, cd_src[0]);
+    lst_str_delete(cd_src, 0);
+  }
+} return string[] cd_out;
+(["a", "b"]):(["a", "b"])
+(["a"]):(["a"])
+
+// One pointer variable for each name, declared at the end of l; their names.
+cl_ptrs(int[] cp_l, string[] cp_names) {
+  string[] cp_out = [];
+  int cp_i = 0;
+  while(cp_i < len(cp_names)) {
+    cl_ptr1(cp_l, cp_names[cp_i], cp_out);
+    cp_i = cp_i + 1;
+  }
+} return string[] cp_out;
+given cl_fix ([4], ["v"]):(["__cl_p0"])
+given cl_fix ([4], ["v", "w"]):(["__cl_p0", "__cl_p1"])

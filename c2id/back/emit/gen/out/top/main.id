@@ -12,7 +12,8 @@ main(int argc, string[] argv) {
   int dstat = diag_status();
 } return int dstat;
 stdin "int x;" (0, []):(0) then calls parse_one:[1]
-stdin "int x; __int128 y;" (0, []):(1)
+stdin "int main(void) { __int128 y = 1; double d = (double)y; return 0; }" (0, []):(1)
+stdin "int x; __int128 y;" (0, []):(0)
 
 run() {
   string src = read_all();

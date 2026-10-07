@@ -1,0 +1,10 @@
+// The type of an enum read with a body: int or unsigned int by the sign of its
+// enumerators, or the smallest type that holds them when it is packed.
+enum_final(int ef_n0, int ef_neg) {
+  int ef_ty = enum_pick(ef_neg);
+  if((import enpk)[0] == 1) {
+    ef_ty = enum_small(ef_n0);
+  }
+} return int ef_ty;
+given boot_a given ty_setup given en_add("a", 5) given lset((import enpk), 0, 1) (0, 0):(1) then calls enum_small:(0)
+given boot_a given ty_setup given en_add("a", 5) given lset((import enpk), 0, 0) (0, 0):(0) then calls enum_pick:(0)

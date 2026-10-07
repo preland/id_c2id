@@ -1,0 +1,35 @@
+// The record's alignment once its body is read: `aligned(N)` raises it to N, and
+// a packed record has N, or 1 without one, whatever its members align to. The
+// size then rounds up to it (rec_size_a).
+rec_aln(int ry_ty, int[] ry_lay, int ry_cl) {
+  int ry_open = brace_open(ry_cl);
+  int ry_a = attr_pre_start(ry_open);
+  int ry_z = attr_run_end(ry_cl + 1);
+} chain (int ry_ty, int[] ry_lay, int ry_cl) {
+  int ry_g = attr_pair(ry_a, ry_open, ry_cl + 1, ry_z, (import aligned_attr));
+  int ry_n = attr_value(ry_g);
+  rec_lay(ry_ty, ry_lay, ry_n, ry_open);
+} return void;
+given tynode_fix given ty_setup given lexfix stdin "{ int a ; } __attribute__ ( ( aligned ( 32 ) ) ) ;" (5, [32, 4, 4], 4):(5, [32, 4, 32])
+given tynode_fix given ty_setup given lexfix stdin "{ int a ; } ;" (5, [32, 4, 4], 4):(5, [32, 4, 4])
+
+rec_lay(int rl_ty, int[] rl_lay, int rl_n, int rl_tk) {
+  if((import nt)[rl_ty] == "packed") {
+    rec_lay_pk(rl_lay, rl_n, rl_tk);
+  } else if(rl_n > rl_lay[2]) {
+    lset(rl_lay, 2, rl_n);
+  }
+} return void;
+given tynode_fix (5, [32, 4, 4], 16, 0):(5, [32, 4, 16])
+given tynode_fix (5, [32, 4, 32], 16, 0):(5, [32, 4, 32])
+given tynode_fix given sset((import nt), 5, "packed") (5, [32, 4, 8], 0, 0):(5, [32, 4, 1])
+given tynode_fix given sset((import nt), 5, "packed") (5, [32, 4, 1], 16, 0):(5, [32, 4, 16])
+
+rec_lay_pk(int[] rk_lay, int rk_n, int rk_tk) {
+  lset(rk_lay, 2, fx_max(1, rk_n));
+  if(rk_n < 0) {
+    diag_tok(rk_tk, "attribute 'aligned' on a packed record has an argument that is not one number, which c2id does not evaluate: the layout would be wrong");
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "x" ([32, 4, 4], 64, 0):([32, 4, 64]) then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix stdin "x" ([32, 4, 4], -1, 0):([32, 4, 1]) then len((import dgmsg)):(1)

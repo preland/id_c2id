@@ -1,4 +1,5 @@
-// The initializers of the globals: a table of callbacks names functions too.
+// The initializers of the globals: a table of callbacks names functions too. A static
+// global nothing reached names is not emitted, so its initializer is not read.
 chk_inits() {
   txt_reset();
   chk_dloop(0);
@@ -6,12 +7,21 @@ chk_inits() {
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int missing(int); int (*tbl[])(int) = { missing }; int main(void) { return 0; }" ():() then (import unres):(["missing"])
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return 0; }" ():() then len((import unres)):(0)
 given boot_a given boot_b given lexfix given tu_load given reach_all given chk_bind(19, 26) stdin "int missing(int); int (*tbl[])(int) = { missing }; int main(void) { int missing = 0; return missing; }" ():() then (import unres):(["missing"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int missing(int); static int (*tbl[])(int) = { missing }; int main(void) { return 0; }" ():() then len((import unres)):(0)
 
 chk_dloop(int i) {
   while(i < len((import dinit))) {
-    chk_scan((import dinit)[i]);
+    chk_dglob(i);
     i = i + 1;
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int missing(int); int (*tbl[])(int) = { missing }; int main(void) { return 0; }" (0):() then (import unres):(["missing"])
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int missing(int); int (*tbl[])(int) = { missing }; int main(void) { return 0; }" (5):() then len((import unres)):(0)
+
+chk_dglob(int i) {
+  if(g_reached(i) == 1) {
+    chk_scan((import dinit)[i]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int missing(int); int (*tbl[])(int) = { missing }; int main(void) { return 0; }" (1):() then (import unres):(["missing"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int missing(int); static int (*tbl[])(int) = { missing }; int main(void) { return 0; }" (1):() then len((import unres)):(0)

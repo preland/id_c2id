@@ -15,11 +15,7 @@ given boot_a given ty_setup given lexfix stdin "{typedef int q;}" ([0]):(2) then
 // reported by block_close: a function body cut off by the end of the file used to
 // be accepted.
 fill_block(int[] pos) {
-  int[] l = [];
-  while(at_text(pos, "}") == 0 && cur_kind(pos) != "eof") {
-    int id = parse_stmt(pos);
-    push(l, id);
-  }
+  int[] l = fill_stmts(pos);
   block_close(pos);
 } return int[] l;
 given boot_a given lexfix stdin ";}" ([0]):([0])

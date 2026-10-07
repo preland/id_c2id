@@ -1,0 +1,12 @@
+// The statements of a block, up to its `}` (which the caller closes). A declaration
+// with a cleanup takes the statements after it into a scope of its own (cl_after).
+fill_stmts(int[] pos) {
+  int[] l = [];
+  while(at_text(pos, "}") == 0 && cur_kind(pos) != "eof") {
+    int id = parse_stmt(pos);
+    push(l, id);
+    cl_after(pos, l, id);
+  }
+} return int[] l;
+given boot_a given lexfix stdin ";}" ([0]):([0])
+given boot_a given lexfix stdin "}" ([0]):([])

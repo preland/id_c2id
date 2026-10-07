@@ -6,7 +6,7 @@ bin_pick(int id) {
   if(fl_is_bin(id) == 1) {
     s = fl_bin_txt(id);
   } else {
-    s = bin1(id);
+    s = wd_pick(id);
   }
 } return string s;
 given txt_fixture given pend_setup given fl_fixture given fl_bin_fixture ((import flb)):("t2")

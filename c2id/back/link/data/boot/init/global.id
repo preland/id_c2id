@@ -13,12 +13,14 @@ given boot_a given boot_b given lexfix given tu_load stdin "int stdout; int y;" 
 
 emit_ginit(int i) {
   int off = (import goff)[i];
-  if(off >= 0) {
+  if(off >= 0 && g_reached(i) == 1) {
     init_global(i, off);
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" (0):() then (import pend):(["poke32((import gbase) + 0, 5);"])
 given boot_a given boot_b given lexfix given tu_load stdin "int x = 5; int f(void) { return 0; }" (1):() then len((import pend)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "static int x = 5; int main(void) { return 0; }" (0):() then len((import pend)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "static int x = 5; int main(void) { return x; }" (0):() then len((import pend)):(1)
 
 init_global(int i, int off) {
   string name = (import dnames)[i];

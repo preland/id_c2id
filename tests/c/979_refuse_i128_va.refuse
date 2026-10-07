@@ -1,0 +1,1 @@
+979_refuse_i128_va.c:5: error: argument 2 is a 128-bit integer passed through '...'

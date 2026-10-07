@@ -1,0 +1,11 @@
+// A conversion between a 128-bit type and a floating-point one (types ta and tb, in
+// either order) is refused at the node: crt/i128 has no conversion to or from a float.
+wide_mix(int wm_id, int wm_ta, int wm_tb) {
+  int wm_k = wd_kind(wm_ta) + wd_kind(wm_tb);
+  int wm_f = ty_fkind(wm_ta) + ty_fkind(wm_tb);
+  if(wm_k > 0 && wm_f > 0) {
+    diag_node(wm_id, "a 128-bit integer is converted to or from a floating-point type here, which is not translated: the program would run and be wrong");
+  }
+} return void;
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (12, 10, 10):() then len((import dgmsg)):(0)
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (12, 10, 6):() then len((import dgmsg)):(1)

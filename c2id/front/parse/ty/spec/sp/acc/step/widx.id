@@ -1,0 +1,9 @@
+// The slot a 128-bit word counts in: `long`'s, three times (spec_add).
+wide_idx(string wx_kw) {
+  int wx_i = 0 - 1;
+  if(find_str((import wide_names), wx_kw) >= 0) {
+    wx_i = 4;
+  }
+} return int wx_i;
+("__int128"):(4)
+("int"):(-1)

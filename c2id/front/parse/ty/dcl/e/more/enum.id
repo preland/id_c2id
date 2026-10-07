@@ -6,7 +6,10 @@
 // typedef of it keeps it.
 
 parse_enum(int[] pos) {
+  int pe_hs = pos[0] + 1;
   string tag = enum_head(pos);
+  enum_pack(pos, pe_hs);
+} chain (int[] pos) {
   int r = enum_body(pos, tag);
 } return int r;
 given boot_a given boot_a given ty_setup given lexfix stdin "enum { x }" ([0]):(0) then calls uint_type:()

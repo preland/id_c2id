@@ -1,0 +1,11 @@
+// The expression the generated main answers with: the C program's main through its
+// wrapper, or 0 for a unit that has none (a library, which can still be built to see
+// that it compiles; np is -1 when main_np found no main).
+main_call(int mc_np) {
+  string mc_s = "0";
+  if(mc_np >= 0) {
+    mc_s = "c_main(" + main_args(mc_np) + ")";
+  }
+} return string mc_s;
+(-1):("0")
+(1):("c_main(argc)")

@@ -1,0 +1,27 @@
+// The statements after a variable with a cleanup become a block of their own that
+// ends with the cleanup call, and every exit from it calls it first. fn is the
+// cleanup function and ptr the variable holding the address of the variable.
+cl_wrap(int[] cw_stmts, string cw_fn, string cw_ptr) {
+  sset((import clcur), 0, cw_ptr);
+  sset((import clcur), 1, cw_fn);
+  cl_labels(cw_stmts);
+} chain (int[] cw_stmts, string cw_fn, string cw_ptr) {
+  cl_scan_list(cw_stmts, 0, 0);
+  push(cw_stmts, cl_callstmt());
+  int cw_b = newlist("block", 0, 0, "", cw_stmts);
+} return int cw_b;
+given boot_a ([], "f", "p"):(4) then (import nk)[3]:("expr") then (import nk)[4]:("block")
+given boot_a ([], "g", "q"):(4) then (import clcur):(["q", "g"])
+
+// The labels the scope defines: a goto to any other leaves it.
+cl_labels(int[] cb_stmts) {
+  while(len((import cllab)) > 0) {
+    pop((import cllab));
+  }
+  lset((import clmode), 0, 0);
+  cl_scan_list(cb_stmts, 0, 0);
+} chain (int[] cb_stmts) {
+  lset((import clmode), 0, 1);
+} return void;
+given cl_fix ([6, 7]):() then (import cllab):(["in"]) then (import clmode):([1])
+given cl_fix ([4]):() then len((import cllab)):(0)

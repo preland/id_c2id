@@ -1,6 +1,6 @@
 mk_prim_leaf(int i) {
   int sz = (import prim_sizes)[i];
-  int sg = (import prim_signs)[i];
+  int sg = prim_sign(i);
   int ty = mk_prim_leaf2(i, sz, sg);
 } return int ty;
 given boot_a (7):(0) then calls newleaf:("prim", 4, 1, "int", "")

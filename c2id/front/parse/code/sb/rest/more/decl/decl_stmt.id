@@ -13,6 +13,7 @@ parse_decl_stmt(int[] pos) {
 } chain (int[] pos) {
   int id = newlist("block", 0, 0, "", l);
   mark_static(l, st0);
+  cl_end();
 } return int id;
 given boot_a given ty_setup given lexfix stdin "int x;" ([0]):(2) then calls one_decl:[1]
 given boot_a given ty_setup given lexfix stdin "int x, y;" ([0]):(3) then calls one_decl:[2]
@@ -31,7 +32,10 @@ given boot_a given ty_setup given lexfix stdin "x, y;" ([0], 0):([0, 1]) then ca
 one_decl(int[] pos, int t) {
   int b = parse_declarator(pos, t);
   string name = (import dname)[0];
+  string dcf = cl_take();
+} chain (int[] pos, int t) {
   int id = decl_leaf(pos, b, name);
+  cl_register(name, dcf);
 } return int id;
 given boot_a given ty_setup given lexfix stdin "x;" ([0], 0):(0) then calls init_item:[0]
 given boot_a given ty_setup given lexfix stdin "x = 1;" ([0], 0):(1) then calls init_item:[1]

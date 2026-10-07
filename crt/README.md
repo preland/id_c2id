@@ -98,7 +98,11 @@ crt/
 ```
 
 `ldbl/` is the x87 80-bit `long double` (section 4b); it is not in the tree
-above, which lists the 104 functions this section counts.
+above, which lists the 104 functions this section counts. `i128/` is the
+`__int128` arithmetic (`ci128_add` and the others, one file per family: add,
+bits, cmp, divcore/divstep/divloop/divload/divu/divs, fix, mul, neg2, not, of,
+read, rel, shift), also outside the tree; see `docs/EMITTER.md` "128-bit
+integers".
 
 104 functions — 8 in `int/`, 44 in `mem/` (17 for the memory and string
 routines, 27 for the allocator) and 52 in `fmt/`. The tree is deep because

@@ -1,0 +1,28 @@
+// 128-bit nodes, for the cases that emit them (after fl_fixture): wdx and wdu are
+// the int 5 cast to __int128 and to unsigned __int128, wdb, wdm and wdc are
+// wdx + wdx, wdx * wdu and wdx < wdu, wds is wdx << 5, wdq is 5 + wdx, wdn is
+// -wdx, wdt is 5 << wdx, wdi is 5 + 5, wdv is ~wdu, wdbl is the type _Bool, wdf is
+// wdx cast to double and wdg is wdx + 1.5.
+wd_fixture() {
+  wd_types();
+  export int wdx = newleaf("cast", (import fli), (import fltys)[4], "", "");
+  export int wdu = newleaf("cast", (import fli), (import fltys)[5], "", "");
+} chain () {
+  export int wdb = newleaf("bin", (import wdx), (import wdx), "+", "");
+  export int wdm = newleaf("bin", (import wdx), (import wdu), "*", "");
+  export int wdc = newleaf("bin", (import wdx), (import wdu), "<", "");
+} chain () {
+  export int wds = newleaf("bin", (import wdx), (import fli), "<<", "");
+  export int wdq = newleaf("bin", (import fli), (import wdx), "+", "");
+  export int wdn = newleaf("un", (import wdx), 0, "-", "");
+} chain () {
+  export int wdt = newleaf("bin", (import fli), (import wdx), "<<", "");
+  export int wdi = newleaf("bin", (import fli), (import fli), "+", "");
+  export int wdv = newleaf("un", (import wdu), 0, "~", "");
+} chain () {
+  export int wdbl = newleaf("prim", 1, 0, "_Bool", "");
+  export int wdf = newleaf("cast", (import wdx), (import fltys)[1], "", "");
+  export int wdg = newleaf("bin", (import wdx), (import flf), "+", "");
+} return void export wdx;
+given txt_fixture given fl_fixture ():() then (import nk)[12]:("cast")
+given txt_fixture given fl_fixture ():() then (import ns)[15]:("*")

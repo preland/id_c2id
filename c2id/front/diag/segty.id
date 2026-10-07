@@ -1,0 +1,28 @@
+// The types a declaration with an address-space qualifier declared (the names it
+// added to the type table since it began), poisoned with the reason.
+seg_tys(int st_i, string st_m) {
+  while(st_i < len((import tyids))) {
+    push((import sgt), (import tyids)[st_i]);
+    push((import sgtm), st_m);
+    st_i = st_i + 1;
+  }
+} return void;
+given boot_a given ty_setup given ty_add("a", 7) (0, "m"):() then (import sgt):([7]) then (import sgtm):(["m"])
+given boot_a given ty_setup given ty_add("a", 7) (1, "m"):() then len((import sgt)):(0)
+
+// An address-space qualifier at token sn_tk.
+seg_note(int sn_tk) {
+  string sn_m = "named address space '" + (import ttext)[sn_tk] + "' is not modelled: a read or write through it would reach the flat store, not the segment, and the program would run and be wrong";
+  defer_seg(sn_tk, sn_m);
+} return void;
+given boot_a given boot_b given lexfix stdin "__seg_gs" (0):() then len((import pdtk)):(1) then (import pdsg):([1])
+given boot_a given boot_b given lexfix stdin "__seg_fs" (0):() then (import pdmsg):(["named address space '__seg_fs' is not modelled: a read or write through it would reach the flat store, not the segment, and the program would run and be wrong"])
+
+// A use of a type a qualified declaration declared counts as the qualifier.
+seg_type(int[] sy_pos, int sy_ty) {
+  if(lst_index_of((import sgt), sy_ty) >= 0) {
+    seg_note(sy_pos[0]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given lst_extend((import sgt), [7]) stdin "x" ([0], 7):() then len((import pdtk)):(1)
+given boot_a given boot_b given lexfix given lst_extend((import sgt), [7]) stdin "x" ([0], 8):() then len((import pdtk)):(0)

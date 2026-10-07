@@ -1,0 +1,31 @@
+// `fn(ptr);` as a statement, naming the function and the pointer variable of the
+// scope being wrapped (clcur). Every use makes nodes of its own: the passes
+// below rename names in place, so a node must not be shared between two places.
+cl_callstmt() {
+  int cs_f = newleaf("var", 0, 0, (import clcur)[1], "");
+  int cs_p = newleaf("var", 0, 0, (import clcur)[0], "");
+  int cs_c = newlist("call", cs_f, 0, "", [cs_p]);
+} chain () {
+  int cs_s = newleaf("expr", cs_c, 0, "", "");
+} return int cs_s;
+given boot_a given init_cl given sset((import clcur), 0, "p") given sset((import clcur), 1, "f") ():(3) then (import nk)[3]:("expr")
+given boot_a given init_cl given sset((import clcur), 0, "p") given sset((import clcur), 1, "f") ():(3) then (import ns)[0]:("f")
+
+// `__auto_type name = <expr>;` as a declaration statement: the type is taken from
+// the initializer by the frame pass.
+cl_decl(string cd_name, int cd_init) {
+  int cd_t = newleaf("auto", 0, 0, "", "");
+  int cd_d = newleaf("decl", cd_init, cd_t, cd_name, "");
+  int cd_b = newlist("block", 0, 0, "", [cd_d]);
+} return int cd_b;
+given boot_a ("p", 5):(2) then (import nk)[1]:("decl")
+given boot_a ("p", 5):(2) then (import na)[1]:(5)
+
+// `__auto_type name = &var;`
+cl_addr(string ca_name, string ca_var) {
+  int ca_v = newleaf("var", 0, 0, ca_var, "");
+  int ca_a = newleaf("un", ca_v, 0, "&", "");
+  int ca_b = cl_decl(ca_name, ca_a);
+} return int ca_b;
+given boot_a ("p", "v"):(4) then (import ns)[1]:("&")
+given boot_a ("p", "v"):(4) then (import ns)[0]:("v")

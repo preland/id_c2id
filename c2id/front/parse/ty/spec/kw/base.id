@@ -5,7 +5,7 @@
 
 is_base_kw(string s) {
   int ok = 0;
-  if(s == "void" || s == "char" || s == "short" || s == "int" || s == "long" || s == "float" || s == "double" || s == "signed" || s == "unsigned" || s == "_Bool") {
+  if(s == "void" || s == "char" || s == "short" || s == "int" || s == "long" || s == "float" || s == "double" || s == "signed" || s == "unsigned" || s == "_Bool" || find_str((import wide_names), s) >= 0) {
     ok = 1;
   }
 } return int ok;
@@ -19,13 +19,15 @@ is_qual(string s) {
   }
 } return int ok;
 ("const"):(1)
+("__seg_gs"):(1)
 ("int"):(0)
 
 is_qual2(string s) {
   int ok = 0;
-  if(s == "const" || s == "volatile" || s == "restrict" || s == "static" || s == "extern" || s == "inline" || s == "register" || s == "auto" || s == "typedef" || s == "_Atomic") {
+  if(s == "const" || s == "volatile" || s == "restrict" || s == "static" || s == "extern" || s == "inline" || s == "register" || s == "auto" || s == "typedef" || s == "_Atomic" || find_str((import seg_words), s) >= 0) {
     ok = 1;
   }
 } return int ok;
 ("const"):(1)
+("__seg_gs"):(1)
 ("int"):(0)

@@ -1,7 +1,10 @@
+// A condition the folder cannot evaluate leaves no arm to pick, so the first stands
+// in; the refusal waits for the function (front/diag/defer.id), which a header often
+// defines without anything calling it.
 bi_chk(int c) {
   if((import cunk)[0] == 1) {
-    diag_node(c, "the condition of __builtin_choose_expr is not a constant c2id can evaluate");
+    defer_tok((import ntok)[c], "the condition of __builtin_choose_expr is not a constant c2id can evaluate");
   }
 } return void;
-given boot_a given boot_b given lexfix given lset((import cunk), 0, 1) stdin "x" (0):() then len((import dgmsg)):(1)
-given boot_a given boot_b given lexfix stdin "x" (0):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given lset((import cunk), 0, 1) stdin "x" (0):() then len((import pdtk)):(1)
+given boot_a given boot_b given lexfix stdin "x" (0):() then len((import pdtk)):(0)

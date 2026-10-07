@@ -1,5 +1,5 @@
 // 1 for a type whose value in an expression is the address of its bytes: a struct
-// or union, and a long double (16 bytes, no word holds it). Such a value is
+// or union, and a long double or a 128-bit integer (16 bytes, no word holds it). Such a value is
 // stored by copying the bytes, passed by the address of the caller's object, and
 // returned through a hidden first parameter.
 ty_agg(int ty) {
@@ -7,7 +7,11 @@ ty_agg(int ty) {
   if(ty_fkind(ty) == 3) {
     a = 1;
   }
+  if(wd_kind(ty) > 0) {
+    a = 1;
+  }
 } return int a;
+given txt_fixture given wd_types (6):(1)
 given txt_fixture given sset((import nk), 2, "rec") (2):(1)
 given txt_fixture given ldt_types (6):(1)
 given txt_fixture (4):(0)

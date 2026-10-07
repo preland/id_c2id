@@ -1,0 +1,19 @@
+// The refusals the parser deferred for function fi (front/diag/defer.id), told
+// now that the function is known to be reached.
+chk_deferred(int cd_fi) {
+  int cd_i = 0;
+  while(cd_i < len((import qfn))) {
+    chk_defer_one(cd_fi, cd_i);
+    cd_i = cd_i + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix given defer_tok(0, "m") given tu_add("f", 0, 0) given defer_settle(0) (0):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given defer_tok(0, "m") given tu_add("f", 0, 0) given defer_settle(0) (1):() then len((import dgmsg)):(0)
+
+chk_defer_one(int co_fi, int co_i) {
+  if((import qfn)[co_i] == co_fi) {
+    diag_tok((import qtk)[co_i], (import qmsg)[co_i]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given defer_tok(0, "m") given tu_add("f", 0, 0) given defer_settle(0) (0, 0):() then (import dgmsg):([":1: error: m"])
+given boot_a given boot_b given lexfix given defer_tok(0, "m") given tu_add("f", 0, 0) given defer_settle(0) (1, 0):() then len((import dgmsg)):(0)

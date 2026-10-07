@@ -7,7 +7,7 @@ tof_type(int[] pos, string kw) {
   }
 } return int ty;
 given boot_a given boot_b given ty_setup given lexfix stdin "( int )" ([0], "typeof"):(6)
-given boot_a given boot_b given ty_setup given lexfix stdin "x" ([0], "__auto_type"):(6) then len((import dgmsg)):(1)
+given boot_a given boot_b given ty_setup given lexfix stdin "x" ([0], "__auto_type"):(6) then len((import pdtk)):(1)
 
 tof_open(int[] pos) {
   skip_tok(pos, "(");

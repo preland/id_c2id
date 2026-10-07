@@ -1,0 +1,16 @@
+// The reason a declaration's poisoned names carry: the first address-space or
+// array-bound refusal it deferred, and where.
+seg_msg() {
+  int sm_i = seg_first(0);
+  string sm_m = (import pdmsg)[sm_i] + " (declared at " + tok_where((import pdtk)[sm_i]) + ")";
+} return string sm_m;
+given boot_a given boot_b given lexfix given defer_tok(0, "a") given defer_seg(0, "b") ():("b (declared at :1)")
+given boot_a given boot_b given lexfix given defer_seg(0, "c") ():("c (declared at :1)")
+
+seg_first(int sf_i) {
+  while(sf_i < len((import pdsg)) - 1 && (import pdsg)[sf_i] == 0) {
+    sf_i = sf_i + 1;
+  }
+} return int sf_i;
+given boot_a given defer_tok(0, "a") given defer_seg(0, "b") (0):(1)
+given boot_a given defer_seg(0, "b") given defer_seg(0, "c") (0):(0)

@@ -15,7 +15,7 @@
 // value.
 val_txt(int ty, string s) {
   string out = "(" + s + ")";
-  if(((import nk)[ty] == "prim" && ty_fkind(ty) != 3) || (import nk)[ty] == "ptr") {
+  if(((import nk)[ty] == "prim" && ty_agg(ty) == 0) || (import nk)[ty] == "ptr") {
     out = load_txt(ty, s);
   }
 } return string out;

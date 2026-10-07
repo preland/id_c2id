@@ -1,0 +1,35 @@
+// The statements below a block or an `if`: the same loop depths.
+cl_branch(int cb_id, string cb_kn, int cb_brk, int cb_cont) {
+  cl_scan_list((import nl)[cb_id], cb_brk, cb_cont);
+  if(cb_kn == "if") {
+    cl_scan_list((import nm)[cb_id], cb_brk, cb_cont);
+  }
+} return void;
+given cl_fix (7, "block", 0, 0):() then (import nk)[4]:("block")
+given cl_fix (10, "if", 0, 0):() then (import nk)[5]:("block")
+given cl_fix (10, "block", 0, 0):() then (import nk)[5]:("continue")
+
+// A loop body is one level deeper for break and continue, a switch body for break
+// only; any other statement is a jump or a label itself (cl_exit).
+cl_loops(int cp_id, string cp_kn, int cp_brk, int cp_cont) {
+  if(cp_kn == "while" || cp_kn == "dowhile") {
+    cl_scan_list((import nl)[cp_id], cp_brk + 1, cp_cont + 1);
+  } else if(cp_kn == "for") {
+    cl_scan_list((import nm)[cp_id], cp_brk + 1, cp_cont + 1);
+  } else {
+    cl_switch(cp_id, cp_kn, cp_brk, cp_cont);
+  }
+} return void;
+given cl_fix (8, "while", 0, 0):() then (import nk)[4]:("break")
+given cl_fix (11, "for", 0, 0):() then (import nk)[4]:("break")
+given cl_fix (8, "xx", 0, 0):() then (import nk)[4]:("break")
+
+cl_switch(int cw_id, string cw_kn, int cw_brk, int cw_cont) {
+  if(cw_kn == "switch") {
+    cl_scan_list((import nl)[cw_id], cw_brk + 1, cw_cont);
+  } else {
+    cl_exit(cw_id, cw_kn, cw_brk, cw_cont);
+  }
+} return void;
+given cl_fix (9, "switch", 0, 0):() then (import nk)[4]:("break") then (import nk)[5]:("block")
+given cl_fix (4, "break", 0, 0):() then (import nk)[4]:("block")

@@ -1,0 +1,37 @@
+// The order of two 128-bit values as -1, 0 or 1: the high words decide, by signed
+// comparison for signed values (wqs 1) and unsigned for unsigned ones (wqs 0), then
+// the low words, always unsigned.
+wq_order(word wqa, word wqb, word wqs) {
+  word wqah = peek64(wqa + 8);
+  word wqbh = peek64(wqb + 8);
+  word wqr = wq_ord64(wqah, wqbh, wqs);
+} chain (word wqa, word wqb, word wqs) {
+  if(wqr == 0) {
+    wqr = wq_ord64(peek64(wqa), peek64(wqb), 0);
+  }
+} return word wqr;
+given wq_cells ((import wqx), (import wqy), 1):(1)
+given wq_cells given ld_cset((import wqy), 0, -1) ((import wqx), (import wqy), 1):(1)
+given wq_cells given ld_cset((import wqy), 0, -1) ((import wqx), (import wqy), 0):(-1)
+
+// -1, 0 or 1 for two words compared signed (wqs 1) or unsigned (wqs 0).
+wq_ord64(word wqa, word wqb, word wqs) {
+  word wqr = 0;
+  if(wqa != wqb) {
+    wqr = wq_ord64b(wqa, wqb, wqs);
+  }
+} return word wqr;
+(5, 5, 1):(0)
+(1, 2, 1):(-1)
+
+wq_ord64b(word wqa, word wqb, word wqs) {
+  word wqr = 1;
+  if(wqs == 1 && wqa < wqb) {
+    wqr = -1;
+  }
+  if(wqs == 0 && ult(wqa, wqb) == 1) {
+    wqr = -1;
+  }
+} return word wqr;
+(-1, 1, 1):(-1)
+(-1, 1, 0):(1)

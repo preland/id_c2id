@@ -1,0 +1,25 @@
+// The checks a bit-field gets in a packed record, after it is placed.
+pack_bits(int[] pb_pos, int pb_ty, int pb_w) {
+  pack_zero(pb_pos, pb_ty, pb_w);
+  pack_span(pb_pos, pb_ty, pb_w);
+} return void;
+given tynode_fix given ty_setup given lexfix stdin "int : 3 ;" ([3], 5, 3):() then len((import dgmsg)):(0)
+given tynode_fix given ty_setup given lexfix given sset((import nt), 5, "packed") stdin "int : 0 ;" ([3], 5, 0):() then len((import dgmsg)):(1)
+
+pack_span(int[] ps_pos, int ps_ty, int ps_w) {
+  int ps_j = len((import syoff)) - 1;
+  if(ps_w > 0 && (import nt)[ps_ty] == "packed") {
+    pack_wide(ps_pos, ps_w, ps_j);
+  }
+} return void;
+given tynode_fix given ty_setup given lexfix given row_x_fix stdin "int : 1 ;" ([3], 5, 8):() then len((import dgmsg)):(0)
+given tynode_fix given ty_setup given lexfix given row_x_fix given sset((import nt), 5, "packed") stdin "int : 1 ;" ([3], 5, 64):() then len((import dgmsg)):(1)
+
+pack_wide(int[] pw_pos, int pw_w, int pw_j) {
+  int pw_b = sy_bpos(pw_j);
+  if(pw_b % 8 + pw_w > 64) {
+    diag_tok(pw_pos[0] - 1, "a bit-field in a packed record that spans more than eight bytes: one load or store does not reach it");
+  }
+} return void;
+given tynode_fix given ty_setup given lexfix given row_x_fix stdin "int : 1 ;" ([3], 63, 1):() then len((import dgmsg)):(0)
+given tynode_fix given ty_setup given lexfix given row_x_fix stdin "int : 1 ;" ([3], 64, 1):() then len((import dgmsg)):(1)

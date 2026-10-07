@@ -14,6 +14,8 @@ place(int ty, int[] lay, int r, string name, int w) {
   splice_align(lay, r);
   int n = place_at(ty, lay, r, w);
   sy_push(ty, name, r, n, w);
+} chain (int ty, int[] lay, int r, string name, int w) {
+  seg_member(ty, r);
 } return void;
 given tynode_fix given ty_setup (1, [0, 0, 0], 0, "x", -1):(1, [32, 4, 4]) then calls sy_push:(1, "x", 0, 0, -1)
 given tynode_fix given ty_setup (1, [10, 0, 0], 0, "y", 0):(1, [32, 4, 4]) then calls sy_push:(1, "y", 0, 32, 0)

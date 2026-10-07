@@ -1,0 +1,28 @@
+// The size of a poisoned type is not known to the translator (or is the wrong one),
+// so a sizeof of one, or of an expression of one, is refused when reached.
+chk_segsz(int cz_id) {
+  int cz_t = seg_sz_ty(cz_id);
+  int cz_b = ty_base(cz_t);
+  int cz_i = lst_index_of((import sgt), cz_b);
+} chain (int cz_id) {
+  chk_segsay(cz_id, cz_i);
+} return void;
+given boot_a given boot_b given lexfix given tu_load given seg_tys(0, "why") stdin "struct S { int a; }; int f(void) { return sizeof(struct S); }" (7):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given seg_tys(0, "why") stdin "struct S { int a; }; int f(void) { return sizeof(struct S); }" (11):() then len((import dgmsg)):(1)
+
+seg_sz_ty(int zt_id) {
+  int zt_t = (import nb)[zt_id];
+  if(zt_t <= 0) {
+    zt_t = ex_ty((import na)[zt_id]);
+  }
+} return int zt_t;
+given boot_a given boot_b given lexfix given tu_load stdin "struct S { int a; }; int f(void) { return sizeof(struct S); }" (11):(6)
+given boot_a given boot_b given lexfix given tu_load stdin "struct S { int a; }; int f(void) { return 1; }" (0):(1)
+
+chk_segsay(int cs_id, int cs_i) {
+  if(cs_i >= 0) {
+    diag_node(cs_id, "this uses a record or array c2id cannot lay out: " + (import sgtm)[cs_i]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given seg_tys(0, "why") stdin "struct S { int a; }; int f(void) { return 1; }" (0, 0):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "struct S { int a; }; int f(void) { return 1; }" (0, -1):() then len((import dgmsg)):(0)

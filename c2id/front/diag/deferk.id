@@ -1,0 +1,27 @@
+// The deferred refusals of the declaration just read, kept for function ds_n0.
+defer_keep(int dk_fn) {
+  int dk_i = 0;
+  while(dk_i < len((import pdtk))) {
+    defer_move(dk_fn, dk_i);
+    dk_i = dk_i + 1;
+  }
+} return void;
+given boot_a given defer_tok(3, "m") (2):() then (import qfn):([2]) then (import qtk):([3])
+given boot_a (0):() then len((import qfn)):(0)
+
+defer_move(int dm_fn, int dm_i) {
+  push((import qfn), dm_fn);
+  push((import qtk), (import pdtk)[dm_i]);
+  push((import qmsg), (import pdmsg)[dm_i]);
+} return void;
+given boot_a given defer_tok(3, "m") (2, 0):() then (import qmsg):(["m"])
+given boot_a given defer_tok(4, "n") (1, 0):() then (import qtk):([4])
+
+defer_tell(int dl_i) {
+  while(dl_i < len((import pdtk))) {
+    defer_say(dl_i);
+    dl_i = dl_i + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix given defer_tok(0, "m") (0):() then (import dgmsg):([":1: error: m"])
+given boot_a given boot_b given lexfix given defer_tok(0, "m") (1):() then len((import dgmsg)):(0)

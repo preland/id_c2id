@@ -1,23 +1,31 @@
-// A 128-bit integer is refused. The machine word is 64 bits, so a product or a
-// shift of one would run and be truncated: every word that names the type is
-// refused where it is written, whether or not the function using it is reached.
-// A program that has a portable path (xxhash's, behind __SIZEOF_INT128__, which
-// tools/c2id.sh undefines) is translated by the preprocessor taking that path.
-wide_scan() {
-  int i = 0;
-  while(i < len((import ttext))) {
-    wide_at(i);
-    i = i + 1;
+// A 128-bit integer is a 16-byte prim (__int128, unsigned __int128) that parses and
+// is translated (back/emit/gen/txt/ty/wd/, crt/i128), except where it meets a
+// floating-point type: a cast between the two, or an operator with one of each, is
+// refused where a reached function holds it, since neither conversion is provided.
+// (A pointer operand is not translated either and is refused by the same test: see
+// wd_is_bin.) tools/c2id.sh undefines __SIZEOF_INT128__, so a header with a portable
+// path (xxhash's) takes it.
+chk_wide(int cw_id) {
+  string cw_kn = (import nk)[cw_id];
+  if(cw_kn == "cast") {
+    wide_cast(cw_id);
+  } else if(cw_kn == "bin" || cw_kn == "assign") {
+    wide_pair(cw_id, (import na)[cw_id], (import nb)[cw_id]);
   }
 } return void;
-given boot_a given boot_b given lexfix stdin "int x; __int128 y;" ():() then len((import dgmsg)):(1)
-given boot_a given boot_b given lexfix stdin "int x; long y;" ():() then len((import dgmsg)):(0)
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (12):() then len((import dgmsg)):(0)
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (24):() then len((import dgmsg)):(1)
 
-wide_at(int tk) {
-  string name = (import ttext)[tk];
-  if(find_str((import wide_names), name) >= 0) {
-    diag_tok(tk, "128-bit integer type '" + name + "' is not supported: arithmetic on it would be truncated to 64 bits");
-  }
+wide_cast(int wc_id) {
+  int wc_to = (import nb)[wc_id];
+  int wc_from = ex_ty((import na)[wc_id]);
+  wide_mix(wc_id, wc_to, wc_from);
 } return void;
-given boot_a given boot_b given lexfix stdin "# 3 \"w.c\"\n__uint128_t p;" (0):() then (import dgmsg):(["w.c:3: error: 128-bit integer type '__uint128_t' is not supported: arithmetic on it would be truncated to 64 bits"])
-given boot_a given boot_b given lexfix stdin "uint128 p;" (0):() then len((import dgmsg)):(0)
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (12):() then len((import dgmsg)):(0)
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (24):() then len((import dgmsg)):(1)
+
+wide_pair(int wp_id, int wp_a, int wp_b) {
+  wide_mix(wp_id, ex_ty(wp_a), ex_ty(wp_b));
+} return void;
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (14, 12, 12):() then len((import dgmsg)):(0)
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (25, 12, 9):() then len((import dgmsg)):(1)

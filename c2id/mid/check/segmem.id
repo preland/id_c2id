@@ -1,0 +1,19 @@
+chk_segmem(int cm_id) {
+  int cm_bt = ex_ty((import na)[cm_id]);
+  int cm_ty = ty_base(cm_bt);
+  int cm_i = lst_index_of((import sgt), cm_ty);
+} chain (int cm_id) {
+  chk_segsay(cm_id, cm_i);
+} return void;
+given boot_a given boot_b given lexfix given tu_load given seg_tys(0, "why") stdin "struct S { int a; }; struct S *p; int f(void) { return p->a; }" (13):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "struct S { int a; }; struct S *p; int f(void) { return p->a; }" (13):() then len((import dgmsg)):(0)
+
+chk_seg2(int c2_id, string c2_kn) {
+  if(c2_kn == "mem") {
+    chk_segmem(c2_id);
+  } else if(c2_kn == "sizeof") {
+    chk_segsz(c2_id);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given seg_tys(0, "why") stdin "struct S { int a; }; struct S *p; int f(void) { return p->a; }" (13, "mem"):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given seg_tys(0, "why") stdin "struct S { int a; }; struct S *p; int f(void) { return p->a; }" (13, "num"):() then len((import dgmsg)):(0)

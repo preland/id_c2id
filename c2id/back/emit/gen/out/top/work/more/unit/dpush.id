@@ -7,7 +7,10 @@ tu_dpush(string name, int r, int a) {
 } chain (string name, int r, int a) {
   int off = gl_alloc(r);
   push((import goff), off);
+  push((import gst), (import statk)[0]);
 } return void;
+given init_tu given tynode_fix ("x", 0, -1):() then len((import gst)):(1)
+given init_tu given tynode_fix given lset((import statk), 0, 1) ("x", 0, -1):() then (import gst):([1])
 given init_tu given tynode_fix ("x", 0, -1):() then len((import dnames)):(1)
 given init_tu given tynode_fix ("y", 0, 3):() then (import dinit)[0]:(3)
 

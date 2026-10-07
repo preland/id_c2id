@@ -1,0 +1,39 @@
+// A binary operator with a 128-bit operand and no floating-point or pointer one. Both
+// operands are converted to the type they meet at (a shift's left operand's promoted
+// type alone, its count staying an integer), and crt/i128 does the operation to the
+// addresses; a comparison answers 0 or 1 for the operator's code.
+wd_is_bin(int id) {
+  int ta = kid_ty((import na), id);
+  int tb = kid_ty((import nb), id);
+  int wk = wd_kind(ta) + wd_kind(tb);
+} chain (int id) {
+  int wf = ty_fkind(ta) + ty_fkind(tb);
+  int wq = is_ptr_either(id);
+  int wok = wd_only(wk, wf, wq);
+} return int wok;
+given txt_fixture given fl_fixture given wd_fixture (14):(1)
+given txt_fixture given fl_fixture given wd_fixture (21):(0)
+
+// 1 when a 128-bit operand is there (wk > 0) and neither a floating-point (wf) nor
+// a pointer (wq) one is.
+wd_only(int wk, int wf, int wq) {
+  int wok = 0;
+  if(wk > 0 && wf == 0 && wq == 0) {
+    wok = 1;
+  }
+} return int wok;
+(1, 0, 0):(1)
+(1, 1, 0):(0)
+(1, 0, 1):(0)
+(0, 0, 0):(0)
+
+// The type the operands are converted to.
+wd_opty(int id) {
+  int wt = pair_uty(id);
+  if((import ns)[id] == "<<" || (import ns)[id] == ">>") {
+    wt = promote_ty(kid_ty((import na), id));
+  }
+} return int wt;
+given txt_fixture given fl_fixture given wd_fixture (14):(10)
+given txt_fixture given fl_fixture given wd_fixture (15):(11)
+given txt_fixture given fl_fixture given wd_fixture (17):(10)

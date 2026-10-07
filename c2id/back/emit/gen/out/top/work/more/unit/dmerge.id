@@ -8,8 +8,10 @@ tu_dmerge(int k, int r, int a) {
   if(k >= 0 && (import goff)[k] >= 0) {
     dup = 1;
     tu_dwin(k, r, a);
+    tu_dstat(k);
   }
 } return int dup;
+given init_tu given tynode_fix given tu_dadd("x", 0, -1) given lset((import statk), 0, 1) (0, 0, 5):(1) then (import gst):([1])
 given init_tu given tynode_fix (-1, 0, -1):(0)
 given init_tu given tynode_fix given tu_dadd("x", 0, -1) (0, 0, 5):(1) then (import dinit)[0]:(5)
 

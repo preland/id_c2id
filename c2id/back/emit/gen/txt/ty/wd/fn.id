@@ -1,0 +1,12 @@
+// The crt/i128 function for the operator, by the signedness of the type: / % and >>
+// differ, the rest are the same.
+wd_fn(int wt, string wop) {
+  int wi = find_str((import wd_ops), wop);
+  string wfn = (import wd_ufn)[wi];
+  if(ty_signed(wt) == 1) {
+    wfn = (import wd_sfn)[wi];
+  }
+} return string wfn;
+given txt_fixture given wd_types (6, "/"):("ci128_divs")
+given txt_fixture given wd_types (7, "/"):("ci128_divu")
+given txt_fixture given wd_types (6, ">>"):("ci128_sar")

@@ -1,0 +1,22 @@
+// The state of the cleanup attribute (`__attribute__((cleanup(fn)))` on a local, which
+// calls fn(&var) when var goes out of scope). clfn holds the function the declarator
+// being read names (the attribute is met first, front/diag/cleanup.id) and clsp the
+// one the declaration's specifiers named, for every declarator; clpn and clpf the
+// variables and functions of the declaration just read, waiting for fill_stmts to
+// wrap the rest of the block (cl_block); cllab the labels of that rest, clcur its
+// pointer variable and function, clcnt a counter for the names made, clmode 0 while
+// the labels are collected and 1 while the exits are rewritten.
+init_cl() {
+  export string[] clfn = [""];
+  export string[] clsp = [""];
+  export string[] clpn = [];
+} chain () {
+  export string[] clpf = [];
+  export string[] cllab = [];
+  export string[] clcur = ["", ""];
+} chain () {
+  export int[] clcnt = [0];
+  export int[] clmode = [0];
+} return void export clfn;
+():() then (import clfn):([""])
+():() then len((import clfn)):(1)

@@ -1,0 +1,36 @@
+// The text of token i, "" past the last.
+tok_at(int ta_i) {
+  string ta_s = "";
+  if(ta_i >= 0 && ta_i < len((import ttext))) {
+    ta_s = (import ttext)[ta_i];
+  }
+} return string ta_s;
+given boot_a given boot_b given lexfix stdin "a b" (1):("b")
+given boot_a given boot_b given lexfix stdin "a b" (2):("")
+
+// The text of the token before tk, "" before the first.
+tok_before(int tk) {
+  string btx = "";
+  if(tk > 0) {
+    btx = (import ttext)[tk - 1];
+  }
+} return string btx;
+given boot_a given boot_b given lexfix stdin "a b" (1):("a")
+given boot_a given boot_b given lexfix stdin "a b" (0):("")
+
+// The source tokens that end at token tk, up to ten, as one string: what a
+// refusal in a long line shows to say which construct it means.
+tok_ctx(int tc_tk) {
+  int tc_i = tc_tk - 9;
+  string tc_s = "";
+  if(tc_i < 0) {
+    tc_i = 0;
+  }
+} chain (int tc_tk) {
+  while(tc_i <= tc_tk) {
+    tc_s = tc_s + tok_at(tc_i) + " ";
+    tc_i = tc_i + 1;
+  }
+} return string tc_s;
+given boot_a given boot_b given lexfix stdin "a b c" (2):("a b c ")
+given boot_a given boot_b given lexfix stdin "a b c d e f g h i j k l" (11):("c d e f g h i j k l ")

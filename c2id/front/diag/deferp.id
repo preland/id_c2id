@@ -1,0 +1,30 @@
+// The declaration just read defines no function: what it deferred is told, and
+// an address-space qualifier (or an array bound that cannot be folded) it held
+// poisons the globals and types it declared since it began (itm0), so that a
+// reached function using one is refused.
+defer_end() {
+  defer_tell(0);
+  if(defer_has(0) > 0) {
+    seg_poison();
+  }
+} return void;
+given boot_a given boot_b given lexfix given defer_tok(3, "m") ():() then len((import dgmsg)):(1) then len((import sgv)):(0)
+given boot_a given boot_b given lexfix given tu_load given defer_seg(3, "m") stdin "int x;" ():() then len((import dgmsg)):(0) then (import sgv):(["x"])
+
+seg_poison() {
+  string sp_m = seg_msg();
+  seg_vars((import itm0)[0], sp_m);
+  seg_tys((import itm0)[1], sp_m);
+} return void;
+given boot_a given boot_b given lexfix given tu_load given defer_seg(0, "why") stdin "int x;" ():() then (import sgv):(["x"]) then (import sgvm):(["why (declared at :1)"])
+given boot_a given boot_b given lexfix given tu_load given defer_seg(0, "why") stdin "int x; typedef int T;" ():() then len((import sgv)):(0) then len((import sgt)):(1)
+
+seg_vars(int sv_i, string sv_m) {
+  while(sv_i < len((import dnames))) {
+    push((import sgv), (import dnames)[sv_i]);
+    push((import sgvm), sv_m);
+    sv_i = sv_i + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int y;" (1, "m"):() then (import sgv):(["y"]) then (import sgvm):(["m"])
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int y;" (0, "m"):() then (import sgv):(["x", "y"])

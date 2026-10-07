@@ -8,6 +8,8 @@ call_head(int id) {
   if(direct_call(a) == 1) {
     s = callee_name((import ns)[a]);
   }
+} chain (int id) {
+  ind_note(id);
 } return string s;
 given txt_fixture (0):("crt_call0")
 given txt_fixture (5):("crt_call0")

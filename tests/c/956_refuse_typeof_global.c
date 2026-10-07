@@ -1,3 +1,2 @@
-int g[3];
-typeof(g[0]) h;
-int main(void) { return h; }
+int proto(int a, typeof(a) b);
+int main(void) { return 0; }

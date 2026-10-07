@@ -1,0 +1,24 @@
+// A reached function that uses a poisoned variable or type is refused where it does
+// (front/diag/defers.id says what is poisoned, and why): a variable declared with a
+// named address space or a size the translator could not fold, a member of a record
+// so declared, the size of one. Its mentions of the qualifier itself were deferred by
+// the parser.
+chk_seg(int cg_id) {
+  string cg_kn = (import nk)[cg_id];
+  if(cg_kn == "var") {
+    chk_segvar(cg_id);
+  } else {
+    chk_seg2(cg_id, cg_kn);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 1; }" (0):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given lst_str_insert((import sgv), 0, "g") given lst_str_insert((import sgvm), 0, "m") stdin "int g; int f(void) { return g; }" (10):() then len((import dgmsg)):(1)
+
+chk_segvar(int cv_id) {
+  int cv_i = find_str((import sgv), (import ns)[cv_id]);
+  if(cv_i >= 0) {
+    diag_node(cv_id, "'" + (import ns)[cv_id] + "' was declared with something c2id cannot model: " + (import sgvm)[cv_i]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given lst_str_insert((import sgv), 0, "g") given lst_str_insert((import sgvm), 0, "why") stdin "int g; int f(void) { return g; }" (10):() then (import dgmsg):([":1: error: 'g' was declared with something c2id cannot model: why"])
+given boot_a given boot_b given lexfix given tu_load stdin "int g; int f(void) { return g; }" (10):() then len((import dgmsg)):(0)

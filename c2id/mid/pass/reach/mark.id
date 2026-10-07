@@ -2,14 +2,16 @@
 // nothing, and a translation unit full of `static inline` wrappers around
 // functions it never defines (a header's compatibility names) is legal for that
 // reason alone; emitting every function would emit calls to functions that do not
-// exist. So emission starts from main -- or from every function, for a unit
-// that has none -- and follows every function a reachable body names, as a
+// exist. So emission starts from main -- or, for a unit that has none, from every
+// function with external linkage (a `static` one is a root only when something names
+// it) -- and follows every function a reachable body names, as a
 // callee or as a value, and every one a global's initializer names.
 reach_all() {
   int n = len((import fnames));
   reach_init(n);
   int mi = find_str((import fnames), "main");
 } chain () {
+  greach_init();
   reach_roots(mi, n);
   reach_drain();
 } return void;
@@ -25,15 +27,18 @@ reach_init(int n) {
 given gl_setup (3):() then (import reach):([0, 0, 0])
 given gl_setup given reach_init(2) (1):() then (import reach):([0, 0])
 
-// main and the functions the global initializers name; with no main, every
-// function.
+// main and the functions the global initializers name; with no main, those and every
+// function that is not static.
 reach_roots(int mi, int n) {
   if(mi >= 0) {
     reach_mark(mi);
     reach_inits(0);
   } else {
     reach_every(0, n);
+    reach_inits(0);
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "int f(void) { return 1; } int g(void) { return 2; }" (1, 2):() then (import reach):([0, 1])
 given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "int f(void) { return 1; } int g(void) { return 2; }" (-1, 2):() then (import reach):([1, 1])
+given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "static int f(void) { return 1; } int g(void) { return 2; }" (-1, 2):() then (import reach):([0, 1])
+given boot_a given boot_b given lexfix given tu_load given reach_init(2) given greach_init stdin "static int f(void) { return 1; } int (*p)(void) = f; int g(void) { return 2; }" (-1, 2):() then (import reach):([1, 1])
