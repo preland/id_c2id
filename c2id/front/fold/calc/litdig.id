@@ -1,0 +1,35 @@
+cw_digits(string dg_s, int dg_i, int dg_r) {
+  word dg_n = 0;
+  while(more_digits(dg_s, dg_i, dg_r)) {
+    int dg_c = charat(dg_s, dg_i);
+    dg_n = dg_n * dg_r + dig_val(dg_c);
+    dg_i = dg_i + 1;
+  }
+} return word dg_n;
+("42", 0, 10):(42)
+("2A", 0, 16):(42)
+("ffffffffffffffff", 0, 16):(-1)
+("18446744073709551615ULL", 0, 10):(-1)
+
+cw_radix(string rd_s) {
+  int rd_r = 10;
+  if(hex_pfx(rd_s) == 1) {
+    rd_r = 16;
+  } else if(is_oct_lit(rd_s) == 1) {
+    rd_r = 8;
+  }
+} return int rd_r;
+("0x1f"):(16)
+("010"):(8)
+("12"):(10)
+("0"):(10)
+
+cw_start(string st_s, int st_r) {
+  int st_i = hex_start(st_s);
+  if(st_r == 8) {
+    st_i = 1;
+  }
+} return int st_i;
+("0x1", 16):(2)
+("010", 8):(1)
+("12", 10):(0)

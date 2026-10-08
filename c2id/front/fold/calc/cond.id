@@ -1,13 +1,28 @@
-cv_cond(int e) {
-  int cnd = const_eval((import na)[e]);
-  int tv = const_eval((import nb)[e]);
-  int[] el = (import nl)[e];
+// `c ? a : b` folds all three (the dead arm too, so a division by zero there is
+// 0, not an error), meets the arms in their common type and picks one.
+cw_cond(int e) {
+  word cq_c = cw_eval((import na)[e]);
+  word cq_a = cw_eval((import nb)[e]);
+  int cq_at = (import cwty)[0];
 } chain (int e) {
-  int fv = const_eval(el[0]);
-  int v = fv;
-  if(cnd != 0) {
-    v = tv;
-  }
-} return int v;
+  int[] cq_el = (import nl)[e];
+  word cq_b = cw_eval(cq_el[0]);
+  int cq_bt = (import cwty)[0];
+} chain (int e) {
+  int cq_t = cw_common(cq_at, cq_bt);
+  word cq_v = cw_arm(cq_c, cq_a, cq_b, cq_t);
+  lset((import cwty), 0, cq_t);
+} return word cq_v;
 given boot_a given exprfix stdin "1 ? 2 : 3;" ((import extop)):(2)
 given boot_a given exprfix stdin "0 ? 2 : 3;" ((import extop)):(3)
+given boot_a given exprfix stdin "1 ? -1 : 0u;" ((import extop)):(4294967295) then (import cwty)[0]:(8)
+
+cw_arm(word am_c, word am_a, word am_b, int am_t) {
+  word am_v = cw_norm(am_b, am_t);
+  if(am_c != 0) {
+    am_v = cw_norm(am_a, am_t);
+  }
+} return word am_v;
+(1, 5, 6, 9):(5)
+(0, 5, 6, 9):(6)
+(1, -1, 0, 8):(4294967295)

@@ -1,0 +1,37 @@
+// An `asm` that opens an external declaration is machine code for the whole
+// program (symbols, sections, data), not for one function. Skipping it is sound
+// only when it does nothing (asm_why), so any other is kept as a deferred
+// refusal of no function (qfn -1) and told by the check pass (mid/check/gasm.id)
+// once the program reaches anything: a header's unit full of unused inline
+// functions that holds one is not refused until something is called.
+tu_item3(int[] pos) {
+  if(is_asm_kw(cur_text(pos)) == 1) {
+    parse_gasm(pos);
+  } else {
+    tu_decl(pos);
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "asm(\"nop\");" ([0]):([5]) then calls parse_gasm:[1]
+given boot_a given boot_b given lexfix stdin "int x;" ([0]):([3]) then calls tu_decl:[1]
+
+parse_gasm(int[] pos) {
+  int ga_tk = pos[0];
+  skip_attr(pos);
+  string ga_why = asm_why(ga_tk, pos[0]);
+} chain (int[] pos) {
+  skip_semi(pos);
+  gasm_note(ga_tk, ga_why);
+} return void;
+given boot_a given boot_b given lexfix stdin "asm(\"nop\");" ([0]):([5]) then len((import qfn)):(1)
+given boot_a given boot_b given lexfix stdin "asm(\"\");" ([0]):([5]) then len((import qfn)):(0)
+
+gasm_note(int gn_tk, string gn_why) {
+  if(gn_why != "") {
+    push((import qfn), 0 - 1);
+    push((import qtk), gn_tk);
+    push((import qmsg), gn_why);
+  }
+} return void;
+given boot_a (3, "m"):() then (import qfn):([-1])
+given boot_a (3, "m"):() then (import qmsg):(["m"])
+given boot_a (3, ""):() then len((import qtk)):(0)

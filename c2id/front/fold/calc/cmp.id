@@ -1,0 +1,35 @@
+// A comparison meets its operands in their common type, so `-1 < 0u` is false;
+// the answer is an int. Only an unsigned 8-byte type needs the unsigned builtin:
+// narrower unsigned values are held zero extended and compare as they are.
+cw_cmp(string cm_o, word cm_l, int cm_lt, word cm_r, int cm_rt) {
+  int cm_t = cw_common(cm_lt, cm_rt);
+  word cm_a = cw_norm(cm_l, cm_t);
+  word cm_b = cw_norm(cm_r, cm_t);
+} chain (string cm_o, word cm_l, int cm_lt, word cm_r, int cm_rt) {
+  int cm_lo = cw_less(cm_a, cm_b, cm_t);
+  int cm_hi = cw_less(cm_b, cm_a, cm_t);
+  int cm_k = find_str((import cv_cmp_ops), cm_o);
+} chain (string cm_o, word cm_l, int cm_lt, word cm_r, int cm_rt) {
+  int[] cm_rl = [cm_a == cm_b, cm_a != cm_b, cm_lo, cm_hi, cm_hi == 0, cm_lo == 0, cm_a != 0 && cm_b != 0, cm_a != 0 || cm_b != 0];
+  word cm_v = cm_rl[cm_k];
+  lset((import cwty), 0, 9);
+} return word cm_v;
+given boot_a ("<", -1, 9, 1, 8):(0) then (import cwty)[0]:(9)
+given boot_a ("<", -1, 9, 1, 9):(1)
+given boot_a (">=", 5, 16, 3, 9):(1)
+given boot_a ("==", 4, 9, 4, 9):(1)
+given boot_a ("!=", 4, 9, 4, 9):(0)
+given boot_a ("<=", 3, 9, 3, 9):(1)
+given boot_a (">", 3, 9, 3, 9):(0)
+given boot_a ("&&", 2, 9, 0, 9):(0)
+given boot_a ("||", 2, 9, 0, 9):(1)
+
+cw_less(word ls_a, word ls_b, int ls_t) {
+  int ls_v = ls_a < ls_b;
+  if(ls_t == 16) {
+    ls_v = ult(ls_a, ls_b);
+  }
+} return int ls_v;
+(1, 2, 9):(1)
+(-1, 1, 9):(1)
+(-1, 1, 16):(0)

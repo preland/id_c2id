@@ -9,6 +9,7 @@ chk_all() {
   chk_loop(0, n);
   chk_inits();
 } chain () {
+  chk_gasm();
   unres_flush();
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" ():() then (import dgmsg):(["error: 1 function(s) called here are neither defined in this program nor provided by the c2id runtime:\n  nosuch  first called at :1"])

@@ -1,30 +1,40 @@
-cv_un(int e) {
-  int av = const_eval((import na)[e]);
-  int v = cv_unop((import ns)[e], av);
-} return int v;
+// `-x`, `~x`, `+x` take the promoted type of x and wrap in it (`-1u` is 4294967295);
+// `!x` is an int 0 or 1; anything else is x.
+cw_un(int e) {
+  word un_a = cw_eval((import na)[e]);
+  int un_t = (import cwty)[0];
+  string un_o = (import ns)[e];
+} chain (int e) {
+  word un_v = cw_unop(un_o, un_a, un_t);
+} return word un_v;
 given boot_a given exprfix stdin "!5;" ((import extop)):(0)
 given boot_a given exprfix stdin "~0;" ((import extop)):(-1)
+given boot_a given exprfix stdin "-1u;" ((import extop)):(4294967295)
 
-// `-x`, `~x`, `!x`; `+x` and anything else is x.
-cv_unop(string op, int av) {
-  int v = cv_not(op, av);
-  if(op == "-") {
-    v = 0 - av;
-  } else if(op == "~") {
-    v = ~av;
+cw_unop(string uo_o, word uo_a, int uo_t) {
+  int uo_r = cw_prom(uo_t);
+  word uo_v = cw_ur(uo_o, uo_a);
+  if(uo_o == "!") {
+    uo_r = 9;
   }
-} return int v;
+} chain (string uo_o, word uo_a, int uo_t) {
+  lset((import cwty), 0, uo_r);
+  uo_v = cw_norm(uo_v, uo_r);
+} return word uo_v;
+given boot_a ("-", 1, 8):(4294967295)
+given boot_a ("~", 0, 8):(4294967295)
+given boot_a ("~", 0, 3):(-1)
+given boot_a ("!", 5, 17):(0)
+
+cw_ur(string ur_o, word ur_a) {
+  word ur_v = cw_not(ur_o, ur_a);
+  if(ur_o == "-") {
+    ur_v = 0 - ur_a;
+  } else if(ur_o == "~") {
+    ur_v = ~ur_a;
+  }
+} return word ur_v;
 ("-", 5):(-5)
 ("~", 5):(-6)
 ("!", 0):(1)
 ("+", 7):(7)
-
-cv_not(string op, int av) {
-  int v = av;
-  if(op == "!") {
-    v = av == 0;
-  }
-} return int v;
-("!", 0):(1)
-("!", 9):(0)
-("-", 9):(9)

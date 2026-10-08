@@ -17,7 +17,7 @@ given boot_a given ty_setup given lexfix stdin "0 , 2 , 3 ) ;" ([0]):(2)
 
 bi_select(int c, int a, int b) {
   lset((import cunk), 0, 0);
-  int v = const_eval(c);
+  int v = const_true(c);
   int id = bi_arm(v, a, b);
 } chain (int c, int a, int b) {
   bi_chk(c);

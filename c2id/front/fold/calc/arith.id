@@ -1,0 +1,29 @@
+cw_arith(string ar_o, word ar_l, int ar_lt, word ar_r, int ar_rt) {
+  int ar_t = cw_common(ar_lt, ar_rt);
+  word ar_a = cw_norm(ar_l, ar_t);
+  word ar_b = cw_norm(ar_r, ar_t);
+} chain (string ar_o, word ar_l, int ar_lt, word ar_r, int ar_rt) {
+  word ar_v = cw_calc(ar_o, ar_a, ar_b, ar_t);
+  lset((import cwty), 0, ar_t);
+} return word ar_v;
+given boot_a ("+", 2147483647, 9, 1, 9):(-2147483648) then (import cwty)[0]:(9)
+given boot_a ("-", 0, 8, 1, 9):(4294967295) then (import cwty)[0]:(8)
+given boot_a ("*", 4294967296, 16, 4294967296, 17):(0) then (import cwty)[0]:(16)
+
+cw_calc(string ck_o, word ck_a, word ck_b, int ck_t) {
+  word ck_v = cw_c2(ck_o, ck_a, ck_b, ck_t);
+  ck_v = cw_norm(ck_v, ck_t);
+} return word ck_v;
+("+", 200, 100, 2):(44)
+("+", 200, 100, 9):(300)
+
+cw_c2(string c2_o, word c2_a, word c2_b, int c2_t) {
+  word c2_v = cw_c3(c2_o, c2_a, c2_b, c2_t);
+  if(c2_o == "+") {
+    c2_v = c2_a + c2_b;
+  } else if(c2_o == "-") {
+    c2_v = c2_a - c2_b;
+  }
+} return word c2_v;
+("+", 3, 4, 9):(7)
+("-", 3, 4, 9):(-1)

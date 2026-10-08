@@ -13,9 +13,10 @@ suffix_at(string raw, int j) {
 // parser wraps 0xdeadbeef to a negative int) as `(0 - n)`, since id has no unary
 // minus.
 num_dec(int id) {
-  string s = "" + (import na)[id];
-  if((import na)[id] < 0) {
-    s = "(0 - " + (0 - (import na)[id]) + ")";
+  word nd_w = (import na)[id];
+  string s = "" + nd_w;
+  if(nd_w < 0) {
+    s = "(0 - " + (0 - nd_w) + ")";
   }
 } return string s;
 given boot_a given exprfix stdin "5;" ((import extop)):("5")

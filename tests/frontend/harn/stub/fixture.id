@@ -4,6 +4,7 @@
 // lists_str/print_tree need as a real node to read fields from.
 harn_setup_fixture() {
   boot_a();
+  boot_b();
   init_lex();
 } return void;
 ():() then prints:("")

@@ -1,0 +1,12 @@
+cw_norm(word nm_w, int nm_t) {
+  word nm_m = cw_mask(nm_t / 2);
+  word nm_u = nm_w & nm_m;
+  word nm_r = cw_sext(nm_u, nm_m, nm_t % 2);
+} return word nm_r;
+(300, 2):(44)
+(200, 3):(-56)
+(-1, 8):(4294967295)
+(-1, 9):(-1)
+(2147483648, 9):(-2147483648)
+(4294967296, 9):(0)
+(-1, 16):(-1)

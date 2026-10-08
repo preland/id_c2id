@@ -124,6 +124,7 @@ Exported globals (reserved program-wide, reachable only via `import`):
 | `tfile` | `string[]` | per token: the file the preprocessor says it came from |
 | `curtk`, `dots`, `chk_flt` | `int[]` | one cell each: the token the parser has consumed up to; 1 after a `...` until its function type is made; 1 once the current function has had a floating-point use refused |
 | `dgmsg` | `string[]` | the refusals, one `file:line: error: ...` each |
+| `cwty` | `int[]` | one cell: the C type code (size * 2, plus 1 if signed: 9 int, 8 unsigned int, 17 long, 16 unsigned long) of the constant the folder (`front/fold/calc/`) evaluated last |
 | `unres`, `unres_at` | `string[]`, `int[]` | functions called that nothing provides, and the token each was first named at |
 | `nrnames`, `mxnames` | `string[]` | the functions that never return (exit, abort, _Exit and the `_Noreturn` ones, read from the tokens by `front/diag/noret/`), and every function that may reach one: a call to one of these ends its block, a statement calling one of the second is followed by a block boundary |
 | `retty`, `fltys` | `int[]` | the return type of the function being emitted; whether the float and double type nodes exist yet (`[0]`) and their node ids (`[1]`, `[2]`) |
@@ -289,6 +290,11 @@ one is how a translator spins. Three places make them:
   machine register), and are refused here, `mid/check/extra.id`, only if the
   function is reached; a `typeof(expression)` is resolved here too, by the
   frame pass (`mid/pass/frame/tof/`), which has the types of the locals;
+  An `asm` that opens an external declaration (top-level asm) belongs to no function: it is kept
+  with function index -1 in the deferred lists (`unit/gasm.id`) and told by `mid/check/gasm.id`
+  once the program reaches any function. A bit-field of a 128-bit type poisons its record
+  (`front/diag/bits.id`). A constant expression whose value an int or unsigned int cannot hold
+  is refused (`cw_wide`, `front/fold/calc/wide.id`);
 * nowhere else: once `diag_status()` is non-zero the driver (`unit/settle.id`)
   skips emission, `diag_report()` prints the lines, and `main` exits 1.
 

@@ -1,0 +1,35 @@
+// A cast converts to the size and signedness of a primitive type (a _Bool to
+// whether it is nonzero) or to an unsigned 8-byte pointer; to any other type
+// it leaves the value alone, and the type it had.
+cw_cast(int e) {
+  word cs_a = cw_eval((import na)[e]);
+  int cs_t = (import cwty)[0];
+  int cs_n = (import nb)[e];
+} chain (int e) {
+  int cs_c = cw_ctype(cs_n, cs_t);
+  word cs_v = cw_cnv(cs_a, cs_c, cs_n);
+  lset((import cwty), 0, cs_c);
+} return word cs_v;
+given boot_a given exprfix stdin "(unsigned char)300;" ((import extop)):(44) then (import cwty)[0]:(2)
+given boot_a given exprfix stdin "(long)-1;" ((import extop)):(-1) then (import cwty)[0]:(17)
+given boot_a given exprfix stdin "(_Bool)256;" ((import extop)):(1)
+
+cw_ctype(int ct_n, int ct_t) {
+  int ct_r = ct_t;
+  if((import nk)[ct_n] == "prim") {
+    ct_r = (import na)[ct_n] * 2 + (import nb)[ct_n];
+  } else if((import nk)[ct_n] == "ptr") {
+    ct_r = 16;
+  }
+} return int ct_r;
+given boot_a given exprfix stdin "(unsigned char)1;" (0, 9):(2)
+given boot_a given exprfix stdin "(unsigned char)1;" (1, 9):(9)
+
+cw_cnv(word cn_a, int cn_c, int cn_n) {
+  word cn_v = cw_norm(cn_a, cn_c);
+  if((import ns)[cn_n] == "_Bool") {
+    cn_v = cn_a != 0;
+  }
+} return word cn_v;
+given boot_a given exprfix stdin "(short)70000;" (70000, 5, 0):(4464)
+given boot_a given exprfix stdin "(_Bool)2;" (2, 9, 0):(1)

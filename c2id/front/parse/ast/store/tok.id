@@ -27,7 +27,8 @@
 // chrsg is 1 when plain char is signed, as on x86-64 userspace, and 0 when the
 // environment variable C2ID_UNSIGNED_CHAR is 1 (kernel code is built with
 // -funsigned-char, and a preprocessed file does not say so). usedk is 1 once the declaration has a `used` attribute: it is kept whatever its
-// linkage, so it is a root as an external one is.
+// linkage, so it is a root as an external one is. cwty is the C type code of the constant
+// the folder (front/fold/calc/ty.id) has just evaluated, cwty[0].
 init_nodes4() {
   export int[] curtk = [0];
   export int[] dots = [0];
@@ -61,8 +62,10 @@ init_nodes4() {
   export string[] sgtm = [];
   export int[] usedk = [0];
 } chain () {
+  export int[] cwty = [0];
   export int[] chrsg = [1];
   init_cl();
+} chain () {
   char_env();
 } return void export curtk;
 ():() then (import curtk)[0]:(0)

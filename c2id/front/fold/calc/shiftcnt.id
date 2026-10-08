@@ -1,0 +1,8 @@
+cw_cnt(word cn_r) {
+  word cn_v = cn_r;
+  if(cn_r < 0) {
+    cn_v = 0;
+  }
+} return word cn_v;
+(-3):(0)
+(5):(5)

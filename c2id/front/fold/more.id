@@ -1,39 +1,32 @@
-// A cast does not change a constant's value here (the operands are ints), a
-// conditional picks an arm, sizeof is the size of its type; a name that is not
-// an enumerator (and so not folded by the parser), a `sizeof` of an expression
-// and anything else that is not a constant is 0 with cunk set, which ce_expr
-// turns into a refusal.
-cv4(int e) {
-  int v = 0;
-  if((import nk)[e] == "cast") {
-    v = const_eval((import na)[e]);
+cw_ev3(int e) {
+  word e3_v = 0;
+  if((import nk)[e] == "un") {
+    e3_v = cw_un(e);
   } else {
-    v = cv5(e);
+    e3_v = cw_ev4(e);
   }
-} return int v;
+} return word e3_v;
+given boot_a given exprfix stdin "~0;" ((import extop)):(-1)
+given boot_a given exprfix stdin "(int)9;" ((import extop)):(9)
+
+cw_ev4(int e) {
+  word e4_v = 0;
+  if((import nk)[e] == "cast") {
+    e4_v = cw_cast(e);
+  } else {
+    e4_v = cw_ev5(e);
+  }
+} return word e4_v;
 given boot_a given exprfix stdin "(int)9;" ((import extop)):(9)
 given boot_a given exprfix stdin "0 ? 2 : 3;" ((import extop)):(3)
 
-cv5(int e) {
-  int v = 0;
+cw_ev5(int e) {
+  word e5_v = 0;
   if((import nk)[e] == "cond") {
-    v = cv_cond(e);
+    e5_v = cw_cond(e);
   } else {
-    v = cv6(e);
+    e5_v = cw_ev6(e);
   }
-} return int v;
+} return word e5_v;
 given boot_a given exprfix stdin "1 ? 2 : 3;" ((import extop)):(2)
 given boot_a given exprfix stdin "sizeof(int);" ((import extop)):(4)
-
-cv6(int e) {
-  int v = 0;
-  if((import nk)[e] == "sizeof" && ((import nb)[e] != 0 || (import na)[e] == 0)) {
-    v = sizeof_meas(e, (import nb)[e]);
-    seg_fold(e);
-  } else {
-    v = cv7(e);
-  }
-} return int v;
-given boot_a given exprfix stdin "sizeof(int);" ((import extop)):(4)
-given boot_a given exprfix stdin "x;" ((import extop)):(0) then (import cunk)[0]:(1)
-given boot_a given exprfix stdin "sizeof(int);" ((import extop)):(4) then (import cunk)[0]:(0)

@@ -52,7 +52,7 @@ fi
 if "$here/tests/frontend/build.sh" >"$work/fe.err" 2>&1; then
     got=$(printf 'if (p->len > 0) { total += arr[i].n; } else { return -1; }\n' \
           | "$here/build/frontend/parse")
-    want='0: (if  a3 (block  a0 (expr  a9)) (block  a0 (return  a13)))'
+    want='0: (if  a9 (block  a0 (expr  a15)) (block  a0 (return  a19)))'
     if [[ $got == "$want" ]]; then
         echo "PASS  frontend-integration"
         pass=$((pass + 1))

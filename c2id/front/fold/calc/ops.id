@@ -1,29 +1,38 @@
-cv_bin(int e) {
-  int lv = const_eval((import na)[e]);
-  int rv = const_eval((import nb)[e]);
-  int v = cv_apply((import ns)[e], lv, rv);
-} return int v;
+// A binary operator folds both operands first (each leaves its C type in
+// cwty[0], read at once), then is decided by the operator: the comparisons and
+// the logical operators answer an int 0 or 1, a shift keeps the type of its
+// left operand, and every other operator meets its operands in their common type.
+cw_bin(int e) {
+  word bn_l = cw_eval((import na)[e]);
+  int bn_lt = (import cwty)[0];
+  word bn_r = cw_eval((import nb)[e]);
+} chain (int e) {
+  int bn_rt = (import cwty)[0];
+  string bn_o = (import ns)[e];
+  word bn_v = cw_binop(bn_o, bn_l, bn_lt, bn_r, bn_rt);
+} return word bn_v;
 given boot_a given exprfix stdin "6 / 3;" ((import extop)):(2)
 given boot_a given exprfix stdin "2 < 3;" ((import extop)):(1)
 
-// The arithmetic and bitwise operators are ce_apply's; the comparisons and the
-// logical operators are answered 0 or 1 from one table.
-cv_apply(string op, int lv, int rv) {
-  int v = ce_apply(op, lv, rv);
-  int k = find_str((import cv_cmp_ops), op);
-  if(k >= 0) {
-    v = cv_cmp(k, lv, rv);
+cw_binop(string bo_o, word bo_l, int bo_lt, word bo_r, int bo_rt) {
+  word bo_v = 0;
+  if(find_str((import cv_cmp_ops), bo_o) >= 0) {
+    bo_v = cw_cmp(bo_o, bo_l, bo_lt, bo_r, bo_rt);
+  } else {
+    bo_v = cw_bin2(bo_o, bo_l, bo_lt, bo_r, bo_rt);
   }
-} return int v;
-("+", 2, 3):(5)
-("==", 4, 4):(1)
-("&&", 2, 0):(0)
+} return word bo_v;
+given boot_a ("+", 2, 9, 3, 9):(5)
+given boot_a ("==", 4, 9, 4, 9):(1)
+given boot_a ("&&", 2, 9, 0, 9):(0)
 
-cv_cmp(int k, int lv, int rv) {
-  int[] rl = [lv == rv, lv != rv, lv < rv, lv > rv, lv <= rv, lv >= rv, lv != 0 && rv != 0, lv != 0 || rv != 0];
-  int v = rl[k];
-} return int v;
-(0, 3, 3):(1)
-(2, 5, 3):(0)
-(7, 0, 2):(1)
-(6, 2, 0):(0)
+cw_bin2(string b2_o, word b2_l, int b2_lt, word b2_r, int b2_rt) {
+  word b2_v = 0;
+  if(b2_o == "<<" || b2_o == ">>") {
+    b2_v = cw_shift(b2_o, b2_l, b2_lt, b2_r);
+  } else {
+    b2_v = cw_arith(b2_o, b2_l, b2_lt, b2_r, b2_rt);
+  }
+} return word b2_v;
+given boot_a ("<<", 1, 9, 3, 9):(8)
+given boot_a ("-", 2, 9, 3, 9):(-1)

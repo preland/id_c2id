@@ -1,0 +1,30 @@
+cw_rem(word rm_a, word rm_b, int rm_t) {
+  word rm_v = 0;
+  if(rm_b != 0) {
+    rm_v = cw_r2(rm_a, rm_b, rm_t);
+  }
+} return word rm_v;
+(7, 2, 9):(1)
+(7, 0, 9):(0)
+(-1, 10, 16):(5)
+(-7, 3, 17):(-1)
+
+cw_r2(word r2_a, word r2_b, int r2_t) {
+  word r2_v = 0;
+  if(r2_t % 2 == 0) {
+    r2_v = umod(r2_a, r2_b);
+  } else {
+    r2_v = cw_srem(r2_a, r2_b);
+  }
+} return word r2_v;
+(-1, 10, 16):(5)
+(-7, 3, 17):(-1)
+
+cw_srem(word sr_a, word sr_b) {
+  word sr_v = 0;
+  if(sr_b != 0 - 1) {
+    sr_v = sr_a % sr_b;
+  }
+} return word sr_v;
+(-9223372036854775808, -1):(0)
+(9, 4):(1)

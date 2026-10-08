@@ -1,0 +1,33 @@
+cw_c3(string c3_o, word c3_a, word c3_b, int c3_t) {
+  word c3_v = cw_c4(c3_o, c3_a, c3_b, c3_t);
+  if(c3_o == "*") {
+    c3_v = c3_a * c3_b;
+  } else if(c3_o == "&") {
+    c3_v = c3_a & c3_b;
+  }
+} return word c3_v;
+("*", 3, 4, 9):(12)
+("&", 6, 3, 9):(2)
+
+cw_c4(string c4_o, word c4_a, word c4_b, int c4_t) {
+  word c4_v = cw_c5(c4_o, c4_a, c4_b, c4_t);
+  if(c4_o == "|") {
+    c4_v = c4_a | c4_b;
+  } else if(c4_o == "^") {
+    c4_v = c4_a ^ c4_b;
+  }
+} return word c4_v;
+("|", 5, 3, 9):(7)
+("^", 6, 3, 9):(5)
+
+cw_c5(string c5_o, word c5_a, word c5_b, int c5_t) {
+  word c5_v = 0;
+  if(c5_o == "/") {
+    c5_v = cw_quot(c5_a, c5_b, c5_t);
+  } else if(c5_o == "%") {
+    c5_v = cw_rem(c5_a, c5_b, c5_t);
+  }
+} return word c5_v;
+("/", 7, 2, 9):(3)
+("%", 7, 2, 9):(1)
+(",", 7, 2, 9):(0)

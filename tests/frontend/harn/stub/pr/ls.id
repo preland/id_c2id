@@ -7,7 +7,7 @@ list_str(int[] ids) {
   }
 } return string s;
 ([]):("")
-given harn_if_fixture ((import hif_kids)):(" (block  a0 (expr  a1))")
+given harn_if_fixture ((import hif_kids)):(" (block  a0 (expr  a7))")
 
 lists_str(int id) {
   int[] l = (import nl)[id];
@@ -15,4 +15,4 @@ lists_str(int id) {
   string txt = list_str(l) + list_str(m);
 } return string txt;
 given harn_expr_fixture ((import hef_id)):("")
-given harn_if_fixture ((import hif_id)):(" (block  a0 (expr  a1)) (block  a0 (expr  a4))")
+given harn_if_fixture ((import hif_id)):(" (block  a0 (expr  a7)) (block  a0 (expr  a10))")

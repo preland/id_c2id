@@ -1,0 +1,37 @@
+// A shift keeps the (promoted) type of its left operand and ignores the type of
+// its count. A negative count is 0 (C leaves it undefined, id traps); a count
+// past the width is id's own definition (0, or -1 for a negative signed value).
+// Right shift fills with the sign for a signed type and with zeros for an
+// unsigned one, which on the canonical form is ushr.
+cw_shift(string sh_o, word sh_l, int sh_lt, word sh_r) {
+  int sh_t = cw_prom(sh_lt);
+  word sh_c = cw_cnt(sh_r);
+  word sh_v = cw_shop(sh_o, sh_l, sh_c, sh_t);
+} chain (string sh_o, word sh_l, int sh_lt, word sh_r) {
+  lset((import cwty), 0, sh_t);
+} return word sh_v;
+given boot_a ("<<", 1, 3, 4):(16) then (import cwty)[0]:(9)
+given boot_a (">>", 256, 17, 4):(16) then (import cwty)[0]:(17)
+
+cw_shop(string so_o, word so_l, word so_c, int so_t) {
+  word so_v = so_l << so_c;
+  if(so_o == ">>") {
+    so_v = cw_shr(so_l, so_c, so_t);
+  }
+  so_v = cw_norm(so_v, so_t);
+} return word so_v;
+("<<", 1, 31, 9):(-2147483648)
+("<<", 1, 32, 9):(0)
+("<<", 1, 40, 17):(1099511627776)
+(">>", -1, 1, 9):(-1)
+(">>", -1, 1, 16):(9223372036854775807)
+(">>", 4294967295, 31, 8):(1)
+
+cw_shr(word sr_l, word sr_c, int sr_t) {
+  word sr_v = sr_l >> sr_c;
+  if(sr_t % 2 == 0) {
+    sr_v = ushr(sr_l, sr_c);
+  }
+} return word sr_v;
+(-1, 1, 16):(9223372036854775807)
+(-8, 1, 17):(-4)
