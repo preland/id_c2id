@@ -15,7 +15,7 @@ given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { retur
 wrap_plist(int fn, int np) {
   string out = wrap_params(np);
   if(fn_variadic(fn) == 1) {
-    out = out + arg_sep(np) + "word[] va";
+    out = out + sep_before(np, ", ") + "word[] va";
   }
 } return string out;
 given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, ...) { return a; }" (0, 1):("word a0, word[] va")

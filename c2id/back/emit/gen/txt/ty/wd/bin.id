@@ -8,7 +8,7 @@ wd_is_bin(int id) {
   int wk = wd_kind(ta) + wd_kind(tb);
 } chain (int id) {
   int wf = ty_fkind(ta) + ty_fkind(tb);
-  int wq = is_ptr_either(id);
+  int wq = is_ptr_kids(id, 0);
   int wok = wd_only(wk, wf, wq);
 } return int wok;
 given txt_fixture given fl_fixture given wd_fixture (14):(1)

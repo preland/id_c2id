@@ -27,7 +27,7 @@ fill_list(int[] pos, int[] ids, string s) {
   while(at_text(pos, s) == 0 && cur_kind(pos) != "eof") {
     int id = parse_assign(pos);
     push(ids, id);
-    skip_comma(pos);
+    skip_tok(pos, ",");
   }
 } return void;
 given boot_a given lexfix stdin ")" ([0], [], ")"):([0], [])

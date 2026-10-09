@@ -8,7 +8,7 @@ num_spell(string raw) {
   string out = "";
   if(num_plain(raw) == 1) {
     int e = spell_end(raw);
-    out = str_slice(raw, 0, e);
+    out = str_sub(raw, 0, e);
   }
 } return string out;
 ("0x1fUL"):("0x1f")

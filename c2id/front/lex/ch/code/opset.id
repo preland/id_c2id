@@ -1,5 +1,5 @@
 // Multi-character operator spellings, and the string/character literal
-// prefixes. Longest match wins, so op_len asks is_op3 last and its answer
+// prefixes. Longest match wins, so op_len asks op3_ops (conf.id) last and its answer
 // overrides is_op2's.
 //
 // There is deliberately no is_op1: every byte that is not whitespace, a
@@ -17,22 +17,3 @@ is_op2(string s) {
 ("->"):(1)
 ("-"):(0)
 
-is_op3(string s) {
-  int ok = 0;
-  if(s == "..." || s == "<<=" || s == ">>=") {
-    ok = 1;
-  }
-} return int ok;
-("..."):(1)
-(".."):(0)
-
-// A run of identifier characters immediately followed by a quote is a
-// literal prefix rather than an identifier, if it spells one of these.
-is_pfx(string s) {
-  int ok = 0;
-  if(s == "L" || s == "u" || s == "U" || s == "u8") {
-    ok = 1;
-  }
-} return int ok;
-("u8"):(1)
-("x"):(0)

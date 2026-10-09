@@ -36,10 +36,3 @@ ty_fkind(int ty) {
 } return int k;
 given txt_fixture given fl_types (6):(2)
 given txt_fixture given fl_types (7):(1)
-
-ty_double() {
-  fl_types();
-  int ty = (import fltys)[1];
-} return int ty;
-given txt_fixture ():(6)
-given txt_fixture ():(6) then ty_float:(7)

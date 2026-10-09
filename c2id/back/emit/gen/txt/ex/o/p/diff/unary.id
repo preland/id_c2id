@@ -15,7 +15,7 @@ un4(int id) {
   string s = "";
   if((import ns)[id] == "-" || (import ns)[id] == "~") {
     string op = (import ns)[id];
-    string pre = un_pre(op);
+    string pre = pick_op(op, "0 - ", "~");
     s = neg_pick(id, pre);
   } else {
     s = incdec_txt(id);
@@ -23,14 +23,3 @@ un4(int id) {
 } return string s;
 given txt_fixture given pend_setup (0):("t0") then calls incdec_txt:(0)
 given txt_fixture given pend_setup (5):("t0") then calls incdec_txt:(5)
-
-// `id` has no unary minus, so negation is a subtraction from zero. `~` it
-// does have.
-un_pre(string op) {
-  string s = "~";
-  if(op == "-") {
-    s = "0 - ";
-  }
-} return string s;
-("-"):("0 - ")
-("~"):("~")

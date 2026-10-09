@@ -3,7 +3,7 @@
 // answers the type's alignment instead of its size (sizeof_meas).
 parse_unary4(int[] pos) {
   int id = 0;
-  if(at_alignof(pos)) {
+  if(at_in(pos, (import alignof_words))) {
     id = parse_alignof(pos);
   } else {
     id = parse_postfix(pos);
@@ -20,9 +20,3 @@ parse_alignof(int[] pos) {
 given boot_a given ty_setup given lexfix stdin "_Alignof(int);" ([0]):(1) then (import ns)[1]:("align")
 given boot_a given lexfix stdin "__alignof__ x;" ([0]):(1) then (import ns)[1]:("align")
 
-at_alignof(int[] pos) {
-  string s = cur_text(pos);
-  int ok = is_alignof_kw(s);
-} return int ok;
-given lexfix stdin "__alignof__" ([0]):(1)
-given lexfix stdin "sizeof" ([0]):(0)

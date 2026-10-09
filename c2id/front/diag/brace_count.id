@@ -7,7 +7,7 @@ brace_semis(int open, int close) {
 } chain (int open, int close) {
   while(bxi < close) {
     n = n + brace_semi((import ttext)[bxi], depth);
-    depth = depth - brace_back((import ttext)[bxi]);
+    depth = depth - bracket_delta((import ttext)[bxi], "}", "{");
     bxi = bxi + 1;
   }
 } return int n;

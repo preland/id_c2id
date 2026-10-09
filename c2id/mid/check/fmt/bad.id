@@ -2,7 +2,7 @@
 chk_fmtbad(int id, string name, string lit, int bad) {
   if(bad >= 0) {
     int j = fmt_end(lit, bad);
-    string spec = str_slice(lit, bad, j - bad);
+    string spec = str_sub(lit, bad, j - bad);
     diag_node(id, "'" + name + "' format has the conversion '" + spec + "', which the c2id runtime does not implement (hexadecimal floating point and %n for printf; hexadecimal floating point and the set '[' for sscanf)");
   }
 } return void;

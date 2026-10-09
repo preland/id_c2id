@@ -10,4 +10,4 @@ txt_fixture() {
   txt_setup();
 } return void;
 ():() then (import stdty)[0]:(0)
-():() then ty_charp:(5)
+():() then ty_std(4):(5)

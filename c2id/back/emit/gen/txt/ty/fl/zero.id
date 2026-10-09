@@ -2,24 +2,21 @@
 // double's or float's bits are not a truth value (-0.0 is false, a NaN true), so
 // cfl_ne / cfl_eq compare them with zero; a long double is an address, and cld_nz
 // is 1 for a value that is not zero.
-fl_ne0_txt(int fk, string flex) {
-  string s = "";
-  if(fk == 3) {
-    s = name_val("cld_nz(" + flex + ")");
-  } else {
-    s = name_val("cfl_ne(" + flex + ", 0)");
+fl_zero_txt(int fk, string flex, int neg) {
+  string zex = "cfl_ne(" + flex + ", 0)";
+  if(neg == 1) {
+    zex = "cfl_eq(" + flex + ", 0)";
   }
-} return string s;
-given txt_fixture given pend_setup (2, "x"):("t0") then (import pend)[0]:("word t0 = cfl_ne(x, 0);")
-given txt_fixture given pend_setup (3, "x"):("t0") then (import pend)[0]:("word t0 = cld_nz(x);")
-
-fl_not_txt(int fk, string flex) {
-  string s = "";
   if(fk == 3) {
-    s = name_val("(cld_nz(" + flex + ") == 0)");
-  } else {
-    s = name_val("cfl_eq(" + flex + ", 0)");
+    zex = "cld_nz(" + flex + ")";
+    if(neg == 1) {
+      zex = "(cld_nz(" + flex + ") == 0)";
+    }
   }
-} return string s;
-given txt_fixture given pend_setup (1, "x"):("t0") then (import pend)[0]:("word t0 = cfl_eq(x, 0);")
-given txt_fixture given pend_setup (3, "x"):("t0") then (import pend)[0]:("word t0 = (cld_nz(x) == 0);")
+} chain (int fk, string flex, int neg) {
+  string zres = name_val(zex);
+} return string zres;
+given txt_fixture given pend_setup (2, "x", 0):("t0") then (import pend)[0]:("word t0 = cfl_ne(x, 0);")
+given txt_fixture given pend_setup (3, "x", 0):("t0") then (import pend)[0]:("word t0 = cld_nz(x);")
+given txt_fixture given pend_setup (1, "x", 1):("t0") then (import pend)[0]:("word t0 = cfl_eq(x, 0);")
+given txt_fixture given pend_setup (3, "x", 1):("t0") then (import pend)[0]:("word t0 = (cld_nz(x) == 0);")

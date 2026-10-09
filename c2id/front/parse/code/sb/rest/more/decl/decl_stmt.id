@@ -24,7 +24,7 @@ fill_decls(int[] pos, int t) {
   while(at_text(pos, ";") == 0 && cur_kind(pos) != "eof") {
     decl_step(pos, t, l);
   }
-  skip_semi(pos);
+  skip_tok(pos, ";");
 } return int[] l;
 given boot_a given ty_setup given lexfix stdin "x;" ([0], 0):([0]) then calls one_decl:[1]
 given boot_a given ty_setup given lexfix stdin "x, y;" ([0], 0):([0, 1]) then calls one_decl:[2]

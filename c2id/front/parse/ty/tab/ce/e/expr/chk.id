@@ -18,7 +18,7 @@ given boot_a given boot_b given lexfix given lset((import cunk), 0, 1) stdin "x"
 ce_bad(int cb_tk) {
   string cb_m = "constant expression is not a constant c2id can evaluate (an array of variable length, or a size or value that depends on a variable): the program would run and be wrong";
   if((import arrdim)[0] == 1) {
-    defer_seg(cb_tk, cb_m);
+    defer_tok(cb_tk, cb_m, 1);
   } else {
     diag_tok(cb_tk, cb_m);
   }

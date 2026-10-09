@@ -2,7 +2,7 @@
 // temporary of its own. `!e` and a branch's condition ask whether it is zero.
 wd_un_txt(int id) {
   string wsa = ex_txt((import na)[id]);
-  string wfn = wd_unfn((import ns)[id]);
+  string wfn = pick_op((import ns)[id], "ci128_neg", "ci128_not");
   int wk = wd_kind(ex_ty(id));
 } chain (int id) {
   string wdst = wd_tmp(wk);
@@ -11,14 +11,16 @@ wd_un_txt(int id) {
 given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (19):("t1") then (import pend):(["word t0 = ci128_of_s((fp + 16), 5);", "word t1 = ci128_neg((fp + 32), t0);"])
 given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (22):("t1") then (import pend):(["word t0 = ci128_of_s((fp + 16), 5);", "word t1 = ci128_not((fp + 32), t0);"])
 
-wd_unfn(string wop) {
-  string wfn = "ci128_not";
-  if(wop == "-") {
-    wfn = "ci128_neg";
+pick_op(string op, string if_minus, string otherwise) {
+  string picked = otherwise;
+  if(op == "-") {
+    picked = if_minus;
   }
-} return string wfn;
-("-"):("ci128_neg")
-("~"):("ci128_not")
+} return string picked;
+("-", "ci128_neg", "ci128_not"):("ci128_neg")
+("~", "ci128_neg", "ci128_not"):("ci128_not")
+("-", "0 - ", "~"):("0 - ")
+("~", "0 - ", "~"):("~")
 
 // `-e` or `~e`: a 128-bit operand is crt/i128's, any other the plain operator.
 wd_pre_txt(int id, string pre) {

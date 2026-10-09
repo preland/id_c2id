@@ -7,7 +7,7 @@
 // uses it (mid/check/extra.id), since a header declares such variables whether
 // or not anything reads them.
 reg_scan(int[] pos, int ast) {
-  if(is_asm_kw((import ttext)[ast]) == 1) {
+  if(lst_str_index((import asm_words), (import ttext)[ast]) >= 0) {
     reg_walk(ast);
   }
 } return void;

@@ -25,7 +25,7 @@ es5(int id) {
   if((import nk)[id] == "cast") {
     int b = (import nb)[id];
     int a = (import na)[id];
-    s = "(cast " + type_ref(b) + " " + expr_str(a) + ")";
+    s = "(cast " + "t" + b + " " + expr_str(a) + ")";
   }
 } return string s;
 given boot_a given exprfix stdin "f(1);" ((import extop)):("f(1)")

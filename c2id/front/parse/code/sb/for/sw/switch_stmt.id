@@ -1,14 +1,3 @@
-// A switch keeps its body as one statement; the cases inside are ordinary
-// statements in it. Turning that into jump edges is the CFG builder's job,
-// not the parser's -- which is why `switch` needs no special shape here.
-switch_body(int[] pos, int a) {
-  advance(pos);
-  int[] l = [parse_stmt(pos)];
-  int id = newlist("switch", a, 0, "", l);
-} return int id;
-given boot_a given ty_setup given lexfix stdin "){;}" ([0], 0):(2) then calls parse_stmt:[2]
-given boot_a given ty_setup given lexfix stdin "){x;}" ([0], 0):(3) then calls parse_stmt:[2]
-
 parse_case(int[] pos) {
   advance(pos);
   int a = parse_cond(pos);

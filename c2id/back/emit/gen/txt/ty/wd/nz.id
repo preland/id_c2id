@@ -1,12 +1,12 @@
 // 1 when the value at the address wsv is not zero, and its opposite.
-wd_nz_txt(string wsv) {
-  string wout = name_val("ci128_nz(" + wsv + ")");
+wd_nz_txt(string wsv, int neg) {
+  string wex = "ci128_nz(" + wsv + ")";
+  if(neg == 1) {
+    wex = "(ci128_nz(" + wsv + ") == 0)";
+  }
+  string wout = name_val(wex);
 } return string wout;
-given txt_fixture given pend_setup ("a"):("t0") then (import pend):(["word t0 = ci128_nz(a);"])
-given txt_fixture given pend_setup ("fp"):("t0") then (import pend):(["word t0 = ci128_nz(fp);"])
-
-wd_not_txt(string wsv) {
-  string wout = name_val("(ci128_nz(" + wsv + ") == 0)");
-} return string wout;
-given txt_fixture given pend_setup ("a"):("t0") then (import pend):(["word t0 = (ci128_nz(a) == 0);"])
-given txt_fixture given pend_setup ("fp"):("t0") then (import pend):(["word t0 = (ci128_nz(fp) == 0);"])
+given txt_fixture given pend_setup ("a", 0):("t0") then (import pend):(["word t0 = ci128_nz(a);"])
+given txt_fixture given pend_setup ("fp", 0):("t0") then (import pend):(["word t0 = ci128_nz(fp);"])
+given txt_fixture given pend_setup ("a", 1):("t0") then (import pend):(["word t0 = (ci128_nz(a) == 0);"])
+given txt_fixture given pend_setup ("fp", 1):("t0") then (import pend):(["word t0 = (ci128_nz(fp) == 0);"])

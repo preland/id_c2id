@@ -1,4 +1,4 @@
-// Shared by parse_if, parse_while, parse_switch and do_cond: `advance;
+// Shared by parse_if, parse_paren_kw and do_cond: `advance;
 // advance; parse_expr` reads the '(cond)' after a keyword. Each caller
 // already spends its whole 3-action budget on the rest of its body, leaving
 // no room to read the condition inline. ctl/ has no room for a sibling

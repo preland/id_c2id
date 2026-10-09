@@ -15,7 +15,7 @@ const_spell(string kind, string s, int val) {
 unquote(string s) {
   string out = s;
   if(len(s) > 1 && charat(s, 0) == 39) {
-    out = str_slice(s, 1, len(s) - 2);
+    out = str_sub(s, 1, len(s) - 2);
   }
 } return string out;
 ("'a'"):("a")

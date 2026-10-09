@@ -30,7 +30,7 @@ hex_pfx(string s) {
 
 hex_pfx_x(string s) {
   int c = charat(s, 1);
-  int ok = is_xch(c);
+  int ok = int_either(c, 120, 88);
 } return int ok;
 ("0x"):(1)
 ("05"):(0)

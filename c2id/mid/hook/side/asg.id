@@ -12,7 +12,7 @@ given low_fix given exprfix stdin "x = a && b;" ((import extop)):(19) then (impo
 un_incdec(int e) {
   int ok = 0;
   if((import nk)[e] == "un") {
-    ok = is_incdec((import ns)[e]);
+    ok = str_either((import ns)[e], "++", "--");
   }
 } return int ok;
 given boot_a given exprfix stdin "++x;" ((import extop)):(1)

@@ -1,6 +1,6 @@
 spec_basic_idx(int[] pos) {
   string kw = spec_norm(pos);
-  int i = find_str_words(kw);
+  int i = find_str((import spec_words), kw);
   if(i < 0) {
     i = wide_idx(kw);
   }
@@ -15,10 +15,3 @@ spec_norm(int[] pos) {
 } return string kw;
 given lexfix stdin "__signed__" ([0]):("signed")
 given lexfix stdin "int" ([0]):("int")
-
-find_str_words(string kw) {
-  string[] words = (import spec_words);
-  int i = find_str(words, kw);
-} return int i;
-("int"):(3)
-("zzz"):(-1)

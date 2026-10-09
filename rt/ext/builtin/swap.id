@@ -17,5 +17,5 @@ c___builtin_bswap64(word bv) {
 
 // `x` is an expectation hint for the optimizer; the value is x.
 c___builtin_expect(word xv, word hint) {
-  word r = xv + hint - hint;
+  word r = xv;
 } return word r;

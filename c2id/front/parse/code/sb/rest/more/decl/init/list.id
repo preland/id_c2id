@@ -14,7 +14,7 @@ fill_init(int[] pos) {
   while(at_text(pos, "}") == 0 && cur_kind(pos) != "eof") {
     int e = init_elem(pos);
     init_push(l, e);
-    skip_comma(pos);
+    skip_tok(pos, ",");
   }
   skip_tok(pos, "}");
 } return int[] l;

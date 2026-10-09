@@ -2,11 +2,15 @@
 // void has width 0 but still has to have an alignment of 1, or align_up
 // would divide by zero.
 
-align_of_size(int n) {
+// Raises n to `to` when it is below `lim`: an alignment of 1 for void, and a
+// count of 7 for an int with no width, which are the two uses.
+if_below(int n, int lim, int to) {
   int r = n;
-  if(n < 1) {
-    r = 1;
+  if(n < lim) {
+    r = to;
   }
 } return int r;
-(4):(4)
-(0):(1)
+(4, 1, 1):(4)
+(0, 1, 1):(1)
+(5, 0, 7):(5)
+(-1, 0, 7):(7)

@@ -8,10 +8,10 @@ not_txt(int a) {
   string s = "(" + flex + " == 0)";
 } chain (int a) {
   if(ty_fkind(ty) > 0) {
-    s = fl_not_txt(ty_fkind(ty), flex);
+    s = fl_zero_txt(ty_fkind(ty), flex, 1);
   }
   if(wd_kind(ty) > 0) {
-    s = wd_not_txt(flex);
+    s = wd_nz_txt(flex, 1);
   }
 } return string s;
 given txt_fixture given pend_setup given fl_fixture (9):("t1") then (import pend)[1]:("word t1 = cfl_eq(t0, 0);")

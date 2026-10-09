@@ -4,16 +4,9 @@
 // check move into their own boolean helper. op/ has no room for a sibling
 // file, so prefix.id was promoted into this directory to make room.
 
-at_unop(int[] pos) {
-  string s = cur_text(pos);
-  int ok = is_unop(s);
-} return int ok;
-given boot_a given lexfix stdin "!x;" ([0]):(1)
-given boot_a given lexfix stdin "x;" ([0]):(0)
-
 at_incdec(int[] pos) {
   string s = cur_text(pos);
-  int ok = is_incdec(s);
+  int ok = str_either(s, "++", "--");
 } return int ok;
 given boot_a given lexfix stdin "++x;" ([0]):(1)
 given boot_a given lexfix stdin "x;" ([0]):(0)

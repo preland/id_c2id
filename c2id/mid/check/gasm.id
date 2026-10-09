@@ -25,4 +25,4 @@ gasm_say(int gs_i) {
   }
 } return void;
 given boot_a given boot_b given lexfix given gasm_note(0, "g") (0):() then len((import dgmsg)):(1)
-given boot_a given boot_b given lexfix given defer_tok(0, "m") given tu_add("f", 0, 0) given defer_settle(0) (0):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given defer_tok(0, "m", 0) given tu_add("f", 0, 0) given defer_settle(0) (0):() then len((import dgmsg)):(0)

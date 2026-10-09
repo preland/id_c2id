@@ -25,9 +25,9 @@ given txt_fixture given fl_fixture ((import fli)):(0)
 given txt_fixture given fl_fixture ((import flf)):(6)
 
 fl_lit_ty(string op) {
-  int ty = ty_double();
+  int ty = ty_fltys_at((import fl_double));
   if(has_ch(op, 102, 70) == 1) {
-    ty = ty_float();
+    ty = ty_fltys_at((import fl_float));
   }
   if(has_ch(op, 108, 76) == 1) {
     ty = ty_ldbl();

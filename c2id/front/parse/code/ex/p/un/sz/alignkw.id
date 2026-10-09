@@ -1,8 +1,0 @@
-is_alignof_kw(string s) {
-  int ok = 0;
-  if(s == "__alignof__" || s == "__alignof" || s == "_Alignof" || s == "alignof") {
-    ok = 1;
-  }
-} return int ok;
-("_Alignof"):(1)
-("sizeof"):(0)

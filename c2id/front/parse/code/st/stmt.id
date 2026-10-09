@@ -16,7 +16,7 @@ parse_stmt(int[] pos) {
   }
 } return int id;
 given boot_a given lexfix stdin "{}" ([0]):(0) then calls parse_block:[1]
-given boot_a given lexfix stdin ";" ([0]):(0) then calls parse_empty:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls leaf_after:([1], "block", "")
 
 parse_stmt2(int[] pos) {
   int id = 0;
@@ -27,15 +27,15 @@ parse_stmt2(int[] pos) {
   }
 } return int id;
 given boot_a given lexfix stdin "if (1) ;" ([0]):(2) then calls parse_if:[1]
-given boot_a given lexfix stdin ";" ([0]):(0) then calls parse_empty:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls leaf_after:([1], "block", "")
 
 parse_stmt3(int[] pos) {
   int id = 0;
   if(at_text(pos, "while")) {
-    id = parse_while(pos);
+    id = parse_paren_kw(pos, "while");
   } else {
     id = parse_stmt4(pos);
   }
 } return int id;
-given boot_a given lexfix stdin "while (1) ;" ([0]):(2) then calls parse_while:[1]
-given boot_a given lexfix stdin ";" ([0]):(0) then calls parse_empty:[1]
+given boot_a given lexfix stdin "while (1) ;" ([0]):(2) then calls parse_paren_kw:([5], "while")
+given boot_a given lexfix stdin ";" ([0]):(0) then calls leaf_after:([1], "block", "")

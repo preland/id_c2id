@@ -8,32 +8,18 @@
 direct_call(int a) {
   int ok = 0;
   if((import nk)[a] == "var" && frame_off((import ns)[a]) < 0) {
-    ok = fn_name((import ns)[a]);
+    ok = decl_fn((import ns)[a], 1);
   }
 } return int ok;
 given boot_a given boot_b given exprfix given bind_param("p", 0) stdin "p;" ((import extop)):(0)
 given boot_a given boot_b given exprfix stdin "f;" ((import extop)):(1)
-
-// A name that is not a local is a function when it was declared as one, and
-// is taken to be one when it was never declared at all (C's implicit declaration
-// is how a call to an undeclared function means anything).
-fn_name(string name) {
-  int i = find_str((import dnames), name);
-  int ok = 1;
-  if(i >= 0) {
-    ok = (import nk)[(import dtys)[i]] == "fn";
-  }
-} return int ok;
-given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 0; } int v;" ("f"):(1)
-given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 0; } int v;" ("v"):(0)
-given boot_a given boot_b given lexfix given tu_load stdin "int v;" ("zz"):(1)
 
 // The pointer is the call's first argument.
 ind_prefix(int callee, string rest) {
   string out = rest;
   if(direct_call(callee) == 0) {
     string cv = ex_txt(callee);
-    out = cv + arg_sep(len(rest)) + rest;
+    out = cv + sep_before(len(rest), ", ") + rest;
   }
 } return string out;
 given boot_a given boot_b given exprfix stdin "f;" ((import extop), "1, 2"):("1, 2")

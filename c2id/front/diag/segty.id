@@ -13,7 +13,7 @@ given boot_a given ty_setup given ty_add("a", 7) (1, "m"):() then len((import sg
 // An address-space qualifier at token sn_tk.
 seg_note(int sn_tk) {
   string sn_m = "named address space '" + (import ttext)[sn_tk] + "' is not modelled: a read or write through it would reach the flat store, not the segment, and the program would run and be wrong";
-  defer_seg(sn_tk, sn_m);
+  defer_tok(sn_tk, sn_m, 1);
 } return void;
 given boot_a given boot_b given lexfix stdin "__seg_gs" (0):() then len((import pdtk)):(1) then (import pdsg):([1])
 given boot_a given boot_b given lexfix stdin "__seg_fs" (0):() then (import pdmsg):(["named address space '__seg_fs' is not modelled: a read or write through it would reach the flat store, not the segment, and the program would run and be wrong"])

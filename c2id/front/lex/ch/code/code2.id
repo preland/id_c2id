@@ -1,22 +1,14 @@
-// The two classes that make an exponent part.
+// The exponent letters are exp_codes in conf.id.
 
-// `e` `E` `p` `P` -- the letters that may introduce a signed exponent inside
-// a preprocessing number (`p`/`P` for hexadecimal floats).
-is_exp(int c) {
+// Membership of one of two codes: `+` and `-` are the exponent signs, `x` and
+// `X` the hexadecimal marks.
+int_either(int c, int code_a, int code_b) {
   int ok = 0;
-  if(c == 101 || c == 69 || c == 112 || c == 80) {
+  if(c == code_a || c == code_b) {
     ok = 1;
   }
 } return int ok;
-(112):(1)
-(113):(0)
-
-// `+` and `-`.
-is_expsign(int c) {
-  int ok = 0;
-  if(c == 43 || c == 45) {
-    ok = 1;
-  }
-} return int ok;
-(43):(1)
-(44):(0)
+(43, 43, 45):(1)
+(44, 43, 45):(0)
+(120, 120, 88):(1)
+(89, 120, 88):(0)

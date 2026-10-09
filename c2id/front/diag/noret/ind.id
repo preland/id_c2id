@@ -15,7 +15,7 @@ given noret_init given boot_a given boot_b given lexfix given tu_load given mx_f
 callee_ind(int a) {
   int ind = 1;
   if(a >= 0 && (import nk)[a] == "var") {
-    int known = decl_fn((import ns)[a]);
+    int known = decl_fn((import ns)[a], 0);
     ind = 1 - known;
   }
 } return int ind;
@@ -23,13 +23,19 @@ given noret_init given boot_a given boot_b given lexfix given tu_load given mx_f
 given noret_init given boot_a given boot_b given lexfix given tu_load given mx_fixture stdin "void f(void) { p(); }" ((import mxv)):(1)
 given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int v;" (-1):(1)
 
-decl_fn(string name) {
+// Whether a name is a declared function. A name never declared at all takes
+// dflt: 0 for a callee that must be known, 1 for C's implicit declaration, which
+// is how a call to an undeclared function means anything.
+decl_fn(string name, int dflt) {
   int i = find_str((import dnames), name);
-  int ok = 0;
+  int ok = dflt;
   if(i >= 0) {
     ok = (import nk)[(import dtys)[i]] == "fn";
   }
 } return int ok;
-given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return a; } int v;" ("f"):(1)
-given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return a; } int v;" ("v"):(0)
-given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int v;" ("zz"):(0)
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return a; } int v;" ("f", 0):(1)
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return a; } int v;" ("v", 0):(0)
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int v;" ("zz", 0):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 0; } int v;" ("f", 1):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 0; } int v;" ("v", 1):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int v;" ("zz", 1):(1)

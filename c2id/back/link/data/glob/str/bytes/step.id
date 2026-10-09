@@ -13,7 +13,7 @@ given init_cfg2 ("\"a\"b\"", (import bsb), 2, 34):(3) then len((import bsb)):(0)
 
 lit_besc(string raw, int[] bs, int i) {
   int j = esc_end(raw, i);
-  string seq = str_slice(raw, i, j - i);
+  string seq = str_sub(raw, i, j - i);
   int v = chr_val(seq);
 } chain (string raw, int[] bs, int i) {
   push(bs, v);

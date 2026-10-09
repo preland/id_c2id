@@ -33,7 +33,7 @@ given txt_fixture given pend_setup (5):("t0") then calls bin2:(5)
 // `n + p` as well as `p + n`, which C allows.
 bin2(int id) {
   string s = "";
-  if(is_ptr_either(id) == 1) {
+  if(is_ptr_kids(id, 0) == 1) {
     s = ptr_bin(id);
   } else {
     s = bin3(id);

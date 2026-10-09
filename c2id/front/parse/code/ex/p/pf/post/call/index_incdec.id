@@ -1,13 +1,5 @@
 // List separator, subscript, and postfix ++/--.
 
-skip_comma(int[] pos) {
-  if(at_text(pos, ",")) {
-    advance(pos);
-  }
-} return void;
-given boot_a given lexfix stdin "," ([0]):([1])
-given boot_a given lexfix stdin ";;" ([0]):([0])
-
 // a[i] -- the index is a full expression, commas and all: `a[i, j]` is legal C.
 parse_index(int[] pos, int a) {
   advance(pos);

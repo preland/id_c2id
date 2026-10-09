@@ -1,6 +1,6 @@
 // A two-way edge on expression `a`: true to `nxt`, false to `alt`.
 term_cond(int blk, int a, int nxt, int alt) {
-  set_kind(blk, "cond");
+  sset((import bkind), blk, "cond");
   lset((import bex), blk, a);
   cond_edges(blk, nxt, alt);
 } return void;

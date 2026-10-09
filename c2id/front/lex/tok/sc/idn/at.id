@@ -3,7 +3,7 @@
 // is its own function (docs/SPEC.md section 7).
 is_pfx_at(word base, int i, int e) {
   string s = slice(base, i, e);
-  int ok = is_pfx(s);
+  int ok = lst_str_index((import pfx_words), s) >= 0;
 } return int ok;
 given lex_src_fixture ((import gb), 39, 41):(1)
 given lex_src_fixture ((import gb), 2, 4):(0)

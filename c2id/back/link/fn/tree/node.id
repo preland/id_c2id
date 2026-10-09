@@ -20,7 +20,7 @@ emit_run(int fn, string root, int first, int chk) {
   print("run" + fn + "(word fp) {");
   print("  word pc = " + first + ";");
 } chain (int fn, string root, int first, int chk) {
-  string cond = run_cond(chk);
+  string cond = pick_when(chk, 1, "pc >= 0 && peek64((import rtxc)) == 0", "pc >= 0");
   print("  while(" + cond + ") { pc = " + root + "; }");
   print("  word r = peek64(fp);");
 } chain (int fn, string root, int first, int chk) {

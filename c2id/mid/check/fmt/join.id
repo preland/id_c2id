@@ -16,9 +16,9 @@ lit_join(string lit) {
 // What position i contributes: an escape, both its characters; a join quote,
 // nothing; anything else, itself.
 join_keep(string lit, int i) {
-  string out = str_slice(lit, i, 1);
+  string out = str_sub(lit, i, 1);
   if(charat(lit, i) == 92) {
-    out = str_slice(lit, i, 2);
+    out = str_sub(lit, i, 2);
   }
   if(charat(lit, i) == 34 && i > 0 && i < len(lit) - 1) {
     out = "";

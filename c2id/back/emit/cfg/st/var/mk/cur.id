@@ -9,7 +9,7 @@ given cfg_init ():() then eprints:("")
 // `(import curb)[0]` is the same logic as idstd's idstd_ec_t_status, which
 // idc rejects as differing only in the imported value.
 cur_blk() {
-  int blk = lget((import curb), 0);
+  int blk = (import curb)[0];
 } return int blk;
 given cfg_init ():(0)
 given init_cfg2 ():(0)

@@ -1,21 +1,26 @@
-noret_delta(string nrt) {
+// The depth change one token makes: +1 for the plus token, -1 for the minus one.
+// Reading backwards a `}` is +1 and a `{` -1 (brace.id); a noreturn attribute's
+// `(` is +1 and its `)` -1.
+bracket_delta(string tx, string plus, string minus) {
   int d = 0;
-  if(nrt == "(") {
+  if(tx == plus) {
     d = 1;
   }
-  if(nrt == ")") {
+  if(tx == minus) {
     d = 0 - 1;
   }
 } return int d;
-("("):(1)
-(")"):(-1)
+("(", "(", ")"):(1)
+(")", "(", ")"):(-1)
+("}", "}", "{"):(1)
+("{", "}", "{"):(-1)
 
 noret_attr_end(int tk) {
   int i = tk + 1;
   int depth = 0;
   while(i < len((import ttext)) && (depth > 0 || i == tk + 1)) {
     string nrt = (import ttext)[i];
-    depth = depth + noret_delta(nrt);
+    depth = depth + bracket_delta(nrt, "(", ")");
     i = i + 1;
   }
 } return int i;

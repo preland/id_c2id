@@ -14,7 +14,7 @@ given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "int f
 // the slot after the named ones. stdarg.h's va_start reads it.
 bind_va(int ft) {
   if((import nb)[ft] == 1) {
-    bind_param("__va", ty_charp());
+    bind_param("__va", ty_std((import std_charp)));
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, ...) { return a; }" (8):() then (import lvnames):(["__va"]) then (import lvtys)[0]:(5)

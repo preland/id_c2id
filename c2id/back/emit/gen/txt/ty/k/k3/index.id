@@ -32,7 +32,7 @@ given txt_fixture (5):(0) then calls ety9:(5)
 ety9(int id) {
   int ty = 0;
   if((import nk)[id] == "sizeof") {
-    ty = ty_ulong();
+    ty = ty_std((import std_ulong));
   } else {
     ty = ety10(id);
   }

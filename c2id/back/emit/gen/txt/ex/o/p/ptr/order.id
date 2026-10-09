@@ -3,10 +3,10 @@
 // straight into ptr_off2's argument list.
 
 // Whether id's a operand is the pointer -- ptr_off tests this in its
-// condition, so ex_ty(a_of(id)) has to be named before is_ptr can take it.
+// condition, so ex_ty(a_of(id)) has to be named before kind_either can take it.
 is_a_ptr(int id) {
   int aty = kid_ty((import na), id);
-  int ok = is_ptr(aty);
+  int ok = kind_either(aty, "ptr", "arr");
 } return int ok;
 given txt_fixture (0):(0) then calls kid_ty:((import na), 0)
 given txt_fixture (5):(0) then calls kid_ty:((import na), 5)

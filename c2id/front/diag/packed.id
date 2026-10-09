@@ -9,7 +9,7 @@
 // program cannot depend on without printing it.
 packed_scan(int[] pos, int ast) {
   int i = ast;
-  while(i < pos[0] && is_gnu_attr((import ttext)[ast]) == 1) {
+  while(i < pos[0] && str_either((import ttext)[ast], "__attribute__", "__attribute") == 1) {
     packed_at(i, ast);
     i = i + 1;
   }
@@ -34,11 +34,14 @@ given boot_a given boot_b given lexfix stdin "# 3 \"p.c\"\nx __attribute__((clea
 given boot_a given boot_b given lexfix stdin "# 3 \"p.c\"\nx __attribute__((packed))" (4, 1):() then (import dgmsg):(["p.c:3: error: attribute 'packed' changes the layout or the type, which c2id does not model: the program would run and be wrong"])
 given boot_a given boot_b given lexfix stdin "aligned" (0, 0):() then len((import dgmsg)):(0)
 
-is_gnu_attr(string s) {
+str_either(string s, string sel_a, string sel_b) {
   int ok = 0;
-  if(s == "__attribute__" || s == "__attribute") {
+  if(s == sel_a || s == sel_b) {
     ok = 1;
   }
 } return int ok;
-("__attribute__"):(1)
-("__asm__"):(0)
+("++", "++", "--"):(1)
+("--", "++", "--"):(1)
+("x", "++", "--"):(0)
+("__attribute__", "__attribute__", "__attribute"):(1)
+("__asm__", "__attribute__", "__attribute"):(0)

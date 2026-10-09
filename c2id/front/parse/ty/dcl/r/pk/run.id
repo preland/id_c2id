@@ -1,7 +1,7 @@
 // The index just past the run of attributes that starts at token ar_from.
 attr_run_end(int ar_from) {
   int[] ar_c = [ar_from];
-  while(attrs_more(ar_c) == 1) {
+  while(at_in(ar_c, (import attr_words)) == 1) {
     skip_head(ar_c);
     skip_paren(ar_c);
   }

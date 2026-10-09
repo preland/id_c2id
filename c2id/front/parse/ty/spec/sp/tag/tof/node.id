@@ -16,16 +16,8 @@ tof_refuse() {
   string tr_c = tok_ctx(tr_t);
   string tr_m = "typeof of an expression and __auto_type are translated in the declaration of a local variable only: this is another place a type is written, where c2id does not know the type of the expression (near: " + tr_c + ")";
 } chain () {
-  defer_tok(tr_t, tr_m);
+  defer_tok(tr_t, tr_m, 0);
 } return void;
 given boot_a given boot_b given lexfix stdin "typeof ( g )" ():() then len((import pdtk)):(1)
 given boot_a given boot_b given lexfix stdin "typeof ( g )" ():() then (import pdmsg):(["typeof of an expression and __auto_type are translated in the declaration of a local variable only: this is another place a type is written, where c2id does not know the type of the expression (near: typeof )"])
 
-is_tof_kw(string s) {
-  int ok = 0;
-  if(s == "typeof" || s == "__typeof__" || s == "__typeof" || s == "typeof_unqual" || s == "__typeof_unqual__" || s == "__auto_type") {
-    ok = 1;
-  }
-} return int ok;
-("__auto_type"):(1)
-("sizeof"):(0)

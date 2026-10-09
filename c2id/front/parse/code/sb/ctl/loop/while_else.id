@@ -8,17 +8,25 @@ fill_else(int[] pos, int[] m) {
 given boot_a given ty_setup given lexfix stdin "else ;" ([0], []):([2])
 given boot_a given ty_setup given lexfix stdin "else x;" ([0], []):([3])
 
-parse_while(int[] pos) {
+parse_paren_kw(int[] pos, string kw) {
   int a = read_paren_cond(pos);
-  int id = while_body(pos, a);
+  int id = kw_body(pos, a, kw);
 } return int id;
-given boot_a given ty_setup given lexfix stdin "while (1) ;" ([0]):(2)
-given boot_a given ty_setup given lexfix stdin "while (1) x;" ([0]):(3)
+given boot_a given ty_setup given lexfix stdin "while (1) ;" ([0], "while"):(2)
+given boot_a given ty_setup given lexfix stdin "while (1) x;" ([0], "while"):(3)
+given boot_a given ty_setup given lexfix stdin "switch (1) {;}" ([0], "switch"):(3) then calls read_paren_cond:[1]
+given boot_a given ty_setup given lexfix stdin "switch (x) {;}" ([0], "switch"):(3) then calls read_paren_cond:[1]
 
-while_body(int[] pos, int a) {
+// A while or a switch keeps its body as one statement; the cases inside a switch
+// are ordinary statements in it. Turning that into jump edges is the CFG
+// builder's job, not the parser's -- which is why `switch` needs no special
+// shape here. kw is the node kind.
+kw_body(int[] pos, int a, string kw) {
   advance(pos);
   int[] l = [parse_stmt(pos)];
-  int id = newlist("while", a, 0, "", l);
+  int id = newlist(kw, a, 0, "", l);
 } return int id;
-given boot_a given ty_setup given lexfix stdin ");" ([0], 0):(1) then calls parse_stmt:[1]
-given boot_a given ty_setup given lexfix stdin ")x;" ([0], 0):(2) then calls parse_stmt:[1]
+given boot_a given ty_setup given lexfix stdin ");" ([0], 0, "while"):(1) then calls parse_stmt:[1]
+given boot_a given ty_setup given lexfix stdin ")x;" ([0], 0, "while"):(2) then calls parse_stmt:[1]
+given boot_a given ty_setup given lexfix stdin "){;}" ([0], 0, "switch"):(2) then calls parse_stmt:[2]
+given boot_a given ty_setup given lexfix stdin "){x;}" ([0], 0, "switch"):(3) then calls parse_stmt:[2]

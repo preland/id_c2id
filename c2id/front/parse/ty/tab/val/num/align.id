@@ -28,7 +28,7 @@ talign3(int ty) {
   int n = 8;
   if((import nk)[ty] == "prim") {
     int a = (import na)[ty];
-    n = align_of_size(a);
+    n = if_below(a, 1, 1);
   }
 } return int n;
 given tynode_fix (0):(4)

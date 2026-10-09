@@ -5,21 +5,12 @@
 // switch is entered from, into a frame temporary the tests read.
 sw_subject(int id) {
   int a = (import na)[id];
-  if(sw_plain(a) == 0) {
+  if(kind_either(a, "var", "num") == 0) {
     sw_once(id, a);
   }
 } return void;
 given low_fix given sw_fix (19):() then calls sw_once:[1]
 given low_fix given sw_fix (20):() then calls sw_once:[0]
-
-sw_plain(int a) {
-  int ok = 0;
-  if((import nk)[a] == "var" || (import nk)[a] == "num") {
-    ok = 1;
-  }
-} return int ok;
-given low_fix (6):(1)
-given low_fix (9):(0)
 
 sw_once(int id, int a) {
   int swv = lower_val(a);

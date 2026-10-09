@@ -145,3 +145,38 @@ int[] atom_how = [3, 1, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 0, 0, 0,
 string[] ovf_names = ["__builtin_add_overflow", "__builtin_sub_overflow", "__builtin_mul_overflow", "__builtin_sadd_overflow", "__builtin_ssub_overflow", "__builtin_smul_overflow", "__builtin_saddl_overflow", "__builtin_ssubl_overflow", "__builtin_smull_overflow", "__builtin_saddll_overflow", "__builtin_ssubll_overflow", "__builtin_smulll_overflow", "__builtin_uadd_overflow", "__builtin_usub_overflow", "__builtin_umul_overflow", "__builtin_uaddl_overflow", "__builtin_usubl_overflow", "__builtin_umull_overflow", "__builtin_uaddll_overflow", "__builtin_usubll_overflow", "__builtin_umulll_overflow"];
 int[] ovf_ops = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2];
 int[] ovf_info = [-1, -1, -1, 9, 9, 9, 17, 17, 17, 17, 17, 17, 8, 8, 8, 16, 16, 16, 16, 16, 16];
+
+// Token sets, one list each, tested for membership with lst_str_index (strings) or lst_find (byte codes)
+// where the parser or lexer asks "is this one of them".
+// cmp_ops: the relational and equality operators, whose result is int 0 or 1 rather than either operand's type.
+// unops: the prefix operators whose operand is a cast-expression; `+ - * &` are here in their prefix meaning only.
+// op3_ops: the three-character operators. pfx_words: the literal prefixes (L, u, U, u8).
+// attr_words: the words that open an attribute or an asm label. postfix_starts: the tokens that continue a postfix expression.
+// alignof_words: the spellings of alignof. declstop_words: the tokens that end the specifiers of a declaration.
+// su_words: struct, union and enum. asm_words: the spellings of asm. asm_quals: the qualifiers after asm.
+// tof_words: the spellings of typeof and __auto_type. ce_add_ops and ce_mul_ops: the additive/bitwise and the
+// multiplicative operators of a constant expression. space_codes: the whitespace bytes. exp_codes: e E p P.
+string[] cmp_ops = ["<", ">", "<=", ">=", "==", "!="];
+string[] unops = ["!", "~", "+", "-", "*", "&"];
+string[] op3_ops = ["...", "<<=", ">>="];
+string[] pfx_words = ["L", "u", "U", "u8"];
+string[] attr_words = ["__attribute__", "__attribute", "__asm__", "__asm", "asm", "__declspec", "_Alignas"];
+string[] postfix_starts = ["(", "[", ".", "->", "++", "--"];
+string[] alignof_words = ["__alignof__", "__alignof", "_Alignof", "alignof"];
+string[] declstop_words = [";", "=", ",", "[", "(", "{"];
+string[] su_words = ["struct", "union", "enum"];
+string[] asm_words = ["asm", "__asm__", "__asm"];
+string[] asm_quals = ["volatile", "__volatile__", "__volatile", "inline", "__inline__", "__inline", "goto"];
+string[] tof_words = ["typeof", "__typeof__", "__typeof", "typeof_unqual", "__typeof_unqual__", "__auto_type"];
+string[] ce_add_ops = ["+", "-", "<<", ">>", "|", "&", "^"];
+string[] ce_mul_ops = ["*", "/", "%"];
+int[] space_codes = [32, 9, 10, 13];
+int[] exp_codes = [101, 69, 112, 80];
+
+// The cells of stdty that call sites name (ty_std in emit/gen/txt/ty/std/signedness.id): long, unsigned long and
+// char *. fl_double and fl_float are the slots of fltys that ty_fltys_at reads (emit/gen/txt/ty/fl/pair.id).
+int std_long = 2;
+int std_ulong = 3;
+int std_charp = 4;
+int fl_double = 1;
+int fl_float = 2;

@@ -24,7 +24,7 @@ given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int 
 // A leaf is `c_NAME(a0, a1)`; an interior node `indN_lo_hi(f, a0, a1)`.
 ind_call(int n, int[] fs, int lo, int hi) {
   string ar = ind_rest(n, "");
-  string call = "ind" + n + "_" + lo + "_" + hi + "(f" + arg_sep(n) + ar + ")";
+  string call = "ind" + n + "_" + lo + "_" + hi + "(f" + sep_before(n, ", ") + ar + ")";
   if(hi - lo == 1) {
     call = ind_leaf(fs[lo], ar);
   }

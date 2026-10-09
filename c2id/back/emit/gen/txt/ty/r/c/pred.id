@@ -1,35 +1,28 @@
 // The three questions the conversion rules keep asking.
 
-// Anything that behaves like an address in an expression. An array is
-// included deliberately: C decays it to a pointer to its first element in
-// every context the emitter cares about, and treating the two alike here is
-// what makes `a + 1` and `p + 1` one code path.
-is_ptr(int ty) {
+// Whether a node's kind is one of two named kinds. The address test is
+// kind_either(ty, "ptr", "arr"): an array is included deliberately, since C
+// decays it to a pointer to its first element in every context the emitter
+// cares about, and treating the two alike is what makes `a + 1` and `p + 1` one
+// code path. A switch subject's plain test is kind_either(a, "var", "num").
+kind_either(int ty, string kind_a, string kind_b) {
   int ok = 0;
-  if((import nk)[ty] == "ptr" || (import nk)[ty] == "arr") {
+  if((import nk)[ty] == kind_a || (import nk)[ty] == kind_b) {
     ok = 1;
   }
 } return int ok;
-given txt_fixture (5):(1)
-given txt_fixture (0):(0)
+given txt_fixture (5, "ptr", "arr"):(1)
+given txt_fixture (0, "ptr", "arr"):(0)
+given low_fix (6, "var", "num"):(1)
+given low_fix (9, "var", "num"):(0)
 
 // What `*p` and `a[i]` yield, and the unit pointer arithmetic scales by.
 elem_ty(int ty) {
   int r = (import stdty)[0];
-  if(is_ptr(ty) == 1) {
+  if(kind_either(ty, "ptr", "arr") == 1) {
     r = (import na)[ty];
   }
 } return int r;
 given txt_fixture (5):(4)
 given txt_fixture (0):(0)
 
-// The relational and equality operators, whose result is int 0 or 1 rather
-// than either operand's type.
-is_cmp_op(string op) {
-  int ok = 0;
-  if(op == "<" || op == ">" || op == "<=" || op == ">=" || op == "==" || op == "!=") {
-    ok = 1;
-  }
-} return int ok;
-("<"):(1)
-("+"):(0)

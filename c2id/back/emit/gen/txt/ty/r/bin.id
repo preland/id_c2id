@@ -6,7 +6,7 @@
 bin_ty(int id) {
   int ty = (import stdty)[0];
   string op = (import ns)[id];
-  if(is_cmp_op(op) == 0 && op != "&&" && op != "||") {
+  if(lst_str_index((import cmp_ops), op) < 0 && op != "&&" && op != "||") {
     ty = bin_ty2(id);
   }
 } return int ty;
@@ -31,8 +31,8 @@ given txt_fixture (5):(0) then calls bin_ty3:(5)
 // type. usual_ty already answers p + n and n + p with the pointer.
 bin_ty3(int id) {
   int ty = pair_uty(id);
-  if(is_ptr_pair(id) == 1) {
-    ty = ty_long();
+  if(is_ptr_kids(id, 1) == 1) {
+    ty = ty_std((import std_long));
   }
 } return int ty;
 given txt_fixture (0):(0) then calls pair_uty:(0)

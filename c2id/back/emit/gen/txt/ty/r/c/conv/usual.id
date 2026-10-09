@@ -7,7 +7,7 @@
 
 usual_int(int ty, int inner) {
   int r = ty;
-  if(is_ptr(ty) == 0) {
+  if(kind_either(ty, "ptr", "arr") == 0) {
     r = usual2(ty, inner);
   }
 } return int r;
@@ -18,7 +18,7 @@ given txt_fixture (5, 0):(5)
 // (`n + p`), and then it wins.
 usual2(int ty, int inner) {
   int r = usual2_r(ty, inner);
-  if(is_ptr(inner) == 1) {
+  if(kind_either(inner, "ptr", "arr") == 1) {
     r = inner;
   }
 } return int r;

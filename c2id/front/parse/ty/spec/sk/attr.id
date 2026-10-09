@@ -4,7 +4,7 @@
 // are handled by consuming the first `(` and then skipping to its match.
 
 skip_attrs(int[] pos) {
-  while(attrs_more(pos)) {
+  while(at_in(pos, (import attr_words))) {
     skip_attr(pos);
   }
 } return void;

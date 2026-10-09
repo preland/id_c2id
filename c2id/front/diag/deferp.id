@@ -8,16 +8,16 @@ defer_end() {
     seg_poison();
   }
 } return void;
-given boot_a given boot_b given lexfix given defer_tok(3, "m") ():() then len((import dgmsg)):(1) then len((import sgv)):(0)
-given boot_a given boot_b given lexfix given tu_load given defer_seg(3, "m") stdin "int x;" ():() then len((import dgmsg)):(0) then (import sgv):(["x"])
+given boot_a given boot_b given lexfix given defer_tok(3, "m", 0) ():() then len((import dgmsg)):(1) then len((import sgv)):(0)
+given boot_a given boot_b given lexfix given tu_load given defer_tok(3, "m", 1) stdin "int x;" ():() then len((import dgmsg)):(0) then (import sgv):(["x"])
 
 seg_poison() {
   string sp_m = seg_msg();
   seg_vars((import itm0)[0], sp_m);
   seg_tys((import itm0)[1], sp_m);
 } return void;
-given boot_a given boot_b given lexfix given tu_load given defer_seg(0, "why") stdin "int x;" ():() then (import sgv):(["x"]) then (import sgvm):(["why (declared at :1)"])
-given boot_a given boot_b given lexfix given tu_load given defer_seg(0, "why") stdin "int x; typedef int T;" ():() then len((import sgv)):(0) then len((import sgt)):(1)
+given boot_a given boot_b given lexfix given tu_load given defer_tok(0, "why", 1) stdin "int x;" ():() then (import sgv):(["x"]) then (import sgvm):(["why (declared at :1)"])
+given boot_a given boot_b given lexfix given tu_load given defer_tok(0, "why", 1) stdin "int x; typedef int T;" ():() then len((import sgv)):(0) then len((import sgt)):(1)
 
 seg_vars(int sv_i, string sv_m) {
   while(sv_i < len((import dnames))) {

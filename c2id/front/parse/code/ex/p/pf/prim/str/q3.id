@@ -23,7 +23,7 @@ given boot_a given lexfix stdin "(0);" ([0]):(0)
 prim_bad(int[] pos) {
   string msg = bad_msg(pos);
   diag_halt(pos, msg);
-  int id = bad_advance(pos);
+  int id = leaf_after(pos, "num", "0");
 } return int id;
 given boot_a given lexfix stdin "# 4 \"e.c\"\n;" ([0]):(0) then (import dgmsg):(["e.c:4: error: expression expected, found ';'"])
 given boot_a given lexfix stdin "+" ([0]):(0) then len((import dgmsg)):(1)

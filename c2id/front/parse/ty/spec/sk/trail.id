@@ -10,7 +10,7 @@ given lexfix stdin "x" ([0]):([0])
 
 trail_at(int[] pos) {
   string s = cur_text(pos);
-  int ok = is_attr(s);
+  int ok = lst_str_index((import attr_words), s) >= 0;
   if(s == "_Alignas") {
     ok = 0;
   }

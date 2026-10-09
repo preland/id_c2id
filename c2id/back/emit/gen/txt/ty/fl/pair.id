@@ -1,9 +1,9 @@
-ty_float() {
+ty_fltys_at(int slot) {
   fl_types();
-  int ty = (import fltys)[2];
+  int ty = (import fltys)[slot];
 } return int ty;
-given txt_fixture ():(7)
-given txt_fixture ():(7) then ty_double:(6)
+given txt_fixture (2):(7)
+given txt_fixture (1):(6)
 
 // The type two operands meet at when either is floating point: long double if
 // either is, else double if either is, else float; -1 when neither is, and C's
@@ -11,10 +11,10 @@ given txt_fixture ():(7) then ty_double:(6)
 fl_join(int ka, int kb) {
   int r = 0 - 1;
   if(ka + kb > 0) {
-    r = ty_float();
+    r = ty_fltys_at((import fl_float));
   }
   if(ka == 2 || kb == 2) {
-    r = ty_double();
+    r = ty_fltys_at((import fl_double));
   }
 } chain (int ka, int kb) {
   if(ka == 3 || kb == 3) {

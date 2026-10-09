@@ -11,7 +11,7 @@ given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int 
 // `word f, word a0, word a1`: the pointer, then the n arguments.
 ind_params(int n) {
   string ar = ind_rest(n, "word ");
-  string out = "word f" + arg_sep(n) + ar;
+  string out = "word f" + sep_before(n, ", ") + ar;
 } return string out;
 (0):("word f")
 (2):("word f, word a0, word a1")
@@ -22,7 +22,7 @@ ind_rest(int n, string pre) {
   string out = "";
   int i = 0;
   while(i < n) {
-    out = out + arg_sep(i) + pre + "a" + i;
+    out = out + sep_before(i, ", ") + pre + "a" + i;
     i = i + 1;
   }
 } return string out;

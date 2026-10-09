@@ -3,7 +3,7 @@
 wd_to(int to, string s) {
   string wout = "";
   if((import ns)[to] == "_Bool") {
-    wout = wd_nz_txt(s);
+    wout = wd_nz_txt(s, 0);
   } else {
     wout = wd_low(to, s);
   }

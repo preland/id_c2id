@@ -12,12 +12,15 @@ run_chk(string name) {
 given noret_init ("f"):(0)
 given noret_init given noret_add("f") ("f"):(1)
 
-// The condition of the runner's loop.
-run_cond(int chk) {
-  string cond = "pc >= 0";
-  if(chk == 1) {
-    cond = "pc >= 0 && peek64((import rtxc)) == 0";
+// The one-of-two choice behind the runner's loop condition (chk 1 takes yes,
+// otherwise no) and a long double's conversion name (kt 2 takes yes).
+pick_when(int v, int when, string yes, string no) {
+  string picked = no;
+  if(v == when) {
+    picked = yes;
   }
-} return string cond;
-(0):("pc >= 0")
-(1):("pc >= 0 && peek64((import rtxc)) == 0")
+} return string picked;
+(1, 1, "pc >= 0 && peek64((import rtxc)) == 0", "pc >= 0"):("pc >= 0 && peek64((import rtxc)) == 0")
+(0, 1, "pc >= 0 && peek64((import rtxc)) == 0", "pc >= 0"):("pc >= 0")
+(2, 2, "cld_to_dbl", "cld_to_flt"):("cld_to_dbl")
+(1, 2, "cld_to_dbl", "cld_to_flt"):("cld_to_flt")

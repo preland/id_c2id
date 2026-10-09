@@ -1,11 +1,6 @@
-// The standard types, by name. Each is one cell of stdty; the literal index
-// is what tells these functions apart under id's duplicate-logic rule, which
-// is also why a single ty_std(i) does not exist -- the call sites would then
-// carry the magic numbers instead. Cell 1 (unsigned int) is read inline by
-// num_uty: a function reading it matches idstd's idstd_ec_t_extra.
-
-ty_long() {
-  int ty = (import stdty)[2];
-} return int ty;
-given txt_fixture ():(2)
-given txt_fixture ():(2) then ty_ulong:(3)
+// The standard types, by name: ty_std (signedness.id) reads one cell of stdty. An earlier version had one
+// function per cell (ty_long, ty_ulong, ty_charp), because a single ty_std(i) would have made every call site
+// carry a magic number. They are named now: the call sites pass std_long, std_ulong or std_charp from
+// conf.id, so the number has one place and a name, and the per-cell functions were literal-only
+// duplicates of one another (E0407). Cell 1 (unsigned int) is read inline by num_uty: a function reading it
+// matches idstd's idstd_ec_t_extra.

@@ -16,7 +16,7 @@ given lex_src_fixture ((import gb), 36):(3)
 op_len3(word base, int i, int w) {
   string s3 = slice(base, i, i + 3);
   int ni = w;
-  if(is_op3(s3)) {
+  if(lst_str_index((import op3_ops), s3) >= 0) {
     ni = 3;
   }
 } return int ni;

@@ -8,7 +8,7 @@ tu_var(int[] pos, string name, int r) {
 } chain (int[] pos, string name, int r) {
   int more = take_tok(pos, ",");
   if(more == 0) {
-    skip_semi(pos);
+    skip_tok(pos, ";");
   }
 } return int more;
 given boot_a given boot_b given lexfix stdin ";" ([0], "x", 0):(0) then calls tu_dadd:("x", 0, -1)

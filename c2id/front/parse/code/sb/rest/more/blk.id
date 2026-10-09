@@ -20,11 +20,3 @@ fill_block(int[] pos) {
 } return int[] l;
 given boot_a given lexfix stdin ";}" ([0]):([0])
 given boot_a given lexfix stdin "}" ([0]):([])
-
-skip_semi(int[] pos) {
-  if(at_text(pos, ";")) {
-    advance(pos);
-  }
-} return void;
-given boot_a given lexfix stdin ";" ([0]):() then calls advance:[1]
-given boot_a given lexfix stdin "x;" ([0]):() then calls advance:[0]

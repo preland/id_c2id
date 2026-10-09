@@ -3,7 +3,7 @@
 skip_head(int[] pos) {
   string s = cur_text(pos);
   advance(pos);
-  if(is_asm_kw(s) == 1) {
+  if(lst_str_index((import asm_words), s) >= 0) {
     skip_asm_quals(pos);
   }
 } return void;
@@ -11,16 +11,10 @@ given lexfix stdin "asm volatile (x)" ([0]):([2])
 given lexfix stdin "__attribute__ (x)" ([0]):([1])
 
 skip_asm_quals(int[] pos) {
-  while(asm_qual_at(pos) == 1) {
+  while(at_in(pos, (import asm_quals)) == 1) {
     advance(pos);
   }
 } return void;
 given lexfix stdin "volatile goto (x)" ([0]):([2])
 given lexfix stdin "(x)" ([0]):([0])
 
-asm_qual_at(int[] pos) {
-  string s = cur_text(pos);
-  int ok = is_asm_qual(s);
-} return int ok;
-given lexfix stdin "goto" ([0]):(1)
-given lexfix stdin "x" ([0]):(0)

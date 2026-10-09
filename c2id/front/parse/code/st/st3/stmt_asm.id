@@ -2,7 +2,7 @@
 // whether skipping it is sound, and the statement becomes an empty block.
 parse_stmt_asm(int[] pos) {
   int id = 0;
-  if(is_asm_kw(cur_text(pos)) == 1) {
+  if(lst_str_index((import asm_words), cur_text(pos)) >= 0) {
     id = parse_asm(pos);
   } else {
     id = parse_stmt_sa(pos);
@@ -16,7 +16,7 @@ parse_asm(int[] pos) {
   skip_attr(pos);
   string why = asm_why(tk, pos[0]);
 } chain (int[] pos) {
-  skip_semi(pos);
+  skip_tok(pos, ";");
   int id = asm_node(why, tk);
 } return int id;
 given boot_a given boot_b given lexfix stdin "asm(\"\");" ([0]):(6) then len((import dgmsg)):(0)

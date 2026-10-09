@@ -4,13 +4,6 @@
 // ../../post/call/index_incdec.id's parse_index. prim/ has no free file or
 // function slot; str/ does.
 
-bad_advance(int[] pos) {
-  advance(pos);
-  int id = newleaf("num", 0, 0, "0", "");
-} return int id;
-given boot_a given lexfix stdin ";" ([0]):(0)
-given boot_a given lexfix stdin "x" ([0]):(0)
-
 const_tail(int[] pos, string kind, string s) {
   advance(pos);
   int val = const_val(kind, s);

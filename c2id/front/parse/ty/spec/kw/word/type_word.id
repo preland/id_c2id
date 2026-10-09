@@ -23,12 +23,12 @@ is_tw2(string s) {
   ("zzz"):(0)
 
 is_tw3(string s) {
-  int ok = is_su_kw(s);
+  int ok = lst_str_index((import su_words), s) >= 0;
   if(ok == 0) {
-    ok = is_attr(s);
+    ok = lst_str_index((import attr_words), s) >= 0;
   }
   if(ok == 0) {
-    ok = is_tof_kw(s);
+    ok = lst_str_index((import tof_words), s) >= 0;
   }
 } return int ok;
   ("struct"):(1)

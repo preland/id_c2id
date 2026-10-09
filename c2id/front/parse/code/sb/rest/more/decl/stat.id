@@ -16,7 +16,7 @@ given boot_a given exprfix stdin "x;" ([0], 0):() then (import nt)[0]:("")
 static_head(int st0) {
   int k = st0;
   int hit = 0;
-  while(k < len((import ttext)) && hit == 0 && is_declstop((import ttext)[k]) == 0) {
+  while(k < len((import ttext)) && hit == 0 && lst_str_index((import declstop_words), (import ttext)[k]) < 0) {
     if((import ttext)[k] == "static") {
       hit = 1;
     }
@@ -27,14 +27,3 @@ given lexfix stdin "static int x;" (0):(1)
 given lexfix stdin "int static x;" (0):(1)
 given lexfix stdin "int x = static_y;" (0):(0)
 
-// A token that ends the specifiers: where a declarator, an initializer or the
-// end of the declaration begins.
-is_declstop(string txt) {
-  int ok = 0;
-  if(txt == ";" || txt == "=" || txt == "," || txt == "[" || txt == "(" || txt == "{") {
-    ok = 1;
-  }
-} return int ok;
-(";"):(1)
-("static"):(0)
-("("):(1)

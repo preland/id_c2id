@@ -5,7 +5,7 @@
 ety10(int id) {
   int ty = 0;
   if((import nk)[id] == "str") {
-    ty = ty_charp();
+    ty = ty_std((import std_charp));
   } else {
     ty = ety11(id);
   }

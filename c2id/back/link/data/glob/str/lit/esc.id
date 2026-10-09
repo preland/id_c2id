@@ -4,7 +4,7 @@
 // program defines and the build says so.
 lit_esc(string raw, string[] acc, int i) {
   int j = esc_end(raw, i);
-  string seq = str_slice(raw, i, j - i);
+  string seq = str_sub(raw, i, j - i);
   int v = chr_val(seq);
 } chain (string raw, string[] acc, int i) {
   lit_code(acc, v);

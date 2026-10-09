@@ -4,7 +4,7 @@
 
 ptr_bin(int id) {
   string s = "";
-  if(is_ptr_pair(id) == 1) {
+  if(is_ptr_kids(id, 1) == 1) {
     s = ptr_diff(id);
   } else {
     s = ptr_off(id);

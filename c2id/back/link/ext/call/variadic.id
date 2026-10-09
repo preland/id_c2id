@@ -15,7 +15,7 @@ va_args(int[] ids, int k, int n) {
   string rest = args_range(ids, k, n, 1);
   string tail = va_list_text(rest);
 } chain (int[] ids, int k, int n) {
-  string out = head + arg_sep(k) + tail;
+  string out = head + sep_before(k, ", ") + tail;
 } return string out;
 given boot_a given boot_b given exprfix stdin "f(1, 2);" ([7, 8], 1, 2):("1, [t0]") then (import pend):(["word t0 = 2;"])
 given boot_a given boot_b given exprfix stdin "f(1, 2);" ([7, 8], 2, 2):("1, 2, [(import wzero)]")

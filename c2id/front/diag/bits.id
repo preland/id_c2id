@@ -4,14 +4,14 @@
 // type is unsigned unless an enumerator is negative, as gcc has it, because the
 // type of the enum is (parse/ty/dcl/e/more/). One of a 128-bit type is not
 // refused where written: its unit is 16 bytes and the loads and stores read 8 at
-// most, so it poisons the record that holds it (defer_seg) and a reached function
+// most, so it poisons the record that holds it (defer_tok, segment 1) and a reached function
 // that uses the record is refused.
 bit_check(int[] pos, string name, int w, int r) {
   if(w > 8 * type_size(r)) {
     diag_tok(pos[0] - 1, "bitfield member '" + name + "' has width " + w + ", wider than its type");
   }
   if(w >= 0 && type_size(r) == 16) {
-    defer_seg(pos[0] - 1, "bitfield member '" + name + "' has a 128-bit integer type, which c2id cannot read or write through a bit-field unit of 8 bytes at most");
+    defer_tok(pos[0] - 1, "bitfield member '" + name + "' has a 128-bit integer type, which c2id cannot read or write through a bit-field unit of 8 bytes at most", 1);
   }
 } return void;
 given tynode_fix given ty_setup given lexfix stdin "# 4 \"s.c\"\nint x : 40 ;" ([3], "x", 40, 0):() then (import dgmsg):(["s.c:4: error: bitfield member 'x' has width 40, wider than its type"])

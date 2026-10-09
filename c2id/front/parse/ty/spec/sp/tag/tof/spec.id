@@ -4,7 +4,7 @@
 // node. The spelling is read as a specifier where a typedef name would be.
 spec_tof(int[] pos, int[] sp) {
   int ok = 0;
-  if(at_tof(pos)) {
+  if(at_in(pos, (import tof_words))) {
     ok = tof_spec(pos, sp);
   } else {
     ok = spec_td(pos, sp);
@@ -12,13 +12,6 @@ spec_tof(int[] pos, int[] sp) {
 } return int ok;
 given boot_a given boot_b given ty_setup given lexfix stdin "typeof ( int ) x" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)
 given ty_setup given lexfix stdin "xyz" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)
-
-at_tof(int[] pos) {
-  string s = cur_text(pos);
-  int ok = is_tof_kw(s);
-} return int ok;
-given lexfix stdin "__typeof__" ([0]):(1)
-given lexfix stdin "int" ([0]):(0)
 
 tof_spec(int[] pos, int[] sp) {
   string kw = cur_text(pos);

@@ -10,15 +10,6 @@ hex_start(string s) {
 ("0x1"):(2)
 ("123"):(0)
 
-is_xch(int c) {
-  int ok = 0;
-  if(c == 120 || c == 88) {
-    ok = 1;
-  }
-} return int ok;
-(120):(1)
-(89):(0)
-
 radix_val(string s, int i, int n) {
   int v = 0;
   while(radix_more(s, i, n)) {

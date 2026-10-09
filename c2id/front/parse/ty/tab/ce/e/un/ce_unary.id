@@ -9,15 +9,6 @@ ce_mstep(int[] pos, int v) {
 given lexfix stdin "* 3" ([0], 2):(6)
 given lexfix stdin "/ 4" ([0], 20):(5)
 
-ce_at_m(string s) {
-  int ok = 0;
-  if(s == "*" || s == "/" || s == "%") {
-    ok = 1;
-  }
-} return int ok;
-  ("*"):(1)
-  ("+"):(0)
-
 ce_un(int[] pos) {
   int v = 0;
   if(at_text(pos, "-")) {

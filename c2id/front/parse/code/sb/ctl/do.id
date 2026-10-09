@@ -17,7 +17,7 @@ given boot_a given lexfix stdin "while (0);" ([0], [0]):(1) then calls read_pare
 
 do_done(int[] pos, int a, int[] l) {
   advance(pos);
-  skip_semi(pos);
+  skip_tok(pos, ";");
   int id = newlist("dowhile", a, 0, "", l);
 } return int id;
 given boot_a given lexfix stdin ";" ([0], 0, [0]):(0) then (import nb)[0]:(0)

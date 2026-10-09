@@ -5,7 +5,7 @@
 // once the program reaches anything: a header's unit full of unused inline
 // functions that holds one is not refused until something is called.
 tu_item3(int[] pos) {
-  if(is_asm_kw(cur_text(pos)) == 1) {
+  if(lst_str_index((import asm_words), cur_text(pos)) >= 0) {
     parse_gasm(pos);
   } else {
     tu_decl(pos);
@@ -19,7 +19,7 @@ parse_gasm(int[] pos) {
   skip_attr(pos);
   string ga_why = asm_why(ga_tk, pos[0]);
 } chain (int[] pos) {
-  skip_semi(pos);
+  skip_tok(pos, ";");
   gasm_note(ga_tk, ga_why);
 } return void;
 given boot_a given boot_b given lexfix stdin "asm(\"nop\");" ([0]):([5]) then len((import qfn)):(1)

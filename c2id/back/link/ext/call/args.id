@@ -29,7 +29,7 @@ args_range(int[] ids, int from, int to, int named) {
   string out = "";
   int i = from;
   while(i < to) {
-    out = out + arg_sep(i - from) + arg_item(ids[i], named);
+    out = out + sep_before(i - from, ", ") + arg_item(ids[i], named);
     i = i + 1;
   }
 } return string out;

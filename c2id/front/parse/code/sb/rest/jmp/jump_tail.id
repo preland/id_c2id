@@ -4,7 +4,7 @@
 // promoted into this directory to make room.
 
 return_close(int[] pos, int a) {
-  skip_semi(pos);
+  skip_tok(pos, ";");
   int id = newleaf("return", a, 0, "", "");
 } return int id;
 given boot_a given lexfix stdin ";" ([0], 0):(0)

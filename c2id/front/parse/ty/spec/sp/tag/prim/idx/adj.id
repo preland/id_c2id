@@ -16,7 +16,7 @@ long_code(int[] sp, int i) {
   if(sp[4] > 0) {
     n = long_pick(sp, i);
   } else {
-    n = int_dflt(i);
+    n = if_below(i, 0, 7);
   }
 } return int n;
 ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 5):(5)

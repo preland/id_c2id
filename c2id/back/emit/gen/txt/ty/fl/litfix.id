@@ -1,6 +1,6 @@
 fl_norm(string raw) {
   int n = fl_blen(raw);
-  string flbody = str_slice(raw, 0, n);
+  string flbody = str_sub(raw, 0, n);
   string out = fl_fix(flbody);
 } return string out;
 ("1.5f"):("1.5")
@@ -23,8 +23,8 @@ fl_fix(string flbody) {
 
 fl_ins0(string flbody, int fldot) {
   int n = len(flbody) - fldot - 1;
-  string flhead = str_slice(flbody, 0, fldot + 1);
-  string flrest = str_slice(flbody, fldot + 1, n);
+  string flhead = str_sub(flbody, 0, fldot + 1);
+  string flrest = str_sub(flbody, fldot + 1, n);
 } chain (string flbody, int fldot) {
   string out = flhead + "0" + flrest;
 } return string out;

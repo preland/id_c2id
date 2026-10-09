@@ -20,7 +20,7 @@ num_uty(int id) {
   int ty = (import stdty)[1];
   string op = (import ns)[id];
   if(has_ch(op, 108, 76) == 1 || (import na)[id] > 4294967295) {
-    ty = ty_ulong();
+    ty = ty_std((import std_ulong));
   }
 } return int ty;
 given txt_fixture (0):(1)
@@ -31,7 +31,7 @@ num_sty(int id) {
   int ty = (import stdty)[0];
   string op = (import ns)[id];
   if(has_ch(op, 108, 76) == 1 || (import na)[id] > 2147483647) {
-    ty = ty_long();
+    ty = ty_std((import std_long));
   }
 } return int ty;
 given txt_fixture (0):(0)

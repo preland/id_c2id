@@ -5,15 +5,6 @@
 // None of these predicates accept 0, so every scanning loop stops there
 // without a separate end-of-input test.
 
-is_space(int c) {
-  int ok = 0;
-  if(c == 32 || c == 9 || c == 10 || c == 13) {
-    ok = 1;
-  }
-} return int ok;
-(13):(1)
-(14):(0)
-
 is_digit(int c) {
   int ok = 0;
   if(c >= 48 && c <= 57) {

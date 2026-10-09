@@ -24,7 +24,7 @@ wrap_params(int np) {
   string out = "";
   int i = 0;
   while(i < np) {
-    out = out + arg_sep(i) + "word a" + i;
+    out = out + sep_before(i, ", ") + "word a" + i;
     i = i + 1;
   }
 } return string out;

@@ -22,7 +22,7 @@ noret_open_of(int tk) {
   while(depth > 0 && i > 0) {
     i = i - 1;
     string nrt = (import ttext)[i];
-    depth = depth - noret_delta(nrt);
+    depth = depth - bracket_delta(nrt, "(", ")");
   }
 } return int i;
 given lexfix stdin "f(a(b), c) x" (8):(1)
