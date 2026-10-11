@@ -1,7 +1,7 @@
 // A later declaration of a variable that was static is static too: `static int x;`
 // then `extern int x;` names the same internal object.
 tu_dstat(int ds_k) {
-  int ds_s = fx_max((import gst)[ds_k], (import statk)[0]);
+  int ds_s = fixed_point_maximum((import gst)[ds_k], (import statk)[0]);
   lset((import gst), ds_k, ds_s);
 } return void;
 given init_tu given tynode_fix given tu_dadd("x", 0, -1) (0):() then (import gst):([0])

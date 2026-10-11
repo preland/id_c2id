@@ -26,7 +26,7 @@ given tynode_fix given sset((import nt), 5, "packed") (5, [32, 4, 8], 0, 0):(5, 
 given tynode_fix given sset((import nt), 5, "packed") (5, [32, 4, 1], 16, 0):(5, [32, 4, 16])
 
 rec_lay_pk(int[] rk_lay, int rk_n, int rk_tk) {
-  lset(rk_lay, 2, fx_max(1, rk_n));
+  lset(rk_lay, 2, fixed_point_maximum(1, rk_n));
   if(rk_n < 0) {
     diag_tok(rk_tk, "attribute 'aligned' on a packed record has an argument that is not one number, which c2id does not evaluate: the layout would be wrong");
   }

@@ -15,7 +15,7 @@ enum_min(int em_n0) {
   int em_lo = (import ecvals)[em_n0];
   int em_i = em_n0;
   while(em_i < len((import ecvals))) {
-    em_lo = fx_min(em_lo, (import ecvals)[em_i]);
+    em_lo = fixed_point_minimum(em_lo, (import ecvals)[em_i]);
     em_i = em_i + 1;
   }
 } return int em_lo;
@@ -26,7 +26,7 @@ enum_max(int ex_n0) {
   int ex_hi = (import ecvals)[ex_n0];
   int ex_i = ex_n0;
   while(ex_i < len((import ecvals))) {
-    ex_hi = fx_max(ex_hi, (import ecvals)[ex_i]);
+    ex_hi = fixed_point_maximum(ex_hi, (import ecvals)[ex_i]);
     ex_i = ex_i + 1;
   }
 } return int ex_hi;
