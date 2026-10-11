@@ -2,8 +2,8 @@
 // through the pointer too, unless it is NULL), and the processor time in
 // microseconds, which is what CLOCKS_PER_SEC of 1000000 makes clock() count in.
 c_time(word rtp) {
-  word rns = clk_ns((import clk_real));
-  word rsec = clk_secs_of(rns);
+  word rns = clock_nanoseconds((import clock_real));
+  word rsec = clock_secs_of(rns);
   rt_stamp(rtp, rsec);
 } return word rsec;
 
@@ -14,6 +14,6 @@ rt_stamp(word rtp, word rsec) {
 } return void;
 
 c_clock() {
-  word rns = clk_ns((import clk_cpu));
+  word rns = clock_nanoseconds((import clock_cpu));
   word rus = rns / 1000;
 } return word rus;

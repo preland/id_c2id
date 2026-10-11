@@ -1,8 +1,8 @@
 // gettimeofday: the wall clock as seconds and microseconds, stored through the
 // pointer; the time zone argument is not filled in. Answers 0.
 c_gettimeofday(word rtv, word rtz) {
-  word rns = clk_ns((import clk_real));
-  word rsec = clk_secs_of(rns);
+  word rns = clock_nanoseconds((import clock_real));
+  word rsec = clock_secs_of(rns);
   poke64(rtv, rsec);
 } chain (word rtv, word rtz) {
   poke64(rtv + 8, (rns - rsec * 1000000000) / 1000);
