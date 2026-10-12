@@ -31,5 +31,7 @@ fl_skip(int to) {
     v = 1;
   }
 } return int v;
+given txt_fixture given lset((import na), 2, 0) (2):(1)
+given txt_fixture (5):(0)
 given txt_fixture (0):(0)
 given txt_fixture given lset((import na), 1, 0) (1):(1)

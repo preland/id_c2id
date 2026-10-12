@@ -6,6 +6,8 @@ init_cfg5() {
   export int[] casv = [];
   export int[] casb = [];
 } return void;
+():() then len((import casv)):(0)
+():() then len((import casb)):(0)
 ():() then prints:("")
 ():() then eprints:("")
 

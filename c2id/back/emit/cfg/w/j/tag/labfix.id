@@ -6,5 +6,7 @@ lab_ready_fixture() {
   lab_add("L1", 2);
   lab_add("L2", 4);
 } return void;
+():() then (import lbls)[1]:("L2")
+():() then (import labb)[0]:(2)
 ():() then prints:("")
 ():() then eprints:("")

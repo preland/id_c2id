@@ -17,6 +17,8 @@ unnamed_row(int row) {
     ok = 1;
   }
 } return int ok;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int : 3; int b; }; struct P p = { 3, 4 };" (2):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int : 3; int : 0; int b; }; struct P p = { 3, 4 };" (2):(1)
 given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int : 3; int b; }; struct P p = { 3, 4 };" (1):(1)
 given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int : 3; int b; }; struct P p = { 3, 4 };" (0):(0)
 

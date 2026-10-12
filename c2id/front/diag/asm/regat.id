@@ -5,8 +5,9 @@ reg_stop(int j) {
     stop = 1;
   }
 } return int stop;
-given boot_a given boot_b given lexfix stdin "x ; y" (1):(1)
+given boot_a given boot_b given lexfix stdin "a ) b ; c" (3):(1)
 given boot_a given boot_b given lexfix stdin "x ; y" (2):(0)
+given boot_a given boot_b given lexfix stdin "x ; y" (1):(1)
 
 reg_hit(int j) {
   int found = 0;

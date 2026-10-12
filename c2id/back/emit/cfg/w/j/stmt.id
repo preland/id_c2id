@@ -14,6 +14,8 @@ walk_cut(int id) {
     walk_split();
   }
 } return void;
+given noret_init given gl_setup given walk_ast_fixture given noret_fixture ((import nre)):() then len((import bkind)):(2) then cur_blk:(1)
+given noret_init given gl_setup given walk_ast_fixture given noret_fixture ((import retid)):() then len((import bkind)):(1) then cur_blk:(0)
 given noret_init given gl_setup given walk_ast_fixture given noret_fixture ((import nre)):() then calls walk_split:[1]
 given noret_init given gl_setup given walk_ast_fixture given noret_fixture ((import retid)):() then calls walk_split:[0]
 

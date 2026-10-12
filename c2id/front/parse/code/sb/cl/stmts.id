@@ -8,5 +8,6 @@ fill_stmts(int[] pos) {
     cl_after(pos, l, id);
   }
 } return int[] l;
-given boot_a given lexfix stdin ";}" ([0]):([0])
+given boot_a given lexfix stdin ";;}" ([0]):([0, 1])
 given boot_a given lexfix stdin "}" ([0]):([])
+given boot_a given lexfix stdin ";}" ([0]):([0])

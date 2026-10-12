@@ -8,6 +8,8 @@ case_ready_fixture() {
   case_add(5, 2);
   case_add(-1, 4);
 } return void;
+():() then (import casv)[0]:(5)
+():() then (import casb)[1]:(4)
 ():() then prints:("")
 ():() then eprints:("")
 
@@ -18,5 +20,7 @@ sw_ready_fixture() {
   walk_ast_fixture();
   push((import btgt), 99);
 } return void;
+():() then (import btgt)[0]:(99)
+():() then len((import btgt)):(1)
 ():() then prints:("")
 ():() then eprints:("")

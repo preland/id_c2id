@@ -11,7 +11,7 @@ decl_step(int[] pos, int t, int[] l) {
   skip_tok(pos, ",");
   decl_stuck(pos, dsk);
 } return void;
-given boot_a given ty_setup given lexfix stdin "x;" ([0], 0, []):() then calls one_decl:[1]
+given boot_a given ty_setup given lexfix stdin "x;" ([0], 0, []):() then calls one_decl:([1], 0)
 given boot_a given ty_setup given lexfix stdin "x, y;" ([0], 0, []):() then calls skip_tok:([2], ",")
 
 decl_stuck(int[] pos, int dsk) {

@@ -6,8 +6,9 @@ bind_name(string dn) {
     fresh = env_fresh(dn);
   }
 } return string fresh;
-given gl_setup given init_frame given init_frame2 ("x"):("x")
 given gl_setup given init_frame given init_frame2 given add_slot("x", 8, 4) ("x"):("x__0")
+given gl_setup given init_frame given init_frame2 given add_slot("y", 8, 4) ("y"):("y__0")
+given gl_setup given init_frame given init_frame2 ("x"):("x")
 
 env_fresh(string dn) {
   int n = (import lcnt)[0];

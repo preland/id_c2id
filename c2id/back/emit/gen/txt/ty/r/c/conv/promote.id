@@ -18,4 +18,5 @@ promote_ty(int ty) {
   }
 } return int r;
 given txt_fixture (4):(0)
+given txt_fixture given lset((import na), 1, 2) (1):(0)
 given txt_fixture (2):(2)

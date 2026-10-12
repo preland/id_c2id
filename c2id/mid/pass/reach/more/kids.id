@@ -36,4 +36,5 @@ emit_reached(int i) {
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(void) { return 1; }" (0):() then calls emit_one:(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(void) { return 1; } int g(void) { return 2; }" (1):() then calls emit_one:(1)
 given boot_a given boot_b given lexfix given tu_load given reach_init(1) stdin "int f(void) { return 1; }" (0):() then calls emit_one:[0]

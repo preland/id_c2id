@@ -8,6 +8,7 @@ walk_stmt12(int id) {
   }
 } return void;
 given walk_ast_fixture (4):() then calls do_jump:((import ctgt))
+given walk_ast_fixture (5):() then cur_stmts:([5])
 given walk_ast_fixture (5):() then calls walk_plain:[1]
 
 do_jump(int[] tgts) {

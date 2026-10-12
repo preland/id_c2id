@@ -14,4 +14,5 @@ defer_has(int dh_i) {
   }
 } return int dh_n;
 given boot_a given defer_tok(1, "a", 0) given defer_tok(2, "b", 1) (0):(1)
+given boot_a given defer_tok(1, "a", 1) given defer_tok(2, "b", 1) (0):(2)
 given boot_a given defer_tok(1, "a", 0) (0):(0)

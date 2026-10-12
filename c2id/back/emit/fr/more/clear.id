@@ -4,6 +4,7 @@ clear_names(string[] ss) {
   }
 } return void;
 (["a", "b"]):([])
+(["x"]):([])
 ([]):([])
 
 clear_ints(int[] xs) {
@@ -12,6 +13,7 @@ clear_ints(int[] xs) {
   }
 } return void;
 ([1, 2, 3]):([])
+([7]):([])
 ([]):([])
 
 // Linear search: a C function has tens of locals, not thousands, and a map

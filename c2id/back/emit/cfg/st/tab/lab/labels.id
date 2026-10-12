@@ -29,5 +29,7 @@ fix_add(int blk, string name) {
   push((import fixb), blk);
   push((import fixs), name);
 } return void;
+given cfg_init (0, "L3"):() then (import fixs)[0]:("L3")
+given cfg_init (1, "L4"):() then (import fixb)[0]:(1)
 given cfg_init (0, "L3"):() then prints:("")
 given cfg_init (1, "L4"):() then eprints:("")

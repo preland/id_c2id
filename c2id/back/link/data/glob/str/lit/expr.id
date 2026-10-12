@@ -10,8 +10,9 @@ lit_expr(string raw) {
 } chain (string raw) {
   string out = acc[0] + chr(34);
 } return string out;
-("\"ab\""):("\"ab\"")
+("\"x\\ty\""):("\"x\" + chr(9) + \"y\"")
 ("\"a\\nb\""):("\"a\" + chr(10) + \"b\"")
+("\"ab\""):("\"ab\"")
 
 lit_loop(string raw, string[] acc, int n) {
   int i = 1;

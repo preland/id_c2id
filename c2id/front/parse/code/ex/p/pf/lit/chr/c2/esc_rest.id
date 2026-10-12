@@ -21,6 +21,7 @@ esc_named(int c) {
   int n = esc_at(i, c);
 } return int n;
 (110):(10)
+(116):(9)
 (122):(122)
 
 // An unknown escape stands for the character itself, which is what C says for

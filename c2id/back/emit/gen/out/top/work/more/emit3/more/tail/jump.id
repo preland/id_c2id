@@ -20,8 +20,9 @@ num_cond(int b) {
     }
   }
 } return int ok;
-given cfg_body_fixture (0):(0)
 given cond_body_fixture (0):(1)
+given cond_body_fixture (1):(0)
+given cfg_body_fixture (0):(0)
 
 empty_jump(int b) {
   int ok = 0;

@@ -12,6 +12,8 @@ diag_init() {
   export string[] unres = [];
   export int[] unres_at = [];
 } return void export dgmsg;
+given boot_a given boot_b given diag_tok(0, "x") ():() then len((import dgmsg)):(0)
+given boot_a given boot_b given unres_add("atoi", 3) ():() then len((import unres)):(0)
 ():() then len((import dgmsg)):(0)
 ():() then eprints:("")
 

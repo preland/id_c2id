@@ -14,8 +14,8 @@ lower_jmp(int e) {
     r = lower_setjmp(e);
   }
 } return int r;
-given low_fix given exprfix stdin "f(x);" ((import extop)):((import extop))
 given low_fix given exprfix stdin "setjmp(x);" ((import extop)):(22)
+given low_fix given exprfix stdin "f(x);" ((import extop)):((import extop)) then len((import bkind)):(1)
 
 lower_setjmp(int e) {
   int[] args = (import nl)[e];

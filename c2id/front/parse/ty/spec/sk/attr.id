@@ -8,8 +8,9 @@ skip_attrs(int[] pos) {
     skip_attr(pos);
   }
 } return void;
-given lexfix stdin "x" ([0]):([0])
 given boot_a given boot_b given lexfix stdin "__attribute__(x)" ([0]):([4])
+given boot_a given boot_b given lexfix stdin "__attribute__(x) __attribute__(x)" ([0]):([8])
+given lexfix stdin "x" ([0]):([0])
 
 skip_attr(int[] pos) {
   int ast = pos[0];
@@ -29,5 +30,6 @@ skip_paren(int[] pos) {
     skip_bal(pos);
   }
 } return void;
-given lexfix stdin "x" ([0]):([0])
 given lexfix stdin "(x)" ([0]):([3])
+given lexfix stdin "(a (b))" ([0]):([6])
+given lexfix stdin "x" ([0]):([0])

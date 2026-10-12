@@ -12,6 +12,7 @@ do_goto(int id) {
   do_goto2(blk, s);
 } return void;
 given walk_ast_fixture (1):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(-1) then cur_blk:(1)
+given walk_ast_fixture (2):() then (import fixs)[0]:("lbl") then (import fixb)[0]:(0)
 given walk_ast_fixture (1):() then calls fix_add:[1]
 
 // A backward goto resolves here; a forward one leaves -1 in the edge and is

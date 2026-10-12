@@ -8,6 +8,7 @@ init_cfg2() {
   export int[] curb = [0];
 } return void export curb;
 ():() then cur_blk:(0)
+():() then len((import bsb)):(0)
 ():() then eprints:("")
 
 init_cfg3() {
@@ -15,6 +16,8 @@ init_cfg3() {
   export int[] ctgt = [];
   export string[] lbls = [];
 } return void;
+():() then len((import btgt)):(0)
+():() then len((import lbls)):(0)
 ():() then prints:("")
 ():() then eprints:("")
 
@@ -23,5 +26,7 @@ init_cfg4() {
   export string[] fixs = [];
   export int[] fixb = [];
 } return void;
+():() then len((import labb)):(0)
+():() then len((import fixs)):(0)
 ():() then prints:("")
 ():() then eprints:("")

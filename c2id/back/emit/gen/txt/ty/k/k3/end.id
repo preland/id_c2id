@@ -37,5 +37,6 @@ ety12(int id) {
     ty = ety13(id);
   }
 } return int ty;
-given txt_fixture (0):(0)
+given txt_fixture given sset((import nk), 0, "post") given lset((import na), 0, 1) given sset((import nk), 1, "str") (0):(5)
 given txt_fixture (1):(0)
+given txt_fixture (0):(0)

@@ -11,4 +11,5 @@ curfile_fixture() {
   set_file((import gb), 26, 31);
 } return void;
 ():() then (import curfile)[0]:("f.c")
+given lex_src_fixture ():() then calls set_file:((import gb), 26, 31)
 ():() then calls set_file:[1]

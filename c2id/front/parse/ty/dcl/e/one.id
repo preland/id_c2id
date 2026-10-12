@@ -17,6 +17,7 @@ enum_eq(int[] pos, int[] ev) {
   }
 } return void;
 given boot_a given lexfix stdin "= 5" ([0], [0]):([2], [5])
+given boot_a given lexfix stdin "= 9" ([0], [1]):([2], [9])
 given lexfix stdin "," ([0], [3]):([0], [3])
 
 enum_next(int[] pos, int[] ev) {

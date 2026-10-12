@@ -21,8 +21,9 @@ fill_members(int[] pos, int ty, int[] lay) {
     member_step(pos, ty, lay);
   }
 } return void;
-given tynode_fix given ty_setup given lexfix stdin "}" ([0], 1, [0, 0, 1]):([0], 1, [0, 0, 1])
 given tynode_fix given ty_setup given lexfix stdin "int x ; }" ([0], 1, [0, 0, 1]):([3], 1, [32, 4, 4])
+given tynode_fix given ty_setup given lexfix stdin "int x ; int y ; }" ([0], 1, [0, 0, 1]):([6], 1, [64, 4, 4])
+given tynode_fix given ty_setup given lexfix stdin "}" ([0], 1, [0, 0, 1]):([0], 1, [0, 0, 1])
 
 member_step(int[] pos, int ty, int[] lay) {
   int i = pos[0];

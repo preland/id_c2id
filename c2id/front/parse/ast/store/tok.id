@@ -68,6 +68,8 @@ init_nodes4() {
 } chain () {
   char_env();
 } return void export curtk;
+given init_nodes4 given lset((import curtk), 0, 5) ():() then (import curtk)[0]:(0)
+given init_nodes4 given lset((import usedk), 0, 9) ():() then (import usedk)[0]:(0)
 ():() then (import curtk)[0]:(0)
 ():() then eprints:("")
 

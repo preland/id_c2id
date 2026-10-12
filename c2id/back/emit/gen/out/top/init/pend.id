@@ -19,6 +19,7 @@ pend_setup() {
   export int[] tagn = [0];
 } return void export pend;
 ():() then len((import pend)):(0)
+():() then (import chp)[0]:("word fp")
 ():() then prints:("")
 
 // Each block function's temporaries start again at t0.

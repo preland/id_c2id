@@ -12,5 +12,7 @@ wh_run2(int id, int nxt, int blk, int alt) {
   push_loop(alt, nxt);
   wh_end(id, nxt, blk, alt);
 } return void;
+given while_ast_fixture ((import wid), 0, 1, 2):() then (import bkind)[1]:("jmp") then (import bsa)[1]:(0) then cur_blk:(2)
+given while_ast_fixture ((import wid), 3, 2, 1):() then (import bsa)[2]:(3) then cur_blk:(1)
 given while_ast_fixture ((import wid), 0, 1, 2):() then calls push_loop:[1] then calls loop_close:[1]
 given while_ast_fixture ((import wid), 3, 1, 2):() then calls wh_end:[1]

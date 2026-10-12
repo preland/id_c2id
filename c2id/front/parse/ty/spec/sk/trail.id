@@ -6,6 +6,7 @@ skip_trail(int[] pos) {
   }
 } return void;
 given lexfix stdin "__attribute__((a)) __asm__(\"b\") x" ([0]):([10])
+given lexfix stdin "__attribute__((a)) x" ([0]):([6])
 given lexfix stdin "x" ([0]):([0])
 
 trail_at(int[] pos) {

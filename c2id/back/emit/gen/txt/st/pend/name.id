@@ -33,4 +33,5 @@ unname_last(string txt) {
   }
 } return string out;
 given pend_setup given pend_grow_fixture ("t0"):("x")
+given pend_setup given pend_grow_fixture given pend_grow_fixture ("t1"):("x")
 given pend_setup given pend_grow_fixture ("other"):("other")

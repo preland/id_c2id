@@ -5,6 +5,7 @@ sw_close(int id, int blk, int alt, int mark) {
   sw_close2(id, blk, alt, mark);
 } return void;
 given sw_ready_fixture ((import wswid), 0, 1, 0):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1) then cur_blk:(1)
+given sw_ready_fixture ((import wswid), 0, 5, 0):() then (import bsa)[0]:(5) then cur_blk:(5) then len((import btgt)):(0)
 given sw_ready_fixture ((import wswid), 0, 1, 0):() then calls sw_disp:[1]
 
 // The chain is built backwards from its tail -- the default block, or the

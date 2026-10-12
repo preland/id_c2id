@@ -13,6 +13,8 @@ parse_one(int[] pos) {
   unstick(pos, k);
   defer_settle(n0);
 } return void;
+given boot_a given boot_b given lexfix stdin "int x;" ([0]):([3])
+given boot_a given boot_b given lexfix stdin "int f(){}" ([0]):([6])
 given boot_a given boot_b given lexfix stdin "int x;" ([0]):() then calls tu_item:[1]
 given boot_a given boot_b given lexfix stdin "int f(){}" ([0]):() then calls tu_item:[1]
 
@@ -24,8 +26,8 @@ tu_item(int[] pos) {
     tu_item2(pos);
   }
 } return void;
-given boot_a given boot_b given lexfix stdin "typedef int q;" ([0]):() then calls parse_typedef:[1]
-given boot_a given boot_b given lexfix stdin "int x;" ([0]):() then calls tu_item2:[1]
+given boot_a given boot_b given lexfix stdin "typedef int q;" ([0]):([4]) then calls parse_typedef:[1]
+given boot_a given boot_b given lexfix stdin "int x;" ([0]):([3]) then calls tu_item2:[1]
 given boot_a given boot_b given lexfix given lset((import statk), 0, 1) stdin "int x;" ([0]):() then (import statk):([0])
 
 // `struct S { int a; };` declares no variable: after the specifiers the `;`
@@ -35,5 +37,5 @@ tu_decl(int[] pos) {
   int bare = at_text(pos, ";");
   tu_decl2(pos, t, bare);
 } return void;
-given boot_a given boot_b given lexfix stdin "int x;" ([0]):() then calls tu_decl2:[1]
-given boot_a given boot_b given lexfix stdin "struct S { int a; };" ([0]):() then calls tu_decl2:[1]
+given boot_a given boot_b given lexfix stdin "int x;" ([0]):([3]) then calls tu_decl2:[1]
+given boot_a given boot_b given lexfix stdin "struct S { int a; };" ([0]):([8]) then calls tu_decl2:[1]

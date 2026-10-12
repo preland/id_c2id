@@ -8,8 +8,9 @@ packed_ahead(int ast) {
     ok = 1;
   }
 } return int ok;
-given boot_a given boot_b given lexfix stdin "struct __attribute__((packed)) S { int a ; } x ;" (1):(1)
+given boot_a given boot_b given lexfix stdin "__attribute__ ( ( packed ) ) S { int a ; } x ;" (0):(1)
 given boot_a given boot_b given lexfix stdin "struct __attribute__((packed)) S x ;" (1):(0)
+given boot_a given boot_b given lexfix stdin "struct __attribute__((packed)) S { int a ; } x ;" (1):(1)
 
 // Whether the group closed at token close is the body of a struct, a union or an enum:
 // reading back from its `{` to a `;`, a `{` or a `}`, the keyword comes before

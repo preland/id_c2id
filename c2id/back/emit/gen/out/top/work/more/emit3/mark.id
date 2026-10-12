@@ -22,6 +22,7 @@ emit_mark2(int g) {
   }
 } return void;
 (0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\n")
+(3):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fb.id\n")
 (1):() then prints:("")
 
 emit_open(int fn, int b) {

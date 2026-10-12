@@ -11,6 +11,7 @@ lit_join(string lit) {
   }
 } return string out;
 ("\"%\"\"ld\""):("\"%ld\"")
+("\"a\"\"b\"\"c\""):("\"abc\"")
 ("\"a\\\"b\""):("\"a\\\"b\"")
 
 // What position i contributes: an escape, both its characters; a join quote,

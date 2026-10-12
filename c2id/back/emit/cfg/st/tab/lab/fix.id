@@ -4,6 +4,8 @@ need_fix(int blk, string name, int nxt) {
     fix_add(blk, name);
   }
 } return void;
+given cfg_init (0, "L3", -1):() then (import fixs)[0]:("L3")
+given cfg_init (2, "L9", -1):() then (import fixb)[0]:(2)
 given cfg_init (0, "L3", -1):() then calls fix_add:[1]
 given cfg_init (0, "L3", 5):() then calls fix_add:[0]
 
@@ -15,6 +17,8 @@ run_fixes() {
     i = i + 1;
   }
 } return void;
+given fix_ready_fixture ():() then calls fix_one:(0)
+given fix_ready_fixture ():() then (import bsa)[0]:(-1) then calls fix_one:(1)
 given cfg_init ():() then calls fix_one:[0]
 given fix_ready_fixture ():() then calls fix_one:[2]
 

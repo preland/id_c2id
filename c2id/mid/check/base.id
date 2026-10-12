@@ -6,6 +6,7 @@ ty_base(int ty) {
   }
 } return int bt;
 given boot_a given boot_b given lexfix given tu_load stdin "int **p;" (8):(6)
+given boot_a given boot_b given lexfix given tu_load stdin "int **p;" (7):(6)
 given boot_a given boot_b given lexfix given tu_load stdin "int **p;" (6):(6)
 
 // A name that is a declared function, used as a value (a callback passed along):

@@ -23,6 +23,7 @@ cfg_init() {
   cfg_init2();
 } return void;
 ():() then cfg_nblocks:(0)
+():() then len((import casv)):(0)
 ():() then calls cfg_init2:[1]
 
 cfg_init2() {
@@ -30,6 +31,8 @@ cfg_init2() {
   init_cfg4();
   init_cfg5();
 } return void;
+():() then len((import btgt)):(0)
+():() then len((import fixb)):(0)
 ():() then calls init_cfg3:[1]
 ():() then calls init_cfg5:[1]
 
@@ -39,4 +42,5 @@ init_cfg() {
   export int[] bsa = [];
 } return void export bkind;
 ():() then len((import bkind)):(0)
+():() then len((import bsa)):(0)
 ():() then eprints:("")

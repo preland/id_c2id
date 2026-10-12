@@ -7,6 +7,8 @@ wrap_ty_kind(int ty) {
   }
 } return int k;
 given tynode_fix (5):(3)
+given tynode_fix given sset((import ns), 0, "double") (0):(2)
+given tynode_fix given sset((import ns), 0, "float") (0):(1)
 given tynode_fix (0):(0)
 
 // The size of the struct or union that parameter i of function fn is.

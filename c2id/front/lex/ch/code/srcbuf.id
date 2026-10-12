@@ -27,6 +27,8 @@ lex_src_fixture() {
   export word eb = mem_of_str("\"a\\zb\"");
   export word xb = mem_of_str("__extension__ x");
 } return void;
+given lex_src_fixture ():() then is_alpha_at((import gb), 2):(1)
+given lex_src_fixture ():() then is_alpha_at((import eb), 1):(1)
 ():() then prints:("")
 ():() then eprints:("")
 

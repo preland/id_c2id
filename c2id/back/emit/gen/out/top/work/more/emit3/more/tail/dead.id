@@ -51,5 +51,7 @@ is_dead(int b) {
     found_ref = 1 - found_ref;
   }
 } return int found_ref;
+given cond_body_fixture (3):(0)
+given cond_body_fixture (2):(0)
 given cfg_body_fixture (0):(0)
 given cfg_body_fixture (1):(1)

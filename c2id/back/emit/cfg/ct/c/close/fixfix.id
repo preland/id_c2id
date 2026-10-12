@@ -6,5 +6,7 @@ fix_ready_fixture() {
   fix_add(0, "L1");
   fix_add(0, "L4");
 } return void;
+():() then (import fixs)[0]:("L1")
+():() then (import fixs)[1]:("L4")
 ():() then prints:("")
 ():() then eprints:("")

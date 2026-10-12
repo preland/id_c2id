@@ -18,5 +18,6 @@ fill_block(int[] pos) {
   int[] l = fill_stmts(pos);
   block_close(pos);
 } return int[] l;
-given boot_a given lexfix stdin ";}" ([0]):([0])
+given boot_a given lexfix stdin ";;}" ([0]):([0, 1])
 given boot_a given lexfix stdin "}" ([0]):([])
+given boot_a given lexfix stdin ";}" ([0]):([0])

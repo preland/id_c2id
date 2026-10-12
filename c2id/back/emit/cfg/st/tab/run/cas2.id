@@ -11,6 +11,7 @@ pop_case() {
   pop((import casb));
 } return void;
 given case_ready_fixture ():() then len((import casv)):(1)
+given case_ready_fixture ():() then len((import casb)):(1)
 given case_ready_fixture ():() then eprints:("")
 
 drop_cases(int mark) {

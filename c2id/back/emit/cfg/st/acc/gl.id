@@ -10,6 +10,7 @@ gl_alloc(int r) {
   }
 } return int off;
 given init_tu given tynode_fix (4):(-1)
+given init_tu given tynode_fix (3):(0) then (import gsz)[0]:(12)
 given init_tu given tynode_fix (0):(0)
 
 gl_take(int r) {

@@ -8,6 +8,7 @@ attr_run_end(int ar_from) {
   int ar_end = ar_c[0];
 } return int ar_end;
 given boot_a given boot_b given lexfix stdin "__attribute__ ( ( packed ) ) x" (0):(6)
+given boot_a given boot_b given lexfix stdin "__attribute__ ( ( packed ) ) __attribute__ ( ( packed ) ) x" (0):(12)
 given boot_a given boot_b given lexfix stdin "x" (0):(0)
 
 // The number in `aligned(N)`, or -1 when the argument is not one literal.

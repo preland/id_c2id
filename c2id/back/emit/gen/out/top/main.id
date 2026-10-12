@@ -22,6 +22,7 @@ run() {
 } chain () {
   diag_report();
 } return void;
-given boot_a given boot_b stdin "int x;" ():() then calls parse_one:[1] then eprints:("")
 given boot_a given boot_b stdin "int main(void) { return nosuch(); }" ():() then eprints:("error: 1 function(s) called here are neither defined in this program nor provided by the c2id runtime:\n  nosuch  first called at :1\nc2id: 1 refusal(s); nothing was written\n")
+given boot_a given boot_b stdin "int main(void) { return missing(); }" ():() then eprints:("error: 1 function(s) called here are neither defined in this program nor provided by the c2id runtime:\n  missing  first called at :1\nc2id: 1 refusal(s); nothing was written\n")
+given boot_a given boot_b stdin "int x;" ():() then calls parse_one:[1] then eprints:("")
 given boot_a given boot_b stdin "" ():() then calls parse_one:[0]

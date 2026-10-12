@@ -36,4 +36,5 @@ live_add(int[] live, int b) {
   }
 } return void;
 given cfg_body_fixture ([], 0):([0], 0)
+given cfg_body_fixture ([5], 0):([5, 0], 0)
 given cfg_body_fixture ([], 1):([], 1)

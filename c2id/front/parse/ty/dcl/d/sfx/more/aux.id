@@ -7,6 +7,7 @@ fn_params(int[] pos) {
   pn_take(pc);
 } return int[] ps;
 given ty_setup given lexfix stdin "( )" ([0]):([])
+given boot_a given ty_setup given lexfix stdin "( int x , int y )" ([0]):([0, 1])
 given boot_a given ty_setup given lexfix stdin "( int x )" ([0]):([0])
 
 // nxt_text(pos) must not run when at_text(pos, "(") is false, so the

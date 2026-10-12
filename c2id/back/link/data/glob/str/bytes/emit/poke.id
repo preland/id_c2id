@@ -14,6 +14,7 @@ emit_byte(int j, int bv, int i) {
   }
 } return void;
 given init_gfn (0, 97, 3):() then prints:("  poke8(lit_p0 + 3, 97);\n")
+given init_gfn (1, 98, 0):() then prints:("  poke8(lit_p1 + 0, 98);\n")
 given init_gfn (0, 0, 3):() then prints:("")
 
 // A literal with no NUL: the string, then its address in the slot.

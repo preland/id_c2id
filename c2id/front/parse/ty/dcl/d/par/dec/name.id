@@ -12,6 +12,7 @@ decay2(int inner) {
   }
 } return int r;
 given tynode_fix (4):(6) then calls newleaf:("ptr", 4, 0, "", "")
+given tynode_fix (4):(6) then (import na)[6]:(4)
 given tynode_fix (0):(0)
 
 parse_typename(int[] pos) {

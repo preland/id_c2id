@@ -11,6 +11,7 @@ emit_atexit() {
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_all given init_gfn stdin "static void __c2id_atexit_run(void) {} static int atexit(void) { if (1 < 0) __c2id_atexit_run(); return 0; } int main(void) { atexit(); return 0; }" ():() then prints:("  word rxs = rt_atexit_begin();\n  c___c2id_atexit_run();\n  rt_atexit_end(rxs);\n")
+given boot_a given boot_b given lexfix given tu_load given reach_all given init_gfn stdin "static void __c2id_atexit_run(void) {} int main(void) { __c2id_atexit_run(); return 0; }" ():() then prints:("  word rxs = rt_atexit_begin();\n  c___c2id_atexit_run();\n  rt_atexit_end(rxs);\n")
 given boot_a given boot_b given lexfix given tu_load given reach_all given init_gfn stdin "int main(void) { return 0; }" ():() then prints:("")
 
 // 1 when the program defines the atexit loop and reaches it.

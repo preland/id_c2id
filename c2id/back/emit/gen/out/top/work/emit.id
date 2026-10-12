@@ -20,6 +20,8 @@ emit_loop(int i, int n) {
     i = i + 1;
   }
 } return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(void) { return 1; }" (0, 1):() then calls emit_reached:(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(void) { return 1; } int g(void) { return 2; }" (1, 2):() then calls emit_reached:(1)
 (0, 0):()
 (3, 3):()
 

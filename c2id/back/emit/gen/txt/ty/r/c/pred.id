@@ -24,5 +24,6 @@ elem_ty(int ty) {
   }
 } return int r;
 given txt_fixture (5):(4)
+given txt_fixture given sset((import nk), 1, "arr") (1):(4)
 given txt_fixture (0):(0)
 

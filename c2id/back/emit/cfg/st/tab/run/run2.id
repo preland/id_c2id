@@ -14,4 +14,5 @@ cfg_walk_cont() {
   run_fixes();
 } return void;
 given walk_ast_fixture ():() then (import bkind)[0]:("end") then (import bex)[0]:(-1)
+given walk_ast_fixture ():() then (import bsa)[0]:(-1) then calls run_fixes:()
 given walk_ast_fixture ():() then calls run_fixes:[1]

@@ -9,6 +9,7 @@ star_quals(int[] pos) {
   }
 } return void;
 given lexfix stdin "const volatile x" ([0]):([2])
+given lexfix stdin "volatile x" ([0]):([1])
 given lexfix stdin "x" ([0]):([0])
 
 dcl_direct(int[] pos, int inner) {

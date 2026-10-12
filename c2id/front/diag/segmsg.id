@@ -13,4 +13,5 @@ seg_first(int sf_i) {
   }
 } return int sf_i;
 given boot_a given defer_tok(0, "a", 0) given defer_tok(0, "b", 1) (0):(1)
+given boot_a given defer_tok(0, "a", 0) given defer_tok(0, "b", 0) given defer_tok(0, "c", 1) (0):(2)
 given boot_a given defer_tok(0, "b", 1) given defer_tok(0, "c", 1) (0):(0)

@@ -7,6 +7,7 @@ tof_other(int id, string kn) {
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return (typeof(a))a; }" (12, "cast"):() then calls tof_cast:(12)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return (typeof(a))a; }" (12, "sizeof"):() then calls tof_cast:(12)
 given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return (typeof(a))a; }" (12, "var"):() then calls tof_cast:[0]
 
 tof_cast(int id) {
@@ -16,4 +17,5 @@ tof_cast(int id) {
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return (typeof(a))a; }" (12):() then calls tof_resolve:(12, 10)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (15):() then calls tof_resolve:(15, 13)
 given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return (int)a; }" (12):() then calls tof_resolve:[0]

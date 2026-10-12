@@ -20,4 +20,5 @@ norm_kw(string s) {
   }
 } return string out;
   ("__signed__"):("signed")
+  ("__signed"):("signed")
   ("int"):("int")

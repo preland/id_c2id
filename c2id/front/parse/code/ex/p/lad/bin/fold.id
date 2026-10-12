@@ -28,5 +28,6 @@ level_at(int i) {
     n = lvls[i];
   }
 } return int n;
-(-1):(-1)
+(8):(6)
 (13):(8)
+(-1):(-1)

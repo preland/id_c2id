@@ -15,6 +15,7 @@ lower_list(int[] l) {
   }
 } return void;
 given low_fix ([9]):([19])
+given low_fix ([6, 9]):([6, 19])
 given low_fix ([6, 7]):([6, 7])
 
 // Both operands of a node with two (indexing, an assignment's target and value,

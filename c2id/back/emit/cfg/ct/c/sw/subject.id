@@ -9,6 +9,8 @@ sw_subject(int id) {
     sw_once(id, a);
   }
 } return void;
+given low_fix given sw_fix (19):() then cur_stmts:([31])
+given low_fix given sw_fix (20):() then cur_stmts:([])
 given low_fix given sw_fix (19):() then calls sw_once:[1]
 given low_fix given sw_fix (20):() then calls sw_once:[0]
 

@@ -2,6 +2,8 @@ push_bedge() {
   push((import bsb), 0 - 1);
   push((import bex), 0 - 1);
 } return void;
+given cfg_init ():() then (import bsb)[0]:(-1)
+given cfg_init ():() then (import bex)[0]:(-1)
 given cfg_init ():() then prints:("")
 given cfg_init ():() then eprints:("")
 

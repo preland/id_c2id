@@ -8,6 +8,8 @@ ty_init3() {
   export int[] sywid = [];
   ty_init4();
 } return void;
+given ty_setup given sy_col2(16, 2, 4) ():() then len((import sybit)):(0)
+given ty_setup given sy_col2(19, 3, 8) ():() then len((import sywid)):(0)
 ():() then calls ty_init4:[1]
 given ty_setup ():() then calls ty_init4:[1]
 
@@ -20,6 +22,8 @@ ty_init4() {
   export int[] scmk = [];
   export string[] pnj = [""];
 } return void;
+given ty_setup given en_add("a", 3) ():() then len((import ecnames)):(0)
+given ty_setup given sy_col1("x", 0, 16) ():() then len((import syids)):(0)
 ():() then prints:("")
 given ty_setup ():() then prints:("")
 

@@ -16,6 +16,7 @@ seg_elem(int se_r) {
     se_t = (import na)[se_t];
   }
 } return int se_t;
+given tynode_fix given sset((import nk), 2, "arr") given lset((import na), 3, 2) (3):(0)
 given tynode_fix (3):(0)
 given tynode_fix (5):(5)
 

@@ -6,6 +6,7 @@ noret_name_at(int tk) {
   }
 } return int i;
 given lexfix stdin "void static die(void);" (0):(2)
+given lexfix stdin "void f ( x" (0):(1)
 given lexfix stdin "void f ( x" (1):(1)
 
 noret_after(int tk) {

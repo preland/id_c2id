@@ -19,6 +19,8 @@ is_void(int inner) {
     ok = 1;
   }
 } return int ok;
+given tynode_fix (2):(0)
+given tynode_fix (4):(0)
 given tynode_fix (1):(1)
 given tynode_fix (0):(0)
 
@@ -32,4 +34,5 @@ decay(int inner) {
   }
 } return int r;
 given tynode_fix (3):(6) then calls newleaf:("ptr", 0, 0, "", "")
+given tynode_fix (4):(6) then calls newleaf:("ptr", 4, 0, "", "")
 given tynode_fix (0):(0)

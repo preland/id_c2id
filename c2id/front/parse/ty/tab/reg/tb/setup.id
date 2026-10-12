@@ -33,5 +33,7 @@ ty_init2() {
   export int[] syoff = [];
   export int[] sysz = [];
 } return void;
+given ty_setup given sy_col1("x", 0, 16) ():() then len((import synames)):(0)
+given ty_setup given sy_col2(16, 2, 4) ():() then len((import sysz)):(0)
 ():() then prints:("")
 given ty_setup ():() then prints:("")

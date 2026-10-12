@@ -19,6 +19,7 @@ flush_pend() {
   pend_clear();
 } return void;
 given pend_setup given pend_grow_fixture ():() then prints:("  word t0 = x;\n")
+given pend_setup given pend_grow_fixture given pend_grow_fixture ():() then prints:("  word t0 = x;\n  word t1 = x;\n")
 given pend_setup ():() then prints:("")
 
 pend_clear() {

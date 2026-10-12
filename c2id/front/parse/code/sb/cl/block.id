@@ -23,8 +23,8 @@ cl_drain(string[] cd_src) {
     list_string_delete(cd_src, 0);
   }
 } return string[] cd_out;
-(["a", "b"]):(["a", "b"])
-(["a"]):(["a"])
+(["a", "b"]):(["a", "b"]) then calls list_string_delete:([], 0)
+(["p"]):(["p"]) then calls list_string_delete:([], 0)
 
 // One pointer variable for each name, declared at the end of l; their names.
 cl_ptrs(int[] cp_l, string[] cp_names) {

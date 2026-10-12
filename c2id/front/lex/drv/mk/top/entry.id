@@ -8,6 +8,8 @@ init_tokens() {
   export string[] ttext = [];
   export int[] tline = [];
 } return void export tkind;
+given init_tokens given init_lines given add_tok("id", "x") ():() then len((import tkind)):(0)
+given init_tokens given init_lines given add_tok("id", "x") ():() then len((import ttext)):(0)
 ():() then len((import tkind)):(0)
 ():() then eprints:("")
 
@@ -19,6 +21,8 @@ init_lines() {
   export string[] curfile = [""];
   export string[] tfile = [];
 } return void export curline;
+given init_lines given lset((import curline), 0, 7) ():() then (import curline)[0]:(1)
+given init_lines given sset((import curfile), 0, "a.c") ():() then (import curfile)[0]:("")
 ():() then (import curline)[0]:(1)
 ():() then eprints:("")
 

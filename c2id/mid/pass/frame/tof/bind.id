@@ -31,5 +31,6 @@ tof_has(int ty) {
     ok = 1;
   }
 } return int ok;
-given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; int b = a; return b; }" (0):(0)
 given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (13):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; typeof(a) b = 2; return b; }" (14):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; int b = a; return b; }" (0):(0)

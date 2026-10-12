@@ -8,6 +8,8 @@ drive() {
   reach_all();
   settle();
 } return void;
+given boot_a given boot_b given lexfix stdin "int f(void) { return 1; }" ():() then len((import fnames)):(1)
+given boot_a given boot_b given lexfix stdin "int f(void) { return 1; } int g(void) { return 2; }" ():() then len((import fnames)):(2)
 given boot_a given boot_b given lexfix stdin "int x;" ():() then calls parse_one:[1]
 given boot_a given boot_b given lexfix stdin "" ():() then calls parse_one:[0]
 
@@ -19,6 +21,7 @@ tu_decl2(int[] pos, int t, int bare) {
   }
 } return void;
 given boot_a given boot_b given lexfix stdin ";" ([0], 0, 1):([1])
+given boot_a given boot_b given lexfix stdin "x;" ([0], 0, 0):([2])
 given boot_a given boot_b given lexfix stdin "x;" ([0], 0, 0):() then calls tu_list:[1]
 
 // The declarators of one declaration: `int a, *b, f(void);`.
@@ -28,5 +31,7 @@ tu_list(int[] pos, int t) {
     more = tu_one(pos, t);
   }
 } return void;
+given boot_a given boot_b given lexfix stdin "x;" ([0], 0):([2])
+given boot_a given boot_b given lexfix stdin "x, y;" ([0], 0):([4])
 given boot_a given boot_b given lexfix stdin "x;" ([0], 0):() then calls tu_one:[1]
 given boot_a given boot_b given lexfix stdin "x, y;" ([0], 0):() then calls tu_one:[2]

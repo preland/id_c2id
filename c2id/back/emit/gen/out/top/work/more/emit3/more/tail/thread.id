@@ -10,6 +10,8 @@ thread_blk(int b) {
     n = n + 1;
   }
 } return int b;
+given cond_body_fixture (1):(3)
+given cond_body_fixture (0):(3)
 given cfg_body_fixture (0):(0)
 given cfg_body_fixture (1):(1)
 

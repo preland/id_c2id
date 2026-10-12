@@ -30,4 +30,5 @@ enum_items(int[] pos) {
   }
 } return void;
 given boot_a given ty_setup given lexfix stdin "{ x }" ([0]):([3])
+given boot_a given ty_setup given lexfix stdin "{ x , y }" ([0]):([5])
 given boot_a given ty_setup given lexfix stdin "x" ([0]):([0])
