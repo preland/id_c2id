@@ -20,9 +20,9 @@ given boot_a given boot_b given lexfix stdin "__seg_fs" (0):() then (import pdms
 
 // A use of a type a qualified declaration declared counts as the qualifier.
 seg_type(int[] sy_pos, int sy_ty) {
-  if(lst_index_of((import sgt), sy_ty) >= 0) {
+  if(list_index_of((import sgt), sy_ty) >= 0) {
     seg_note(sy_pos[0]);
   }
 } return void;
-given boot_a given boot_b given lexfix given lst_extend((import sgt), [7]) stdin "x" ([0], 7):() then len((import pdtk)):(1)
-given boot_a given boot_b given lexfix given lst_extend((import sgt), [7]) stdin "x" ([0], 8):() then len((import pdtk)):(0)
+given boot_a given boot_b given lexfix given list_extend((import sgt), [7]) stdin "x" ([0], 7):() then len((import pdtk)):(1)
+given boot_a given boot_b given lexfix given list_extend((import sgt), [7]) stdin "x" ([0], 8):() then len((import pdtk)):(0)

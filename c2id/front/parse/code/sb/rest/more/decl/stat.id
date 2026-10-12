@@ -16,7 +16,7 @@ given boot_a given exprfix stdin "x;" ([0], 0):() then (import nt)[0]:("")
 static_head(int st0) {
   int k = st0;
   int hit = 0;
-  while(k < len((import ttext)) && hit == 0 && lst_str_index((import declstop_words), (import ttext)[k]) < 0) {
+  while(k < len((import ttext)) && hit == 0 && list_string_index((import declstop_words), (import ttext)[k]) < 0) {
     if((import ttext)[k] == "static") {
       hit = 1;
     }

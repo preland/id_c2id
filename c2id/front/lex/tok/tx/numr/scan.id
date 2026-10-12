@@ -28,7 +28,7 @@ given lex_src_fixture ((import gb), 0):(4)
 num_step(word base, int i) {
   int ni = i + 1;
   int c = peek8(base + i);
-  if(lst_find((import exp_codes), c)) {
+  if(list_find((import exp_codes), c)) {
     int c2 = peek8(base + i + 1);
     if(int_either(c2, 43, 45)) {
       ni = i + 2;

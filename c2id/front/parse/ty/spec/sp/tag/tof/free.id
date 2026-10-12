@@ -29,4 +29,4 @@ tof_name_bad(string tb_name) {
   }
 } return int tb_n;
 given boot_a given boot_b given lexfix given tu_load stdin "int g;" ("g"):(0)
-given boot_a given boot_b given lexfix given tu_load given lst_str_insert((import lnames), 0, "g") stdin "int g;" ("g"):(1)
+given boot_a given boot_b given lexfix given tu_load given list_string_insert((import lnames), 0, "g") stdin "int g;" ("g"):(1)

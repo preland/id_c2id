@@ -10,7 +10,7 @@ tof_expr(int e) {
   }
 } return int ty;
 given boot_a given boot_b given lexfix given tu_load stdin "int g; int f(void) { return g; }" (10):(6) then len((import pdtk)):(0)
-given boot_a given boot_b given lexfix given tu_load given lst_str_insert((import lnames), 0, "g") stdin "int g; int f(void) { return g; }" (10):(13) then len((import pdtk)):(1)
+given boot_a given boot_b given lexfix given tu_load given list_string_insert((import lnames), 0, "g") stdin "int g; int f(void) { return g; }" (10):(13) then len((import pdtk)):(1)
 
 tof_global(int e) {
   int ty = 0 - 1;
@@ -19,4 +19,4 @@ tof_global(int e) {
   }
 } return int ty;
 given boot_a given boot_b given lexfix given tu_load stdin "int g; int f(void) { return g; }" (10):(6)
-given boot_a given boot_b given lexfix given tu_load given lst_str_insert((import lnames), 0, "g") stdin "int g; int f(void) { return g; }" (10):(-1)
+given boot_a given boot_b given lexfix given tu_load given list_string_insert((import lnames), 0, "g") stdin "int g; int f(void) { return g; }" (10):(-1)

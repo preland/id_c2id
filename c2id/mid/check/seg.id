@@ -12,7 +12,7 @@ chk_seg(int cg_id) {
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 1; }" (0):() then len((import dgmsg)):(0)
-given boot_a given boot_b given lexfix given tu_load given lst_str_insert((import sgv), 0, "g") given lst_str_insert((import sgvm), 0, "m") stdin "int g; int f(void) { return g; }" (10):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load given list_string_insert((import sgv), 0, "g") given list_string_insert((import sgvm), 0, "m") stdin "int g; int f(void) { return g; }" (10):() then len((import dgmsg)):(1)
 
 chk_segvar(int cv_id) {
   int cv_i = find_str((import sgv), (import ns)[cv_id]);
@@ -20,5 +20,5 @@ chk_segvar(int cv_id) {
     diag_node(cv_id, "'" + (import ns)[cv_id] + "' was declared with something c2id cannot model: " + (import sgvm)[cv_i]);
   }
 } return void;
-given boot_a given boot_b given lexfix given tu_load given lst_str_insert((import sgv), 0, "g") given lst_str_insert((import sgvm), 0, "why") stdin "int g; int f(void) { return g; }" (10):() then (import dgmsg):([":1: error: 'g' was declared with something c2id cannot model: why"])
+given boot_a given boot_b given lexfix given tu_load given list_string_insert((import sgv), 0, "g") given list_string_insert((import sgvm), 0, "why") stdin "int g; int f(void) { return g; }" (10):() then (import dgmsg):([":1: error: 'g' was declared with something c2id cannot model: why"])
 given boot_a given boot_b given lexfix given tu_load stdin "int g; int f(void) { return g; }" (10):() then len((import dgmsg)):(0)

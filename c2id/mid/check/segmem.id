@@ -1,7 +1,7 @@
 chk_segmem(int cm_id) {
   int cm_bt = ex_ty((import na)[cm_id]);
   int cm_ty = ty_base(cm_bt);
-  int cm_i = lst_index_of((import sgt), cm_ty);
+  int cm_i = list_index_of((import sgt), cm_ty);
 } chain (int cm_id) {
   chk_segsay(cm_id, cm_i);
 } return void;

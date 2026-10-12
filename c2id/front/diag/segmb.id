@@ -2,12 +2,12 @@
 // pointer) is poisoned too: its size and offsets depend on the one it holds.
 seg_member(int sb_ty, int sb_r) {
   int sb_e = seg_elem(sb_r);
-  int sb_i = lst_index_of((import sgt), sb_e);
+  int sb_i = list_index_of((import sgt), sb_e);
   if(sb_i >= 0) {
     seg_inherit(sb_ty, sb_i);
   }
 } return void;
-given tynode_fix given lst_extend((import sgt), [5]) given lst_str_insert((import sgtm), 0, "why") (1, 5):() then (import sgt):([5, 1]) then (import sgtm):(["why", "why"])
+given tynode_fix given list_extend((import sgt), [5]) given list_string_insert((import sgtm), 0, "why") (1, 5):() then (import sgt):([5, 1]) then (import sgtm):(["why", "why"])
 given tynode_fix (1, 5):() then len((import sgt)):(0)
 
 seg_elem(int se_r) {
@@ -23,5 +23,5 @@ seg_inherit(int si_ty, int si_i) {
   push((import sgt), si_ty);
   push((import sgtm), (import sgtm)[si_i]);
 } return void;
-given boot_a given lst_extend((import sgt), [5]) given lst_str_insert((import sgtm), 0, "why") (9, 0):() then (import sgt):([5, 9])
-given boot_a given lst_extend((import sgt), [5]) given lst_str_insert((import sgtm), 0, "why") (9, 0):() then (import sgtm):(["why", "why"])
+given boot_a given list_extend((import sgt), [5]) given list_string_insert((import sgtm), 0, "why") (9, 0):() then (import sgt):([5, 9])
+given boot_a given list_extend((import sgt), [5]) given list_string_insert((import sgtm), 0, "why") (9, 0):() then (import sgtm):(["why", "why"])

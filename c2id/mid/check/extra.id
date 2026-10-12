@@ -21,5 +21,5 @@ chk_regvar(int id) {
     diag_node(id, "'" + (import ns)[id] + "' is a variable bound to a machine register with asm(\"name\"), which c2id does not model: reading it would get a value of its own, not the register's");
   }
 } return void;
-given boot_a given boot_b given exprfix given lst_str_insert((import regnames), 0, "sp") stdin "sp;" ((import extop)):() then len((import dgmsg)):(1)
-given boot_a given boot_b given exprfix given lst_str_insert((import regnames), 0, "sp") stdin "x;" ((import extop)):() then len((import dgmsg)):(0)
+given boot_a given boot_b given exprfix given list_string_insert((import regnames), 0, "sp") stdin "sp;" ((import extop)):() then len((import dgmsg)):(1)
+given boot_a given boot_b given exprfix given list_string_insert((import regnames), 0, "sp") stdin "x;" ((import extop)):() then len((import dgmsg)):(0)

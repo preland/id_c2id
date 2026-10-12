@@ -14,8 +14,8 @@ callee_name(string op) {
 } return string fnm;
 given init_tu ("malloc"):("kmalloc")
 given init_tu ("foo"):("c_foo")
-given init_tu given lst_str_insert((import fnames), 0, "memcmp") ("memcmp"):("u_memcmp")
-given init_tu given lst_str_insert((import fnames), 0, "malloc") ("malloc"):("u_malloc")
+given init_tu given list_string_insert((import fnames), 0, "memcmp") ("memcmp"):("u_memcmp")
+given init_tu given list_string_insert((import fnames), 0, "malloc") ("malloc"):("u_malloc")
 
 // How many arguments a variadic runtime function takes before its `...`, or -1
 // for a function that is not variadic. id has no varargs: the rest arrive in

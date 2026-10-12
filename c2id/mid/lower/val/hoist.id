@@ -9,7 +9,7 @@ mx_hoist(int id) {
     hit = hoist_ind(id);
   }
 } return int hit;
-given low_fix given lst_str_insert((import mxnames), 3, "f") (17):(1)
+given low_fix given list_string_insert((import mxnames), 3, "f") (17):(1)
 given low_fix (17):(0)
 
 hoist_ind(int id) {
@@ -19,7 +19,7 @@ hoist_ind(int id) {
     hit = (import nk)[ft] == "ptr" || (import nk)[ft] == "fn";
   }
 } return int hit;
-given low_fix given lst_str_insert((import dnames), 0, "f") given lst_insert((import dtys), 0, 6) given sset((import nk), 6, "ptr") (17):(1)
+given low_fix given list_string_insert((import dnames), 0, "f") given list_insert((import dtys), 0, 6) given sset((import nk), 6, "ptr") (17):(1)
 given low_fix (17):(0)
 
 hoist_temp(int e, int et) {

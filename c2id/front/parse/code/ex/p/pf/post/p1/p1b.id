@@ -6,7 +6,7 @@
 
 at_in(int[] pos, string[] words) {
   string s = cur_text(pos);
-  int ok = lst_str_index(words, s) >= 0;
+  int ok = list_string_index(words, s) >= 0;
 } return int ok;
 given boot_a given lexfix stdin "(" ([0], ["(", "[", ".", "->", "++", "--"]):(1)
 given boot_a given lexfix stdin ";" ([0], ["(", "[", ".", "->", "++", "--"]):(0)

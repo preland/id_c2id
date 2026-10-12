@@ -15,9 +15,9 @@ reach_every(int i, int n) {
     i = i + 1;
   }
 } return void;
-given gl_setup given reach_init(3) given lst_fill((import fstat), 3, 0) (1, 3):() then (import reach):([0, 1, 1])
-given gl_setup given reach_init(3) given lst_fill((import fstat), 3, 0) given lset((import fstat), 1, 1) (0, 3):() then (import reach):([1, 0, 1])
-given gl_setup given reach_init(3) given lst_fill((import fstat), 3, 0) (3, 3):() then (import reach):([0, 0, 0])
+given gl_setup given reach_init(3) given list_fill((import fstat), 3, 0) (1, 3):() then (import reach):([0, 1, 1])
+given gl_setup given reach_init(3) given list_fill((import fstat), 3, 0) given lset((import fstat), 1, 1) (0, 3):() then (import reach):([1, 0, 1])
+given gl_setup given reach_init(3) given list_fill((import fstat), 3, 0) (3, 3):() then (import reach):([0, 0, 0])
 
 // Read each queued function's body, until none is left.
 reach_drain() {

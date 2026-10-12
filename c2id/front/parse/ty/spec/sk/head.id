@@ -3,7 +3,7 @@
 skip_head(int[] pos) {
   string s = cur_text(pos);
   advance(pos);
-  if(lst_str_index((import asm_words), s) >= 0) {
+  if(list_string_index((import asm_words), s) >= 0) {
     skip_asm_quals(pos);
   }
 } return void;

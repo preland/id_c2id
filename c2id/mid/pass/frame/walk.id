@@ -27,5 +27,5 @@ bind_var(int id) {
     sset((import ns), id, nn);
   }
 } return void;
-given boot_a given boot_b given lexfix given tu_load given lst_str_insert((import envo), 0, "b") given lst_str_insert((import envn), 0, "b__0") stdin "int f(int a) { int b = a; return b; }" (13):() then (import ns)[13]:("b__0")
+given boot_a given boot_b given lexfix given tu_load given list_string_insert((import envo), 0, "b") given list_string_insert((import envn), 0, "b__0") stdin "int f(int a) { int b = a; return b; }" (13):() then (import ns)[13]:("b__0")
 given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { int b = a; return b; }" (13):() then (import ns)[13]:("b")

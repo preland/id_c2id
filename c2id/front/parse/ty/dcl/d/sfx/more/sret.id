@@ -27,7 +27,7 @@ given tynode_fix given sset((import ns), 0, "long double") (0, "x,"):("__ret,x,"
 sret_params(int r, int[] ps) {
   if(ty_agg(r) == 1) {
     int sret_pt = newleaf("ptr", r, 0, "", "");
-    lst_insert(ps, 0, sret_pt);
+    list_insert(ps, 0, sret_pt);
   }
 } return int[] ps;
 given tynode_fix (5, [0]):([6, 0])

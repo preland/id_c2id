@@ -63,4 +63,4 @@ gl_setup() {
   export int[] indn = [0, 0, 0, 0, 0, 0, 0];
 } return void export dnames;
 ():() then len((import dnames)):(0)
-given gl_setup given lst_str_insert((import dnames), 0, "x") ():() then len((import dnames)):(0)
+given gl_setup given list_string_insert((import dnames), 0, "x") ():() then len((import dnames)):(0)

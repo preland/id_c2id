@@ -5,7 +5,7 @@
 sret_arg(int e, int rt) {
   int t = new_temp(rt);
   int a = newleaf("un", t, 0, "&", "");
-  lst_insert((import nl)[e], 0, a);
+  list_insert((import nl)[e], 0, a);
 } chain (int e, int rt) {
   lset((import nb), e, 1);
 } return void;

@@ -2,7 +2,7 @@
 // told when the program reaches at least one function. They are kept in the
 // deferred lists with function index -1, which no function has.
 chk_gasm() {
-  int cg_r = lst_sum((import reach));
+  int cg_r = list_sum((import reach));
   if(cg_r > 0) {
     gasm_tell(0);
   }

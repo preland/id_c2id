@@ -11,7 +11,7 @@
 // ahead); lex_mem's pad block keeps that in range, and a string cannot hold
 // the NUL padding (docs/SPEC.md section 4), so the copy stops before it.
 slice(word base, int a, int b) {
-  int zl = buf_zlen(base + a, b - a);
+  int zl = buffer_length_before_zero(base + a, b - a);
   string s = str_of_mem(base + a, zl);
 } return string s;
 given lex_src_fixture ((import gb), 0, 4):("12ab")

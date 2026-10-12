@@ -3,7 +3,7 @@
 chk_segsz(int cz_id) {
   int cz_t = seg_sz_ty(cz_id);
   int cz_b = ty_base(cz_t);
-  int cz_i = lst_index_of((import sgt), cz_b);
+  int cz_i = list_index_of((import sgt), cz_b);
 } chain (int cz_id) {
   chk_segsay(cz_id, cz_i);
 } return void;

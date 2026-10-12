@@ -24,5 +24,5 @@ emit_slit_text(int j) {
 } chain (int j) {
   emit_out("  poke64((import gbase) + " + (import soff)[j] + ", lit_p" + j + ");");
 } return void;
-given init_tu given lst_str_insert((import slits), 0, "\"ab\"") given lst_insert((import soff), 0, 0) (0):() then prints:("  string lit_s0 = \"ab\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 0, lit_p0);\n")
-given init_tu given lst_str_insert((import slits), 0, "\"ab\"") given lst_insert((import soff), 0, 0) given lst_str_insert((import slits), 1, "\"cd\"") given lst_insert((import soff), 1, 8) (1):() then prints:("  string lit_s1 = \"cd\";\n  word lit_p1 = mem_of_str(lit_s1);\n  poke64((import gbase) + 8, lit_p1);\n")
+given init_tu given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) (0):() then prints:("  string lit_s0 = \"ab\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 0, lit_p0);\n")
+given init_tu given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) given list_string_insert((import slits), 1, "\"cd\"") given list_insert((import soff), 1, 8) (1):() then prints:("  string lit_s1 = \"cd\";\n  word lit_p1 = mem_of_str(lit_s1);\n  poke64((import gbase) + 8, lit_p1);\n")

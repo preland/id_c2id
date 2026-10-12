@@ -11,10 +11,10 @@ given boot_a given boot_b given lexfix given tu_load stdin "struct S { int a; };
 
 seg_fold_ty(int sg_t) {
   int sg_b = seg_elem(sg_t);
-  int sg_i = lst_index_of((import sgt), sg_b);
+  int sg_i = list_index_of((import sgt), sg_b);
   if(sg_i >= 0) {
     lset((import cunk), 0, 1);
   }
 } return void;
-given tynode_fix given lst_extend((import sgt), [5]) given lst_str_insert((import sgtm), 0, "why") (5):() then (import cunk):([1])
-given tynode_fix given lst_extend((import sgt), [5]) given lst_str_insert((import sgtm), 0, "why") (4):() then (import cunk):([0])
+given tynode_fix given list_extend((import sgt), [5]) given list_string_insert((import sgtm), 0, "why") (5):() then (import cunk):([1])
+given tynode_fix given list_extend((import sgt), [5]) given list_string_insert((import sgtm), 0, "why") (4):() then (import cunk):([0])

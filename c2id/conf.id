@@ -146,7 +146,7 @@ string[] ovf_names = ["__builtin_add_overflow", "__builtin_sub_overflow", "__bui
 int[] ovf_ops = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2];
 int[] ovf_info = [-1, -1, -1, 9, 9, 9, 17, 17, 17, 17, 17, 17, 8, 8, 8, 16, 16, 16, 16, 16, 16];
 
-// Token sets, one list each, tested for membership with lst_str_index (strings) or lst_find (byte codes)
+// Token sets, one list each, tested for membership with list_string_index (strings) or list_find (byte codes)
 // where the parser or lexer asks "is this one of them".
 // cmp_ops: the relational and equality operators, whose result is int 0 or 1 rather than either operand's type.
 // unops: the prefix operators whose operand is a cast-expression; `+ - * &` are here in their prefix meaning only.

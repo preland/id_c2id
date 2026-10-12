@@ -13,7 +13,7 @@ given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) 
 ovf_list(int[] args, int k, int ai, int bi, int ri) {
   int[] lst = [];
   atom_push(lst, (import ovf_ops)[k]);
-  lst_extend(lst, args);
+  list_extend(lst, args);
 } chain (int[] args, int k, int ai, int bi, int ri) {
   atom_push(lst, ai);
   atom_push(lst, bi);

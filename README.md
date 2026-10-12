@@ -95,7 +95,7 @@ tools/check.sh                       # everything to run before committing
 `idc c2id` runs under the default test requirement: every function in `c2id/`
 carries two passing cases (`docs/TESTS.md` in the umbrella), so a build that
 exits 0 means they all ran. Run it with `IDSTD_HOME` set to the idstd you mean
-to build against; `c2id` calls idstd (`lget`, `str_slice`, `lst_str_insert`, ...)
+to build against; `c2id` calls idstd (`lget`, `str_slice`, `list_string_insert`, ...)
 rather than keeping its own copies, and `idc` rejects a function whose logic
 matches an idstd one, so an idstd change can break this build in either
 direction. A call that quietly changes meaning when idstd does is what the cases

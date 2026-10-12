@@ -8,12 +8,12 @@ g_reached(int gr_i) {
   }
 } return int gr_ok;
 given gl_setup (0):(1)
-given gl_setup given lst_fill((import greach), 2, 0) (1):(0)
+given gl_setup given list_fill((import greach), 2, 0) (1):(0)
 
 greach_init() {
   while(len((import greach)) < len((import dnames))) {
     push((import greach), 0);
   }
 } return void;
-given gl_setup given lst_str_insert((import dnames), 0, "x") ():() then (import greach):([0])
+given gl_setup given list_string_insert((import dnames), 0, "x") ():() then (import greach):([0])
 given gl_setup ():() then len((import greach)):(0)

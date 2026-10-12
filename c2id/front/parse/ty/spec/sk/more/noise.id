@@ -24,7 +24,7 @@ given lexfix stdin "x" ([0]):(0)
 skip_attr_ok(int[] pos) {
   int ok = 0;
   string s = cur_text(pos);
-  if(lst_str_index((import attr_words), s) >= 0) {
+  if(list_string_index((import attr_words), s) >= 0) {
     skip_attr(pos);
     ok = 1;
   }

@@ -28,7 +28,7 @@ bind_node(int id, string kn) {
     bind_kids(id, kn);
   }
 } return void;
-given boot_a given boot_b given lexfix given tu_load given lst_str_insert((import envo), 0, "b") given lst_str_insert((import envn), 0, "b__0") stdin "int f(int a) { int b = a; return b; }" (13, "var"):() then (import ns)[13]:("b__0")
+given boot_a given boot_b given lexfix given tu_load given list_string_insert((import envo), 0, "b") given list_string_insert((import envn), 0, "b__0") stdin "int f(int a) { int b = a; return b; }" (13, "var"):() then (import ns)[13]:("b__0")
 given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int x = 1; int x = 2; }" (17, "block"):() then (import lvnames):(["x", "x__0"])
 
 // A declaration of a local. The name keeps its own slot if it is new; otherwise it gets a

@@ -20,7 +20,7 @@ cl_drain(string[] cd_src) {
   string[] cd_out = [];
   while(len(cd_src) > 0) {
     push(cd_out, cd_src[0]);
-    lst_str_delete(cd_src, 0);
+    list_string_delete(cd_src, 0);
   }
 } return string[] cd_out;
 (["a", "b"]):(["a", "b"])

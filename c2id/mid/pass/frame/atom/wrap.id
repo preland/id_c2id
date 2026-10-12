@@ -4,7 +4,7 @@ atom_fill(int id, int[] aolst) {
   while(len(l) > 0) {
     pop(l);
   }
-  lst_extend(l, aolst);
+  list_extend(l, aolst);
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, [7, 8]):() then (import nl)[14]:([7, 8])
 given boot_a given boot_b given lexfix given tu_load stdin "int g(void) { __atomic_thread_fence(0); return 0; }" (11, [3]):() then (import nl)[11]:([3])

@@ -2,7 +2,7 @@
 // whether skipping it is sound, and the statement becomes an empty block.
 parse_stmt_asm(int[] pos) {
   int id = 0;
-  if(lst_str_index((import asm_words), cur_text(pos)) >= 0) {
+  if(list_string_index((import asm_words), cur_text(pos)) >= 0) {
     id = parse_asm(pos);
   } else {
     id = parse_stmt_sa(pos);

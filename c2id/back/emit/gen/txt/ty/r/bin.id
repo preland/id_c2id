@@ -6,7 +6,7 @@
 bin_ty(int id) {
   int ty = (import stdty)[0];
   string op = (import ns)[id];
-  if(lst_str_index((import cmp_ops), op) < 0 && op != "&&" && op != "||") {
+  if(list_string_index((import cmp_ops), op) < 0 && op != "&&" && op != "||") {
     ty = bin_ty2(id);
   }
 } return int ty;
