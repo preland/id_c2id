@@ -22,7 +22,7 @@ byte 0 — instead of a `string src`. That is not stylistic. `character_code_at(
 implemented as a bounds check against `strlen(s)`, so it is O(length of the
 whole input) per character unless the C compiler can hoist the `strlen` out of
 the loop, which it cannot across a dispatch chain of separate functions.
-Measured on `build/cpp/lib/bsearch.i` (2.5 MB), a `charat`-based scan of that
+Measured on `build/cpp/lib/bsearch.i` (2.5 MB), a `character_code_at`-based scan of that
 shape takes **88 seconds**; the same scan through `peek8` takes **0.010 s**.
 
 So `lex_all` does `mem_of_str(src)` once and every scanner reads `peek8(base + i)`,
