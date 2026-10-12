@@ -1,5 +1,5 @@
 fl_digit_at(string flbody, int i) {
-  int c = charat(flbody, i);
+  int c = character_code_at(flbody, i);
   int ok = c >= 48 && c <= 57;
 } return int ok;
 ("1.5", 2):(1)

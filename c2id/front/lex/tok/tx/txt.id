@@ -3,7 +3,7 @@
 // `base` is the store address of source byte 0. str_of_mem(addr, n) copies n
 // bytes into a fresh id string in one memcpy, so a token's spelling costs one
 // allocation instead of one per character -- which is why the whole lexer is
-// written against the store rather than against charat() on a string. See
+// written against the store rather than against character_code_at() on a string. See
 // lex/README.md.
 
 // The source bytes [a, b) as a string, cut short at the first NUL. b may run

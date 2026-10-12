@@ -2,7 +2,7 @@
 // implement, else -1.
 fmt_isbad(string lit, int i, int j, int scan) {
   int bad = 0 - 1;
-  if(charat(lit, i) == 37 && fmt_ok(lit, i, j, scan) == 0) {
+  if(character_code_at(lit, i) == 37 && fmt_ok(lit, i, j, scan) == 0) {
     bad = i;
   }
 } return int bad;
@@ -16,7 +16,7 @@ fmt_isbad(string lit, int i, int j, int scan) {
 // known and everything between the `%` and the letter is a flag, width or length
 // that is.
 fmt_ok(string lit, int i, int j, int scan) {
-  int cch = charat(lit, j - 1);
+  int cch = character_code_at(lit, j - 1);
   int ok = conv_ok(cch, scan);
   if(ok == 1) {
     ok = mid_ok(lit, i + 1, j - 1, scan);

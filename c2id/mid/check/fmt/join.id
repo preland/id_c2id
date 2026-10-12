@@ -17,10 +17,10 @@ lit_join(string lit) {
 // nothing; anything else, itself.
 join_keep(string lit, int i) {
   string out = str_sub(lit, i, 1);
-  if(charat(lit, i) == 92) {
+  if(character_code_at(lit, i) == 92) {
     out = str_sub(lit, i, 2);
   }
-  if(charat(lit, i) == 34 && i > 0 && i < len(lit) - 1) {
+  if(character_code_at(lit, i) == 34 && i > 0 && i < len(lit) - 1) {
     out = "";
   }
 } return string out;
@@ -30,7 +30,7 @@ join_keep(string lit, int i) {
 
 join_step(string lit, int i) {
   int n = 1;
-  if(charat(lit, i) == 92) {
+  if(character_code_at(lit, i) == 92) {
     n = 2;
   }
 } return int n;

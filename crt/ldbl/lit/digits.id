@@ -22,11 +22,11 @@ ld_bone(word[] lqx, word[] lqs, int bxc) {
 ([0], [0, 0], 55):([0], [7, 1], 55)
 
 ld_bscan(string lbs, word[] lqx, word[] lqs, int bxi) {
-  int bxc = charat(lbs, bxi);
+  int bxc = character_code_at(lbs, bxi);
   while((bxc >= 48 && bxc <= 57) || bxc == 46) {
     ld_bone(lqx, lqs, bxc);
     bxi = bxi + 1;
-    bxc = charat(lbs, bxi);
+    bxc = character_code_at(lbs, bxi);
   }
 } return void;
 ("12.5e3", [0], [0, 0], 0):("12.5e3", [0], [125, 3], 0)

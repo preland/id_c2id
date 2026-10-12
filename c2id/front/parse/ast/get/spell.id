@@ -14,7 +14,7 @@ const_spell(string kind, string s, int val) {
 // The text of a character constant without its quotes: the lexer keeps them.
 unquote(string s) {
   string out = s;
-  if(len(s) > 1 && charat(s, 0) == 39) {
+  if(len(s) > 1 && character_code_at(s, 0) == 39) {
     out = str_sub(s, 1, len(s) - 2);
   }
 } return string out;

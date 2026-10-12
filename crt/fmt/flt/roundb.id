@@ -22,7 +22,7 @@ rd_up(string rds, int rdt) {
 rd_nines(string rdy) {
   int rdn = 0;
   int rdi = len(rdy) - 1;
-  while(rdi >= 0 && charat(rdy, rdi) == 57) {
+  while(rdi >= 0 && character_code_at(rdy, rdi) == 57) {
     rdn = rdn + 1;
     rdi = rdi - 1;
   }

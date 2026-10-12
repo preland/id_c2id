@@ -18,7 +18,7 @@ out — `int`, `while` and `bsearch` are all `id`, and the parser decides by tex
 ## Why the source lives in the flat store
 
 Everything below `lex_all` takes a `word base` — the store address of source
-byte 0 — instead of a `string src`. That is not stylistic. `charat(s, i)` is
+byte 0 — instead of a `string src`. That is not stylistic. `character_code_at(s, i)` is
 implemented as a bounds check against `strlen(s)`, so it is O(length of the
 whole input) per character unless the C compiler can hoist the `strlen` out of
 the loop, which it cannot across a dispatch chain of separate functions.

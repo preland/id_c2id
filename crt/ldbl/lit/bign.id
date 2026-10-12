@@ -1,7 +1,7 @@
 ld_bign(string lbs) {
   word[] lqx = [0];
   word[] lqs = [0, 0];
-  int bxc = charat(lbs, 0);
+  int bxc = character_code_at(lbs, 0);
 } chain (string lbs) {
   ld_bscan(lbs, lqx, lqs, (bxc == 43) + (bxc == 45));
   int bxk = lqs[1];

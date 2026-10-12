@@ -7,7 +7,7 @@
 rd_dig(string rds, int rdi) {
   int rdd = 0;
   if(rdi >= 0 && rdi < len(rds)) {
-    rdd = charat(rds, rdi) - 48;
+    rdd = character_code_at(rds, rdi) - 48;
   }
 } return int rdd;
 ("123", 1):(2)

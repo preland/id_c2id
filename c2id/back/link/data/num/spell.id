@@ -17,8 +17,8 @@ num_spell(string raw) {
 
 // 1 for a hex literal or a decimal one that does not start with 0.
 num_plain(string raw) {
-  int c0 = charat(raw, 0);
-  int c1 = charat(raw, 1);
+  int c0 = character_code_at(raw, 0);
+  int c1 = character_code_at(raw, 1);
   int hex = c0 == 48 && (c1 == 120 || c1 == 88);
 } chain (string raw) {
   int dec = c0 > 48 && c0 <= 57;

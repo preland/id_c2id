@@ -14,7 +14,7 @@ has_float_ch(string s) {
 // 46 '.'   101 'e'   69 'E'
 float_ch_at(string s, int i, int found) {
   int n = found;
-  if(charat(s, i) == 46 || charat(s, i) == 101 || charat(s, i) == 69) {
+  if(character_code_at(s, i) == 46 || character_code_at(s, i) == 101 || character_code_at(s, i) == 69) {
     n = 1;
   }
 } return int n;

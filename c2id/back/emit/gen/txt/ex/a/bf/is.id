@@ -2,7 +2,7 @@
 // address expression does.
 bfx_is(string s) {
   int ok = 0;
-  if(len(s) > 3 && charat(s, 0) == 66 && charat(s, 1) == 70 && charat(s, 2) == 124) {
+  if(len(s) > 3 && character_code_at(s, 0) == 66 && character_code_at(s, 1) == 70 && character_code_at(s, 2) == 124) {
     ok = 1;
   }
 } return int ok;

@@ -8,7 +8,7 @@ fl_norm(string raw) {
 
 fl_fix(string flbody) {
   string out = flbody;
-  if(charat(flbody, 0) == 46) {
+  if(character_code_at(flbody, 0) == 46) {
     out = "0" + flbody;
   }
   int fldot = str_find(out, ".");

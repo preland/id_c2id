@@ -14,7 +14,7 @@ given txt_fixture (5, 1, 0):("poke32(NOT_AN_LVALUE_ptr, NEEDS_CFG_prim)")
 // The first byte of an operator's spelling, as text -- "+=" and "++" both
 // start with "+", which is the operator comp_asg's synthetic node needs.
 first_char(string op) {
-  int c = charat(op, 0);
+  int c = character_code_at(op, 0);
   string ch = chr(c);
 } return string ch;
 ("++"):("+")

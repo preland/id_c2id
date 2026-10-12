@@ -35,7 +35,7 @@ op_head(string op) {
   string s = "";
   int i = 0;
   while(i < len(op) - 1) {
-    int c = charat(op, i);
+    int c = character_code_at(op, i);
     s = s + chr(c);
     i = i + 1;
   }

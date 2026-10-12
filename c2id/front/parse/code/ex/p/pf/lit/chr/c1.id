@@ -8,7 +8,7 @@
 // 92 is '\'.
 chr_val(string s) {
   int c = 0;
-  if(len(s) > 0 && charat(s, 0) == 92) {
+  if(len(s) > 0 && character_code_at(s, 0) == 92) {
     c = esc_val(s);
   } else {
     c = first_ch(s);
@@ -20,7 +20,7 @@ chr_val(string s) {
 first_ch(string s) {
   int c = 0;
   if(len(s) > 0) {
-    c = charat(s, 0);
+    c = character_code_at(s, 0);
   }
 } return int c;
 ("a"):(97)
@@ -29,7 +29,7 @@ first_ch(string s) {
 // s[0] is the backslash. 120 is 'x': a hex escape, any number of digits.
 esc_val(string s) {
   int c = 0;
-  if(charat(s, 1) == 120) {
+  if(character_code_at(s, 1) == 120) {
     c = digits_val(s, 2, 16);
   } else {
     c = esc_val2(s);

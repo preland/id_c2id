@@ -3,7 +3,7 @@ mode_rest(string lit, int i) {
   int bad = 0;
   int k = i;
   while(k < len(lit) - 1) {
-    int c = charat(lit, k);
+    int c = character_code_at(lit, k);
     if(c != 98 && c != 43) {
       bad = 1;
     }

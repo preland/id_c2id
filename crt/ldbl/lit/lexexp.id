@@ -11,11 +11,11 @@ ld_lmin(word lxv) {
 
 ld_lexd(string lbs, int bxj) {
   word lxv = 0;
-  int bxc = charat(lbs, bxj);
+  int bxc = character_code_at(lbs, bxj);
   while(bxc >= 48 && bxc <= 57) {
     lxv = ld_lmin(lxv * 10 + bxc - 48);
     bxj = bxj + 1;
-    bxc = charat(lbs, bxj);
+    bxc = character_code_at(lbs, bxj);
   }
 } return word lxv;
 ("e123", 1):(123)
@@ -23,7 +23,7 @@ ld_lexd(string lbs, int bxj) {
 ("e99999999", 1):(100000)
 
 ld_lexv(string lbs, word[] lqp, int bxi) {
-  int bxc = charat(lbs, bxi);
+  int bxc = character_code_at(lbs, bxi);
   int bxj = bxi + (bxc == 43) + (bxc == 45);
   word lxv = ld_lexd(lbs, bxj);
 } chain (string lbs, word[] lqp, int bxi) {

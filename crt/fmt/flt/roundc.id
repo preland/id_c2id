@@ -1,6 +1,6 @@
 rd_head(string rdy, int rdb) {
   string rdh = str_slice(rdy, 0, rdb - 1);
-  int rdc = charat(rdy, rdb - 1) + 1;
+  int rdc = character_code_at(rdy, rdb - 1) + 1;
   string rdv = rdh + chr(rdc);
 } return string rdv;
 ("129", 2):("13")

@@ -18,7 +18,7 @@ given boot_a given exprfix stdin "0x80000000;" ((import extop)):(2147483648) the
 
 cw_isint(string ii_s) {
   int ii_ok = 0;
-  if(len(ii_s) > 0 && is_float_lit(ii_s) == 0 && charat(ii_s, 0) >= 48 && charat(ii_s, 0) <= 57) {
+  if(len(ii_s) > 0 && is_float_lit(ii_s) == 0 && character_code_at(ii_s, 0) >= 48 && character_code_at(ii_s, 0) <= 57) {
     ii_ok = 1;
   }
 } return int ii_ok;

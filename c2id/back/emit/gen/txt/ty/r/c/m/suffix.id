@@ -5,7 +5,7 @@ has_ch(string s, int c, int k) {
   int i = 0;
   int found = 0;
   while(i < len(s)) {
-    if(charat(s, i) == c || charat(s, i) == k) {
+    if(character_code_at(s, i) == c || character_code_at(s, i) == k) {
       found = 1;
     }
     i = i + 1;

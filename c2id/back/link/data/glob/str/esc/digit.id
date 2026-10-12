@@ -10,7 +10,7 @@ scan_run(string raw, int i, int radix, int most) {
 ("1234", 0, 8, 3):(3)
 
 digit_at(string raw, int j, int radix) {
-  int dc = charat(raw, j);
+  int dc = character_code_at(raw, j);
   int d = dig_val(dc);
   int ok = d >= 0 && d < radix;
 } return int ok;

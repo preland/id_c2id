@@ -29,7 +29,7 @@ is_float_lit(string s) {
 
 is_hex_lit(string s) {
   int ok = 0;
-  if(len(s) > 1 && charat(s, 0) == 48 && (charat(s, 1) == 120 || charat(s, 1) == 88)) {
+  if(len(s) > 1 && character_code_at(s, 0) == 48 && (character_code_at(s, 1) == 120 || character_code_at(s, 1) == 88)) {
     ok = 1;
   }
 } return int ok;

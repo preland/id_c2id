@@ -1,5 +1,5 @@
 ld_lexp(string lbs, word[] lqp, int bxi) {
-  int bxc = charat(lbs, bxi);
+  int bxc = character_code_at(lbs, bxi);
   if(bxc == 101 || bxc == 69) {
     ld_lexv(lbs, lqp, bxi + 1);
   }

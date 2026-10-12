@@ -19,7 +19,7 @@ lit_bloop(string raw, int[] bs, int n) {
 ("\"a\"\"b\"", [], 5):("\"a\"\"b\"", [97, 98], 5)
 
 lit_bstep(string raw, int[] bs, int i) {
-  int c = charat(raw, i);
+  int c = character_code_at(raw, i);
   int j = lit_bnext(raw, bs, i, c);
 } return int j;
 given init_cfg2 ("\"ab\"", (import bsb), 1):(2) then (import bsb):([97])

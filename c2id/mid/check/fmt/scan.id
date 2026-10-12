@@ -22,10 +22,10 @@ fmt_bad(string lit, int scan) {
 // whole conversion.
 fmt_end(string lit, int i) {
   int j = i + 1;
-  if(charat(lit, i) == 37) {
+  if(character_code_at(lit, i) == 37) {
     j = fmt_skip(lit, i + 1);
   }
-  if(charat(lit, i) == 37 && j < len(lit)) {
+  if(character_code_at(lit, i) == 37 && j < len(lit)) {
     j = j + 1;
   }
 } return int j;
@@ -37,7 +37,7 @@ fmt_end(string lit, int i) {
 // Past the flag, width, precision and length characters from j.
 fmt_skip(string lit, int j) {
   int k = j;
-  while(k < len(lit) && is_fmtmod(charat(lit, k)) == 1) {
+  while(k < len(lit) && is_fmtmod(character_code_at(lit, k)) == 1) {
     k = k + 1;
   }
 } return int k;

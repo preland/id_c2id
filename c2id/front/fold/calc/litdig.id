@@ -1,7 +1,7 @@
 cw_digits(string dg_s, int dg_i, int dg_r) {
   word dg_n = 0;
   while(more_digits(dg_s, dg_i, dg_r)) {
-    int dg_c = charat(dg_s, dg_i);
+    int dg_c = character_code_at(dg_s, dg_i);
     dg_n = dg_n * dg_r + dig_val(dg_c);
     dg_i = dg_i + 1;
   }

@@ -1,7 +1,7 @@
 // One step of the scan: a plain character is copied, an escape is decoded.
 // Answers the index to continue from.
 lit_step(string raw, string[] acc, int i) {
-  int c = charat(raw, i);
+  int c = character_code_at(raw, i);
   int j = lit_next(raw, acc, i, c);
 } return int j;
 ("\"ab\"", ["\""], 1):(2) then calls lit_put:(["\"a"], 97)

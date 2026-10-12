@@ -3,7 +3,7 @@
 rd_zeros(string rds) {
   int rdn = 0;
   int rdi = len(rds) - 1;
-  while(rdi >= 0 && charat(rds, rdi) == 48) {
+  while(rdi >= 0 && character_code_at(rds, rdi) == 48) {
     rdn = rdn + 1;
     rdi = rdi - 1;
   }

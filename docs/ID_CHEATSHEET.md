@@ -57,7 +57,7 @@ side_effects_only() {
 walk(string src) {
   int i = 0;
   while(i < len(src)) {
-    handle(charat(src, i));
+    handle(character_code_at(src, i));
     i = i + 1;
   }
 } return void;
@@ -87,7 +87,7 @@ find_ch(string src, int i, int c) {
 
 probe(string src, int i, int c) {
   int r = 0 - 1;
-  if(charat(src, i) == c) {
+  if(character_code_at(src, i) == c) {
     r = i;
   }
 } return int r;
@@ -310,7 +310,7 @@ There is no substring builtin; write one:
 slice(string src, int a, int b) {
   string out = "";
   while(a < b) {
-    out = out + chr(charat(src, a));
+    out = out + chr(character_code_at(src, a));
     a = a + 1;
   }
 } return string out;

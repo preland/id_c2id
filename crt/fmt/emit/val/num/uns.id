@@ -2,7 +2,7 @@
 // with a precision of 0); x and X get 0x and 0X before a non-zero value.
 oct_alt(string dp, word c, word[] fs) {
   string txt = dp;
-  if(c == 111 && fs[7] != 0 && charat(dp, 0) != 48) {
+  if(c == 111 && fs[7] != 0 && character_code_at(dp, 0) != 48) {
     txt = "0" + dp;
   }
 } return string txt;

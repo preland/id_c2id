@@ -4,7 +4,7 @@ mid_ok(string lit, int from, int to, int scan) {
   int ok = 1;
   int k = from;
   while(k < to && ok == 1) {
-    int cch = charat(lit, k);
+    int cch = character_code_at(lit, k);
     ok = mid_char(cch, scan);
     k = k + 1;
   }

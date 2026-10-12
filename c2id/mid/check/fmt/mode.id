@@ -27,7 +27,7 @@ mode_bad(string lit) {
   int bad = 0;
   int c = 114;
   if(len(lit) >= 2) {
-    c = charat(lit, 1);
+    c = character_code_at(lit, 1);
   }
 } chain (string lit) {
   if(c != 114 && c != 119 && c != 97) {

@@ -1,6 +1,6 @@
 rt_dsame(word rs, word[] rdsc, string rpat, int rdi) {
   word rch = peek8(rs + rdsc[1] + rdi) | 32;
-  int rdw = charat(rpat, rdi);
+  int rdw = character_code_at(rpat, rdi);
   word rok = rch == rdw;
 } return word rok;
 

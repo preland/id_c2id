@@ -7,7 +7,7 @@ esc_val2(string s) {
   if(is_oct_esc(s)) {
     c = digits_val(s, 1, 8);
   } else {
-    int ch1 = charat(s, 1);
+    int ch1 = character_code_at(s, 1);
     c = esc_named(ch1);
   }
 } return int c;

@@ -18,7 +18,7 @@ given txt_fixture given pend_setup ("2.5f"):("t1") then (import pend)[1]:("word 
 
 fl_blen(string raw) {
   int n = len(raw);
-  int c = charat(raw, n - 1);
+  int c = character_code_at(raw, n - 1);
   if(c == 102 || c == 70 || c == 108 || c == 76) {
     n = n - 1;
   }

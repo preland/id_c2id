@@ -17,11 +17,11 @@ dig_ok(int c, int n) {
 (53, 10):(1)
 (32, 10):(0)
 
-// charat(s, 1) must not run unless the first two checks already held, so the
+// character_code_at(s, 1) must not run unless the first two checks already held, so the
 // short-circuited `&&` chain becomes these named steps instead.
 hex_pfx(string s) {
   int ok = 0;
-  if(len(s) > 1 && charat(s, 0) == 48) {
+  if(len(s) > 1 && character_code_at(s, 0) == 48) {
     ok = hex_pfx_x(s);
   }
 } return int ok;
@@ -29,7 +29,7 @@ hex_pfx(string s) {
 ("05"):(0)
 
 hex_pfx_x(string s) {
-  int c = charat(s, 1);
+  int c = character_code_at(s, 1);
   int ok = int_either(c, 120, 88);
 } return int ok;
 ("0x"):(1)
