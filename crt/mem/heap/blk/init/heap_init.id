@@ -18,8 +18,8 @@
 //
 // Sizes are always a multiple of 8, so bit 0 is free for the in-use flag.
 // The previous-block link is what makes backward coalescing O(1).
-heap_init(word bytes) {
-  word a = align8(bytes);
+heap_init(word heap_request) {
+  word a = align8(heap_request);
   export word crt_heap = alloc(a + 32);
   heap_init2(a);
 } return void;
