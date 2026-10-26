@@ -15,7 +15,7 @@ spec_su(int[] pos, int[] sp) {
   int ok = 0;
   if(at_text(pos, "struct") || at_text(pos, "union")) {
     int ty = parse_su(pos);
-    lset(sp, 10, ty);
+    integer_list_set(sp, 10, ty);
     ok = 1;
   }
 } return int ok;
@@ -26,7 +26,7 @@ spec_en(int[] pos, int[] sp) {
   int ok = 0;
   if(at_text(pos, "enum")) {
     int ty = parse_enum(pos);
-    lset(sp, 10, ty);
+    integer_list_set(sp, 10, ty);
     ok = 1;
   } else {
     ok = spec_tof(pos, sp);

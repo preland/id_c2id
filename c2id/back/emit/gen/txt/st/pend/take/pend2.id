@@ -3,7 +3,7 @@
 unname_pop(int k) {
   pop((import pend));
   string out = pop((import pendc));
-  lset((import pendn), 0, k);
+  integer_list_set((import pendn), 0, k);
 } return string out;
 given pend_setup given pend_grow_fixture (0):("x")
 given pend_setup given pend_grow_fixture (5):("x")

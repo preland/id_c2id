@@ -3,7 +3,7 @@ rt_give(word rv, word rsup, word rlen, word[] rargs, word[] rst) {
   if(rsup == 0) {
     word rp = rt_arg(rargs, rst);
     rt_store(rp, rv, rlen);
-    wset(rst, 2, rst[2] + 1);
+    word_list_set(rst, 2, rst[2] + 1);
   }
 } return void;
 
@@ -11,7 +11,7 @@ rt_give(word rv, word rsup, word rlen, word[] rargs, word[] rst) {
 rt_arg(word[] rargs, word[] rst) {
   int rk = rst[3];
   word rp = lgetw(rargs, rk);
-  wset(rst, 3, rst[3] + 1);
+  word_list_set(rst, 3, rst[3] + 1);
 } return word rp;
 
 // A value stored at the width of the object the argument points at.

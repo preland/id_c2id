@@ -3,15 +3,15 @@
 
 mem_named(int[] pos, int ty, int[] lay, int inner) {
   int mn_s = pos[0];
-  lset((import inmem), 0, 1);
+  integer_list_set((import inmem), 0, 1);
   int r = parse_declarator(pos, inner);
 } chain (int[] pos, int ty, int[] lay, int inner) {
   string name = (import dname)[0];
-  lset((import inmem), 0, 0);
+  integer_list_set((import inmem), 0, 0);
   mem_mark(mn_s, pos[0]);
 } chain (int[] pos, int ty, int[] lay, int inner) {
   int r2 = mem_place(pos, ty, lay, r, name);
-  lset((import mpk), 0, 0);
+  integer_list_set((import mpk), 0, 0);
 } return int r2;
 given tynode_fix given ty_setup given lexfix stdin "x ;" ([0], 1, [0, 0, 0], 0):(0) then calls place:(1, [32, 4, 4], 0, "x", -1)
 given tynode_fix given ty_setup given lexfix stdin "* x ;" ([0], 1, [0, 0, 0], 0):(6) then calls place:(1, [64, 8, 8], 6, "x", -1)

@@ -1,9 +1,9 @@
 // A function body, read with infn set: a type written with typeof(expr) inside
 // it is resolved when the function's locals are bound, and nowhere else is.
 parse_body(int[] pos) {
-  lset((import infn), 0, 1);
+  integer_list_set((import infn), 0, 1);
   int b = parse_stmt(pos);
-  lset((import infn), 0, 0);
+  integer_list_set((import infn), 0, 0);
 } return int b;
 given boot_a given ty_setup given lexfix stdin "{ }" ([0]):(0) then (import infn)[0]:(0)
 given boot_a given ty_setup given lexfix stdin "{ ; }" ([0]):(1) then (import infn)[0]:(0)
@@ -12,10 +12,10 @@ given boot_a given ty_setup given lexfix stdin "{ ; }" ([0]):(1) then (import in
 // function body, which is where the frame pass can resolve it.
 parse_typename_fn(int[] pos) {
   int tfold = (import tofok)[0];
-  lset((import tofok), 0, (import infn)[0]);
+  integer_list_set((import tofok), 0, (import infn)[0]);
   int ty = parse_typename(pos);
 } chain (int[] pos) {
-  lset((import tofok), 0, tfold);
+  integer_list_set((import tofok), 0, tfold);
 } return int ty;
 given boot_a given ty_setup given lexfix stdin "int )" ([0]):(0) then (import tofok)[0]:(0)
-given boot_a given ty_setup given lexfix given lset((import tofok), 0, 1) stdin "int )" ([0]):(0) then (import tofok)[0]:(1)
+given boot_a given ty_setup given lexfix given integer_list_set((import tofok), 0, 1) stdin "int )" ([0]):(0) then (import tofok)[0]:(1)

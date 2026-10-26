@@ -17,7 +17,7 @@ given cfg_init ():(0)
 given init_cfg2 ():(0)
 
 set_cur(int blk) {
-  lset((import curb), 0, blk);
+  integer_list_set((import curb), 0, blk);
 } return void;
 given cfg_init (5):() then cur_blk:(5)
 given cfg_init (0):() then cur_blk:(0)

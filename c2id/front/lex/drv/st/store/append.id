@@ -14,7 +14,7 @@ add_tok(string kind, string txt) {
 } chain (string kind, string txt) {
   push((import tfile), (import curfile)[0]);
 } return void;
-given init_tokens given init_lines given lset((import curline), 0, 7) given sset((import curfile), 0, "a.c") ("id", "ab"):() then len((import tfile)):(1) then (import tfile)[0]:("a.c")
+given init_tokens given init_lines given integer_list_set((import curline), 0, 7) given string_list_set((import curfile), 0, "a.c") ("id", "ab"):() then len((import tfile)):(1) then (import tfile)[0]:("a.c")
 given init_tokens given init_lines ("id", "ab"):() then last_tok_text:("ab")
 given init_tokens given init_lines ("op", "+"):() then last_tok_text:("+")
 

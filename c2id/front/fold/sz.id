@@ -7,7 +7,7 @@ cw_ev6(int e) {
   if((import nk)[e] == "sizeof" && ((import nb)[e] != 0 || (import na)[e] == 0)) {
     e6_v = sizeof_meas(e, (import nb)[e]);
     seg_fold(e);
-    lset((import cwty), 0, 16);
+    integer_list_set((import cwty), 0, 16);
   } else {
     e6_v = cw_ev7(e);
   }
@@ -23,10 +23,10 @@ cw_ev7(int e) {
   word e7_v = 0;
   if((import nk)[e] == "sizeof" && cv_is_str((import na)[e]) == 1) {
     e7_v = cv_strsz((import na)[e]);
-    lset((import cwty), 0, 16);
+    integer_list_set((import cwty), 0, 16);
   } else {
-    lset((import cunk), 0, 1);
-    lset((import cwty), 0, 9);
+    integer_list_set((import cunk), 0, 1);
+    integer_list_set((import cwty), 0, 9);
   }
 } return word e7_v;
 given boot_a given exprfix stdin "sizeof(\"hello\");" (1):(6) then (import cunk)[0]:(0)

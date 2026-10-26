@@ -13,11 +13,11 @@ rt_text(word rstr, word rn, word rsup, word rnul, word[] rargs, word[] rst) {
   if(rsup == 0) {
     rt_deliver(rstr, rn, rnul, rargs, rst);
   }
-  wset(rst, 0, rst[0] + rn);
+  word_list_set(rst, 0, rst[0] + rn);
 } return void;
 
 rt_deliver(word rstr, word rn, word rnul, word[] rargs, word[] rst) {
   word rp = rt_arg(rargs, rst);
   word rx = rt_copy(rp, rstr + rst[0], rn, rnul);
-  wset(rst, 2, rst[2] + 1);
+  word_list_set(rst, 2, rst[2] + 1);
 } return void;

@@ -4,7 +4,7 @@
 // two operands meet at when either is a long double.
 ldt_make() {
   int t = newleaf("prim", 16, 1, "long double", "");
-  lset((import fltys), 3, t);
+  integer_list_set((import fltys), 3, t);
 } return void;
 given txt_fixture ():() then (import fltys)[3]:(6)
 given txt_fixture ():() then (import ns)[6]:("long double")

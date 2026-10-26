@@ -1,7 +1,7 @@
 suffix_at(string raw, int j) {
   int sc = character_code_at(raw, j);
   string cs = chr(sc);
-  int k = str_find("uUlL", cs);
+  int k = string_find("uUlL", cs);
 } chain (string raw, int j) {
   int ok = k >= 0;
 } return int ok;

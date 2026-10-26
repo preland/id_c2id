@@ -3,7 +3,7 @@
 rt_wlink(word rwf) {
   word rwh = (import rtwf)[0];
   poke64(rwf + 56, rwh);
-  wset((import rtwf), 0, rwf);
+  word_list_set((import rtwf), 0, rwf);
 } return void;
 
 rt_wunlink(word rwf) {

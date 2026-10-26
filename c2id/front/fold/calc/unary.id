@@ -18,7 +18,7 @@ cw_unop(string uo_o, word uo_a, int uo_t) {
     uo_r = 9;
   }
 } chain (string uo_o, word uo_a, int uo_t) {
-  lset((import cwty), 0, uo_r);
+  integer_list_set((import cwty), 0, uo_r);
   uo_v = cw_norm(uo_v, uo_r);
 } return word uo_v;
 given boot_a ("-", 1, 8):(4294967295)

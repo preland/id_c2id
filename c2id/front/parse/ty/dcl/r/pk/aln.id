@@ -17,16 +17,16 @@ rec_lay(int rl_ty, int[] rl_lay, int rl_n, int rl_tk) {
   if((import nt)[rl_ty] == "packed") {
     rec_lay_pk(rl_lay, rl_n, rl_tk);
   } else if(rl_n > rl_lay[2]) {
-    lset(rl_lay, 2, rl_n);
+    integer_list_set(rl_lay, 2, rl_n);
   }
 } return void;
 given tynode_fix (5, [32, 4, 4], 16, 0):(5, [32, 4, 16])
 given tynode_fix (5, [32, 4, 32], 16, 0):(5, [32, 4, 32])
-given tynode_fix given sset((import nt), 5, "packed") (5, [32, 4, 8], 0, 0):(5, [32, 4, 1])
-given tynode_fix given sset((import nt), 5, "packed") (5, [32, 4, 1], 16, 0):(5, [32, 4, 16])
+given tynode_fix given string_list_set((import nt), 5, "packed") (5, [32, 4, 8], 0, 0):(5, [32, 4, 1])
+given tynode_fix given string_list_set((import nt), 5, "packed") (5, [32, 4, 1], 16, 0):(5, [32, 4, 16])
 
 rec_lay_pk(int[] rk_lay, int rk_n, int rk_tk) {
-  lset(rk_lay, 2, fixed_point_maximum(1, rk_n));
+  integer_list_set(rk_lay, 2, fixed_point_maximum(1, rk_n));
   if(rk_n < 0) {
     diag_tok(rk_tk, "attribute 'aligned' on a packed record has an argument that is not one number, which c2id does not evaluate: the layout would be wrong");
   }

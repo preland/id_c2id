@@ -11,10 +11,10 @@ given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) {
 // A fence, or a lock-free test, is its constant.
 atom_const(int id, int k) {
   int v = (import atom_ops)[k];
-  sset((import nk), id, "num");
-  lset((import na), id, v);
+  string_list_set((import nk), id, "num");
+  integer_list_set((import na), id, v);
 } chain (int id, int k) {
-  sset((import ns), id, "" + v);
+  string_list_set((import ns), id, "" + v);
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "int g(void) { __atomic_thread_fence(0); return 0; }" (11, 18):() then (import na)[11]:(0)
 given boot_a given boot_b given lexfix given tu_load stdin "int g(void) { __atomic_thread_fence(0); return 0; }" (11, 20):() then (import na)[11]:(1) then (import ns)[11]:("1")
@@ -25,7 +25,7 @@ given boot_a given boot_b given lexfix given tu_load stdin "int g(void) { __atom
 atom_set(int id, int k, int[] args, int aoty) {
   int[] aolst = atom_list(args, k, aoty);
   int c = (import na)[id];
-  sset((import ns), c, (import atom_fns)[k]);
+  string_list_set((import ns), c, (import atom_fns)[k]);
 } chain (int id, int k, int[] args, int aoty) {
   atom_fill(id, aolst);
   atom_wrap(id, k, aoty);

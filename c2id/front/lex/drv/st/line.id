@@ -3,7 +3,7 @@
 // exported scalar (NOTES.md section 6).
 
 bump_line() {
-  lset((import curline), 0, (import curline)[0] + 1);
+  integer_list_set((import curline), 0, (import curline)[0] + 1);
 } return void;
 given init_lines ():() then (import curline)[0]:(2)
 given lex_tok_fixture ():() then (import curline)[0]:(2)
@@ -17,7 +17,7 @@ set_line(word base, int a, int b) {
   if(b > a) {
     string s = slice(base, a, b);
     int n = to_int(s);
-    lset((import curline), 0, n);
+    integer_list_set((import curline), 0, n);
   } else {
     bump_line();
   }
@@ -30,7 +30,7 @@ given init_lines given lex_src_fixture ((import gb), 4, 4):() then (import curli
 set_file(word base, int a, int b) {
   if(peek8(base + a) == (import ch_dq)) {
     string s = slice(base, a + 1, b - 1);
-    sset((import curfile), 0, s);
+    string_list_set((import curfile), 0, s);
   }
 } return void;
 given init_lines given lex_src_fixture ((import gb), 26, 31):() then (import curfile)[0]:("f.c")

@@ -12,7 +12,7 @@ bin_ty(int id) {
 } return int ty;
 given txt_fixture (0):(0) then calls bin_ty2:(0)
 given txt_fixture (5):(0) then calls bin_ty2:(5)
-given txt_fixture given sset((import ns), 0, "&&") (0):(0) then calls bin_ty2:[0]
+given txt_fixture given string_list_set((import ns), 0, "&&") (0):(0) then calls bin_ty2:[0]
 
 // A shift's right operand says how far, not what type: `1L << c` is a long
 // however narrow `c` is, and `u << 1` wraps at 32 bits however wide the

@@ -5,10 +5,10 @@
 used_scan(int[] pos, int ast) {
   int us_hit = attr_find(ast, pos[0], (import used_attr));
   if(us_hit >= 0) {
-    lset((import usedk), 0, 1);
-    lset((import statk), 0, 0);
+    integer_list_set((import usedk), 0, 1);
+    integer_list_set((import statk), 0, 0);
   }
 } return void;
 given boot_a given boot_b given lexfix stdin "__attribute__ ( ( used ) )" ([6], 0):() then (import usedk):([1])
 given boot_a given boot_b given lexfix stdin "__attribute__ ( ( unused ) )" ([6], 0):() then (import usedk):([0])
-given boot_a given boot_b given lexfix given lset((import statk), 0, 1) stdin "__attribute__ ( ( used ) )" ([6], 0):() then (import statk):([0])
+given boot_a given boot_b given lexfix given integer_list_set((import statk), 0, 1) stdin "__attribute__ ( ( used ) )" ([6], 0):() then (import statk):([0])

@@ -19,7 +19,7 @@ pick_one(int[] sp, int[] xs, int i) {
 
 int_type() {
   int[] sp = spec_init();
-  lset(sp, 3, 1);
+  integer_list_set(sp, 3, 1);
   int ty = mk_prim(sp);
 } return int ty;
 given boot_a ():(0) then calls mk_prim:([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, -1])

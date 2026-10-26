@@ -22,7 +22,7 @@ given low_fix given exprfix stdin "a + b;" ((import extop)):((import extop)) the
 
 lower_kid1(int e) {
   int a = lower_val((import na)[e]);
-  lset((import na), e, a);
+  integer_list_set((import na), e, a);
 } return int e;
 given low_fix (13):(13) then (import na)[13]:(6) then len((import bkind)):(1)
 given low_fix given exprfix stdin "-(a && b);" ((import extop)):((import extop)) then (import na)[22]:(23) then len((import bkind)):(4)

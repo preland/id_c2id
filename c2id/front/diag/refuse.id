@@ -4,7 +4,7 @@
 // the token the construct began at.
 refuse_node(string why, int tk) {
   int id = newleaf("refuse", 0, 0, why, "");
-  lset((import ntok), id, tk);
+  integer_list_set((import ntok), id, tk);
 } return int id;
 given boot_a given lexfix stdin "x y" ("no", 1):(0) then (import ntok)[0]:(1)
 given boot_a given lexfix stdin "x y" ("because", 0):(0) then (import ns)[0]:("because")

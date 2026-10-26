@@ -13,7 +13,7 @@ tof_decay(int rty) {
   }
 } return int r;
 given tynode_fix (3):(6)
-given tynode_fix given sset((import nk), 5, "arr") (5):(6) then (import na)[6]:(99)
+given tynode_fix given string_list_set((import nk), 5, "arr") (5):(6) then (import na)[6]:(99)
 given tynode_fix (0):(0)
 
 tof_init(int id, int ibound) {

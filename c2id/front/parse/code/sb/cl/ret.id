@@ -18,9 +18,9 @@ cl_retval(int cv_id, int cv_e) {
 } chain (int cv_id, int cv_e) {
   int cv_r = newleaf("return", cv_v, 0, "", "");
   int cv_c = cl_callstmt();
-  sset((import nk), cv_id, "block");
+  string_list_set((import nk), cv_id, "block");
 } chain (int cv_id, int cv_e) {
-  lset2((import nl), cv_id, [cv_d, cv_c, cv_r]);
+  integer_list_list_set((import nl), cv_id, [cv_d, cv_c, cv_r]);
 } return void;
 given cl_fix (2, 0):() then (import nk)[2]:("block") then (import ns)[16]:("__cl_r0")
 given cl_fix (2, 0):() then (import nl)[2]:([15, 21, 17]) then (import nk)[17]:("return") then (import na)[17]:(16) then (import ns)[16]:("__cl_r0") then (import na)[14]:(0)

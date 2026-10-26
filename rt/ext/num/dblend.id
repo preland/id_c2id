@@ -5,8 +5,8 @@ rt_dsame(word rs, word[] rdsc, string rpat, int rdi) {
 } return word rok;
 
 rt_dgo(word[] rdsc, int rdl) {
-  wset(rdsc, 1, rdsc[1] + rdl);
-  wset(rdsc, 2, 1);
+  word_list_set(rdsc, 1, rdsc[1] + rdl);
+  word_list_set(rdsc, 2, 1);
 } return void;
 
 rt_dend(word rs, word rend, word[] rdsc) {

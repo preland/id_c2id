@@ -9,8 +9,8 @@ mem_align(int ma_ty, int ma_r) {
   }
 } return int ma_al;
 given tynode_fix (5, 0):(4)
-given tynode_fix given sset((import nt), 5, "packed") (5, 0):(1)
-given tynode_fix given lset((import mpk), 0, 1) (5, 0):(1)
+given tynode_fix given string_list_set((import nt), 5, "packed") (5, 0):(1)
+given tynode_fix given integer_list_set((import mpk), 0, 1) (5, 0):(1)
 
 bf_packed(int bk_ty, int[] bk_lay, int bk_bp) {
   int bk_at = bk_bp;
@@ -19,7 +19,7 @@ bf_packed(int bk_ty, int[] bk_lay, int bk_bp) {
   }
 } return int bk_at;
 given tynode_fix (5, [10, 0, 0], 32):(32)
-given tynode_fix given sset((import nt), 5, "packed") (5, [10, 0, 0], 32):(10)
+given tynode_fix given string_list_set((import nt), 5, "packed") (5, [10, 0, 0], 32):(10)
 
 pack_zero(int[] pz_pos, int pz_ty, int pz_w) {
   if(pz_w == 0 && (import nt)[pz_ty] == "packed") {
@@ -27,5 +27,5 @@ pack_zero(int[] pz_pos, int pz_ty, int pz_w) {
   }
 } return void;
 given tynode_fix given ty_setup given lexfix stdin "# 4 \"s.c\"\nint : 0 ;" ([3], 5, 0):() then len((import dgmsg)):(0)
-given tynode_fix given ty_setup given lexfix given sset((import nt), 5, "packed") stdin "# 4 \"s.c\"\nint : 0 ;" ([3], 5, 0):() then (import dgmsg):(["s.c:4: error: a zero-width bit-field in a packed record: where gcc puts the next member is not modelled"])
+given tynode_fix given ty_setup given lexfix given string_list_set((import nt), 5, "packed") stdin "# 4 \"s.c\"\nint : 0 ;" ([3], 5, 0):() then (import dgmsg):(["s.c:4: error: a zero-width bit-field in a packed record: where gcc puts the next member is not modelled"])
 

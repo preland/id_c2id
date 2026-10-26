@@ -5,7 +5,7 @@ is_cmp(int id) {
   string op = (import ns)[id];
   int ok = list_string_index((import cmp_ops), op) >= 0;
 } return int ok;
-given txt_fixture given sset((import ns), 0, "<=") (0):(1)
-given txt_fixture given sset((import ns), 0, "!=") (0):(1)
+given txt_fixture given string_list_set((import ns), 0, "<=") (0):(1)
+given txt_fixture given string_list_set((import ns), 0, "!=") (0):(1)
 given txt_fixture (0):(0)
 given txt_fixture (5):(0)

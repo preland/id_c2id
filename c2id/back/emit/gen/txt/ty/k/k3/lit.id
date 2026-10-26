@@ -12,8 +12,8 @@ num_ity(int id) {
     ty = num_uty(id);
   }
 } return int ty;
-given txt_fixture given sset((import ns), 0, "5u") (0):(1)
-given txt_fixture given sset((import ns), 0, "5ul") (0):(3)
+given txt_fixture given string_list_set((import ns), 0, "5u") (0):(1)
+given txt_fixture given string_list_set((import ns), 0, "5ul") (0):(3)
 given txt_fixture (0):(0)
 given txt_fixture (1):(1)
 
@@ -26,7 +26,7 @@ num_uty(int id) {
   }
 } return int ty;
 given txt_fixture (0):(1)
-given txt_fixture given sset((import ns), 0, "5ul") (0):(3)
+given txt_fixture given string_list_set((import ns), 0, "5ul") (0):(3)
 given txt_fixture (3):(3)
 
 // no u/U: int, or long if it says so or does not fit in one
@@ -37,7 +37,7 @@ num_sty(int id) {
     ty = ty_std((import std_long));
   }
 } return int ty;
-given txt_fixture given sset((import ns), 0, "5l") (0):(2)
-given txt_fixture given sset((import ns), 0, "5L") (0):(2)
+given txt_fixture given string_list_set((import ns), 0, "5l") (0):(2)
+given txt_fixture given string_list_set((import ns), 0, "5L") (0):(2)
 given txt_fixture (0):(0)
 given txt_fixture (2):(2)

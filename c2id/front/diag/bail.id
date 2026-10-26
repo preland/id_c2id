@@ -3,7 +3,7 @@
 // keeps a recovery that makes no progress from running forever.
 diag_bail(int[] pos) {
   pos[0] = len((import ttext));
-  lset((import curtk), 0, pos[0]);
+  integer_list_set((import curtk), 0, pos[0]);
 } return void;
 given boot_a given boot_b given lexfix stdin "int x;" ([0]):([4])
 given boot_a given boot_b given lexfix stdin "x;" ([0]):([3])

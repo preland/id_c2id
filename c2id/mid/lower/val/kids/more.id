@@ -8,7 +8,7 @@ lower_v7(int e) {
     r = lower_asg_val(e);
   }
 } return int r;
-given low_fix given list_string_insert((import dnames), 0, "f") given list_insert((import dtys), 0, 6) given sset((import nk), 6, "ptr") (17):(27) then calls lower_call_val:(17)
+given low_fix given list_string_insert((import dnames), 0, "f") given list_insert((import dtys), 0, 6) given string_list_set((import nk), 6, "ptr") (17):(27) then calls lower_call_val:(17)
 given low_fix (14):(6) then calls lower_asg_val:(14)
 
 // `a, b`: a is evaluated for its effect and thrown away, then the value is b.
@@ -18,4 +18,4 @@ lower_comma(int e) {
   int r = lower_val((import nb)[e]);
 } return int r;
 given low_fix (15):(7) then (import bstmt)[0]:([19])
-given low_fix given lset((import na), 15, 9) (15):(7) then len((import bkind)):(4) then cur_blk:(3)
+given low_fix given integer_list_set((import na), 15, 9) (15):(7) then len((import bkind)):(4) then cur_blk:(3)

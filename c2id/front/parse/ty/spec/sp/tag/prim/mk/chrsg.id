@@ -4,7 +4,7 @@
 char_env() {
   string ce_v = environment_text("C2ID_UNSIGNED_CHAR");
   if(ce_v == "1") {
-    lset((import chrsg), 0, 0);
+    integer_list_set((import chrsg), 0, 0);
   }
 } return void;
 given boot_a given environment_put("C2ID_UNSIGNED_CHAR", "1") ():() then (import chrsg):([0])
@@ -18,4 +18,4 @@ prim_sign(int pg_i) {
 } return int pg_s;
 given boot_a (7):(1)
 given boot_a (2):(1)
-given boot_a given lset((import chrsg), 0, 0) (2):(0)
+given boot_a given integer_list_set((import chrsg), 0, 0) (2):(0)

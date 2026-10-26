@@ -11,7 +11,7 @@ fl_fix(string flbody) {
   if(character_code_at(flbody, 0) == 46) {
     out = "0" + flbody;
   }
-  int fldot = str_find(out, ".");
+  int fldot = string_find(out, ".");
 } chain (string flbody) {
   if(fldot >= 0 && fl_digit_at(out, fldot + 1) == 0) {
     out = fl_ins0(out, fldot);

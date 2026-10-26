@@ -1,6 +1,6 @@
 // The head of a function: sets the parameter list its continuations restate.
 emit_head(string params, string line) {
-  sset((import chp), 0, params);
+  string_list_set((import chp), 0, params);
   emit_cut(line);
   emit_tag();
 } return void;
@@ -16,9 +16,9 @@ given init_gfn ("word a0", "c_f(word a0) {"):() then (import chp)[0]:("word a0")
 emit_tag() {
   int t = (import tagn)[0];
   print("  word k" + t + " = " + t + ";");
-  lset((import tagn), 0, t + 1);
+  integer_list_set((import tagn), 0, t + 1);
 } chain () {
-  lset((import obn), 0, 1);
+  integer_list_set((import obn), 0, 1);
 } return void;
 given init_gfn ():() then prints:("  word k0 = 0;\n")
 given init_gfn ():() then (import tagn)[0]:(1)

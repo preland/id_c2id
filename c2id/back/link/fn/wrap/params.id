@@ -4,7 +4,7 @@
 // reads it back, the machine being little-endian.
 bind_params(int ft) {
   int[] tys = (import nl)[ft];
-  string[] names = str_split((import ns)[ft], ",");
+  string[] names = string_split((import ns)[ft], ",");
   int i = 0;
 } chain (int ft) {
   while(i < len(tys)) {

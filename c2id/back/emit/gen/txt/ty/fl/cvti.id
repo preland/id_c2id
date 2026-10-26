@@ -15,7 +15,7 @@ fl_to_i(int to, string s) {
     flv = fl_to_i2(to, s);
   }
 } return string flv;
-given txt_fixture given pend_setup given sset((import ns), 1, "_Bool") (1, "t5"):("t0") then (import pend)[0]:("word t0 = cfl_ne(t5, 0);")
+given txt_fixture given pend_setup given string_list_set((import ns), 1, "_Bool") (1, "t5"):("t0") then (import pend)[0]:("word t0 = cfl_ne(t5, 0);")
 given txt_fixture given pend_setup given fl_types (2, "t5"):("t0") then (import pend)[0]:("word t0 = cfl_to_int(t5);")
 
 fl_to_i2(int to, string s) {

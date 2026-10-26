@@ -3,10 +3,10 @@
 enum_prim(int ep_w, int ep_lo) {
   int[] ep_sp = spec_init();
   int ep_k = enum_idx(ep_w);
-  lset(ep_sp, ep_k, 1);
+  integer_list_set(ep_sp, ep_k, 1);
 } chain (int ep_w, int ep_lo) {
   if(ep_lo >= 0) {
-    lset(ep_sp, 8, 1);
+    integer_list_set(ep_sp, 8, 1);
   }
   int ep_ty = mk_prim(ep_sp);
 } return int ep_ty;

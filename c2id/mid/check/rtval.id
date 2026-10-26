@@ -33,4 +33,4 @@ chk_rtval(string name, int id) {
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("malloc", 0):() then len((import dgmsg)):(1)
 given boot_a given boot_b given lexfix given tu_load stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("g", 0):() then len((import dgmsg)):(0)
-given boot_a given boot_b given lexfix given tu_load given lset((import chk_cal), 0, 0) stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("malloc", 0):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given integer_list_set((import chk_cal), 0, 0) stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("malloc", 0):() then len((import dgmsg)):(0)

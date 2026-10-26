@@ -1,6 +1,6 @@
 star_width(word[] args, word[] st, word[] fs) {
   word sn = star_arg(args, st);
-  wset(st, 0, st[0] + 1);
+  word_list_set(st, 0, st[0] + 1);
   set_width(sn, fs);
 } return void;
 given crt_fmt_fixture ([6], [0, 0], [0, 0, 0, 0, 0]):([6], [1, 1], [0, 0, 0, 6, 0])
@@ -19,10 +19,10 @@ given crt_fmt_fixture given crt_fmt_modes ((import starbuf), [9], [0, 0], [0, 0,
 
 star_prec(word[] args, word[] st, word[] fs) {
   word sn = star_arg(args, st);
-  wset(st, 0, st[0] + 1);
+  word_list_set(st, 0, st[0] + 1);
   if(sn >= 0) {
-    wset(fs, 8, 1);
-    wset(fs, 9, sn);
+    word_list_set(fs, 8, 1);
+    word_list_set(fs, 9, sn);
   }
 } return void;
 ([4], [0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):([4], [1, 1], [0, 0, 0, 0, 0, 0, 0, 0, 1, 4])

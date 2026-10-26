@@ -14,7 +14,7 @@ next_arg(word[] args, word[] st) {
     int k = st[1];
     v = lgetw(args, k);
   }
-  wset(st, 1, st[1] + 1);
+  word_list_set(st, 1, st[1] + 1);
 } return word v;
 ([42], [0, 0]):(42)
 ([], [0, 0]):(0)

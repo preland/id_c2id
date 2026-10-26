@@ -7,11 +7,11 @@ enum_pack(int[] pos, int ep_hs) {
   if(at_text(pos, "{")) {
     ep_on = enum_hit(ep_hs, pos[0]);
   }
-  lset((import enpk), 0, ep_on);
+  integer_list_set((import enpk), 0, ep_on);
 } return void;
 given boot_a given ty_setup given lexfix stdin "enum { x } __attribute__ ( ( packed ) ) ;" ([1], 1):() then (import enpk):([1])
-given boot_a given ty_setup given lexfix given lset((import enpk), 0, 1) stdin "enum { x } ;" ([1], 1):() then (import enpk):([0])
-given boot_a given ty_setup given lexfix given lset((import enpk), 0, 1) stdin "enum x ;" ([1], 1):() then (import enpk):([0])
+given boot_a given ty_setup given lexfix given integer_list_set((import enpk), 0, 1) stdin "enum { x } ;" ([1], 1):() then (import enpk):([0])
+given boot_a given ty_setup given lexfix given integer_list_set((import enpk), 0, 1) stdin "enum x ;" ([1], 1):() then (import enpk):([0])
 
 enum_hit(int eh_hs, int eh_open) {
   int eh_b = brace_close(eh_open) + 1;

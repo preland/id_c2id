@@ -11,7 +11,7 @@ cw_cond(int e) {
 } chain (int e) {
   int cq_t = cw_common(cq_at, cq_bt);
   word cq_v = cw_arm(cq_c, cq_a, cq_b, cq_t);
-  lset((import cwty), 0, cq_t);
+  integer_list_set((import cwty), 0, cq_t);
 } return word cq_v;
 given boot_a given exprfix stdin "1 ? 2 : 3;" ((import extop)):(2)
 given boot_a given exprfix stdin "0 ? 2 : 3;" ((import extop)):(3)

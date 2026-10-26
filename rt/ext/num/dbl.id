@@ -23,8 +23,8 @@ rt_dscan(word rs) {
 rt_dlead(word rs, word[] rdsc) {
   word rch = peek8(rs + rdsc[1]);
   while(c_isspace(rch) == 1) {
-    wset(rdsc, 1, rdsc[1] + 1);
+    word_list_set(rdsc, 1, rdsc[1] + 1);
     rch = peek8(rs + rdsc[1]);
   }
-  wset(rdsc, 0, rdsc[1]);
+  word_list_set(rdsc, 0, rdsc[1]);
 } return void;

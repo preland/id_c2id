@@ -14,10 +14,10 @@ given txt_fixture given fl_types ():() then len((import nk)):(8)
 fl_make() {
   int d = newleaf("prim", 8, 1, "double", "");
   int f = newleaf("prim", 4, 1, "float", "");
-  lset((import fltys), 1, d);
+  integer_list_set((import fltys), 1, d);
 } chain () {
-  lset((import fltys), 2, f);
-  lset((import fltys), 0, 1);
+  integer_list_set((import fltys), 2, f);
+  integer_list_set((import fltys), 0, 1);
 } return void;
 given txt_fixture ():() then (import fltys):([1, 6, 7, 0, 0, 0])
 given txt_fixture ():() then (import ns)[7]:("float")

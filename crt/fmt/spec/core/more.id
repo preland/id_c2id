@@ -3,7 +3,7 @@
 // would read past the end of the string.
 conv_step(word c, word[] st) {
   if(c != 0) {
-    wset(st, 0, st[0] + 1);
+    word_list_set(st, 0, st[0] + 1);
   }
 } return void;
 (100, [3]):(100, [4])

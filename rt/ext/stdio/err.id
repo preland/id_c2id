@@ -3,7 +3,7 @@
 rt_err(string rtxt) {
   int rln = len(rtxt);
   word rm = kmalloc(rln + 8);
-  str_blit(rtxt, 0, rln, rm);
+  string_copy_to_memory(rtxt, 0, rln, rm);
 } chain (string rtxt) {
   int rwr = stdio_write_mem(2, rm, rln);
   kfree(rm);

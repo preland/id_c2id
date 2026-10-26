@@ -16,7 +16,7 @@ emit_tail(int fn, int n, int np, string name) {
   emit_wrap(fn, name, np, sz);
 } return void;
 given boot_a given boot_b given init_gfn given init_frame given init_frame2 given cfg_body_fixture (0, 2, 0, "f"):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nrun0(word fp) {\n  word pc = 0;\n  while(pc >= 0) { pc = blk0_0(fp); }\n  word r = peek64(fp);\n} return word r;\nc_f() {\n  word k0 = 0;\n  word fp = rt_enter(8);\n  word r = run0(fp);\n} chain () {\n  word k1 = 1;\n  rt_leave(8);\n} return word r;\n")
-given boot_a given boot_b given init_gfn given init_frame given init_frame2 given lset((import frsz), 0, 20) given cond_body_fixture given noret_add("g") (0, 4, 1, "g"):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nrun0(word fp) {\n  word pc = 3;\n  while(pc >= 0 && peek64((import rtxc)) == 0) { pc = blk0_3(fp); }\n  word r = peek64(fp);\n} return word r;\nc_g(word a0) {\n  word k0 = 0;\n  word fp = rt_enter(24);\n  poke64(fp + 8, a0);\n} chain (word a0) {\n  word k1 = 1;\n  word r = run0(fp);\n  rt_leave(24);\n} return word r;\n")
+given boot_a given boot_b given init_gfn given init_frame given init_frame2 given integer_list_set((import frsz), 0, 20) given cond_body_fixture given noret_add("g") (0, 4, 1, "g"):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nrun0(word fp) {\n  word pc = 3;\n  while(pc >= 0 && peek64((import rtxc)) == 0) { pc = blk0_3(fp); }\n  word r = peek64(fp);\n} return word r;\nc_g(word a0) {\n  word k0 = 0;\n  word fp = rt_enter(24);\n  poke64(fp + 8, a0);\n} chain (word a0) {\n  word k1 = 1;\n  word r = run0(fp);\n  rt_leave(24);\n} return word r;\n")
 
 // The blocks that were printed: the dead and the empty ones were not.
 live_list(int n) {

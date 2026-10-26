@@ -17,9 +17,9 @@ retval_txt(int e) {
 } chain (int e) {
   string out = ret_conv(rt, txt);
 } return string out;
-given txt_fixture given pend_setup given fl_fixture given lset((import retty), 0, 6) (8):("t0")
-given txt_fixture given pend_setup given fl_fixture given lset((import retty), 0, 0) (8):("t0")
-given txt_fixture given pend_setup given fl_fixture given lset((import retty), 0, 5) (8):("5")
+given txt_fixture given pend_setup given fl_fixture given integer_list_set((import retty), 0, 6) (8):("t0")
+given txt_fixture given pend_setup given fl_fixture given integer_list_set((import retty), 0, 0) (8):("t0")
+given txt_fixture given pend_setup given fl_fixture given integer_list_set((import retty), 0, 5) (8):("5")
 
 // The text of the condition of a branch: a floating-point one is compared with
 // zero first, since its bits are not a truth value (-0.0 is false, and every

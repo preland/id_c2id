@@ -12,7 +12,7 @@ fn_node(int r, string pnames, int[] ps) {
 } return int a;
 given tynode_fix (0, "a,", [0]):(6) then (import ns)[6]:("a,") then (import nl)[6]:([0])
 given tynode_fix (5, "a,", [0]):(7) then (import ns)[7]:("__ret,a,") then (import nl)[7]:([6, 0])
-given tynode_fix given sset((import ns), 0, "long double") (0, "a,", [0]):(7) then (import ns)[7]:("__ret,a,")
+given tynode_fix given string_list_set((import ns), 0, "long double") (0, "a,", [0]):(7) then (import ns)[7]:("__ret,a,")
 
 sret_names(int r, string pnames) {
   string out = pnames;
@@ -22,7 +22,7 @@ sret_names(int r, string pnames) {
 } return string out;
 given tynode_fix (0, "x,"):("x,")
 given tynode_fix (5, "x,"):("__ret,x,")
-given tynode_fix given sset((import ns), 0, "long double") (0, "x,"):("__ret,x,")
+given tynode_fix given string_list_set((import ns), 0, "long double") (0, "x,"):("__ret,x,")
 
 sret_params(int r, int[] ps) {
   if(ty_agg(r) == 1) {
@@ -32,4 +32,4 @@ sret_params(int r, int[] ps) {
 } return int[] ps;
 given tynode_fix (5, [0]):([6, 0])
 given tynode_fix (0, [0]):([0])
-given tynode_fix given sset((import ns), 0, "long double") (0, [0]):([6, 0])
+given tynode_fix given string_list_set((import ns), 0, "long double") (0, [0]):([6, 0])

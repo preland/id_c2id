@@ -7,10 +7,10 @@
 //   11 for (;;) break;       12 `goto in;`
 cl_fix() {
   boot_a();
-  lset((import clmode), 0, 1);
-  sset((import clcur), 0, "p");
+  integer_list_set((import clmode), 0, 1);
+  string_list_set((import clcur), 0, "p");
 } chain () {
-  sset((import clcur), 1, "f");
+  string_list_set((import clcur), 1, "f");
   push((import cllab), "in");
   int[] cx_e = [];
 } chain () {

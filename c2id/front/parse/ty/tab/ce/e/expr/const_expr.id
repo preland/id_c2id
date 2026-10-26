@@ -9,7 +9,7 @@
 // unparenthesised array bound does not happen in practice.
 
 ce_expr(int[] pos) {
-  lset((import cunk), 0, 0);
+  integer_list_set((import cunk), 0, 0);
   int e = parse_cond(pos);
   int r = const_eval(e);
 } chain (int[] pos) {

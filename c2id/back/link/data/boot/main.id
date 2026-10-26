@@ -27,7 +27,7 @@ main_args(int np) {
     out = "argc";
   }
   if(np > 1) {
-    out = "argc, rv" + str_repeat(", 0", np - 2);
+    out = "argc, rv" + string_repeat(", 0", np - 2);
   }
 } return string out;
 (0):("")

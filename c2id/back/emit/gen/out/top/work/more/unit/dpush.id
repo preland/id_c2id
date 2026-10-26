@@ -10,13 +10,13 @@ tu_dpush(string name, int r, int a) {
   push((import gst), (import statk)[0]);
 } return void;
 given init_tu given tynode_fix ("x", 0, -1):() then len((import gst)):(1)
-given init_tu given tynode_fix given lset((import statk), 0, 1) ("x", 0, -1):() then (import gst):([1])
+given init_tu given tynode_fix given integer_list_set((import statk), 0, 1) ("x", 0, -1):() then (import gst):([1])
 given init_tu given tynode_fix ("x", 0, -1):() then len((import dnames)):(1)
 given init_tu given tynode_fix ("y", 0, 3):() then (import dinit)[0]:(3)
 
 tu_drealloc(int k, int r) {
   int off = gl_alloc(r);
-  lset((import goff), k, off);
+  integer_list_set((import goff), k, off);
 } return void;
 given init_tu given tynode_fix given tu_dadd("x", 0, -1) (0, 3):() then (import goff)[0]:(4)
 given init_tu given tynode_fix given tu_dadd("x", 2, -1) (0, 0):() then (import goff)[0]:(8)

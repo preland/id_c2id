@@ -14,7 +14,7 @@ lit_esc(string raw, string[] acc, int i) {
 
 lit_code(string[] acc, int v) {
   string piece = acc[0] + chr(34) + " + chr(" + v + ") + " + chr(34);
-  sset(acc, 0, piece);
+  string_list_set(acc, 0, piece);
 } return void;
 (["\"a"], 10):(["\"a\" + chr(10) + \""], 10)
 (["\""], 0):(["\"\" + chr(0) + \""], 0)

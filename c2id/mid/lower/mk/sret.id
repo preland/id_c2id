@@ -7,7 +7,7 @@ sret_arg(int e, int rt) {
   int a = newleaf("un", t, 0, "&", "");
   list_insert((import nl)[e], 0, a);
 } chain (int e, int rt) {
-  lset((import nb), e, 1);
+  integer_list_set((import nb), e, 1);
 } return void;
 given low_fix (17, 6):() then (import nb)[17]:(1)
 given low_fix (17, 6):() then (import nl)[17]:([20, 9])

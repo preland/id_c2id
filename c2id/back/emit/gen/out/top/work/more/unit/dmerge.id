@@ -11,15 +11,15 @@ tu_dmerge(int k, int r, int a) {
     tu_dstat(k);
   }
 } return int dup;
-given init_tu given tynode_fix given tu_dadd("x", 0, -1) given lset((import statk), 0, 1) (0, 0, 5):(1) then (import gst):([1])
+given init_tu given tynode_fix given tu_dadd("x", 0, -1) given integer_list_set((import statk), 0, 1) (0, 0, 5):(1) then (import gst):([1])
 given init_tu given tynode_fix (-1, 0, -1):(0)
 given init_tu given tynode_fix given tu_dadd("x", 0, -1) (0, 0, 5):(1) then (import dinit)[0]:(5)
 
 tu_dwin(int k, int r, int a) {
   int win = tu_dwins(k, r, a);
   if(win == 1) {
-    lset((import dtys), k, r);
-    lset((import dinit), k, a);
+    integer_list_set((import dtys), k, r);
+    integer_list_set((import dinit), k, a);
     tu_drealloc(k, r);
   }
 } return void;

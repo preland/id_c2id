@@ -10,7 +10,7 @@
 dg_acc(word[] dgs, word[] dgo, word[] dgc, int dgi, word dgm) {
   word dgv = dgs[dgi] * dgm + dgc[0];
   push(dgo, dgv % 10);
-  wset(dgc, 0, dgv / 10);
+  word_list_set(dgc, 0, dgv / 10);
 } return void;
 ([5], [], [0], 0, 3):([5], [5], [1])
 ([9], [], [4], 0, 2):([9], [2], [2])
@@ -19,7 +19,7 @@ dg_acc(word[] dgs, word[] dgo, word[] dgc, int dgi, word dgm) {
 dg_tail(word[] dgo, word[] dgc) {
   while(dgc[0] > 0) {
     push(dgo, dgc[0] % 10);
-    wset(dgc, 0, dgc[0] / 10);
+    word_list_set(dgc, 0, dgc[0] / 10);
   }
 } return void;
 ([5], [12]):([5, 2, 1], [0])

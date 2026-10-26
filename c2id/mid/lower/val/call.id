@@ -10,7 +10,7 @@ lower_call_val(int e) {
     r = hoist_call(e);
   }
 } return int r;
-given low_fix given list_string_insert((import dnames), 0, "f") given list_insert((import dtys), 0, 6) given sset((import nk), 6, "ptr") (17):(27)
+given low_fix given list_string_insert((import dnames), 0, "f") given list_insert((import dtys), 0, 6) given string_list_set((import nk), 6, "ptr") (17):(27)
 given low_fix (17):(17) then len((import bkind)):(4)
 given low_fix (17):(17)
 
@@ -35,4 +35,4 @@ hoist_store(int e, int et) {
   }
 } return int r;
 given low_fix (17, 6):(19) then (import bstmt)[0]:([21])
-given low_fix given sset((import nk), 11, "prim") given sset((import ns), 11, "void") (17, 11):(20) then (import bstmt)[0]:([19])
+given low_fix given string_list_set((import nk), 11, "prim") given string_list_set((import ns), 11, "void") (17, 11):(20) then (import bstmt)[0]:([19])

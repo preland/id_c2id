@@ -21,7 +21,7 @@ lit_next(string raw, string[] acc, int i, int c) {
 lit_put(string[] acc, int c) {
   string piece = acc[0] + chr(c);
   if(c != 34) {
-    sset(acc, 0, piece);
+    string_list_set(acc, 0, piece);
   }
 } return void;
 (["\""], 97):(["\"a"], 97)

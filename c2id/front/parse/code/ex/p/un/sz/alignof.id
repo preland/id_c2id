@@ -15,7 +15,7 @@ given boot_a given lexfix stdin "x;" ([0]):(0) then calls parse_postfix:[1]
 parse_alignof(int[] pos) {
   advance(pos);
   int node = sizeof_arg(pos);
-  sset((import ns), node, "align");
+  string_list_set((import ns), node, "align");
 } return int node;
 given boot_a given ty_setup given lexfix stdin "_Alignof(int);" ([0]):(1) then (import ns)[1]:("align")
 given boot_a given lexfix stdin "__alignof__ x;" ([0]):(1) then (import ns)[1]:("align")

@@ -1,6 +1,6 @@
 take_digit(word c, word[] st, word[] fs, int slot) {
-  wset(fs, slot, fs[slot] * 10 + c - 48);
-  wset(st, 0, st[0] + 1);
+  word_list_set(fs, slot, fs[slot] * 10 + c - 48);
+  word_list_set(st, 0, st[0] + 1);
 } return void;
 (53, [0], [0, 0, 0, 0, 0], 3):(53, [1], [0, 0, 0, 5, 0], 3)
 (54, [2], [0, 0, 0, 5, 0], 3):(54, [3], [0, 0, 0, 56, 0], 3)

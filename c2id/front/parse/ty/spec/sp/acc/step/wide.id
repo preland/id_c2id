@@ -4,7 +4,7 @@
 spec_add(int[] pos, int[] sp, int sw_i) {
   string sw_t = cur_text(pos);
   int sw_n = wide_inc(sw_t);
-  lset(sp, sw_i, sp[sw_i] + sw_n);
+  integer_list_set(sp, sw_i, sp[sw_i] + sw_n);
 } chain (int[] pos, int[] sp, int sw_i) {
   wide_sign(sw_t, sp);
 } return void;
@@ -23,7 +23,7 @@ wide_inc(string wi_t) {
 
 wide_sign(string wg_t, int[] wg_sp) {
   if(wg_t == "__uint128_t") {
-    lset(wg_sp, 8, 1);
+    integer_list_set(wg_sp, 8, 1);
   }
 } return void;
 ("__uint128_t", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):("__uint128_t", [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, -1])

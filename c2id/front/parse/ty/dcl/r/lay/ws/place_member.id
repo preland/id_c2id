@@ -16,7 +16,7 @@ given tynode_fix (0, [3, 0, 0], 2):(0)
 // fits, which is exactly what makes it force alignment.
 place_bf(int ty, int[] lay, int r, int w) {
   int n = place_bf_off(ty, lay, r, w);
-  lset(lay, 0, n + w);
+  integer_list_set(lay, 0, n + w);
   place_max(lay, r);
 } return int n;
 given tynode_fix (1, [10, 0, 0], 0, 0):(32)

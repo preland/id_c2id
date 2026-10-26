@@ -3,7 +3,7 @@
 ovf_set(int id, int k, int[] args, int ai, int bi, int ri) {
   int[] lst = ovf_list(args, k, ai, bi, ri);
   int c = (import na)[id];
-  sset((import ns), c, "__c2id_ovf");
+  string_list_set((import ns), c, "__c2id_ovf");
 } chain (int id, int k, int[] args, int ai, int bi, int ri) {
   atom_fill(id, lst);
 } return void;

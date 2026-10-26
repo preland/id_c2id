@@ -84,8 +84,8 @@ error whose message points at an unrelated file four directories away.
 | `blk`, `nxt` | `int` | basic-block numbers |
 | `ind` | `string` | indentation prefix |
 | `ok`, `found`, `depth` | `int` | flags and counters |
-| `xs` | `int[]` | an int list being stored into (`lset`) |
-| `ss` | `string[]` | a string list being stored into (`sset`) |
+| `xs` | `int[]` | an int list being stored into (`integer_list_set`) |
+| `ss` | `string[]` | a string list being stored into (`string_list_set`) |
 | `tstr` | `string` | the node `nt` string field |
 | `words` | `string[]` | a list of token spellings |
 | `base` | `word` | store address of source byte 0 (lexer) |

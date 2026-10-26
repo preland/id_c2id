@@ -19,7 +19,7 @@ sw_once(int id, int a) {
   int et = ex_ty(swv);
   int swt = hoist_temp(swv, et);
 } chain (int id, int a) {
-  lset((import na), id, swt);
+  integer_list_set((import na), id, swt);
 } return void;
 given low_fix given sw_fix (19, 9):() then (import na)[19]:(29)
 given low_fix given sw_fix (20, 6):() then (import na)[20]:(21)

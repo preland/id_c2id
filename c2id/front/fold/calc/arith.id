@@ -4,7 +4,7 @@ cw_arith(string ar_o, word ar_l, int ar_lt, word ar_r, int ar_rt) {
   word ar_b = cw_norm(ar_r, ar_t);
 } chain (string ar_o, word ar_l, int ar_lt, word ar_r, int ar_rt) {
   word ar_v = cw_calc(ar_o, ar_a, ar_b, ar_t);
-  lset((import cwty), 0, ar_t);
+  integer_list_set((import cwty), 0, ar_t);
 } return word ar_v;
 given boot_a ("+", 2147483647, 9, 1, 9):(-2147483648) then (import cwty)[0]:(9)
 given boot_a ("-", 0, 8, 1, 9):(4294967295) then (import cwty)[0]:(8)

@@ -7,7 +7,7 @@
 // is a refusal that waits for the function it is in (seg_note).
 stat_note(string sn_s, int[] sn_pos) {
   if(find_str((import local_words), sn_s) >= 0 && (import usedk)[0] == 0) {
-    lset((import statk), 0, 1);
+    integer_list_set((import statk), 0, 1);
   }
   if(find_str((import seg_words), sn_s) >= 0) {
     seg_note(sn_pos[0]);
@@ -15,5 +15,5 @@ stat_note(string sn_s, int[] sn_pos) {
 } return void;
 given init_nodes4 ("static", [0]):() then (import statk):([1])
 given init_nodes4 ("inline", [0]):() then (import statk):([1])
-given init_nodes4 given lset((import usedk), 0, 1) ("static", [0]):() then (import statk):([0])
+given init_nodes4 given integer_list_set((import usedk), 0, 1) ("static", [0]):() then (import statk):([0])
 given boot_a given boot_b given lexfix stdin "__seg_gs" ("__seg_gs", [0]):() then len((import pdtk)):(1)

@@ -10,7 +10,7 @@ given boot_a given boot_b given lexfix given tu_load given reach_init(1) given g
 
 reach_global(int rg_i) {
   if(rg_i < len((import greach)) && (import greach)[rg_i] == 0) {
-    lset((import greach), rg_i, 1);
+    integer_list_set((import greach), rg_i, 1);
     reach_scan((import dinit)[rg_i]);
   }
 } return void;

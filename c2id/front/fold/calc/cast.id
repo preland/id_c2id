@@ -8,7 +8,7 @@ cw_cast(int e) {
 } chain (int e) {
   int cs_c = cw_ctype(cs_n, cs_t);
   word cs_v = cw_cnv(cs_a, cs_c, cs_n);
-  lset((import cwty), 0, cs_c);
+  integer_list_set((import cwty), 0, cs_c);
 } return word cs_v;
 given boot_a given exprfix stdin "(unsigned char)300;" ((import extop)):(44) then (import cwty)[0]:(2)
 given boot_a given exprfix stdin "(long)-1;" ((import extop)):(-1) then (import cwty)[0]:(17)

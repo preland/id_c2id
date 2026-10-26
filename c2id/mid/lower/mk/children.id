@@ -10,7 +10,7 @@ lower_list(int[] l) {
   int i = 0;
   while(i < len(l)) {
     int x = lower_val(l[i]);
-    lset(l, i, x);
+    integer_list_set(l, i, x);
     i = i + 1;
   }
 } return void;
@@ -22,10 +22,10 @@ given low_fix ([6, 7]):([6, 7])
 // a binary operator that is not a short circuit), left first.
 lower_kid2(int e) {
   int a = lower_val((import na)[e]);
-  lset((import na), e, a);
+  integer_list_set((import na), e, a);
   int b = lower_val((import nb)[e]);
 } chain (int e) {
-  lset((import nb), e, b);
+  integer_list_set((import nb), e, b);
 } return int e;
 given low_fix (14):(14) then (import na)[14]:(6) then (import nb)[14]:(7)
 given low_fix (18):(18) then (import na)[18]:(19) then (import nb)[18]:(8)

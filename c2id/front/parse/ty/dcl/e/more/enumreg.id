@@ -10,8 +10,8 @@ given ty_setup ("", 7):() then len((import tynames)):(0)
 
 uint_type() {
   int[] sp = spec_init();
-  lset(sp, 3, 1);
-  lset(sp, 8, 1);
+  integer_list_set(sp, 3, 1);
+  integer_list_set(sp, 8, 1);
 } chain () {
   int ty = mk_prim(sp);
 } return int ty;

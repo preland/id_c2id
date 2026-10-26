@@ -41,7 +41,7 @@ jmp_split(int cn, int rb) {
   term_jmp(c, rb);
 } chain (int cn, int rb) {
   set_cur(rb);
-  lset((import sjf), 0, 1);
+  integer_list_set((import sjf), 0, 1);
 } return void;
 given low_fix given push_bterm (6, 1):() then (import sjf)[0]:(1)
 given low_fix given push_bterm (6, 1):() then (import bsa)[0]:(1)

@@ -22,7 +22,7 @@ given boot_a given ty_setup given lexfix stdin "... 3 :" ([0], 0):(3) then calls
 given boot_a given ty_setup given lexfix stdin "... 5 :" ([0], 0):(3) then calls case_expand:[1]
 
 case_expand(int[] pos, int lo, int hi) {
-  lset((import cunk), 0, 0);
+  integer_list_set((import cunk), 0, 0);
   int lv = const_eval(lo);
   int hv = const_eval(hi);
 } chain (int[] pos, int lo, int hi) {

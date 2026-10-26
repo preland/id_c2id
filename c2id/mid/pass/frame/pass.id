@@ -38,7 +38,7 @@ bind_auto(int id) {
   int ibound = tof_bind(id);
   string fresh = bind_name(dn);
 } chain (int id) {
-  sset((import ns), id, fresh);
+  string_list_set((import ns), id, fresh);
   int ty = (import nb)[id];
   int off = decl_slot(fresh, ty);
 } chain (int id) {

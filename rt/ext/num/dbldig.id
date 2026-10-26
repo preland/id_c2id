@@ -2,7 +2,7 @@ rt_ddig(word rs, word[] rdsc) {
   word rdcn = 0;
   word rch = peek8(rs + rdsc[1]);
   while(c_isdigit(rch) == 1) {
-    wset(rdsc, 1, rdsc[1] + 1);
+    word_list_set(rdsc, 1, rdsc[1] + 1);
     rdcn = rdcn + 1;
     rch = peek8(rs + rdsc[1]);
   }
@@ -10,7 +10,7 @@ rt_ddig(word rs, word[] rdsc) {
 
 rt_dtail(word rs, word[] rdsc, word rdcn) {
   if(rdcn > 0) {
-    wset(rdsc, 2, 1);
+    word_list_set(rdsc, 2, 1);
     rt_dexp(rs, rdsc);
   } else {
     rt_dword(rs, rdsc);

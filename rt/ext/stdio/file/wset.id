@@ -24,7 +24,7 @@ rt_wbyte(word rwf, int rcc) {
 rt_wstr(word rwf, string rtxt) {
   int rln = len(rtxt);
   word rm = kmalloc(rln + 8);
-  str_blit(rtxt, 0, rln, rm);
+  string_copy_to_memory(rtxt, 0, rln, rm);
 } chain (word rwf, string rtxt) {
   word rwx = rt_wput(rwf, rm, rln);
   kfree(rm);

@@ -8,7 +8,7 @@ tof_node(int e, string kind) {
   }
   int ty = newleaf(kind, e, 0, "", "");
 } return int ty;
-given boot_a given boot_b given lexfix given lset((import tofok), 0, 1) stdin "x" (3, "tof"):(6) then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given integer_list_set((import tofok), 0, 1) stdin "x" (3, "tof"):(6) then len((import dgmsg)):(0)
 given boot_a given boot_b given lexfix stdin "x" (3, "tof"):(6) then len((import pdtk)):(1)
 
 tof_refuse() {

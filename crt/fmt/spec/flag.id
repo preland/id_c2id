@@ -21,7 +21,7 @@ is_flag(word c) {
 
 take_flag(word c, word[] st, word[] fs) {
   set_flag(c, fs);
-  wset(st, 0, st[0] + 1);
+  word_list_set(st, 0, st[0] + 1);
 } return void;
 (45, [0], [0, 0, 0, 0, 0]):(45, [1], [0, 1, 0, 0, 0])
 (48, [0], [0, 0, 0, 0, 0]):(48, [1], [0, 0, 1, 0, 0])

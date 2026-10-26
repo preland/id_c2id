@@ -8,8 +8,8 @@ cl_callstmt() {
 } chain () {
   int cs_s = newleaf("expr", cs_c, 0, "", "");
 } return int cs_s;
-given boot_a given init_cl given sset((import clcur), 0, "p") given sset((import clcur), 1, "f") ():(3) then (import nk)[3]:("expr")
-given boot_a given init_cl given sset((import clcur), 0, "p") given sset((import clcur), 1, "f") ():(3) then (import ns)[0]:("f")
+given boot_a given init_cl given string_list_set((import clcur), 0, "p") given string_list_set((import clcur), 1, "f") ():(3) then (import nk)[3]:("expr")
+given boot_a given init_cl given string_list_set((import clcur), 0, "p") given string_list_set((import clcur), 1, "f") ():(3) then (import ns)[0]:("f")
 
 // `__auto_type name = <expr>;` as a declaration statement: the type is taken from
 // the initializer by the frame pass.

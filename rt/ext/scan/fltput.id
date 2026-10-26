@@ -1,6 +1,6 @@
 rt_putflt(word rstr, word[] rdsc, word rsup, word rlen, word[] rargs, word[] rst) {
   word rv = rt_dfull(rstr + rst[0], rdsc);
-  wset(rst, 0, rst[0] + rdsc[1]);
+  word_list_set(rst, 0, rst[0] + rdsc[1]);
   rt_fgive(rv, rsup, rlen, rargs, rst);
 } return void;
 

@@ -23,8 +23,8 @@ given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "
 
 // The node takes the wrapper's name, and the wrapper is marked reached.
 chk_swap(int id, string wn, int i) {
-  sset((import ns), id, wn);
-  lset((import reach), i, 1);
+  string_list_set((import ns), id, wn);
+  integer_list_set((import reach), i, 1);
 } return void;
 given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "int g(void) { return 0; }" (0, "w", 1):() then (import ns)[0]:("w") then (import reach):([0, 1])
 given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "int g(void) { return 0; }" (3, "q", 0):() then (import ns)[3]:("q") then (import reach):([1, 0])

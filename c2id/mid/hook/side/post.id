@@ -26,7 +26,7 @@ given low_fix given effect_stmt(13) (6):() then (import bstmt)[0]:([19, 20])
 // `++x` / `--x`: the effect, then x is read.
 lower_pre_val(int e) {
   int x = lower_val((import na)[e]);
-  lset((import na), e, x);
+  integer_list_set((import na), e, x);
   effect_stmt(e);
 } return int x;
 given low_fix (13):(6) then (import bstmt)[0]:([19])

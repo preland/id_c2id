@@ -29,4 +29,4 @@ cast_fl(int to, int from, string exa) {
   }
 } return string s;
 given txt_fixture given pend_setup given fl_types (6, 0, "t5"):("t0") then (import pend)[0]:("word t0 = cfl_of_int(t5);")
-given txt_fixture given pend_setup given lset((import na), 1, 0) (1, 6, "t5"):("t5")
+given txt_fixture given pend_setup given integer_list_set((import na), 1, 0) (1, 6, "t5"):("t5")

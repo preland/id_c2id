@@ -3,7 +3,7 @@
 c_sprintf(word buf, word fmt, word[] args) {
   string txt = c_format(fmt, args);
   int plen = len(txt);
-  str_blit(txt, 0, plen, buf);
+  string_copy_to_memory(txt, 0, plen, buf);
 } chain (word buf, word fmt, word[] args) {
   poke8(buf + plen, 0);
 } return word plen;
@@ -16,6 +16,6 @@ c_snprintf(word buf, word n, word fmt, word[] args) {
   word most = re_min(plen, n - 1);
 } chain (word buf, word n, word fmt, word[] args) {
   int keep = most;
-  str_blit(txt, 0, keep, buf);
+  string_copy_to_memory(txt, 0, keep, buf);
   poke8(buf + keep, 0);
 } return word plen;

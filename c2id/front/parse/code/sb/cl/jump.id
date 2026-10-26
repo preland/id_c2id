@@ -28,8 +28,8 @@ cl_pre(int cr_id) {
   int cr_j = newleaf(cr_k, (import na)[cr_id], 0, (import ns)[cr_id], "");
   int cr_s = cl_callstmt();
 } chain (int cr_id) {
-  sset((import nk), cr_id, "block");
-  lset2((import nl), cr_id, [cr_s, cr_j]);
+  string_list_set((import nk), cr_id, "block");
+  integer_list_list_set((import nl), cr_id, [cr_s, cr_j]);
 } return void;
 given cl_fix (4):() then (import nk)[4]:("block") then (import nl)[4]:([17, 13])
 given cl_fix (3):() then (import nk)[13]:("goto") then (import ns)[13]:("out") then (import nl)[3]:([17, 13])

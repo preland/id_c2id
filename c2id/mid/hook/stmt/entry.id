@@ -13,12 +13,12 @@ lower_stmt(int id) {
   }
 } return void;
 given low_fix given effect_stmt(9) (19):() then (import na)[19]:(20)
-given low_fix given sset((import nk), 12, "decl") given lset((import na), 12, 9) (12):() then (import na)[12]:(19)
+given low_fix given string_list_set((import nk), 12, "decl") given integer_list_set((import na), 12, 9) (12):() then (import na)[12]:(19)
 
 lower_expr_stmt(int id) {
   int e = (import na)[id];
   int r = lower_top(e);
-  lset((import na), id, r);
+  integer_list_set((import na), id, r);
 } return void;
 given low_fix given effect_stmt(9) (19):() then (import na)[19]:(20)
 given low_fix given effect_stmt(17) (19):() then (import nl)[17]:([20])

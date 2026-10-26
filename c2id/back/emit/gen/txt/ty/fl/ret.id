@@ -1,7 +1,7 @@
 // The return type of the function being emitted, kept for ret_val.
 note_ret(int ft) {
   int rt = fn_ret(ft);
-  lset((import retty), 0, rt);
+  integer_list_set((import retty), 0, rt);
 } return void;
-given txt_fixture given lset((import retty), 0, 7) (0):() then (import retty)[0]:(0)
+given txt_fixture given integer_list_set((import retty), 0, 7) (0):() then (import retty)[0]:(0)
 given txt_fixture given fl_fixture given fl_cond_fixture (12):() then (import retty)[0]:(6)

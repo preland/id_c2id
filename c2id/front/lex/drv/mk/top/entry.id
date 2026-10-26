@@ -21,8 +21,8 @@ init_lines() {
   export string[] curfile = [""];
   export string[] tfile = [];
 } return void export curline;
-given init_lines given lset((import curline), 0, 7) ():() then (import curline)[0]:(1)
-given init_lines given sset((import curfile), 0, "a.c") ():() then (import curfile)[0]:("")
+given init_lines given integer_list_set((import curline), 0, 7) ():() then (import curline)[0]:(1)
+given init_lines given string_list_set((import curfile), 0, "a.c") ():() then (import curfile)[0]:("")
 ():() then (import curline)[0]:(1)
 ():() then eprints:("")
 

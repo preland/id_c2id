@@ -3,7 +3,7 @@
 // one.
 out_weight(string line) {
   int w = 1;
-  if(str_starts(line, "  //") == 1) {
+  if(string_starts_with(line, "  //") == 1) {
     w = 0;
   } else {
     w = else_weight(line);
@@ -15,7 +15,7 @@ out_weight(string line) {
 
 else_weight(string line) {
   int w = 1;
-  if(str_find(line, "} else {") >= 0) {
+  if(string_find(line, "} else {") >= 0) {
     w = 2;
   }
 } return int w;
@@ -32,7 +32,7 @@ emit_brk(int n) {
   if(n == 2) {
     emit_tag();
     print("} chain (" + (import chp)[0] + ") {");
-    lset((import obn), 0, 0);
+    integer_list_set((import obn), 0, 0);
   } else {
     print("} chain (" + (import chp)[0] + ") {");
     emit_tag();

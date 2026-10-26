@@ -10,10 +10,10 @@ rt_one(word rstr, word rfmt, word[] rargs, word[] rst) {
 
 // White space in the format matches any amount of it in the input.
 rt_lws(word rstr, word[] rst) {
-  wset(rst, 1, rst[1] + 1);
+  word_list_set(rst, 1, rst[1] + 1);
   word rch = peek8(rstr + rst[0]);
   while(c_isspace(rch) == 1) {
-    wset(rst, 0, rst[0] + 1);
+    word_list_set(rst, 0, rst[0] + 1);
     rch = peek8(rstr + rst[0]);
   }
 } return void;
@@ -22,8 +22,8 @@ rt_lws(word rstr, word[] rst) {
 rt_lch(word rstr, word rch, word[] rst) {
   word rin = peek8(rstr + rst[0]);
   if(rin == rch) {
-    wset(rst, 0, rst[0] + 1);
-    wset(rst, 1, rst[1] + 1);
+    word_list_set(rst, 0, rst[0] + 1);
+    word_list_set(rst, 1, rst[1] + 1);
   } else {
     rt_stop(rst, rin);
   }

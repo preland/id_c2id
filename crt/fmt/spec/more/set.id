@@ -2,7 +2,7 @@
 flag_slot(word c) {
   int fc = c;
   string fcs = chr(fc);
-  int fk = str_find("?-0??+ #", fcs);
+  int fk = string_find("?-0??+ #", fcs);
 } return int fk;
 (45):(1)
 (48):(2)
@@ -12,7 +12,7 @@ flag_slot(word c) {
 
 set_flag(word c, word[] fs) {
   int fk = flag_slot(c);
-  wset(fs, fk, 1);
+  word_list_set(fs, fk, 1);
 } return void;
 (45, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):(45, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0])
 (35, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):(35, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0])

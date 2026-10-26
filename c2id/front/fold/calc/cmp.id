@@ -12,7 +12,7 @@ cw_cmp(string cm_o, word cm_l, int cm_lt, word cm_r, int cm_rt) {
 } chain (string cm_o, word cm_l, int cm_lt, word cm_r, int cm_rt) {
   int[] cm_rl = [cm_a == cm_b, cm_a != cm_b, cm_lo, cm_hi, cm_hi == 0, cm_lo == 0, cm_a != 0 && cm_b != 0, cm_a != 0 || cm_b != 0];
   word cm_v = cm_rl[cm_k];
-  lset((import cwty), 0, 9);
+  integer_list_set((import cwty), 0, 9);
 } return word cm_v;
 given boot_a ("<", -1, 9, 1, 8):(0) then (import cwty)[0]:(9)
 given boot_a ("<", -1, 9, 1, 9):(1)

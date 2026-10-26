@@ -4,7 +4,7 @@
 // in the canonical form of its type, so it is an int (see mem_ty) when it is
 // narrower than one.
 bfx_load(string s) {
-  string[] bfp = str_split(s, "|");
+  string[] bfp = string_split(s, "|");
   string bfr = bfx_peek(bfp);
   string bfv = bfx_cut(bfp, bfr);
 } chain (string s) {

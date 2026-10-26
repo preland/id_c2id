@@ -6,7 +6,7 @@ cl_exit(int ce_id, string ce_kn, int ce_brk, int ce_cont) {
     cl_jump(ce_id, ce_kn, ce_brk, ce_cont);
   }
 } return void;
-given cl_fix given lset((import clmode), 0, 0) (6, "label", 0, 0):() then (import cllab):(["in", "in"])
+given cl_fix given integer_list_set((import clmode), 0, 0) (6, "label", 0, 0):() then (import cllab):(["in", "in"])
 given cl_fix (5, "continue", 0, 0):() then (import nk)[5]:("block")
 
 cl_label(int cb_id, string cb_kn) {

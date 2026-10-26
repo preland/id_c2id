@@ -21,11 +21,11 @@ given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) {
 atom_cast(int id, int aoty) {
   int c = (import na)[id];
   int inner = newlist("call", c, 0, "", (import nl)[id]);
-  lset((import ntok), inner, (import ntok)[id]);
+  integer_list_set((import ntok), inner, (import ntok)[id]);
 } chain (int id, int aoty) {
-  sset((import nk), id, "cast");
-  lset((import na), id, inner);
-  lset((import nb), id, aoty);
+  string_list_set((import nk), id, "cast");
+  integer_list_set((import na), id, inner);
+  integer_list_set((import nb), id, aoty);
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 7):() then (import nb)[14]:(7) then (import nk)[17]:("call") then (import na)[14]:(17)
 given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 6):() then (import nb)[14]:(6) then (import nl)[17]:([12, 13])

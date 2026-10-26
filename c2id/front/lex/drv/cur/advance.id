@@ -12,7 +12,7 @@ given lex_tok_fixture ([1]):("")
 
 advance(int[] pos) {
   pos[0] = pos[0] + 1;
-  lset((import curtk), 0, pos[0]);
+  integer_list_set((import curtk), 0, pos[0]);
 } return void;
 given init_nodes4 ([0]):([1]) then (import curtk)[0]:(1)
 given init_nodes4 ([5]):([6]) then (import curtk)[0]:(6)

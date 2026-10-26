@@ -19,7 +19,7 @@ given typedef_x_fix given lexfix stdin "foo" ([0]):(1)
 
 spec_td_apply(int[] pos, int[] sp) {
   int ty = spec_td_find(pos);
-  lset(sp, 10, ty);
+  integer_list_set(sp, 10, ty);
   seg_type(pos, ty);
 } chain (int[] pos, int[] sp) {
   advance(pos);

@@ -20,7 +20,7 @@ c_tmpfile() {
   int rwl = len(rwt);
   word rwp = kmalloc(rwl + 8);
 } chain () {
-  str_blit(rwt, 0, rwl, rwp);
+  string_copy_to_memory(rwt, 0, rwl, rwp);
   poke8(rwp + rwl, 0);
   word rwf = rt_wmake(rwp, 77);
 } chain () {

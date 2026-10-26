@@ -3,7 +3,7 @@
 // is C's conversion to the field's type; a _Bool field takes 0 or 1 whatever it is
 // given. The text answered is the store's statement, as store_raw's is.
 bfx_store(string s, string out) {
-  string[] bfp = str_split(s, "|");
+  string[] bfp = string_split(s, "|");
   string old = bfx_peek(bfp);
   string keep = bfx_clear(bfp, old);
 } chain (string s, string out) {

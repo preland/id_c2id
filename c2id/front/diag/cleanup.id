@@ -8,19 +8,19 @@ cleanup_note(int cn_tk) {
   string cn_m = "attribute '" + (import ttext)[cn_tk] + "' runs, replaces or renames code, which c2id does not translate: the program would run and be wrong";
   cleanup_say(cn_tk, cn_f, cn_m);
 } return void;
-given boot_a given boot_b given lexfix given lset((import infn), 0, 1) stdin "cleanup ( f )" (0):() then (import clfn):(["f"]) then len((import pdtk)):(0)
-given boot_a given boot_b given lexfix given lset((import infn), 0, 1) stdin "cleanup ( f ( 1 ) )" (0):() then len((import pdtk)):(1)
+given boot_a given boot_b given lexfix given integer_list_set((import infn), 0, 1) stdin "cleanup ( f )" (0):() then (import clfn):(["f"]) then len((import pdtk)):(0)
+given boot_a given boot_b given lexfix given integer_list_set((import infn), 0, 1) stdin "cleanup ( f ( 1 ) )" (0):() then len((import pdtk)):(1)
 
 cleanup_say(int cy_tk, string cy_f, string cy_m) {
   if((import infn)[0] == 1 && cy_f != "") {
-    sset((import clfn), 0, cy_f);
+    string_list_set((import clfn), 0, cy_f);
   } else if((import infn)[0] == 1) {
     defer_tok(cy_tk, cy_m, 0);
   } else {
     diag_tok(cy_tk, cy_m);
   }
 } return void;
-given boot_a given boot_b given lexfix given lset((import infn), 0, 1) stdin "x" (0, "f", "m"):() then (import clfn):(["f"])
+given boot_a given boot_b given lexfix given integer_list_set((import infn), 0, 1) stdin "x" (0, "f", "m"):() then (import clfn):(["f"])
 given boot_a given boot_b given lexfix stdin "x" (0, "f", "m"):() then len((import dgmsg)):(1)
 
 cl_name(int cm_tk) {

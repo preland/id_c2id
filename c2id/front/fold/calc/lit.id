@@ -5,7 +5,7 @@
 cw_num(int e) {
   string cn_s = (import ns)[e];
   word cn_v = (import na)[e];
-  lset((import cwty), 0, 9);
+  integer_list_set((import cwty), 0, 9);
 } chain (int e) {
   if(cw_isint(cn_s) == 1) {
     cn_v = cw_lit(cn_s);
@@ -33,7 +33,7 @@ cw_lit(string lt_s) {
   word lt_v = cw_digits(lt_s, lt_i, lt_r);
 } chain (string lt_s) {
   int lt_t = cw_lty(lt_v, lt_s, lt_r);
-  lset((import cwty), 0, lt_t);
+  integer_list_set((import cwty), 0, lt_t);
 } return word lt_v;
 given boot_a ("12"):(12) then (import cwty)[0]:(9)
 given boot_a ("18446744073709551615u"):(-1) then (import cwty)[0]:(16)

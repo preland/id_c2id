@@ -9,7 +9,7 @@ par_slot(int ty) {
   }
 } return int sz;
 given tynode_fix (0):(8)
-given tynode_fix given sset((import ns), 0, "long double") given lset((import na), 0, 16) (0):(16)
+given tynode_fix given string_list_set((import ns), 0, "long double") given integer_list_set((import na), 0, 16) (0):(16)
 given boot_a given boot_b given lexfix given tu_load stdin "struct Q { char c[13]; } q;" (6):(16)
 
 par_off(int ft, int i) {

@@ -27,8 +27,8 @@ fd_exp(word fdb) {
 
 fd_norm(word[] fdm) {
   while(fdm[1] < 0 && fdm[0] % 2 == 0) {
-    wset(fdm, 0, fdm[0] / 2);
-    wset(fdm, 1, fdm[1] + 1);
+    word_list_set(fdm, 0, fdm[0] / 2);
+    word_list_set(fdm, 1, fdm[1] + 1);
   }
 } return word[] fdm;
 ([12, -3]):([3, -1])

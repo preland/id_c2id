@@ -22,10 +22,10 @@ asm_note(int[] asmst, string kind, string txt) {
 
 asm_head(int[] asmst, string txt) {
   if(txt == "goto") {
-    lset(asmst, 2, 1);
+    integer_list_set(asmst, 2, 1);
   }
   if(txt == "(") {
-    lset(asmst, 0, 1);
+    integer_list_set(asmst, 0, 1);
   }
 } return void;
 ([0, 0, 0], "goto"):([0, 0, 1])

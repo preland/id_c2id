@@ -25,7 +25,7 @@ tu_add(string name, int b, int r) {
 } return void;
 given init_tu given tynode_fix ("f", 0, 0):() then len((import fnames)):(1)
 given init_tu given tynode_fix ("g", 0, 0):() then len((import ftys)):(1)
-given init_tu given tynode_fix given lset((import fsk), 0, 1) ("f", 0, 0):() then (import fstat):([1])
+given init_tu given tynode_fix given integer_list_set((import fsk), 0, 1) ("f", 0, 0):() then (import fstat):([1])
 given init_tu given tynode_fix ("f", 0, 0):() then (import fstat):([0])
 
 // Recording a declaration of any kind (a definition counts too). A variable

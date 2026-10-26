@@ -21,7 +21,7 @@ rt_wmaybe(word rfile) {
 // FILE rwf leaves the chain that starts at rwh; rwx is the one after it.
 rt_wcut(word rwh, word rwf, word rwx) {
   if(rwh == rwf) {
-    wset((import rtwf), 0, rwx);
+    word_list_set((import rtwf), 0, rwx);
   } else {
     rt_wskip(rwh, rwf, rwx);
   }

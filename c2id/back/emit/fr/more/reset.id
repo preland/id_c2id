@@ -1,6 +1,6 @@
 bump_size(int off, int sz) {
   push((import lvwid), sz);
-  lset((import frsz), 0, off + sz);
+  integer_list_set((import frsz), 0, off + sz);
 } return void;
 given init_frame given init_frame2 (8, 4):() then (import frsz)[0]:(12)
 given init_frame given init_frame2 (8, 12):() then (import frsz)[0]:(20)
@@ -10,7 +10,7 @@ given init_frame given init_frame2 (8, 12):() then (import frsz)[0]:(20)
 frame_reset() {
   clear_names((import lvnames));
   clear_offs();
-  lset((import frsz), 0, 8);
+  integer_list_set((import frsz), 0, 8);
 } return void;
 given onefr_fixture ():() then (import frsz)[0]:(8) then len((import lvoff)):(0)
 given init_frame given init_frame2 ():() then (import frsz)[0]:(8) then len((import lvoff)):(0)

@@ -22,7 +22,7 @@ add_lowered(int id) {
   }
 } return void;
 given low_fix given effect_stmt(9) (19):() then (import bstmt)[3]:([19])
-given low_fix given sset((import nk), 12, "decl") given lset((import na), 12, -1) (12):() then (import bstmt)[0]:([])
+given low_fix given string_list_set((import nk), 12, "decl") given integer_list_set((import na), 12, -1) (12):() then (import bstmt)[0]:([])
 
 // A condition that is not a branch of its own: lowered as a value, then the
 // block that ended up current gets the two-way edge.

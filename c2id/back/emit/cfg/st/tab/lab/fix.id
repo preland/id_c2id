@@ -28,7 +28,7 @@ given fix_ready_fixture ():() then calls fix_one:[2]
 fix_one(int i) {
   string s = (import fixs)[i];
   int blk = label_blk(s);
-  lset((import bsa), ((import fixb)[i]), blk);
+  integer_list_set((import bsa), ((import fixb)[i]), blk);
 } return void;
 given fix_ready_fixture (0):() then (import bsa)[0]:(2)
 given fix_ready_fixture (1):() then (import bsa)[0]:(-1)

@@ -5,7 +5,7 @@
 pn_take(int n) {
   int pb = len((import pnq)) - n;
   string joined = pn_join(pb);
-  sset((import pnj), 0, joined);
+  string_list_set((import pnj), 0, joined);
 } chain (int n) {
   while(len((import pnq)) > pb) {
     pop((import pnq));

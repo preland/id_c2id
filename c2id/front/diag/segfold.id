@@ -13,7 +13,7 @@ seg_fold_ty(int sg_t) {
   int sg_b = seg_elem(sg_t);
   int sg_i = list_index_of((import sgt), sg_b);
   if(sg_i >= 0) {
-    lset((import cunk), 0, 1);
+    integer_list_set((import cunk), 0, 1);
   }
 } return void;
 given tynode_fix given list_extend((import sgt), [5]) given list_string_insert((import sgtm), 0, "why") (5):() then (import cunk):([1])

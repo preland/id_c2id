@@ -31,7 +31,7 @@ given crt_fmt_fixture ((import fmtbuf), [], [0, 0]):("-")
 given crt_fmt_fixture ((import pctbuf), [7], [0, 0]):("7")
 
 fmt_lit(word c, word[] st) {
-  wset(st, 0, st[0] + 1);
+  word_list_set(st, 0, st[0] + 1);
   int cc = c;
   string txt = ch_of(cc);
 } return string txt;

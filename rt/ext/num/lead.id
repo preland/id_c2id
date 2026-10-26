@@ -9,7 +9,7 @@ rt_lead(word rs, word[] rst) {
 rt_ws(word rs, word[] rst) {
   word rch = peek8(rs + rst[0]);
   while(c_isspace(rch) == 1) {
-    wset(rst, 0, rst[0] + 1);
+    word_list_set(rst, 0, rst[0] + 1);
     rch = peek8(rs + rst[0]);
   }
 } return void;
@@ -17,9 +17,9 @@ rt_ws(word rs, word[] rst) {
 rt_sign(word rs, word[] rst) {
   word rch = peek8(rs + rst[0]);
   if(rch == 45) {
-    wset(rst, 2, 1);
+    word_list_set(rst, 2, 1);
   }
   if(rch == 45 || rch == 43) {
-    wset(rst, 0, rst[0] + 1);
+    word_list_set(rst, 0, rst[0] + 1);
   }
 } return void;

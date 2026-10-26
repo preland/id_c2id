@@ -14,17 +14,17 @@ asm_body(int[] asmst, string kind, string txt) {
 
 asm_next(int[] asmst) {
   int zone = asmst[0] + 1;
-  lset(asmst, 0, zone);
+  integer_list_set(asmst, 0, zone);
 } return void;
 ([1, 0, 0]):([2, 0, 0])
 ([2, 1, 0]):([3, 1, 0])
 
 asm_str(int[] asmst, string txt) {
   if(asmst[0] == 1 && txt != "\"\"") {
-    lset(asmst, 1, 1);
+    integer_list_set(asmst, 1, 1);
   }
   if(asmst[0] == 2 && character_code_at(txt, 1) == 61 && asmst[2] == 0) {
-    lset(asmst, 2, 2);
+    integer_list_set(asmst, 2, 2);
   }
 } return void;
 ([1, 0, 0], "\"nop\""):([1, 1, 0])

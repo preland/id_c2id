@@ -68,8 +68,8 @@ init_nodes4() {
 } chain () {
   char_env();
 } return void export curtk;
-given init_nodes4 given lset((import curtk), 0, 5) ():() then (import curtk)[0]:(0)
-given init_nodes4 given lset((import usedk), 0, 9) ():() then (import usedk)[0]:(0)
+given init_nodes4 given integer_list_set((import curtk), 0, 5) ():() then (import curtk)[0]:(0)
+given init_nodes4 given integer_list_set((import usedk), 0, 9) ():() then (import usedk)[0]:(0)
 ():() then (import curtk)[0]:(0)
 ():() then eprints:("")
 
@@ -81,12 +81,12 @@ tok_last() {
   }
 } return int tk;
 given boot_a ():(0)
-given boot_a given lset((import curtk), 0, 5) ():(4)
+given boot_a given integer_list_set((import curtk), 0, 5) ():(4)
 
 // Whether a `...` ended the parameter list being made; reading it clears it.
 dots_take() {
   int dv = (import dots)[0];
-  lset((import dots), 0, 0);
+  integer_list_set((import dots), 0, 0);
 } return int dv;
-given init_nodes4 given lset((import dots), 0, 1) ():(1) then (import dots)[0]:(0)
+given init_nodes4 given integer_list_set((import dots), 0, 1) ():(1) then (import dots)[0]:(0)
 given init_nodes4 ():(0)

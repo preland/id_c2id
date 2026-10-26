@@ -18,7 +18,7 @@ tof_spec(int[] pos, int[] sp) {
   advance(pos);
   int ty = tof_type(pos, kw);
 } chain (int[] pos, int[] sp) {
-  lset(sp, 10, ty);
+  integer_list_set(sp, 10, ty);
 } return int 1;
 given boot_a given boot_b given ty_setup given lexfix stdin "typeof ( int )" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1) then calls tof_type:([4], "typeof")
 given boot_a given boot_b given ty_setup given lexfix stdin "__auto_type x" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1) then calls tof_type:([1], "__auto_type")

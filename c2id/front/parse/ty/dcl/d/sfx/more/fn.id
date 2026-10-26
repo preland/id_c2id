@@ -21,8 +21,8 @@ fn_make(int[] pos, int inner, int[] ps) {
   int a = fn_node(r, pnames, ps);
 } chain (int[] pos, int inner, int[] ps) {
   int dv = dots_take();
-  lset((import nb), a, dv);
+  integer_list_set((import nb), a, dv);
 } return int a;
 given tynode_fix given ty_setup given lexfix stdin "x" ([0], 0, []):(6) then calls newlist:("fn", 0, 0, "", [])
 given tynode_fix given ty_setup given lexfix stdin "x" ([0], 5, [1, 2]):(7) then calls newlist:("fn", 5, 0, "__ret,", [6, 1, 2])
-given tynode_fix given ty_setup given lexfix given lset((import dots), 0, 1) stdin "x" ([0], 0, []):(6) then (import nb)[6]:(1)
+given tynode_fix given ty_setup given lexfix given integer_list_set((import dots), 0, 1) stdin "x" ([0], 0, []):(6) then (import nb)[6]:(1)

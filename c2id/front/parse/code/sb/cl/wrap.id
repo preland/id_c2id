@@ -2,8 +2,8 @@
 // ends with the cleanup call, and every exit from it calls it first. fn is the
 // cleanup function and ptr the variable holding the address of the variable.
 cl_wrap(int[] cw_stmts, string cw_fn, string cw_ptr) {
-  sset((import clcur), 0, cw_ptr);
-  sset((import clcur), 1, cw_fn);
+  string_list_set((import clcur), 0, cw_ptr);
+  string_list_set((import clcur), 1, cw_fn);
   cl_labels(cw_stmts);
 } chain (int[] cw_stmts, string cw_fn, string cw_ptr) {
   cl_scan_list(cw_stmts, 0, 0);
@@ -18,10 +18,10 @@ cl_labels(int[] cb_stmts) {
   while(len((import cllab)) > 0) {
     pop((import cllab));
   }
-  lset((import clmode), 0, 0);
+  integer_list_set((import clmode), 0, 0);
   cl_scan_list(cb_stmts, 0, 0);
 } chain (int[] cb_stmts) {
-  lset((import clmode), 0, 1);
+  integer_list_set((import clmode), 0, 1);
 } return void;
 given cl_fix ([6, 7]):() then (import cllab):(["in"]) then (import clmode):([1])
 given cl_fix ([4]):() then len((import cllab)):(0)

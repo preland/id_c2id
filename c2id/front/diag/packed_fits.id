@@ -13,8 +13,8 @@ packed_fits(int tk, int ast) {
     ok = (import inmem)[0];
   }
 } return int ok;
-given boot_a given boot_b given lexfix given lset((import inmem), 0, 1) stdin "x __attribute__((packed))" (4, 1):(1)
-given boot_a given boot_b given lexfix given lset((import inmem), 0, 1) stdin "x __attribute__((vector_size(8)))" (4, 1):(0)
+given boot_a given boot_b given lexfix given integer_list_set((import inmem), 0, 1) stdin "x __attribute__((packed))" (4, 1):(1)
+given boot_a given boot_b given lexfix given integer_list_set((import inmem), 0, 1) stdin "x __attribute__((vector_size(8)))" (4, 1):(0)
 given boot_a given boot_b given lexfix stdin "union { int a; } __attribute__((packed)) u;" (9, 6):(1)
 given boot_a given boot_b given lexfix stdin "struct { int a; char b; } __attribute__((packed)) u;" (12, 9):(1)
 given boot_a given boot_b given lexfix stdin "struct { int a; } __attribute__((vector_size(8))) u;" (9, 6):(0)

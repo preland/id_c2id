@@ -12,6 +12,6 @@ ty_agg(int ty) {
   }
 } return int a;
 given txt_fixture given wd_types (6):(1)
-given txt_fixture given sset((import nk), 2, "rec") (2):(1)
+given txt_fixture given string_list_set((import nk), 2, "rec") (2):(1)
 given txt_fixture given ldt_types (6):(1)
 given txt_fixture (4):(0)

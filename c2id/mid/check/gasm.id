@@ -7,7 +7,7 @@ chk_gasm() {
     gasm_tell(0);
   }
 } return void;
-given boot_a given boot_b given lexfix given gasm_note(0, "g") given reach_init(1) given lset((import reach), 0, 1) ():() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given gasm_note(0, "g") given reach_init(1) given integer_list_set((import reach), 0, 1) ():() then len((import dgmsg)):(1)
 given boot_a given boot_b given lexfix given gasm_note(0, "g") given reach_init(1) ():() then len((import dgmsg)):(0)
 
 gasm_tell(int gt_i) {

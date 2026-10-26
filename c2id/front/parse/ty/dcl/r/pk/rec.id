@@ -15,7 +15,7 @@ given tynode_fix given ty_setup given lexfix stdin "{ int a ; } ;" ([0], 5):([0]
 
 rec_mark(int rm_ty, int rm_hit) {
   if(rm_hit >= 0) {
-    sset((import nt), rm_ty, "packed");
+    string_list_set((import nt), rm_ty, "packed");
   }
 } return void;
 given boot_a given tynode_fix (5, 3):() then (import nt)[5]:("packed")

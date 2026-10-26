@@ -16,7 +16,7 @@ given pend_setup ("Y"):("t0")
 
 name_push(string call, int k) {
   push((import pendc), call);
-  lset((import pendn), 0, k + 1);
+  integer_list_set((import pendn), 0, k + 1);
   string name = "t" + k;
 } return string name;
 given pend_setup ("X", 0):("t0")

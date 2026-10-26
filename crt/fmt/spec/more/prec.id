@@ -12,8 +12,8 @@ given crt_fmt_fixture given crt_fmt_modes ((import modbuf), [], [5], [0, 0, 0, 0
 given crt_fmt_fixture given crt_fmt_modes ((import starbuf), [7], [2, 0], [0, 0, 0, 0, 0, 0, 0, 0, 1, 0]):((import starbuf), [7], [3, 1], [0, 0, 0, 0, 0, 0, 0, 0, 1, 7])
 
 take_prec(word fmt, word[] args, word[] st, word[] fs) {
-  wset(st, 0, st[0] + 1);
-  wset(fs, 8, 1);
+  word_list_set(st, 0, st[0] + 1);
+  word_list_set(fs, 8, 1);
   prec_val(fmt, args, st, fs);
 } return void;
 given crt_fmt_fixture given crt_fmt_modes ((import modbuf), [], [4], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):((import modbuf), [], [6], [0, 0, 0, 0, 0, 0, 0, 0, 1, 3])

@@ -16,11 +16,11 @@ given boot_a (-3):(0) then (import ns)[0]:("-3")
 // nothing else will), and the node that reads it is answered.
 new_temp(int ty) {
   int n = (import lcnt)[0];
-  lset((import lcnt), 0, n + 1);
+  integer_list_set((import lcnt), 0, n + 1);
   string tname = "__tmp" + n;
 } chain (int ty) {
   int off = decl_slot(tname, ty);
   int v = mk_var(tname);
 } return int v;
 given low_fix (0):(19) then (import ns)[19]:("__tmp0") then (import lcnt)[0]:(1)
-given low_fix given lset((import lcnt), 0, 1) (0):(19) then (import ns)[19]:("__tmp1") then (import lvnames):(["__tmp1"])
+given low_fix given integer_list_set((import lcnt), 0, 1) (0):(19) then (import ns)[19]:("__tmp1") then (import lvnames):(["__tmp1"])

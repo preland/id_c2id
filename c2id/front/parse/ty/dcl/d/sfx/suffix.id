@@ -24,9 +24,9 @@ given boot_a given lexfix stdin "[ ]" ([0], 0):(0) then calls newleaf:("arr", 0,
 arr_count(int[] pos) {
   int n = 0 - 1;
   if(at_text(pos, "]") == 0) {
-    lset((import arrdim), 0, 1);
+    integer_list_set((import arrdim), 0, 1);
     n = ce_expr(pos);
-    lset((import arrdim), 0, 0);
+    integer_list_set((import arrdim), 0, 0);
   }
   skip_tok(pos, "]");
 } return int n;

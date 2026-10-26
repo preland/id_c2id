@@ -10,7 +10,7 @@ rt_acc(word rs, word[] rst) {
 } return void;
 
 rt_step(word[] rst, word rd) {
-  wset(rst, 3, rst[3] * rst[1] + rd);
-  wset(rst, 4, rst[4] + 1);
-  wset(rst, 0, rst[0] + 1);
+  word_list_set(rst, 3, rst[3] * rst[1] + rd);
+  word_list_set(rst, 4, rst[4] + 1);
+  word_list_set(rst, 0, rst[0] + 1);
 } return void;

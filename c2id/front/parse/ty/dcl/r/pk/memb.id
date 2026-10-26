@@ -8,12 +8,12 @@ mem_pk_align(int mk_r) {
   }
 } return int mk_al;
 given tynode_fix (0):(4)
-given tynode_fix given lset((import mpk), 0, 1) (0):(1)
+given tynode_fix given integer_list_set((import mpk), 0, 1) (0):(1)
 
 mem_mark(int mm_s, int mm_e) {
   int mm_hit = attr_find(mm_s, mm_e, (import packed_attr));
   if(mm_hit >= 0) {
-    lset((import mpk), 0, 1);
+    integer_list_set((import mpk), 0, 1);
   }
 } return void;
 given boot_a given boot_b given lexfix stdin "x __attribute__ ( ( packed ) ) ;" (0, 7):() then (import mpk):([1])

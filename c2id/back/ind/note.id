@@ -6,7 +6,7 @@ ind_note(int in_id) {
   int in_a = (import na)[in_id];
   int in_n = len((import nl)[in_id]);
   if(direct_call(in_a) == 0 && in_n < 7) {
-    lset((import indn), in_n, 1);
+    integer_list_set((import indn), in_n, 1);
   }
 } return void;
 given boot_a given boot_b given exprfix given bind_param("p", 0) stdin "p(1);" ((import extop)):() then (import indn):([0, 1, 0, 0, 0, 0, 0])

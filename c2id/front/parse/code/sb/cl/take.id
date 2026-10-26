@@ -2,17 +2,17 @@
 // reading it clears it, so the next declarator starts clean.
 cl_take() {
   string ct_f = (import clfn)[0];
-  sset((import clfn), 0, "");
+  string_list_set((import clfn), 0, "");
 } return string ct_f;
-given init_cl given sset((import clfn), 0, "f") ():("f") then (import clfn):([""])
+given init_cl given string_list_set((import clfn), 0, "f") ():("f") then (import clfn):([""])
 given init_cl ():("")
 
 // What the specifiers of a declaration said: kept for every declarator of it.
 cl_spec() {
-  sset((import clsp), 0, (import clfn)[0]);
-  sset((import clfn), 0, "");
+  string_list_set((import clsp), 0, (import clfn)[0]);
+  string_list_set((import clfn), 0, "");
 } return void;
-given init_cl given sset((import clfn), 0, "g") ():() then (import clsp):(["g"]) then (import clfn):([""])
+given init_cl given string_list_set((import clfn), 0, "g") ():() then (import clsp):(["g"]) then (import clfn):([""])
 given init_cl ():() then (import clsp):([""])
 
 // A declarator with a cleanup, its own or the specifiers': the variable and the
@@ -27,4 +27,4 @@ cl_register(string cg_name, string cg_fn) {
   }
 } return void;
 given init_cl ("v", "f"):() then (import clpn):(["v"]) then (import clpf):(["f"])
-given init_cl given sset((import clsp), 0, "s") ("v", ""):() then (import clpf):(["s"])
+given init_cl given string_list_set((import clsp), 0, "s") ("v", ""):() then (import clpf):(["s"])

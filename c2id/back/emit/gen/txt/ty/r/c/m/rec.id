@@ -9,8 +9,8 @@ rec_of(int id) {
     ty = elem_ty(ty);
   }
 } return int ty;
-given txt_fixture given ty_setup given sset((import nk), 1, "str") given lset((import na), 0, 1) given sset((import nt), 0, "->") (0):(4)
-given txt_fixture given ty_setup given sset((import nk), 1, "str") given lset((import na), 0, 1) given sset((import nt), 0, ".") (0):(5)
+given txt_fixture given ty_setup given string_list_set((import nk), 1, "str") given integer_list_set((import na), 0, 1) given string_list_set((import nt), 0, "->") (0):(4)
+given txt_fixture given ty_setup given string_list_set((import nk), 1, "str") given integer_list_set((import na), 0, 1) given string_list_set((import nt), 0, ".") (0):(5)
 given txt_fixture given ty_setup (0):(0)
 given txt_fixture given ty_setup (5):(0)
 
@@ -25,6 +25,6 @@ mem_ty(int id) {
   }
   ty = bfx_prom(id, ty);
 } return int ty;
-given mem_row_fix given txt_setup given sset((import nk), 2, "cast") given lset((import nb), 2, 1) given lset((import na), 0, 2) given sset((import ns), 0, "x") (0):(3)
+given mem_row_fix given txt_setup given string_list_set((import nk), 2, "cast") given integer_list_set((import nb), 2, 1) given integer_list_set((import na), 0, 2) given string_list_set((import ns), 0, "x") (0):(3)
 given txt_fixture given ty_setup (5):(0)
 given txt_fixture given ty_setup (0):(0)

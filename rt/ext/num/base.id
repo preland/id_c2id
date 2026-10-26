@@ -29,7 +29,7 @@ rt_setbase(word[] rst, word rbase, word rch, word rhex) {
 } chain (word[] rst, word rbase, word rch, word rhex) {
   if(rhex == 1 && (rbase == 0 || rbase == 16)) {
     rnb = 16;
-    wset(rst, 0, rst[0] + 2);
+    word_list_set(rst, 0, rst[0] + 2);
   }
-  wset(rst, 1, rnb);
+  word_list_set(rst, 1, rnb);
 } return void;

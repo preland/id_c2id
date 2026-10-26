@@ -3,7 +3,7 @@
 // refused instead, as any constant the folder cannot evaluate is (cunk).
 cw_wide(word wd_w) {
   if(wd_w < 0 - 2147483648 || wd_w > 4294967295) {
-    lset((import cunk), 0, 1);
+    integer_list_set((import cunk), 0, 1);
   }
 } return void;
 given boot_a (4294967296):() then (import cunk)[0]:(1)

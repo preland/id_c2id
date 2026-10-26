@@ -23,7 +23,7 @@ given tynode_fix given ty_setup given lexfix stdin "{ int x ; }" ([0], 5):([5], 
 given tynode_fix given ty_setup given lexfix stdin ";" ([0], 5):([0], 5)
 
 rec_members(int[] pos, int ty) {
-  lset((import tofok), 0, 0);
+  integer_list_set((import tofok), 0, 0);
   advance(pos);
   scan_members(pos, ty);
 } return void;

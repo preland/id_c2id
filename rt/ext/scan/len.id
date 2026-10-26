@@ -15,18 +15,18 @@ rt_lenmod(word rfmt, word[] rst) {
 // `h` or `hh`.
 rt_short(word rfmt, word[] rst) {
   word rn = 2;
-  wset(rst, 1, rst[1] + 1);
+  word_list_set(rst, 1, rst[1] + 1);
   if(peek8(rfmt + rst[1]) == 104) {
     rn = 1;
-    wset(rst, 1, rst[1] + 1);
+    word_list_set(rst, 1, rst[1] + 1);
   }
 } return word rn;
 
 // `l`, `ll`, `z`, `j` or `t`.
 rt_long(word rfmt, word[] rst) {
   word rch = peek8(rfmt + rst[1]);
-  wset(rst, 1, rst[1] + 1);
+  word_list_set(rst, 1, rst[1] + 1);
   if(rch == 108 && peek8(rfmt + rst[1]) == 108) {
-    wset(rst, 1, rst[1] + 1);
+    word_list_set(rst, 1, rst[1] + 1);
   }
 } return word 8;

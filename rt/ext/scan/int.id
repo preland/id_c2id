@@ -15,6 +15,6 @@ rt_gotint(word[] rnm, word rin, word rsup, word rlen, word[] rargs, word[] rst) 
 
 rt_putint(word[] rnm, word rsup, word rlen, word[] rargs, word[] rst) {
   word rv = rt_value(rnm);
-  wset(rst, 0, rst[0] + rnm[0]);
+  word_list_set(rst, 0, rst[0] + rnm[0]);
   rt_give(rv, rsup, rlen, rargs, rst);
 } return void;

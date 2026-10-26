@@ -5,7 +5,7 @@ mark_static(int[] l, int st0) {
   int hit = static_head(st0);
   int i = 0;
   while(hit == 1 && i < len(l)) {
-    sset((import nt), l[i], "static");
+    string_list_set((import nt), l[i], "static");
     i = i + 1;
   }
 } return void;

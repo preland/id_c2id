@@ -24,7 +24,7 @@ bind_static(int id) {
   push((import envo), dn);
 } chain (int id) {
   push((import envn), sn);
-  sset((import nk), id, "block");
+  string_list_set((import nk), id, "block");
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { static int n = 5; return n; }" (11):() then (import dnames):(["f", "n__s1"]) then (import envn):(["n__s1"])
 given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { static int n = 5; return n; }" (11):() then (import envo):(["n"]) then len((import dinit)):(2)
