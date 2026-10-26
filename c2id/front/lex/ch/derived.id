@@ -13,22 +13,13 @@ is_hspace(int c) {
 (13):(1)
 (10):(0)
 
-is_alnum(int c) {
-  int ok = 0;
-  if(is_alpha(c) || is_digit(c)) {
-    ok = 1;
-  }
-} return int ok;
-(48):(1)
-(43):(0)
-
 // The continuation set of a C preprocessing number: digits, letters, `_` and
 // `.` (46). Together with the `e+`/`p-` rule in num_step this is exactly C's
 // pp-number, which is what makes `0x1fUL`, `1.5f`, `1e10` and `0x1p-3` all
 // come out as one `num` token without any special cases.
 is_numcont(int c) {
   int ok = 0;
-  if(is_alnum(c) || c == 46) {
+  if(character_is_name_part(c) || c == 46) {
     ok = 1;
   }
 } return int ok;
