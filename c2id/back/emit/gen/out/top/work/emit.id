@@ -12,7 +12,7 @@ emit_all() {
   emit_boot();
 } return void;
 given init_tu given boot_a given txt_setup given init_frame given init_frame2 ():() then calls emit_loop:(0, 0)
-given init_tu given boot_a given txt_setup given init_frame given init_frame2 ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase), 0);\n} return void;\nmain(int argc, string[] argv) {\n  word k1 = 1;\n  rt_boot(0);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  word rv = rt_args(argc, argv);\n  word r = 0;\n} chain (int argc, string[] argv) {\n  word k3 = 3;\n  int rc = rt_status(r);\n  flush();\n} return int rc;\n")
+given init_tu given boot_a given txt_setup given init_frame given init_frame2 ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  poke64((import gbase), 0);\n} return void;\nmain(int argc, string[] argv) {\n  rt_boot(0);\n  c_globals();\n  word rv = rt_args(argc, argv);\n} chain (int argc, string[] argv) {\n  word r = 0;\n  int rc = rt_status(r);\n  flush();\n} return int rc;\n")
 
 emit_loop(int i, int n) {
   while(i < n) {
@@ -38,5 +38,5 @@ emit_one(int i) {
   int np = len(tys);
   emit_tail(i, n, np, (import fnames)[i]);
 } return void;
-given txt_fixture given init_frame given init_frame2 given init_gfn given tu_body_fixture (0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nblk0_0(word fp) {\n  word k0 = 0;\n  poke64(fp, 0);\n  word nxt = 0 - 2;\n} return word nxt;\nrun0(word fp) {\n  word pc = 0;\n  while(pc >= 0) { pc = blk0_0(fp); }\n  word r = peek64(fp);\n} return word r;\nc_f() {\n  word k1 = 1;\n  word fp = rt_enter(8);\n  word r = run0(fp);\n} chain () {\n  word k2 = 2;\n  rt_leave(8);\n} return word r;\n")
+given txt_fixture given init_frame given init_frame2 given init_gfn given tu_body_fixture (0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nblk0_0(word fp) {\n  poke64(fp, 0);\n  word nxt = 0 - 2;\n} return word nxt;\nrun0(word fp) {\n  word pc = 0;\n  while(pc >= 0) { pc = blk0_0(fp); }\n  word r = peek64(fp);\n} return word r;\nc_f() {\n  word fp = rt_enter(8);\n  word r = run0(fp);\n  rt_leave(8);\n} return word r;\n")
 given txt_fixture given init_frame given init_frame2 given init_gfn given tu_body_fixture (0):() then calls emit_blocks:(0, 6)

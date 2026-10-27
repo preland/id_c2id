@@ -16,7 +16,6 @@ pend_setup() {
 } chain () {
   export int[] obn = [0];
   export string[] chp = ["word fp"];
-  export int[] tagn = [0];
 } return void export pend;
 ():() then len((import pend)):(0)
 ():() then (import chp)[0]:("word fp")

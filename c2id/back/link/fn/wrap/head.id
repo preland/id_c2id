@@ -2,23 +2,6 @@
 emit_head(string params, string line) {
   string_list_set((import chp), 0, params);
   emit_cut(line);
-  emit_tag();
 } return void;
-given init_gfn ("word fp", "blk0_0(word fp) {"):() then prints:("blk0_0(word fp) {\n  word k0 = 0;\n")
+given init_gfn ("word fp", "blk0_0(word fp) {"):() then prints:("blk0_0(word fp) {\n")
 given init_gfn ("word a0", "c_f(word a0) {"):() then (import chp)[0]:("word a0")
-
-// The first line of every segment of a generated function: a local holding a
-// number no other segment in the program holds. id rejects two functions with
-// the same logic, and weighs each segment of a chain on its own, so a segment
-// that happens to repeat another's (two blocks that load the same locals) would
-// fail the build; this is the literal that tells them apart. It costs one of the
-// segment's three actions.
-emit_tag() {
-  int t = (import tagn)[0];
-  print("  word k" + t + " = " + t + ";");
-  integer_list_set((import tagn), 0, t + 1);
-} chain () {
-  integer_list_set((import obn), 0, 1);
-} return void;
-given init_gfn ():() then prints:("  word k0 = 0;\n")
-given init_gfn ():() then (import tagn)[0]:(1)

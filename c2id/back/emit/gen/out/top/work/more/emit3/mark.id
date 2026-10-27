@@ -30,5 +30,5 @@ emit_open(int fn, int b) {
   emit_head("word fp", "blk" + fn + "_" + b + "(word fp) {");
   emit_stmts(b);
 } return void;
-given init_gfn given cfg_body_fixture (0, 0):() then prints:("blk0_0(word fp) {\n  word k0 = 0;\n")
-given init_gfn given cfg_body_fixture (1, 1):() then prints:("blk1_1(word fp) {\n  word k0 = 0;\n")
+given init_gfn given cfg_body_fixture (0, 0):() then prints:("blk0_0(word fp) {\n")
+given init_gfn given cfg_body_fixture (1, 1):() then prints:("blk1_1(word fp) {\n")

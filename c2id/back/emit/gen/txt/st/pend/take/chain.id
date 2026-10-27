@@ -26,7 +26,7 @@ emit_out2(string line, int n, int w) {
   print(line);
   integer_list_set((import obn), 0, n + w);
 } return void;
-given init_gfn ("  word t0 = 1;", 3, 1):() then prints:("} chain (word fp) {\n  word k0 = 0;\n  word t0 = 1;\n")
+given init_gfn ("  word t0 = 1;", 3, 1):() then prints:("} chain (word fp) {\n  word t0 = 1;\n")
 given init_gfn ("  // c", 3, 0):() then prints:("  // c\n")
 
 emit_cut(string line) {

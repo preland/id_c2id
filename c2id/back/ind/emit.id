@@ -9,8 +9,8 @@ emit_inds() {
     n = n + 1;
   }
 } return void;
-given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; }" ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call1(word f, word a0) {\n  word k0 = 0;\n  word r = 0;\n  word k1 = 1;\n} chain (word f, word a0) {\n  if(f < 0) { r = c_f(a0); } else { r = c_f(a0); }\n} return word r;\n")
-given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(void) { return 0; }" ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call0(word f) {\n  word k0 = 0;\n  word r = 0;\n  word k1 = 1;\n} chain (word f) {\n  if(f < 0) { r = c_g(); } else { r = c_g(); }\n} return word r;\ncrt_call1(word f, word a0) {\n  word k2 = 2;\n  word r = 0;\n  word k3 = 3;\n} chain (word f, word a0) {\n  if(f < 0) { r = c_f(a0); } else { r = c_f(a0); }\n} return word r;\n")
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; }" ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call1(word f, word a0) {\n  word r = 0;\n  if(f < 0) { r = c_f(a0); } else { r = c_f(a0); }\n} return word r;\n")
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(void) { return 0; }" ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call0(word f) {\n  word r = 0;\n  if(f < 0) { r = c_g(); } else { r = c_g(); }\n} return word r;\ncrt_call1(word f, word a0) {\n  word r = 0;\n  if(f < 0) { r = c_f(a0); } else { r = c_f(a0); }\n} return word r;\n")
 
 emit_ind(int n) {
   int[] fs = fns_of(n);
@@ -20,8 +20,8 @@ emit_ind(int n) {
     ind_stub(n);
   }
 } return void;
-given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; }" (1):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call1(word f, word a0) {\n  word k0 = 0;\n  word r = 0;\n  word k1 = 1;\n} chain (word f, word a0) {\n  if(f < 0) { r = c_f(a0); } else { r = c_f(a0); }\n} return word r;\n")
-given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(void) { return 0; }" (0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call0(word f) {\n  word k0 = 0;\n  word r = 0;\n  word k1 = 1;\n} chain (word f) {\n  if(f < 0) { r = c_g(); } else { r = c_g(); }\n} return word r;\n")
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; }" (1):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call1(word f, word a0) {\n  word r = 0;\n  if(f < 0) { r = c_f(a0); } else { r = c_f(a0); }\n} return word r;\n")
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(void) { return 0; }" (0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call0(word f) {\n  word r = 0;\n  if(f < 0) { r = c_g(); } else { r = c_g(); }\n} return word r;\n")
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; }" (2):() then prints:("")
 
 // The functions the program defines that take exactly n parameters, by their

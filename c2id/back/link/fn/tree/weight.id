@@ -22,21 +22,16 @@ else_weight(string line) {
 ("  if(f < 4) { r = a; } else { r = b; }"):(2)
 ("  while(c) { r = a; }"):(1)
 
-// The break between two segments of a generated function. Every segment opens
-// with its tag (emit_tag), one action. A segment with one action left whose next
-// line costs two cannot take it, and may not be padded with `blank` either --
-// the continuation's first line, a tag, would have fitted -- so the next
-// segment's tag is placed here, in the room, and the continuation opens with the
-// line itself.
+// The break between two segments of a generated function. A segment must have
+// exactly three actions before a chain (E0204), so a segment with one action
+// left whose next line costs two (an if with an else) is padded with `blank`:
+// that line cannot be moved up into the room, the one case `blank` is allowed.
 emit_brk(int n) {
   if(n == 2) {
-    emit_tag();
-    print("} chain (" + (import chp)[0] + ") {");
-    integer_list_set((import obn), 0, 0);
-  } else {
-    print("} chain (" + (import chp)[0] + ") {");
-    emit_tag();
+    print("  blank;");
   }
+  print("} chain (" + (import chp)[0] + ") {");
+  integer_list_set((import obn), 0, 0);
 } return void;
-given init_gfn (2):() then prints:("  word k0 = 0;\n} chain (word fp) {\n") then (import obn)[0]:(0)
-given init_gfn (1):() then prints:("} chain (word fp) {\n  word k0 = 0;\n") then (import obn)[0]:(1)
+given init_gfn (2):() then prints:("  blank;\n} chain (word fp) {\n") then (import obn)[0]:(0)
+given init_gfn (3):() then prints:("} chain (word fp) {\n") then (import obn)[0]:(0)
