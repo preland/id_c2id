@@ -4,13 +4,13 @@ ci128_of_s(word wqd, word wqv) {
   word wqh = wqv >> 63;
   ld_cset(wqd, wqv, wqh);
 } return word wqd;
-given wq_cells ((import wqz), -5):((import wqz)) then wq_zl:(-5) then wq_zh:(-1)
-given wq_cells ((import wqz), 5):((import wqz)) then wq_zl:(5) then wq_zh:(0)
-given wq_cells ((import wqz), 4611686018427387904):((import wqz)) then wq_zh:(0)
-given wq_cells ((import wqz), -4611686018427387904):((import wqz)) then wq_zh:(-1)
+given wq_cells ((import wqz), -5):((import wqz)) then peek64((import wqz)):(-5) then peek64((import wqzh)):(-1)
+given wq_cells ((import wqz), 5):((import wqz)) then peek64((import wqz)):(5) then peek64((import wqzh)):(0)
+given wq_cells ((import wqz), 4611686018427387904):((import wqz)) then peek64((import wqzh)):(0)
+given wq_cells ((import wqz), -4611686018427387904):((import wqz)) then peek64((import wqzh)):(-1)
 
 ci128_of_u(word wqd, word wqv) {
   ld_cset(wqd, wqv, 0);
 } return word wqd;
-given wq_cells ((import wqz), -5):((import wqz)) then wq_zl:(-5) then wq_zh:(0)
-given wq_cells ((import wqz), 5):((import wqz)) then wq_zl:(5) then wq_zh:(0)
+given wq_cells ((import wqz), -5):((import wqz)) then peek64((import wqz)):(-5) then peek64((import wqzh)):(0)
+given wq_cells ((import wqz), 5):((import wqz)) then peek64((import wqz)):(5) then peek64((import wqzh)):(0)

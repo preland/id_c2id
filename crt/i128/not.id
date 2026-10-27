@@ -3,8 +3,8 @@ ci128_not(word wqd, word wqa) {
   word wqh = ~peek64(wqa + 8);
   ld_cset(wqd, wql, wqh);
 } return word wqd;
-given wq_cells ((import wqz), (import wqx)):((import wqz)) then wq_zl:(0) then wq_zh:(-2)
-given wq_cells ((import wqz), (import wqy)):((import wqz)) then wq_zl:(-3) then wq_zh:(-1)
+given wq_cells ((import wqz), (import wqx)):((import wqz)) then peek64((import wqz)):(0) then peek64((import wqzh)):(-2)
+given wq_cells ((import wqz), (import wqy)):((import wqz)) then peek64((import wqz)):(-3) then peek64((import wqzh)):(-1)
 
 // 1 when the value is not zero.
 ci128_nz(word wqa) {

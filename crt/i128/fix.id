@@ -10,7 +10,9 @@ wq_cells() {
   export word wqz = wqb + 32;
   ld_cset(wqb, -1, 1);
   ld_cset(wqb + 16, 2, 0);
+} chain () {
+  export word wqzh = wqb + 40;
 } return void export wqx;
-():() then wq_zl:(0)
-():() then wq_zh:(0)
+given wq_cells ():() then peek64((import wqz)):(0)
+given wq_cells ():() then peek64((import wqzh)):(0)
 

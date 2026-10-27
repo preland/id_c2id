@@ -21,5 +21,5 @@ ci128_mul(word wqd, word wqa, word wqb) {
 } chain (word wqd, word wqa, word wqb) {
   ld_cset(wqd, wql, wqh);
 } return word wqd;
-given wq_cells ((import wqz), (import wqx), (import wqy)):((import wqz)) then wq_zl:(-2) then wq_zh:(3)
-given wq_cells ((import wqz), (import wqx), (import wqx)):((import wqz)) then wq_zl:(1) then wq_zh:(-4)
+given wq_cells ((import wqz), (import wqx), (import wqy)):((import wqz)) then peek64((import wqz)):(-2) then peek64((import wqzh)):(3)
+given wq_cells ((import wqz), (import wqx), (import wqx)):((import wqz)) then peek64((import wqz)):(1) then peek64((import wqzh)):(-4)

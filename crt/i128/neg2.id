@@ -24,6 +24,6 @@ wq_out(word wqd, word[] wqu, int wqov) {
   }
   ld_cset(wqd, wqu[wqbs], wqu[wqbs + 1]);
 } return word wqd;
-given wq_cells ((import wqz), [0, 0, 0, 0, 7, 0, 3, 0, 1, 0], 0):((import wqz)) then wq_zl:(-7) then wq_zh:(-1)
-given wq_cells ((import wqz), [0, 0, 0, 0, 7, 0, 3, 0, 1, 0], 1):((import wqz)) then wq_zl:(-3) then wq_zh:(-1)
-given wq_cells ((import wqz), [0, 0, 0, 0, 7, 0, 3, 0, 1, 1], 0):((import wqz)) then wq_zl:(7) then wq_zh:(0)
+given wq_cells ((import wqz), [0, 0, 0, 0, 7, 0, 3, 0, 1, 0], 0):((import wqz)) then peek64((import wqz)):(-7) then peek64((import wqzh)):(-1)
+given wq_cells ((import wqz), [0, 0, 0, 0, 7, 0, 3, 0, 1, 0], 1):((import wqz)) then peek64((import wqz)):(-3) then peek64((import wqzh)):(-1)
+given wq_cells ((import wqz), [0, 0, 0, 0, 7, 0, 3, 0, 1, 1], 0):((import wqz)) then peek64((import wqz)):(7) then peek64((import wqzh)):(0)
