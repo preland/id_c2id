@@ -8,11 +8,11 @@ wd_to(int to, string s) {
     wout = wd_low(to, s);
   }
 } return string wout;
-given txt_fixture given pend_setup (0, "x"):("t1") then (import pend):(["word t0 = ci128_lo(x);", "word t1 = sx_bits(t0, 32);"])
+given txt_fixture given pend_setup (0, "x"):("t1") then (import pend):(["word t0 = peek64(x);", "word t1 = sx_bits(t0, 32);"])
 given txt_fixture given fl_fixture given wd_fixture given pend_setup ((import wdbl), "x"):("t0") then (import pend):(["word t0 = ci128_nz(x);"])
 
 wd_low(int to, string s) {
-  string wlo = name_val("ci128_lo(" + s + ")");
+  string wlo = name_val("peek64(" + s + ")");
   string wout = conv_txt(to, wlo);
 } return string wout;
 given txt_fixture given pend_setup (2, "x"):("t0")

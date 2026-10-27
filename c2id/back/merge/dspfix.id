@@ -1,0 +1,36 @@
+// The small pieces under mg_dsp: apply the renames made so far to a line,
+// look a key up, and copy a kept function's four lines.
+
+mg_dsp_fix(string mgdline, string[] mgdrf, string[] mgdrt) {
+  string mgdo = mgdline;
+  int mgi = 0;
+  while(mgi < len(mgdrf)) {
+    mgdo = string_replace(mgdo, mgdrf[mgi] + "(", mgdrt[mgi] + "(");
+    mgi = mgi + 1;
+  }
+} return string mgdo;
+("nxt = dsp2_0_2(fp, pc);", ["dsp2_0_2"], ["dsp1_0_2"]):("nxt = dsp1_0_2(fp, pc);")
+("x", [], []):("x")
+
+mg_dsp_find(string[] mgdks, string mgdkey) {
+  int mgdr = 0 - 1;
+  int mgi = 0;
+  while(mgi < len(mgdks)) {
+    if(mgdks[mgi] == mgdkey) {
+      mgdr = mgi;
+    }
+    mgi = mgi + 1;
+  }
+} return int mgdr;
+(["a", "b"], "b"):(1)
+(["a"], "z"):(-1)
+
+mg_dsp_copy(string[] mgdin, string[] mgdout, int mgi, string[] mgdrf, string[] mgdrt) {
+  int mgdj = 0;
+  while(mgdj < 4) {
+    push(mgdout, mg_dsp_fix(mgdin[mgi + mgdj], mgdrf, mgdrt));
+    mgdj = mgdj + 1;
+  }
+} return string[] mgdout;
+(["h", "a", "b", "t"], [], 0, [], []):(["h", "a", "b", "t"])
+(["h", "a(d2(", "b", "t"], ["q"], 0, ["d2"], ["d1"]):(["q", "h", "a(d1(", "b", "t"])

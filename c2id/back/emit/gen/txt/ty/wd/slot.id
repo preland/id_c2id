@@ -16,8 +16,8 @@ wd_count(int wc) {
   int wk = wd_kind(ex_ty(wc));
   string wtx = ex_txt(wc);
   if(wk > 0) {
-    wtx = name_val("ci128_lo(" + wtx + ")");
+    wtx = name_val("peek64(" + wtx + ")");
   }
 } return string wtx;
 given txt_fixture given pend_setup given fl_fixture given wd_fixture given init_frame given init_frame2 given txt_reset ((import fli)):("5")
-given txt_fixture given pend_setup given fl_fixture given wd_fixture given init_frame given init_frame2 given txt_reset ((import wdx)):("t1") then (import pend)[1]:("word t1 = ci128_lo(t0);")
+given txt_fixture given pend_setup given fl_fixture given wd_fixture given init_frame given init_frame2 given txt_reset ((import wdx)):("t1") then (import pend)[1]:("word t1 = peek64(t0);")

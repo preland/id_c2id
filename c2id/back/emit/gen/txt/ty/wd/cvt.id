@@ -9,7 +9,7 @@ wd_cvt(int to, int from, string s) {
   string wout = wd_cvt2(to, from, s, wkt, wkf);
 } return string wout;
 given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset given wd_types (6, 0, "x"):("t0") then (import pend):(["word t0 = ci128_of_s((fp + 16), x);"])
-given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset given wd_types (0, 7, "x"):("t1") then (import pend):(["word t0 = ci128_lo(x);", "word t1 = sx_bits(t0, 32);"])
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset given wd_types (0, 7, "x"):("t1") then (import pend):(["word t0 = peek64(x);", "word t1 = sx_bits(t0, 32);"])
 
 wd_cvt2(int to, int from, string s, int wkt, int wkf) {
   string wout = s;

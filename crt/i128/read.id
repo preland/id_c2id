@@ -1,12 +1,12 @@
 // The low and the high word of wqz, the cell the cases write results to.
 wq_zl() {
-  word wqr = ci128_lo((import wqz));
+  word wqr = peek64((import wqz));
 } return word wqr;
 given wq_cells ():(0)
 given wq_cells given ld_cset((import wqz), 5, 6) ():(5)
 
 wq_zh() {
-  word wqr = ci128_lo((import wqz) + 8);
+  word wqr = peek64((import wqz) + 8);
 } return word wqr;
 given wq_cells ():(0)
 given wq_cells given ld_cset((import wqz), 5, 6) ():(6)

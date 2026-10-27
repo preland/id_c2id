@@ -318,8 +318,8 @@ Every operation is `crt/i128`, given the address of a 16-byte frame temporary
 for the result and the addresses of its operands, and answering the temporary:
 `ci128_add sub mul neg not and or xor shl shr sar divu modu divs mods cmps cmpu
 nz lo of_s of_u`. Arithmetic wraps modulo 2^128; a shift count outside 0 to 127
-is as undefined as in C. `ci128_lo` is the low word, where a conversion to any
-narrower integer starts, and `ci128_of_s` or `ci128_of_u` widen a word by sign
+is as undefined as in C. The low word is `peek64` of the value's address, where a
+conversion to any narrower integer starts, and `ci128_of_s` or `ci128_of_u` widen a word by sign
 or zero extension. The result of a comparison, `&&`, `||` and `!` is an `int`.
 Division by zero is undefined in C; here the quotient is 0 and the remainder
 the dividend. The routines were compared with gcc over four million random

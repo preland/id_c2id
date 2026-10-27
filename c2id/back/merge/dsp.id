@@ -1,0 +1,43 @@
+// Dispatch functions that came out the same. Merging block functions makes
+// `dsp19_0_2` and `dsp20_0_2` call the same merged blocks, so the two are one
+// function written twice (E0402). A four-line `dspN(...) {` function whose
+// header (past its name) and two body lines match an earlier one is dropped,
+// and every later call to it names the earlier one. This relies on a dispatch
+// function being printed before the lines that call it.
+
+mg_dsp(string[] mgdin) {
+  string[] mgdout = [];
+  string[] mgdrf = [];
+  string[] mgdrt = [];
+} chain (string[] mgdin) {
+  string[] mgdks = [];
+  string[] mgdns = [];
+  int mgi = 0;
+} chain (string[] mgdin) {
+  while(mgi < len(mgdin)) {
+    mgi = mg_dsp_at(mgdin, mgdout, mgi, mgdrf, mgdrt, mgdks, mgdns);
+  }
+} return string[] mgdout;
+(["x", "y"]):(["x", "y"])
+(["dsp1_0_2(word fp, word pc) {", "  word nxt = 0 - 1;", "  nxt = blk1_0(fp);", "} return word nxt;", "dsp2_0_2(word fp, word pc) {", "  word nxt = 0 - 1;", "  nxt = blk1_0(fp);", "} return word nxt;", "  z = dsp2_0_2(fp, pc);"]):(["dsp1_0_2(word fp, word pc) {", "  word nxt = 0 - 1;", "  nxt = blk1_0(fp);", "} return word nxt;", "  z = dsp1_0_2(fp, pc);"])
+
+mg_dsp_at(string[] mgdin, string[] mgdout, int mgi, string[] mgdrf, string[] mgdrt, string[] mgdks, string[] mgdns) {
+  int mgdnext = mgi + 1;
+  if(mg_dsp_head(mgdin, mgi) == 1) {
+    mgdnext = mg_dsp_fn(mgdin, mgdout, mgi, mgdrf, mgdrt, mgdks, mgdns);
+  } else {
+    push(mgdout, mg_dsp_fix(mgdin[mgi], mgdrf, mgdrt));
+  }
+} return int mgdnext;
+(["x", "y"], [], 0, [], [], [], []):(1)
+(["dsp1(word fp, word pc) {", "a", "b", "} return word nxt;"], [], 0, [], [], [], []):(4)
+
+mg_dsp_head(string[] mgdin, int mgi) {
+  int mgdr = 0;
+  if(string_starts_with(mgdin[mgi], "dsp") == 1 && mgi + 3 < len(mgdin) && mgdin[mgi + 3] == "} return word nxt;") {
+    mgdr = 1;
+  }
+} return int mgdr;
+(["dsp1(word fp, word pc) {", "a", "b", "} return word nxt;"], 0):(1)
+(["dsp1(word fp, word pc) {", "a", "b"], 0):(0)
+(["x", "a", "b", "} return word nxt;"], 0):(0)
