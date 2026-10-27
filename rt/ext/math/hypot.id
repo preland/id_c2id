@@ -5,7 +5,7 @@ c_hypot(word a, word b) {
 
 cm_hypot(word a, float cmy) {
   float cmx = float_of_bits(a);
-  float cmz = flt_hypot(cmx, cmy);
+  float cmz = float_hypotenuse(cmx, cmy);
   word cmr = bits_of_float(cmz);
 } return word cmr;
 

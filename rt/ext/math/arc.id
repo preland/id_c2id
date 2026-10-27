@@ -1,18 +1,18 @@
 c_asin(word a) {
   float cmx = float_of_bits(a);
-  float cmz = flt_asin(cmx);
+  float cmz = float_arc_sine(cmx);
   word cmr = bits_of_float(cmz);
 } return word cmr;
 
 c_acos(word a) {
   float cmx = float_of_bits(a);
-  float cmz = flt_acos(cmx);
+  float cmz = float_arc_cosine(cmx);
   word cmr = bits_of_float(cmz);
 } return word cmr;
 
 c_atan(word a) {
   float cmx = float_of_bits(a);
-  float cmz = flt_atan(cmx);
+  float cmz = float_arc_tangent(cmx);
   word cmr = bits_of_float(cmz);
 } return word cmr;
 

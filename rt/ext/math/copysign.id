@@ -5,7 +5,7 @@ c_copysign(word a, word b) {
 
 cm_copysign(word a, float cmy) {
   float cmx = float_of_bits(a);
-  float cmz = flt_copysign(cmx, cmy);
+  float cmz = float_copy_sign(cmx, cmy);
   word cmr = bits_of_float(cmz);
 } return word cmr;
 

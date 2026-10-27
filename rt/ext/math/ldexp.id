@@ -5,6 +5,6 @@ c_ldexp(word a, word e) {
 
 cm_ldexp(word a, int cmn) {
   float cmx = float_of_bits(a);
-  float cmz = flt_ldexp(cmx, cmn);
+  float cmz = float_scale_by_power_of_two(cmx, cmn);
   word cmr = bits_of_float(cmz);
 } return word cmr;

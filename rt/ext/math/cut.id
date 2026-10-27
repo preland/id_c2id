@@ -1,18 +1,18 @@
 c_ceil(word a) {
   float cmx = float_of_bits(a);
-  float cmz = flt_ceil(cmx);
+  float cmz = float_ceil(cmx);
   word cmr = bits_of_float(cmz);
 } return word cmr;
 
 c_round(word a) {
   float cmx = float_of_bits(a);
-  float cmz = flt_round(cmx);
+  float cmz = float_round(cmx);
   word cmr = bits_of_float(cmz);
 } return word cmr;
 
 c_trunc(word a) {
   float cmx = float_of_bits(a);
-  float cmz = flt_trunc(cmx);
+  float cmz = float_truncate(cmx);
   word cmr = bits_of_float(cmz);
 } return word cmr;
 

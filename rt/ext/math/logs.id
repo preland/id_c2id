@@ -1,18 +1,18 @@
 c_log2(word a) {
   float cmx = float_of_bits(a);
-  float cmz = flt_log2(cmx);
+  float cmz = float_log_base_two(cmx);
   word cmr = bits_of_float(cmz);
 } return word cmr;
 
 c_log10(word a) {
   float cmx = float_of_bits(a);
-  float cmz = flt_log10(cmx);
+  float cmz = float_log_base_ten(cmx);
   word cmr = bits_of_float(cmz);
 } return word cmr;
 
 c_floor(word a) {
   float cmx = float_of_bits(a);
-  float cmz = flt_floor(cmx);
+  float cmz = float_floor(cmx);
   word cmr = bits_of_float(cmz);
 } return word cmr;
 

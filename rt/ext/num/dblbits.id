@@ -1,7 +1,7 @@
 rt_dbits(word rl) {
-  float rf = flt_inf();
+  float rf = float_infinity();
   if(rl == 110) {
-    rf = flt_nan();
+    rf = float_undefined();
   }
   word rv = bits_of_float(rf);
 } return word rv;
