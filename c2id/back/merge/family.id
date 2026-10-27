@@ -1,0 +1,21 @@
+// What the cases for the later passes need before they run: the lists set up
+// for the `dsp` family, and for the `blk` family with one function used as a
+// value (so mgzx holds its name).
+
+mg_fixture_dsp() {
+  mg_setup();
+  mg_setup_c();
+  string_list_set((import mgzp), 0, "dsp");
+} return void;
+():() then (import mgzp)[0]:("dsp")
+():() then len((import mgzx)):(0)
+
+mg_fixture_ref() {
+  mg_setup();
+  mg_setup_c();
+  string[] mgsmp = ["blk1_0(word fp) {", "} return word 3;", "  f = blk1_0;"];
+} chain () {
+  mg_refs(mgsmp);
+} return void;
+():() then (import mgzx)[0]:("blk1_0")
+():() then len((import mgzx)):(1)

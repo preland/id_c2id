@@ -25,10 +25,12 @@ given mg_setup given mg_setup_c (["==== FILE a.id", "blk1_0(word fp) {", "  word
 
 mg_is_head(string mgline) {
   int mgres = 0;
-  if(string_starts_with(mgline, "blk") == 1 && string_ends_with(mgline, ") {") == 1) {
+  if(string_ends_with(mgline, ") {") == 1 && mg_is_family(string_before(mgline, "(")) == 1) {
     mgres = 1;
   }
 } return int mgres;
-("blk4_1(word fp) {"):(1)
-("  nxt = blk4_1(fp);"):(0)
-("blkx"):(0)
+given mg_setup given mg_setup_c ("blk4_1(word fp) {"):(1)
+given mg_setup given mg_setup_c ("  nxt = blk4_1(fp);"):(0)
+given mg_setup given mg_setup_c ("blkx"):(0)
+given mg_fixture_dsp ("dsp4_1(word fp, word pc) {"):(1)
+given mg_fixture_dsp ("blk4_1(word fp) {"):(0)

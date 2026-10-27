@@ -13,22 +13,20 @@
 // of the comparison and kept in the surviving function, which is also why the
 // merged function is never one operation (E0408): its tag local is unused.
 //
+// The same is done for the dispatch functions (`dsp...`) and the drivers
+// (`run...`), one family per pass (merge/pass.id) in the order they call each
+// other, so each family sees its callers already naming the survivors. A
+// function used other than by a direct call is left alone (merge/refs.id).
+//
 // This is a stage of its own, run over the finished stream, because the stream
 // is printed as it is generated and a function cannot be changed once printed.
 
 mg_merge(string mgtext) {
-  mg_setup();
-  mg_setup_c();
-  string[] mglines = string_split(mgtext, "\n");
-} chain (string mgtext) {
-  mg_collect(mglines);
-  mg_masks();
-  string[] mgout = mg_emit_all(mglines);
-} chain (string mgtext) {
-  string[] mgdspd = mg_dsp(mgout);
-  string[] mgkept = mg_trim(mgdspd);
-  string mgr = string_join(mgkept, "\n");
+  string mgblk = mg_pass(mgtext, "blk");
+  string mgdsp = mg_pass(mgblk, "dsp");
+  string mgr = mg_pass(mgdsp, "run");
 } return string mgr;
+("==== FILE a.id\ndsp1_0(word fp, word pc) {\n  word nxt = 0 - 1;\n  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }\n} return word nxt;\ndsp2_0(word fp, word pc) {\n  word nxt = 0 - 1;\n  if(pc < 3) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }\n} return word nxt;\nrun1(word fp) {\n  word pc = 0;\n  while(pc >= 0) { pc = dsp1_0(fp, pc); }\n} return word pc;\nrun2(word fp) {\n  word pc = 0;\n  while(pc >= 0) { pc = dsp2_0(fp, pc); }\n} return word pc;\nc_a(word a0) {\n  word r = run1(fp);\n} return word r;\nc_b(word a0) {\n  word r = run2(fp);\n} return word r;\n"):("==== FILE a.id\ndsp1_0(word fp, word pc, word lv2) {\n  word nxt = 0 - 1;\n  if(pc < lv2) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }\n} return word nxt;\nrun1(word fp, word lv2) {\n  word pc = 0;\n  while(pc >= 0) { pc = dsp1_0(fp, pc, lv2); }\n} return word pc;\nc_a(word a0) {\n  word r = run1(fp, 1);\n} return word r;\nc_b(word a0) {\n  word r = run1(fp, 3);\n} return word r;\n")
 ("==== FILE a.id\nblk1_0(word fp) {\n  word k0 = 0;\n  poke64(fp + 40, 7);\n} return word 3;\nblk1_1(word fp) {\n  word k1 = 1;\n  poke64(fp + 40, 9);\n} return word 5;\ndsp(word fp, word pc) {\n  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }\n} return word nxt;\n"):("==== FILE a.id\nblk1_0(word fp, word lv1, word lv2) {\n  word k0 = 0;\n  poke64(fp + 40, lv1);\n} return word lv2;\ndsp(word fp, word pc) {\n  if(pc < 1) { nxt = blk1_0(fp, 7, 3); } else { nxt = blk1_0(fp, 9, 5); }\n} return word nxt;\n")
 ("==== FILE a.id\nblk1_0(word fp) {\n  word k0 = 0;\n  poke64(fp, 7);\n} return word 3;\ndsp(word fp, word pc) {\n  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }\n} return word nxt;\n==== FILE b.id\nblk1_1(word fp) {\n  word k1 = 1;\n  poke64(fp, 7);\n} return word 3;\n"):("==== FILE a.id\nblk1_0(word fp) {\n  word k0 = 0;\n  poke64(fp, 7);\n} return word 3;\ndsp(word fp, word pc) {\n  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_0(fp); }\n} return word nxt;\n")
 

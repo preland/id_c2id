@@ -1,0 +1,23 @@
+// One merge pass over the text, for the one family of generated functions named
+// by mgfam. The families are merged in the order they call each other (a `dsp`
+// function calls `blk`s, a `run` calls `dsp`s), so that by the time a family's
+// turn comes its callers' calls already name the survivors and functions that
+// differed only in whom they called now differ only in literals.
+
+mg_pass(string mgtext, string mgfam) {
+  mg_setup();
+  mg_setup_c();
+  string_list_set((import mgzp), 0, mgfam);
+} chain (string mgtext, string mgfam) {
+  string[] mglines = string_split(mgtext, "\n");
+  mg_refs(mglines);
+  mg_collect(mglines);
+} chain (string mgtext, string mgfam) {
+  mg_masks();
+  string[] mgout = mg_emit_all(mglines);
+  string[] mgkept = mg_trim(mgout);
+} chain (string mgtext, string mgfam) {
+  string mgr = string_join(mgkept, "\n");
+} return string mgr;
+("==== FILE a.id\ndsp1_0(word fp, word pc) {\n  word nxt = 0 - 1;\n  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }\n} return word nxt;\ndsp2_0(word fp, word pc) {\n  word nxt = 0 - 1;\n  if(pc < 3) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }\n} return word nxt;\nrun1(word fp) {\n  word pc = 0;\n  while(pc >= 0) { pc = dsp1_0(fp, pc); }\n} return word pc;\nrun2(word fp) {\n  word pc = 0;\n  while(pc >= 0) { pc = dsp2_0(fp, pc); }\n} return word pc;\n", "dsp"):("==== FILE a.id\ndsp1_0(word fp, word pc, word lv2) {\n  word nxt = 0 - 1;\n  if(pc < lv2) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }\n} return word nxt;\nrun1(word fp) {\n  word pc = 0;\n  while(pc >= 0) { pc = dsp1_0(fp, pc, 1); }\n} return word pc;\nrun2(word fp) {\n  word pc = 0;\n  while(pc >= 0) { pc = dsp1_0(fp, pc, 3); }\n} return word pc;\n")
+("==== FILE a.id\nrun1(word fp) {\n  word pc = 0;\n  while(pc >= 0) { pc = dsp1_0(fp, pc); }\n  word r = peek64(fp + 8);\n} return word r;\nrun2(word fp) {\n  word pc = 0;\n  while(pc >= 0) { pc = dsp1_0(fp, pc); }\n  word r = peek64(fp + 16);\n} return word r;\nc_a(word a0) {\n  word r = run1(fp);\n} return word r;\nc_b(word a0) {\n  word r = run2(fp);\n} return word r;\n", "run"):("==== FILE a.id\nrun1(word fp, word lv2) {\n  word pc = 0;\n  while(pc >= 0) { pc = dsp1_0(fp, pc); }\n  word r = peek64(fp + lv2);\n} return word r;\nc_a(word a0) {\n  word r = run1(fp, 8);\n} return word r;\nc_b(word a0) {\n  word r = run1(fp, 16);\n} return word r;\n")

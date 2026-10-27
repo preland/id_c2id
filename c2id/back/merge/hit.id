@@ -1,20 +1,19 @@
 // Replacing one call: the head's name, then `fp`, then the values this
 // function had where the head took a parameter.
 
-mg_call_edit(string mgline, int mgp, int mgq, string mgname, int[] mgst, string[] mgacc) {
-  int mgf = hash_map_get((import mgznk), (import mgznv), (import mgznu), mgname, 0);
+mg_call_edit(string[] mgpcs, int mgi, int mgend, string[] mgacc) {
+  string mgnm = mg_raw(mgpcs, mgi, mgi + 1);
+  int mgf = hash_map_get((import mgznk), (import mgznv), (import mgznu), mgnm, 0);
   int mgh = (import mgzfg)[mgf];
+} chain (string[] mgpcs, int mgi, int mgend, string[] mgacc) {
   string mgextra = mg_extra((import mgzfm)[mgh], (import mgzfl)[mgf]);
-} chain (string mgline, int mgp, int mgq, string mgname, int[] mgst, string[] mgacc) {
-  string mgcall = (import mgzfn)[mgh] + "(fp" + mgextra + ")";
-  string mgjoined = mgacc[0] + str_sub(mgline, mgst[0], mgp - mgst[0]) + mgcall;
-  string_list_set(mgacc, 0, mgjoined);
-} chain (string mgline, int mgp, int mgq, string mgname, int[] mgst, string[] mgacc) {
-  integer_list_set(mgst, 0, mgq + 4);
-  integer_list_set(mgst, 1, mgq + 4);
+  string mgargs = mg_raw(mgpcs, mgi + 2, mgend);
+  string mgcall = (import mgzfn)[mgh] + "(" + mgargs + mgextra + ")";
+} chain (string[] mgpcs, int mgi, int mgend, string[] mgacc) {
+  string_list_set(mgacc, 0, mgacc[0] + mgcall);
 } return string[] mgacc;
-given mg_fixture ("  nxt = blk1_1(fp);", 8, 14, "blk1_1", [0, 0], [""]):(["  nxt = blk1_0(fp, 9, 5)"])
-given mg_fixture ("  nxt = blk1_1(fp);", 8, 14, "blk1_1", [3, 0], ["A"]):(["Axt = blk1_0(fp, 9, 5)"])
+given mg_fixture (["tblk1_1", "t(", "tfp", "t)"], 0, 3, [""]):(["blk1_0(fp, 9, 5)"])
+given mg_fixture (["tblk1_1", "t(", "tfp", "t,", "t ", "n2", "t)"], 0, 6, ["A"]):(["Ablk1_0(fp, 2, 9, 5)"])
 
 mg_keep(string[] mgout, int mgi) {
   int mgres = 1;

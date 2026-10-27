@@ -1,0 +1,36 @@
+// Reading a call out of a line's pieces (merge/pieces.id): where its argument
+// list ends, whether a name is followed by an argument list at all, and the
+// plain text of a run of pieces.
+
+mg_close(string[] mgpcs, int mgi) {
+  while(mgi < len(mgpcs) && mgpcs[mgi] != "t)" && mgpcs[mgi] != "t(") {
+    mgi = mgi + 1;
+  }
+  if(mgi >= len(mgpcs) || mgpcs[mgi] == "t(") {
+    mgi = 0 - 1;
+  }
+} return int mgi;
+(["tf", "t(", "tfp", "t)"], 2):(3)
+(["tf", "t(", "tg", "t(", "t)"], 2):(-1)
+(["tf", "t(", "tfp"], 2):(-1)
+
+mg_next_is_paren(string[] mgpcs, int mgi) {
+  int mgres = 0;
+  if(mgi + 1 < len(mgpcs) && mgpcs[mgi + 1] == "t(") {
+    mgres = 1;
+  }
+} return int mgres;
+(["tf", "t(", "t)"], 0):(1)
+(["tf", "t;"], 0):(0)
+(["tf"], 0):(0)
+
+mg_raw(string[] mgpcs, int mgfrom, int mgto) {
+  string mgr = "";
+  while(mgfrom < mgto) {
+    mgr = mgr + str_sub(mgpcs[mgfrom], 1, len(mgpcs[mgfrom]) - 1);
+    mgfrom = mgfrom + 1;
+  }
+} return string mgr;
+(["tx", "t ", "n15"], 0, 3):("x 15")
+(["tab"], 0, 0):("")
+(["tx", "t ", "n15"], 2, 3):("15")

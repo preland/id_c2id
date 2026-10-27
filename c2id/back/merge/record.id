@@ -13,7 +13,7 @@ mg_func_end(string[] mglines, int mgi) {
 (["blk1_0(word fp) {", "x"], 0):(2)
 
 mg_record(string[] mglines, int mgs, int mge) {
-  string mgkey = mg_func_text(mglines, mgs, mge, 0);
+  string mgkey = mg_key(mglines, mgs, mge);
   string mglit = mg_func_text(mglines, mgs, mge, 1);
   string mgname = string_before(mglines[mgs], "(");
 } chain (string[] mglines, int mgs, int mge) {

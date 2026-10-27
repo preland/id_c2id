@@ -28,6 +28,8 @@ mg_body_line(string mgline, string mgmask, string mgpar, int[] mgctr) {
   if(mg_is_tag(mgline) == 0) {
     mgr = mg_nontag(mgline, mgmask, mgpar, mgctr);
   }
+  mgr = mg_calls(mgr);
 } return string mgr;
-("  word k0 = 0;", "011", "p", [0]):("  word k0 = 0;")
-("  poke64(fp + 40, 7);", "011", "p", [0]):("  poke64(fp + 40, lv1);")
+given mg_setup given mg_setup_c ("  word k0 = 0;", "011", "p", [0]):("  word k0 = 0;")
+given mg_setup given mg_setup_c ("  poke64(fp + 40, 7);", "011", "p", [0]):("  poke64(fp + 40, lv1);")
+given mg_fixture ("  nxt = blk1_1(fp, 7);", "1", "p", [0]):("  nxt = blk1_0(fp, lv0, 9, 5);")

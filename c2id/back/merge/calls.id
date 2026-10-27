@@ -1,44 +1,42 @@
-// Calls to a block function that was merged. A dispatch function or a driver
-// names its block as `blkN_M(fp)`; that text becomes the head's name with the
-// values this block had for the parameters the head gained. Text is copied up
-// to each call (mgst[0] is where copying stopped, mgst[1] where the search for
-// the next `blk` resumes) and the rest is appended at the end.
+// Calls to a merged function. A line is cut into pieces (merge/pieces.id); a
+// name the pass recorded and an argument list after it is a call, and becomes
+// the group head's name with the arguments it had and then the values this
+// function had where the head took a parameter. A line that does not mention
+// the pass's family is returned as it is, without being cut.
 
 mg_calls(string mgline) {
-  string[] mgacc = [""];
-  int[] mgst = [0, 0];
-  int mgmore = 1;
-} chain (string mgline) {
-  while(mgmore == 1) {
-    mgmore = mg_call_next(mgline, mgst, mgacc);
+  string mgr = mgline;
+  if(string_find(mgline, (import mgzp)[0]) >= 0) {
+    mgr = mg_calls_scan(mg_pieces(mgline));
   }
-  string mgr = mgacc[0] + str_sub(mgline, mgst[0], len(mgline) - mgst[0]);
 } return string mgr;
 given mg_fixture ("  nxt = blk1_1(fp);"):("  nxt = blk1_0(fp, 9, 5);")
-given mg_fixture ("  nxt = blk9_9(fp); y = blk1_0(fp, 2);"):("  nxt = blk9_9(fp); y = blk1_0(fp, 2);")
+given mg_fixture ("  nxt = blk9_9(fp); y = z;"):("  nxt = blk9_9(fp); y = z;")
+given mg_fixture ("  nxt = zblk1_1(fp);"):("  nxt = zblk1_1(fp);")
 
-mg_call_next(string mgline, int[] mgst, string[] mgacc) {
-  int mgp = string_find_from(mgline, "blk", mgst[1]);
-  int mgmore = 0;
-  if(mgp >= 0) {
-    mgmore = 1;
-    mg_call_hit(mgline, mgp, mgst, mgacc);
+mg_calls_scan(string[] mgpcs) {
+  string[] mgacc = [""];
+  int mgi = 0;
+  while(mgi < len(mgpcs)) {
+    mgi = mg_call_at(mgpcs, mgi, mgacc);
   }
-} return int mgmore;
-given mg_fixture ("  nxt = blk1_1(fp);", [0, 0], [""]):(1)
-given mg_fixture ("  nxt = x;", [0, 0], [""]):(0)
+} chain (string[] mgpcs) {
+  string mgr = mgacc[0];
+} return string mgr;
+given mg_fixture (["tnxt", "t ", "t=", "t ", "tblk1_1", "t(", "tfp", "t)", "t;"]):("nxt = blk1_0(fp, 9, 5);")
+given mg_fixture (["tx"]):("x")
 
-mg_call_hit(string mgline, int mgp, int[] mgst, string[] mgacc) {
-  int mgq = string_find_from(mgline, "(", mgp);
-  if(mgq < 0) {
-    mgq = len(mgline);
+mg_call_at(string[] mgpcs, int mgi, string[] mgacc) {
+  int mgend = mg_call_end(mgpcs, mgi);
+  int mgnext = mgi + 1;
+  blank;
+} chain (string[] mgpcs, int mgi, string[] mgacc) {
+  if(mgend >= 0) {
+    mg_call_edit(mgpcs, mgi, mgend, mgacc);
+    mgnext = mgend + 1;
+  } else {
+    string_list_set(mgacc, 0, mgacc[0] + mg_raw(mgpcs, mgi, mgi + 1));
   }
-  string mgname = str_sub(mgline, mgp, mgq - mgp);
-} chain (string mgline, int mgp, int[] mgst, string[] mgacc) {
-  integer_list_set(mgst, 1, mgq);
-  if(hash_map_has((import mgznk), (import mgznu), mgname) == 1 && string_equals_at(mgline, mgq, "(fp)") == 1) {
-    mg_call_edit(mgline, mgp, mgq, mgname, mgst, mgacc);
-  }
-} return void;
-given mg_fixture ("  nxt = blk1_1(fp);", 8, [0, 0], [""]):() then (import mgzfn)[0]:("blk1_0")
-given mg_fixture ("  nxt = blk7_7(fp);", 8, [0, 0], [""]):() then len((import mgzfn)):(2)
+} return int mgnext;
+given mg_fixture (["tblk1_1", "t(", "tfp", "t)"], 0, [""]):(4)
+given mg_fixture (["tx", "t;"], 0, [""]):(1)
