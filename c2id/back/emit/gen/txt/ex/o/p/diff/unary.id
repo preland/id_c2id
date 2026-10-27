@@ -5,7 +5,7 @@
 // later pointer.
 ptr_diff(int id) {
   int sz = a_elem_sz(id);
-  string s = "(" + kid_ex((import na), id) + " - " + kid_ex((import nb), id) + ")";
+  string s = diff_txt(kid_ex((import na), id), kid_ex((import nb), id));
   string out = scale_txt(s, sz, "/");
 } return string out;
 given txt_fixture (0):("((NEEDS_CFG_prim - NEEDS_CFG_prim) / 4)")

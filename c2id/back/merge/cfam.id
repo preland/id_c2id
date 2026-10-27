@@ -1,0 +1,27 @@
+// Naming the family a pass merges and the prefix of the parameters it adds, and
+// the shape of a user function's name. A user function is `c_` and then any run
+// of name characters, where a generated one is a prefix and digits.
+
+mg_set_family(string mgfam, string mgpfx) {
+  string_list_set((import mgzp), 0, mgfam);
+  string_list_set((import mgzp), 1, mgpfx);
+} return void;
+given mg_setup given mg_setup_c ("dsp", "lvw"):() then (import mgzp)[0]:("dsp")
+given mg_setup given mg_setup_c ("dsp", "lvw"):() then (import mgzp)[1]:("lvw")
+
+mg_name_tail(string mgrest) {
+  int mgi = 0;
+  int mgok = 0;
+  while(character_is_name_part(character_code_at(mgrest, mgi)) == 1) {
+    mgi = mgi + 1;
+    mgok = 1;
+  }
+} chain (string mgrest) {
+  if(character_code_at(mgrest, mgi) >= 0) {
+    mgok = 0;
+  }
+} return int mgok;
+("die"):(1)
+("_x9"):(1)
+(""):(0)
+("a b"):(0)

@@ -3,16 +3,27 @@
 // duplicates of one) and is copied as it is.
 
 mg_params(string mgmask) {
-  string mgnames = mg_names(len(mgmask));
+  string mgnames = mg_names(mgmask);
   string mgr = mg_extra(mgmask, mgnames);
 } return string mgr;
-("011"):(", word lv1, word lv2")
-("000"):("")
+given mg_setup given mg_setup_c ("011"):(", word lv1, word lv2")
+given mg_setup given mg_setup_c ("000"):("")
 
 mg_new_params(string mghead, string mgmask) {
   string mgold = string_before(string_after(mghead, "("), ")");
-  string mgr = mgold + mg_params(mgmask);
+  string mgr = mg_args_join(mgold, mg_params(mgmask));
 } return string mgr;
-("blk1_0(word fp) {", "011"):("word fp, word lv1, word lv2")
-("blk1_0(word fp) {", "000"):("word fp")
+given mg_setup given mg_setup_c ("blk1_0(word fp) {", "011"):("word fp, word lv1, word lv2")
+given mg_setup given mg_setup_c ("blk1_0(word fp) {", "000"):("word fp")
+given mg_setup given mg_setup_c ("c_a() {", "01"):("word lv1")
+
+mg_args_join(string mgbase, string mgmore) {
+  string mgr = mgbase + mgmore;
+  if(mgbase == "") {
+    mgr = string_strip_prefix(mgmore, ", ");
+  }
+} return string mgr;
+("fp", ", 9, 5"):("fp, 9, 5")
+("", ", 9, 5"):("9, 5")
+("", ""):("")
 

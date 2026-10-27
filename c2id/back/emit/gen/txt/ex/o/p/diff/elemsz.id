@@ -8,3 +8,14 @@ a_elem_sz(int id) {
 } return int sz;
 given txt_fixture (0):(4) then calls elem_ty:(0)
 given txt_fixture (1):(4) then calls elem_ty:(0)
+
+// One pair of parentheses off an operand that has two, so diff_off2 can retry
+// the fold on operands that `&a[i]` wrapped twice.
+diff_unwrap(string dfw) {
+  string dfu = dfw;
+  if(string_starts_with(dfw, "((") == 1 && string_ends_with(dfw, "))") == 1) {
+    dfu = str_sub(dfw, 1, len(dfw) - 2);
+  }
+} return string dfu;
+("((fp + 4))"):("(fp + 4)")
+("(fp + 4)"):("(fp + 4)")

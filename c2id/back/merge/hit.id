@@ -7,13 +7,14 @@ mg_call_edit(string[] mgpcs, int mgi, int mgend, string[] mgacc) {
   int mgh = (import mgzfg)[mgf];
 } chain (string[] mgpcs, int mgi, int mgend, string[] mgacc) {
   string mgextra = mg_extra((import mgzfm)[mgh], (import mgzfl)[mgf]);
-  string mgargs = mg_raw(mgpcs, mgi + 2, mgend);
-  string mgcall = (import mgzfn)[mgh] + "(" + mgargs + mgextra + ")";
+  string mgargs = mg_calls_scan(mg_slice(mgpcs, mgi + 2, mgend));
+  string mgcall = (import mgzfn)[mgh] + "(" + mg_args_join(mgargs, mgextra) + ")";
 } chain (string[] mgpcs, int mgi, int mgend, string[] mgacc) {
   string_list_set(mgacc, 0, mgacc[0] + mgcall);
 } return string[] mgacc;
 given mg_fixture (["tblk1_1", "t(", "tfp", "t)"], 0, 3, [""]):(["blk1_0(fp, 9, 5)"])
 given mg_fixture (["tblk1_1", "t(", "tfp", "t,", "t ", "n2", "t)"], 0, 6, ["A"]):(["Ablk1_0(fp, 2, 9, 5)"])
+given mg_fixture (["tblk1_1", "t(", "tblk1_1", "t(", "tfp", "t)", "t)"], 0, 6, [""]):(["blk1_0(blk1_0(fp, 9, 5), 9, 5)"])
 
 mg_keep(string[] mgout, int mgi) {
   int mgres = 1;

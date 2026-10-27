@@ -19,11 +19,14 @@ mg_diff(string mgla, string mglb) {
 
 mg_flag(string mgsa, string mgsb) {
   string mgr = "0";
-  if(mgsa != mgsb) {
+  if(mgsa != mgsb && string_starts_with(mgsa, "\"") == 1) {
+    mgr = "2";
+  } else if(mgsa != mgsb) {
     mgr = "1";
   }
 } return string mgr;
 ("7", "9"):("1")
+("\"0.5\"", "\"3.5\""):("2")
 ("7", "7"):("0")
 
 mg_or(string mgma, string mgmb) {

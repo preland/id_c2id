@@ -7,11 +7,11 @@ mg_number(string mgbody, string mgmask, int[] mgctr) {
   string mgr = mgbody;
 } chain (string mgbody, string mgmask, int[] mgctr) {
   if(str_sub(mgmask, mgpos, 1) == "1") {
-    mgr = "lv" + mgpos;
+    mgr = (import mgzp)[1] + mgpos;
   }
 } return string mgr;
-("7", "01", [1]):("lv1")
-("7", "01", [0]):("7")
+given mg_setup given mg_setup_c ("7", "01", [1]):("lv1")
+given mg_setup given mg_setup_c ("7", "01", [0]):("7")
 
 mg_copy(string[] mglines, string[] mgout, int mgs, int mge) {
   while(mgs <= mge) {
@@ -24,7 +24,7 @@ given mg_setup given mg_setup_c (["a", "b"], [], 1, 0):([])
 given mg_fixture (["x", "  nxt = blk1_1(fp);"], [], 1, 1):(["  nxt = blk1_0(fp, 9, 5);"])
 
 mg_emit_fn(string[] mglines, string[] mgout, int mgf) {
-  if(string_find((import mgzfm)[mgf], "1") >= 0) {
+  if((import mgzfm)[mgf] != string_repeat("0", len((import mgzfm)[mgf]))) {
     mgout = mg_rewrite(mglines, mgout, mgf);
   } else {
     push(mgout, mglines[(import mgzfs)[mgf]]);

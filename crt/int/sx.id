@@ -5,8 +5,8 @@
 // bit 63, then shift back arithmetically. `>>` on a word is the *signed*
 // shift (`ushr` is the unsigned one), so the vacated bits are copies of the
 // sign bit -- exactly what sign-extension means.
-sx_bits(word v, int bits) {
-  int sh = 64 - bits;
+sx_bits(word v, word bits) {
+  word sh = 64 - bits;
   word x = (v << sh) >> sh;
 } return word x;
 (0xff, 8):(-1)

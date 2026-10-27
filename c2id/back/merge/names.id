@@ -25,7 +25,12 @@ mg_excluded(string mgnm) {
     }
     mgi = mgi + 1;
   }
+} chain (string mgnm) {
+  if(mgnm == "c_main") {
+    mgres = 1;
+  }
 } return int mgres;
+given mg_fixture_ref ("c_main"):(1)
 given mg_fixture_ref ("blk1_0"):(1)
 given mg_fixture_ref ("blk2_0"):(0)
 given mg_setup given mg_setup_c ("blk1_0"):(0)

@@ -1,6 +1,6 @@
 // The rest of the tokenizer: the end of a string literal, and whether a token
-// is a plain whole number (the only thing the merge pass turns into a
-// parameter; a float, a hex number or a string must match exactly to merge).
+// is a plain whole number or a hex number (the only things the merge pass turns
+// into a parameter; a float or a string must match exactly to merge).
 
 mg_str_end(string mgtx, int mgi) {
   int mgc = character_code_at(mgtx, mgi);
@@ -38,3 +38,21 @@ mg_all_digits(string mgtk) {
 ("k25"):(0)
 ("1.5"):(0)
 ("0x1f"):(0)
+
+mg_all_hex(string mgtk) {
+  int mgi = 2;
+  int mgok = 0;
+  while(url_hex_value(character_code_at(mgtk, mgi)) >= 0) {
+    mgi = mgi + 1;
+    mgok = 1;
+  }
+} chain (string mgtk) {
+  if(string_starts_with(mgtk, "0x") == 0 || character_code_at(mgtk, mgi) >= 0) {
+    mgok = 0;
+  }
+} return int mgok;
+("0x4000"):(1)
+("0xFFFFFFFFFFFFFFFE"):(1)
+("0x"):(0)
+("0xzz"):(0)
+("15"):(0)

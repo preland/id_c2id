@@ -14,22 +14,23 @@ mg_extra(string mgmask, string mglit) {
 ("011", "40,9,5,"):(", 9, 5")
 ("000", "40,9,5,"):("")
 
-mg_names(int mgn) {
+mg_names(string mgmask) {
   string mgr = "";
   int mgk = 0;
-  while(mgk < mgn) {
-    mgr = mgr + "word lv" + mgk + ",";
+  while(mgk < len(mgmask)) {
+    mgr = mgr + mg_name_at(str_sub(mgmask, mgk, 1), mgk) + ",";
     mgk = mgk + 1;
   }
 } return string mgr;
-(2):("word lv0,word lv1,")
-(0):("")
-
+given mg_setup given mg_setup_c ("00"):("word lv0,word lv1,")
+given mg_setup given mg_setup_c (""):("")
+given mg_setup given mg_setup_c ("12"):("word lv0,string lvs1,")
 mg_pick(string mgflag, string mgtext) {
   string mgr = "";
-  if(mgflag == "1") {
+  if(mgflag != "0") {
     mgr = mgtext;
   }
 } return string mgr;
 ("1", "x"):("x")
 ("0", "x"):("")
+("2", "x"):("x")

@@ -35,11 +35,12 @@ mg_setup_b() {
 mg_setup_c() {
   hash_map_initialize((import mgzk), (import mgzv), (import mgzu), (import mgzc));
   hash_map_initialize((import mgznk), (import mgznv), (import mgznu), (import mgznc));
-  export string[] mgzp = ["blk"];
+  export string[] mgzp = ["blk", "lv"];
 } chain () {
   export string[] mgzx = [];
 } return void;
 given mg_setup ():() then hash_map_count((import mgzc)):(0)
 given mg_setup ():() then hash_map_count((import mgznc)):(0)
 given mg_setup ():() then (import mgzp)[0]:("blk")
+given mg_setup ():() then (import mgzp)[1]:("lv")
 given mg_setup ():() then len((import mgzx)):(0)

@@ -1,0 +1,27 @@
+// Helpers for reading a call out of its pieces (merge/span.id, merge/hit.id): how
+// one piece moves the depth of the parentheses, and the pieces of an argument
+// list, so a call inside another call's arguments is rewritten too (a user
+// function's arguments can be calls, unlike a block's `fp` and `pc`).
+
+mg_paren_step(string mgpc) {
+  int mgres = 0;
+  if(mgpc == "t(") {
+    mgres = 1;
+  }
+  if(mgpc == "t)") {
+    mgres = 0 - 1;
+  }
+} return int mgres;
+("t("):(1)
+("t)"):(-1)
+("tx"):(0)
+
+mg_slice(string[] mgpcs, int mgfrom, int mgto) {
+  string[] mgsub = [];
+  while(mgfrom < mgto) {
+    push(mgsub, mgpcs[mgfrom]);
+    mgfrom = mgfrom + 1;
+  }
+} return string[] mgsub;
+(["ta", "tb", "tc"], 1, 3):(["tb", "tc"])
+(["ta"], 0, 0):([])

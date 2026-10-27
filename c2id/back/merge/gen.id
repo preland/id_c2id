@@ -1,7 +1,7 @@
 // Whether a name is one of the generated functions the current pass merges. A
-// pass merges one family (mgzp[0] is its prefix: `blk`, then `dsp`, then `run`)
-// and a name belongs to it when the prefix is followed by digits and
-// underscores only. A user function is always `c_...`, so it never matches.
+// pass merges one family (mgzp[0] is its prefix: `blk`, then `dsp`, then `run`,
+// then `c_`) and a name belongs to it when the prefix is followed by digits and
+// underscores only. For the user functions, the `c_` family, any name follows.
 
 mg_is_family(string mgnm) {
   int mgres = 0;
@@ -21,11 +21,18 @@ mg_gen_tail(string mgrest) {
     mgok = mg_gen_char(character_code_at(mgrest, mgi));
     mgi = mgi + 1;
   }
+} chain (string mgrest) {
+  if((import mgzp)[0] == "c_") {
+    mgok = mg_name_tail(mgrest);
+  }
 } return int mgok;
-("12_3"):(1)
-("x1"):(0)
-(""):(0)
-("1x"):(0)
+given mg_setup given mg_setup_c ("12_3"):(1)
+given mg_setup given mg_setup_c ("x1"):(0)
+given mg_setup given mg_setup_c (""):(0)
+given mg_setup given mg_setup_c ("1x"):(0)
+given mg_fixture_c ("die_2"):(1)
+given mg_fixture_c ("1x"):(1)
+given mg_fixture_c (""):(0)
 
 mg_gen_char(int mgc) {
   int mgres = character_is_digit(mgc);

@@ -1,0 +1,44 @@
+// A quoted float literal, which is how a translated C `double` constant reaches
+// the generated program (`cld_lit(addr, "0.5")`). Two blocks that load different
+// ones differ only in that string (E0407), so the merge pass has to make it a
+// parameter like a whole number. Only a string made of digits, `.`, `e`, `E`,
+// `+` and `-` that starts with a digit counts; every other string must still
+// match exactly.
+
+mg_is_flt(string mgtk) {
+  int mgres = 0;
+  if(len(mgtk) > 2 && string_starts_with(mgtk, "\"") == 1 && character_is_digit(character_code_at(mgtk, 1)) == 1) {
+    mgres = mg_flt_rest(mgtk, 2);
+  }
+} return int mgres;
+("\"0.5\""):(1)
+("\"1e30\""):(1)
+("\"-1.5\""):(0)
+("\"ab\""):(0)
+("\"\""):(0)
+("15"):(0)
+
+mg_flt_rest(string mgtk, int mgi) {
+  int mgres = 0;
+  while(mg_flt_char(character_code_at(mgtk, mgi)) == 1) {
+    mgi = mgi + 1;
+  }
+  if(mgi == len(mgtk) - 1 && character_code_at(mgtk, mgi) == 34) {
+    mgres = 1;
+  }
+} return int mgres;
+("\"0.5\"", 2):(1)
+("\"0.5x\"", 2):(0)
+("\"0.5", 2):(0)
+
+mg_flt_char(int mgc) {
+  int mgres = character_is_digit(mgc);
+  if(mgc == 46 || mgc == 101 || mgc == 69 || mgc == 43 || mgc == 45) {
+    mgres = 1;
+  }
+} return int mgres;
+(48):(1)
+(46):(1)
+(101):(1)
+(97):(0)
+(34):(0)

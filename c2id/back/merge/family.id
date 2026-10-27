@@ -1,6 +1,6 @@
 // What the cases for the later passes need before they run: the lists set up
 // for the `dsp` family, and for the `blk` family with one function used as a
-// value (so mgzx holds its name).
+// value (so mgzx holds its name), and for the user functions' `c_` family.
 
 mg_fixture_dsp() {
   mg_setup();
@@ -19,3 +19,11 @@ mg_fixture_ref() {
 } return void;
 ():() then (import mgzx)[0]:("blk1_0")
 ():() then len((import mgzx)):(1)
+
+mg_fixture_c() {
+  mg_setup();
+  mg_setup_c();
+  mg_set_family("c_", "lv");
+} return void;
+():() then (import mgzp)[0]:("c_")
+():() then (import mgzp)[1]:("lv")

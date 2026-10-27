@@ -1,7 +1,7 @@
 // a / b and a % b, unsigned (wqsigned 0) or signed (1), quotient (wqremainder 0)
 // or remainder (1). One function because the four differ only in those two
 // literals. The result is written to wqd, which may be an operand.
-ci128_divide(int wqsigned, int wqremainder, word wqd, word wqa, word wqb) {
+ci128_divide(word wqsigned, int wqremainder, word wqd, word wqa, word wqb) {
   word[] wqu = wq_load(wqa, wqb, wqsigned);
   wq_udivmod(wqu);
   wq_out(wqd, wqu, wqremainder);

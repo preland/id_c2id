@@ -21,11 +21,17 @@ mg_piece(string mgpc, int mgmode) {
   if(string_starts_with(mgpc, "n") == 1) {
     mgr = mg_on_number(mgbody, mgmode);
   }
+} chain (string mgpc, int mgmode) {
+  if(string_starts_with(mgpc, "f") == 1) {
+    mgr = mg_on_float(mgbody, mgmode);
+  }
 } return string mgr;
 ("tab", 0):("ab")
 ("n42", 0):("#")
 ("n42", 1):("42,")
 ("tab", 1):("")
+("f\"0.5\"", 0):("$")
+("f\"0.5\"", 1):("\"0.5\",")
 
 mg_on_text(string mgbody, int mgmode) {
   string mgr = "";

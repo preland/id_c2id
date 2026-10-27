@@ -2,7 +2,7 @@
 // as unsigned: a single mask of `bits` ones. The width is a parameter because
 // the three widths differ only in that literal.
 
-zx_bits(word v, int bits) {
+zx_bits(word v, word bits) {
   word mask = (1 << bits) - 1;
   word x = v & mask;
 } return word x;

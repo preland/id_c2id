@@ -1,0 +1,25 @@
+// A float string met while the merge pass walks a line: in the shape it is `$`
+// (a whole number is `#`, so a float and a number never share a shape), in the
+// list of literals it is itself, and while rewriting it becomes the string
+// parameter `lvs<k>` when the mask has a `2` at its position.
+
+mg_on_float(string mgbody, int mgmode) {
+  string mgr = mg_on_number(mgbody, mgmode);
+  if(mgmode == 0) {
+    mgr = "$";
+  }
+} return string mgr;
+("\"0.5\"", 0):("$")
+("\"0.5\"", 1):("\"0.5\",")
+
+mg_float(string mgbody, string mgmask, int[] mgctr) {
+  int mgpos = mgctr[0];
+  integer_list_set(mgctr, 0, mgpos + 1);
+  string mgr = mgbody;
+} chain (string mgbody, string mgmask, int[] mgctr) {
+  if(str_sub(mgmask, mgpos, 1) == "2") {
+    mgr = (import mgzp)[1] + "s" + mgpos;
+  }
+} return string mgr;
+given mg_setup given mg_setup_c ("\"0.5\"", "2", [0]):("lvs0")
+given mg_setup given mg_setup_c ("\"0.5\"", "0", [0]):("\"0.5\"")

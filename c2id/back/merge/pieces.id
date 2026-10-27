@@ -26,9 +26,16 @@ mg_step(string[] mgpl, string mgline, int mgi) {
 
 mg_tag_of(string mgtk) {
   string mgr = "t";
-  if(mg_all_digits(mgtk) == 1) {
+  if(mg_all_digits(mgtk) == 1 || mg_all_hex(mgtk) == 1) {
     mgr = "n";
+  }
+  if(mg_is_flt(mgtk) == 1) {
+    mgr = "f";
   }
 } return string mgr;
 ("15"):("n")
+("\"0.5\""):("f")
+("\"ab\""):("t")
 ("k5"):("t")
+("0x4000"):("n")
+("0xzz"):("t")

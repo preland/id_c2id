@@ -10,7 +10,7 @@ mg_nontag(string mgline, string mgmask, string mgpar, int[] mgctr) {
   }
 } return string mgr;
 ("} chain (word fp) {", "011", "word fp, word lv1", [0]):("} chain (word fp, word lv1) {")
-("  x = 5;", "1", "p", [0]):("  x = lv0;")
+given mg_setup given mg_setup_c ("  x = 5;", "1", "p", [0]):("  x = lv0;")
 
 mg_sub_line(string mgline, string mgmask, int[] mgctr) {
   string[] mgpcs = mg_pieces(mgline);
@@ -22,7 +22,7 @@ mg_sub_line(string mgline, string mgmask, int[] mgctr) {
     mgi = mgi + 1;
   }
 } return string mgr;
-("  poke(40, 7);", "01", [0]):("  poke(40, lv1);")
+given mg_setup given mg_setup_c ("  poke(40, 7);", "01", [0]):("  poke(40, lv1);")
 ("  poke(40, 7);", "00", [0]):("  poke(40, 7);")
 
 mg_sub_piece(string mgpc, string mgmask, int[] mgctr) {
@@ -31,6 +31,11 @@ mg_sub_piece(string mgpc, string mgmask, int[] mgctr) {
   if(string_starts_with(mgpc, "n") == 1) {
     mgr = mg_number(mgbody, mgmask, mgctr);
   }
+} chain (string mgpc, string mgmask, int[] mgctr) {
+  if(string_starts_with(mgpc, "f") == 1) {
+    mgr = mg_float(mgbody, mgmask, mgctr);
+  }
 } return string mgr;
 ("tab", "1", [0]):("ab")
-("n5", "1", [0]):("lv0")
+given mg_setup given mg_setup_c ("n5", "1", [0]):("lv0")
+given mg_setup given mg_setup_c ("f\"0.5\"", "2", [0]):("lvs0")

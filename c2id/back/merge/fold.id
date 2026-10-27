@@ -3,11 +3,15 @@
 
 mg_orc(string mgxa, string mgxb) {
   string mgr = "0";
-  if(mgxa == "1" || mgxb == "1") {
+  if(mgxa == "2" || mgxb == "2") {
+    mgr = "2";
+  } else if(mgxa == "1" || mgxb == "1") {
     mgr = "1";
   }
 } return string mgr;
 ("1", "0"):("1")
+("0", "2"):("2")
+("2", "0"):("2")
 ("0", "0"):("0")
 
 mg_masks() {
