@@ -1,0 +1,33 @@
+// A brace initializer `{ a, b, .f = c, [2] = d }` is an `init` node whose
+// child list holds one node per element: an expression, a nested `init`, or a
+// `dinit` for a designated element (init_field, init_index).
+parse_init_list(int[] pos) {
+  advance(pos);
+  int[] l = fill_init(pos);
+  int id = newlist("init", 0, 0, "", l);
+} return int id;
+given boot_a given ty_setup given lexfix stdin "{ 1 }" ([0]):(1)
+given boot_a given ty_setup given lexfix stdin "{ }" ([0]):(0)
+
+fill_init(int[] pos) {
+  int[] l = [];
+  while(at_text(pos, "}") == 0 && cur_kind(pos) != "eof") {
+    int e = init_elem(pos);
+    init_push(l, e);
+    skip_tok(pos, ",");
+  }
+  skip_tok(pos, "}");
+} return int[] l;
+given boot_a given ty_setup given lexfix stdin "1 , 2 }" ([0]):([0, 1])
+given boot_a given ty_setup given lexfix stdin "}" ([0]):([])
+
+init_elem(int[] pos) {
+  int id = 0;
+  if(at_text(pos, ".")) {
+    id = init_field(pos);
+  } else {
+    id = init_elem2(pos);
+  }
+} return int id;
+given boot_a given ty_setup given lexfix stdin ". x = 3" ([0]):(1)
+given boot_a given ty_setup given lexfix stdin "7" ([0]):(0)

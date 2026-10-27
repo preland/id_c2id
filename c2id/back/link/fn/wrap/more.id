@@ -1,0 +1,35 @@
+// The floating-point kind of parameter i of function fn (ty_fkind), 0 when the
+// function has no such parameter on record.
+wrap_kind(int fn, int i) {
+  int k = 0;
+  if(fn < len((import ftys))) {
+    k = wrap_kind2((import ftys)[fn], i);
+  }
+} return int k;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(float a, double b) { return 0; }" (0, 0):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(float a, double b) { return 0; }" (0, 1):(2)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(float a, double b) { return 0; }" (5, 0):(0)
+
+wrap_kind2(int ft, int i) {
+  int[] tys = (import nl)[ft];
+  int k = 0;
+  if(i < len(tys)) {
+    k = wrap_ty_kind(tys[i]);
+  }
+} return int k;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(float a, int b) { return 0; }" (9, 1):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(float a, int b) { return 0; }" (9, 0):(1)
+
+// A parameter's slot holds the value in the form the function loads it: the
+// canonical word for everything but a float, which is read back from the slot as
+// binary32, so its word is converted first (cfl_st32).
+wrap_word(int fn, int i, int wk) {
+  string src = "a" + i;
+  if(wk == 1) {
+    emit_out("  word q" + i + " = cfl_st32(a" + i + ");");
+    src = "q" + i;
+  }
+  wrap_poke(fn, i, src);
+} return void;
+given boot_a given boot_b given init_gfn (0, 0, 0):() then prints:("  poke64(fp + 8, a0);\n")
+given boot_a given boot_b given init_gfn (0, 1, 1):() then prints:("  word q1 = cfl_st32(a1);\n  poke64(fp + 16, q1);\n")

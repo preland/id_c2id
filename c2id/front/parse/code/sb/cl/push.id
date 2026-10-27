@@ -1,0 +1,20 @@
+cl_push(string cp_name, string cp_fn) {
+  push((import clpn), cp_name);
+  push((import clpf), cp_fn);
+} return void;
+given init_cl ("a", "b"):() then (import clpn):(["a"])
+given init_cl ("a", "b"):() then (import clpf):(["b"])
+
+cl_end() {
+  string_list_set((import clsp), 0, "");
+} return void;
+given init_cl given string_list_set((import clsp), 0, "s") ():() then (import clsp):([""])
+given init_cl ():() then (import clsp):([""])
+
+cl_fresh(string cf_prefix) {
+  int cf_n = (import clcnt)[0];
+  integer_list_set((import clcnt), 0, cf_n + 1);
+  string cf_s = cf_prefix + cf_n;
+} return string cf_s;
+given init_cl ("p"):("p0")
+given init_cl given integer_list_set((import clcnt), 0, 4) ("q"):("q4") then (import clcnt):([5])

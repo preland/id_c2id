@@ -1,0 +1,12 @@
+// 1 when name is a function the program declares (not a local, not a variable)
+// that nothing provides.
+ext_fn(string name) {
+  int i = find_str((import dnames), name);
+  int ok = 0;
+  if(i >= 0 && frame_off(name) < 0 && (import nk)[(import dtys)[i]] == "fn" && fn_known(name) == 0) {
+    ok = 1;
+  }
+} return int ok;
+given boot_a given boot_b given lexfix given tu_load stdin "int nosuch(int a);" ("nosuch"):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int nosuch(int a); int x;" ("x"):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int nosuch(int a); int printf(int a);" ("printf"):(0)

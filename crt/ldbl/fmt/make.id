@@ -1,0 +1,25 @@
+// The exact decimal digits of a long double and the decimal exponent of the
+// first one, as fd_make gives them for a double.
+fd_bigl(word[] fdm) {
+  word[] fdg = dg_ofu(fdm[0]);
+  int fdi = fdm[1];
+  word[] fdr = fd_apply(fdg, fdi);
+} return word[] fdr;
+([3, -1]):([5, 1])
+([3, 2]):([2, 1])
+
+fd_makel(word lfm, word lfe, word[] fdz) {
+  word[] fdm = fd_statel(lfm, lfe);
+  word[] fdg = fd_bigl(fdm);
+  string fds = fd_text(fdg, fdm, fdz);
+} return string fds;
+(-4611686018427387904, 16383, [0]):("15")
+(-9223372036854775808, 16384, [0]):("2")
+
+// 1 for a finite long double, 0 for an infinity or a NaN (exponent field all ones).
+fl_finitel(word lfe) {
+  int flk = (lfe & 32767) != 32767;
+} return int flk;
+(16383):(1)
+(32767):(0)
+(65535):(0)

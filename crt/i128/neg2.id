@@ -1,0 +1,29 @@
+// Words wqix and wqix + 1 of the list, as a 128-bit value, negated.
+wq_neg2(word[] wqu, int wqix) {
+  word wql = 0 - wqu[wqix];
+  word wqh = 0 - wqu[wqix + 1] - ult(0, wqu[wqix]);
+  wqu[wqix] = wql;
+} chain (word[] wqu, int wqix) {
+  wqu[wqix + 1] = wqh;
+} return void;
+([5, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0):([-5, -1, 0, 0, 0, 0, 0, 0, 0, 0])
+([0, 0, 0, 1, 0, 0, 0, 0, 0, 0], 2):([0, 0, 0, -1, 0, 0, 0, 0, 0, 0])
+
+// The quotient (wqov 0) or the remainder (wqov 1) of a division, written to wqd: the
+// quotient is negative when the operands' signs differ, the remainder takes the
+// dividend's.
+wq_out(word wqd, word[] wqu, int wqov) {
+  int wqbs = 4 + wqov * 2;
+  word wqc = wqu[8];
+  if(wqov == 0) {
+    wqc = wqu[8] ^ wqu[9];
+  }
+} chain (word wqd, word[] wqu, int wqov) {
+  if(wqc == 1) {
+    wq_neg2(wqu, wqbs);
+  }
+  ld_cset(wqd, wqu[wqbs], wqu[wqbs + 1]);
+} return word wqd;
+given wq_cells ((import wqz), [0, 0, 0, 0, 7, 0, 3, 0, 1, 0], 0):((import wqz)) then peek64((import wqz)):(-7) then peek64((import wqzh)):(-1)
+given wq_cells ((import wqz), [0, 0, 0, 0, 7, 0, 3, 0, 1, 0], 1):((import wqz)) then peek64((import wqz)):(-3) then peek64((import wqzh)):(-1)
+given wq_cells ((import wqz), [0, 0, 0, 0, 7, 0, 3, 0, 1, 1], 0):((import wqz)) then peek64((import wqz)):(7) then peek64((import wqzh)):(0)

@@ -1,0 +1,16 @@
+atom_go(int id, int k, int[] args, int aoty, int bad) {
+  if(bad == 0) {
+    atom_put(id, k, args, aoty);
+  } else {
+    atom_refuse(id, k, bad);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 0, [12, 13], 7, 0):() then (import nk)[14]:("cast")
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 0, [12, 13], -1, 1):() then len((import dgmsg)):(1)
+
+atom_refuse(int id, int k, int bad) {
+  string msg = atom_why(k, bad);
+  diag_node(id, msg);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 0, 1):() then (import dgmsg):([":1: error: __atomic_load_n: the first argument is not a pointer"])
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 4, 2):() then len((import dgmsg)):(1)

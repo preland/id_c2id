@@ -1,0 +1,20 @@
+cfl_rnd32(word a) {
+  word cfb = cfl_st32(a);
+  word cfr = cfl_ld32(cfb);
+} return word cfr;
+(4591870180066957722):(4591870180174331904)
+(4609434218613702656):(4609434218613702656)
+
+cfl_ld32(word a) {
+  float cfx = float_of_bits32(a);
+  word cfr = bits_of_float(cfx);
+} return word cfr;
+(1069547520):(4609434218613702656)
+(1036831949):(4591870180174331904)
+
+cfl_st32(word a) {
+  float cfx = float_of_bits(a);
+  word cfr = bits32_of_float(cfx);
+} return word cfr;
+(4609434218613702656):(1069547520)
+(4591870180066957722):(1036831949)

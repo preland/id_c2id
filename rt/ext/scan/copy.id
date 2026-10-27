@@ -1,0 +1,7 @@
+// The bytes of a text conversion, with a NUL after them for %s.
+rt_copy(word rp, word rsrc, word rn, word rnul) {
+  word rx = c_memcpy(rp, rsrc, rn);
+  if(rnul == 1) {
+    poke8(rp + rn, 0);
+  }
+} return word rx;

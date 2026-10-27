@@ -1,0 +1,46 @@
+// The children of a node by kind (conf.id scan_a/b/l/m, as in the reachability
+// pass), in the order the fields come, each list its own scope; a for loop has
+// its own order (bind_for).
+bind_kids(int id, string kn) {
+  if(kn == "for") {
+    bind_for(id);
+  } else {
+    bind_kids2(id, kn);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { for (int i = 0; i < 2; i++) { } for (int i = 0; i < 2; i++) { } }" (19, "for"):() then (import lvnames):(["i"]) then calls bind_for:(19)
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { for (int i = 0; i < 2; i++) { } for (int i = 0; i < 2; i++) { } }" (31, "block"):() then (import lvnames):(["i", "i__0"]) then calls bind_kids2:(31, "block")
+
+bind_kids2(int id, string kn) {
+  if(find_str((import scan_a), kn) >= 0) {
+    bind_decls((import na)[id]);
+  }
+  if(find_str((import scan_b), kn) >= 0) {
+    bind_decls((import nb)[id]);
+  }
+  if(find_str((import scan_l), kn) >= 0) {
+    bind_list((import nl)[id]);
+  }
+} chain (int id, string kn) {
+  if(find_str((import scan_m), kn) >= 0) {
+    bind_list((import nm)[id]);
+  }
+  bind_sret(id, kn);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int x = 1; int x = 2; }" (17, "block"):() then (import lvnames):(["x", "x__0"]) then (import ns)[15]:("x__0")
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { int b = a; return b; }" (14, "return"):() then calls bind_var:(13) then len((import lvnames)):(0)
+
+bind_list(int[] l) {
+  int h = len((import envo));
+  int i = 0;
+  while(i < len(l)) {
+    bind_decls(l[i]);
+    i = i + 1;
+  }
+} chain (int[] l) {
+  if(decls_only(l) == 0) {
+    env_trunc(h);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int x = 1; int x = 2; }" ([12, 16]):() then (import lvnames):(["x", "x__0"]) then len((import envn)):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int a = 1; { int a = 2; } return; }" ([12, 17, 18]):() then (import lvnames):(["a", "a__0"]) then len((import envn)):(0)

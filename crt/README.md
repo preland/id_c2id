@@ -1,7 +1,7 @@
 # `crt` — C semantics, written in `id`
 
 `crt` is the runtime layer that gives translated C its behaviour. It is a
-plain `id` project tree (3 entries per directory, 3 functions per file,
+plain `id` project tree (3 functions per file,
 3 actions per block, nesting depth 2 — no exemptions), and it is meant to be
 concatenated with `c2id`'s generated code at build time so that everything
 compiles as one `id` program.
@@ -22,11 +22,11 @@ unless it says otherwise.
 directory containing a `main` and build the pair:
 
 ```sh
-python3 ../idc/idc.py <project-dir> -o /tmp/out
+../idc/bin/idc <project-dir> -o /tmp/out
 ```
 
-Either compiler builds it, and `tests/crt/run.sh` requires both to. That
-sentence used to say "use `idc.py`, never `bin/idc`: only the reference
+`tests/crt/run.sh` builds it with `bin/idc`, the only compiler. This README
+once said "use `idc.py`, never `bin/idc`: only the reference
 compiler enforces the action limit, the nesting limit, the one-name-one-type
 rule and the duplicate-logic rule", and it was wrong -- `bin/idc` enforces all
 four and two rules besides, which is how 77 violations came to be sitting in
@@ -38,7 +38,7 @@ this tree unnoticed. See the umbrella's `docs/GAPS.md` B6/B7.
 crt/
 ├── int/                    integer width semantics
 │   ├── sx.id               sx_bits, sx8, sx16
-│   ├── wide.id             sx32, wrap32
+│   ├── wide.id             sx32
 │   └── zx.id               zx8, zx16, zx32
 ├── mem/
 │   ├── raw/                memcpy / memmove / memset / memcmp
@@ -97,9 +97,16 @@ crt/
                 └── out.id  c_printk
 ```
 
+`ldbl/` is the x87 80-bit `long double` (section 4b); it is not in the tree
+above, which lists the 104 functions this section counts. `i128/` is the
+`__int128` arithmetic (`ci128_add` and the others, one file per family: add,
+bits, cmp, divcore/divstep/divloop/divload/divu/divs, fix, mul, neg2, not, of,
+read, rel, shift), also outside the tree; see `docs/EMITTER.md` "128-bit
+integers".
+
 104 functions — 8 in `int/`, 44 in `mem/` (17 for the memory and string
 routines, 27 for the allocator) and 52 in `fmt/`. The tree is deep because
-the rule of 3 makes it deep: a
+the tree was laid out three entries to a directory (a since-dropped rule): a
 directory holds 9 functions, and a subtree of depth *L* holds 9 × 3ᴸ. The
 same shape is what `c2id` will generate (`docs/DESIGN.md` §3).
 
@@ -117,8 +124,7 @@ narrower type, or a cast demands one.
 | `sx_bits(word v, int bits) -> word` | sign-extend the low `bits` bits of `v` to 64. `bits` must be 1..64. |
 | `sx8(word v) -> word` | sign-extend from 8 bits. `sx8(0xff)` = −1, `sx8(0x7f)` = 127, `sx8(0x80)` = −128. |
 | `sx16(word v) -> word` | sign-extend from 16. `sx16(0xffff)` = −1, `sx16(0x8000)` = −32768. |
-| `sx32(word v) -> word` | sign-extend from 32. `sx32(0x80000000)` = −2147483648, `sx32(0xffffffff)` = −1. |
-| `wrap32(word v) -> word` | the result of C `int` arithmetic: keep the low 32 bits, read them signed. Identical in effect to `sx32`; separate because the call sites mean different things and `c2id` emits one per `int` operation. |
+| `sx32(word v) -> word` | sign-extend from 32. `sx32(0x80000000)` = −2147483648, `sx32(0xffffffff)` = −1. This is also the result of C `int` arithmetic (keep the low 32 bits, read them signed), and `c2id` emits one per `int` operation. There is no separate `wrap32`: it was identical to `sx32`, and `idc` rejects two functions with the same logic. |
 | `zx8(word v) -> word` | truncate to 8 bits, read unsigned. `zx8(0xff)` = 255, `zx8(0 - 1)` = 255. |
 | `zx16(word v) -> word` | truncate to 16. `zx16(0 - 1)` = 65535. |
 | `zx32(word v) -> word` | truncate to 32. `zx32(0 - 1)` = 4294967295. |
@@ -155,14 +161,20 @@ obtained from `alloc`, in `id`.
 
 ### Region and block layout
 
-`heap_init(bytes)` takes `align8(bytes) + 16` bytes from the store and
+`heap_init(bytes)` takes `align8(bytes) + 32` bytes from the store and
 exports the base as `crt_heap`:
 
 ```
-crt_heap + 0      unused; keeps the first block header 16-byte aligned
-crt_heap + 8      end address, one past the last block
-crt_heap + 16     first block header
+crt_heap + 0      the rover: the block the next search starts at
+crt_heap + 8      the sentinel that ends the last island
+crt_heap + 16     first block header of the first island
 ```
+
+The blocks of one *island* end in a 16-byte sentinel: a size word of 0 and a
+link word holding the first block of the next island, or 0. When no free block
+is big enough the heap grows by an island of at least a mebibyte
+(`grow_heap`), so a program pays for the memory it uses and not for a fixed
+reserve. A request over a gigabyte is refused with 0.
 
 Every block is contiguous with its neighbours — an *implicit* list, walked by
 address — and carries a 16-byte header:
@@ -181,14 +193,18 @@ bytes (16 header + 16 payload), so a split never produces a block too small
 to be linked, and a remainder below 32 bytes is left attached to the
 allocation instead of being lost.
 
-Search is **first fit** over the implicit list. Freeing merges with the next
-block and then with the previous one; merging in only one direction leaves the
-heap a staircase of fragments that never recovers.
+Search is **next fit** over the implicit list: it starts at the rover, which
+a free or an allocation leaves on the block it touched, and wraps to the first
+block only if nothing past the rover fits. A first-fit walk from the start
+crossed every block ever handed out for each request, and made an
+allocation-heavy program quadratic. Freeing merges with the next block and then
+with the previous one (never across an island); merging in only one direction
+leaves the heap a staircase of fragments that never recovers.
 
 | function | contract |
 | --- | --- |
-| `heap_init(word bytes)` | take a region of `align8(bytes)` usable bytes from the store and lay it out as one free block. Must be called before any other heap function. Calling it again abandons the old region (the store never reclaims it). |
-| `kmalloc(word n) -> word` | address of `n` usable bytes, 8-byte aligned, or **0** if the heap cannot satisfy it. Contents are undefined. |
+| `heap_init(word bytes)` | take a first island of `align8(bytes)` usable bytes from the store and lay it out as one free block. Must be called before any other heap function. Calling it again abandons the old region (the store never reclaims it). |
+| `kmalloc(word n) -> word` | address of `n` usable bytes, 8-byte aligned, or **0** if the request is over a gigabyte. Contents are undefined. |
 | `kfree(word p)` | return the block whose payload is `p` to the free list, coalescing with free neighbours on both sides. `p` = 0 is a no-op. `p` must be a live `kmalloc`/`kzalloc`/`krealloc` result. |
 | `kzalloc(word n) -> word` | `kmalloc` plus zeroing, or 0. Real work: a reused block is not zero. |
 | `krealloc(word p, word n) -> word` | resize. `n` = 0 frees `p` and returns 0; `p` = 0 allocates. Otherwise allocates a fresh block, copies `min(old payload, n)` bytes, frees `p`, and returns the new address — or returns 0 leaving `p` untouched if the allocation fails. There is no in-place grow. |
@@ -223,11 +239,15 @@ as `long long` and inserts no widening cast, so an `int` expression in a
 
 ### Supported
 
-* conversions `%d %i %u %x %X %o %c %s %p %%`
+* conversions `%d %i %u %x %X %o %c %s %p %%` and `%f %F %e %E %g %G` (the argument is the
+  bits of a double, or with `L` the two words of a long double; see fmt/dec, fmt/flt and ldbl/fmt)
 * length modifiers `hh` (8-bit), `h` (16), none (32, i.e. C `int`),
   `l`, `ll`, `z` (64)
-* flags `-` (left justify) and `0` (zero pad)
-* minimum field width, in decimal
+* flags `-` (left justify), `0` (zero pad), `+`, space and `#`
+* minimum field width, in decimal or `*` (the next argument; negative means `-`)
+* precision, `.` then decimal or `*`: the minimum digits of an integer, the places
+  or digits of a float, the most bytes of a `%s` (so `%.*s` prints a buffer with
+  no terminator)
 
 The length modifier narrows the argument before it is printed, exactly as
 C's `va_arg` would: `%d` of a 64-bit word prints its low 32 bits
@@ -241,20 +261,57 @@ for null and `0x`-prefixed lowercase hex otherwise.
 
 An unrecognised specifier is **echoed literally**, from its `%` through the
 character that ended it, so a gap shows up in the output instead of silently
-disappearing. This covers precision (`%.3s`), `*` widths, the flags `+`,
-`' '` and `#`, the length modifiers `j`, `t`, `L`, `q`, and any unknown
+disappearing. This covers the length modifiers `j`, `t`, `q`, `%a`, `%n`, and any
+unknown conversion letter.
 conversion letter.
 
 Internal structure: `c_format` walks the format string with a two-element
 cursor (`st[0]` byte offset, `st[1]` next argument); `fmt_spec` allocates a
-five-element parse state per specifier (`fs[0]` the offset of the `%`,
-`fs[1]` `-`, `fs[2]` `0`, `fs[3]` width, `fs[4]` length code 0/1/2/3);
-`scan_flags` / `scan_width` / `scan_len` fill it in; `conv_do` → `conv_num` →
-`conv_uns` → `conv_cs` → `conv_sp` → `conv_p` → `spec_txt` is the dispatch
+ten-element parse state per specifier (`fs[0]` the offset of the `%`,
+`fs[1]` `-`, `fs[2]` `0`, `fs[3]` width, `fs[4]` length code 0/1/2/3, `fs[5]` `+`,
+`fs[6]` space, `fs[7]` `#`, `fs[8]` 1 when there is a precision, `fs[9]` the precision);
+`scan_flags` / `scan_width` / `scan_prec` / `scan_len` fill it in; `conv_do` → `conv_num` →
+`conv_uns` → `conv_cs` → `conv_sp` → `conv_p` → `conv_f` → `spec_txt` is the dispatch
 chain, lazy rather than eager so that an arm which is not taken does not
 consume an argument. `narrow_s` / `narrow_u` apply the length modifier;
 `pad_out` / `pad_str` apply the width and flags; `wset` / `lgetw` are the
 list accessors `id` requires for a list that arrived as a parameter.
+
+## 4b. `ldbl/` — the x87 `long double`
+
+A `long double` is 16 bytes of the store: the 64-bit significand with its integer
+bit explicit at +0, the sign (bit 15) and 15-bit biased exponent at +8, six zero
+bytes after. Every function takes and answers the addresses of such cells (and
+`word`s for the integers and doubles it converts), so none of it needs a type the
+language does not have. It is exact: a sum, product or quotient is formed with its
+full width and rounded once, to nearest even, at 64 bits.
+
+| function | contract |
+| --- | --- |
+| `cld_add(d, a, b)`, `cld_sub`, `cld_mul`, `cld_div` | `*d = *a op *b`; answers `d`. NaN operands answer the larger-significand one quieted (the positive on a tie), an invalid operation the indefinite NaN, and denormals, zeros and infinities follow the x87. |
+| `cld_neg(d, a)` | the sign bit flipped, a NaN's too (FCHS) |
+| `cld_cmp(a, b, op)` | 0 or 1 for `op` 0 `<`, 1 `<=`, 2 `>`, 3 `>=`, 4 `==`, 5 `!=`; false for a NaN except `!=` |
+| `cld_nz(a)` | 1 when `*a` is not zero (a NaN is not) |
+| `cld_of_int(d, w)`, `cld_of_uint`, `cld_of_dbl(d, bits)` | exact |
+| `cld_to_int(a)`, `cld_to_uint`, `cld_to_dbl`, `cld_to_flt` | truncation toward zero (the word `0x8000000000000000` when it does not fit, as the x87's `fisttp`), and one rounding from the 64-bit significand to a double or a float (answered as the bits of the double that holds it) |
+| `cld_lit(d, text)` | the decimal text rounded once, exactly: a text of at most 19 digits and a power of ten within 27 is one division or multiplication of two exact values; any other is a big-integer quotient (`bn_`, `ld_qdiv`) good for the whole range, denormals and overflow included |
+| `fl_convl`, `conv_fl` | `%Lf %Le %Lg` and capitals, the exact digits of `m * 2^e` as for a double |
+
+Internals: `ld_pack` rounds a working value `[sign, exponent, hi, lo]` (the 128-bit
+significand with a sticky bit) into `[significand, sign and exponent]`; addition
+shifts the smaller operand down with the lost bits kept as the sticky bit, and
+multiplication and division work on normalised operands (a 64x64 product from 32-bit
+limbs; division bit by bit). The x87's invalid encodings (an unnormal, a pseudo-NaN,
+a pseudo-infinity) are recognised and treated as the hardware does: arithmetic
+and narrowing answer the indefinite NaN whatever the other operand is, a
+comparison is unordered, an integer conversion the "integer indefinite". They
+are not printed as glibc prints them. A pseudo-denormal (exponent field 0, integer
+bit set) is a denormal of exponent 1 to the arithmetic and the comparisons, as on
+the hardware; glibc's `printf` drops its integer bit, and `%Lf` here does not.
+
+Proof: `tests/c/227_ld_basic.c` to `231_ld_sweep_d.c` compare the translated
+program with the compiler's x87 (the sweeps fold millions of random operand pairs
+through every operation into one hash), and each function has its own cases.
 
 ## 5. Known divergences from C
 
@@ -272,4 +329,9 @@ Stated plainly, because a port claim is only as good as its gaps.
   literals into ±1 instead, so a differential test must disable builtins to
   compare exact values rather than signs.
 * `heap_init` cannot give the region back to the store, which has no `free`.
-* No floating point: `%f`, `%e`, `%g` are unsupported and echo.
+* `%a` and `%n` echo. c2id refuses a literal format that uses an unsupported
+  conversion (`mid/check/fmt/`); a format held in a variable is not seen at
+  translate time and echoes at run time. `%#g` of a value whose rounding carries
+  into the next power of ten has no trailing zeros, as in glibc (`999999.5` is
+  `1.e+06`); the float conversions are exact (the digits of the double, rounded
+  half to even), so they match glibc to the last digit.

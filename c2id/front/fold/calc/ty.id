@@ -1,0 +1,34 @@
+// The C type of a folded value is a code, size * 2 + 1 for a signed type and
+// size * 2 for an unsigned one: 3 char, 2 unsigned char, 9 int, 8 unsigned int,
+// 17 long, 16 unsigned long. The code of the value just folded is cwty[0].
+// The usual arithmetic conversions of two codes are cw_common.
+cw_prom(int tp_t) {
+  int tp_r = tp_t;
+  if(tp_t / 2 < 4) {
+    tp_r = 9;
+  }
+} return int tp_r;
+(3):(9)
+(2):(9)
+(8):(8)
+(17):(17)
+
+cw_big(int bg_a, int bg_b) {
+  int bg_r = bg_a;
+  if(bg_b / 2 > bg_a / 2) {
+    bg_r = bg_b;
+  }
+} return int bg_r;
+(9, 17):(17)
+(17, 9):(17)
+
+cw_pick(int pk_a, int pk_b) {
+  int pk_r = cw_big(pk_a, pk_b);
+  if(pk_a / 2 == pk_b / 2) {
+    pk_r = (pk_a / 2) * 2 + (pk_a % 2) * (pk_b % 2);
+  }
+} return int pk_r;
+(9, 8):(8)
+(9, 9):(9)
+(16, 17):(16)
+(17, 17):(17)

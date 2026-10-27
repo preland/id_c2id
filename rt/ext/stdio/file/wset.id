@@ -1,0 +1,31 @@
+// The position moves to rwend, the size follows if it was passed, and the FILE
+// has something unsaved.
+rt_wset(word rwf, word rwend) {
+  word rwsz = peek64(rwf + 8);
+  word rwfl = peek64(rwf + 48);
+  poke64(rwf + 16, rwend);
+} chain (word rwf, word rwend) {
+  if(rwend > rwsz) {
+    poke64(rwf + 8, rwend);
+  }
+  poke64(rwf + 48, rwfl | 32);
+} return void;
+
+// One byte, NUL included, as fwrite would write it to the stream.
+rt_wbyte(word rwf, int rcc) {
+  word rwb = kmalloc(8);
+  poke8(rwb, rcc);
+  word rwx = c_fwrite(rwb, 1, 1, rwf);
+} chain (word rwf, int rcc) {
+  kfree(rwb);
+} return word rwx;
+
+// A string's bytes.
+rt_wstr(word rwf, string rtxt) {
+  int rln = len(rtxt);
+  word rm = kmalloc(rln + 8);
+  string_copy_to_memory(rtxt, 0, rln, rm);
+} chain (word rwf, string rtxt) {
+  word rwx = rt_wput(rwf, rm, rln);
+  kfree(rm);
+} return void;

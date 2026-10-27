@@ -19,7 +19,6 @@ accepted by the self-hosted path:
 | **Structural** | 3 actions per block |
 | | nesting depth ≤ 2 |
 | | ≤ 3 functions per file |
-| | ≤ 3 entries per directory |
 | | function-logic uniqueness |
 | **Naming / scope** | one name, one type, program-wide |
 | | an exported name is reserved program-wide |
@@ -46,7 +45,7 @@ stream: the action limit, nesting depth, one-name-one-type, exported-name
 reservation, export/import access, the type checks, and function-logic
 uniqueness.
 
-**In the driver** — the 3-entries-per-directory rule. This is a property of
+**In the driver** — the directory-layout rules (this ledger was written when the 3-entries-per-directory rule, since dropped, was one of them). This is a property of
 the *filesystem*, which `id` cannot see. It is the same reason `bin/idc` exists
 at all, and the README already accepts a bootstrap layer for directory
 walking. Counting entries there is not a retreat.

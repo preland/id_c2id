@@ -1,0 +1,32 @@
+wh_end(int id, int nxt, int blk, int alt) {
+  set_cur(blk);
+  int[] l = (import nl)[id];
+  wh_end2(nxt, alt, l);
+} return void;
+given loop_pushed_fixture ((import wid), 0, 1, 2):() then cur_blk:(2) then calls loop_close:[1]
+given loop_pushed_fixture ((import wid), 0, 3, 4):() then cur_blk:(4)
+
+// `do B while (c)`:
+//
+//   cur:   ...   jmp  -> body
+//   body:  B     jmp  -> cond
+//   cond:        cond c -> body / exit
+//   exit:  (filling continues here)
+//
+// break -> exit, continue -> cond, which is what makes `continue` in a
+// do/while re-test the condition rather than restart the body.
+do_dowhile(int id) {
+  int blk = new_block();
+  int c = (import curb)[0];
+  do_dowhile2(id, blk, c);
+} return void;
+given dowhile_ast_fixture ((import did)):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(6)
+given dowhile_ast_fixture ((import did)):() then len((import bkind)):(9)
+
+dw_run(int id, int blk) {
+  int nxt = new_block();
+  int alt = new_block();
+  dw_body(id, blk, nxt, alt);
+} return void;
+given dowhile_ast_fixture ((import did), 0):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(6)
+given dowhile_ast_fixture ((import did), 0):() then len((import bkind)):(8)

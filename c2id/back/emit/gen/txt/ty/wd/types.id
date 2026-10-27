@@ -1,0 +1,28 @@
+// The two types, made on first use like the floating-point ones (fltys[4] and [5],
+// 0 until made).
+wd_types() {
+  int wm = (import fltys)[4];
+  if(wm == 0) {
+    wd_make();
+  }
+} return void;
+given txt_fixture ():() then calls wd_make:()
+given txt_fixture given wd_make ():() then len((import nk)):(8)
+
+wd_make() {
+  int ws = newleaf("prim", 16, 1, "__int128", "");
+  int wu = newleaf("prim", 16, 0, "unsigned __int128", "");
+  integer_list_set((import fltys), 4, ws);
+} chain () {
+  integer_list_set((import fltys), 5, wu);
+} return void;
+given txt_fixture ():() then (import fltys)[4]:(6)
+given txt_fixture ():() then (import fltys)[5]:(7)
+
+// The type node of kind wk (1 signed, 2 unsigned).
+wd_ty(int wk) {
+  wd_types();
+  int wt = (import fltys)[3 + wk];
+} return int wt;
+given txt_fixture (1):(6)
+given txt_fixture (2):(7)

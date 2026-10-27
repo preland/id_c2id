@@ -1,0 +1,12 @@
+
+// Turning the counted specifiers into a prim node. Every combination that C
+// allows collapses onto one of sixteen canonical types, so the whole of
+// `long unsigned int` vs `unsigned long` is one index computation and three
+// table lookups.
+
+mk_prim(int[] sp) {
+  int i = prim_idx(sp);
+  int ty = mk_prim_leaf(i);
+} return int ty;
+given boot_a ([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, -1]):(0) then calls newleaf:("prim", 4, 1, "int", "")
+given boot_a ([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0) then calls newleaf:("prim", 1, 0, "void", "")

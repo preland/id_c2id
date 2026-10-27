@@ -1,0 +1,30 @@
+// strtod: the longest prefix of the string that reads as a decimal floating-point
+// number (optional white space and sign, digits with an optional point, an
+// optional exponent; or inf, infinity, nan), converted by idstd's flt_parse,
+// which rounds correctly. The scan state is a list of three words:
+//
+//     rdsc[0]  offset where the number's text starts (after the white space)
+//     rdsc[1]  offset of the next byte to read
+//     rdsc[2]  1 once the text is known to be a number
+//
+// Hexadecimal floats are not read. atof is include/stdlib.h's macro over this.
+c_strtod(word rs, word rend) {
+  word[] rdsc = rt_dscan(rs);
+  rt_dend(rs, rend, rdsc);
+  word rv = rt_dval(rs, rdsc);
+} return word rv;
+
+rt_dscan(word rs) {
+  word[] rdsc = [(import wzero), (import wzero), (import wzero)];
+  rt_dlead(rs, rdsc);
+  rt_dbody(rs, rdsc);
+} return word[] rdsc;
+
+rt_dlead(word rs, word[] rdsc) {
+  word rch = peek8(rs + rdsc[1]);
+  while(c_isspace(rch) == 1) {
+    word_list_set(rdsc, 1, rdsc[1] + 1);
+    rch = peek8(rs + rdsc[1]);
+  }
+  word_list_set(rdsc, 0, rdsc[1]);
+} return void;

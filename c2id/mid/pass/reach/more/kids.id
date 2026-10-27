@@ -1,0 +1,40 @@
+// The children of a node, by kind: conf.id's scan_a / scan_b hold the kinds whose
+// na / nb is a node, scan_l and scan_m those whose nl / nm is a list of nodes
+// (the other fields hold values, sizes, type nodes, or names).
+reach_kids(int id, string kn) {
+  if(find_str((import scan_a), kn) >= 0) {
+    reach_scan((import na)[id]);
+  }
+  if(find_str((import scan_b), kn) >= 0) {
+    reach_scan((import nb)[id]);
+  }
+  if(find_str((import scan_l), kn) >= 0) {
+    reach_list((import nl)[id]);
+  }
+} chain (int id, string kn) {
+  if(find_str((import scan_m), kn) >= 0) {
+    reach_list((import nm)[id]);
+  }
+} return void;
+given boot_a given boot_b given exprfix given tu_add("f", 0, 0) given tu_add("g", 0, 0) given reach_init(2) stdin "g(f);" ((import extop), "call"):() then (import reach):([1, 1])
+given boot_a given boot_b given exprfix given tu_add("f", 0, 0) given tu_add("g", 0, 0) given reach_init(2) stdin "g(f);" ((import extop), "num"):() then (import reach):([0, 0])
+
+reach_list(int[] l) {
+  int i = 0;
+  while(i < len(l)) {
+    reach_scan(l[i]);
+    i = i + 1;
+  }
+} return void;
+given boot_a given boot_b given exprfix given tu_add("f", 0, 0) given tu_add("g", 0, 0) given reach_init(2) stdin "g;" ([(import extop)]):() then (import reach):([0, 1])
+given boot_a given boot_b given exprfix given tu_add("f", 0, 0) given tu_add("g", 0, 0) given reach_init(2) stdin "g;" ([]):() then (import reach):([0, 0])
+
+// Function i is emitted only if the program can reach it.
+emit_reached(int i) {
+  if((import reach)[i] == 1) {
+    emit_one(i);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(void) { return 1; }" (0):() then calls emit_one:(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(void) { return 1; } int g(void) { return 2; }" (1):() then calls emit_one:(1)
+given boot_a given boot_b given lexfix given tu_load given reach_init(1) stdin "int f(void) { return 1; }" (0):() then calls emit_one:[0]

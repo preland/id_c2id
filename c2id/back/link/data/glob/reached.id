@@ -1,0 +1,19 @@
+// A global is reached unless it is static and nothing the program can reach names
+// it (greach, filled by mid/pass/reach). A row added after that pass, a static
+// local's global, is reached.
+g_reached(int gr_i) {
+  int gr_ok = 1;
+  if(gr_i < len((import greach)) && (import greach)[gr_i] == 0) {
+    gr_ok = 0;
+  }
+} return int gr_ok;
+given gl_setup (0):(1)
+given gl_setup given list_fill((import greach), 2, 0) (1):(0)
+
+greach_init() {
+  while(len((import greach)) < len((import dnames))) {
+    push((import greach), 0);
+  }
+} return void;
+given gl_setup given list_string_insert((import dnames), 0, "x") ():() then (import greach):([0])
+given gl_setup ():() then len((import greach)):(0)

@@ -3,9 +3,9 @@
 #
 #   tools/c2id.sh <input.c|input.i> <output-project-dir>
 #
-# c2id itself is written in id, and id has no filesystem builtins, so it reads
-# preprocessed C on stdin and writes the whole output project to stdout as a
-# stream of tagged files:
+# c2id itself is written in id. idstd now has filesystem natives (fs_write,
+# fs_mkdir), but c2id still works as a filter: it reads preprocessed C on stdin
+# and writes the whole output project to stdout as a stream of tagged files:
 #
 #     ==== FILE b/0/0/0/0/0/f0.id
 #     <contents>
@@ -20,7 +20,7 @@
 set -euo pipefail
 
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-c2id_bin=${C2ID:-$here/build/c2id}
+c2id_bin=${C2ID_BIN:-$here/build/c2id}
 idc=${IDC:-$here/../idc/bin/idc}
 
 if [[ $# -ne 2 ]]; then
@@ -41,7 +41,7 @@ out=$2
 if [[ ! -x $c2id_bin ]]; then
     mkdir -p "$(dirname "$c2id_bin")"
     echo "c2id: building the compiler from c2id/ ..." >&2
-    "$idc" "$here/c2id" --allow-untested -o "$c2id_bin" >&2
+    "$idc" "$here/c2id" -o "$c2id_bin" >&2
 fi
 
 # Preprocess if needed. -P drops the linemarkers only for plain .c inputs
@@ -52,10 +52,24 @@ trap 'rm -rf "$work"' EXIT
 if [[ $src == *.i ]]; then
     cp "$src" "$work/in.i"
 else
-    cc -std=gnu11 -E "$src" -o "$work/in.i"
+    # c2id knows no compiler builtins, so the preprocessor is told there are
+    # none (a header then takes its portable path) and _Static_assert, which
+    # checks something at compile time, is dropped. It does accept __int128
+    # written out, but not SIMD, and __SIZEOF_INT128__ is kept undefined so
+    # that headers keep their portable paths; the macros that announce SIMD are
+    # undefined as well and a
+    # header takes its portable path there too. __builtin_offsetof is the
+    # address of a member of a struct at address 0, and __builtin_prefetch, a
+    # hint, does nothing. C2ID_CPPFLAGS adds the program's own -I and -D flags.
+    # shellcheck disable=SC2086
+    cc -std=gnu11 -E -w -nostdinc -I "$here/include" -U__has_builtin -U__SIZEOF_INT128__ -U__SSE__ -U__SSE2__ -U__MMX__ -U__AVX__ -U__AVX2__ '-D__has_builtin(x)=0' '-D_Static_assert(c,m)=' '-D__builtin_offsetof(t,m)=((unsigned long)&((t *)0)->m)' '-D__builtin_prefetch(...)=((void)0)' ${C2ID_CPPFLAGS:-} "$src" -o "$work/in.i"
 fi
 
 "$c2id_bin" < "$work/in.i" > "$work/out.txt"
+"$c2id_bin" --merge < "$work/out.txt" > "$work/merged.txt"
+mv "$work/merged.txt" "$work/out.txt"
+# A program c2id refuses makes it exit 1 after naming each refusal on stderr; with
+# set -e this script stops there, and no project is written.
 
 # Split the tagged stream. Everything after a "==== FILE <path>" line belongs
 # to that file, until the next such line. Anything before the first tag is a
@@ -117,6 +131,7 @@ END {
 
 # The generated project needs the C-semantics runtime compiled alongside it.
 cp -r "$here/crt" "$out/crt"
+cp -r "$here/rt" "$out/rt"
 # conf.id is only read at a root, so crt's constants move up to the project's.
 mv "$out/crt/conf.id" "$out/conf.id"
 echo "$out"

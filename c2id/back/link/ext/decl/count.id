@@ -1,0 +1,18 @@
+// The length a brace list implies: one past the highest position any element
+// takes, where an element is at the next position unless a `[n] =` designator
+// says where.
+init_count(int[] items) {
+  int k = 0;
+  int top = 0;
+  int j = 0;
+} chain (int[] items) {
+  while(j < len(items)) {
+    k = item_idx(items[j], k) + 1;
+    if(k > top) {
+      top = k;
+    }
+    j = j + 1;
+  }
+} return int top;
+given boot_a given boot_b given lexfix given tu_load stdin "int g[] = { [2] = 5, 6 };" ([10, 11]):(4)
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" ([9, 10]):(2)

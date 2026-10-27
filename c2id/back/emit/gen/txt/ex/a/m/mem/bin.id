@@ -1,0 +1,44 @@
+// text_bin's identity rules, split from plus.id because that file holds its
+// three functions already. An operand that leaves the other side unchanged
+// (`+ 0`, `- 0`, `* 1`) drops the operation, and `* 0` is 0: the text left
+// after the emitter has hoisted every call into a temporary is a pure
+// expression, so nothing is lost by not evaluating it.
+
+bin_add(string bin_left, string bin_op, string bin_right) {
+  string sum_text = "(" + bin_left + " " + bin_op + " " + bin_right + ")";
+  if(bin_right == "0" && (bin_op == "+" || bin_op == "-")) {
+    sum_text = bin_left;
+  }
+  if(bin_left == "0" && bin_op == "+") {
+    sum_text = bin_right;
+  }
+} return string sum_text;
+("X", "+", "0"):("X")
+("X", "-", "0"):("X")
+("0", "+", "Y"):("Y")
+("0", "-", "Y"):("(0 - Y)")
+
+bin_mul(string bin_left, string bin_op, string bin_right) {
+  string bnl_s = bin_add(bin_left, bin_op, bin_right);
+  if(bin_op == "*") {
+    bnl_s = bin_scale(bin_left, bin_right, bnl_s);
+  }
+} return string bnl_s;
+("X", "*", "4"):("(X * 4)")
+("X", "*", "1"):("X")
+("X", "+", "1"):("(X + 1)")
+
+bin_scale(string bnl_left, string bnl_right, string bnl_text) {
+  string bnl_out = bnl_text;
+  if(bnl_right == "1" || bnl_left == "0") {
+    bnl_out = bnl_left;
+  }
+  if(bnl_left == "1" || bnl_right == "0") {
+    bnl_out = bnl_right;
+  }
+} return string bnl_out;
+("X", "1", "(X * 1)"):("X")
+("1", "Y", "(1 * Y)"):("Y")
+("X", "0", "(X * 0)"):("0")
+("0", "Y", "(0 * Y)"):("0")
+("X", "4", "(X * 4)"):("(X * 4)")

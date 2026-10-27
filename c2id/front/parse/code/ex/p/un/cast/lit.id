@@ -1,0 +1,23 @@
+// A parenthesised expression, and compound literals.
+
+// '(' has been consumed and the contents are an expression. Consume the ')'
+// and then let the postfix suffixes run, so `(a).b`, `(f)(x)` and `(*p)[i]`
+// all chain correctly.
+paren_expr(int[] pos) {
+  int a = parse_expr(pos);
+  advance(pos);
+  int node = postfix_tail(pos, a);
+} return int node;
+given boot_a given lexfix stdin "1);" ([0]):(0)
+given boot_a given lexfix stdin "x);" ([0]):(0)
+
+// `(T){ a, b }`, a compound literal: an object of type T that holds the braced
+// initializer, which is what lit_node (sz/overflow.id) builds. The initializer
+// is read as a declaration's is, so designators and nested braces are all there.
+compound_lit(int[] pos, int ty) {
+  int init = parse_init_list(pos);
+  int ty2 = complete_arr(ty, init);
+  int id = lit_node(pos, ty2, init);
+} return int id;
+given boot_a given ty_setup given lexfix stdin "{1, 2};" ([0], 0):(7)
+given boot_a given ty_setup given lexfix stdin "{};" ([0], 0):(5)

@@ -1,0 +1,29 @@
+// Compare-exchange with the expected value held in memory at axe: on a match the
+// object takes axd and the answer is 1; otherwise axe takes the object's value.
+c___c2id_cas(word axp, word axe, word axd, word axs) {
+  word axc = c___c2id_load(axp, axs);
+  word axx = c___c2id_load(axe, axs);
+  word axr = 0;
+} chain (word axp, word axe, word axd, word axs) {
+  if(axc == axx) {
+    word axz = c___c2id_store(axp, axd, axs);
+    axr = 1;
+  } else {
+    word axy = c___c2id_store(axe, axc, axs);
+  }
+} return word axr;
+
+// The generic form: the new value is read from memory at axd.
+c___c2id_gcas(word axp, word axe, word axd, word axs) {
+  word axv = c___c2id_load(axd, axs);
+  word axr = c___c2id_cas(axp, axe, axv, axs);
+} return word axr;
+
+// The generic exchange: the object takes the value at axv and the old one is written to axr.
+c___c2id_gxchg(word axp, word axv, word axr, word axs) {
+  word axc = c___c2id_load(axp, axs);
+  word axn = c___c2id_load(axv, axs);
+  word axz = c___c2id_store(axp, axn, axs);
+} chain (word axp, word axv, word axr, word axs) {
+  word axy = c___c2id_store(axr, axc, axs);
+} return word 0;

@@ -1,9 +1,9 @@
-// The kmalloc heap: one region taken from the store's arena, carved up by
-// an implicit free list. Layout is documented in crt/README.md; in short
+// The kmalloc heap: islands taken from the store's arena, each carved up by an
+// implicit free list. Layout is documented in crt/README.md; in short
 //
-//     crt_heap + 0    (unused, keeps the first header 16-byte aligned)
-//     crt_heap + 8    end address, one past the last block
-//     crt_heap + 16   first block header
+//     crt_heap + 0    the rover: the block the next search starts at
+//     crt_heap + 8    the sentinel that ends the last island
+//     crt_heap + 16   first block header of the first island
 //
 // and every block is
 //
@@ -11,21 +11,27 @@
 //     h + 8    address of the previous block, or 0 for the first
 //     h + 16   payload, 8-byte aligned
 //
+// An island ends in a 16-byte sentinel whose size word is 0 and whose second
+// word is the first block of the next island, or 0 for the last. The heap grows
+// by adding an island when no free block is big enough, so a program pays for
+// the memory it uses.
+//
 // Sizes are always a multiple of 8, so bit 0 is free for the in-use flag.
 // The previous-block link is what makes backward coalescing O(1).
-heap_init(word bytes) {
-  word a = align8(bytes);
-  export word crt_heap = alloc(a + 16);
+heap_init(word heap_request) {
+  word a = align8(heap_request);
+  export word crt_heap = alloc(a + 32);
   heap_init2(a);
 } return void;
 (64):() then calls align8:(64) then calls heap_init2:(64)
 (65):() then calls align8:(65) then calls heap_init2:(72)
 
-// The end address and the first block written, split out of heap_init so its
-// own block stays under the three-action limit.
+// The sentinel, the rover and the first block written, split out of heap_init
+// so its own block stays under the three-action limit.
 heap_init2(word a) {
   poke64((import crt_heap) + 8, (import crt_heap) + 16 + a);
+  poke64((import crt_heap), (import crt_heap) + 16);
   init_rest((import crt_heap) + 16, a, 0);
 } return void;
 given crt_heap_fixture (32):() then h0_word:(32) then h0_prev:(0)
-given crt_heap_fixture (64):() then h0_word:(64) then h0_prev:(0)
+given crt_heap_fixture (64):() then h0_word:(64) then h0_prev:(0) then rover_off:(16) then sent_off:(80)

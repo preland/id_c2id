@@ -1,0 +1,35 @@
+// Every address the emitter builds is a base plus a constant offset, and the
+// offset is often 0 (a struct's first member, an array's first element). The
+// id compiler refuses `e + 0` as an operation that cannot change its value
+// (E0409), so a generated program that wrote it would not build. These three
+// build the sum and leave it out when it would be that operation; every emitter
+// site that adds an offset goes through one of them.
+
+// The sum without parentheses, for the sites that splice it into a larger
+// text themselves (`fp + 8`).
+text_sum(string sum_base, int sum_offset) {
+  string sum_text = sum_base;
+  if(sum_offset != 0) {
+    sum_text = sum_base + " + " + sum_offset;
+    if(sum_base == "0") {
+      sum_text = "" + sum_offset;
+    }
+  }
+} return string sum_text;
+("fp", 0):("fp")
+("fp", 8):("fp + 8")
+("0", 8):("8")
+
+// The sum in parentheses, for an address that is used as an operand.
+text_plus(string sum_base, int sum_offset) {
+  string sum_text = sum_base;
+  if(sum_offset != 0) {
+    sum_text = "(" + sum_base + " + " + sum_offset + ")";
+    if(sum_base == "0") {
+      sum_text = "" + sum_offset;
+    }
+  }
+} return string sum_text;
+("p", 0):("p")
+("p", 4):("(p + 4)")
+("0", 8):("8")

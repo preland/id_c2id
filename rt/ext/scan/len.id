@@ -1,0 +1,32 @@
+// The length modifier as the width in bytes of the object stored: 1 for hh, 2
+// for h, 8 for l, ll, z, j and t, 4 for none.
+rt_lenmod(word rfmt, word[] rst) {
+  word rch = peek8(rfmt + rst[1]);
+  word rn = 4;
+  if(rch == 104) {
+    rn = rt_short(rfmt, rst);
+  }
+} chain (word rfmt, word[] rst) {
+  if(rch == 108 || rch == 122 || rch == 106 || rch == 116) {
+    rn = rt_long(rfmt, rst);
+  }
+} return word rn;
+
+// `h` or `hh`.
+rt_short(word rfmt, word[] rst) {
+  word rn = 2;
+  word_list_set(rst, 1, rst[1] + 1);
+  if(peek8(rfmt + rst[1]) == 104) {
+    rn = 1;
+    word_list_set(rst, 1, rst[1] + 1);
+  }
+} return word rn;
+
+// `l`, `ll`, `z`, `j` or `t`.
+rt_long(word rfmt, word[] rst) {
+  word rch = peek8(rfmt + rst[1]);
+  word_list_set(rst, 1, rst[1] + 1);
+  if(rch == 108 && peek8(rfmt + rst[1]) == 108) {
+    word_list_set(rst, 1, rst[1] + 1);
+  }
+} return word 8;

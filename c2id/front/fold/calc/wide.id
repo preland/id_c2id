@@ -1,0 +1,21 @@
+// What const_eval hands its callers is an int, so a value outside what an int or
+// an unsigned int holds would be cut to something else without a word. It is
+// refused instead, as any constant the folder cannot evaluate is (cunk).
+cw_wide(word wd_w) {
+  if(wd_w < 0 - 2147483648 || wd_w > 4294967295) {
+    integer_list_set((import cunk), 0, 1);
+  }
+} return void;
+given boot_a (4294967296):() then (import cunk)[0]:(1)
+given boot_a (-2147483649):() then (import cunk)[0]:(1)
+given boot_a (4294967295):() then (import cunk)[0]:(0)
+given boot_a (-2147483648):() then (import cunk)[0]:(0)
+
+// Whether a constant is not zero, for `__builtin_choose_expr`: its condition may
+// be any width, and cut to an int `1ULL << 40` would be false.
+const_true(int e) {
+  word ct_w = cw_eval(e);
+  int ct_n = ct_w != 0;
+} return int ct_n;
+given boot_a given exprfix stdin "1ULL << 40;" ((import extop)):(1)
+given boot_a given exprfix stdin "0;" ((import extop)):(0)

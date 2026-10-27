@@ -1,0 +1,26 @@
+fg_f(string rds, int fgx, int fea) {
+  string fgi = fx_ip(rds, fgx);
+  string fgf = fg_frac(rds, fgx, fea);
+  string fgt = fgi + fg_dot(fgf, fea) + fgf;
+} return string fgt;
+("123457", 0, 0):("1.23457")
+("100000", 2, 0):("100")
+("100000", 2, 1):("100.000")
+
+fg_digs(string rds, int fea) {
+  string fgs = rds;
+  if(fea != 1) {
+    fgs = rd_strip(rds, 1);
+  }
+} return string fgs;
+("123450", 0):("12345")
+("000000", 0):("0")
+("123450", 1):("123450")
+("123450", 2):("12345")
+
+fg_join(string fgs, int fgq, int fgx, int fec, int fea) {
+  string fgm = fe_mant(fgs, fgq, fea);
+  string fgt = fgm + fe_exp(fgx, fec);
+} return string fgt;
+("12345", 4, -5, 103, 0):("1.2345e-05")
+("1", 0, 6, 71, 0):("1E+06")

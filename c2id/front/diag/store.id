@@ -1,0 +1,40 @@
+// Refusals. c2id translates what it can translate correctly and refuses the
+// rest at translate time, naming file:line and the construct, because a wrong
+// translation is worse than none. Every refusal is one line of dgmsg; the run
+// ends by printing them all (out.id) and exits non-zero, writing nothing.
+//
+// unres holds the called functions that are neither defined in the program nor
+// provided by the runtime, each once, and unres_at the token it was first named
+// at; they are reported together (unres.id), so one run lists every missing
+// function instead of the first.
+diag_init() {
+  export string[] dgmsg = [];
+  export string[] unres = [];
+  export int[] unres_at = [];
+} return void export dgmsg;
+given boot_a given boot_b given diag_tok(0, "x") ():() then len((import dgmsg)):(0)
+given boot_a given boot_b given unres_add("atoi", 3) ():() then len((import unres)):(0)
+():() then len((import dgmsg)):(0)
+():() then eprints:("")
+
+// A token index kept inside the token list: -1 when there are no tokens.
+tok_clamp(int tk) {
+  int top = len((import tline)) - 1;
+  int ix = tk;
+  if(ix > top) {
+    ix = top;
+  }
+} return int ix;
+given boot_a given boot_b given lexfix stdin "int x;" (99):(3)
+given boot_a given boot_b (3):(-1)
+
+// `file:line` of token tk; "<input>" when there are no tokens.
+tok_where(int tk) {
+  string where = "<input>";
+  int ix = tok_clamp(tk);
+  if(ix >= 0) {
+    where = (import tfile)[ix] + ":" + (import tline)[ix];
+  }
+} return string where;
+given boot_a given boot_b given lexfix stdin "# 3 \"a.c\"\nint x;\nint y;" (1):("a.c:3")
+given boot_a given boot_b given lexfix stdin "# 3 \"a.c\"\nint x;\nint y;" (99):("a.c:4")

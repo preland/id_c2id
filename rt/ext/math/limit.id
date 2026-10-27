@@ -1,0 +1,9 @@
+c___builtin_nan(word s) {
+  float cmz = float_undefined();
+  word cmr = bits_of_float(cmz);
+} return word cmr;
+
+c___builtin_inf() {
+  float cmz = float_infinity();
+  word cmr = bits_of_float(cmz);
+} return word cmr;

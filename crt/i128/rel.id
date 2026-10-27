@@ -1,0 +1,29 @@
+// a < b, a <= b, a > b, a >= b, a == b, a != b as 0 or 1 for the operator's code
+// 0 to 5, signed (wqsigned 1) or unsigned (0).
+ci128_compare(word wqsigned, word wqa, word wqb, int wqop) {
+  word wqr = wq_rel(wq_order(wqa, wqb, wqsigned), wqop);
+} return word wqr;
+given wq_cells (1, (import wqx), (import wqy), 2):(1)
+given wq_cells given ld_cset((import wqy), 0, -1) (1, (import wqx), (import wqy), 0):(0)
+given wq_cells (0, (import wqx), (import wqy), 2):(1)
+given wq_cells given ld_cset((import wqy), 0, -1) (0, (import wqx), (import wqy), 0):(1)
+
+wq_rel(word wqd, int wqop) {
+  int[] wqk = [wqd < 0, wqd <= 0, wqd > 0, wqd >= 0, wqd == 0, wqd != 0];
+  int wqj = wqk[wqop];
+  word wqr = wqj;
+} return word wqr;
+(-1, 0):(1)
+(0, 2):(0)
+(0, 4):(1)
+(1, 5):(1)
+(0, 1):(1)
+(0, 3):(1)
+(1, 2):(1)
+(0, 0):(0)
+(1, 4):(0)
+(-1, 5):(1)
+(-1, 3):(0)
+(1, 1):(0)
+(-1, 2):(0)
+(1, 0):(0)

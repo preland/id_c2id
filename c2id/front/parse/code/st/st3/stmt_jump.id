@@ -1,0 +1,32 @@
+parse_stmt7(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "return")) {
+    id = parse_return(pos);
+  } else {
+    id = parse_stmt8(pos);
+  }
+} return int id;
+given boot_a given lexfix stdin "return;" ([0]):(0) then calls parse_return:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls leaf_after:([1], "block", "")
+
+parse_stmt8(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "goto")) {
+    id = parse_goto(pos);
+  } else {
+    id = parse_stmt9(pos);
+  }
+} return int id;
+given boot_a given lexfix stdin "goto l;" ([0]):(0) then calls parse_goto:[1]
+given boot_a given lexfix stdin ";" ([0]):(0) then calls leaf_after:([1], "block", "")
+
+parse_stmt9(int[] pos) {
+  int id = 0;
+  if(at_text(pos, "break")) {
+    id = parse_jump(pos, "break");
+  } else {
+    id = parse_stmt10(pos);
+  }
+} return int id;
+given boot_a given lexfix stdin "break;" ([0]):(0) then calls parse_jump:([2], "break")
+given boot_a given lexfix stdin ";" ([0]):(0) then calls leaf_after:([1], "block", "")

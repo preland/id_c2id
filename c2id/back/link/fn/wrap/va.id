@@ -1,0 +1,35 @@
+// A function defined with `...` has one more parameter than its fn type lists:
+// __va, the address of the extra arguments. Its wrapper takes them as one
+// `word[] va`, the way the runtime's printf does, and keeps them on the stack
+// (rt_va_pack) for as long as the function runs.
+fn_variadic(int fn) {
+  int ok = 0;
+  if(fn < len((import ftys))) {
+    ok = (import nk)[(import ftys)[fn]] == "fn" && (import nb)[(import ftys)[fn]] == 1;
+  }
+} return int ok;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, ...) { return a; }" (0):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, ...) { return a; }" (7):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return a; }" (0):(0)
+
+// `word a0, word a1`, then `word[] va` for a variadic function.
+wrap_plist(int fn, int np) {
+  string out = wrap_params(np);
+  if(fn_variadic(fn) == 1) {
+    out = out + sep_before(np, ", ") + "word[] va";
+  }
+} return string out;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, ...) { return a; }" (0, 1):("word a0, word[] va")
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, int b) { return a; }" (0, 2):("word a0, word a1")
+
+// The slot of __va, after the fixed parameters' slots, gets the packed address.
+wrap_va(int fn, int np) {
+  if(fn_variadic(fn) == 1) {
+    int off = wrap_off(fn, np);
+    emit_out("  word vb = rt_va_pack(va);");
+    emit_out("  poke64(" + text_sum("fp", off) + ", vb);");
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "int f(int a, ...) { return a; }" (0, 1):() then prints:("  word vb = rt_va_pack(va);\n  poke64(fp + 16, vb);\n")
+given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "int f(int a, int b, ...) { return a; }" (0, 2):() then prints:("  word vb = rt_va_pack(va);\n  poke64(fp + 24, vb);\n")
+given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "int f(int a) { return a; }" (0, 1):() then prints:("")

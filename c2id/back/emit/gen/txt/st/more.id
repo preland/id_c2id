@@ -1,0 +1,42 @@
+// Declarations and `return`.
+
+// A declaration is a store into a slot that already exists -- the frame pass
+// assigned every local an offset before any block was emitted, because C's
+// block scoping is a naming rule and the naming is resolved by now. A
+// declaration with no initialiser generates no code at all, only a comment
+// saying where the slot is, which is the one piece of the frame layout a
+// reader of the generated project would otherwise have to reconstruct.
+decl_st(int id) {
+  int off = decl_head(id);
+  string s = decl_comment(id, off);
+  if((import na)[id] >= 0) {
+    s = decl_store(id, off);
+  }
+} return string s;
+given txt_fixture given init_frame given init_frame2 (0):("poke32(fp + 8, NEEDS_CFG_prim);") then calls decl_head:(0)
+given txt_fixture given init_frame given init_frame2 (1):("poke32(fp + 8, NEEDS_CFG_prim);") then calls decl_head:(1)
+
+// The frame slot a declaration names, and the C type it was declared with --
+// split out so decl_st can name off once and hand it to decl_comment and
+// decl_store without recomputing decl_slot's side effect twice.
+decl_head(int id) {
+  string name = (import ns)[id];
+  int b = (import nb)[id];
+  int off = decl_slot(name, b);
+} return int off;
+given txt_fixture given init_frame given init_frame2 (0):(8) then calls decl_slot:("int", 1)
+given txt_fixture given init_frame given init_frame2 (5):(8) then calls decl_slot:("", 0)
+
+// `return e` stores to fp + 0 -- always 8 bytes, whatever the C return type,
+// because the value has already been converted to its canonical 64-bit form
+// and the caller reads it back with peek64. The *edge* to the end marker is
+// the CFG builder's; this is only the store.
+ret_st(int id) {
+  string s = "poke64(fp, 0);";
+  if((import na)[id] >= 0) {
+    int a = (import na)[id];
+    s = "poke64(fp, " + retval_txt(a) + ");";
+  }
+} return string s;
+given txt_fixture given pend_setup (0):("poke64(fp, t0);")
+given txt_fixture given pend_setup (1):("poke64(fp, t0);")

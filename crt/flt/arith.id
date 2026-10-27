@@ -1,0 +1,27 @@
+// Floating point on words. A C double is carried as the 64 bits of its binary64
+// (bits_of_float / float_of_bits move between that and an id float), and every
+// operation here takes and answers such words, so crt and the generated code
+// stay words throughout. A float is the same word holding a value that binary32
+// represents; rounding to it is cfl_rnd32, and its 4-byte memory form is
+// cfl_ld32 / cfl_st32. The cases spell the words as integers: 4609434218613702656
+// is 1.5, 4612248968380809216 is 2.25, 4604930618986332160 is 0.75.
+cfl_add(word a, word b) {
+  float cfz = float_of_bits(a) + float_of_bits(b);
+  word cfr = bits_of_float(cfz);
+} return word cfr;
+(4609434218613702656, 4612248968380809216):(4615626668101337088)
+(4591870180066957722, 4598175219545276416):(4599976659396224614)
+
+cfl_sub(word a, word b) {
+  float cfz = float_of_bits(a) - float_of_bits(b);
+  word cfr = bits_of_float(cfz);
+} return word cfr;
+(4612248968380809216, 4609434218613702656):(4604930618986332160)
+(4609434218613702656, 4612248968380809216):(-4618441417868443648)
+
+cfl_mul(word a, word b) {
+  float cfz = float_of_bits(a) * float_of_bits(b);
+  word cfr = bits_of_float(cfz);
+} return word cfr;
+(4609434218613702656, 4612248968380809216):(4614782243171205120)
+(4602678819172646912, 4613937818241073152):(4609434218613702656)

@@ -1,0 +1,18 @@
+ld_fast2(word[] lqr, word lxx) {
+  word[] lqa = ld_unp(lqr);
+  word lxk = lxx - 2 * lxx * (lxx < 0);
+  word[] lqb = ld_unp(ld_p10(lxk));
+} chain (word[] lqr, word lxx) {
+  word[] lqz = ld_bin2(lqa, lqb, 2 + (lxx < 0));
+} return word[] lqz;
+([-4611686018427387904, 16383], 1):([-1152921504606846976, 16386])
+([-4611686018427387904, 16383], -1):([-7378697629483820646, 16380])
+
+ld_fast(word[] lqp) {
+  word[] lqr = ld_ofu(lqp[4], 0);
+  if(lqp[2] != 0) {
+    lqr = ld_fast2(lqr, lqp[2]);
+  }
+} return word[] lqr;
+([0, 0, -1, 2, 15, 2]):([-4611686018427387904, 16383])
+([0, 0, 0, 1, 7, 1]):([-2305843009213693952, 16385])

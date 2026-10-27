@@ -1,0 +1,20 @@
+noret_place(int tk, int e) {
+  string before = "";
+  if(tk > 0) {
+    before = (import ttext)[tk - 1];
+  }
+  noret_place2(tk, e, before);
+} return void;
+given noret_init given lexfix stdin "void die ( void ) __attribute__ ( ( noreturn ) ) ;" (5, 11):() then (import nrnames)[5]:("die")
+given noret_init given lexfix stdin "__attribute__ ( ( noreturn ) ) void die ( void ) ;" (0, 6):() then (import nrnames)[5]:("die")
+
+noret_place2(int tk, int e, string before) {
+  if(before == ")") {
+    int nrm = noret_open_of(tk - 1);
+    noret_add((import ttext)[nrm - 1]);
+  } else {
+    noret_after(e);
+  }
+} return void;
+given noret_init given lexfix stdin "void die ( void ) __attribute__ ( ( noreturn ) ) ;" (5, 11, ")"):() then (import nrnames)[5]:("die")
+given noret_init given lexfix stdin "__attribute__ ( ( noreturn ) ) void die ( void ) ;" (0, 6, ";"):() then (import nrnames)[5]:("die")

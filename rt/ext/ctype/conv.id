@@ -1,0 +1,21 @@
+c_isxdigit(word cv) {
+  word dg = c_isdigit(cv);
+  word r = dg;
+  if(cv >= 97 && cv <= 102 || cv >= 65 && cv <= 70) {
+    r = 1;
+  }
+} return word r;
+
+c_toupper(word cv) {
+  word r = cv;
+  if(cv >= 97 && cv <= 122) {
+    r = cv - 32;
+  }
+} return word r;
+
+c_tolower(word cv) {
+  word r = cv;
+  if(cv >= 65 && cv <= 90) {
+    r = cv + 32;
+  }
+} return word r;

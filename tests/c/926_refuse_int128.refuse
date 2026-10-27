@@ -1,0 +1,1 @@
+926_refuse_int128.c:6: error: a 128-bit integer is converted to or from a floating-point type here

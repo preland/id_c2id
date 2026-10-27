@@ -1,0 +1,21 @@
+// Putting a block function in its group: the first function with the same shape
+// is the group's head (mgfg[f] = the head's index, the head's own for itself),
+// and every function is findable by name for the call-site rewrite (mgnk...).
+
+mg_group(string mgkey, string mgname, int mgf) {
+  int mgh = hash_map_get((import mgzk), (import mgzv), (import mgzu), mgkey, 0 - 1);
+  mg_head(mgkey, mgf, mgh);
+  hash_map_put((import mgznk), (import mgznv), (import mgznu), (import mgznc), mgname, mgf);
+} return void;
+given mg_setup given mg_setup_c ("a", "blk1_0", 0):() then (import mgzfg)[0]:(0)
+given mg_setup given mg_setup_c ("a", "blk1_0", 0):() then hash_map_get((import mgznk), (import mgznv), (import mgznu), "blk1_0", 9):(0)
+
+mg_head(string mgkey, int mgf, int mgh) {
+  if(mgh < 0) {
+    hash_map_put((import mgzk), (import mgzv), (import mgzu), (import mgzc), mgkey, mgf);
+    mgh = mgf;
+  }
+  push((import mgzfg), mgh);
+} return void;
+given mg_setup given mg_setup_c ("a", 3, 1):() then (import mgzfg)[0]:(1)
+given mg_setup given mg_setup_c ("a", 3, -1):() then (import mgzfg)[0]:(3)

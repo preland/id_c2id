@@ -1,0 +1,31 @@
+// A 128-bit integer is a 16-byte prim (__int128, unsigned __int128) that parses and
+// is translated (back/emit/gen/txt/ty/wd/, crt/i128), except where it meets a
+// floating-point type: a cast between the two, or an operator with one of each, is
+// refused where a reached function holds it, since neither conversion is provided.
+// (A pointer operand is not translated either and is refused by the same test: see
+// wd_is_bin.) tools/c2id.sh undefines __SIZEOF_INT128__, so a header with a portable
+// path (xxhash's) takes it.
+chk_wide(int cw_id) {
+  string cw_kn = (import nk)[cw_id];
+  if(cw_kn == "cast") {
+    wide_cast(cw_id);
+  } else if(cw_kn == "bin" || cw_kn == "assign") {
+    wide_pair(cw_id, (import na)[cw_id], (import nb)[cw_id]);
+  }
+} return void;
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (12):() then len((import dgmsg)):(0)
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (24):() then len((import dgmsg)):(1)
+
+wide_cast(int wc_id) {
+  int wc_to = (import nb)[wc_id];
+  int wc_from = ex_ty((import na)[wc_id]);
+  wide_mix(wc_id, wc_to, wc_from);
+} return void;
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (12):() then len((import dgmsg)):(0)
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (24):() then len((import dgmsg)):(1)
+
+wide_pair(int wp_id, int wp_a, int wp_b) {
+  wide_mix(wp_id, ex_ty(wp_a), ex_ty(wp_b));
+} return void;
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (14, 12, 12):() then len((import dgmsg)):(0)
+given txt_fixture given fl_fixture given wd_fixture given boot_b given lexfix (25, 12, 9):() then len((import dgmsg)):(1)

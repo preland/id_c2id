@@ -1,0 +1,19 @@
+// What a qualifier tells beyond being skipped. `static`, and `inline` (a definition
+// written with it, `extern inline` of gnu_inline included, emits no external symbol):
+// the definition is not a root of a unit with no main (reach_roots), and a static
+// global is dropped when nothing reached names it; statk is cleared when each
+// external declaration begins (item_reset) and set by the qualifier, unless a `used`
+// attribute has kept the declaration (used_scan). A named address space (`__seg_gs`)
+// is a refusal that waits for the function it is in (seg_note).
+stat_note(string sn_s, int[] sn_pos) {
+  if(find_str((import local_words), sn_s) >= 0 && (import usedk)[0] == 0) {
+    integer_list_set((import statk), 0, 1);
+  }
+  if(find_str((import seg_words), sn_s) >= 0) {
+    seg_note(sn_pos[0]);
+  }
+} return void;
+given init_nodes4 ("static", [0]):() then (import statk):([1])
+given init_nodes4 ("inline", [0]):() then (import statk):([1])
+given init_nodes4 given integer_list_set((import usedk), 0, 1) ("static", [0]):() then (import statk):([0])
+given boot_a given boot_b given lexfix stdin "__seg_gs" ("__seg_gs", [0]):() then len((import pdtk)):(1)

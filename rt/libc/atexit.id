@@ -1,0 +1,12 @@
+// The exit status held while the atexit handlers run (the runners stop while one
+// is held), and what is left of it after: it stays unless a handler exited.
+rt_atexit_begin() {
+  word rxs = peek64((import rtxc));
+  poke64((import rtxc), 0);
+} return word rxs;
+
+rt_atexit_end(word rxs) {
+  if(peek64((import rtxc)) == 0) {
+    poke64((import rtxc), rxs);
+  }
+} return void;

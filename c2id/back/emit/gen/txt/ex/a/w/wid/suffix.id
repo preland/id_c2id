@@ -1,0 +1,9 @@
+// cvt_name's partner: the bit count that conv_txt and load_plain pass or
+// splice in, split out because wid_bits(load_wid(ty)) is a nested call.
+
+cvt_suffix(int ty) {
+  int w = load_wid(ty);
+  string bits = wid_bits(w);
+} return string bits;
+given txt_fixture (4):("8")
+given txt_fixture (2):("64")

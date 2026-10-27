@@ -1,0 +1,25 @@
+// %e %E %f %F %g %G: the argument is the bits of a double (fmt/flt), or, with the
+// L length modifier, the two words of a long double (ldbl/fmt); anything else is
+// echoed verbatim, so a specifier this runtime does not implement shows up in the
+// output as a visible gap instead of vanishing.
+is_fconv(word c) {
+  int fcv = 0;
+  if(c == 101 || c == 69 || c == 102 || c == 70 || c == 103 || c == 71) {
+    fcv = 1;
+  }
+} return int fcv;
+(102):(1)
+(100):(0)
+(71):(1)
+
+conv_f(word fmt, word c, word[] args, word[] st, word[] fs) {
+  string txt = "";
+  if(is_fconv(c) == 1) {
+    txt = conv_fv(c, args, st, fs);
+  } else {
+    txt = spec_txt(fmt, st, fs);
+  }
+} return string txt;
+given crt_fmt_fixture ((import fmtbuf), 102, [4609434218613702656], [0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("1.500000")
+given crt_fmt_fixture ((import fmtbuf), 122, [0], [3, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("-05")
+

@@ -1,0 +1,30 @@
+fo_step(int id, int nxt, int stp) {
+  int c0 = cur_blk();
+  set_cur(stp);
+  int b = (import nb)[id];
+} chain (int id, int nxt, int stp) {
+  fo_incr(b, stp);
+  int c = cur_blk();
+  term_jmp(c, nxt);
+} chain (int id, int nxt, int stp) {
+  set_cur(c0);
+} return void;
+given walk_ast_fixture ((import wforid), 0, 0):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(0) then cur_stmts:([12])
+given walk_ast_fixture ((import wforid), 7, 0):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(7)
+
+fo_incr(int b, int stp) {
+  if(b >= 0) {
+    add_step(b, stp);
+  }
+} return void;
+given walk_ast_fixture (5, 0):() then cur_stmts:([12])
+given walk_ast_fixture (-1, 0):() then cur_stmts:([])
+
+// The step is lowered like any statement, and may open blocks of its own, so
+// it is added with the step block current (fo_step set it).
+add_step(int b, int stp) {
+  int id = expr_stmt(b);
+  add_lowered(id);
+} return void;
+given walk_ast_fixture (5, 0):() then cur_stmts:([12])
+given walk_ast_fixture (1, 0):() then cur_stmts:([12])

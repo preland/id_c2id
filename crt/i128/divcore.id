@@ -1,0 +1,52 @@
+// Division of 128-bit values by shift-and-subtract over a list of ten words:
+//   0 dividend low   1 dividend high   2 divisor low   3 divisor high
+//   4 quotient low   5 quotient high   6 remainder low  7 remainder high
+//   8 the dividend's sign (1 when negative)   9 the divisor's sign
+// The signs matter to the signed entries only (divs.id); the core is unsigned.
+
+// Bit wqi (0 to 127) of the dividend.
+wq_bit(word[] wqu, word wqi) {
+  word wqw = 0;
+  if(wqi >= 64) {
+    wqw = ushr(wqu[1], wqi - 64);
+  } else {
+    wqw = ushr(wqu[0], wqi);
+  }
+} chain (word[] wqu, word wqi) {
+  word wqb = wqw & 1;
+} return word wqb;
+([-1, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0):(1)
+([0, -1, 0, 0, 0, 0, 0, 0, 0, 0], 64):(1)
+([2, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1):(1)
+([2, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0):(0)
+([0, 2, 0, 0, 0, 0, 0, 0, 0, 0], 65):(1)
+([0, 2, 0, 0, 0, 0, 0, 0, 0, 0], 64):(0)
+([0, -9223372036854775808, 0, 0, 0, 0, 0, 0, 0, 0], 127):(1)
+([-9223372036854775808, 0, 0, 0, 0, 0, 0, 0, 0, 0], 63):(1)
+
+// 1 when the remainder (words 6 and 7) is at least the divisor (words 2 and 3).
+wq_ge(word[] wqu) {
+  word wqo = wq_ord64(wqu[7], wqu[3], 0);
+  if(wqo == 0) {
+    wqo = wq_ord64(wqu[6], wqu[2], 0);
+  }
+  word wqr = 1;
+} chain (word[] wqu) {
+  if(wqo < 0) {
+    wqr = 0;
+  }
+} return word wqr;
+([0, 0, 1, 0, 0, 0, 1, 0, 0, 0]):(1)
+([0, 0, 2, 0, 0, 0, 1, 0, 0, 0]):(0)
+([0, 0, 1, 1, 0, 0, -1, 0, 0, 0]):(0)
+
+// remainder = remainder - divisor.
+wq_sub(word[] wqu) {
+  word wqb = ult(wqu[6], wqu[2]);
+  wqu[7] = wqu[7] - wqu[3] - wqb;
+  wqu[6] = wqu[6] - wqu[2];
+} return void;
+([0, 0, 1, 0, 0, 0, 5, 0, 0, 0]):([0, 0, 1, 0, 0, 0, 4, 0, 0, 0])
+([0, 0, 1, 0, 0, 0, 0, 1, 0, 0]):([0, 0, 1, 0, 0, 0, -1, 0, 0, 0])
+([0, 0, 1, 2, 0, 0, 0, 5, 0, 0]):([0, 0, 1, 2, 0, 0, -1, 2, 0, 0])
+([0, 0, 3, 1, 0, 0, 7, 9, 0, 0]):([0, 0, 3, 1, 0, 0, 4, 8, 0, 0])

@@ -1,0 +1,22 @@
+// The type of typeof(expr) when it is known now: every name in the expression is
+// a global or a function declared before, and none is a name the current external
+// declaration declares below file scope (a parameter or a local, which may hide
+// the global), so the type of the expression is what ex_ty says of it. Any other
+// expression is a "tof" node, which the frame pass resolves in a local declaration.
+tof_expr(int e) {
+  int ty = tof_global(e);
+  if(ty < 0) {
+    ty = tof_node(e, "tof");
+  }
+} return int ty;
+given boot_a given boot_b given lexfix given tu_load stdin "int g; int f(void) { return g; }" (10):(6) then len((import pdtk)):(0)
+given boot_a given boot_b given lexfix given tu_load given list_string_insert((import lnames), 0, "g") stdin "int g; int f(void) { return g; }" (10):(13) then len((import pdtk)):(1)
+
+tof_global(int e) {
+  int ty = 0 - 1;
+  if(tof_free(e) == 0) {
+    ty = ex_ty(e);
+  }
+} return int ty;
+given boot_a given boot_b given lexfix given tu_load stdin "int g; int f(void) { return g; }" (10):(6)
+given boot_a given boot_b given lexfix given tu_load given list_string_insert((import lnames), 0, "g") stdin "int g; int f(void) { return g; }" (10):(-1)

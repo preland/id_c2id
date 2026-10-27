@@ -1,0 +1,30 @@
+// The types the three arguments have, as infos: the size in bytes times two, plus
+// one for a signed type. The result's is that of the object the third argument
+// points at, -1 when it points at nothing.
+ovf_make(int id, int k, int[] args) {
+  int ai = ovf_of(k, args[0]);
+  int bi = ovf_of(k, args[1]);
+  int ri = ovf_res(k, args[2]);
+} chain (int id, int k, int[] args) {
+  ovf_go(id, k, args, ai, bi, ri);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (18, 0, [14, 15, 17]):() then (import ns)[13]:("__c2id_ovf")
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, 1); }" (17, 0, [14, 15, 16]):() then len((import dgmsg)):(1)
+
+ovf_of(int k, int a) {
+  int info = (import ovf_info)[k];
+  if(info < 0) {
+    int ty = ex_ty(a);
+    info = ovf_enc(ty);
+  }
+} return int info;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (0, 14):(9)
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (12, 14):(8)
+
+ovf_enc(int ty) {
+  int sz = type_size(ty);
+  int sg = ty_signed(ty);
+  int info = sz * 2 + sg;
+} return int info;
+given tynode_fix (0):(9)
+given tynode_fix (2):(16)

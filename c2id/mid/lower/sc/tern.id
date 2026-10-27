@@ -1,0 +1,39 @@
+// `c ? x : y` as a value: the arms store into a temporary of the arms' common type (x's, unless one is floating point).
+lower_ternary(int e) {
+  int tt = cond_ty(e);
+  int ty = tern_ty(tt);
+  int t = new_temp(ty);
+} chain (int e) {
+  int c0 = lower_val((import na)[e]);
+  int c = tern_once(e, c0);
+  tern_blocks(e, t, c);
+} return int t;
+given low_fix (11):(19) then (import bsa)[0]:(1) then (import bsb)[0]:(2) then cur_blk:(3) then len((import bkind)):(4)
+given low_fix given exprfix stdin "(a && b) ? c : d;" ((import extop)):(25) then (import bkind)[3]:("cond") then (import bsa)[3]:(4) then cur_blk:(6) then len((import bkind)):(7)
+
+tern_blocks(int e, int t, int c) {
+  int tb = new_block();
+  int fb = new_block();
+  int jb = new_block();
+} chain (int e, int t, int c) {
+  int cc = cur_blk();
+  term_cond(cc, c, tb, fb);
+  tern_arm(tb, jb, t, (import nb)[e]);
+} chain (int e, int t, int c) {
+  int[] el = (import nl)[e];
+  tern_arm(fb, jb, t, el[0]);
+  set_cur(jb);
+} return void;
+given low_fix (11, 6, 6):() then len((import bkind)):(4) then (import bex)[0]:(6) then (import bsa)[0]:(1) then (import bsb)[0]:(2) then cur_blk:(3)
+given low_fix (11, 6, 7):() then (import bex)[0]:(7) then (import bsa)[1]:(3)
+
+tern_arm(int blk, int jb, int t, int x) {
+  set_cur(blk);
+  int v = lower_val(x);
+  tern_store(t, v);
+} chain (int blk, int jb, int t, int x) {
+  int cc = cur_blk();
+  term_jmp(cc, jb);
+} return void;
+given low_fix given sc_make(9, 6, 6, 1) (1, 2, 6, 7):() then (import bsa)[1]:(2) then cur_blk:(1) then calls tern_store:(6, 7)
+given low_fix given sc_make(9, 6, 6, 1) (2, 3, 6, 9):() then (import bsa)[6]:(3) then len((import bkind)):(7)

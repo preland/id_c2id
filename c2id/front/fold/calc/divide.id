@@ -1,0 +1,35 @@
+// Division and remainder of two values already in their common type. A zero
+// divisor is 0 (both arms of a conditional are folded, and the dead one may
+// divide by zero); an unsigned type divides as unsigned whatever its width, and
+// the one signed quotient that does not fit, the minimum over -1, wraps.
+cw_quot(word qt_a, word qt_b, int qt_t) {
+  word qt_v = 0;
+  if(qt_b != 0) {
+    qt_v = cw_q2(qt_a, qt_b, qt_t);
+  }
+} return word qt_v;
+(7, 2, 9):(3)
+(7, 0, 9):(0)
+(-1, 2, 16):(9223372036854775807)
+(-7, 2, 17):(-3)
+
+cw_q2(word q2_a, word q2_b, int q2_t) {
+  word q2_v = 0;
+  if(q2_t % 2 == 0) {
+    q2_v = udiv(q2_a, q2_b);
+  } else {
+    q2_v = cw_sdiv(q2_a, q2_b);
+  }
+} return word q2_v;
+(-1, 2, 16):(9223372036854775807)
+(-7, 2, 17):(-3)
+
+cw_sdiv(word sd_a, word sd_b) {
+  word sd_v = 0 - sd_a;
+  if(sd_b != 0 - 1) {
+    sd_v = sd_a / sd_b;
+  }
+} return word sd_v;
+(-9223372036854775808, -1):(-9223372036854775808)
+(9, -1):(-9)
+(9, 2):(4)

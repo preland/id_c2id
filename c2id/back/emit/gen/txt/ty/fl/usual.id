@@ -1,0 +1,10 @@
+// The usual arithmetic conversions: a floating-point operand decides the type
+// (fl_pair); otherwise the integer rules do (usual_int).
+usual_ty(int ty, int inner) {
+  int r = fl_pair(ty, inner);
+  if(r < 0) {
+    r = usual_int(ty, inner);
+  }
+} return int r;
+given txt_fixture given fl_types (0, 6):(6)
+given txt_fixture (0, 1):(1)

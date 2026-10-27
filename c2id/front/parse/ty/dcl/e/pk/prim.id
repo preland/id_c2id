@@ -1,0 +1,33 @@
+// The prim type for an enum of ep_w bytes: unsigned when its lowest enumerator
+// ep_lo is not negative.
+enum_prim(int ep_w, int ep_lo) {
+  int[] ep_sp = spec_init();
+  int ep_k = enum_idx(ep_w);
+  integer_list_set(ep_sp, ep_k, 1);
+} chain (int ep_w, int ep_lo) {
+  if(ep_lo >= 0) {
+    integer_list_set(ep_sp, 8, 1);
+  }
+  int ep_ty = mk_prim(ep_sp);
+} return int ep_ty;
+given boot_a given ty_setup (1, 0):(0) then calls mk_prim:([0, 1, 0, 0, 0, 0, 0, 0, 1, 0, -1])
+given boot_a given ty_setup (2, -1):(0) then calls mk_prim:([0, 0, 1, 0, 0, 0, 0, 0, 0, 0, -1])
+
+// The slot of char, short, int or long in the specifier accumulator.
+enum_idx(int ei_w) {
+  int ei_k = 4;
+  if(ei_w == 4) {
+    ei_k = 3;
+  }
+  if(ei_w == 2) {
+    ei_k = 2;
+  }
+} chain (int ei_w) {
+  if(ei_w == 1) {
+    ei_k = 1;
+  }
+} return int ei_k;
+(4):(3)
+(8):(4)
+(1):(1)
+(2):(2)

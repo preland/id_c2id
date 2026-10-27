@@ -1,0 +1,20 @@
+
+// Is this identifier a typedef name, and the one-cell channel a declarator
+// uses to report the name it declared (`id` has no out-parameters, and no
+// second return value).
+
+is_typedef(string name) {
+  int ok = 0;
+  if(ty_find(name) >= 0) {
+    ok = 1;
+  }
+} return int ok;
+given ty_setup ("foo"):(0)
+given typedef_x_fix ("foo"):(1)
+
+set_dname(string name) {
+  string_list_set((import dname), 0, name);
+} return void;
+given ty_setup ("foo"):() then (import dname)[0]:("foo")
+given ty_setup ("bar"):() then (import dname)[0]:("bar")
+

@@ -1,0 +1,33 @@
+sc_arms(int e, int t, int k, int rb, int cb, int jb) {
+  sc_right(e, t, rb, jb);
+  sc_const(t, k, cb, jb);
+} return void;
+given low_fix given sc_make(9, 6, 6, 1) (9, 6, 1, 1, 2, 3):() then calls sc_right:(9, 6, 1, 3) then calls mk_num:(0)
+given low_fix given sc_make(9, 6, 6, 1) (10, 6, 2, 1, 2, 3):() then calls sc_const:(6, 2, 2, 3) then calls mk_num:(1)
+
+// The arm that evaluates the right operand.
+sc_right(int e, int t, int rb, int jb) {
+  set_cur(rb);
+  int r = lower_val((import nb)[e]);
+  int ne = mk_ne(r);
+} chain (int e, int t, int rb, int jb) {
+  assign_stmt(t, ne);
+  int cc = cur_blk();
+  term_jmp(cc, jb);
+} return void;
+given low_fix given sc_make(9, 6, 6, 1) (9, 6, 1, 3):() then calls lower_val:(7) then (import bsa)[1]:(3) then cur_blk:(1)
+given low_fix given sc_make(9, 6, 6, 1) given exprfix stdin "x && (y || z);" ((import extop), 6, 1, 3):() then (import bsa)[6]:(3) then len((import bkind)):(7)
+
+// The arm the left operand alone decides, after which filling continues in the
+// join block.
+sc_const(int t, int k, int cb, int jb) {
+  set_cur(cb);
+  int kv = k - 1;
+  int n = mk_num(kv);
+} chain (int t, int k, int cb, int jb) {
+  assign_stmt(t, n);
+  term_jmp(cb, jb);
+  set_cur(jb);
+} return void;
+given low_fix given sc_make(9, 6, 6, 1) (6, 1, 2, 3):() then calls mk_num:(0) then (import bsa)[2]:(3) then cur_blk:(3)
+given low_fix given sc_make(9, 6, 6, 1) (6, 2, 1, 3):() then calls mk_num:(1) then (import bsa)[1]:(3) then cur_blk:(3)

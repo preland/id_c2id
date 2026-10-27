@@ -1,0 +1,23 @@
+push_bedge() {
+  push((import bsb), 0 - 1);
+  push((import bex), 0 - 1);
+} return void;
+given cfg_init ():() then (import bsb)[0]:(-1)
+given cfg_init ():() then (import bex)[0]:(-1)
+given cfg_init ():() then prints:("")
+given cfg_init ():() then eprints:("")
+
+// The block being filled. It reads through idstd's lget: a bare
+// `(import curb)[0]` is the same logic as idstd's idstd_ec_t_status, which
+// idc rejects as differing only in the imported value.
+cur_blk() {
+  int blk = (import curb)[0];
+} return int blk;
+given cfg_init ():(0)
+given init_cfg2 ():(0)
+
+set_cur(int blk) {
+  integer_list_set((import curb), 0, blk);
+} return void;
+given cfg_init (5):() then cur_blk:(5)
+given cfg_init (0):() then cur_blk:(0)

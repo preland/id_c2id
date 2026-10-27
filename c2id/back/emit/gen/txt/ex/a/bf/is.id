@@ -1,0 +1,10 @@
+// Whether an address text is a bit-field's marker: it starts `BF|`, which no
+// address expression does.
+bfx_is(string s) {
+  int ok = 0;
+  if(len(s) > 3 && character_code_at(s, 0) == 66 && character_code_at(s, 1) == 70 && character_code_at(s, 2) == 124) {
+    ok = 1;
+  }
+} return int ok;
+("BF|(p + 0)|4|3|5|u"):(1)
+("(p + 0)"):(0)

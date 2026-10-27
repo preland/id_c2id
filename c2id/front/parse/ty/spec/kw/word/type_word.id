@@ -1,0 +1,36 @@
+
+// "Does a type start here" -- the question that decides whether `foo * bar;`
+// is a declaration or a multiplication, which is why it has to consult the
+// typedef table and not just a keyword list.
+
+is_type_word(string s) {
+  string kw = norm_kw(s);
+  int ok = is_base_kw(kw);
+  if(ok == 0) {
+    ok = is_tw2(s);
+  }
+} return int ok;
+  ("__signed__"):(1)
+  ("zzz"):(0)
+
+is_tw2(string s) {
+  int ok = is_qual(s);
+  if(ok == 0) {
+    ok = is_tw3(s);
+  }
+} return int ok;
+  ("const"):(1)
+  ("zzz"):(0)
+
+is_tw3(string s) {
+  int ok = list_string_index((import su_words), s) >= 0;
+  if(ok == 0) {
+    ok = list_string_index((import attr_words), s) >= 0;
+  }
+  if(ok == 0) {
+    ok = list_string_index((import tof_words), s) >= 0;
+  }
+} return int ok;
+  ("struct"):(1)
+  ("__auto_type"):(1)
+  ("zzz"):(0)

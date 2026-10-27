@@ -1,0 +1,27 @@
+// Calls through a function pointer. A function's address is its place in the
+// program's function table plus one (0 is the null pointer); a name that is a
+// function, used as a value, reads as that number (glob_where). A call whose
+// callee is not a function's own name -- a variable holding a pointer, an
+// element of a table of them -- goes through crt_callN, N being its argument
+// count, which ind/emit.id generates as a dispatch over every function with N
+// parameters.
+direct_call(int a) {
+  int ok = 0;
+  if((import nk)[a] == "var" && frame_off((import ns)[a]) < 0) {
+    ok = decl_fn((import ns)[a], 1);
+  }
+} return int ok;
+given boot_a given boot_b given exprfix given bind_param("p", 0) stdin "p;" ((import extop)):(0)
+given boot_a given boot_b given exprfix stdin "f;" ((import extop)):(1)
+
+// The pointer is the call's first argument.
+ind_prefix(int callee, string rest) {
+  string out = rest;
+  if(direct_call(callee) == 0) {
+    string cv = ex_txt(callee);
+    out = cv + sep_before(len(rest), ", ") + rest;
+  }
+} return string out;
+given boot_a given boot_b given exprfix stdin "f;" ((import extop), "1, 2"):("1, 2")
+given boot_a given boot_b given exprfix given bind_param("p", 0) stdin "p;" ((import extop), "1"):("t1, 1") then (import pend):(["word t0 = peek32(fp + 8);", "word t1 = sx_bits(t0, 32);"])
+given boot_a given boot_b given exprfix given bind_param("p", 0) stdin "p;" ((import extop), ""):("t1")

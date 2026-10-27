@@ -1,0 +1,38 @@
+// The dispatch for calls through function pointers: for each argument count
+// 0..6 that some function has, a function crt_callN(f, a0..aN-1) that calls the
+// function numbered f. It is a binary tree over those functions, the same shape
+// as a function's block dispatch, so no function exceeds three actions.
+emit_inds() {
+  int n = 0;
+  while(n < 7) {
+    emit_ind(n);
+    n = n + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; }" ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call1(word f, word a0) {\n  word r = 0;\n  if(f < 0) { r = c_f(a0); } else { r = c_f(a0); }\n} return word r;\n")
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(void) { return 0; }" ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call0(word f) {\n  word r = 0;\n  if(f < 0) { r = c_g(); } else { r = c_g(); }\n} return word r;\ncrt_call1(word f, word a0) {\n  word r = 0;\n  if(f < 0) { r = c_f(a0); } else { r = c_f(a0); }\n} return word r;\n")
+
+emit_ind(int n) {
+  int[] fs = fns_of(n);
+  if(len(fs) > 0) {
+    emit_ind_tree(n, fs);
+  } else if((import indn)[n] == 1) {
+    ind_stub(n);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; }" (1):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call1(word f, word a0) {\n  word r = 0;\n  if(f < 0) { r = c_f(a0); } else { r = c_f(a0); }\n} return word r;\n")
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(void) { return 0; }" (0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call0(word f) {\n  word r = 0;\n  if(f < 0) { r = c_g(); } else { r = c_g(); }\n} return word r;\n")
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; }" (2):() then prints:("")
+
+// The functions the program defines that take exactly n parameters, by their
+// index in the function table.
+fns_of(int n) {
+  int[] fs = [];
+  int i = 0;
+  while(i < len((import fnames))) {
+    fns_add(fs, n, i);
+    i = i + 1;
+  }
+} return int[] fs;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a, int b) { return a; } int h(int a) { return a; }" (1):([0, 2])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a, int b) { return a; } int h(int a) { return a; }" (3):([])

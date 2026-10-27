@@ -1,0 +1,26 @@
+// Readers for `then`: the rover, the sentinel the heap ends in, and the link
+// out of the first island's sentinel, none of which a return value can show.
+// They answer as offsets from crt_heap, so a case can name them as literals.
+rover_off() {
+  word x = peek64((import crt_heap)) - (import crt_heap);
+} return word x;
+given crt_heap_fixture ():(16)
+given crt_heap_fixture4 ():(16)
+
+sent_off() {
+  word x = peek64((import crt_heap) + 8) - (import crt_heap);
+} return word x;
+given crt_heap_fixture ():(80)
+given crt_heap_grown(32) ():(1048672)
+
+// The first island's sentinel link: the first block of the island after it, or
+// 0 when there is none.
+isl0_off() {
+  word x = peek64((import hend) + 8);
+  word r = 0;
+  if(x != 0) {
+    r = x - (import crt_heap);
+  }
+} return word r;
+given crt_heap_fixture ():(0)
+given crt_heap_grown(32) ():(96)

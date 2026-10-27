@@ -9,12 +9,28 @@
 // so 0 is the lexer's end-of-input marker.
 //
 // tree_depth: how many directory levels a generated project's block tree has
-// (emit/gen/out/path.id). 3^5 = 243 leaf directories = 2187 functions. A
-// translated kernel file needs far fewer; a whole subsystem may need one more
-// level, and this is the only number to change.
+// (emit/gen/out/path.id). 3^8 = 6561 leaf directories = 59049 functions. A path
+// that runs out of room names two functions to one file, and the splitter
+// then keeps only the last, so this is the one number to raise for a program
+// with more block functions than that (cJSON, at 3000 lines, is about 3000).
+//
+// range_max: the most values a GNU range, `case a ... b:` or `[a ... b] = v`, may span; each becomes a
+// case of its own.
 //
 // funcs_per_file: how many block functions share one generated file, which is
 // id's own limit.
+//
+// rt_hidden: the runtime functions c_NAME that rt_names and libc_names do not list
+// (the formatter and printk behind printf). A function the program defines under
+// one of those names, or a rt_names or libc_names one, is emitted as u_NAME so the
+// runtime's own c_NAME stays what the runtime's other code calls.
+//
+// bi_special: the builtins read by the parser, not called: constant_p is 0, choose_expr
+// is the arm its constant condition picks and types_compatible_p compares two types
+// (front/parse/code/ex/p/pf/post/call/bi/).
+//
+// sret_var: the name of the hidden first parameter of a function that returns a
+// struct or union, a pointer to the caller's object the result is written to.
 //
 // op_names[i] is a binary operator token; op_levels[i] is its level, 0 being
 // the loosest. Keep the two lists the same length and in the same order.
@@ -29,27 +45,138 @@
 // Note the C oddity this encodes: shift (7) is *looser* than additive (8), so
 // `1 << 2 + 3` is `1 << (2 + 3)`.
 //
+// fl_ops[i] is an operator that has a floating-point operand and fl_fns[i] the
+// crt function (crt/flt) that does it; keep the two lists the same length and in
+// the same order. ld_fns[i] is the crt function (crt/ldbl) that does the
+// arithmetic operator fl_ops[i] (the first four) on long doubles.
+//
 // esc_chars[i] means esc_vals[i]:
 //
 //   \a 7  \b 8  \t 9  \n 10  \v 11  \f 12  \r 13  \" 34  \' 39  \? 63  \\ 92
 //
 // spec_words: the counted specifier words, in the slot order sp uses.
 //
-// prim_names/prim_sizes/prim_signs: the sixteen canonical prim types every C
+// prim_names/prim_sizes/prim_signs: the eighteen canonical prim types every C
 // combination collapses onto, their LP64 sizes (long and long long are both
 // 8), and 1 where the type is signed. Plain `char` is signed on x86-64, which
-// is the only place that matters.
+// is the only place that matters. `void` is 1 byte, as GNU C makes sizeof(void)
+// and arithmetic on a `void *`.
 int ch_dq = 34;
 int ch_sq = 39;
 int ch_nl = 10;
 int ch_eof = 0;
-int tree_depth = 5;
+string sret_var = "__ret";
+int tree_depth = 8;
 int funcs_per_file = 3;
+int range_max = 4096;
 string[] op_names = ["||", "&&", "|", "^", "&", "==", "!=", "<", ">", "<=", ">=", "<<", ">>", "+", "-", "*", "/", "%"];
 int[] op_levels = [0, 1, 2, 3, 4, 5, 5, 6, 6, 6, 6, 7, 7, 8, 8, 9, 9, 9];
+string[] std_names = ["stdout", "stderr", "stdin"];
+int[] std_vals = [1, 2, 3];
+string[] libc_names = ["malloc", "free", "realloc", "_longjmp", "__builtin_memcpy", "__builtin_memmove", "__builtin_memset", "__builtin_strlen", "__builtin_memcmp", "_Exit", "__builtin_ctzl", "__builtin_clzl", "__builtin_popcountl", "__builtin_ffsl", "__builtin_parityl", "__builtin_trap", "__builtin_unreachable"];
+string[] libc_crt = ["kmalloc", "kfree", "krealloc", "c_longjmp", "c_memcpy", "c_memmove", "c_memset", "c_strlen", "c_memcmp", "c_exit", "c___builtin_ctzll", "c___builtin_clzll", "c___builtin_popcountll", "c___builtin_ffsll", "c___builtin_parityll", "c_abort", "c_abort"];
+string[] va_names = ["printf", "fprintf", "sprintf", "snprintf", "sscanf"];
+int[] va_fixed_n = [1, 2, 2, 3, 2];
+string[] rt_names = ["exit", "abort", "printf", "putchar", "calloc", "fgets", "sprintf", "snprintf", "fprintf", "fputs", "fputc", "fclose", "fgetc", "__c2id_load", "__c2id_store", "__c2id_rmw", "__c2id_cas", "__c2id_gcas", "__c2id_gxchg", "__c2id_vcas", "__c2id_bcas", "__c2id_tas", "__c2id_clear", "__c2id_ovf", "fopen", "remove", "rename", "tmpfile", "fread", "fwrite", "fflush", "ungetc", "sscanf", "isdigit", "isupper", "islower", "isalpha", "isalnum", "isspace", "isxdigit", "isprint", "ispunct", "iscntrl", "isgraph", "toupper", "tolower", "__builtin_ctz", "__builtin_ctzll", "__builtin_clz", "__builtin_clzll", "__builtin_bswap32", "__builtin_bswap64", "__builtin_expect", "__builtin_popcount", "__builtin_popcountll", "__builtin_parity", "__builtin_parityll", "__builtin_ffs", "__builtin_ffsll", "__builtin_bswap16", "memcpy", "memmove", "memcmp", "memset", "memchr", "strlen", "strcpy", "strncpy", "strcmp", "strncmp", "strchr", "strrchr", "strstr", "strcat", "strncat", "strdup", "puts", "strtol", "time", "clock", "read", "write", "close", "sqrt", "cbrt", "hypot", "sin", "cos", "tan", "asin", "acos", "atan", "atan2", "pow", "fmod", "sinh", "cosh", "tanh", "exp", "exp2", "log", "log2", "log10", "ldexp", "floor", "ceil", "round", "trunc", "fabs", "copysign", "fmin", "fmax", "isnan", "isinf", "isfinite", "__builtin_nan", "__builtin_inf", "strtod", "strtold", "vsnprintf", "vsprintf", "vprintf", "vfprintf", "getenv", "gettimeofday", "setjmp", "_setjmp", "longjmp"];
+string[] refuse_names = ["tcgetattr", "tcsetattr", "tcflush", "tcdrain", "cfmakeraw", "cfgetispeed", "cfgetospeed", "cfsetispeed", "cfsetospeed", "signal", "raise", "sigaction", "sigprocmask", "sigemptyset", "sigaddset", "alarm"];
+string[] refuse_why = ["terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "terminal control (termios) has no model", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program", "signals have no model: nothing delivers one to a translated program"];
+string[] c_keywords = ["if", "else", "while", "for", "do", "switch", "case", "default", "return", "sizeof", "goto", "break", "continue", "typedef", "struct", "union", "enum", "static", "extern", "register", "auto", "const", "volatile", "inline", "restrict", "signed", "unsigned", "void", "char", "short", "int", "long", "float", "double", "_Bool", "_Alignas", "_Alignof", "_Atomic", "_Generic", "_Noreturn", "_Static_assert", "_Thread_local", "typeof", "__typeof__", "asm", "__asm__", "__attribute__", "__extension__"];
+string[] kw_su = ["struct", "union"];
+string[] kw_sue = ["struct", "union", "enum"];
+string[] seg_words = ["__seg_gs", "__seg_fs"];
+string[] local_words = ["static", "inline", "__inline", "__inline__"];
+string[] used_attr = ["used", "__used__"];
+string[] tof_bad = ["decl", "stmtx", "refuse", "tof", "auto"];
+string[] brace_stop = [";", "{", "}"];
+string[] packed_names = ["packed", "__packed__", "vector_size", "__vector_size__", "mode", "__mode__"];
+string[] packed_attr = ["packed", "__packed__"];
+string[] aligned_attr = ["aligned", "__aligned__"];
+string[] cleanup_attrs = ["cleanup", "__cleanup__"];
+string[] bad_attrs = ["constructor", "__constructor__", "destructor", "__destructor__", "alias", "__alias__"];
+string[] jmp_names = ["setjmp", "_setjmp"];
+string[] rt_hidden = ["format", "printk"];
+string[] bi_special = ["__builtin_constant_p", "__builtin_choose_expr", "__builtin_types_compatible_p"];
+string[] wide_names = ["__int128", "__uint128_t", "__int128_t"];
+string[] wide_prims = ["__int128", "unsigned __int128"];
+string[] wide_kinds = ["num", "var", "bin", "un", "post", "call", "idx", "mem", "cast", "cond", "assign"];
+string[] ld_fns = ["cld_arith(0, ", "cld_arith(1, ", "cld_arith(2, ", "cld_arith(3, "];
+string[] wd_ops = ["+", "-", "*", "/", "%", "&", "|", "^", "<<", ">>"];
+string[] wd_sfn = ["ci128_add(", "ci128_sub(", "ci128_mul(", "ci128_divide(1, 0, ", "ci128_divide(1, 1, ", "ci128_and(", "ci128_or(", "ci128_xor(", "ci128_shl(", "ci128_sar("];
+string[] wd_ufn = ["ci128_add(", "ci128_sub(", "ci128_mul(", "ci128_divide(0, 0, ", "ci128_divide(0, 1, ", "ci128_and(", "ci128_or(", "ci128_xor(", "ci128_shl(", "ci128_shr("];
+string[] wd_cmp_ops = ["<", "<=", ">", ">=", "==", "!="];
+string[] fl_ops = ["+", "-", "*", "/", "<", "<=", ">", ">=", "==", "!="];
+string[] fl_fns = ["cfl_add", "cfl_sub", "cfl_mul", "cfl_div", "cfl_lt", "cfl_le", "cfl_gt", "cfl_ge", "cfl_eq", "cfl_ne"];
+string[] sc_ops = ["&&", "||"];
+string[] stmt_kinds = ["block", "if", "while", "dowhile", "for", "switch"];
+string[] cv_cmp_ops = ["==", "!=", "<", ">", "<=", ">=", "&&", "||"];
+string[] scan_a = ["bin", "un", "post", "call", "idx", "mem", "cast", "cond", "assign", "expr", "decl", "if", "while", "dowhile", "for", "switch", "case", "return", "dinit", "sizeof"];
+string[] scan_b = ["bin", "idx", "assign", "cond", "for"];
+string[] scan_l = ["call", "stmtx", "block", "if", "while", "dowhile", "for", "switch", "init", "cond"];
+string[] scan_m = ["if", "for"];
 string[] esc_chars = ["a", "b", "t", "n", "v", "f", "r", "\"", "'", "?", "\\"];
 int[] esc_vals = [7, 8, 9, 10, 11, 12, 13, 34, 39, 63, 92];
 string[] spec_words = ["void", "char", "short", "int", "long", "float", "double", "signed", "unsigned", "_Bool"];
-string[] prim_names = ["void", "_Bool", "char", "signed char", "unsigned char", "short", "unsigned short", "int", "unsigned int", "long", "unsigned long", "long long", "unsigned long long", "float", "double", "long double"];
-int[] prim_sizes = [0, 1, 1, 1, 1, 2, 2, 4, 4, 8, 8, 8, 8, 4, 8, 16];
-int[] prim_signs = [0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1];
+string[] prim_names = ["void", "_Bool", "char", "signed char", "unsigned char", "short", "unsigned short", "int", "unsigned int", "long", "unsigned long", "long long", "unsigned long long", "float", "double", "long double", "__int128", "unsigned __int128"];
+int[] prim_sizes = [1, 1, 1, 1, 1, 2, 2, 4, 4, 8, 8, 8, 8, 4, 8, 16, 16, 16];
+int[] prim_signs = [0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0];
+// The GCC atomic and __sync builtins. A call to atom_names[i] is rewritten
+// (mid/pass/frame/atom) into a call of atom_fns[i] -- a function of rt/ext/builtin, or
+// `memcpy` -- over the arguments atom_pick[i] names (digits, the order in which
+// they are passed on), then the constant atom_ops[i] when it is not -1, then the
+// size of the object the first argument points at when atom_how[i] is odd; when
+// atom_how[i] is 2 or more the value is cast to the type of that object. An entry
+// whose function is "" is a constant, the value atom_ops[i]: a fence is 0 and a
+// lock-free test is 1. atom_arity[i] is how many arguments the call needs at
+// least; the order arguments are not passed on, because the program has one thread.
+// Operation codes: 0 exchange, 1 add, 2 sub, 3 and, 4 or, 5 xor, 6 nand, and 8 more
+// when the new value is what the call answers.
+string[] atom_names = ["__atomic_load_n", "__atomic_store_n", "__atomic_exchange_n", "__atomic_compare_exchange_n", "__atomic_fetch_add", "__atomic_fetch_sub", "__atomic_fetch_and", "__atomic_fetch_or", "__atomic_fetch_xor", "__atomic_fetch_nand", "__atomic_add_fetch", "__atomic_sub_fetch", "__atomic_and_fetch", "__atomic_or_fetch", "__atomic_xor_fetch", "__atomic_nand_fetch", "__atomic_test_and_set", "__atomic_clear", "__atomic_thread_fence", "__atomic_signal_fence", "__atomic_always_lock_free", "__atomic_is_lock_free", "__atomic_load", "__atomic_store", "__atomic_exchange", "__atomic_compare_exchange", "__sync_fetch_and_add", "__sync_fetch_and_sub", "__sync_fetch_and_and", "__sync_fetch_and_or", "__sync_fetch_and_xor", "__sync_fetch_and_nand", "__sync_add_and_fetch", "__sync_sub_and_fetch", "__sync_and_and_fetch", "__sync_or_and_fetch", "__sync_xor_and_fetch", "__sync_nand_and_fetch", "__sync_bool_compare_and_swap", "__sync_val_compare_and_swap", "__sync_lock_test_and_set", "__sync_lock_release", "__sync_synchronize"];
+string[] atom_fns = ["__c2id_load", "__c2id_store", "__c2id_rmw", "__c2id_cas", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_tas", "__c2id_clear", "", "", "", "", "memcpy", "memcpy", "__c2id_gxchg", "__c2id_gcas", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_rmw", "__c2id_bcas", "__c2id_vcas", "__c2id_rmw", "__c2id_clear", ""];
+string[] atom_pick = ["0", "01", "01", "012", "01", "01", "01", "01", "01", "01", "01", "01", "01", "01", "01", "01", "0", "0", "", "", "", "", "10", "01", "012", "012", "01", "01", "01", "01", "01", "01", "01", "01", "01", "01", "01", "01", "012", "012", "01", "0", ""];
+int[] atom_ops = [-1, -1, 0, -1, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, -1, -1, 0, 0, 1, 1, -1, -1, -1, -1, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, -1, -1, 0, -1, 0];
+int[] atom_arity = [2, 3, 3, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 1, 1, 2, 2, 3, 3, 4, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 2, 1, 0];
+int[] atom_how = [3, 1, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 1, 0];
+// The GCC overflow builtins, ovf_names[i] the operation ovf_ops[i] (0 add, 1 sub, 2 mul).
+// The generic spellings take the types of their operands and of the object the
+// result goes in, and have ovf_info[i] -1; a typed spelling (s: int, sl and sll:
+// long, u: unsigned, ul and ull: unsigned long) has the info of its one type, its
+// size in bytes times two plus one when it is signed. A call is rewritten
+// (mid/pass/frame/ovf) into one of c___c2id_ovf in rt/ext/builtin/ovf.id.
+string[] ovf_names = ["__builtin_add_overflow", "__builtin_sub_overflow", "__builtin_mul_overflow", "__builtin_sadd_overflow", "__builtin_ssub_overflow", "__builtin_smul_overflow", "__builtin_saddl_overflow", "__builtin_ssubl_overflow", "__builtin_smull_overflow", "__builtin_saddll_overflow", "__builtin_ssubll_overflow", "__builtin_smulll_overflow", "__builtin_uadd_overflow", "__builtin_usub_overflow", "__builtin_umul_overflow", "__builtin_uaddl_overflow", "__builtin_usubl_overflow", "__builtin_umull_overflow", "__builtin_uaddll_overflow", "__builtin_usubll_overflow", "__builtin_umulll_overflow"];
+int[] ovf_ops = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2];
+int[] ovf_info = [-1, -1, -1, 9, 9, 9, 17, 17, 17, 17, 17, 17, 8, 8, 8, 16, 16, 16, 16, 16, 16];
+
+// Token sets, one list each, tested for membership with list_string_index (strings) or list_find (byte codes)
+// where the parser or lexer asks "is this one of them".
+// cmp_ops: the relational and equality operators, whose result is int 0 or 1 rather than either operand's type.
+// unops: the prefix operators whose operand is a cast-expression; `+ - * &` are here in their prefix meaning only.
+// op3_ops: the three-character operators. pfx_words: the literal prefixes (L, u, U, u8).
+// attr_words: the words that open an attribute or an asm label. postfix_starts: the tokens that continue a postfix expression.
+// alignof_words: the spellings of alignof. declstop_words: the tokens that end the specifiers of a declaration.
+// su_words: struct, union and enum. asm_words: the spellings of asm. asm_quals: the qualifiers after asm.
+// tof_words: the spellings of typeof and __auto_type. ce_add_ops and ce_mul_ops: the additive/bitwise and the
+// multiplicative operators of a constant expression. space_codes: the whitespace bytes. exp_codes: e E p P.
+string[] cmp_ops = ["<", ">", "<=", ">=", "==", "!="];
+string[] unops = ["!", "~", "+", "-", "*", "&"];
+string[] op3_ops = ["...", "<<=", ">>="];
+string[] pfx_words = ["L", "u", "U", "u8"];
+string[] attr_words = ["__attribute__", "__attribute", "__asm__", "__asm", "asm", "__declspec", "_Alignas"];
+string[] postfix_starts = ["(", "[", ".", "->", "++", "--"];
+string[] alignof_words = ["__alignof__", "__alignof", "_Alignof", "alignof"];
+string[] declstop_words = [";", "=", ",", "[", "(", "{"];
+string[] su_words = ["struct", "union", "enum"];
+string[] asm_words = ["asm", "__asm__", "__asm"];
+string[] asm_quals = ["volatile", "__volatile__", "__volatile", "inline", "__inline__", "__inline", "goto"];
+string[] tof_words = ["typeof", "__typeof__", "__typeof", "typeof_unqual", "__typeof_unqual__", "__auto_type"];
+string[] ce_add_ops = ["+", "-", "<<", ">>", "|", "&", "^"];
+string[] ce_mul_ops = ["*", "/", "%"];
+int[] space_codes = [32, 9, 10, 13];
+int[] exp_codes = [101, 69, 112, 80];
+
+// The cells of stdty that call sites name (ty_std in emit/gen/txt/ty/std/signedness.id): long, unsigned long and
+// char *. fl_double and fl_float are the slots of fltys that ty_fltys_at reads (emit/gen/txt/ty/fl/pair.id).
+int std_long = 2;
+int std_ulong = 3;
+int std_charp = 4;
+int fl_double = 1;
+int fl_float = 2;

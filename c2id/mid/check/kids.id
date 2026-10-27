@@ -1,0 +1,33 @@
+// The children of a node, by kind, read the way reach_kids reads them:
+// conf.id's scan_a / scan_b hold the kinds whose na / nb is a node, scan_l and
+// scan_m those whose nl / nm is a list of nodes.
+chk_kids(int id, string kn) {
+  if(find_str((import scan_a), kn) >= 0) {
+    chk_scan((import na)[id]);
+  }
+  if(find_str((import scan_b), kn) >= 0) {
+    chk_scan((import nb)[id]);
+  }
+  if(find_str((import scan_l), kn) >= 0) {
+    chk_list((import nl)[id]);
+  }
+} chain (int id, string kn) {
+  if(find_str((import scan_m), kn) >= 0) {
+    chk_list((import nm)[id]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (12, "return"):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (12, "num"):() then len((import unres)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (13, "block"):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return 1 + nosuch(); }" (12, "bin"):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { if (1) { } else { nosuch(); } return 0; }" (15, "if"):() then (import unres):(["nosuch"])
+
+chk_list(int[] l) {
+  int i = 0;
+  while(i < len(l)) {
+    chk_scan(l[i]);
+    i = i + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" ([12]):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" ([]):() then len((import unres)):(0)

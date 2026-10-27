@@ -1,0 +1,38 @@
+// Where the lowering is entered. The CFG walker's primitives -- add a
+// statement, end a block with a condition, end a block with a return -- call
+// these first; they lower whatever expression the statement carries, then hand
+// the (possibly different) node and the (possibly different) current block on.
+
+// An expression statement or a declaration: its expression is lowered, and the
+// statement then lands in whichever block the lowering ended in.
+lower_stmt(int id) {
+  if((import nk)[id] == "expr") {
+    lower_expr_stmt(id);
+  } else {
+    lower_decl(id);
+  }
+} return void;
+given low_fix given effect_stmt(9) (19):() then (import na)[19]:(20)
+given low_fix given string_list_set((import nk), 12, "decl") given integer_list_set((import na), 12, 9) (12):() then (import na)[12]:(19)
+
+lower_expr_stmt(int id) {
+  int e = (import na)[id];
+  int r = lower_top(e);
+  integer_list_set((import na), id, r);
+} return void;
+given low_fix given effect_stmt(9) (19):() then (import na)[19]:(20)
+given low_fix given effect_stmt(17) (19):() then (import nl)[17]:([20])
+
+// The top of an expression statement keeps its own shape: `x = e;` and `f(a);`
+// are statements, so only their parts are lowered; anything else is lowered as
+// a value.
+lower_top(int e) {
+  int r = e;
+  if(e >= 0 && (import nk)[e] == "assign") {
+    r = lower_kid2(e);
+  } else {
+    r = lower_top2(e);
+  }
+} return int r;
+given low_fix (14):(14) then calls lower_kid2:(14)
+given low_fix (9):(19) then calls lower_top2:(9)

@@ -1,0 +1,19 @@
+// The index after up to `most` digits of `radix` starting at raw[i].
+scan_run(string raw, int i, int radix, int most) {
+  int j = i;
+  while(j < len(raw) && j - i < most && digit_at(raw, j, radix) == 1) {
+    j = j + 1;
+  }
+} return int j;
+("0x1fg", 2, 16, 99):(4)
+("789", 0, 8, 3):(1)
+("1234", 0, 8, 3):(3)
+
+digit_at(string raw, int j, int radix) {
+  int dc = character_code_at(raw, j);
+  int d = dig_val(dc);
+  int ok = d >= 0 && d < radix;
+} return int ok;
+("f", 0, 16):(1)
+("8", 0, 8):(0)
+("g", 0, 16):(0)

@@ -127,7 +127,7 @@ Each of these was considered and rejected, because `c2id` can lower it:
 * **function pointers** — integer ids plus a generated dispatch tree
 * **casts** — `crt` truncation/extension helpers
 * **variadic functions** — `printk` takes a `word[]` of arguments
-* **`const`, `volatile`, `static`, `inline`** — no runtime meaning here
+* **`const`, `volatile`, `inline`, and `static` on a global or a function** — no runtime meaning here; a `static` local is not among them (it outlives its call, so `mid/pass/frame/static.id` makes it a global of its own)
 * **increased action / nesting / file limits** — the limits are the language's
   entire point. Machine-generated code has no business asking for an exemption
   that human-written code does not get; `c2id` splits its output to fit, and

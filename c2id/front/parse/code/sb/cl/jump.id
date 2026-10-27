@@ -1,0 +1,35 @@
+// break and continue leave the scope only when no loop (for break, loop or switch)
+// of the scope's own is around them; a goto only when its label is not in the scope.
+cl_jump2(int cj_id, string cj_kn, int cj_brk, int cj_cont) {
+  if(cj_kn == "break" && cj_brk == 0) {
+    cl_pre(cj_id);
+  } else if(cj_kn == "continue" && cj_cont == 0) {
+    cl_pre(cj_id);
+  } else if(cj_kn == "goto") {
+    cl_goto(cj_id);
+  }
+} return void;
+given cl_fix (4, "break", 0, 0):() then (import nk)[4]:("block")
+given cl_fix (5, "continue", 1, 0):() then (import nk)[5]:("block")
+given cl_fix (5, "continue", 0, 1):() then (import nk)[5]:("continue")
+
+cl_goto(int cg_id) {
+  if(find_str((import cllab), (import ns)[cg_id]) < 0) {
+    cl_pre(cg_id);
+  }
+} return void;
+given cl_fix (3):() then (import nk)[3]:("block")
+given cl_fix (12):() then (import nk)[12]:("goto")
+
+// A jump (break, continue, goto, return without a value) that leaves the scope
+// becomes { fn(p); <the same jump>; }.
+cl_pre(int cr_id) {
+  string cr_k = (import nk)[cr_id];
+  int cr_j = newleaf(cr_k, (import na)[cr_id], 0, (import ns)[cr_id], "");
+  int cr_s = cl_callstmt();
+} chain (int cr_id) {
+  string_list_set((import nk), cr_id, "block");
+  integer_list_list_set((import nl), cr_id, [cr_s, cr_j]);
+} return void;
+given cl_fix (4):() then (import nk)[4]:("block") then (import nl)[4]:([17, 13])
+given cl_fix (3):() then (import nk)[13]:("goto") then (import ns)[13]:("out") then (import nl)[3]:([17, 13])

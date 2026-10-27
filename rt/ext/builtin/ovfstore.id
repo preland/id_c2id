@@ -1,0 +1,13 @@
+ovf_umax(word ovfb) {
+  word ovfl = 0 - 1;
+  if(ovfb < 64) {
+    ovfl = (1 << ovfb) - 1;
+  }
+} return word ovfl;
+
+// The exact result's low 64 bits, stored in the low bytes of its type.
+ovf_store(word ovfp, word[] ovfx, word ovfri) {
+  word ovfw = rt_signed(ovfx, 0, 1);
+  word ovfz = ovfri / 2;
+  word ovfq = c___c2id_store(ovfp, ovfw, ovfz);
+} return void;

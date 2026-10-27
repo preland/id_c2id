@@ -1,0 +1,41 @@
+// Indexing, assignment, sizeof.
+
+// a[i] has the element type whether `a` is an array or a pointer -- elem_ty
+// treats both the same, which is C's array-to-pointer decay in one place.
+ety7(int id) {
+  int ty = 0;
+  if((import nk)[id] == "idx") {
+    int a = (import na)[id];
+    int aty = ex_ty(a);
+    ty = elem_ty(aty);
+  } else {
+    ty = ety8(id);
+  }
+} return int ty;
+given txt_fixture (0):(0) then calls ety8:(0)
+given txt_fixture (5):(0) then calls ety8:(5)
+
+// An assignment has the type of what it assigns *to*: `c = 300` is a char.
+ety8(int id) {
+  int ty = 0;
+  if((import nk)[id] == "assign") {
+    int a = (import na)[id];
+    ty = ex_ty(a);
+  } else {
+    ty = ety9(id);
+  }
+} return int ty;
+given txt_fixture (0):(0) then calls ety9:(0)
+given txt_fixture (5):(0) then calls ety9:(5)
+
+// size_t.
+ety9(int id) {
+  int ty = 0;
+  if((import nk)[id] == "sizeof") {
+    ty = ty_std((import std_ulong));
+  } else {
+    ty = ety10(id);
+  }
+} return int ty;
+given txt_fixture (0):(0) then calls ety10:(0)
+given txt_fixture (5):(0) then calls ety10:(5)

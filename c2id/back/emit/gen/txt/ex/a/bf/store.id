@@ -1,0 +1,32 @@
+// Writing a bit-field: read the unit, clear the field's bits, put the new value
+// in them, write the unit back. The value is cut to the width on the way in, which
+// is C's conversion to the field's type; a _Bool field takes 0 or 1 whatever it is
+// given. The text answered is the store's statement, as store_raw's is.
+bfx_store(string s, string out) {
+  string[] bfp = string_split(s, "|");
+  string old = bfx_peek(bfp);
+  string keep = bfx_clear(bfp, old);
+} chain (string s, string out) {
+  string put = bfx_put(bfp, out);
+  string neu = name_val(keep + " | " + put);
+  string txt = bfx_poke(bfp, neu);
+} return string txt;
+given txt_fixture given pend_setup ("BF|(p + 0)|4|3|5|u", "t9"):("poke32((p + 0), t3)") then (import pend):(["word t0 = peek32((p + 0));", "word t1 = t0 & ~(31 << 3);", "word t2 = (t9 & 31) << 3;", "word t3 = t1 | t2;"])
+given txt_fixture given pend_setup ("BF|(q + 2)|1|0|1|b", "t7"):("poke8((q + 2), t3)") then (import pend):(["word t0 = peek8((q + 2));", "word t1 = t0 & ~(1 << 0);", "word t2 = (t7 != 0) << 0;", "word t3 = t1 | t2;"])
+
+// The unit's other bits: the field's mask, shifted to its place, taken away.
+bfx_clear(string[] bfp, string old) {
+  int w = to_int(bfp[4]);
+  string mk = bfx_maskval(w);
+  string out = name_val(old + " & ~(" + mk + " << " + bfp[3] + ")");
+} return string out;
+given txt_fixture given pend_setup (["BF", "(p + 0)", "4", "3", "5", "u"], "t0"):("t0") then (import pend):(["word t0 = t0 & ~(31 << 3);"])
+given txt_fixture given pend_setup (["BF", "(p + 0)", "8", "0", "40", "s"], "t3"):("t0") then (import pend):(["word t0 = t3 & ~(1099511627775 << 0);"])
+
+bfx_poke(string[] bfp, string neu) {
+  int by = to_int(bfp[2]);
+  string bits = wid_bits(by);
+  string txt = "poke" + bits + "(" + bfp[1] + ", " + neu + ")";
+} return string txt;
+given txt_fixture (["BF", "(p + 0)", "4", "3", "5", "u"], "t1"):("poke32((p + 0), t1)")
+given txt_fixture (["BF", "(q + 6)", "2", "0", "5", "u"], "t8"):("poke16((q + 6), t8)")

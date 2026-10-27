@@ -1,0 +1,35 @@
+// Build the CFG of one C function body. `id` is the body statement node --
+// normally a `block`, but any statement works. Returns the entry block, which
+// is always 0.
+//
+// Every earlier function's graph is discarded, so the emitter builds and
+// consumes one function at a time, exactly as it does with the frame layout
+// in ../../../fr/.
+cfg_build(int id) {
+  cfg_init();
+  int nxt = new_block();
+  cfg_build_cont(id, nxt);
+} return int 0;
+given walk_ast_fixture ((import wifid)):(0) then len((import bkind)):(4)
+given walk_ast_fixture ((import wforid)):(0) then len((import bkind)):(5)
+
+// The trailing term_end is C's implicit `return;` at the end of a function.
+// When the body really did end in a `return`, the walker has already opened a
+// fresh block for the unreachable code that would have followed, and that
+// block is what gets terminated here -- harmless, and it keeps the invariant
+// that every block has a terminator.
+cfg_walk(int id) {
+  walk_stmt(id);
+  cfg_walk_cont();
+} return void;
+given walk_ast_fixture ((import wifid)):() then len((import bkind)):(4) then (import bkind)[0]:("cond")
+given walk_ast_fixture ((import wforid)):() then len((import bkind)):(5)
+
+// `subject == value`, the test a switch dispatch block branches on. It is a
+// synthesised AST node so that the emitter's ordinary expression printer can
+// handle it with no knowledge of switches at all.
+eq_node(int a, int b) {
+  int id = newleaf("bin", a, b, "==", "");
+} return int id;
+given boot_a (0, 5):(0) then calls newleaf:("bin", 0, 5, "==", "")
+given boot_a (2, 9):(0) then calls newleaf:("bin", 2, 9, "==", "")

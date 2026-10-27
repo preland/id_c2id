@@ -1,0 +1,23 @@
+// The writable FILEs that are open, newest first, so the program's end can save
+// each one.
+rt_wlink(word rwf) {
+  word rwh = (import rtwf)[0];
+  poke64(rwf + 56, rwh);
+  word_list_set((import rtwf), 0, rwf);
+} return void;
+
+rt_wunlink(word rwf) {
+  word rwh = (import rtwf)[0];
+  word rwx = peek64(rwf + 56);
+  rt_wcut(rwh, rwf, rwx);
+} return void;
+
+rt_wskip(word rwc, word rwf, word rwx) {
+  word rwn = rwc;
+  while(rwn != 0 && peek64(rwn + 56) != rwf) {
+    rwn = peek64(rwn + 56);
+  }
+  if(rwn != 0) {
+    poke64(rwn + 56, rwx);
+  }
+} return void;

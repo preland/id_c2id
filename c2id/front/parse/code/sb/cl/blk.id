@@ -1,0 +1,28 @@
+// A statement has just been read in a block. If it declared variables with a cleanup
+// the rest of the block is their scope (cl_block); a cleanup that came from anywhere
+// else, a `for` initialiser, is not translated.
+cl_after(int[] ca_pos, int[] ca_l, int ca_id) {
+  if(len((import clpn)) > 0 && (import nk)[ca_id] == "block") {
+    cl_block(ca_pos, ca_l);
+  } else if(len((import clpn)) > 0) {
+    cl_stray(ca_id);
+  }
+} return void;
+given lexfix given cl_fix given cl_push("v", "f") stdin "}" ([0], [], 4):() then len((import pdtk)):(1)
+given lexfix given cl_fix stdin "}" ([0], [], 4):() then len((import pdtk)):(0)
+
+cl_stray(int cy_id) {
+  defer_tok((import ntok)[cy_id], "a variable with a cleanup attribute is declared where c2id does not know the scope it ends: only a declaration statement in a block is translated", 0);
+  cl_forget();
+} return void;
+given lexfix given cl_fix given cl_push("v", "f") (4):() then len((import pdtk)):(1)
+given lexfix given cl_fix (4):() then (import pdsg):([0])
+
+cl_forget() {
+  while(len((import clpn)) > 0) {
+    pop((import clpn));
+    pop((import clpf));
+  }
+} return void;
+given cl_fix given cl_push("v", "f") ():() then len((import clpf)):(0)
+given cl_fix ():() then len((import clpn)):(0)

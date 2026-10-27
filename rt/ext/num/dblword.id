@@ -1,0 +1,22 @@
+rt_dinf(word rs, word[] rdsc) {
+  rt_dtake(rs, rdsc, "inf");
+  if(rdsc[2] == 1) {
+    rt_dtake(rs, rdsc, "inity");
+  }
+} return void;
+
+rt_dtake(word rs, word[] rdsc, string rpat) {
+  word rok = rt_dmatch(rs, rdsc, rpat);
+  if(rok == 1) {
+    rt_dgo(rdsc, len(rpat));
+  }
+} return void;
+
+rt_dmatch(word rs, word[] rdsc, string rpat) {
+  word rok = 1;
+  int rdi = 0;
+  while(rdi < len(rpat) && rok == 1) {
+    rok = rt_dsame(rs, rdsc, rpat, rdi);
+    rdi = rdi + 1;
+  }
+} return word rok;

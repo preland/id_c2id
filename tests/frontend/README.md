@@ -9,15 +9,10 @@ tests/frontend/build.sh          # builds tests/frontend/parse
 echo 'if (x) { g(); }' | build/frontend/parse
 ```
 
-`harn/stub/ty/` stands in for `c2id/parse/ty/` until it lands. It recognises
-only `int`, `char` and `long` as type names, which is enough for statements
-and expressions but means a cast to any other type is reported as
-`expression expected` — that is the stub, not the parser:
-
-```
-p = (char *)q + 1;      parses
-p = (void *)q;          expression expected, found ')'
-```
-
-Delete the stub and the `harn/stub` directory shrinks to the printer once the
-real type module is in.
+The harness is c2id itself (`conf.id`, `front/`, `mid/`, `back/`) with the driver
+`back/emit/gen/out/top/main.id` left out and `harn/main.id` in its place, because
+the parser is no longer a slice that builds alone: it reads the diagnostics, the
+type sizes and the constants the folder needs from the other stages. Node
+numbers in the printed tree start after the type nodes `boot_a` makes (6), so a
+change to the nodes `ty_setup` creates moves them. `harn/stub/` holds the tree
+printer and the fixtures its cases use.

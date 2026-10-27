@@ -1,0 +1,17 @@
+// After a parse error the rest of the unit is not read: every loop in the
+// parser stops at the end of the tokens, so moving the cursor there is what
+// keeps a recovery that makes no progress from running forever.
+diag_bail(int[] pos) {
+  pos[0] = len((import ttext));
+  integer_list_set((import curtk), 0, pos[0]);
+} return void;
+given boot_a given boot_b given lexfix stdin "int x;" ([0]):([4])
+given boot_a given boot_b given lexfix stdin "x;" ([0]):([3])
+
+// A parse error at the cursor: report it, then stop reading.
+diag_halt(int[] pos, string msg) {
+  diag_tok(pos[0], msg);
+  diag_bail(pos);
+} return void;
+given boot_a given boot_b given lexfix stdin "# 5 \"h.c\"\nx;" ([0], "bad"):([3]) then (import dgmsg):(["h.c:5: error: bad"])
+given boot_a given boot_b given lexfix stdin "x;" ([1], "bad"):([3]) then len((import dgmsg)):(1)

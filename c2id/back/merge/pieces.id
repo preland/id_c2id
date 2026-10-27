@@ -1,0 +1,41 @@
+// A line as pieces: each token with a one-letter tag in front, `n` for a whole
+// number and `t` for any other text. Everything the merge pass does to a line
+// (its shape with the numbers blanked, the list of its numbers, the line with
+// some numbers replaced by parameters) is a walk over these.
+
+mg_pieces(string mgline) {
+  string[] mgpl = [];
+  int mgi = 0;
+  while(character_code_at(mgline, mgi) >= 0) {
+    mgi = mg_step(mgpl, mgline, mgi);
+  }
+} return string[] mgpl;
+("x = 15;"):(["tx", "t ", "t=", "t ", "n15", "t;"])
+("poke64(fp + 40, k5)"):(["tpoke64", "t(", "tfp", "t ", "t+", "t ", "n40", "t,", "t ", "tk5", "t)"])
+(""):([])
+
+mg_step(string[] mgpl, string mgline, int mgi) {
+  int mgj = mg_tok_end(mgline, mgi);
+  string mgtk = str_sub(mgline, mgi, mgj - mgi);
+  string mgtag = mg_tag_of(mgtk);
+} chain (string[] mgpl, string mgline, int mgi) {
+  push(mgpl, mgtag + mgtk);
+} return int mgj;
+([], "a(b", 0):(1)
+([], "x = 15;", 4):(6)
+
+mg_tag_of(string mgtk) {
+  string mgr = "t";
+  if(mg_all_digits(mgtk) == 1 || mg_all_hex(mgtk) == 1) {
+    mgr = "n";
+  }
+  if(mg_is_flt(mgtk) == 1) {
+    mgr = "f";
+  }
+} return string mgr;
+("15"):("n")
+("\"0.5\""):("f")
+("\"ab\""):("t")
+("k5"):("t")
+("0x4000"):("n")
+("0xzz"):("t")

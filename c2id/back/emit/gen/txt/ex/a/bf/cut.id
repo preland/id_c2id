@@ -1,0 +1,27 @@
+// A field at bit 0 is not shifted; one that is 64 bits wide is not cut.
+bfx_down(string raw, int bfq) {
+  string out = raw;
+  if(bfq > 0) {
+    out = name_val("ushr(" + raw + ", " + bfq + ")");
+  }
+} return string out;
+given txt_fixture given pend_setup ("t0", 3):("t0") then (import pend):(["word t0 = ushr(t0, 3);"])
+given txt_fixture given pend_setup ("t5", 0):("t5") then len((import pend)):(0)
+
+bfx_mask(string sh, int w) {
+  string out = sh;
+  if(w < 64) {
+    out = name_val(sh + " & " + bfx_maskval(w));
+  }
+} return string out;
+given txt_fixture given pend_setup ("t1", 5):("t0") then (import pend):(["word t0 = t1 & 31;"])
+given txt_fixture given pend_setup ("t1", 64):("t1") then len((import pend)):(0)
+
+// 2^w - 1 as a decimal literal: a word, because a field may be wider than 31 bits.
+bfx_maskval(int w) {
+  word one = 1;
+  word bfm = (one << w) - 1;
+  string out = "" + bfm;
+} return string out;
+(5):("31")
+(40):("1099511627775")

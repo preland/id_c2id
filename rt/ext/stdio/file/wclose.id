@@ -1,0 +1,34 @@
+// fclose of a FILE that is not a standard stream: a writable one is saved first,
+// answering -1 if that failed.
+rt_fdrop(word rfile) {
+  word rwv = 0;
+  if(peek64(rfile + 24) == 2) {
+    rwv = rt_wclose(rfile);
+  } else {
+    kfree(peek64(rfile));
+    kfree(rfile);
+  }
+} return word rwv;
+
+rt_wclose(word rfile) {
+  word rwv = rt_wsync(rfile);
+  word rwfl = peek64(rfile + 48);
+  rt_wunlink(rfile);
+} chain (word rfile) {
+  if((rwfl & 64) != 0) {
+    rt_wgone(rfile);
+  }
+  kfree(peek64(rfile));
+  kfree(peek64(rfile + 40));
+} chain (word rfile) {
+  kfree(rfile);
+} return word rwv;
+
+// The file a tmpfile made, removed.
+rt_wgone(word rfile) {
+  word rwp = peek64(rfile + 40);
+  word rwn = c_strlen(rwp);
+  string rwt = str_of_mem(rwp, rwn);
+} chain (word rfile) {
+  word rwv = fs_remove(rwt);
+} return void;

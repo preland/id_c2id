@@ -1,0 +1,30 @@
+// The arguments of a call, each converted to its parameter's type when either
+// is floating point: `sqrt(2)` passes a double, `f(x)` with a double x into an
+// int parameter truncates, a float parameter gets a float. The arguments are
+// rewritten in place, as casts, which cast_txt then emits; one past the
+// parameters the prototype names (a variadic call's) is left as it is.
+fl_args(int id) {
+  int callee = (import na)[id];
+  int ft = fl_fnty(callee);
+  int[] ids = (import nl)[id];
+} chain (int id) {
+  if(ft >= 0) {
+    fl_args_run(ids, (import nl)[ft]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given fl_call_fixture stdin "double g(double x);" ((import flck)):() then len((import nk)):(13)
+given boot_a given boot_b given lexfix given tu_load given fl_call_fixture stdin "int g(int x);" ((import flck)):() then len((import nk)):(12)
+
+fl_fnty(int callee) {
+  int ct = ex_ty(callee);
+  int f = ct;
+  if((import nk)[ct] == "ptr") {
+    f = (import na)[ct];
+  }
+} chain (int callee) {
+  if((import nk)[f] != "fn") {
+    f = 0 - 1;
+  }
+} return int f;
+given boot_a given boot_b given lexfix given tu_load given fl_call_fixture stdin "double g(double x);" ((import flcg)):(8)
+given boot_a given boot_b given lexfix given tu_load given fl_call_fixture stdin "int g;" ((import flcg)):(-1)

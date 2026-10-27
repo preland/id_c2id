@@ -1,0 +1,35 @@
+// The check pass: what c2id cannot translate correctly is found here, before
+// anything is emitted, and refused with file:line and the construct's name. It
+// walks every function the program reaches with that function's locals bound,
+// so the type of any expression can be asked, and it lists the functions called
+// that nothing provides all at once (front/diag/unres.id) instead of leaving
+// the link step to name the first.
+chk_all() {
+  int n = len((import fnames));
+  chk_loop(0, n);
+  chk_inits();
+} chain () {
+  chk_gasm();
+  unres_flush();
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" ():() then (import dgmsg):(["error: 1 function(s) called here are neither defined in this program nor provided by the c2id runtime:\n  nosuch  first called at :1"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return 0; }" ():() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int missing(int); int (*tbl[])(int) = { missing }; int main(void) { int missing = 0; return missing; }" ():() then (import unres):(["missing"])
+
+chk_loop(int i, int n) {
+  while(i < n) {
+    chk_reached(i);
+    i = i + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (0, 1):() then len((import unres)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (0, 0):() then len((import unres)):(0)
+
+// Function i is checked only if the program can reach it, as it is emitted only then.
+chk_reached(int i) {
+  if((import reach)[i] == 1) {
+    chk_one(i);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (0):() then len((import unres)):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_init(1) stdin "int main(void) { return nosuch(1); }" (0):() then len((import unres)):(0)

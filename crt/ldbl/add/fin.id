@@ -1,0 +1,33 @@
+// lqa and lqb are the operands, lxo is 1 when lqa is the larger; the smaller is
+// shifted down by the difference of their exponents, and the result is the
+// working value for ld_pack.
+ld_asum(word[] lqa, word[] lqb, word lxo) {
+  word lxm = 1 - lxo;
+  word lxd = ld_pk(lqa, lqb, lxo, 1) - ld_pk(lqa, lqb, lxm, 1);
+  word lxp = ld_pk(lqa, lqb, lxm, 2);
+} chain (word[] lqa, word[] lqb, word lxo) {
+  word lxl = ld_jaml(lxp, 0, lxd);
+  word lxh = ushr(lxp, lxd);
+  word[] lqx = [ld_pk(lqa, lqb, lxo, 0), ld_pk(lqa, lqb, lxo, 1), ld_pk(lqa, lqb, lxo, 2)];
+} chain (word[] lqa, word[] lqb, word lxo) {
+  word[] lqw = ld_asum2(lqx, lxh, lxl, lqx[0] ^ ld_pk(lqa, lqb, lxm, 0));
+} return word[] lqw;
+([0, 100, -9223372036854775808], [0, 98, -9223372036854775808], 1):([0, 100, -6917529027641081856, 0])
+([0, 98, -9223372036854775808], [0, 100, -9223372036854775808], 0):([0, 100, -6917529027641081856, 0])
+([0, 100, -9223372036854775808], [1, 99, -9223372036854775808], 1):([0, 100, 4611686018427387904, 0])
+
+ld_addfin(word[] lqa, word[] lqb) {
+  word lxo = ld_ge(lqa, lqb);
+  word[] lqw = ld_asum(lqa, lqb, lxo);
+  word[] lqr = ld_pack(lqw);
+} return word[] lqr;
+([0, 16383, -4611686018427387904], [0, 16383, -4611686018427387904]):([-4611686018427387904, 16384])
+([0, 16383, -4611686018427387904], [1, 16383, -4611686018427387904]):([0, 0])
+
+ld_sfin(word[] lqa, word[] lqb) {
+  ld_fixe(lqa);
+  ld_fixe(lqb);
+  word[] lqr = ld_addfin(lqa, lqb);
+} return word[] lqr;
+([0, 0, 5], [0, 0, 3]):([8, 0])
+([0, 16383, -9223372036854775808], [0, 16383, -9223372036854775808]):([-9223372036854775808, 16384])

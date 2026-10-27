@@ -1,0 +1,12 @@
+// long double to a 64-bit integer, truncated toward zero. lxbits is 63 for a
+// signed result and 64 for an unsigned one, the only difference between them.
+cld_to_integer(word lxbits, word lxa) {
+  word[] lqa = ld_get(lxa);
+  word lxk = ld_kind(lqa[1], lqa[2]);
+  word lxr = ld_toi(lqa, lxk, lxbits);
+} return word lxr;
+given ld_cells (63, (import ldx)):(1)
+given ld_cells (63, (import ldy)):(-2)
+given ld_cells given ld_cset((import ldz), -1, 16446) (63, (import ldz)):(-9223372036854775808)
+given ld_cells (64, (import ldx)):(1)
+given ld_cells given ld_cset((import ldz), -1, 16446) (64, (import ldz)):(-1)

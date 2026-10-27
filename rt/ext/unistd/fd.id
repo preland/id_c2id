@@ -1,0 +1,27 @@
+// POSIX read, write and close over descriptors 0, 1 and 2, which are the three
+// streams a program has. Any other descriptor answers -1, as one that is not
+// open does.
+c_read(word rfdn, word rbuf, word rnb) {
+  word rres = 0 - 1;
+  int rcnt = rnb;
+  if(rfdn == 0) {
+    rres = stdio_read_some_mem(rbuf, rcnt);
+  }
+} return word rres;
+
+c_write(word rfdn, word rbuf, word rnb) {
+  word rres = 0 - 1;
+  int rcnt = rnb;
+  int rfdi = rfdn;
+} chain (word rfdn, word rbuf, word rnb) {
+  if(rfdn == 1 || rfdn == 2) {
+    rres = stdio_write_mem(rfdi, rbuf, rcnt);
+  }
+} return word rres;
+
+c_close(word rfdn) {
+  word rres = 0 - 1;
+  if(rfdn >= 0 && rfdn <= 2) {
+    rres = 0;
+  }
+} return word rres;

@@ -1,0 +1,24 @@
+// strncat: at most n bytes of rs after the end of rd, then a NUL.
+c_strncat(word rd, word rs, word rn) {
+  word rl = str_nlen(rs, rn);
+  word rend = c_strlen(rd);
+  word rx = c_memcpy(rd + rend, rs, rl);
+} chain (word rd, word rs, word rn) {
+  poke8(rd + rend + rl, 0);
+} return word rd;
+
+c_strdup(word rs) {
+  word rn = c_strlen(rs);
+  word rp = kmalloc(rn + 1);
+  word rx = c_memcpy(rp, rs, rn + 1);
+} return word rp;
+
+// memchr: the first byte equal to rch in the rn bytes at rs, or 0.
+c_memchr(word rs, word rch, word rn) {
+  word ri = 0;
+  word rres = 0;
+  while(ri < rn && rres == 0) {
+    rres = rt_at(rs, ri, rch);
+    ri = ri + 1;
+  }
+} return word rres;

@@ -1,0 +1,28 @@
+// A packed enum has the smallest integer type that holds its enumerators, not
+// int. Whether the one being read is packed is found before its body is read, from
+// the attributes between `enum` and the `{` (token ep_hs on) and the run after the
+// `}`, and is left in enpk.
+enum_pack(int[] pos, int ep_hs) {
+  int ep_on = 0;
+  if(at_text(pos, "{")) {
+    ep_on = enum_hit(ep_hs, pos[0]);
+  }
+  integer_list_set((import enpk), 0, ep_on);
+} return void;
+given boot_a given ty_setup given lexfix stdin "enum { x } __attribute__ ( ( packed ) ) ;" ([1], 1):() then (import enpk):([1])
+given boot_a given ty_setup given lexfix given integer_list_set((import enpk), 0, 1) stdin "enum { x } ;" ([1], 1):() then (import enpk):([0])
+given boot_a given ty_setup given lexfix given integer_list_set((import enpk), 0, 1) stdin "enum x ;" ([1], 1):() then (import enpk):([0])
+
+enum_hit(int eh_hs, int eh_open) {
+  int eh_b = brace_close(eh_open) + 1;
+  int eh_z = attr_run_end(eh_b);
+  int eh_g = attr_pair(eh_hs, eh_open, eh_b, eh_z, (import packed_attr));
+} chain (int eh_hs, int eh_open) {
+  int eh_ok = 0;
+  if(eh_g >= 0) {
+    eh_ok = 1;
+  }
+} return int eh_ok;
+given boot_a given ty_setup given lexfix stdin "enum __attribute__ ( ( packed ) ) E { x } ;" (1, 8):(1)
+given boot_a given ty_setup given lexfix stdin "enum E { x } __attribute__ ( ( packed ) ) ;" (1, 2):(1)
+given boot_a given ty_setup given lexfix stdin "enum E { x } ;" (1, 2):(0)

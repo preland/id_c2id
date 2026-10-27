@@ -1,0 +1,10 @@
+// Split out of sw_close: a call may not be an argument to a call, and
+// naming cur_blk()'s result leaves no room in sw_close's own block for
+// pop_brk and sw_disp too.
+sw_close2(int id, int blk, int alt, int mark) {
+  pop((import btgt));
+  sw_disp(id, blk, alt, mark);
+} return void;
+given sw_ready_fixture ((import wswid), 0, 1, 0):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1) then cur_blk:(1)
+given sw_ready_fixture ((import wswid), 0, 5, 0):() then (import bsa)[0]:(5) then cur_blk:(5) then len((import btgt)):(0)
+given sw_ready_fixture ((import wswid), 0, 1, 0):() then calls sw_disp:[1]

@@ -1,0 +1,25 @@
+// A binary operator with a floating-point operand. Both operands are converted
+// to the type they meet at (long double if either is, else double if either is,
+// else float), then crt's cfl_* does the operation on the words (cld_* on the
+// addresses, for a long double: ld_bin_txt); a float result is rounded to binary32 after
+// the operation, which is what C does with FLT_EVAL_METHOD 0 -- and for + - * /
+// rounding the double result is exact, because a double holds more than twice a
+// float's digits. A comparison answers 0 or 1, false for a NaN except for !=.
+fl_is_bin(int id) {
+  int ta = kid_ty((import na), id);
+  int tb = kid_ty((import nb), id);
+  int ok = fl_pair(ta, tb) >= 0;
+} return int ok;
+given txt_fixture given fl_fixture given fl_bin_fixture ((import flb)):(1)
+given txt_fixture given fl_fixture given fl_bin_fixture ((import fli_b)):(0)
+
+fl_bin_txt(int id) {
+  int ta = kid_ty((import na), id);
+  int tb = kid_ty((import nb), id);
+  int rt = fl_pair(ta, tb);
+} chain (int id) {
+  string out = fl_bin_pick(id, rt);
+} return string out;
+given txt_fixture given fl_fixture given fl_bin_fixture given pend_setup ((import flb)):("t2") then (import pend)[2]:("word t2 = cfl_add(t0, t1);")
+given txt_fixture given fl_fixture given fl_bin_fixture given pend_setup ((import flc)):("t2") then (import pend)[2]:("word t2 = cfl_lt(t0, t1);")
+given txt_fixture given fl_fixture given fl_bin_fixture given pend_setup ((import flg)):("t5") then (import pend)[5]:("word t5 = cfl_rnd32(t4);")

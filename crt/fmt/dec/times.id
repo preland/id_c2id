@@ -1,0 +1,30 @@
+// The digits of dgs times dgm, as a new list.
+dg_times(word[] dgs, word dgm) {
+  word[] dgo = [];
+  word[] dgc = [(import wzero)];
+  dg_run(dgs, dgm, dgo, dgc);
+} return word[] dgo;
+([5], 3):([5, 1])
+([9, 9], 11):([9, 8, 0, 1])
+
+// base ** n.
+dg_pw(word dgb, int dgx) {
+  word dgy = 1;
+  int dgi = 0;
+  while(dgi < dgx) {
+    dgy = dgy * dgb;
+    dgi = dgi + 1;
+  }
+} return word dgy;
+(2, 10):(1024)
+(5, 3):(125)
+
+// dgs times dgb ** dge, taking dgcn of the exponent at a time so that each
+// multiplier still fits a word beside a digit and a carry.
+dg_scale(word[] dgs, int dge, word dgb, int dgcn) {
+  word dgk = dg_pw(dgb, dgcn);
+  word[] dgo = dg_loop(dgs, dge, dgcn, dgk);
+  word[] dgp = dg_fin(dgo, dgb, dge % dgcn);
+} return word[] dgp;
+([1], 10, 2, 4):([4, 2, 0, 1])
+([3], 2, 5, 17):([5, 7])

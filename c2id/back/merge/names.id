@@ -1,0 +1,46 @@
+// What a generated name in the text means to the pass: the end of the call it
+// starts (a merged function can only be renamed where it is called, so a name
+// not followed by an argument list is not a call), whether the name was found
+// used any other way (mgzx, filled by merge/refs.id), and the shape key of a
+// function. A function used other than by a direct call is never merged: its
+// key is its own name, so it is always a group of one.
+
+mg_call_end(string[] mgpcs, int mgi) {
+  int mgend = 0 - 1;
+  string mgnm = mg_raw(mgpcs, mgi, mgi + 1);
+  if(string_starts_with(mgpcs[mgi], "t") == 1 && mg_next_is_paren(mgpcs, mgi) == 1 && hash_map_has((import mgznk), (import mgznu), mgnm) == 1) {
+    mgend = mg_close(mgpcs, mgi + 2);
+  }
+} return int mgend;
+given mg_fixture (["tblk1_1", "t(", "tfp", "t)"], 0):(3)
+given mg_fixture (["tblk9_9", "t(", "tfp", "t)"], 0):(-1)
+given mg_fixture (["tblk1_1", "t;"], 0):(-1)
+
+mg_excluded(string mgnm) {
+  int mgres = 0;
+  int mgi = 0;
+  while(mgi < len((import mgzx))) {
+    if(mgnm == (import mgzx)[mgi]) {
+      mgres = 1;
+    }
+    mgi = mgi + 1;
+  }
+} chain (string mgnm) {
+  if(mgnm == "c_main") {
+    mgres = 1;
+  }
+} return int mgres;
+given mg_fixture_ref ("c_main"):(1)
+given mg_fixture_ref ("blk1_0"):(1)
+given mg_fixture_ref ("blk2_0"):(0)
+given mg_setup given mg_setup_c ("blk1_0"):(0)
+
+mg_key(string[] mglines, int mgs, int mge) {
+  string mgkey = mg_func_text(mglines, mgs, mge, 0);
+  string mgnm = string_before(mglines[mgs], "(");
+  if(mg_excluded(mgnm) == 1) {
+    mgkey = "!" + mgnm;
+  }
+} return string mgkey;
+given mg_setup given mg_setup_c (["blk1_0(word fp) {", "  poke64(fp, 7);", "} return word 3;"], 0, 2):("@word fp) {\n  poke64(fp, #);\n} return word #;\n")
+given mg_fixture_ref (["blk1_0(word fp) {", "  poke64(fp, 7);", "} return word 3;"], 0, 2):("!blk1_0")

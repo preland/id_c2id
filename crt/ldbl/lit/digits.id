@@ -1,0 +1,33 @@
+// The digits of a text as a big integer, nine at a time: lqs is [the digits
+// since the last multiplication, how many]. Anything but a digit or a point ends
+// the scan; a point is skipped.
+ld_bdig(word[] lqx, word[] lqs, int bxd) {
+  lqs[0] = lqs[0] * 10 + bxd;
+  lqs[1] = lqs[1] + 1;
+  if(lqs[1] == 9) {
+    bn_mul(lqx, 1000000000, lqs[0]);
+    lqs[0] = 0;
+    lqs[1] = 0;
+  }
+} return void;
+([0], [0, 0], 5):([0], [5, 1], 5)
+([0], [12345678, 8], 9):([123456789], [0, 0], 9)
+
+ld_bone(word[] lqx, word[] lqs, int bxc) {
+  if(bxc != 46) {
+    ld_bdig(lqx, lqs, bxc - 48);
+  }
+} return void;
+([0], [0, 0], 48):([0], [0, 1], 48)
+([0], [0, 0], 55):([0], [7, 1], 55)
+
+ld_bscan(string lbs, word[] lqx, word[] lqs, int bxi) {
+  int bxc = character_code_at(lbs, bxi);
+  while((bxc >= 48 && bxc <= 57) || bxc == 46) {
+    ld_bone(lqx, lqs, bxc);
+    bxi = bxi + 1;
+    bxc = character_code_at(lbs, bxi);
+  }
+} return void;
+("12.5e3", [0], [0, 0], 0):("12.5e3", [0], [125, 3], 0)
+("7", [0], [0, 0], 0):("7", [0], [7, 1], 0)

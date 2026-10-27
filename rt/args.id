@@ -1,0 +1,12 @@
+// The program's arguments as C sees them: a NUL-terminated array of pointers to
+// NUL-terminated strings, argv[argc] null, the strings copied into the store.
+// Called once by the generated `main`, after rt_boot has made the heap.
+rt_args(int rac, string[] rarg) {
+  word rav = kzalloc(8 * (rac + 1));
+  int rgi = 0;
+  while(rgi < rac) {
+    word rp = mem_of_str(rarg[rgi]);
+    poke64(rav + 8 * rgi, rp);
+    rgi = rgi + 1;
+  }
+} return word rav;

@@ -1,0 +1,29 @@
+walk_stmt3(int id) {
+  if((import nk)[id] == "while") {
+    do_while(id);
+  } else {
+    walk_stmt4(id);
+  }
+} return void;
+given while_ast_fixture ((import wid)):() then calls do_while:((import wid))
+given walk_ast_fixture (5):() then calls walk_stmt4:(5)
+
+walk_stmt4(int id) {
+  if((import nk)[id] == "for") {
+    do_for(id);
+  } else {
+    walk_stmt5(id);
+  }
+} return void;
+given walk_ast_fixture (9):() then calls do_for:(9)
+given walk_ast_fixture (5):() then calls walk_stmt5:(5)
+
+walk_stmt5(int id) {
+  if((import nk)[id] == "dowhile") {
+    do_dowhile(id);
+  } else {
+    walk_stmt6(id);
+  }
+} return void;
+given dowhile_ast_fixture ((import did)):() then calls do_dowhile:((import did))
+given walk_ast_fixture (5):() then calls walk_stmt6:(5)

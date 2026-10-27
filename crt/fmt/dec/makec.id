@@ -1,0 +1,26 @@
+// The number of digits after the decimal point that fd_apply produced.
+fd_k(int fdi) {
+  int fdk = 0;
+  if(fdi < 0) {
+    fdk = 0 - fdi;
+  }
+} return int fdk;
+(-3):(3)
+(4):(0)
+
+// The decimal exponent of the first digit: all but the fdk last digits are before the point.
+fd_setx(word[] fdz, word[] fdg, int fdi) {
+  int fdn = len(fdg);
+  int fdk = fd_k(fdi);
+  word_list_set(fdz, 0, fdn - 1 - fdk);
+} return void;
+([9], [5, 1, 2], -3):([-1], [5, 1, 2], -3)
+([0], [5, 1, 2], 0):([2], [5, 1, 2], 0)
+
+fd_text(word[] fdg, word[] fdm, word[] fdz) {
+  int fdi = fdm[1];
+  fd_setx(fdz, fdg, fdi);
+  string fds = dg_str(fdg);
+} return string fds;
+([5, 1], [3, -1], [0]):("15")
+([2, 1], [3, 2], [0]):("12")

@@ -1,0 +1,66 @@
+// How the emitter sees a name that is not a local: a global variable (its
+// address is `gbase` plus the offset gl_alloc gave it) or, failing that, `g_NAME`,
+// a name no generated project defines, so an undeclared name fails the build
+// rather than computing something.
+glob_addr(string name) {
+  int i = find_str((import dnames), name);
+  string s = "g_" + name;
+  if(i >= 0) {
+    s = gbase_at((import goff)[i]);
+  }
+} chain (string name) {
+  if(i >= 0 && (import goff)[i] < 0) {
+    s = "" + (find_str((import fnames), name) + 1);
+  }
+} return string s;
+given boot_a given boot_b given lexfix given tu_load stdin "int a; int b; int f(void) { return 0; }" ("b"):("(import gbase) + 4")
+given boot_a given boot_b given lexfix given tu_load stdin "int a; int b; int f(void) { return 0; }" ("f"):("1")
+given boot_a given boot_b given lexfix given tu_load stdin "int a;" ("zz"):("g_zz")
+
+// Its type: what the declaration said, and `int` for a name never declared,
+// which is what C itself assumes.
+glob_ty(string name) {
+  int i = find_str((import dnames), name);
+  int ty = (import stdty)[0];
+  if(i >= 0) {
+    ty = (import dtys)[i];
+  }
+} return int ty;
+given boot_a given boot_b given lexfix given tu_load stdin "int a;" ("a"):(6)
+given boot_a given boot_b given lexfix given tu_load stdin "int a;" ("zz"):(0)
+
+// The tables of everything declared at file scope and of the string literals:
+// dnames/dtys/dinit hold each declaration's name, type node and initializer
+// node (or -1), goff its storage offset in the global region (-1 for a
+// function), gsz the region's size so far; slits/soff the interned literals and
+// the offset of each one's pointer slot; fstat holds 1 for each function defined
+// `static` (parallel to fnames), fsk the flag of the definition being read; gst
+// holds 1 for each row of dnames declared `static`, and greach 1 for each global
+// the program can reach (mid/pass/reach): a static one nothing names is dropped;
+// indn[n] is 1 once a call through a pointer with n arguments has been written.
+gl_setup() {
+  export string[] dnames = [];
+  export int[] dtys = [];
+  export int[] dinit = [];
+} chain () {
+  export int[] goff = [];
+  export int[] gsz = [0];
+  export string[] slits = [];
+} chain () {
+  export int[] soff = [];
+  export int[] lcnt = [0];
+  export int[] reach = [];
+} chain () {
+  export int[] rwork = [];
+  export string[] envo = [];
+  export string[] envn = [];
+} chain () {
+  export int[] fstat = [];
+  export int[] fsk = [0];
+  export int[] gst = [];
+} chain () {
+  export int[] greach = [];
+  export int[] indn = [0, 0, 0, 0, 0, 0, 0];
+} return void export dnames;
+():() then len((import dnames)):(0)
+given gl_setup given list_string_insert((import dnames), 0, "x") ():() then len((import dnames)):(0)

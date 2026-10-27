@@ -1,0 +1,36 @@
+// Finding the generated functions that are used other than by a direct call
+// (stored as a function value, say). A merged function is renamed only at its
+// call sites, so such a use would be left pointing at a function that no longer
+// exists; the name goes in mgzx and merge/names.id keeps it out of every group.
+
+mg_refs(string[] mglines) {
+  int mgi = 0;
+  while(mgi < len(mglines)) {
+    if(mg_is_head(mglines[mgi]) == 0 && string_find(mglines[mgi], (import mgzp)[0]) >= 0) {
+      mg_refs_line(mglines[mgi]);
+    }
+    mgi = mgi + 1;
+  }
+} return void;
+given mg_setup given mg_setup_c (["blk1_0(word fp) {", "} return word 3;", "  f = blk1_0;"]):() then len((import mgzx)):(1)
+given mg_setup given mg_setup_c (["blk1_0(word fp) {", "} return word 3;", "  x = blk1_0(fp);"]):() then len((import mgzx)):(0)
+
+mg_refs_line(string mgline) {
+  string[] mgpcs = mg_pieces(mgline);
+  int mgi = 0;
+  while(mgi < len(mgpcs)) {
+    mg_ref_at(mgpcs, mgi);
+    mgi = mgi + 1;
+  }
+} return void;
+given mg_setup given mg_setup_c ("  f = blk1_0;"):() then (import mgzx)[0]:("blk1_0")
+given mg_setup given mg_setup_c ("  f = blk1_0(fp);"):() then len((import mgzx)):(0)
+
+mg_ref_at(string[] mgpcs, int mgi) {
+  string mgnm = mg_raw(mgpcs, mgi, mgi + 1);
+  if(string_starts_with(mgpcs[mgi], "t") == 1 && mg_is_family(mgnm) == 1 && mg_next_is_paren(mgpcs, mgi) == 0) {
+    push((import mgzx), mgnm);
+  }
+} return void;
+given mg_setup given mg_setup_c (["tf", "t=", "tblk1_0", "t;"], 2):() then len((import mgzx)):(1)
+given mg_setup given mg_setup_c (["tf", "t=", "tblk1_0", "t(", "t)"], 2):() then len((import mgzx)):(0)

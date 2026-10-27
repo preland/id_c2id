@@ -1,0 +1,29 @@
+// The block counter, and the queue of temporaries emit/gen/txt/st/pend/name.id
+// names: the lines waiting to be printed, the call each one names, and the
+// number the next one gets.
+
+init_gfn() {
+  export int[] gfn = [0];
+  pend_setup();
+} return void export gfn;
+():() then calls pend_setup:()
+():() then (import gfn)[0]:(0)
+
+pend_setup() {
+  export string[] pend = [];
+  export string[] pendc = [];
+  export int[] pendn = [0];
+} chain () {
+  export int[] obn = [0];
+  export string[] chp = ["word fp"];
+} return void export pend;
+():() then len((import pend)):(0)
+():() then (import chp)[0]:("word fp")
+():() then prints:("")
+
+// Each block function's temporaries start again at t0.
+pend_reset() {
+  integer_list_set((import pendn), 0, 0);
+} return void;
+given pend_setup given pend_grow_fixture ():() then (import pendn)[0]:(0)
+given pend_setup ():() then (import pendn)[0]:(0)

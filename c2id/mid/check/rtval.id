@@ -1,0 +1,36 @@
+// A declared function nothing provides, used as a value, is as missing as one
+// that is called.
+chk_unres(string name, int id) {
+  int ok = ext_fn(name);
+  if(ok == 1) {
+    unres_add(name, (import ntok)[id]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int nosuch(int); int main(void) { return nosuch(1); }" ("nosuch", 12):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int printf(int); int main(void) { return printf(1); }" ("printf", 12):() then len((import unres)):(0)
+
+// 1 when name is a function the runtime provides (malloc, free, strlen, ...) that
+// the program does not define, and not a local of that name.
+rt_fn(string name) {
+  int i = find_str((import dnames), name);
+  int ok = 0;
+  if(i >= 0 && frame_off(name) < 0 && (import nk)[(import dtys)[i]] == "fn" && find_str((import fnames), name) < 0 && fn_known(name) == 1) {
+    ok = 1;
+  }
+} return int ok;
+given boot_a given boot_b given lexfix given tu_load stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("malloc"):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("g"):(0)
+
+// The address of a runtime function cannot be taken as it is: a pointer is a place in the
+// program's own function table, which holds only the functions it defines, so
+// `{ malloc, free }` would store a number that names the wrong function. The headers
+// define a wrapper for most of them, `__c2id_w_NAME`, and the address is the wrapper's
+// (chk_wrap). The callee of a direct call is not an address (chk_cal holds its node).
+chk_rtval(string name, int id) {
+  if(rt_fn(name) == 1 && (import chk_cal)[0] != id) {
+    chk_wrap(name, id);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("malloc", 0):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("g", 0):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given integer_list_set((import chk_cal), 0, 0) stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("malloc", 0):() then len((import dgmsg)):(0)

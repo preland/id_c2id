@@ -1,0 +1,28 @@
+// %s: the next run of bytes that are not white space, then a NUL.
+rt_str(word rstr, word rsup, word rwid, word[] rargs, word[] rst) {
+  rt_ws(rstr, rst);
+  word rn = rt_tok(rstr, rwid, rst);
+  rt_fin(rstr, rn, rsup, 1, rargs, rst);
+} return void;
+
+// The length of the run of non-white bytes at the input, no longer than rwid
+// when there is a width.
+rt_tok(word rstr, word rwid, word[] rst) {
+  word rn = 0;
+  word rch = peek8(rstr + rst[0]);
+  while(rch != 0 && c_isspace(rch) == 0 && (rwid == 0 || rn < rwid)) {
+    rn = rn + 1;
+    rch = peek8(rstr + rst[0] + rn);
+  }
+} return word rn;
+
+// %c: rwid bytes (one when there is no width), no NUL, white space not skipped.
+rt_chr(word rstr, word rsup, word rwid, word[] rargs, word[] rst) {
+  word rw = rwid;
+  if(rwid == 0) {
+    rw = 1;
+  }
+  word rn = str_nlen(rstr + rst[0], rw);
+} chain (word rstr, word rsup, word rwid, word[] rargs, word[] rst) {
+  rt_fin(rstr, rn, rsup, 0, rargs, rst);
+} return void;

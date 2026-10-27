@@ -1,0 +1,28 @@
+// fflush of a FILE that is not a standard stream saves a writable one; fflush(NULL)
+// saves them all.
+rt_fsync(word rfile) {
+  word rwv = 0;
+  if(rfile > 3) {
+    rwv = rt_wmaybe(rfile);
+  }
+  if(rfile == 0) {
+    rt_wall();
+  }
+} return word rwv;
+
+rt_wmaybe(word rfile) {
+  word rwv = 0;
+  if(peek64(rfile + 24) == 2) {
+    rwv = rt_wsync(rfile);
+  }
+} return word rwv;
+
+
+// FILE rwf leaves the chain that starts at rwh; rwx is the one after it.
+rt_wcut(word rwh, word rwf, word rwx) {
+  if(rwh == rwf) {
+    word_list_set((import rtwf), 0, rwx);
+  } else {
+    rt_wskip(rwh, rwf, rwx);
+  }
+} return void;

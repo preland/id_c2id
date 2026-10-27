@@ -1,0 +1,27 @@
+// A declaration's initializer is either one value stored into the slot, or an
+// aggregate -- a brace list, or a string literal for a char array -- which is
+// several stores, queued before the declaration's own line.
+init_agg(int ty, int a) {
+  int agg = 0;
+  if((import nk)[a] == "init" || (import nk)[ty] == "arr" && (import nk)[a] == "str") {
+    agg = 1;
+  }
+} return int agg;
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int a[3] = {1, 2}; int x = 5; }" (11, 14):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { char s[8] = \"ab\"; char c = 65; }" (11, 12):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int a[3] = {1, 2}; int x = 5; }" (17, 18):(0)
+
+decl_agg(int id, int off, int ty, int a) {
+  init_stmts(ty, text_sum("fp", off), a, 1);
+  string s = "// " + (import ns)[id] + ": initialised";
+} return string s;
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int a[3] = {1, 2}; int x = 5; }" (15, 8, 11, 14):("// a: initialised") then (import pend):(["c_memset(fp + 8, 0, 12);", "poke32(fp + 8, 1);", "poke32(fp + 8 + 4, 2);"])
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { char s[8] = \"ab\"; char c = 65; }" (13, 16, 11, 12):("// s: initialised") then (import pend):(["word t0 = peek64((import gbase));", "c_memset(fp + 16, 0, 8);", "c_strcpy(fp + 16, t0);"])
+
+decl_scalar(int id, int off, int ty) {
+  int da = (import na)[id];
+  string exa = init_val(ty, da);
+  string s = store_txt(ty, text_sum("fp", off), exa) + ";";
+} return string s;
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int a[3] = {1, 2}; int x = 5; }" (19, 8, 17):("poke32(fp + 8, 5);")
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { char s[8] = \"ab\"; char c = 65; }" (17, 24, 15):("poke8(fp + 24, 65);")

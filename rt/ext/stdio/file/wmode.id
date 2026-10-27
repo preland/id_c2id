@@ -1,0 +1,32 @@
+// The writable modes of fopen. A mode is flags: 1 the file is emptied (w), 2
+// every write goes to the end (a), 4 it can be read, 8 it can be written, 32
+// there is something unsaved, 64 it is deleted when closed. `r` alone is not
+// here (it is the read-only FILE of open.id); `r+` is 12, `w` 9, `w+` 13, `a`
+// 10, `a+` 14, and 0 for a mode that is none of these.
+rt_wflags(word rmode) {
+  word rwk = peek8(rmode);
+  word rwp = rt_plus(rmode);
+  word rwfl = rt_wbase(rwk, rwp);
+} return word rwfl;
+
+// 1 when a `+` follows the first letter of a mode, before or after the `b`.
+rt_plus(word rmode) {
+  word rwp = 0;
+  if(peek8(rmode + 1) == 43 || peek8(rmode + 2) == 43) {
+    rwp = 1;
+  }
+} return word rwp;
+
+rt_wbase(word rwk, word rwp) {
+  word rwfl = 0;
+  if(rwk == 119) {
+    rwfl = 9 + 4 * rwp;
+  }
+  if(rwk == 97) {
+    rwfl = 10 + 4 * rwp;
+  }
+} chain (word rwk, word rwp) {
+  if(rwk == 114) {
+    rwfl = 12 * rwp;
+  }
+} return word rwfl;

@@ -1,0 +1,29 @@
+// The high word of lxa * lxb (unsigned), then the 128-bit shifts the
+// operations need. ld_shlh is the high word of the 128-bit value lxh:lxo
+// shifted left by lxk, for 0 <= lxk <= 63; the low word is lxo << lxk.
+ld_mulhi(word lxa, word lxb) {
+  word lxc = ld_mulmid(lxa, lxb);
+  word lxd = ld_mulhi2(lxa, lxb);
+  word lxh = lxd + ushr(lxc, 32);
+} return word lxh;
+(-9223372036854775808, -9223372036854775808):(4611686018427387904)
+(4294967296, 4294967296):(1)
+(-1, -1):(-2)
+
+ld_shlh(word lxh, word lxo, word lxk) {
+  word lxr = (lxh << lxk) | ushr(lxo, 64 - lxk);
+} return word lxr;
+(1, -9223372036854775808, 1):(3)
+(5, 0, 0):(5)
+(0, -1, 4):(15)
+
+// The low word of lxh:lxo shifted right by lxk (0 <= lxk < 64), with a 1 in
+// its bottom bit when a 1 was shifted out below it (the "jam" that keeps the
+// shifted-out bits as one sticky bit).
+ld_jamlo(word lxh, word lxo, word lxk) {
+  word lxs = 64 - lxk;
+  word lxr = ushr(lxo, lxk) | (lxh << lxs) | ((lxo << lxs) != 0);
+} return word lxr;
+(1, 3, 1):(-9223372036854775807)
+(0, 17, 3):(3)
+(0, 16, 3):(2)

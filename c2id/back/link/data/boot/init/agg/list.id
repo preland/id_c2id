@@ -1,0 +1,29 @@
+// A brace initializer, by what it initializes: an array element by element, a
+// struct member by member, a scalar by its first element (`int x = {5};`).
+init_list(int ty, string addr, int ex, int zf) {
+  if((import nk)[ty] == "arr") {
+    init_arr(ty, addr, ex, zf);
+  } else {
+    init_list2(ty, addr, ex, zf);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (8, "A", 11, 0):() then (import pend):(["poke32(A, 1);", "poke32(A + 4, 2);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int x = {5};" (6, "A", 8, 0):() then (import pend):(["poke32(A, 5);"])
+
+init_list2(int ty, string addr, int ex, int zf) {
+  if((import nk)[ty] == "rec") {
+    init_rec(ty, addr, ex, zf);
+  } else {
+    init_first(ty, addr, ex);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P p = { 3, 4 };" (6, "A", 11, 0):() then (import pend):(["poke32(A, 3);", "poke32(A + 4, 4);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int x = {5};" (6, "A", 8, 0):() then (import pend):(["poke32(A, 5);"])
+
+init_first(int ty, string addr, int ex) {
+  int[] items = (import nl)[ex];
+  int a = items[0];
+  init_stmts(ty, addr, a, 0);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x = {5};" (6, "A", 8):() then (import pend):(["poke32(A, 5);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int y = {7, 8};" (6, "B", 9):() then (import pend):(["poke32(B, 7);"])

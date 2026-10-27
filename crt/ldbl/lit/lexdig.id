@@ -1,0 +1,40 @@
+// The run of digits at bxi (after the point when lxf is 1), and the index after it.
+ld_ldigs(string lbs, word[] lqp, int bxi, word lxf) {
+  int bxc = character_code_at(lbs, bxi);
+  while(bxc >= 48 && bxc <= 57) {
+    ld_ldig1(lqp, bxc - 48, lxf);
+    bxi = bxi + 1;
+    bxc = character_code_at(lbs, bxi);
+  }
+} return int bxi;
+("123.5", [0, 0, 0, 0, 0, 0], 0, 0):(3)
+("123.5", [0, 0, 0, 0, 0, 0], 4, 1):(5)
+
+ld_lmant(string lbs, word[] lqp, int bxi) {
+  bxi = ld_ldigs(lbs, lqp, bxi, 0);
+  if(character_code_at(lbs, bxi) == 46) {
+    bxi = ld_ldigs(lbs, lqp, bxi + 1, 1);
+  }
+} return int bxi;
+("12.5", [0, 0, 0, 0, 0, 0], 0):(4)
+("12", [0, 0, 0, 0, 0, 0], 0):(2)
+
+// With no digits, a text that starts with i or n is an infinity or a NaN.
+ld_lword(string lbs, word[] lqp, int bxi) {
+  int bxc = character_code_at(lbs, bxi) | 32;
+  lqp[1] = 3;
+  if(lqp[5] > 0) {
+    lqp[1] = 0;
+  }
+} chain (string lbs, word[] lqp, int bxi) {
+  if(lqp[5] == 0 && bxc == 105) {
+    lqp[1] = 1;
+  }
+  if(lqp[5] == 0 && bxc == 110) {
+    lqp[1] = 2;
+  }
+} return void;
+("nan", [0, 0, 0, 0, 0, 0], 0):("nan", [0, 2, 0, 0, 0, 0], 0)
+("INF", [0, 0, 0, 0, 0, 0], 0):("INF", [0, 1, 0, 0, 0, 0], 0)
+("x", [0, 0, 0, 0, 0, 0], 0):("x", [0, 3, 0, 0, 0, 0], 0)
+("1", [0, 5, 0, 1, 1, 1], 1):("1", [0, 0, 0, 1, 1, 1], 1)

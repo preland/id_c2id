@@ -1,0 +1,1 @@
+936_refuse_packed_zero.c:2: error: a zero-width bit-field in a packed record

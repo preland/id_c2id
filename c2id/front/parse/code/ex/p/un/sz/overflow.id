@@ -1,0 +1,27 @@
+// `sizeof x`. The operand is a unary-expression, so `sizeof x + 1` is
+// `(sizeof x) + 1` -- the additive fold happens back up in the ladder.
+
+sizeof_expr(int[] pos) {
+  int a = parse_unary(pos);
+  int id = newleaf("sizeof", a, 0, "", "");
+} return int id;
+given boot_a given lexfix stdin "x;" ([0]):(1)
+given boot_a given lexfix stdin "!y;" ([0]):(2)
+
+// A compound literal as a statement expression: `({ T __clN = { ... }; __clN; })`,
+// the object being a local of its own whose name no other can take. A frame is
+// flat, so the object lives as long as the function does, which is longer than
+// C asks and so enough.
+lit_node(int[] pos, int ty, int init) {
+  string name = "__cl" + len((import nk));
+  int d = newleaf("decl", init, ty, name, "");
+  int blk = newlist("block", 0, 0, "", [d]);
+} chain (int[] pos, int ty, int init) {
+  int v = newleaf("var", 0, 0, name, "");
+  int es = newleaf("expr", v, 0, "", "");
+  int sx = newlist("stmtx", 0, 0, "", [blk, es]);
+} chain (int[] pos, int ty, int init) {
+  int node = postfix_tail(pos, sx);
+} return int node;
+given boot_a given ty_setup given lexfix stdin ";" ([0], 0, 0):(4)
+given boot_a given ty_setup given lexfix stdin ".x" ([0], 0, 0):(5)

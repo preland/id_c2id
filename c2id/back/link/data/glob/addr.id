@@ -1,0 +1,7 @@
+// The text of the address `off` bytes into the global region. At offset 0 it is
+// `gbase` itself, which text_sum arranges (see plus.id).
+gbase_at(int off) {
+  string s = text_sum("(import gbase)", off);
+} return string s;
+(0):("(import gbase)")
+(8):("(import gbase) + 8")

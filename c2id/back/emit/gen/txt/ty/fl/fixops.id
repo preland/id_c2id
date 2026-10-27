@@ -1,0 +1,14 @@
+fl_un_fixture() {
+  export int flm = newleaf("un", (import flf), 0, "-", "");
+  export int fln2 = newleaf("un", (import fli), 0, "-", "");
+} return void;
+given txt_fixture given fl_fixture ():() then (import nk)[10]:("un")
+given txt_fixture given fl_fixture ():() then (import ns)[11]:("-")
+
+fl_call_fixture() {
+  export int flcg = mk_var("g");
+  export int flca = newleaf("num", 2, 0, "2", "");
+  export int flck = newnode("call", (import flcg), 0, "", "", [(import flca)], [0]);
+} return void;
+given boot_a given txt_fixture ():() then (import nk)[6]:("var")
+given boot_a given txt_fixture ():() then (import nk)[8]:("call")

@@ -1,0 +1,28 @@
+// The refusals of top-level asm (back/emit/gen/out/top/work/more/unit/gasm.id),
+// told when the program reaches at least one function. They are kept in the
+// deferred lists with function index -1, which no function has.
+chk_gasm() {
+  int cg_r = list_sum((import reach));
+  if(cg_r > 0) {
+    gasm_tell(0);
+  }
+} return void;
+given boot_a given boot_b given lexfix given gasm_note(0, "g") given reach_init(1) given integer_list_set((import reach), 0, 1) ():() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given gasm_note(0, "g") given reach_init(1) ():() then len((import dgmsg)):(0)
+
+gasm_tell(int gt_i) {
+  while(gt_i < len((import qfn))) {
+    gasm_say(gt_i);
+    gt_i = gt_i + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix given gasm_note(0, "g") (0):() then (import dgmsg):([":1: error: g"])
+given boot_a given boot_b given lexfix given gasm_note(0, "g") (1):() then len((import dgmsg)):(0)
+
+gasm_say(int gs_i) {
+  if((import qfn)[gs_i] < 0) {
+    diag_tok((import qtk)[gs_i], (import qmsg)[gs_i]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given gasm_note(0, "g") (0):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given defer_tok(0, "m", 0) given tu_add("f", 0, 0) given defer_settle(0) (0):() then len((import dgmsg)):(0)

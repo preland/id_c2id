@@ -1,0 +1,35 @@
+// A function that returns a struct, a union or a long double takes a hidden
+// first parameter, a pointer to the caller's object for the result, so every
+// caller and callee sees one more parameter than the C source names
+// (docs/EMITTER.md, "Struct values").
+
+// The function type: the hidden parameter and its name come first when the
+// return type is a record.
+fn_node(int r, string pnames, int[] ps) {
+  string sret_nm = sret_names(r, pnames);
+  int[] sret_ls = sret_params(r, ps);
+  int a = newlist("fn", r, 0, sret_nm, sret_ls);
+} return int a;
+given tynode_fix (0, "a,", [0]):(6) then (import ns)[6]:("a,") then (import nl)[6]:([0])
+given tynode_fix (5, "a,", [0]):(7) then (import ns)[7]:("__ret,a,") then (import nl)[7]:([6, 0])
+given tynode_fix given string_list_set((import ns), 0, "long double") (0, "a,", [0]):(7) then (import ns)[7]:("__ret,a,")
+
+sret_names(int r, string pnames) {
+  string out = pnames;
+  if(ty_agg(r) == 1) {
+    out = (import sret_var) + "," + pnames;
+  }
+} return string out;
+given tynode_fix (0, "x,"):("x,")
+given tynode_fix (5, "x,"):("__ret,x,")
+given tynode_fix given string_list_set((import ns), 0, "long double") (0, "x,"):("__ret,x,")
+
+sret_params(int r, int[] ps) {
+  if(ty_agg(r) == 1) {
+    int sret_pt = newleaf("ptr", r, 0, "", "");
+    list_insert(ps, 0, sret_pt);
+  }
+} return int[] ps;
+given tynode_fix (5, [0]):([6, 0])
+given tynode_fix (0, [0]):([0])
+given tynode_fix given string_list_set((import ns), 0, "long double") (0, [0]):([6, 0])

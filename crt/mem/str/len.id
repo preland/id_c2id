@@ -14,8 +14,8 @@ c_strcpy(word dst, word src) {
   word bound = n + 1;
   word x = c_memcpy(dst, src, bound);
 } return word x;
-given idstd_buf_t_setup given crt_str_fixture ((import buf_ad), (import cs)):((import buf_ad)) then idstd_buf_t_sum:(254)
-given idstd_buf_t_setup given crt_str_fixture ((import buf_ad), (import cs0)):((import buf_ad)) then idstd_buf_t_sum:(63)
+given idstd_buffer_test_setup given crt_str_fixture ((import buffer_address), (import cs)):((import buffer_address)) then idstd_buffer_test_sum:(254)
+given idstd_buffer_test_setup given crt_str_fixture ((import buffer_address), (import cs0)):((import buffer_address)) then idstd_buffer_test_sum:(63)
 
 // "index i is still worth looking at", i.e. the byte before it was not the
 // terminator. Shared by strncmp and strchr so that both stop *after* having

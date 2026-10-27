@@ -1,0 +1,11 @@
+c_pow(word a, word b) {
+  float cmy = float_of_bits(b);
+  word cmr = cm_pow(a, cmy);
+} return word cmr;
+
+cm_pow(word a, float cmy) {
+  float cmx = float_of_bits(a);
+  float cmz = float_power(cmx, cmy);
+  word cmr = bits_of_float(cmz);
+} return word cmr;
+

@@ -1,0 +1,25 @@
+// Everything before the first digit: white space, a sign, and `0x` when the
+// base is 16 or 0.
+rt_lead(word rs, word[] rst) {
+  rt_ws(rs, rst);
+  rt_sign(rs, rst);
+  rt_pfx(rs, rst);
+} return void;
+
+rt_ws(word rs, word[] rst) {
+  word rch = peek8(rs + rst[0]);
+  while(c_isspace(rch) == 1) {
+    word_list_set(rst, 0, rst[0] + 1);
+    rch = peek8(rs + rst[0]);
+  }
+} return void;
+
+rt_sign(word rs, word[] rst) {
+  word rch = peek8(rs + rst[0]);
+  if(rch == 45) {
+    word_list_set(rst, 2, 1);
+  }
+  if(rch == 45 || rch == 43) {
+    word_list_set(rst, 0, rst[0] + 1);
+  }
+} return void;

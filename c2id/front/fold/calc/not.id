@@ -1,0 +1,9 @@
+cw_not(string nt_o, word nt_a) {
+  word nt_v = nt_a;
+  if(nt_o == "!") {
+    nt_v = nt_a == 0;
+  }
+} return word nt_v;
+("!", 0):(1)
+("!", 9):(0)
+("-", 9):(9)

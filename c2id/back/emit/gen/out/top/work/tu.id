@@ -1,0 +1,41 @@
+// The translation unit: a sequence of external declarations.
+//
+// The parser below this knows statements, expressions, declarators and types,
+// but nothing knew what a *file* looked like. drive (unit/tu2.id) loops over
+// the top-level declarations; each is a typedef, or a declaration whose
+// declarators are variables, prototypes or one function definition.
+
+parse_one(int[] pos) {
+  int k = pos[0];
+  int n0 = len((import fnames));
+  tu_item(pos);
+} chain (int[] pos) {
+  unstick(pos, k);
+  defer_settle(n0);
+} return void;
+given boot_a given boot_b given lexfix stdin "int x;" ([0]):([3])
+given boot_a given boot_b given lexfix stdin "int f(){}" ([0]):([6])
+given boot_a given boot_b given lexfix stdin "int x;" ([0]):() then calls tu_item:[1]
+given boot_a given boot_b given lexfix stdin "int f(){}" ([0]):() then calls tu_item:[1]
+
+tu_item(int[] pos) {
+  item_reset();
+  if(at_text(pos, "typedef")) {
+    parse_typedef(pos);
+  } else {
+    tu_item2(pos);
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "typedef int q;" ([0]):([4]) then calls parse_typedef:[1]
+given boot_a given boot_b given lexfix stdin "int x;" ([0]):([3]) then calls tu_item2:[1]
+given boot_a given boot_b given lexfix given integer_list_set((import statk), 0, 1) stdin "int x;" ([0]):() then (import statk):([0])
+
+// `struct S { int a; };` declares no variable: after the specifiers the `;`
+// ends it. Otherwise the declarators follow.
+tu_decl(int[] pos) {
+  int t = parse_specs(pos);
+  int bare = at_text(pos, ";");
+  tu_decl2(pos, t, bare);
+} return void;
+given boot_a given boot_b given lexfix stdin "int x;" ([0]):([3]) then calls tu_decl2:[1]
+given boot_a given boot_b given lexfix stdin "struct S { int a; };" ([0]):([8]) then calls tu_decl2:[1]

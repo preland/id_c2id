@@ -1,0 +1,36 @@
+// A second declaration of a file-scope variable is the same object, not a new
+// one: `extern int y[2];` then `int y[2] = { 7, 9 };` is one row, and the
+// definition's initializer and type are the ones that count. Each pass of the
+// emitter looks a name up by its first row, so a second row would have its
+// initializer stored where nothing reads it.
+tu_dmerge(int k, int r, int a) {
+  int dup = 0;
+  if(k >= 0 && (import goff)[k] >= 0) {
+    dup = 1;
+    tu_dwin(k, r, a);
+    tu_dstat(k);
+  }
+} return int dup;
+given init_tu given tynode_fix given tu_dadd("x", 0, -1) given integer_list_set((import statk), 0, 1) (0, 0, 5):(1) then (import gst):([1])
+given init_tu given tynode_fix (-1, 0, -1):(0)
+given init_tu given tynode_fix given tu_dadd("x", 0, -1) (0, 0, 5):(1) then (import dinit)[0]:(5)
+
+tu_dwin(int k, int r, int a) {
+  int win = tu_dwins(k, r, a);
+  if(win == 1) {
+    integer_list_set((import dtys), k, r);
+    integer_list_set((import dinit), k, a);
+    tu_drealloc(k, r);
+  }
+} return void;
+given init_tu given tynode_fix given tu_dadd("x", 0, -1) (0, 0, 5):() then (import dinit)[0]:(5)
+given init_tu given tynode_fix given tu_dadd("x", 0, 5) (0, 0, -1):() then (import dinit)[0]:(5)
+
+tu_dwins(int k, int r, int a) {
+  int win = 0;
+  if(a >= 0 || type_size(r) > type_size((import dtys)[k])) {
+    win = 1;
+  }
+} return int win;
+given init_tu given tynode_fix given tu_dadd("x", 0, -1) (0, 3, -1):(1)
+given init_tu given tynode_fix given tu_dadd("x", 3, -1) (0, 0, -1):(0)

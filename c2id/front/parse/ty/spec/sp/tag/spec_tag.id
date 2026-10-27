@@ -1,0 +1,36 @@
+
+// struct / union / enum / typedef-name specifiers, all of which name a type
+// outright rather than contributing to the width arithmetic.
+
+spec_tag(int[] pos, int[] sp) {
+  int ok = spec_su(pos, sp);
+  if(ok == 0) {
+    ok = spec_en(pos, sp);
+  }
+} return int ok;
+given boot_a given ty_setup given lexfix stdin "struct foo ;" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)
+given ty_setup given lexfix stdin "xyz" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)
+
+spec_su(int[] pos, int[] sp) {
+  int ok = 0;
+  if(at_text(pos, "struct") || at_text(pos, "union")) {
+    int ty = parse_su(pos);
+    integer_list_set(sp, 10, ty);
+    ok = 1;
+  }
+} return int ok;
+given boot_a given ty_setup given lexfix stdin "struct foo ;" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)
+given ty_setup given lexfix stdin "int" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)
+
+spec_en(int[] pos, int[] sp) {
+  int ok = 0;
+  if(at_text(pos, "enum")) {
+    int ty = parse_enum(pos);
+    integer_list_set(sp, 10, ty);
+    ok = 1;
+  } else {
+    ok = spec_tof(pos, sp);
+  }
+} return int ok;
+given boot_a given ty_setup given lexfix stdin "enum { x }" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)
+given ty_setup given lexfix stdin "xyz" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)

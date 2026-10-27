@@ -1,0 +1,55 @@
+// a << n for a count n of 0 to 127: counts of 64 and more move the low word up whole.
+ci128_shl(word wqd, word wqa, word wqn) {
+  word wql = peek64(wqa);
+  word wqh = peek64(wqa + 8);
+  word wqs = wqn & 127;
+} chain (word wqd, word wqa, word wqn) {
+  if(wqs >= 64) {
+    wqh = wql << (wqs - 64);
+    wql = 0;
+  } else if(wqs > 0) {
+    wqh = (wqh << wqs) | ushr(wql, 64 - wqs);
+    wql = wql << wqs;
+  }
+  ld_cset(wqd, wql, wqh);
+} return word wqd;
+given wq_cells ((import wqz), (import wqx), 1):((import wqz)) then peek64((import wqz)):(-2) then peek64((import wqzh)):(3)
+given wq_cells ((import wqz), (import wqy), 127):((import wqz)) then peek64((import wqz)):(0) then peek64((import wqzh)):(0)
+
+// a >> n, logical (unsigned): zeros come in from the top.
+ci128_shr(word wqd, word wqa, word wqn) {
+  word wql = peek64(wqa);
+  word wqh = peek64(wqa + 8);
+  word wqs = wqn & 127;
+} chain (word wqd, word wqa, word wqn) {
+  if(wqs >= 64) {
+    wql = ushr(wqh, wqs - 64);
+    wqh = 0;
+  } else if(wqs > 0) {
+    wql = ushr(wql, wqs) | (wqh << (64 - wqs));
+    wqh = ushr(wqh, wqs);
+  }
+  ld_cset(wqd, wql, wqh);
+} return word wqd;
+given wq_cells ((import wqz), (import wqx), 1):((import wqz)) then peek64((import wqz)):(-1) then peek64((import wqzh)):(0)
+given wq_cells ((import wqz), (import wqx), 65):((import wqz)) then peek64((import wqz)):(0) then peek64((import wqzh)):(0)
+
+// a >> n, arithmetic (signed): the sign comes in from the top.
+ci128_sar(word wqd, word wqa, word wqn) {
+  word wql = peek64(wqa);
+  word wqh = peek64(wqa + 8);
+  word wqs = wqn & 127;
+} chain (word wqd, word wqa, word wqn) {
+  if(wqs >= 64) {
+    wql = wqh >> (wqs - 64);
+    wqh = wqh >> 63;
+  } else if(wqs > 0) {
+    wql = ushr(wql, wqs) | (wqh << (64 - wqs));
+    wqh = wqh >> wqs;
+  }
+  ld_cset(wqd, wql, wqh);
+} return word wqd;
+given wq_cells ((import wqz), (import wqx), 1):((import wqz)) then peek64((import wqz)):(-1) then peek64((import wqzh)):(0)
+given wq_cells ((import wqz), (import wqy), 127):((import wqz)) then peek64((import wqz)):(0) then peek64((import wqzh)):(0)
+given wq_cells given ld_cset((import wqy), 0, -4) ((import wqz), (import wqy), 1):((import wqz)) then peek64((import wqz)):(0) then peek64((import wqzh)):(-2)
+given wq_cells given ld_cset((import wqy), 0, -4) ((import wqz), (import wqy), 66):((import wqz)) then peek64((import wqz)):(-1) then peek64((import wqzh)):(-1)

@@ -1,0 +1,37 @@
+// An initializer, as statements that store it at `addr` (text for an address).
+// `zf` is 1 for a local, whose frame holds whatever the last call left there,
+// so an aggregate is cleared first; a global was zeroed when it was made.
+init_stmts(int ty, string addr, int ex, int zf) {
+  if((import nk)[ex] == "init") {
+    init_list(ty, addr, ex, zf);
+  } else {
+    init_plain(ty, addr, ex);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" (6, "A", 7, 0):() then (import pend):(["poke32(A, 5);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (8, "A", 11, 1):() then (import pend):(["c_memset(A, 0, 12);", "poke32(A, 1);", "poke32(A + 4, 2);"])
+
+// A single value into a scalar, or a string literal into a char array.
+init_plain(int ty, string addr, int ex) {
+  if((import nk)[ty] == "arr" && (import nk)[ex] == "str") {
+    init_chars(ty, addr, ex);
+  } else {
+    string vtxt = init_val(ty, ex);
+    string st = store_txt(ty, addr, vtxt);
+    pend_raw(st + ";");
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" (6, "A", 7):() then (import pend):(["poke32(A, 5);"])
+given boot_a given boot_b given lexfix given tu_load stdin "char s[8] = \"abc\";" (8, "A", 9):() then (import pend):(["word t0 = peek64((import gbase) + 8);", "c_memset(A, 0, 8);", "c_strcpy(A, t0);"])
+
+// `char s[8] = "abc";`: the array is cleared, then the literal's bytes copied in.
+init_chars(int ty, string addr, int ex) {
+  int j = str_slot((import ns)[ex]);
+  string src = name_val("peek64(" + gbase_at((import soff)[j]) + ")");
+  int sz = type_size(ty);
+} chain (int ty, string addr, int ex) {
+  pend_raw("c_memset(" + addr + ", 0, " + sz + ");");
+  pend_raw("c_strcpy(" + addr + ", " + src + ");");
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "char s[8] = \"abc\";" (8, "A", 9):() then (import pend):(["word t0 = peek64((import gbase) + 8);", "c_memset(A, 0, 8);", "c_strcpy(A, t0);"]) then (import slits):(["\"abc\""])
+given boot_a given boot_b given lexfix given tu_load stdin "char t[4] = \"x\";" (8, "B", 9):() then (import pend):(["word t0 = peek64((import gbase) + 8);", "c_memset(B, 0, 4);", "c_strcpy(B, t0);"])

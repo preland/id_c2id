@@ -1,0 +1,36 @@
+// `struct __attribute__((packed)) S { ... }`: the attributes are followed by the
+// body, with a tag between or not. Anything else is an attribute on a use of the
+// tag, which changes nothing the layout depends on and is not modelled.
+packed_ahead(int ast) {
+  int pa_e = attr_run_end(ast);
+  int ok = 0;
+  if(tok_at(pa_e) == "{" || tok_at(pa_e + 1) == "{") {
+    ok = 1;
+  }
+} return int ok;
+given boot_a given boot_b given lexfix stdin "__attribute__ ( ( packed ) ) S { int a ; } x ;" (0):(1)
+given boot_a given boot_b given lexfix stdin "struct __attribute__((packed)) S x ;" (1):(0)
+given boot_a given boot_b given lexfix stdin "struct __attribute__((packed)) S { int a ; } x ;" (1):(1)
+
+// Whether the group closed at token close is the body of a struct, a union or an enum:
+// reading back from its `{` to a `;`, a `{` or a `}`, the keyword comes before
+// them.
+brace_tag(int open) {
+  int bs_k = su_back(open);
+  int ok = 0;
+  if(bs_k > 0 && find_str((import kw_sue), (import ttext)[bs_k - 1]) >= 0) {
+    ok = 1;
+  }
+} return int ok;
+given boot_a given boot_b given lexfix stdin "union U { int a ; }" (2):(1)
+given boot_a given boot_b given lexfix stdin "enum E { A } ;" (2):(1)
+given boot_a given boot_b given lexfix stdin "int f ( ) { }" (4):(0)
+
+su_back(int sb_open) {
+  int sb_k = sb_open;
+  while(sb_k > 1 && find_str((import kw_sue), (import ttext)[sb_k - 1]) < 0 && find_str((import brace_stop), (import ttext)[sb_k - 1]) < 0) {
+    sb_k = sb_k - 1;
+  }
+} return int sb_k;
+given boot_a given boot_b given lexfix stdin "x ; struct S { }" (4):(3)
+given boot_a given boot_b given lexfix stdin "int f ( ) { }" (4):(1)

@@ -1,0 +1,34 @@
+// The attributes of a record that change its layout, read from the tokens
+// around its body before any member is placed: the ones between the keyword and
+// the `{`, and the run after the `}`. A name counts only inside the attribute's
+// parentheses, so a tag called packed is not one.
+
+attr_hit(int ah_k, string[] ah_names) {
+  int ah_hit = 0 - 1;
+  string ah_pv = tok_before(ah_k);
+  if(find_str(ah_names, (import ttext)[ah_k]) >= 0 && (ah_pv == "(" || ah_pv == ",")) {
+    ah_hit = ah_k;
+  }
+} return int ah_hit;
+given boot_a given boot_b given lexfix stdin "( packed )" (1, ["packed"]):(1)
+given boot_a given boot_b given lexfix stdin "struct packed {" (1, ["packed"]):(-1)
+
+attr_find(int af_from, int af_to, string[] af_names) {
+  int af_k = af_from;
+  int af_hit = 0 - 1;
+  while(af_k < af_to && af_hit < 0) {
+    af_hit = attr_hit(af_k, af_names);
+    af_k = af_k + 1;
+  }
+} return int af_hit;
+given boot_a given boot_b given lexfix stdin "( ( x , packed ) )" (1, 6, ["packed"]):(4)
+given boot_a given boot_b given lexfix stdin "( ( x , packed ) )" (1, 4, ["packed"]):(-1)
+
+attr_pre_start(int ap_open) {
+  int ap_k = ap_open;
+  while(ap_k > 1 && find_str((import kw_su), (import ttext)[ap_k - 1]) < 0) {
+    ap_k = ap_k - 1;
+  }
+} return int ap_k;
+given boot_a given boot_b given lexfix stdin "struct S {" (2):(1)
+given boot_a given boot_b given lexfix stdin "struct __attribute__ ( ( packed ) ) {" (7):(1)

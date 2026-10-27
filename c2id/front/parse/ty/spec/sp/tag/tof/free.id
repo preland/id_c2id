@@ -1,0 +1,32 @@
+// How many names in expression tf_id have a type c2id cannot say at parse time: a
+// name that is not a global, or that the current external declaration declares as
+// a parameter or a local; a declaration or statement expression in it counts as
+// one. 0 means ex_ty can type the whole expression now.
+tof_free(int tf_id) {
+  int tf_n = 0;
+  if(tf_id >= 0) {
+    tf_n = tof_free_at(tf_id, (import nk)[tf_id]);
+  }
+} return int tf_n;
+given boot_a given boot_b given lexfix given tu_load stdin "int g; int f(void) { return g + 1; }" (10):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int g; int f(void) { return h; }" (10):(1)
+
+tof_free_at(int ta_id, string ta_kn) {
+  int ta_n = 0;
+  if(ta_kn == "var") {
+    ta_n = tof_name_bad((import ns)[ta_id]);
+  } else {
+    ta_n = tof_free_nv(ta_id, ta_kn);
+  }
+} return int ta_n;
+given boot_a given boot_b given lexfix given tu_load stdin "int g; int f(void) { return g; }" (10, "var"):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int g; int f(void) { return g; }" (10, "decl"):(1)
+
+tof_name_bad(string tb_name) {
+  int tb_n = 1;
+  if(find_str((import dnames), tb_name) >= 0 && find_str((import lnames), tb_name) < 0) {
+    tb_n = 0;
+  }
+} return int tb_n;
+given boot_a given boot_b given lexfix given tu_load stdin "int g;" ("g"):(0)
+given boot_a given boot_b given lexfix given tu_load given list_string_insert((import lnames), 0, "g") stdin "int g;" ("g"):(1)

@@ -1,0 +1,12 @@
+// A bit-field narrower than an int is an int in an expression, whatever type it
+// was declared with (C's integer promotion, which looks at the width the field
+// has and not at the type's); a wider one keeps its type.
+bfx_prom(int id, int ty) {
+  int row = mem_row_at(id);
+  int bfo = ty;
+  if(row >= 0 && (import sywid)[row] > 0 && (import sywid)[row] < 32) {
+    bfo = (import stdty)[0];
+  }
+} return int bfo;
+given txt_fixture given ty_setup (0, 5):(5)
+given txt_fixture given ty_setup (5, 7):(7)

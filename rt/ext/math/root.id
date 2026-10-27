@@ -1,0 +1,12 @@
+c_sqrt(word a) {
+  float cmx = float_of_bits(a);
+  float cmz = float_square_root(cmx);
+  word cmr = bits_of_float(cmz);
+} return word cmr;
+
+c_cbrt(word a) {
+  float cmx = float_of_bits(a);
+  float cmz = float_cube_root(cmx);
+  word cmr = bits_of_float(cmz);
+} return word cmr;
+

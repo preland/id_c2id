@@ -1,0 +1,25 @@
+// The conversion letter's own work, one decision per function: %s, then %c, then
+// %n, then the integer letters, and anything else (%% included) last.
+rt_do(word rstr, word rcv, word rsup, word rwid, word rlen, word[] rargs, word[] rst) {
+  if(rcv == 115) {
+    rt_str(rstr, rsup, rwid, rargs, rst);
+  } else {
+    rt_do1(rstr, rcv, rsup, rwid, rlen, rargs, rst);
+  }
+} return void;
+
+rt_do1(word rstr, word rcv, word rsup, word rwid, word rlen, word[] rargs, word[] rst) {
+  if(rcv == 99) {
+    rt_chr(rstr, rsup, rwid, rargs, rst);
+  } else {
+    rt_do2(rstr, rcv, rsup, rlen, rargs, rst);
+  }
+} return void;
+
+rt_do2(word rstr, word rcv, word rsup, word rlen, word[] rargs, word[] rst) {
+  if(rcv == 110) {
+    rt_count(rsup, rlen, rargs, rst);
+  } else {
+    rt_do3(rstr, rcv, rsup, rlen, rargs, rst);
+  }
+} return void;

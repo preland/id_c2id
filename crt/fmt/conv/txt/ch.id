@@ -2,7 +2,10 @@
 // string is NUL-terminated, so it cannot carry an embedded NUL the way C's
 // printf("%c", 0) writes one.
 ch_of(int cc) {
-  string txt = chr(cc);
+  string txt = "";
+  if(cc % 256 != 0) {
+    txt = chr(cc);
+  }
 } return string txt;
 (65):("A")
 (0):("")

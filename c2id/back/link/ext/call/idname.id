@@ -1,0 +1,23 @@
+// The id function a C function the program defines is emitted as. It is c_NAME,
+// except for a name the runtime also defines under c_NAME (a program may carry
+// its own strcmp or memcmp): that one is u_NAME, so the program's definition is
+// the one its own calls reach and the runtime's stays for the runtime.
+fn_idname(string name) {
+  string idn = "c_" + name;
+  if(fn_collides(name) == 1) {
+    idn = "u_" + name;
+  }
+} return string idn;
+("foo"):("c_foo")
+("memcmp"):("u_memcmp")
+
+fn_collides(string name) {
+  int hit = 0;
+  if(find_str((import rt_names), name) >= 0 || find_str((import libc_names), name) >= 0 || find_str((import rt_hidden), name) >= 0) {
+    hit = 1;
+  }
+} return int hit;
+("strlen"):(1)
+("malloc"):(1)
+("format"):(1)
+("foo"):(0)

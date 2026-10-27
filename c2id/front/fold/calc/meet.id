@@ -1,0 +1,11 @@
+// The type two operands meet in: each promoted (anything narrower than int is
+// an int), then the wider wins, and at the same width unsigned wins.
+cw_common(int mt_x, int mt_y) {
+  int mt_a = cw_prom(mt_x);
+  int mt_b = cw_prom(mt_y);
+  int mt_r = cw_pick(mt_a, mt_b);
+} return int mt_r;
+(3, 3):(9)
+(9, 8):(8)
+(8, 17):(17)
+(2, 16):(16)

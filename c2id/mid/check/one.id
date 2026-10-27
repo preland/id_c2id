@@ -1,0 +1,32 @@
+// One function: its parameters and locals bound as the emitter will bind them,
+// then its body read for what is refused.
+chk_one(int i) {
+  int ft = (import ftys)[i];
+  chk_bind(ft, (import fbodies)[i]);
+  chk_scan((import fbodies)[i]);
+} chain (int i) {
+  chk_deferred(i);
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (0):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { tcgetattr(0); return 0; }" (0):() then len((import dgmsg)):(1)
+
+chk_bind(int ft, int body) {
+  txt_reset();
+  bind_params(ft);
+  bind_decls(body);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(unsigned a, long b) { int r; return __builtin_add_overflow(a, b, &r); }" (9, 20):() then (import ns)[13]:("__c2id_ovf") then (import na)[23]:(8) then (import na)[24]:(17) then (import na)[25]:(9)
+given boot_a given boot_b given lexfix given tu_load stdin "int g(unsigned a, long b) { short r; return __builtin_mul_overflow(a, b, &r); }" (9, 20):() then (import na)[22]:(2) then (import na)[25]:(5)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { int b = a; return b; }" (8, 15):() then (import lvnames):(["a", "b"])
+given boot_a given boot_b given lexfix given tu_load given add_slot("zz", 8, 4) stdin "int f(int a) { int b = a; return b; }" (8, 15):() then (import lvnames):(["a", "b"])
+
+// A statement or expression node, and everything under it.
+chk_scan(int id) {
+  if(id >= 0) {
+    chk_here(id);
+    chk_kids(id, (import nk)[id]);
+    chk_extra(id);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (13):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (-1):() then len((import unres)):(0)

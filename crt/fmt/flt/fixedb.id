@@ -1,0 +1,22 @@
+ff_round(string ds, int ffx0, int ffq) {
+  string ffr = rd_round(ds, ffq);
+  int ffx = ff_carry(ffr, ffq, ffx0);
+  string ffo = ff_join(ffr, ffx);
+} return string ffo;
+("12345", 1, 4):("12.34")
+("12999", 1, 3):("13.0")
+("999", 0, 1):("10.")
+("6", -2, 0):("0.1")
+("6", -1, 0):("1.")
+
+ff_fixed(string ds, int ffx0, int ffp) {
+  int ffq = ffx0 + 1 + ffp;
+  string ffo = ff_zero(ffp);
+  if(ffq >= 0) {
+    ffo = ff_round(ds, ffx0, ffq);
+  }
+} return string ffo;
+("125", -1, 2):("0.12")
+("375", -1, 2):("0.38")
+("5", -1, 0):("0.")
+("1", -9, 3):("0.000")

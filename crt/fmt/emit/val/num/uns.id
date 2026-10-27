@@ -1,0 +1,31 @@
+// The # flag: octal gets a leading 0 if it has none (and 0 itself is "0", even
+// with a precision of 0); x and X get 0x and 0X before a non-zero value.
+oct_alt(string dp, word c, word[] fs) {
+  string txt = dp;
+  if(c == 111 && fs[7] != 0 && character_code_at(dp, 0) != 48) {
+    txt = "0" + dp;
+  }
+} return string txt;
+("17", 111, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]):("017")
+("017", 111, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]):("017")
+("", 111, [0, 0, 0, 0, 0, 0, 0, 1, 1, 0]):("0")
+("17", 111, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("17")
+
+uns_pre(word u, word c, word[] fs) {
+  string pre = "";
+  int cc = c;
+  if(fs[7] != 0 && u != 0 && (c == 120 || c == 88)) {
+    pre = "0" + chr(cc);
+  }
+} return string pre;
+(255, 120, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]):("0x")
+(255, 88, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]):("0X")
+(0, 120, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]):("")
+
+uns_pad(word u, word c, string oa, word[] fs) {
+  string pre = uns_pre(u, c, fs);
+  int dz = dec_z(fs);
+  string txt = pad_num(pre, oa, dz, fs);
+} return string txt;
+(255, 120, "ff", [0, 0, 0, 6, 0, 0, 0, 1, 0, 0]):("  0xff")
+(255, 120, "ff", [0, 0, 1, 6, 0, 0, 0, 1, 0, 0]):("0x00ff")

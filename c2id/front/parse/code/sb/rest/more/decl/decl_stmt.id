@@ -1,0 +1,41 @@
+// A declaration statement. `int a = 1, *b, c[3];` is one C declaration with
+// three declarators sharing one specifier list, so it becomes a block of decl
+// nodes -- which means nothing downstream needs a multi-declarator case.
+//
+// INTEGRATION CONTRACT with c2id/parse/ty/:
+//   parse_specs(int[] pos)        -> int   base type node from the specifiers
+//   parse_declarator(int[] pos, int t) -> int full type node
+//   decl_name()                      -> string  name from the last declarator
+parse_decl_stmt(int[] pos) {
+  int st0 = pos[0];
+  int t = parse_specs_local(pos);
+  int[] l = fill_decls(pos, t);
+} chain (int[] pos) {
+  int id = newlist("block", 0, 0, "", l);
+  mark_static(l, st0);
+  cl_end();
+} return int id;
+given boot_a given ty_setup given lexfix stdin "int x;" ([0]):(2) then calls one_decl:[1]
+given boot_a given ty_setup given lexfix stdin "int x, y;" ([0]):(3) then calls one_decl:[2]
+given boot_a given ty_setup given lexfix stdin "static int x;" ([0]):(2) then (import nt)[1]:("static")
+
+fill_decls(int[] pos, int t) {
+  int[] l = [];
+  while(at_text(pos, ";") == 0 && cur_kind(pos) != "eof") {
+    decl_step(pos, t, l);
+  }
+  skip_tok(pos, ";");
+} return int[] l;
+given boot_a given ty_setup given lexfix stdin "x;" ([0], 0):([0]) then calls one_decl:[1]
+given boot_a given ty_setup given lexfix stdin "x, y;" ([0], 0):([0, 1]) then calls one_decl:[2]
+
+one_decl(int[] pos, int t) {
+  int b = parse_declarator(pos, t);
+  string name = (import dname)[0];
+  string dcf = cl_take();
+} chain (int[] pos, int t) {
+  int id = decl_leaf(pos, b, name);
+  cl_register(name, dcf);
+} return int id;
+given boot_a given ty_setup given lexfix stdin "x;" ([0], 0):(0) then calls init_item:[0]
+given boot_a given ty_setup given lexfix stdin "x = 1;" ([0], 0):(1) then calls init_item:[1]

@@ -1,0 +1,23 @@
+// A text conversion that read rn bytes: nothing read means the input ended or
+// did not match; otherwise they are stored, with a NUL when rnul is 1.
+rt_fin(word rstr, word rn, word rsup, word rnul, word[] rargs, word[] rst) {
+  word rin = peek8(rstr + rst[0]);
+  if(rn == 0) {
+    rt_stop(rst, rin);
+  } else {
+    rt_text(rstr, rn, rsup, rnul, rargs, rst);
+  }
+} return void;
+
+rt_text(word rstr, word rn, word rsup, word rnul, word[] rargs, word[] rst) {
+  if(rsup == 0) {
+    rt_deliver(rstr, rn, rnul, rargs, rst);
+  }
+  word_list_set(rst, 0, rst[0] + rn);
+} return void;
+
+rt_deliver(word rstr, word rn, word rnul, word[] rargs, word[] rst) {
+  word rp = rt_arg(rargs, rst);
+  word rx = rt_copy(rp, rstr + rst[0], rn, rnul);
+  word_list_set(rst, 2, rst[2] + 1);
+} return void;

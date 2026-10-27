@@ -1,0 +1,23 @@
+// What a `num` node keeps as its spelling: a number's own text (the emitter
+// reads a wide literal's digits and a suffix back from it), and for a character
+// constant `#` and its code, which can be confused with neither a suffix (`'u'`,
+// `'l'`) nor a digit string (`'5'`).
+const_spell(string kind, string s, int val) {
+  string out = s;
+  if(kind != "num") {
+    out = "#" + val;
+  }
+} return string out;
+("num", "0x1f", 31):("0x1f")
+("chr", "'a'", 97):("#97")
+
+// The text of a character constant without its quotes: the lexer keeps them.
+unquote(string s) {
+  string out = s;
+  if(len(s) > 1 && character_code_at(s, 0) == 39) {
+    out = str_sub(s, 1, len(s) - 2);
+  }
+} return string out;
+("'a'"):("a")
+("'xy'"):("xy")
+("x"):("x")

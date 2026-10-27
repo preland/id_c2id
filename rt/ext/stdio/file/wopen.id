@@ -1,0 +1,30 @@
+// Files opened for writing. Their contents are held whole in the heap, like a
+// file opened for reading, and written back to the path by fflush, by fclose and
+// when the program ends (rt_wall). The FILE is eight words: [data address, size,
+// position, kind 2, capacity, path (a NUL-terminated copy), flags, the next
+// writable FILE open]; rtwf[0] heads that chain.
+rt_wopen(word rpath, word rmode) {
+  word rwfl = rt_wflags(rmode);
+  word rwf = 0;
+  if(rwfl != 0) {
+    rwf = rt_wmake(rpath, rwfl);
+  }
+} return word rwf;
+
+// The contents already on disk unless the mode empties the file, then the FILE.
+rt_wmake(word rpath, word rwfl) {
+  word rwold = 0;
+  if((rwfl & 1) == 0) {
+    rwold = rt_open(rpath);
+  }
+  word rwf = rt_wfile(rpath, rwfl, rwold);
+} return word rwf;
+
+// `r+` needs the file to exist; every other mode creates or empties it.
+rt_wfile(word rpath, word rwfl, word rwold) {
+  word rwf = rwold;
+  if(rwold == 0 && rwfl != 12) {
+    rwf = rt_wfresh(rpath);
+  }
+  word rwg = rt_wbound(rwf, rpath, rwfl);
+} return word rwg;

@@ -1,0 +1,19 @@
+rt_dbits(word rl) {
+  float rf = float_infinity();
+  if(rl == 110) {
+    rf = float_undefined();
+  }
+  word rv = bits_of_float(rf);
+} return word rv;
+
+rt_dneg(word rs, word[] rdsc, word rv) {
+  word rn = rv;
+  if(peek8(rs + rdsc[0]) == 45) {
+    rn = cfl_neg(rv);
+  }
+} return word rn;
+
+rt_dspec(word rs, word[] rdsc, word rl) {
+  word rv = rt_dbits(rl);
+  word rn = rt_dneg(rs, rdsc, rv);
+} return word rn;

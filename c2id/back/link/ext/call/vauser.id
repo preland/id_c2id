@@ -1,0 +1,24 @@
+// A function the program defines with `...` takes its extra arguments the way
+// the runtime's printf does, as one word[] after the fixed ones (the wrapper in
+// back/link/fn/wrap/va.id receives it): the number of fixed parameters, or -1
+// for a name that is no such function.
+va_user(string op) {
+  int i = find_str((import fnames), op);
+  int fixed = 0 - 1;
+  if(i >= 0 && fn_variadic(i) == 1) {
+    fixed = len((import nl)[(import ftys)[i]]);
+  }
+} return int fixed;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, ...) { return a; }" ("f"):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return a; } int g(char c, int d, ...) { return c; }" ("g"):(2)
+
+// The fixed parameters of a variadic function, runtime or defined here, or -1.
+va_any(string op) {
+  int k = va_fixed(op);
+  if(k < 0) {
+    k = va_user(op);
+  }
+} return int k;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, ...) { return a; }" ("f"):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, ...) { return a; }" ("printf"):(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return a; }" ("f"):(-1)

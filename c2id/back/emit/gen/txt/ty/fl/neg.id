@@ -1,0 +1,28 @@
+fl_neg_txt(int id) {
+  int a = (import na)[id];
+  string flex = ex_txt(a);
+  string s = fl_neg_pick(ex_ty(a), flex);
+} return string s;
+given txt_fixture given pend_setup given fl_fixture given fl_un_fixture ((import flm)):("t1") then (import pend)[1]:("word t1 = cfl_neg(t0);")
+given txt_fixture given pend_setup given fl_fixture given fl_un_fixture ((import fln2)):("t0") then (import pend)[0]:("word t0 = cfl_neg(5);")
+given txt_fixture given pend_setup given fl_fixture given ld_fixture given init_frame given init_frame2 given txt_reset ((import ldn)):("t1") then (import pend)[1]:("word t1 = cld_neg((fp + 32), t0);")
+
+// -x: cfl_neg flips a double's sign bit; a long double's is flipped into a
+// temporary of its own (cld_neg).
+fl_neg_pick(int ty, string flex) {
+  string s = "";
+  if(ty_fkind(ty) == 3) {
+    s = ld_neg_txt(flex);
+  } else {
+    s = name_val("cfl_neg(" + flex + ")");
+  }
+} return string s;
+given txt_fixture given pend_setup given fl_types (6, "x"):("t0") then (import pend)[0]:("word t0 = cfl_neg(x);")
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset given ldt_types (6, "x"):("t0") then (import pend)[0]:("word t0 = cld_neg((fp + 16), x);")
+
+ld_neg_txt(string flex) {
+  string dst = ld_tmp();
+  string s = name_val("cld_neg(" + dst + ", " + flex + ")");
+} return string s;
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset ("x"):("t0") then (import pend)[0]:("word t0 = cld_neg((fp + 16), x);")
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset ("t7"):("t0") then (import pend)[0]:("word t0 = cld_neg((fp + 16), t7);")

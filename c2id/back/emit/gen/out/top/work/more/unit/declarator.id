@@ -1,0 +1,31 @@
+// One declarator: a function definition when a body follows a function type,
+// otherwise a variable or a prototype. Answers 1 when a comma promised another
+// declarator.
+tu_one(int[] pos, int t) {
+  int r = parse_declarator(pos, t);
+  string name = (import dname)[0];
+  int more = tu_after(pos, name, r);
+} return int more;
+given boot_a given boot_b given lexfix stdin "x;" ([0], 0):(0)
+given boot_a given boot_b given lexfix stdin "x, y;" ([0], 0):(1)
+
+tu_after(int[] pos, string name, int r) {
+  int more = 0;
+  if(at_text(pos, "{")) {
+    tu_fndef(pos, name, r);
+  } else {
+    more = tu_var(pos, name, r);
+  }
+} return int more;
+given boot_a given boot_b given lexfix stdin "{ }" ([0], "f", 0):(0) then calls tu_fndef:[1]
+given boot_a given boot_b given lexfix stdin ", y;" ([0], "x", 0):(1) then calls tu_var:[1]
+
+tu_fndef(int[] pos, string name, int r) {
+  integer_list_set((import fsk), 0, (import statk)[0]);
+  int b = parse_body(pos);
+  tu_add(name, b, r);
+} return void;
+given boot_a given boot_b given lexfix stdin "{ }" ([0], "f", 0):() then calls tu_add:("f", 6, 0)
+given boot_a given boot_b given lexfix stdin "{ }" ([0], "g", 5):() then calls tu_add:("g", 6, 5)
+given boot_a given boot_b given lexfix given integer_list_set((import statk), 0, 1) stdin "{ }" ([0], "f", 0):() then (import fstat):([1])
+given boot_a given boot_b given lexfix stdin "{ }" ([0], "f", 0):() then (import fstat):([0])

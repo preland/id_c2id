@@ -1,0 +1,28 @@
+
+// Array and function suffixes.
+
+arr_make(int[] pos, int inner, int n) {
+  int r = type_suffix(pos, inner);
+  int a = newleaf("arr", r, n, "", "");
+} return int a;
+given boot_a given lexfix stdin "x" ([0], 0, 3):(0) then calls newleaf:("arr", 0, 3, "", "")
+given boot_a given lexfix stdin "[ 2 ]" ([0], 0, 3):(2) then calls newleaf:("arr", 1, 3, "", "")
+
+fn_suffix(int[] pos, int inner) {
+  int[] ps = fn_params(pos);
+  int r = fn_make(pos, inner, ps);
+} return int r;
+given tynode_fix given ty_setup given lexfix stdin "( )" ([0], 0):(6)
+given tynode_fix given ty_setup given lexfix stdin "( ) [ 3 ]" ([0], 0):(8)
+
+fn_make(int[] pos, int inner, int[] ps) {
+  string pnames = (import pnj)[0];
+  int r = type_suffix(pos, inner);
+  int a = fn_node(r, pnames, ps);
+} chain (int[] pos, int inner, int[] ps) {
+  int dv = dots_take();
+  integer_list_set((import nb), a, dv);
+} return int a;
+given tynode_fix given ty_setup given lexfix stdin "x" ([0], 0, []):(6) then calls newlist:("fn", 0, 0, "", [])
+given tynode_fix given ty_setup given lexfix stdin "x" ([0], 5, [1, 2]):(7) then calls newlist:("fn", 5, 0, "__ret,", [6, 1, 2])
+given tynode_fix given ty_setup given lexfix given integer_list_set((import dots), 0, 1) stdin "x" ([0], 0, []):(6) then (import nb)[6]:(1)

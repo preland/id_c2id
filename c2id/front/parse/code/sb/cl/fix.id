@@ -1,0 +1,37 @@
+// Hand-made statements for the cleanup rewriting cases, with the scope being wrapped
+// calling f(p), and the label "in" defined in it:
+//   0 the number 7           1 `return;`            2 `return 7;`
+//   3 `goto out;`            4 `break;`             5 `continue;`
+//   6 `in:`                  7 { break; }           8 while (..) break;
+//   9 switch (..) { break; continue; }              10 if (..) break; else continue;
+//   11 for (;;) break;       12 `goto in;`
+cl_fix() {
+  boot_a();
+  integer_list_set((import clmode), 0, 1);
+  string_list_set((import clcur), 0, "p");
+} chain () {
+  string_list_set((import clcur), 1, "f");
+  push((import cllab), "in");
+  int[] cx_e = [];
+} chain () {
+  int cx_n = newleaf("num", 7, 0, "7", "");
+  int cx_r0 = newleaf("return", 0 - 1, 0, "", "");
+  int cx_r1 = newleaf("return", cx_n, 0, "", "");
+} chain () {
+  int cx_g = newleaf("goto", 0, 0, "out", "");
+  int cx_b = newleaf("break", 0, 0, "", "");
+  int cx_c = newleaf("continue", 0, 0, "", "");
+} chain () {
+  int cx_l = newleaf("label", 0, 0, "in", "");
+  int cx_k = newlist("block", 0, 0, "", [cx_b]);
+  int cx_w = newlist("while", 0, 0, "", [cx_b]);
+} chain () {
+  int cx_s = newlist("switch", 0, 0, "", [cx_b, cx_c]);
+  int[] cx_m = [cx_c];
+  int cx_i = newnode("if", 0, 0, "", "", [cx_b], cx_m);
+} chain () {
+  int cx_f = newnode("for", 0, 0, "", "", cx_e, [cx_b]);
+  int cx_gi = newleaf("goto", 0, 0, "in", "");
+} return void;
+():() then (import nk)[4]:("break")
+():() then (import clcur):(["p", "f"])

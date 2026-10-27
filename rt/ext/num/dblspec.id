@@ -1,0 +1,23 @@
+// The number a scanned text names. idstd's flt_parse reads decimal digits only, so
+// an inf or nan is made here (with the text's sign) instead.
+rt_dfull(word rs, word[] rdsc) {
+  word rv = rt_dparse(rs, rdsc);
+  word rl = rt_dletter(rs, rdsc);
+  word rn = rt_dpick(rs, rdsc, rv, rl);
+} return word rn;
+
+// The first byte after the sign, in lower case.
+rt_dletter(word rs, word[] rdsc) {
+  word rch = peek8(rs + rdsc[0]);
+  if(rch == 43 || rch == 45) {
+    rch = peek8(rs + rdsc[0] + 1);
+  }
+  word rl = rch | 32;
+} return word rl;
+
+rt_dpick(word rs, word[] rdsc, word rv, word rl) {
+  word rn = rv;
+  if(rl == 105 || rl == 110) {
+    rn = rt_dspec(rs, rdsc, rl);
+  }
+} return word rn;

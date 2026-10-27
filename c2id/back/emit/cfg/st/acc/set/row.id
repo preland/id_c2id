@@ -1,0 +1,3 @@
+// Writing a block's row. An imported list cannot be index-assigned directly
+// -- `(import bsa)[i] = v` parses as a comparison and silently does nothing --
+// so every store goes through lset/sset (see ../../../../../lex/drv/st/store/append.id).

@@ -1,0 +1,28 @@
+// Three 32-byte blocks (trio0, trio1, trio2), for what a merge must repair in the block
+// after the pair.
+crt_heap_fixture7() {
+  heap_init(96);
+  export word trio0 = (import crt_heap) + 16;
+  export word trio1 = (import trio0) + 32;
+} chain () {
+  split_blk((import trio0), 32);
+  split_blk((import trio1), 32);
+  export word trio2 = (import trio1) + 32;
+} return void;
+():() then prints:("")
+():() then eprints:("")
+
+// The back link of the third block, which must name its real predecessor.
+trio2_prev() {
+  word x = peek64((import trio2) + 8) - (import crt_heap);
+} return word x;
+given crt_heap_fixture7 ():(48)
+given crt_heap_fixture8 ():(16)
+
+// The same three blocks with the first two merged.
+crt_heap_fixture8() {
+  crt_heap_fixture7();
+  merge_blk((import trio0), (import trio1));
+} return void;
+():() then prints:("")
+():() then eprints:("")

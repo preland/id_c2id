@@ -1,0 +1,36 @@
+// The exported state and the entry point.
+
+// The three parallel token lists of NOTES.md section 3. An export is a
+// statement, so this runs when it is called; the driver's setup() calls it
+// before anything else.
+init_tokens() {
+  export string[] tkind = [];
+  export string[] ttext = [];
+  export int[] tline = [];
+} return void export tkind;
+given init_tokens given init_lines given add_tok("id", "x") ():() then len((import tkind)):(0)
+given init_tokens given init_lines given add_tok("id", "x") ():() then len((import ttext)):(0)
+():() then len((import tkind)):(0)
+():() then eprints:("")
+
+// Where the lexer currently is. Both are one-element lists so that any
+// function may store into them through lset / sset. lex_all calls this, so
+// re-lexing starts from a clean position.
+init_lines() {
+  export int[] curline = [1];
+  export string[] curfile = [""];
+  export string[] tfile = [];
+} return void export curline;
+given init_lines given integer_list_set((import curline), 0, 7) ():() then (import curline)[0]:(1)
+given init_lines given string_list_set((import curfile), 0, "a.c") ():() then (import curfile)[0]:("")
+():() then (import curline)[0]:(1)
+():() then eprints:("")
+
+// Lex a whole preprocessed translation unit, appending to tkind / ttext /
+// tline. Call init_tokens() first.
+lex_all(string src) {
+  init_lines();
+  lex_all_mem(src);
+} return void;
+given init_tokens ("a"):() then len((import tkind)):(2)
+given init_tokens (""):() then len((import tkind)):(1)

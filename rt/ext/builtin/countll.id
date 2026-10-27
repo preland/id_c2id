@@ -1,0 +1,17 @@
+c___builtin_ctzll(word xv) {
+  word n = c___builtin_ctz(xv);
+  if(n == 32) {
+    n = 32 + c___builtin_ctz(ushr(xv, 32));
+  }
+} return word n;
+
+c___builtin_clz(word xv) {
+  word n = rt_clz(xv, 32);
+} return word n;
+
+c___builtin_clzll(word xv) {
+  word n = c___builtin_clz(ushr(xv, 32));
+  if(n == 32) {
+    n = 32 + c___builtin_clz(xv);
+  }
+} return word n;

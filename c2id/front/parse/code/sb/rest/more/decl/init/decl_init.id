@@ -1,0 +1,37 @@
+decl_init(int[] pos) {
+  int a = 0 - 1;
+  if(at_text(pos, "=")) {
+    advance(pos);
+    a = init_item(pos);
+  }
+} return int a;
+given boot_a given ty_setup given lexfix stdin "=" ([0]):(0)
+given boot_a given ty_setup given lexfix stdin ";" ([0]):(-1)
+
+// An initializer: an expression, or a brace list of initializers (which may
+// nest, as `{ {1, 2}, {3, 4} }` does for an array of structs).
+init_item(int[] pos) {
+  int a = 0;
+  if(at_text(pos, "{")) {
+    a = parse_init_list(pos);
+  } else {
+    a = parse_assign(pos);
+  }
+} return int a;
+given boot_a given ty_setup given lexfix stdin "1" ([0]):(0)
+given boot_a given ty_setup given lexfix stdin "{ 1 , 2 }" ([0]):(2)
+
+// one_decl's tail: naming decl_init's result and the newleaf() call it must
+// return would be its third and fourth actions, one over its own budget.
+decl_leaf(int[] pos, int b, string name) {
+  int a = decl_init(pos);
+  int b2 = complete_arr(b, a);
+  int id = newleaf("decl", a, b2, name, "");
+} chain (int[] pos, int b, string name) {
+  lname_add(name);
+} return int id;
+given boot_a given ty_setup given lexfix stdin ";" ([0], 0, "x"):(0) then (import lnames):(["x"])
+given boot_a given ty_setup given lexfix stdin "=" ([0], 0, "y"):(1)
+
+// An argument list and a declarator list separate the same way, so both skip
+// their separator with skip_tok (front/lex/drv/cur/tok.id), each naming its own.

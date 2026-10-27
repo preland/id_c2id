@@ -1,0 +1,33 @@
+ind_split(int n, int[] fs, int lo, int hi, int top) {
+  int mid = (lo + hi) / 2;
+  string lc = ind_node(n, fs, lo, mid, 0);
+  string rc = ind_node(n, fs, mid, hi, 0);
+} chain (int n, int[] fs, int lo, int hi, int top) {
+  string fname = ind_name(n, lo, hi, top);
+  int cut = fs[mid] + 1;
+  ind_print(n, fname, cut, lc, rc);
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a) { return a; }" (1, [0, 1], 0, 2, 1):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call1(word f, word a0) {\n  word r = 0;\n  if(f < 2) { r = c_f(a0); } else { r = c_g(a0); }\n} return word r;\n")
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int f(int a) { return a; } int g(int a) { return a; }" (1, [0, 1], 0, 2, 0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nind1_0_2(word f, word a0) {\n  word r = 0;\n  if(f < 2) { r = c_f(a0); } else { r = c_g(a0); }\n} return word r;\n")
+
+ind_name(int n, int lo, int hi, int top) {
+  string fname = "ind" + n + "_" + lo + "_" + hi;
+  if(top == 1) {
+    fname = "crt_call" + n;
+  }
+} return string fname;
+(2, 0, 3, 0):("ind2_0_3")
+(2, 0, 3, 1):("crt_call2")
+
+// One dispatch function: calls lc when f is below cut, rc otherwise.
+ind_print(int n, string fname, int cut, string lc, string rc) {
+  string plist = ind_params(n);
+  emit_mark();
+  emit_head(plist, fname + "(" + plist + ") {");
+} chain (int n, string fname, int cut, string lc, string rc) {
+  emit_out("  word r = 0;");
+  emit_out("  if(f < " + cut + ") { r = " + lc + "; } else { r = " + rc + "; }");
+  emit_cut("} return word r;");
+} return void;
+given init_gfn (1, "crt_call1", 4, "c_f(a0)", "c_g(a0)"):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ncrt_call1(word f, word a0) {\n  word r = 0;\n  if(f < 4) { r = c_f(a0); } else { r = c_g(a0); }\n} return word r;\n")
+given init_gfn (0, "ind0_0_2", 2, "c_a()", "c_b()"):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nind0_0_2(word f) {\n  word r = 0;\n  if(f < 2) { r = c_a(); } else { r = c_b(); }\n} return word r;\n")

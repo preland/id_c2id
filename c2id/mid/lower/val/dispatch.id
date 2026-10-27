@@ -1,0 +1,44 @@
+// Lowering the expressions that cannot be one line of straight-line text.
+// `a && b`, `a || b` and `c ? x : y` evaluate their right side only
+// sometimes, so they become blocks: the right side gets a block of its own, the
+// result goes in a frame temporary, and the expression is replaced -- in place,
+// in the AST -- by a read of that temporary. A side effect used as a value
+// (`x++`, `++x`, `x = e`) becomes a statement and a read. What reaches the
+// emitter then has no short-circuit and no effect-as-value left in it.
+//
+// lower_val(e) lowers expression node e for its value and answers the node to
+// use in its place (e itself when nothing changed). It may end the current
+// block and carry on in a new one, so the code that called it must put the
+// statement it is building in cur_blk() *after* the call, not before.
+lower_val(int e) {
+  int r = e;
+  if(e >= 0 && (import nk)[e] == "bin") {
+    r = lower_bin(e);
+  } else {
+    r = lower_v2(e);
+  }
+} return int r;
+given low_fix (9):(19) then calls lower_sc:(9)
+given low_fix (6):(6) then calls lower_v2:(6)
+
+lower_v2(int e) {
+  int r = e;
+  if(e >= 0 && (import nk)[e] == "cond") {
+    r = lower_ternary(e);
+  } else {
+    r = lower_v3(e);
+  }
+} return int r;
+given low_fix (11):(19) then calls lower_ternary:(11)
+given low_fix (6):(6) then calls lower_v3:(6)
+
+lower_v3(int e) {
+  int r = e;
+  if(e >= 0 && (import nk)[e] == "post") {
+    r = lower_post_val(e);
+  } else {
+    r = lower_sx(e);
+  }
+} return int r;
+given low_fix (12):(19) then calls lower_post_val:(12)
+given low_fix (6):(6) then calls lower_sx:(6)

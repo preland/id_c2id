@@ -1,0 +1,28 @@
+
+// `long long` vs `long`, and the rule that a specifier list naming no type at
+// all (`unsigned x;`, `static x;`) means int.
+
+ll_code(int[] sp) {
+  int n = 9;
+  if(sp[4] > 1) {
+    n = 11;
+  }
+  if(sp[4] > 2) {
+    n = 16;
+  }
+} return int n;
+([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):(9)
+([0, 0, 0, 0, 2, 0, 0, 0, 0, 0]):(11)
+([0, 0, 0, 0, 3, 0, 0, 0, 0, 0]):(16)
+
+// first slot that was seen and does name a type
+pick_code(int[] sp, int[] xs) {
+  int i = 0;
+  int n = 0 - 1;
+  while(i < len(xs) && n < 0) {
+    n = pick_one(sp, xs, i);
+    i = i + 1;
+  }
+} return int n;
+([0, 1, 0], [5, 6, 7]):(6)
+([0, 0, 0], [5, 6, 7]):(-1)

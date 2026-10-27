@@ -1,0 +1,41 @@
+// A NaN to the target format: quiet, the top bits of its payload kept (lxp bits
+// of precision leave 53 - lxp low bits of the double's fraction clear).
+ld_nand(word[] lqa, word lxp) {
+  word lxf = ushr(lqa[2], 11) & 4503599627370495;
+  word lxm = 0 - (1 << (53 - lxp));
+  word lxr = (lqa[0] << 63) | 9218868437227405312 | 2251799813685248 | (lxf & lxm);
+} return word lxr;
+([0, 32767, -4611686018427387904], 53):(9221120237041090560)
+([0, 32767, -4611686018427385856], 53):(9221120237041090561)
+([0, 32767, -4611686018427385856], 24):(9221120237041090560)
+([1, 32767, -9223372036854775807], 53):(-2251799813685248)
+
+ld_nar2(word[] lqa, word lxk, word lxp, word lxn) {
+  word lxr = (lqa[0] << 63) | 9218868437227405312;
+  if(lxk == 0) {
+    lxr = lqa[0] << 63;
+  }
+  if(lxk == 1) {
+    lxr = ld_narf(lqa, lxp, lxn) | (lqa[0] << 63);
+  }
+} chain (word[] lqa, word lxk, word lxp, word lxn) {
+  if(lxk >= 3) {
+    lxr = ld_nand(lqa, lxp);
+  }
+  if(lxk == 4) {
+    lxr = 0 - 2251799813685248;
+  }
+} return word lxr;
+([1, 0, 0], 0, 53, -1022):(-9223372036854775808)
+([0, 32767, -9223372036854775808], 2, 53, -1022):(9218868437227405312)
+([1, 16383, -9223372036854775808], 1, 53, -1022):(-4616189618054758400)
+([0, 32767, -4611686018427387904], 3, 53, -1022):(9221120237041090560)
+([0, 16383, 5], 4, 24, -126):(-2251799813685248)
+
+ld_nar(word lxa, word lxp, word lxn) {
+  word[] lqa = ld_get(lxa);
+  word lxk = ld_kind(lqa[1], lqa[2]);
+  word lxr = ld_nar2(lqa, lxk, lxp, lxn);
+} return word lxr;
+given ld_cells ((import ldx), 53, -1022):(4609434218613702656)
+given ld_cells ((import ldy), 24, -126):(-4611686018427387904)

@@ -1,0 +1,31 @@
+lower_call(int e) {
+  int[] args = (import nl)[e];
+  lower_list(args);
+  int r = lower_jmp(e);
+} return int r;
+given low_fix (17):(17) then (import nl)[17]:([19])
+given low_fix given exprfix stdin "f(x, y);" ((import extop)):((import extop)) then (import nl)[22]:([20, 21]) then len((import bkind)):(1)
+
+lower_list(int[] l) {
+  int i = 0;
+  while(i < len(l)) {
+    int x = lower_val(l[i]);
+    integer_list_set(l, i, x);
+    i = i + 1;
+  }
+} return void;
+given low_fix ([9]):([19])
+given low_fix ([6, 9]):([6, 19])
+given low_fix ([6, 7]):([6, 7])
+
+// Both operands of a node with two (indexing, an assignment's target and value,
+// a binary operator that is not a short circuit), left first.
+lower_kid2(int e) {
+  int a = lower_val((import na)[e]);
+  integer_list_set((import na), e, a);
+  int b = lower_val((import nb)[e]);
+} chain (int e) {
+  integer_list_set((import nb), e, b);
+} return int e;
+given low_fix (14):(14) then (import na)[14]:(6) then (import nb)[14]:(7)
+given low_fix (18):(18) then (import na)[18]:(19) then (import nb)[18]:(8)

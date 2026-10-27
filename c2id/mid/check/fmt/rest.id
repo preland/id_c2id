@@ -1,0 +1,16 @@
+// 1 when a character of a mode literal from index i up to the closing quote is not b or +.
+mode_rest(string lit, int i) {
+  int bad = 0;
+  int k = i;
+  while(k < len(lit) - 1) {
+    int c = character_code_at(lit, k);
+    if(c != 98 && c != 43) {
+      bad = 1;
+    }
+    k = k + 1;
+  }
+} return int bad;
+("\"wb\"", 2):(0)
+("\"wbx\"", 2):(1)
+("\"wxb\"", 3):(0)
+("\"wxb\"", 2):(1)

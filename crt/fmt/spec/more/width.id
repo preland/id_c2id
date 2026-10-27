@@ -1,0 +1,35 @@
+// Field width and precision. Either is a run of digits, or a '*' that takes the
+// next argument (an int) instead; a negative '*' width means '-' and its
+// magnitude, and a negative '*' precision means no precision.
+//
+// The digits of a number, into cell `slot` of fs.
+scan_digits(word fmt, word[] st, word[] fs, int slot) {
+  word c = peek8(fmt + st[0]);
+  while(is_digit(c) != 0) {
+    take_digit(c, st, fs, slot);
+    c = peek8(fmt + st[0]);
+  }
+} return void;
+given crt_fmt_fixture ((import fmtbuf), [2], [0, 0, 0, 0, 0], 3):((import fmtbuf), [3], [0, 0, 0, 5, 0], 3)
+given crt_fmt_fixture ((import fmtbuf), [3], [0, 0, 0, 0, 0], 3):((import fmtbuf), [3], [0, 0, 0, 0, 0], 3)
+given crt_fmt_fixture given crt_fmt_modes ((import modbuf), [5], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 9):((import modbuf), [6], [0, 0, 0, 0, 0, 0, 0, 0, 0, 3], 9)
+
+// The next argument as the int it is: its low 32 bits, sign-extended.
+star_arg(word[] args, word[] st) {
+  word sv = next_arg(args, st);
+  word sn = narrow_s(sv, 0);
+} return word sn;
+([7], [0, 0]):(7)
+([4294967295], [0, 0]):(-1)
+
+// A negative width is a '-' flag and the positive width.
+set_width(word sn, word[] fs) {
+  if(sn < 0) {
+    word_list_set(fs, 1, 1);
+    word_list_set(fs, 3, 0 - sn);
+  } else {
+    word_list_set(fs, 3, sn);
+  }
+} return void;
+(5, [0, 0, 0, 0, 0]):(5, [0, 0, 0, 5, 0])
+(-5, [0, 0, 0, 0, 0]):(-5, [0, 1, 0, 5, 0])

@@ -1,0 +1,38 @@
+// What a whole expression statement is: 1 for a call, 2 for `x++`, `++x`, 0 for
+// anything else. A call and an increment are statements already, so only their
+// parts are lowered; anything else is lowered for its value.
+top_kind(int e) {
+  int k = 0;
+  if(e >= 0 && (import nk)[e] == "call") {
+    k = 1;
+  }
+  if(e >= 0 && ((import nk)[e] == "post" || un_incdec(e) == 1)) {
+    k = 2;
+  }
+} return int k;
+given boot_a given exprfix stdin "f();" ((import extop)):(1)
+given boot_a given exprfix stdin "x++;" ((import extop)):(2)
+given boot_a given exprfix stdin "++x;" ((import extop)):(2)
+given boot_a given exprfix stdin "x + 1;" ((import extop)):(0)
+
+lower_top3(int e, int k) {
+  int r = e;
+  if(k == 0) {
+    r = lower_val(e);
+  } else {
+    r = lower_top4(e, k);
+  }
+} return int r;
+given low_fix (9, 0):(19) then calls lower_val:(9)
+given low_fix (17, 1):(17) then calls lower_call:(17)
+
+lower_top4(int e, int k) {
+  int r = e;
+  if(k == 1) {
+    r = lower_call(e);
+  } else {
+    r = lower_kid1(e);
+  }
+} return int r;
+given low_fix (17, 1):(17) then calls lower_call:(17)
+given low_fix (13, 2):(13) then calls lower_kid1:(13)

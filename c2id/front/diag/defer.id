@@ -1,0 +1,38 @@
+// A refusal the parser cannot yet tell is needed: a construct inside, or in the
+// signature of, a function that nothing may call, which is common in a header
+// (a `static inline` helper using a typeof whose operand is a local). It is kept
+// with the external declaration being read; when that declaration ends it is
+// kept for the function it turned out to define (told by the check pass only if
+// the function is reached), or told at once when the declaration defines none.
+// dt_seg 1 marks a named address space (`__seg_gs`, `__seg_fs`): a read or write
+// through it reaches the segment, and the flat store has none.
+defer_tok(int dt_tk, string dt_msg, int dt_seg) {
+  push((import pdtk), dt_tk);
+  push((import pdmsg), dt_msg);
+  push((import pdsg), dt_seg);
+} return void;
+given boot_a given boot_b given lexfix (5, "m", 0):() then (import pdtk):([5])
+given boot_a given boot_b given lexfix (7, "m", 0):() then (import pdmsg):(["m"])
+given boot_a (5, "m", 1):() then (import pdsg):([1])
+given boot_a given defer_tok(2, "n", 0) (6, "m", 1):() then (import pdsg):([0, 1])
+
+defer_settle(int ds_n0) {
+  if(len((import fnames)) > ds_n0) {
+    defer_keep(ds_n0);
+  } else {
+    defer_end();
+  }
+  defer_clear();
+} return void;
+given boot_a given boot_b given lexfix given defer_tok(3, "m", 0) given tu_add("f", 0, 0) (0):() then (import qfn):([0]) then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given defer_tok(3, "m", 0) (0):() then len((import qfn)):(0) then len((import dgmsg)):(1)
+
+defer_clear() {
+  while(len((import pdtk)) > 0) {
+    pop((import pdtk));
+    pop((import pdmsg));
+    pop((import pdsg));
+  }
+} return void;
+given boot_a given defer_tok(1, "m", 0) ():() then len((import pdtk)):(0) then len((import pdsg)):(0)
+given boot_a ():() then len((import pdmsg)):(0)

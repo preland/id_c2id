@@ -1,0 +1,40 @@
+
+// Looking a member up by name. A rec node's nm list holds that record's own
+// member-table row numbers, so the search visits only its rows. Members of
+// an anonymous struct/union are flattened into the enclosing record when it is
+// laid out, so no recursive search is needed here.
+
+mem_find(int ty, string name) {
+  int i = 1;
+  int found = 0 - 1;
+  while(mem_more(ty, i, found)) {
+    found = mem_hit(ty, name, i);
+    i = i + 1;
+  }
+} return int found;
+given mem_row_fix (1, "x"):(0)
+given mem_row_fix (1, "z"):(-1)
+
+mem_hit(int ty, string name, int i) {
+  int j = (import nm)[ty][i];
+  int found = 0 - 1;
+  if((import synames)[j] == name) {
+    found = j;
+  }
+} return int found;
+given mem_row_fix (1, "x", 1):(0)
+given mem_row_fix (1, "z", 1):(-1)
+
+// The entry of `col` (a column of the member table: syoff for the byte
+// offset, syids for the type node) for member `name` inside record `ty`, or -1
+member_col(int[] col, int ty, string name) {
+  int i = mem_find(ty, name);
+  int off = 0 - 1;
+  if(i >= 0) {
+    off = col[i];
+  }
+} return int off;
+given mem_row_fix ((import syoff), 1, "x"):(2)
+given mem_row_fix ((import syoff), 1, "z"):(-1)
+given mem_row_fix ((import syids), 1, "x"):(0)
+given mem_row_fix ((import syids), 1, "z"):(-1)

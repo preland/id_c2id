@@ -1,0 +1,23 @@
+
+// The one arithmetic helper layout needs, beside the member lookup's step.
+
+// m_of(ty) must not be re-read as part of the while condition itself, so
+// find.id's mem_find loop test becomes this named step instead.
+mem_more(int ty, int i, int found) {
+  int[] m = (import nm)[ty];
+  int k = len(m);
+  int ok = i < k && found < 0;
+} return int ok;
+given tynode_fix (5, 0, -1):(1)
+given tynode_fix (5, 1, -1):(0)
+
+// An alignment of 0 is possible -- a void type has one -- so the guard is not
+// decoration: without it this divides by zero.
+align_up(int n, int a) {
+  int r = n;
+  if(a > 0) {
+    r = ((n + a - 1) / a) * a;
+  }
+} return int r;
+(5, 4):(8)
+(5, 0):(5)

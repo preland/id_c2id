@@ -1,0 +1,17 @@
+
+// The multiplicative level of a constant expression; its operator sets are ce_add_ops and ce_mul_ops (conf.id).
+
+ce_mul(int[] pos) {
+  int v = ce_un(pos);
+  int r = ce_mloop(pos, v);
+} return int r;
+given lexfix stdin "2 * 3" ([0]):(6)
+given lexfix stdin "5" ([0]):(5)
+
+ce_mloop(int[] pos, int v) {
+  while(at_in(pos, (import ce_mul_ops))) {
+    v = ce_mstep(pos, v);
+  }
+} return int v;
+given lexfix stdin "* 3" ([0], 2):(6)
+given lexfix stdin "+" ([0], 5):(5)

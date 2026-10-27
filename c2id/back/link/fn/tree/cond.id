@@ -1,0 +1,26 @@
+// Whether a function's runner has to look at the exit status before each block:
+// only a function that may exit does (front/diag/noret/mxall.id lists them, the
+// functions that call exit or abort, a noreturn function, or a function that
+// calls one, and every function that calls through a pointer). Nothing else can
+// make the status change while the function runs, so the load is left out.
+run_chk(string name) {
+  int chk = 1;
+  if(find_str((import mxnames), name) < 0) {
+    chk = 0;
+  }
+} return int chk;
+given noret_init ("f"):(0)
+given noret_init given noret_add("f") ("f"):(1)
+
+// The one-of-two choice behind the runner's loop condition (chk 1 takes yes,
+// otherwise no) and a long double's conversion name (kt 2 takes yes).
+pick_when(int v, int when, string yes, string no) {
+  string picked = no;
+  if(v == when) {
+    picked = yes;
+  }
+} return string picked;
+(1, 1, "pc >= 0 && peek64((import rtxc)) == 0", "pc >= 0"):("pc >= 0 && peek64((import rtxc)) == 0")
+(0, 1, "pc >= 0 && peek64((import rtxc)) == 0", "pc >= 0"):("pc >= 0")
+(2, 2, "cld_to_dbl", "cld_to_flt"):("cld_to_dbl")
+(1, 2, "cld_to_dbl", "cld_to_flt"):("cld_to_flt")

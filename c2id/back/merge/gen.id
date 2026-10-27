@@ -1,0 +1,45 @@
+// Whether a name is one of the generated functions the current pass merges. A
+// pass merges one family (mgzp[0] is its prefix: `blk`, then `dsp`, then `run`,
+// then `c_`) and a name belongs to it when the prefix is followed by digits and
+// underscores only. For the user functions, the `c_` family, any name follows.
+
+mg_is_family(string mgnm) {
+  int mgres = 0;
+  if(string_starts_with(mgnm, (import mgzp)[0]) == 1) {
+    mgres = mg_gen_tail(string_strip_prefix(mgnm, (import mgzp)[0]));
+  }
+} return int mgres;
+given mg_setup given mg_setup_c ("blk4_1"):(1)
+given mg_setup given mg_setup_c ("blkx"):(0)
+given mg_setup given mg_setup_c ("dsp4_1"):(0)
+given mg_setup given mg_setup_c ("blk"):(0)
+
+mg_gen_tail(string mgrest) {
+  int mgi = 0;
+  int mgok = character_is_digit(character_code_at(mgrest, 0));
+  while(mgi < len(mgrest) && mgok == 1) {
+    mgok = mg_gen_char(character_code_at(mgrest, mgi));
+    mgi = mgi + 1;
+  }
+} chain (string mgrest) {
+  if((import mgzp)[0] == "c_") {
+    mgok = mg_name_tail(mgrest);
+  }
+} return int mgok;
+given mg_setup given mg_setup_c ("12_3"):(1)
+given mg_setup given mg_setup_c ("x1"):(0)
+given mg_setup given mg_setup_c (""):(0)
+given mg_setup given mg_setup_c ("1x"):(0)
+given mg_fixture_c ("die_2"):(1)
+given mg_fixture_c ("1x"):(1)
+given mg_fixture_c (""):(0)
+
+mg_gen_char(int mgc) {
+  int mgres = character_is_digit(mgc);
+  if(mgc == 95) {
+    mgres = 1;
+  }
+} return int mgres;
+(95):(1)
+(48):(1)
+(97):(0)

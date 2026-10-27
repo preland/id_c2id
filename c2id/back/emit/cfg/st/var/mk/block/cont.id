@@ -1,0 +1,18 @@
+// Split out of new_block: its return clause must be a name, and naming
+// `ids` and pushing it already fill new_block's own block, leaving no room
+// there for push_bterm's call and the length computation too.
+new_block2() {
+  push_bterm();
+  int n = len((import bkind)) - 1;
+} return int n;
+given cfg_init ():(0) then cfg_nblocks:(1)
+given cfg_body_fixture ():(2) then cfg_nblocks:(3)
+
+// How many blocks the graph has. It stays a named reader because a case
+// checks it with `then cfg_nblocks`, which docs/TESTS.md requires of any
+// function that reads bkind without writing it.
+cfg_nblocks() {
+  int n = len((import bkind));
+} return int n;
+given cfg_init ():(0)
+given cfg_body_fixture ():(2)

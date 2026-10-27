@@ -1,0 +1,24 @@
+cw_cand(word cf_w, int cf_t, int cf_d, int cf_u, int cf_l) {
+  int cf_bad = (cf_l == 1 && cf_t / 2 < 8) + (cf_u == 1 && cf_t % 2 == 1) + (cf_d == 1 && cf_u == 0 && cf_t == 8);
+  int cf_ok = cw_fits(cf_w, cf_t);
+  if(cf_bad > 0) {
+    cf_ok = 0;
+  }
+} return int cf_ok;
+(5, 9, 1, 0, 0):(1)
+(5, 9, 1, 1, 0):(0)
+(5, 9, 1, 0, 1):(0)
+(4294967295, 8, 1, 0, 0):(0)
+(4294967295, 8, 0, 0, 0):(1)
+
+cw_fits(word ft_w, int ft_t) {
+  word ft_n = cw_norm(ft_w, ft_t);
+  int ft_ok = 0;
+  if(ft_t == 16 || (ft_w >= 0 && ft_n == ft_w)) {
+    ft_ok = 1;
+  }
+} return int ft_ok;
+(2147483648, 9):(0)
+(2147483647, 9):(1)
+(-1, 17):(0)
+(-1, 16):(1)

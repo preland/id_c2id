@@ -1,0 +1,8 @@
+// The widths 4 and 8 of rt_store.
+rt_store2(word rp, word rv, word rlen) {
+  if(rlen == 4) {
+    poke32(rp, rv);
+  } else {
+    poke64(rp, rv);
+  }
+} return void;

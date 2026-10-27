@@ -1,0 +1,39 @@
+// Argument lists.
+
+// A `call` with callee -1 is a brace initialiser, not a call -- see
+// ../../p/un/cast/lit.id. Printing it as `{...}` keeps a compound literal
+// distinguishable from `f(...)` and, more importantly, keeps expr_str from
+// walking to node -1.
+call_str(int id) {
+  int[] l = (import nl)[id];
+  string s = "{" + args_str(l) + "}";
+  if((import na)[id] >= 0) {
+    int a = (import na)[id];
+    s = expr_str(a) + "(" + args_str(l) + ")";
+  }
+} return string s;
+given boot_a given exprfix stdin "f(1);" ((import extop)):("f(1)")
+given boot_a given exprfix stdin "f();" ((import extop)):("f()")
+
+args_str(int[] ids) {
+  string out = "";
+  int i = 0;
+  while(i < len(ids)) {
+    out = out + sep_before(i, ", ") + expr_str(ids[i]);
+    i = i + 1;
+  }
+} return string out;
+given boot_a ([]):("")
+given boot_a given exprfix stdin "1, 2;" ([0, 1]):("1, 2")
+
+// The separator before item i: none before the first, else sep.
+sep_before(int i, string sep) {
+  string s = "";
+  if(i > 0) {
+    s = sep;
+  }
+} return string s;
+(0, ", "):("")
+(1, ", "):(", ")
+(0, ","):("")
+(1, ","):(",")

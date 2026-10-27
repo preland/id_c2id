@@ -1,0 +1,29 @@
+// The rest of a declaration's text, split from more.id because decl_st
+// alone has no room left to name every value decl_slot, type_size and
+// store_txt need without a call nested inside another call's argument.
+
+// The comment line the frame layout deserves: type size and offset, so a
+// reader of the generated project does not have to reconstruct them.
+decl_comment(int id, int off) {
+  int b = (import nb)[id];
+  int sz = type_size(b);
+  string s = "// " + (import ns)[id] + ": fp + " + off + ", " + sz + " bytes";
+} return string s;
+given txt_fixture (0, 8):("// int: fp + 8, 4 bytes")
+given txt_fixture (5, 0):("// : fp + 0, 4 bytes")
+
+// The store itself, once there is an initialiser.
+decl_store(int id, int off) {
+  int b = (import nb)[id];
+  int a = (import na)[id];
+  int agg = init_agg(b, a);
+} chain (int id, int off) {
+  string s = "";
+  if(agg == 1) {
+    s = decl_agg(id, off, b, a);
+  } else {
+    s = decl_scalar(id, off, b);
+  }
+} return string s;
+given txt_fixture (0, 0):("poke32(fp, NEEDS_CFG_prim);")
+given txt_fixture (0, 16):("poke32(fp + 16, NEEDS_CFG_prim);")

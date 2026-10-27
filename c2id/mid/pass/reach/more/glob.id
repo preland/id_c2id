@@ -1,0 +1,27 @@
+// A global is reached when it is not static, or when a reached body or reached global
+// initializer names it; then what its initializer names is reached too.
+reach_root(int rr_i) {
+  if((import gst)[rr_i] == 0) {
+    reach_global(rr_i);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_init(1) given greach_init stdin "int f(void) { return 1; } int (*p)(void) = f;" (1):() then (import reach):([1])
+given boot_a given boot_b given lexfix given tu_load given reach_init(1) given greach_init stdin "int f(void) { return 1; } static int (*p)(void) = f;" (1):() then (import reach):([0])
+
+reach_global(int rg_i) {
+  if(rg_i < len((import greach)) && (import greach)[rg_i] == 0) {
+    integer_list_set((import greach), rg_i, 1);
+    reach_scan((import dinit)[rg_i]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_init(1) given greach_init stdin "int f(void) { return 1; } static int (*p)(void) = f;" (1):() then (import reach):([1]) then (import greach):([1, 1])
+given boot_a given boot_b given lexfix given tu_load given reach_init(1) given greach_init stdin "int f(void) { return 1; } static int (*p)(void) = f;" (5):() then (import greach):([0, 0])
+
+reach_gname(string rn_name) {
+  int rn_i = find_str((import dnames), rn_name);
+  if(rn_i >= 0) {
+    reach_global(rn_i);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_init(1) given greach_init stdin "int f(void) { return 1; } static int (*p)(void) = f;" ("p"):() then (import reach):([1])
+given boot_a given boot_b given lexfix given tu_load given reach_init(1) given greach_init stdin "int f(void) { return 1; } static int (*p)(void) = f;" ("zz"):() then (import reach):([0])

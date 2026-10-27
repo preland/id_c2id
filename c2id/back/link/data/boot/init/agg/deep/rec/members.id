@@ -1,0 +1,31 @@
+init_rec(int ty, string addr, int ex, int zf) {
+  zero_fill(ty, addr, zf);
+  int[] items = (import nl)[ex];
+  init_members(ty, addr, items);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P p = { 3, 4 };" (6, "A", 11, 0):() then (import pend):(["poke32(A, 3);", "poke32(A + 4, 4);"])
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P q = { .b = 9 };" (6, "A", 11, 1):() then (import pend):(["c_memset(A, 0, 8);", "poke32(A + 4, 9);"])
+
+init_members(int ty, string addr, int[] items) {
+  int k = 0;
+  int j = 0;
+  while(j < len(items)) {
+    k = init_member(ty, addr, items, j, k);
+    j = j + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P p = { 3, 4 };" (6, "A", [9, 10]):() then (import pend):(["poke32(A, 3);", "poke32(A + 4, 4);"])
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P q = { .b = 9 };" (6, "A", [10]):() then (import pend):(["poke32(A + 4, 9);"])
+
+// Member k of the record, or the one a `.name =` designator names.
+init_member(int ty, string addr, int[] items, int j, int k) {
+  int kk = skip_unnamed(ty, k);
+  int it = items[j];
+  int row = member_row(ty, it, kk);
+} chain (int ty, string addr, int[] items, int j, int k) {
+  int val = item_val(it);
+  init_stmts((import syids)[row], member_at(row, addr), val, 0);
+  int nxt = kk + 1;
+} return int nxt;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P p = { 3, 4 };" (6, "A", [9, 10], 1, 1):(2) then (import pend):(["poke32(A + 4, 4);"])
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P q = { .b = 9 };" (6, "A", [10], 0, 0):(1) then (import pend):(["poke32(A + 4, 9);"])

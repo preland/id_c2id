@@ -1,0 +1,92 @@
+// The token the parser has consumed up to: advance keeps it, and every node
+// made records the token before it as where the node came from, so a refusal
+// can name file:line (front/diag/). dots is 1 from the `...` of a parameter
+// list until the function type it ends is made. cunk is 1 once a constant
+// expression has met an operand the folder cannot evaluate. tofok is 1 while
+// the specifiers of a local declaration are read: the only place a typeof of an
+// expression or an __auto_type is translated. infn is 1 while a function body is
+// read, regnames lists the variables bound to a machine register. enpk is 1
+// while the enum being read is packed (its type is then the smallest that holds
+// its enumerators). statk is 1 once a `static` has been read in the declaration
+// specifiers since the last external declaration began. lnames holds the names
+// the current external declaration has declared below file scope (parameters and
+// locals), so that a typeof can tell a global from a name that may hide it.
+// pdtk/pdmsg hold the refusals the current external declaration has deferred
+// (front/diag/defer.id): they are told if the declaration turns out to be a
+// function that is reached, or at once if it is not a function; qfn/qtk/qmsg are
+// the deferred ones of the functions defined, qfn the function's index. pdsg is 1
+// for a pending refusal that names an address space (__seg_gs, __seg_fs): one that
+// belongs to a declaration that defines no function poisons the variables and
+// types the declaration declares instead (sgv, sgt), which a reached function may
+// not use. itm0 holds how many globals and type names there were when the current
+// external declaration began. inmem is 1 while the declarator of a struct member is
+// read (a `packed` attribute there is the member's own), mpk is 1 while a member
+// that has one is placed. arrdim is 1 while an array bound is read: one that cannot
+// be folded poisons what the declaration declares (sgv, sgt; sgvm and sgtm hold
+// each one's reason) rather than ending the unit.
+// chrsg is 1 when plain char is signed, as on x86-64 userspace, and 0 when the
+// environment variable C2ID_UNSIGNED_CHAR is 1 (kernel code is built with
+// -funsigned-char, and a preprocessed file does not say so). usedk is 1 once the declaration has a `used` attribute: it is kept whatever its
+// linkage, so it is a root as an external one is. cwty is the C type code of the constant
+// the folder (front/fold/calc/ty.id) has just evaluated, cwty[0].
+init_nodes4() {
+  export int[] curtk = [0];
+  export int[] dots = [0];
+  export int[] cunk = [0];
+} chain () {
+  export int[] tofok = [0];
+  export int[] infn = [0];
+  export string[] regnames = [];
+} chain () {
+  export int[] enpk = [0];
+  export int[] statk = [0];
+  export string[] lnames = [];
+} chain () {
+  export int[] pdtk = [];
+  export string[] pdmsg = [];
+  export int[] qfn = [];
+} chain () {
+  export int[] qtk = [];
+  export string[] qmsg = [];
+  export int[] pdsg = [];
+} chain () {
+  export string[] sgv = [];
+  export int[] sgt = [];
+  export int[] itm0 = [0, 0];
+} chain () {
+  export int[] inmem = [0];
+  export int[] mpk = [0];
+  export int[] arrdim = [0];
+} chain () {
+  export string[] sgvm = [];
+  export string[] sgtm = [];
+  export int[] usedk = [0];
+} chain () {
+  export int[] cwty = [0];
+  export int[] chrsg = [1];
+  init_cl();
+} chain () {
+  char_env();
+} return void export curtk;
+given init_nodes4 given integer_list_set((import curtk), 0, 5) ():() then (import curtk)[0]:(0)
+given init_nodes4 given integer_list_set((import usedk), 0, 9) ():() then (import usedk)[0]:(0)
+():() then (import curtk)[0]:(0)
+():() then eprints:("")
+
+// The last token consumed, never before the first.
+tok_last() {
+  int tk = (import curtk)[0] - 1;
+  if(tk < 0) {
+    tk = 0;
+  }
+} return int tk;
+given boot_a ():(0)
+given boot_a given integer_list_set((import curtk), 0, 5) ():(4)
+
+// Whether a `...` ended the parameter list being made; reading it clears it.
+dots_take() {
+  int dv = (import dots)[0];
+  integer_list_set((import dots), 0, 0);
+} return int dv;
+given init_nodes4 given integer_list_set((import dots), 0, 1) ():(1) then (import dots)[0]:(0)
+given init_nodes4 ():(0)

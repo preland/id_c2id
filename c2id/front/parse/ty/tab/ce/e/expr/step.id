@@ -1,0 +1,14 @@
+ce_estep(int[] pos, int v) {
+  string s = cur_text(pos);
+  advance(pos);
+  int r = ce_estep2(pos, s, v);
+} return int r;
+given boot_a given lexfix stdin "+ 3" ([0], 2):(5)
+given boot_a given lexfix stdin "- 3" ([0], 10):(7)
+
+ce_estep2(int[] pos, string s, int v) {
+  int rhs = ce_mul(pos);
+  int r = ce_apply(s, v, rhs);
+} return int r;
+given boot_a given lexfix stdin "3" ([0], "+", 2):(5)
+given boot_a given lexfix stdin "3" ([0], "-", 10):(7)

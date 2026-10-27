@@ -1,0 +1,29 @@
+// `[lo ... hi] = v` (GNU) designates every element from lo to hi. The node init_index
+// makes holds lo in nb and hi in nl; the elements after lo are made here, each
+// a `dinit` of its own with the same value, so the code that stores the
+// initializers meets nothing it did not before. A range of range_max values or
+// more is refused rather than listed.
+init_upto(int[] pos, int ix) {
+  int hi = ix;
+  if(at_text(pos, "...")) {
+    advance(pos);
+    hi = ce_expr(pos);
+  }
+} return int hi;
+given boot_a given ty_setup given lexfix stdin "3 ]" ([0], 1):(1)
+given boot_a given ty_setup given lexfix stdin "... 3 ]" ([0], 1):(3)
+
+init_push(int[] l, int e) {
+  push(l, e);
+  init_rest(l, e);
+} return void;
+given dinit_fix ([], 0):([0])
+given dinit_fix ([], 1):([1, 2, 3])
+
+init_rest(int[] l, int e) {
+  if((import nk)[e] == "dinit" && len((import nl)[e]) == 1) {
+    init_span(l, e, (import nl)[e][0]);
+  }
+} return void;
+given dinit_fix ([], 0):([])
+given dinit_fix ([], 1):([2, 3])

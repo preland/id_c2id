@@ -1,0 +1,12 @@
+rt_dval(word rs, word[] rdsc) {
+  word rv = 0;
+  if(rdsc[2] == 1) {
+    rv = rt_dfull(rs, rdsc);
+  }
+} return word rv;
+
+rt_dparse(word rs, word[] rdsc) {
+  string rtx = str_of_mem(rs + rdsc[0], rdsc[1] - rdsc[0]);
+  float rf = float_parse(rtx);
+  word rv = bits_of_float(rf);
+} return word rv;

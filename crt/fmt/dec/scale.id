@@ -1,0 +1,32 @@
+dg_loop(word[] dgs, int dge, int dgcn, word dgk) {
+  word[] dgo = dgs;
+  int dgl = dge;
+  while(dgl >= dgcn) {
+    dgo = dg_times(dgo, dgk);
+    dgl = dgl - dgcn;
+  }
+} return word[] dgo;
+([1], 6, 3, 8):([4, 6])
+([1], 2, 3, 8):([1])
+
+dg_fin(word[] dgo, word dgb, int dgq) {
+  word dgm = dg_pw(dgb, dgq);
+  word[] dgf = dg_times(dgo, dgm);
+} return word[] dgf;
+([1], 2, 5):([2, 3])
+([4], 5, 0):([4])
+
+// The digits of a non-negative word, least significant first; 0 is the one digit 0.
+dg_of(word dgn) {
+  word[] dgo = [];
+  while(dgn > 0) {
+    push(dgo, dgn % 10);
+    dgn = dgn / 10;
+  }
+  if(len(dgo) == 0) {
+    push(dgo, 0);
+  }
+} return word[] dgo;
+(1234):([4, 3, 2, 1])
+(7):([7])
+(0):([0])

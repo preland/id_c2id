@@ -1,0 +1,16 @@
+// stdio over the three streams a program starts with. A `FILE *` is one of the
+// small numbers below, and what a stream number means is decided here, once.
+//   1 stdout   2 stderr   3 stdin
+// printf: c_format over the arguments, written without a newline. The text
+// is returned to the caller as its length, which is what C's printf answers.
+c_printf(word fmt, word[] args) {
+  string txt = c_format(fmt, args);
+  put(txt);
+  int plen = len(txt);
+} return word plen;
+
+c_putchar(word c) {
+  int cc = c & 255;
+  string ctext = chr(cc);
+  put(ctext);
+} return word c;

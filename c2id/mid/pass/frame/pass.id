@@ -1,0 +1,48 @@
+// The frame pass: every local a function declares gets its slot, and its type
+// is recorded, before any block is built. The lowering has to know a local's
+// type to type the temporary a conditional's value goes in, and the type of a
+// name is only known once its declaration has been seen -- which, left to the
+// emitter, happens block by block, long after.
+//
+// It also makes every local's name unique. C scopes names by block, so the same
+// name can be a different variable, of a different type, in each of several
+// blocks (`int i` here, `char i` there); the frame is flat, so a second
+// declaration of a name that already has a slot is renamed `name__N`, and every
+// use of the name in its scope is renamed with it. envo/envn hold the renamings
+// in force, innermost last, and a scope's end drops its own.
+bind_decls(int id) {
+  if(id >= 0) {
+    bind_node(id, (import nk)[id]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int x = 1; int x = 2; }" (17):() then (import lvnames):(["x", "x__0"]) then (import ns)[15]:("x__0")
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int x = 1; int x = 2; }" (-1):() then len((import lvnames)):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { char x; { long x; static int y = sizeof(x); return y; } }" (23):() then (import ns)[16]:("x__0")
+
+bind_node(int id, string kn) {
+  if(kn == "decl") {
+    bind_decl(id);
+  } else if(kn == "var") {
+    bind_var(id);
+  } else {
+    bind_kids(id, kn);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given list_string_insert((import envo), 0, "b") given list_string_insert((import envn), 0, "b__0") stdin "int f(int a) { int b = a; return b; }" (13, "var"):() then (import ns)[13]:("b__0")
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int x = 1; int x = 2; }" (17, "block"):() then (import lvnames):(["x", "x__0"])
+
+// A declaration of a local. The name keeps its own slot if it is new; otherwise it gets a
+// fresh name, a slot under that name, and a renaming for the rest of its scope.
+bind_auto(int id) {
+  string dn = (import ns)[id];
+  int ibound = tof_bind(id);
+  string fresh = bind_name(dn);
+} chain (int id) {
+  string_list_set((import ns), id, fresh);
+  int ty = (import nb)[id];
+  int off = decl_slot(fresh, ty);
+} chain (int id) {
+  tof_init(id, ibound);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int x = 1; int x = 2; }" (11):() then (import lvnames):(["x"]) then (import ns)[11]:("x")
+given boot_a given boot_b given lexfix given tu_load given bind_auto(11) stdin "void f(void) { int x = 1; int x = 2; }" (15):() then (import lvnames):(["x", "x__0"]) then (import ns)[15]:("x__0")

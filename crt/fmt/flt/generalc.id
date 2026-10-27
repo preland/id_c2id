@@ -1,0 +1,31 @@
+fg_e(string rds, int fgx, int fec, int fea) {
+  string fgs = fg_digs(rds, fea);
+  int fgq = len(fgs) - 1;
+  string fgt = fg_join(fgs, fgq, fgx, fec, fea);
+} return string fgt;
+("123450", -5, 103, 0):("1.2345e-05")
+("100000", 6, 103, 1):("1.00000e+06")
+
+fg_pick(string fgs, int fgx, int fgp, int fec, int fea) {
+  string fgt = "";
+  if(fgx >= 0 - 4 && fgx < fgp) {
+    fgt = fg_f(fgs, fgx, fea);
+  } else {
+    fgt = fg_e(fgs, fgx, fec, fea);
+  }
+} return string fgt;
+("123457", 0, 6, 103, 0):("1.23457")
+("100000", 6, 6, 103, 0):("1e+06")
+("123450", -5, 6, 103, 0):("1.2345e-05")
+("123450", -4, 6, 103, 0):("0.00012345")
+
+fg_fin(string fer, int ffx0, int fgp, int fec, int fea) {
+  int fgx = ffx0 + len(fer) - fgp;
+  string fgs = str_sub(fer, 0, fgp);
+  int fgq = fg_quirk(fea, fgx - ffx0);
+} chain (string fer, int ffx0, int fgp, int fec, int fea) {
+  string fgt = fg_pick(fgs, fgx, fgp, fec, fgq);
+} return string fgt;
+("123457", 0, 6, 103, 0):("1.23457")
+("1000000", 5, 6, 103, 0):("1e+06")
+("1000000", 5, 6, 103, 1):("1.e+06")

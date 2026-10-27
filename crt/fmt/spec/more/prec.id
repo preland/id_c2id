@@ -1,0 +1,29 @@
+// A precision: '.', then digits or '*'. No digits after the '.' is a precision
+// of 0.
+prec_val(word fmt, word[] args, word[] st, word[] fs) {
+  word c = peek8(fmt + st[0]);
+  if(c == 42) {
+    star_prec(args, st, fs);
+  } else {
+    scan_digits(fmt, st, fs, 9);
+  }
+} return void;
+given crt_fmt_fixture given crt_fmt_modes ((import modbuf), [], [5], [0, 0, 0, 0, 0, 0, 0, 0, 1, 0]):((import modbuf), [], [6], [0, 0, 0, 0, 0, 0, 0, 0, 1, 3])
+given crt_fmt_fixture given crt_fmt_modes ((import starbuf), [7], [2, 0], [0, 0, 0, 0, 0, 0, 0, 0, 1, 0]):((import starbuf), [7], [3, 1], [0, 0, 0, 0, 0, 0, 0, 0, 1, 7])
+
+take_prec(word fmt, word[] args, word[] st, word[] fs) {
+  word_list_set(st, 0, st[0] + 1);
+  word_list_set(fs, 8, 1);
+  prec_val(fmt, args, st, fs);
+} return void;
+given crt_fmt_fixture given crt_fmt_modes ((import modbuf), [], [4], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):((import modbuf), [], [6], [0, 0, 0, 0, 0, 0, 0, 0, 1, 3])
+given crt_fmt_fixture given crt_fmt_modes ((import starbuf), [7], [1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):((import starbuf), [7], [3, 1], [0, 0, 0, 0, 0, 0, 0, 0, 1, 7])
+
+scan_prec(word fmt, word[] args, word[] st, word[] fs) {
+  word c = peek8(fmt + st[0]);
+  if(c == 46) {
+    take_prec(fmt, args, st, fs);
+  }
+} return void;
+given crt_fmt_fixture given crt_fmt_modes ((import modbuf), [], [4], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):((import modbuf), [], [6], [0, 0, 0, 0, 0, 0, 0, 0, 1, 3])
+given crt_fmt_fixture given crt_fmt_modes ((import modbuf), [], [3], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):((import modbuf), [], [3], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0])

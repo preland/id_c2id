@@ -1,0 +1,42 @@
+// A declarator that is not a definition: a variable (with its initializer, if
+// any) or a prototype. Answers 1 when a comma follows, and eats the `;` when
+// not.
+tu_var(int[] pos, string name, int r) {
+  int a = decl_init(pos);
+  int r2 = complete_arr(r, a);
+  tu_dadd(name, r2, a);
+} chain (int[] pos, string name, int r) {
+  int more = take_tok(pos, ",");
+  if(more == 0) {
+    skip_tok(pos, ";");
+  }
+} return int more;
+given boot_a given boot_b given lexfix stdin ";" ([0], "x", 0):(0) then calls tu_dadd:("x", 0, -1)
+given boot_a given boot_b given lexfix stdin ", y;" ([0], "x", 0):(1)
+
+// Recording one definition: the name, the body node and the function type.
+tu_add(string name, int b, int r) {
+  push((import fnames), name);
+  push((import fbodies), b);
+  push((import ftys), r);
+} chain (string name, int b, int r) {
+  push((import fstat), (import fsk)[0]);
+  tu_dadd(name, r, 0 - 1);
+} return void;
+given init_tu given tynode_fix ("f", 0, 0):() then len((import fnames)):(1)
+given init_tu given tynode_fix ("g", 0, 0):() then len((import ftys)):(1)
+given init_tu given tynode_fix given integer_list_set((import fsk), 0, 1) ("f", 0, 0):() then (import fstat):([1])
+given init_tu given tynode_fix ("f", 0, 0):() then (import fstat):([0])
+
+// Recording a declaration of any kind (a definition counts too). A variable
+// already declared keeps its row, which the later declaration updates.
+tu_dadd(string name, int r, int a) {
+  int k = find_str((import dnames), name);
+  int dup = tu_dmerge(k, r, a);
+  if(dup == 0) {
+    tu_dpush(name, r, a);
+  }
+} return void;
+given init_tu given tynode_fix ("x", 0, -1):() then len((import dnames)):(1)
+given init_tu given tynode_fix ("y", 0, 3):() then (import dinit)[0]:(3)
+given init_tu given tynode_fix given tu_dadd("x", 0, -1) ("x", 0, 5):() then len((import dnames)):(1) then (import dinit)[0]:(5)

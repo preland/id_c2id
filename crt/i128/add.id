@@ -1,0 +1,30 @@
+// 128-bit integers (`__int128`, `unsigned __int128`): 16 bytes, the low word first,
+// handled like a long double: no word holds one, so a value in an expression is the
+// address of its bytes, and an operation hands these functions the address of a
+// 16-byte frame temporary for the result and the addresses of its operands. The
+// result is written to the first and answered. Both operands are read before it is
+// written, so it may be one of them. Arithmetic wraps modulo 2^128; a shift count is
+// taken as given (0 to 127), as C leaves other counts undefined.
+ci128_add(word wqd, word wqa, word wqb) {
+  word wql = peek64(wqa) + peek64(wqb);
+  word wqh = peek64(wqa + 8) + peek64(wqb + 8) + ult(wql, peek64(wqa));
+  ld_cset(wqd, wql, wqh);
+} return word wqd;
+given wq_cells ((import wqz), (import wqx), (import wqy)):((import wqz)) then peek64((import wqz)):(1) then peek64((import wqzh)):(2)
+given wq_cells ((import wqz), (import wqy), (import wqy)):((import wqz)) then peek64((import wqz)):(4) then peek64((import wqzh)):(0)
+
+ci128_sub(word wqd, word wqa, word wqb) {
+  word wql = peek64(wqa) - peek64(wqb);
+  word wqh = peek64(wqa + 8) - peek64(wqb + 8) - ult(peek64(wqa), peek64(wqb));
+  ld_cset(wqd, wql, wqh);
+} return word wqd;
+given wq_cells ((import wqz), (import wqx), (import wqy)):((import wqz)) then peek64((import wqz)):(-3) then peek64((import wqzh)):(1)
+given wq_cells ((import wqz), (import wqy), (import wqx)):((import wqz)) then peek64((import wqz)):(3) then peek64((import wqzh)):(-2)
+
+ci128_neg(word wqd, word wqa) {
+  word wql = 0 - peek64(wqa);
+  word wqh = 0 - peek64(wqa + 8) - ult(0, peek64(wqa));
+  ld_cset(wqd, wql, wqh);
+} return word wqd;
+given wq_cells ((import wqz), (import wqy)):((import wqz)) then peek64((import wqz)):(-2) then peek64((import wqzh)):(-1)
+given wq_cells ((import wqz), (import wqx)):((import wqz)) then peek64((import wqz)):(1) then peek64((import wqzh)):(-2)

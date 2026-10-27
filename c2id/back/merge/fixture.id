@@ -1,0 +1,21 @@
+// What the merge pass's stateful functions need before a case can call them:
+// the lists set up and a small stream collected (two blocks that differ in two
+// of their three numbers, and a dispatch function that calls both), with or
+// without the masks folded.
+
+mg_fixture_collect() {
+  mg_setup();
+  mg_setup_c();
+  string[] mgsmp = ["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"];
+} chain () {
+  mg_collect(mgsmp);
+} return void;
+():() then len((import mgzfs)):(2)
+():() then (import mgzfl)[1]:("40,9,5,")
+
+mg_fixture() {
+  mg_fixture_collect();
+  mg_masks();
+} return void;
+():() then (import mgzfm)[0]:("011")
+():() then (import mgzfg)[1]:(0)

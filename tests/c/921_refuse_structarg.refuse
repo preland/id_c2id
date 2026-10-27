@@ -1,0 +1,1 @@
+921_refuse_structarg.c:5: error: argument 2 is a struct or union passed by value through '...', which is not supported: pass a pointer

@@ -1,0 +1,18 @@
+// Reading text back out of the flat store.
+//
+// `base` is the store address of source byte 0. str_of_mem(addr, n) copies n
+// bytes into a fresh id string in one memcpy, so a token's spelling costs one
+// allocation instead of one per character -- which is why the whole lexer is
+// written against the store rather than against character_code_at() on a string. See
+// lex/README.md.
+
+// The source bytes [a, b) as a string, cut short at the first NUL. b may run
+// up to three bytes past the end of the input (the operator probes look two
+// ahead); lex_mem's pad block keeps that in range, and a string cannot hold
+// the NUL padding (docs/SPEC.md section 4), so the copy stops before it.
+slice(word base, int a, int b) {
+  int zl = buffer_length_before_zero(base + a, b - a);
+  string s = str_of_mem(base + a, zl);
+} return string s;
+given lex_src_fixture ((import gb), 0, 4):("12ab")
+given lex_src_fixture ((import gb), 44, 50):(".7")

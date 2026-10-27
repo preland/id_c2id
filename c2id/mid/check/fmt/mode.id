@@ -1,0 +1,47 @@
+// The mode argument of an fopen, when it is a literal.
+chk_mode(int id, int md) {
+  string lit = lit_of(md);
+  int w = mode_bad(lit);
+  if(w == 1) {
+    diag_node(id, "fopen with mode " + lit + ": only r, w and a, followed by b and + alone, are supported");
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { fopen(\"a\", \"wx\"); return 0; }" (12, 11):() then (import dgmsg):([":1: error: fopen with mode \"wx\": only r, w and a, followed by b and + alone, are supported"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { fopen(\"a\", \"w\"); return 0; }" (12, 11):() then len((import dgmsg)):(0)
+
+// The raw text of a string literal node, quotes included, or "" for any other node.
+lit_of(int a) {
+  string lit = "";
+  if((import nk)[a] == "str") {
+    lit = lit_join((import ns)[a]);
+  }
+} return string lit;
+given boot_a given boot_b given lexfix given tu_load stdin "char *s = \"ab\"; int x = 1;" (8):("\"ab\"")
+given boot_a given boot_b given lexfix given tu_load stdin "char *s = \"a\" \"b\"; int x = 1;" (8):("\"ab\"")
+given boot_a given boot_b given lexfix given tu_load stdin "char *s = \"ab\"; int x = 1;" (10):("")
+
+// 1 when a mode literal (quotes included) is one the runtime does not provide: not
+// r, w or a first, or anything but b and + after it. A mode that is no literal is
+// not looked at.
+mode_bad(string lit) {
+  int bad = 0;
+  int c = 114;
+  if(len(lit) >= 2) {
+    c = character_code_at(lit, 1);
+  }
+} chain (string lit) {
+  if(c != 114 && c != 119 && c != 97) {
+    bad = 1;
+  }
+  if(len(lit) >= 2 && bad == 0) {
+    bad = mode_rest(lit, 2);
+  }
+} return int bad;
+("\"r\""):(0)
+("\"w\""):(0)
+("\"rb+\""):(0)
+("\"r+b\""):(0)
+("\"wx\""):(1)
+("\"w+e\""):(1)
+("\"q\""):(1)
+

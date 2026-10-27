@@ -1,0 +1,27 @@
+// The operation code, when the builtin has one.
+atom_op(int[] aolst, int k) {
+  int aoop = (import atom_ops)[k];
+  if(aoop >= 0) {
+    atom_push(aolst, aoop);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([5], 4):() then len((import nk)):(18) then (import na)[17]:(1)
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([5], 0):() then len((import nk)):(17)
+
+// The size of the object, when the function wants it.
+atom_sz(int[] aolst, int k, int aoty) {
+  int aosz = 0;
+  if(((import atom_how)[k] & 1) == 1) {
+    aosz = type_size(aoty);
+    atom_push(aolst, aosz);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([5], 0, 7):() then len((import nk)):(18) then (import na)[17]:(4)
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([5], 18, 7):() then len((import nk)):(17)
+
+atom_push(int[] aolst, int v) {
+  int n = newleaf("num", v, 0, "" + v, "");
+  push(aolst, n);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([5], 9):() then (import nk)[17]:("num") then (import na)[17]:(9) then (import ns)[17]:("9")
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" ([5], 0):() then (import na)[17]:(0) then (import ns)[17]:("0")

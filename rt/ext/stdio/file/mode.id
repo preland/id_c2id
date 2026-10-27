@@ -1,0 +1,16 @@
+// 1 when an fopen mode is plain reading: `r` or `rb`, with no `+`.
+rt_reads(word rmode) {
+  word ok = 0;
+  if(peek8(rmode) == 114 && peek8(rmode + 1) != 43 && peek8(rmode + 2) != 43) {
+    ok = 1;
+  }
+} return word ok;
+
+// Open the file at a NUL-terminated path for reading: its FILE, or 0.
+rt_open(word rpath) {
+  word rtn = c_strlen(rpath);
+  string rtxt = str_of_mem(rpath, rtn);
+  int rfd = fs_open(rtxt, "r");
+} chain (word rpath) {
+  word rfile = rt_file(rfd, rtxt);
+} return word rfile;

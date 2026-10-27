@@ -1,0 +1,21 @@
+rt_dbody(word rs, word[] rdsc) {
+  rt_dsign(rs, rdsc);
+  word rdcn = rt_dmant(rs, rdsc);
+  rt_dtail(rs, rdsc, rdcn);
+} return void;
+
+rt_dsign(word rs, word[] rdsc) {
+  word rch = peek8(rs + rdsc[1]);
+  if(rch == 43 || rch == 45) {
+    word_list_set(rdsc, 1, rdsc[1] + 1);
+  }
+} return void;
+
+rt_dmant(word rs, word[] rdsc) {
+  word rdcn = rt_ddig(rs, rdsc);
+  word rch = peek8(rs + rdsc[1]);
+  if(rch == 46) {
+    word_list_set(rdsc, 1, rdsc[1] + 1);
+    rdcn = rdcn + rt_ddig(rs, rdsc);
+  }
+} return word rdcn;

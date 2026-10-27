@@ -1,0 +1,10 @@
+// Split out of ifs_else: a call may not be an argument to a call, and
+// naming m_of(id) leaves no room in ifs_else's own block for cur_blk() and
+// the ifs_join call too.
+ifs_else2(int blk, int alt, int[] m) {
+  walk_list(m);
+  int nxt = (import curb)[0];
+  ifs_join(blk, nxt);
+} return void;
+given walk_ast_fixture (0, 0, []):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1) then cur_blk:(1)
+given walk_ast_fixture (0, 0, []):() then len((import bkind)):(2)

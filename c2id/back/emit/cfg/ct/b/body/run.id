@@ -1,0 +1,29 @@
+// The continue target is the step block, not the condition block.
+fo_run(int id, int nxt, int stp, int blk, int alt) {
+  fo_test(id, nxt, blk, alt);
+  push_loop(alt, stp);
+  fo_walk(id, nxt, stp, alt);
+} return void;
+given walk_ast_fixture ((import wforid), 0, 0, 0, 0):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(0) then len((import bkind)):(1)
+given walk_ast_fixture ((import wforid), 0, 0, 0, 2):() then cur_blk:(2) then len((import btgt)):(0)
+given walk_ast_fixture ((import wforid), 0, 0, 0, 0):() then calls fo_test:[1] then calls fo_walk:[1]
+
+// Eager chain: the unconditional edge is written first and the conditional
+// one replaces it when there is a condition, so `for (;;)` needs no `else`.
+fo_test(int id, int nxt, int blk, int alt) {
+  term_jmp(nxt, blk);
+  int a = (import na)[id];
+  fo_test2(id, nxt, blk, alt, a);
+} return void;
+given walk_ast_fixture ((import wforid), 0, 0, 0):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(0)
+given walk_ast_fixture (6, 0, 0, 0):() then (import bkind)[0]:("cond") then (import bsa)[0]:(0) then (import bsb)[0]:(0) then (import bex)[0]:(3)
+
+fo_walk(int id, int nxt, int stp, int alt) {
+  int[] m = (import nm)[id];
+  walk_list(m);
+  fo_walk2(id, nxt, stp, alt);
+} return void;
+given loop_pushed_fixture ((import did), 0, 5, 0):() then (import bsa)[0]:(5) then cur_blk:(0)
+given loop_pushed_fixture ((import did), 7, 5, 3):() then (import bsa)[5]:(7) then cur_blk:(3)
+given loop_pushed_fixture ((import did), 0, 0, 0):() then calls fo_walk2:[1]
+given loop_pushed_fixture ((import did), 5, 4, 3):() then calls loop_close:[1]

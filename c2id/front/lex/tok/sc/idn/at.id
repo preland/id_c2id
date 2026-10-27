@@ -1,0 +1,9 @@
+// A nested call to the right of `&&` can't be named -- the name would be
+// computed even when the operator skips it -- so the quote-and-prefix test
+// is its own function (docs/SPEC.md section 7).
+is_pfx_at(word base, int i, int e) {
+  string s = slice(base, i, e);
+  int ok = list_string_index((import pfx_words), s) >= 0;
+} return int ok;
+given lex_src_fixture ((import gb), 39, 41):(1)
+given lex_src_fixture ((import gb), 2, 4):(0)

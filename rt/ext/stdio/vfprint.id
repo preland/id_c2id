@@ -1,0 +1,4 @@
+c_vfprintf(word rfl, word rfmt, word rap) {
+  word[] ral = rt_va_list(rap);
+  word rres = c_fprintf(rfl, rfmt, ral);
+} return word rres;

@@ -1,0 +1,33 @@
+// A record is packed when `packed` is among its attributes, before the `{` or
+// after the `}`; the flag is the node's nt, and every member then goes at the
+// next byte, whatever its type aligns to (place_ws_off, bf_pos).
+rec_attr(int[] pos, int ty) {
+  int ra_open = pos[0];
+  int ra_a = attr_pre_start(ra_open);
+  int ra_b = brace_close(ra_open) + 1;
+} chain (int[] pos, int ty) {
+  int ra_z = attr_run_end(ra_b);
+  int ra_hit = attr_pair(ra_a, ra_open, ra_b, ra_z, (import packed_attr));
+  rec_mark(ty, ra_hit);
+} return void;
+given tynode_fix given ty_setup given lexfix stdin "{ int a ; } __attribute__ ( ( packed ) ) ;" ([0], 5):([0], 5) then (import nt)[5]:("packed")
+given tynode_fix given ty_setup given lexfix stdin "{ int a ; } ;" ([0], 5):([0], 5) then (import nt)[5]:("")
+
+rec_mark(int rm_ty, int rm_hit) {
+  if(rm_hit >= 0) {
+    string_list_set((import nt), rm_ty, "packed");
+  }
+} return void;
+given boot_a given tynode_fix (5, 3):() then (import nt)[5]:("packed")
+given boot_a given tynode_fix (5, -1):() then (import nt)[5]:("")
+
+// Where in the two runs of attributes a record has the attribute among names:
+// before its `{` (token ra_a up to ra_open) and after its `}` (ra_b up to ra_z).
+attr_pair(int rt_a, int rt_open, int rt_b, int rt_z, string[] rt_nm) {
+  int rt_hit = attr_find(rt_a, rt_open, rt_nm);
+  if(rt_hit < 0) {
+    rt_hit = attr_find(rt_b, rt_z, rt_nm);
+  }
+} return int rt_hit;
+given boot_a given boot_b given lexfix stdin "struct __attribute__ ( ( packed ) ) S { int a ; }" (1, 8, 13, 13, ["packed"]):(4)
+given boot_a given boot_b given lexfix stdin "struct S { int a ; } __attribute__ ( ( packed ) ) ;" (1, 2, 7, 13, ["packed"]):(10)

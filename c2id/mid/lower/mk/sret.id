@@ -1,0 +1,24 @@
+// A call of a function that returns a struct or union passes the address of a
+// frame temporary of its own as the hidden first argument (the callee writes the
+// result there, and the call's value is that address), so two calls in one
+// expression, or a call in a recursion, never share an object.
+sret_arg(int e, int rt) {
+  int t = new_temp(rt);
+  int a = newleaf("un", t, 0, "&", "");
+  list_insert((import nl)[e], 0, a);
+} chain (int e, int rt) {
+  integer_list_set((import nb), e, 1);
+} return void;
+given low_fix (17, 6):() then (import nb)[17]:(1)
+given low_fix (17, 6):() then (import nl)[17]:([20, 9])
+
+// The frame pass runs once to check a function and once to emit it, each with a
+// frame of its own, so a call that already has its argument only needs its
+// temporary's slot made again.
+sret_keep(int e, int rt) {
+  int[] args = (import nl)[e];
+  int v = (import na)[args[0]];
+  int off = decl_slot((import ns)[v], rt);
+} return void;
+given boot_a given boot_b given lexfix given tu_load given sret_arg(15, 6) given txt_reset stdin "struct P { int x; }; struct P f(void); int g(void) { return f().x; }" (15, 6):() then (import lvnames):(["__tmp0"])
+given boot_a given boot_b given lexfix given tu_load given sret_arg(15, 6) given txt_reset stdin "struct P { int x; }; struct P f(void); int g(void) { return f().x; }" (15, 6):() then (import lvoff):([8])

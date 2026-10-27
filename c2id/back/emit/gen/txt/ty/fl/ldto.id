@@ -1,0 +1,20 @@
+ld_from(int from, int kf, string s) {
+  string dst = ld_tmp();
+  string fnm = ld_ofname(from, kf);
+  string out = name_val(fnm + "(" + dst + ", " + s + ")");
+} return string out;
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset (0, 0, "t5"):("t0") then (import pend)[0]:("word t0 = cld_of_int((fp + 16), t5);")
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset (3, 0, "t5"):("t0") then (import pend)[0]:("word t0 = cld_of_uint((fp + 16), t5);")
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset (0, 2, "t5"):("t0") then (import pend)[0]:("word t0 = cld_of_dbl((fp + 16), t5);")
+
+ld_to(int to, int kt, string s) {
+  string out = "";
+  if(kt == 0) {
+    out = ld_toi(to, s);
+  } else {
+    out = name_val("ld_nar(" + s + pick_when(kt, 2, ", 53, 0 - 1022", ", 24, 0 - 126") + ")");
+  }
+} return string out;
+given txt_fixture given pend_setup (0, 0, "t5"):("t1") then (import pend)[0]:("word t0 = cld_to_integer(63, t5);")
+given txt_fixture given pend_setup (6, 2, "t5"):("t0") then (import pend)[0]:("word t0 = ld_nar(t5, 53, 0 - 1022);")
+given txt_fixture given pend_setup (7, 1, "t5"):("t0") then (import pend)[0]:("word t0 = ld_nar(t5, 24, 0 - 126);")

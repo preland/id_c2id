@@ -1,0 +1,13 @@
+// One parameter of a merged function. A position the mask flags `1` is a whole
+// number (`word lv3`); one flagged `2` is a float string (`string lvs3`). The two
+// kinds get different name stems because id gives one name one type across the
+// whole program.
+
+mg_name_at(string mgflag, int mgk) {
+  string mgr = "word " + (import mgzp)[1] + mgk;
+  if(mgflag == "2") {
+    mgr = "string " + (import mgzp)[1] + "s" + mgk;
+  }
+} return string mgr;
+given mg_setup given mg_setup_c ("1", 3):("word lv3")
+given mg_setup given mg_setup_c ("2", 3):("string lvs3")

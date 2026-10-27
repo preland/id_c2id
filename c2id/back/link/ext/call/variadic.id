@@ -1,0 +1,32 @@
+arg_item(int id, int named) {
+  string etxt = ex_txt(id);
+  if(named > 0) {
+    etxt = va_item(id, etxt);
+  }
+} return string etxt;
+given boot_a given boot_b given exprfix stdin "f(1, 2);" (7, 0):("1")
+given boot_a given boot_b given exprfix stdin "f(1, 2);" (8, 1):("t0") then (import pend):(["word t0 = 2;"])
+
+// `fixed, [v1, v2]`. id has no varargs, so the rest arrive as one list, every
+// element named first: a list literal takes its type from its first element and
+// each has to be a `word`.
+va_args(int[] ids, int k, int n) {
+  string head = args_range(ids, 0, k, 0);
+  string rest = args_range(ids, k, n, 1);
+  string tail = va_list_text(rest);
+} chain (int[] ids, int k, int n) {
+  string out = head + sep_before(k, ", ") + tail;
+} return string out;
+given boot_a given boot_b given exprfix stdin "f(1, 2);" ([7, 8], 1, 2):("1, [t0]") then (import pend):(["word t0 = 2;"])
+given boot_a given boot_b given exprfix stdin "f(1, 2);" ([7, 8], 2, 2):("1, 2, [(import wzero)]")
+
+// The list holds a single zero when there are no extra arguments, so it is
+// never an untyped `[]`.
+va_list_text(string rest) {
+  string tail = "[" + rest + "]";
+  if(rest == "") {
+    tail = "[(import wzero)]";
+  }
+} return string tail;
+("a, b"):("[a, b]")
+(""):("[(import wzero)]")

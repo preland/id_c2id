@@ -1,0 +1,22 @@
+// `__alignof__(T)`, `_Alignof(T)` and `alignof(T)` are a sizeof node whose ns
+// says "align": the operand is read exactly as sizeof's is, and the node
+// answers the type's alignment instead of its size (sizeof_meas).
+parse_unary4(int[] pos) {
+  int id = 0;
+  if(at_in(pos, (import alignof_words))) {
+    id = parse_alignof(pos);
+  } else {
+    id = parse_postfix(pos);
+  }
+} return int id;
+given boot_a given lexfix stdin "_Alignof(x);" ([0]):(1) then calls parse_alignof:[1]
+given boot_a given lexfix stdin "x;" ([0]):(0) then calls parse_postfix:[1]
+
+parse_alignof(int[] pos) {
+  advance(pos);
+  int node = sizeof_arg(pos);
+  string_list_set((import ns), node, "align");
+} return int node;
+given boot_a given ty_setup given lexfix stdin "_Alignof(int);" ([0]):(1) then (import ns)[1]:("align")
+given boot_a given lexfix stdin "__alignof__ x;" ([0]):(1) then (import ns)[1]:("align")
+

@@ -1,0 +1,48 @@
+// An `asm` statement is machine code, and c2id has no machine. Skipping one is
+// sound only when it does nothing: a template that is the empty string and
+// outputs that name nothing, which is how `asm volatile("" ::: "memory")` and
+// the in-out and input operands of a compiler guard (`asm("" : "+r"(x))`)
+// spell a compiler barrier. An instruction, an output operand (the
+// register it fills is never filled) and a `goto` label (the jump is never made)
+// each change what the program does, so each is refused -- when the function
+// holding it is reached (the statement is a "refuse" node until then).
+// The answer is why the asm in tokens tk up to fin cannot be skipped, or "".
+asm_why(int tk, int fin) {
+  int acode = asm_kind(tk, fin);
+  string why = "";
+  if(acode > 0) {
+    why = asm_msg(acode);
+  }
+} return string why;
+given boot_a given boot_b given lexfix stdin "asm(\"nop\" : : : \"memory\")" (0, 8):("inline asm has an instruction c2id cannot translate: the program would run and be wrong")
+given boot_a given boot_b given lexfix stdin "asm(\"\" : : : \"memory\")" (0, 8):("")
+
+asm_msg(int acode) {
+  string msg = "inline asm has an instruction c2id cannot translate: the program would run and be wrong";
+  if(acode == 1) {
+    msg = "asm goto jumps to a C label, which c2id cannot translate: the program would run and be wrong";
+  }
+  if(acode == 2) {
+    msg = "inline asm with an output operand fills a register or memory that c2id cannot translate: the program would run and be wrong";
+  }
+} return string msg;
+(1):("asm goto jumps to a C label, which c2id cannot translate: the program would run and be wrong")
+(2):("inline asm with an output operand fills a register or memory that c2id cannot translate: the program would run and be wrong")
+(3):("inline asm has an instruction c2id cannot translate: the program would run and be wrong")
+
+asm_kind(int tk, int fin) {
+  int[] asmst = [0, 0, 0];
+  int i = tk + 1;
+  while(i < fin - 1) {
+    asm_step(asmst, i);
+    i = i + 1;
+  }
+} chain (int tk, int fin) {
+  int acode = asm_code(asmst);
+} return int acode;
+given boot_a given boot_b given lexfix stdin "asm(\"\" : : : \"memory\")" (0, 8):(0)
+given boot_a given boot_b given lexfix stdin "asm(\"nop\")" (0, 4):(3)
+given boot_a given boot_b given lexfix stdin "asm(\"\" : \"=r\"(x))" (0, 9):(2)
+given boot_a given boot_b given lexfix stdin "asm(\"\" : \"+r\"(x))" (0, 9):(0)
+given boot_a given boot_b given lexfix stdin "asm(\"\" : : \"r\"(y))" (0, 10):(0)
+given boot_a given boot_b given lexfix stdin "asm goto(\"\" : : : : out)" (0, 10):(1)

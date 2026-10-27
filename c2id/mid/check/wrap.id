@@ -1,0 +1,30 @@
+// The address of the runtime function `name`, taken at node id, becomes the
+// address of its wrapper, the function `__c2id_w_NAME` the headers define in C:
+// the node names the wrapper, and the wrapper is reached, so it is emitted and the
+// pointer dispatch has it. A function with no wrapper (printf, which takes `...`)
+// is refused.
+chk_wrap(string name, int id) {
+  string wn = "__c2id_w_" + name;
+  int i = find_str((import fnames), wn);
+  chk_wrapped(name, id, wn, i);
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "void *malloc(unsigned long n); static void *__c2id_w_malloc(unsigned long n) { return malloc(n); } int g(void) { return 0; }" ("malloc", 0):() then (import ns)[0]:("__c2id_w_malloc") then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "void *malloc(unsigned long n); int g(void) { return 0; }" ("malloc", 0):() then len((import dgmsg)):(1)
+
+chk_wrapped(string name, int id, string wn, int i) {
+  if(i >= 0) {
+    chk_swap(id, wn, i);
+  } else {
+    diag_node(id, "the address of '" + name + "', a function the c2id runtime provides, is taken: only a function this program defines can be called through a pointer, and the runtime has no wrapper of its own for it; wrap it in a function of your own");
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "int g(void) { return 0; }" ("malloc", 0, "w", 1):() then (import ns)[0]:("w") then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "int g(void) { return 0; }" ("malloc", 0, "w", -1):() then (import ns)[0]:("int") then len((import dgmsg)):(1)
+
+// The node takes the wrapper's name, and the wrapper is marked reached.
+chk_swap(int id, string wn, int i) {
+  string_list_set((import ns), id, wn);
+  integer_list_set((import reach), i, 1);
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "int g(void) { return 0; }" (0, "w", 1):() then (import ns)[0]:("w") then (import reach):([0, 1])
+given boot_a given boot_b given lexfix given tu_load given reach_init(2) stdin "int g(void) { return 0; }" (3, "q", 0):() then (import ns)[3]:("q") then (import reach):([1, 0])

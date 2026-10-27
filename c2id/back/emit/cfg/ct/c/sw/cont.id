@@ -1,0 +1,10 @@
+// Split out of sw_walk: a call may not be an argument to a call, and naming
+// new_block()'s result leaves no room in sw_walk's own block for l_of(id),
+// walk_list and sw_close too.
+sw_walk2(int id, int blk, int alt, int mark) {
+  int[] l = (import nl)[id];
+  walk_list(l);
+  sw_close(id, blk, alt, mark);
+} return void;
+given sw_ready_fixture ((import wswid), 0, 1, 0):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(1) then cur_blk:(1)
+given sw_ready_fixture ((import wswid), 0, 1, 0):() then len((import bkind)):(1)

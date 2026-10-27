@@ -1,0 +1,18 @@
+goto_done(int[] pos, string name) {
+  skip_tok(pos, ";");
+  int id = newleaf("goto", 0, 0, name, "");
+} return int id;
+given boot_a given lexfix stdin ";" ([0], "x"):(0)
+given boot_a given lexfix stdin " ;" ([0], "y"):(0)
+
+// break and continue carry no operand, and differ only in the node kind, which
+// is the keyword passed in.
+parse_jump(int[] pos, string kw) {
+  advance(pos);
+  skip_tok(pos, ";");
+  int id = newleaf(kw, 0, 0, "", "");
+} return int id;
+given boot_a given lexfix stdin "break;" ([0], "break"):(0)
+given boot_a given lexfix stdin "break ;" ([0], "break"):(0)
+given boot_a given lexfix stdin "continue;" ([0], "continue"):(0)
+given boot_a given lexfix stdin "continue ;" ([0], "continue"):(0)

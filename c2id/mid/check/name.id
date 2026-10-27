@@ -1,0 +1,33 @@
+// The name a call goes to by name, or "" for a call through a pointer.
+call_name(int id) {
+  int a = (import na)[id];
+  string name = "";
+  if(a >= 0 && (import nk)[a] == "var" && direct_call(a) == 1) {
+    name = (import ns)[a];
+  }
+} return string name;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" (11):("nosuch")
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int (*fp)(int); int main(void) { return fp(1); }" (15):("")
+
+// Whether something provides the function: the program defines it, or the
+// runtime does (conf.id's rt_names), or it is an allocator call mapped onto crt.
+fn_known(string name) {
+  int ok = 0;
+  if(find_str((import fnames), name) >= 0 || find_str((import rt_names), name) >= 0 || find_str((import libc_names), name) >= 0) {
+    ok = 1;
+  }
+} return int ok;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" ("malloc"):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" ("main"):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" ("printf"):(1)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" ("nosuch"):(0)
+
+// A call to a function nothing provides is collected, with where it was named.
+chk_ext(string name, int id) {
+  if(name != "" && fn_known(name) == 0) {
+    unres_add(name, (import ntok)[id]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" ("nosuch", 11):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" ("printf", 11):() then len((import unres)):(0)
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int main(void) { return nosuch(1); }" ("", 11):() then len((import unres)):(0)

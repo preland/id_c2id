@@ -1,0 +1,27 @@
+fl_caps(string fls) {
+  string flu = "INF";
+  if(fls == "nan") {
+    flu = "NAN";
+  }
+} return string flu;
+("inf"):("INF")
+("nan"):("NAN")
+
+// inf or nan, in capitals for the capital conversions (E F G).
+fl_special(word flb, int flc) {
+  string fls = fl_word(flb);
+  if(flc < 97) {
+    fls = fl_caps(fls);
+  }
+} return string fls;
+(9218868437227405312, 102):("inf")
+(9221120237041090560, 70):("NAN")
+
+fl_body(word flb, int flc, word[] fs) {
+  string flt = fl_special(flb, flc);
+  if(fl_finite(flb) == 1) {
+    flt = fl_digits(flb, flc, fs);
+  }
+} return string flt;
+(9218868437227405312, 102, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("inf")
+(4609434218613702656, 102, [0, 0, 0, 0, 0, 0, 0, 0, 1, 1]):("1.5")

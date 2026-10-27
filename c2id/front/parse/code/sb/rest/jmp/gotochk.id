@@ -1,0 +1,9 @@
+// `goto *p;` is a computed goto: the label is not a name, so there is nothing to
+// jump to that c2id's blocks name.
+goto_chk(int[] pos, string name) {
+  if(name == "*") {
+    diag_halt(pos, "a computed goto ('goto *expression') is not translated: the place it jumps to is chosen when the program runs, which c2id's blocks cannot express");
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "* p ;" ([0], "*"):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix stdin "l ;" ([0], "l"):() then len((import dgmsg)):(0)

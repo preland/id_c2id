@@ -1,0 +1,22 @@
+// The promoted pair usual2 hands to usual3, split out because promoting
+// both operands before comparing their widths is two nested calls where
+// usual2 has room for none.
+usual2_r(int ty, int inner) {
+  int pty = promote_ty(ty);
+  int pinner = promote_ty(inner);
+  int r = usual3(pty, pinner);
+} return int r;
+given txt_fixture (0, 1):(1)
+given txt_fixture (0, 2):(2)
+
+// C's integer promotion: anything narrower than int arrives at an operator as
+// an int. This is why `(char)200 + (char)200` is 400 and not -112.
+promote_ty(int ty) {
+  int r = ty;
+  if((import nk)[ty] == "prim" && type_size(ty) < 4) {
+    r = (import stdty)[0];
+  }
+} return int r;
+given txt_fixture (4):(0)
+given txt_fixture given integer_list_set((import na), 1, 2) (1):(0)
+given txt_fixture (2):(2)

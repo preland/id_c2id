@@ -1,0 +1,6 @@
+cv_strsz(int a) {
+  int[] bs = lit_bytes((import ns)[a]);
+  int n = len(bs) + 1;
+} return int n;
+given boot_a given exprfix stdin "\"hi\";" ((import extop)):(3)
+given boot_a given exprfix stdin "\"a\" \"bc\";" ((import extop)):(4)

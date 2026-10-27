@@ -1,0 +1,35 @@
+// Settle the base: a `0x` prefix makes it 16 when it was 16 or 0, and base 0
+// otherwise means 8 for a leading 0 and 10 for anything else.
+rt_pfx(word rs, word[] rst) {
+  word rbase = rst[1];
+  word rch = peek8(rs + rst[0]);
+  word rhex = rt_xp(rs + rst[0]);
+} chain (word rs, word[] rst) {
+  rt_setbase(rst, rbase, rch, rhex);
+} return void;
+
+// 1 when the bytes at rp are `0x` followed by a hex digit. Each byte is read
+// only once the one before it matched, so a string that ends at the last byte of
+// the store is never read past its NUL.
+rt_xp(word rp) {
+  word rok = 0;
+  if(peek8(rp) == 48) {
+    rok = rt_xq(rp);
+  }
+} return word rok;
+
+rt_setbase(word[] rst, word rbase, word rch, word rhex) {
+  word rnb = rbase;
+  if(rbase == 0 && rch == 48) {
+    rnb = 8;
+  }
+  if(rbase == 0 && rch != 48) {
+    rnb = 10;
+  }
+} chain (word[] rst, word rbase, word rch, word rhex) {
+  if(rhex == 1 && (rbase == 0 || rbase == 16)) {
+    rnb = 16;
+    word_list_set(rst, 0, rst[0] + 2);
+  }
+  word_list_set(rst, 1, rnb);
+} return void;

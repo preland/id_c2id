@@ -1,0 +1,54 @@
+// The process a translated program runs in. `rt_boot` is called once by the
+// generated `main`: it makes the global-variable region (`gbase`), the first
+// call-stack chunk, the heap malloc draws on, the cell `rtxc` that holds an
+// exit status plus one once the program calls exit (0 until then), and the cell
+// `rtin[0]` that holds the FILE standard input is read through once something
+// reads it (0 until then).
+//
+// `rtc` is the address of five words in the store: the next free stack byte, the
+// end of the chunk, the floor, the base of the chunk, and the bytes of the chunks made
+// after the first (rt_budget caps them at 64 MiB). The stack is a chain
+// of chunks (rt/stackgrow.id): a frame that does not fit in the current one
+// starts the next, so a program pays for the stack it uses, not for a worst
+// case. The floor is where the first frame of a later chunk begins, and 0 in the
+// first chunk, whose last frame has nothing to return to. They are words in the
+// store rather than a list because every call reads two and writes one, and a
+// peek is a load the C compiler inlines where a list read is a call.
+rt_boot(word gsz) {
+  export word gbase = alloc(gsz + 8);
+  word sb = alloc(262144);
+  export word rtc = alloc(40);
+} chain (word gsz) {
+  poke64((import rtc), sb + 48);
+  poke64((import rtc) + 8, sb + 262144);
+  poke64((import rtc) + 24, sb);
+} chain (word gsz) {
+  heap_init(262144);
+  export word rtxc = alloc(8);
+  export word[] rtin = [0];
+} chain (word gsz) {
+  export word rtje = alloc(8);
+  export word[] rtwf = [0];
+} return void export rtc;
+
+// A frame of n bytes off the stack; its address is the frame pointer. The store
+// is bounds-checked, so a frame that runs past its chunk cannot be written; the
+// next chunk is started instead.
+rt_enter(word n) {
+  word sp = peek64((import rtc));
+  word fp = sp;
+  if(sp + n > peek64((import rtc) + 8)) {
+    fp = rt_grow(n);
+  }
+} chain (word n) {
+  poke64((import rtc), fp + n);
+} return word fp;
+
+rt_leave(word n) {
+  word sp = peek64((import rtc)) - n;
+  if(sp == peek64((import rtc) + 16)) {
+    rt_unwind();
+  } else {
+    poke64((import rtc), sp);
+  }
+} return void;

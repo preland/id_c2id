@@ -1,0 +1,51 @@
+// What the lowering's cases need before they can name an expression: the node
+// store, the emitter's registries, an empty frame and an empty control flow
+// graph, and a few expression nodes built by hand and exported (a case's own
+// arguments are literals, so a node is named by the number it was given).
+//
+// The numbers are what the cases below spell, counted from the six nodes the
+// registries make first: x is 6, y 7, z 8, x && y 9, x || y 10, x ? y : z 11,
+// x++ 12, ++x 13, x = y 14, x, y 15, f 16, f(x && y) 17, (x && y)[z] 18. The
+// cases of low_fx run low_fx a second time, after low_fix did, so there f is 23.
+//
+//   x  y  z                    variables
+//   x && y   x || y            short circuits
+//   x ? y : z                  a conditional
+//   x++   ++x   x = y          side effects
+//   x, y                       the comma operator
+//   f   f(x && y)              a call with a short circuit in its arguments
+//   (x && y)[z]                an index with one in its base
+// Block 0 is open, the way cfg_build leaves it before it walks a body.
+low_fix() {
+  boot_a();
+  txt_setup();
+  init_frame();
+} chain () {
+  init_frame2();
+  cfg_init();
+  low_nodes();
+} chain () {
+  int b0 = new_block();
+  noret_init();
+} return void;
+():() then calls low_nodes:()
+():() then calls cfg_init:()
+
+low_nodes() {
+  export int lw_x = mk_var("x");
+  export int lw_y = mk_var("y");
+  export int lw_z = mk_var("z");
+} chain () {
+  low_ops();
+  low_fx();
+} return void;
+given boot_a ():() then calls low_ops:()
+given boot_a ():() then calls low_fx:()
+
+low_ops() {
+  export int lw_and = newleaf("bin", (import lw_x), (import lw_y), "&&", "");
+  export int lw_or = newleaf("bin", (import lw_x), (import lw_y), "||", "");
+  export int lw_cond = newnode("cond", (import lw_x), (import lw_y), "", "", [(import lw_z)], [0]);
+} return void;
+given low_fix ():() then calls newleaf:("bin", 6, 7, "||", "")
+given low_fix ():() then calls newnode:("cond", 6, 7, "", "", [8], [0])

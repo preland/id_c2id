@@ -1,0 +1,29 @@
+// Where a jump goes: the successor of a "jmp", or the edge a literal condition
+// always takes. The number printed is past any empty jumps in between.
+
+emit_jump(int b) {
+  int dest = jump_to(b);
+  int blk = thread_blk(dest);
+  emit_cut("} return word " + blk + ";");
+} return void;
+given pend_setup given cond_body_fixture (0):() then prints:("} return word 3;\n")
+given pend_setup given cond_body_fixture (1):() then prints:("} return word 3;\n")
+
+jump_to(int b) {
+  int blk = (import bsa)[b];
+  if((import bkind)[b] == "cond") {
+    blk = cond_const_to(b, blk);
+  }
+} return int blk;
+given cond_body_fixture (0):(1) then calls cond_const_to:(0, 1)
+given cond_body_fixture (1):(3)
+
+// A literal 0 takes the false edge; any other literal the true one, as in C.
+cond_const_to(int b, int blk) {
+  int e = (import bex)[b];
+  if((import na)[e] == 0) {
+    blk = (import bsb)[b];
+  }
+} return int blk;
+given cond_body_fixture (0, 1):(1)
+given cond_body_fixture (0, 9):(9)

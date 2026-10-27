@@ -1,0 +1,12 @@
+skip_qual_ok(int[] pos) {
+  string s = cur_text(pos);
+  int ok = 0;
+  if(is_qual(s)) {
+    stat_note(s, pos);
+    advance(pos);
+    ok = 1;
+  }
+} return int ok;
+given lexfix stdin "const x" ([0]):(1) then (import statk):([0])
+given lexfix stdin "static x" ([0]):(1) then (import statk):([1])
+given lexfix stdin "x" ([0]):(0)

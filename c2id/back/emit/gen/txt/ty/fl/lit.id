@@ -1,0 +1,28 @@
+// A floating-point literal's text. C writes `.5`, `5.` and `1.f`, and id wants a
+// digit on each side of the point, so the spelling is normalised first; the
+// result is the literal's bits, rounded to binary32 when it ends in f or F.
+// (Rounded from the double nearest the decimal, which can differ from the
+// float nearest it only where the decimal is within a double's half-ulp of a
+// halfway case between two floats.)
+fl_lit_txt(string op) {
+  string flbody = fl_norm(op);
+  int sf = has_ch(op, 102, 70);
+  string flv = name_val("bits_of_float(" + flbody + ")");
+} chain (string op) {
+  if(sf == 1) {
+    flv = name_val("cfl_rnd32(" + flv + ")");
+  }
+} return string flv;
+given txt_fixture given pend_setup ("1.5"):("t0") then (import pend)[0]:("word t0 = bits_of_float(1.5);")
+given txt_fixture given pend_setup ("2.5f"):("t1") then (import pend)[1]:("word t1 = cfl_rnd32(t0);")
+
+fl_blen(string raw) {
+  int n = len(raw);
+  int c = character_code_at(raw, n - 1);
+  if(c == 102 || c == 70 || c == 108 || c == 76) {
+    n = n - 1;
+  }
+} return int n;
+("1.5f"):(3)
+("1e5"):(3)
+("1.5L"):(3)

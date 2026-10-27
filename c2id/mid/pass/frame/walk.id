@@ -1,0 +1,32 @@
+// The name a declaration of `dn` takes: itself when no local has that name yet,
+// else a fresh one, noted in the renamings.
+bind_name(string dn) {
+  string fresh = dn;
+  if(frame_off(dn) >= 0) {
+    fresh = env_fresh(dn);
+  }
+} return string fresh;
+given gl_setup given init_frame given init_frame2 given add_slot("x", 8, 4) ("x"):("x__0")
+given gl_setup given init_frame given init_frame2 given add_slot("y", 8, 4) ("y"):("y__0")
+given gl_setup given init_frame given init_frame2 ("x"):("x")
+
+env_fresh(string dn) {
+  int n = (import lcnt)[0];
+  integer_list_set((import lcnt), 0, n + 1);
+  string fresh = dn + "__" + n;
+} chain (string dn) {
+  push((import envo), dn);
+  push((import envn), fresh);
+} return string fresh;
+given gl_setup ("x"):("x__0") then (import envo):(["x"]) then (import envn):(["x__0"])
+given gl_setup given integer_list_set((import lcnt), 0, 4) ("y"):("y__4") then (import lcnt)[0]:(5)
+
+// A use of a name that a renaming covers is renamed with it.
+bind_var(int id) {
+  string nn = env_find((import ns)[id]);
+  if(nn != "") {
+    string_list_set((import ns), id, nn);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given list_string_insert((import envo), 0, "b") given list_string_insert((import envn), 0, "b__0") stdin "int f(int a) { int b = a; return b; }" (13):() then (import ns)[13]:("b__0")
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { int b = a; return b; }" (13):() then (import ns)[13]:("b")

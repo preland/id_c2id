@@ -1,0 +1,15 @@
+// fwrite answers the whole elements written: for a standard stream all of them,
+// for a FILE what it took over the element size.
+rt_wcount(word rfile, word rdone, word rsize, word rcount) {
+  word rwk = rcount;
+  if(rfile > 3) {
+    rwk = rt_wdiv(rdone, rsize);
+  }
+} return word rwk;
+
+rt_wdiv(word rdone, word rsize) {
+  word rwk = 0;
+  if(rsize > 0) {
+    rwk = rdone / rsize;
+  }
+} return word rwk;

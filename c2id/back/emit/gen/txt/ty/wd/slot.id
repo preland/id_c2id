@@ -1,0 +1,23 @@
+// The address of a 16-byte frame temporary of kind wk for a result (its slot grown
+// into the frame now, the frame being final only once the function's blocks are
+// printed), as ld_tmp makes one for a long double.
+wd_tmp(int wk) {
+  int wt = wd_ty(wk);
+  int wp = new_temp(wt);
+  int wa = newleaf("un", wp, 0, "&", "");
+} chain (int wk) {
+  string wst = ex_txt(wa);
+} return string wst;
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset (1):("(fp + 16)")
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset (2):("(fp + 16)") then (import frsz)[0]:(32)
+
+// The count of a shift: an integer of whatever type, or the low word of a 128-bit one.
+wd_count(int wc) {
+  int wk = wd_kind(ex_ty(wc));
+  string wtx = ex_txt(wc);
+  if(wk > 0) {
+    wtx = name_val("peek64(" + wtx + ")");
+  }
+} return string wtx;
+given txt_fixture given pend_setup given fl_fixture given wd_fixture given init_frame given init_frame2 given txt_reset ((import fli)):("5")
+given txt_fixture given pend_setup given fl_fixture given wd_fixture given init_frame given init_frame2 given txt_reset ((import wdx)):("t1") then (import pend)[1]:("word t1 = peek64(t0);")

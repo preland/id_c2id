@@ -1,0 +1,32 @@
+// 1 when an enumerator from the n0-th on is negative.
+enum_neg(int n0) {
+  int neg = 0;
+  int i = n0;
+  while(i < len((import ecvals))) {
+    neg = enum_sign(neg, (import ecvals)[i]);
+    i = i + 1;
+  }
+} return int neg;
+given boot_a given en_add("a", 3) given en_add("b", -2) (0):(1)
+given boot_a given en_add("a", -2) given en_add("b", 3) (1):(0)
+given boot_a given en_add("a", 3) (0):(0)
+
+enum_sign(int neg, int v) {
+  int r = neg;
+  if(v < 0) {
+    r = 1;
+  }
+} return int r;
+(0, 5):(0)
+(0, -1):(1)
+
+enum_pick(int neg) {
+  int r = 0;
+  if(neg == 1) {
+    r = int_type();
+  } else {
+    r = uint_type();
+  }
+} return int r;
+given boot_a (1):(0)
+given boot_a (0):(0) then calls mk_prim:([0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -1])

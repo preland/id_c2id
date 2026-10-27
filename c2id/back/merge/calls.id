@@ -1,0 +1,42 @@
+// Calls to a merged function. A line is cut into pieces (merge/pieces.id); a
+// name the pass recorded and an argument list after it is a call, and becomes
+// the group head's name with the arguments it had and then the values this
+// function had where the head took a parameter. A line that does not mention
+// the pass's family is returned as it is, without being cut.
+
+mg_calls(string mgline) {
+  string mgr = mgline;
+  if(string_find(mgline, (import mgzp)[0]) >= 0) {
+    mgr = mg_calls_scan(mg_pieces(mgline));
+  }
+} return string mgr;
+given mg_fixture ("  nxt = blk1_1(fp);"):("  nxt = blk1_0(fp, 9, 5);")
+given mg_fixture ("  nxt = blk9_9(fp); y = z;"):("  nxt = blk9_9(fp); y = z;")
+given mg_fixture ("  nxt = zblk1_1(fp);"):("  nxt = zblk1_1(fp);")
+
+mg_calls_scan(string[] mgpcs) {
+  string[] mgacc = [""];
+  int mgi = 0;
+  while(mgi < len(mgpcs)) {
+    mgi = mg_call_at(mgpcs, mgi, mgacc);
+  }
+} chain (string[] mgpcs) {
+  string mgr = mgacc[0];
+} return string mgr;
+given mg_fixture (["tnxt", "t ", "t=", "t ", "tblk1_1", "t(", "tfp", "t)", "t;"]):("nxt = blk1_0(fp, 9, 5);")
+given mg_fixture (["tx"]):("x")
+
+mg_call_at(string[] mgpcs, int mgi, string[] mgacc) {
+  int mgend = mg_call_end(mgpcs, mgi);
+  int mgnext = mgi + 1;
+  blank;
+} chain (string[] mgpcs, int mgi, string[] mgacc) {
+  if(mgend >= 0) {
+    mg_call_edit(mgpcs, mgi, mgend, mgacc);
+    mgnext = mgend + 1;
+  } else {
+    string_list_set(mgacc, 0, mgacc[0] + mg_raw(mgpcs, mgi, mgi + 1));
+  }
+} return int mgnext;
+given mg_fixture (["tblk1_1", "t(", "tfp", "t)"], 0, [""]):(4)
+given mg_fixture (["tx", "t;"], 0, [""]):(1)

@@ -1,0 +1,29 @@
+// The address of a member: a bit-field's is the marker of bf/mark.id, any other
+// member's is the plain base plus offset.
+mem_addr(int id) {
+  string s = mem_bf(id);
+  if(s == "") {
+    s = mem_plain(id);
+  }
+} return string s;
+given txt_fixture given ty_setup (0):("UNKNOWN_MEMBER_int")
+given txt_fixture given ty_setup (5):("UNKNOWN_MEMBER_")
+
+mem_bf(int id) {
+  int row = mem_row_at(id);
+  string s = "";
+  if(row >= 0 && (import sywid)[row] > 0) {
+    s = bfx_marker(row, base_txt(id));
+  }
+} return string s;
+given txt_fixture given ty_setup (0):("")
+given txt_fixture given ty_setup (5):("")
+
+// The member-table row of the member a `mem` node names, or -1.
+mem_row_at(int id) {
+  int r = rec_of(id);
+  string name = (import ns)[id];
+  int row = mem_find(r, name);
+} return int row;
+given txt_fixture given ty_setup (0):(-1)
+given txt_fixture given ty_setup (5):(-1)

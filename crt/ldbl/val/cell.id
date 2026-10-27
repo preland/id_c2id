@@ -1,0 +1,43 @@
+// An operand read from the store: [sign, biased exponent, significand]. ld_put
+// writes a result [significand, sign and exponent] back, with the six padding
+// bytes zero.
+ld_get(word lxp) {
+  word lxs = peek16(lxp + 8);
+  word lxm = peek64(lxp);
+  word[] lqa = [ushr(lxs, 15), lxs & 32767, lxm];
+} return word[] lqa;
+given ld_cells ((import ldx)):([0, 16383, -4611686018427387904])
+given ld_cells ((import ldy)):([1, 16384, -9223372036854775808])
+
+ld_put(word lxp, word[] lqr) {
+  poke64(lxp, lqr[0]);
+  poke64(lxp + 8, lqr[1]);
+} return word lxp;
+given ld_cells ((import ldz), [5, 40000]):((import ldz)) then ld_zm:(5) then ld_zs:(40000)
+given ld_cells ((import ldz), [-1, 7]):((import ldz)) then ld_zm:(-1) then ld_zs:(7)
+
+// 0 zero, 1 finite non-zero (a denormal included), 2 infinity, 3 NaN, 4 an
+// encoding the x87 refuses (an exponent from 1 to 32767 with the integer bit
+// clear: an unnormal, a pseudo-infinity, a pseudo-NaN), which it answers with the
+// indefinite NaN whatever the other operand is.
+ld_kind(word lxe, word lxm) {
+  word lxk = 1;
+  if(lxe == 32767) {
+    lxk = 2 + ((lxm << 1) != 0);
+  }
+  if(lxe == 0 && lxm == 0) {
+    lxk = 0;
+  }
+} chain (word lxe, word lxm) {
+  if(lxe > 0 && lxm >= 0) {
+    lxk = 4;
+  }
+} return word lxk;
+(0, 0):(0)
+(32767, -9223372036854775808):(2)
+(32767, -4611686018427387904):(3)
+(16383, -9223372036854775808):(1)
+(0, 5):(1)
+(16383, 5):(4)
+(32767, 0):(4)
+(32767, 5):(4)

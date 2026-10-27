@@ -1,0 +1,36 @@
+// Where does generated function number N live?
+//
+// `id` allows 3 functions per file (its 3-entry directory cap is dropped, but
+// this layout keeps that shape), so a project is a ternary tree: 3 functions to a file, 3 files to a leaf directory
+// (9 functions), and every level above multiplies by 3 again. This computes a
+// path from a function number with no bookkeeping at all, which is what lets
+// the emitter stay stateless -- it can emit function 4,000 without knowing
+// anything about functions 0 through 3,999.
+//
+// Function N is in file N/3. File F is in leaf directory F/3. Leaf directory
+// D is reached by writing D in base 3, most significant digit first, and
+// taking one directory level per digit. DEPTH fixes how many levels there
+// are, so every leaf sits at the same depth and no directory ever mixes files
+// with subdirectories -- which would otherwise blow the since-dropped 3-entry limit. DEPTH
+// and the functions per file are tree_depth and funcs_per_file in conf.id.
+
+// Digit `d` (0 = most significant) of `n` written in base 3, padded to
+// tree_depth digits.
+tri_digit(int n, int d) {
+  int shift = (import tree_depth) - 1 - d;
+  int div = pow3(shift);
+  int r = (n / div) % 3;
+} return int r;
+(0, 0):(0)
+(1, 7):(1)
+
+// The name of the directory at depth `lvl` on the way to leaf `dir`: a letter
+// for the level and a letter for the digit, so no two siblings differ only in
+// a number (docs/PROJECT.md: an entry may not be a numbered copy of its
+// sibling) and no directory repeats its parent's name.
+dir_part(int dir, int lvl) {
+  int d = tri_digit(dir, lvl);
+  string s = chr(97 + lvl) + chr(120 + d);
+} return string s;
+(0, 0):("ax")
+(1, 7):("hy")

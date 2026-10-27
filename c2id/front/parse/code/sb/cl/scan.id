@@ -1,0 +1,31 @@
+// Walking the statements after a variable with a cleanup, which is the scope the
+// cleanup runs at the end of. brk and cont count the loops (and, for brk, switches)
+// entered below the scope, so that a break or continue is an exit of the scope only
+// at 0. Mode 0 collects the labels the scope defines; mode 1 rewrites the exits.
+cl_scan_list(int[] cl_l, int cl_brk, int cl_cont) {
+  int cl_i = 0;
+  while(cl_i < len(cl_l)) {
+    cl_scan(cl_l[cl_i], cl_brk, cl_cont);
+    cl_i = cl_i + 1;
+  }
+} return void;
+given cl_fix ([4], 0, 0):() then (import nk)[4]:("block")
+given cl_fix ([4], 1, 1):() then (import nk)[4]:("break")
+
+cl_scan(int cs_id, int cs_brk, int cs_cont) {
+  if(cs_id >= 0) {
+    cl_kids(cs_id, (import nk)[cs_id], cs_brk, cs_cont);
+  }
+} return void;
+given cl_fix (4, 0, 0):() then (import nk)[4]:("block")
+given cl_fix (-1, 0, 0):() then (import nk)[4]:("break")
+
+cl_kids(int ck_id, string ck_kn, int ck_brk, int ck_cont) {
+  if(ck_kn == "block" || ck_kn == "if") {
+    cl_branch(ck_id, ck_kn, ck_brk, ck_cont);
+  } else {
+    cl_loops(ck_id, ck_kn, ck_brk, ck_cont);
+  }
+} return void;
+given cl_fix (4, "break", 0, 0):() then (import nk)[4]:("block")
+given cl_fix (4, "break", 1, 0):() then (import nk)[4]:("break")

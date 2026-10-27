@@ -1,0 +1,31 @@
+// One refusal: where, then what. A line already refused is not repeated, so a
+// construct met three times on one line is told once.
+diag_tok(int tk, string msg) {
+  string at = tok_where(tk);
+  string line = at + ": error: " + msg;
+  if(find_str((import dgmsg), line) < 0) {
+    push((import dgmsg), line);
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "# 7 \"b.c\"\nint x;" (6, "no"):() then (import dgmsg):(["b.c:7: error: no"])
+given boot_a given boot_b given lexfix stdin "# 7 \"b.c\"\nint x;" (1, "bad"):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given diag_tok(6, "no") stdin "# 7 \"b.c\"\nint x;" (6, "no"):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given diag_tok(6, "no") stdin "# 7 \"b.c\"\nint x;" (6, "other"):() then len((import dgmsg)):(2)
+
+// A refusal at node id, which remembers the token it was made at.
+diag_node(int id, string msg) {
+  int tk = (import ntok)[id];
+  diag_tok(tk, msg);
+} return void;
+given boot_a given boot_b given exprfix stdin "# 7 \"b.c\"\nx\n+ 1;" (6, "no"):() then (import dgmsg):(["b.c:7: error: no"])
+given boot_a given boot_b given exprfix stdin "# 7 \"b.c\"\nx\n+ 1;" (8, "no"):() then (import dgmsg):(["b.c:8: error: no"])
+
+// 1 when anything was refused, which is the process's exit status.
+diag_status() {
+  int bad = 0;
+  if(len((import dgmsg)) > 0) {
+    bad = 1;
+  }
+} return int bad;
+given boot_a given boot_b ():(0)
+given boot_a given boot_b given diag_tok(0, "x") ():(1)

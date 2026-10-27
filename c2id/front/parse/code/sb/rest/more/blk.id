@@ -1,0 +1,23 @@
+parse_block(int[] pos) {
+  advance(pos);
+  ty_mark();
+  int[] l = fill_block(pos);
+} chain (int[] pos) {
+  ty_drop();
+  int id = newlist("block", 0, 0, "", l);
+} return int id;
+given boot_a given ty_setup given lexfix stdin "{;}" ([0]):(1)
+given boot_a given ty_setup given lexfix stdin "{}" ([0]):(0)
+given boot_a given ty_setup given lexfix stdin "{typedef int q;}" ([0]):(2) then len((import tynames)):(0)
+
+// The eof guard matters: without it a source file with unbalanced braces
+// spins here forever instead of ending. Ending at the eof is an error of its own,
+// reported by block_close: a function body cut off by the end of the file used to
+// be accepted.
+fill_block(int[] pos) {
+  int[] l = fill_stmts(pos);
+  block_close(pos);
+} return int[] l;
+given boot_a given lexfix stdin ";;}" ([0]):([0, 1])
+given boot_a given lexfix stdin "}" ([0]):([])
+given boot_a given lexfix stdin ";}" ([0]):([0])

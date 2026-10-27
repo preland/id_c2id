@@ -1,0 +1,18 @@
+// Text on stderr exactly as given: eprint ends every call with a newline, so the
+// bytes go out through a scratch copy instead.
+rt_err(string rtxt) {
+  int rln = len(rtxt);
+  word rm = kmalloc(rln + 8);
+  string_copy_to_memory(rtxt, 0, rln, rm);
+} chain (string rtxt) {
+  int rwr = stdio_write_mem(2, rm, rln);
+  kfree(rm);
+} return void;
+
+// fputc: the byte to the stream; answers it as an unsigned char.
+c_fputc(word rch, word rfile) {
+  int rcc = rch & 255;
+  rt_fbyte(rfile, rcc);
+  word rb = rcc;
+} return word rb;
+

@@ -1,0 +1,14 @@
+// What the cell ldz holds: its significand word, and its sign and exponent word.
+ld_zm() {
+  word lxp = (import ldz);
+  word lxr = peek64(lxp);
+} return word lxr;
+given ld_cells given ld_cset((import ldz), 5, 6) ():(5)
+given ld_cells given ld_cset((import ldz), -3, 6) ():(-3)
+
+ld_zs() {
+  word lxp = (import ldz);
+  word lxr = peek64(lxp + 8);
+} return word lxr;
+given ld_cells given ld_cset((import ldz), 5, 6) ():(6)
+given ld_cells given ld_cset((import ldz), 5, 65535) ():(65535)

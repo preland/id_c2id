@@ -1,0 +1,35 @@
+// `__builtin_choose_expr(c, a, b)` is a if the constant c is not 0 and b if it
+// is, and the other is not evaluated, so it is dropped here: what the call is
+// is the node of the arm picked.
+bi_choose(int[] pos) {
+  int c = parse_assign(pos);
+  skip_tok(pos, ",");
+  int a = parse_assign(pos);
+} chain (int[] pos) {
+  skip_tok(pos, ",");
+  int b = parse_assign(pos);
+  skip_tok(pos, ")");
+} chain (int[] pos) {
+  int id = bi_select(c, a, b);
+} return int id;
+given boot_a given ty_setup given lexfix stdin "1 , 2 , 3 ) ;" ([0]):(1)
+given boot_a given ty_setup given lexfix stdin "0 , 2 , 3 ) ;" ([0]):(2)
+
+bi_select(int c, int a, int b) {
+  integer_list_set((import cunk), 0, 0);
+  int v = const_true(c);
+  int id = bi_arm(v, a, b);
+} chain (int c, int a, int b) {
+  bi_chk(c);
+} return int id;
+given boot_a given boot_b given exprfix stdin "1;" ((import extop), 1, 2):(1)
+given boot_a given boot_b given exprfix stdin "0;" ((import extop), 1, 2):(2)
+
+bi_arm(int v, int a, int b) {
+  int id = b;
+  if(v != 0) {
+    id = a;
+  }
+} return int id;
+(1, 5, 6):(5)
+(0, 5, 6):(6)

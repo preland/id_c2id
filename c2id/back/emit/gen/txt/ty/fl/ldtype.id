@@ -1,0 +1,26 @@
+// The long double type, made on first use like the other floating-point types
+// (fl_types) and kept in fltys[3] (0 until made; no node has the id 0, the
+// standard types having been made first). ty_ldbl is the node of the type that
+// two operands meet at when either is a long double.
+ldt_make() {
+  int t = newleaf("prim", 16, 1, "long double", "");
+  integer_list_set((import fltys), 3, t);
+} return void;
+given txt_fixture ():() then (import fltys)[3]:(6)
+given txt_fixture ():() then (import ns)[6]:("long double")
+
+ldt_types() {
+  int made = (import fltys)[3];
+  if(made == 0) {
+    ldt_make();
+  }
+} return void;
+given txt_fixture ():() then len((import nk)):(7)
+given txt_fixture given ldt_types ():() then len((import nk)):(7)
+
+ty_ldbl() {
+  ldt_types();
+  int ty = (import fltys)[3];
+} return int ty;
+given txt_fixture ():(6)
+given txt_fixture ():(6) then ty_fltys_at(1):(7)

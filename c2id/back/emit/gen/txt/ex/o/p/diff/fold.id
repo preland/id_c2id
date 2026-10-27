@@ -1,0 +1,37 @@
+// p - q where p is q plus an offset: idc rejects `(q + k) - q` as an
+// operation that cannot change its value (E0409), so the offset is the answer.
+// An operand may carry one more pair of parentheses than the other text shows
+// (`&a[3]` is parenthesised by the address-of and again by its own sum), so the
+// fold is tried a second time with one pair taken off each side.
+diff_txt(string dfl, string dfr) {
+  string dfk = diff_off2(dfl, dfr);
+  string dfout = "(" + dfl + " - " + dfr + ")";
+  if(dfk != "") {
+    dfout = dfk;
+  }
+} return string dfout;
+("((fp + 69) + (3 * 5))", "(fp + 69)"):("(3 * 5)")
+("((fp + 192) + 16)", "(fp + 192)"):("16")
+("(((fp + 69) + (3 * 5)))", "((fp + 69))"):("(3 * 5)")
+("(fp + 8)", "(fp + 4)"):("((fp + 8) - (fp + 4))")
+("(fp + 4)", "(fp + 4)"):("((fp + 4) - (fp + 4))")
+
+diff_off2(string dfl, string dfr) {
+  string dfk = diff_off(dfl, dfr);
+  if(dfk == "") {
+    dfk = diff_off(diff_unwrap(dfl), diff_unwrap(dfr));
+  }
+} return string dfk;
+("((fp + 69) + (3 * 5))", "(fp + 69)"):("(3 * 5)")
+("(((fp + 192) + 16))", "((fp + 192))"):("16")
+("(fp + 8)", "(fp + 4)"):("")
+
+diff_off(string dfl, string dfr) {
+  string dfpre = "(" + dfr + " + ";
+  string dfk = "";
+  if(string_starts_with(dfl, dfpre) == 1 && string_ends_with(dfl, ")") == 1) {
+    dfk = str_sub(dfl, len(dfpre), len(dfl) - len(dfpre) - 1);
+  }
+} return string dfk;
+("((fp + 69) + (3 * 5))", "(fp + 69)"):("(3 * 5)")
+("(fp + 8)", "(fp + 4)"):("")

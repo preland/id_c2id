@@ -1,0 +1,31 @@
+wd_bin_txt(int id) {
+  int wt = wd_opty(id);
+  int wa = fl_coerce(wt, (import na)[id]);
+  string wop = (import ns)[id];
+} chain (int id) {
+  string wsa = ex_txt(wa);
+  string wsb = wd_right(id, wt);
+  string wout = wd_op_txt(wt, wop, wsa, wsb);
+} return string wout;
+given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (14):("t2")
+given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (16):("t2")
+
+// The right operand's text: converted to the common type, or for a shift left alone
+// as a count.
+wd_right(int id, int wt) {
+  string wsb = "";
+  if((import ns)[id] == "<<" || (import ns)[id] == ">>") {
+    wsb = wd_count((import nb)[id]);
+  } else {
+    wsb = wd_conv_right(id, wt);
+  }
+} return string wsb;
+given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (17, 10):("5")
+given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (14, 10):("t0")
+
+wd_conv_right(int id, int wt) {
+  int wb = fl_coerce(wt, (import nb)[id]);
+  string wsb = ex_txt(wb);
+} return string wsb;
+given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (14, 10):("t0")
+given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (23, 10):("t0")

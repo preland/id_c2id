@@ -1,0 +1,31 @@
+wd_op_txt(int wt, string wop, string wsa, string wsb) {
+  int wk = find_str((import wd_cmp_ops), wop);
+  string wout = "";
+  if(wk >= 0) {
+    wout = wd_cmp_txt(wt, wk, wsa, wsb);
+  }
+} chain (int wt, string wop, string wsa, string wsb) {
+  if(wk < 0) {
+    wout = wd_arith(wt, wop, wsa, wsb);
+  }
+} return string wout;
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset given wd_types (6, "<", "a", "b"):("t0")
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset given wd_types (6, "+", "a", "b"):("t0")
+
+wd_cmp_txt(int wt, int wk, string wsa, string wsb) {
+  string wsg = "0";
+  if(ty_signed(wt) == 1) {
+    wsg = "1";
+  }
+  string wout = name_val("ci128_compare(" + wsg + ", " + wsa + ", " + wsb + ", " + wk + ")");
+} return string wout;
+given txt_fixture given pend_setup given wd_types (6, 2, "a", "b"):("t0") then (import pend):(["word t0 = ci128_compare(1, a, b, 2);"])
+given txt_fixture given pend_setup given wd_types (7, 0, "a", "b"):("t0") then (import pend):(["word t0 = ci128_compare(0, a, b, 0);"])
+
+wd_arith(int wt, string wop, string wsa, string wsb) {
+  string wfn = wd_fn(wt, wop);
+  string wdst = wd_tmp(wd_kind(wt));
+  string wout = name_val(wfn + wdst + ", " + wsa + ", " + wsb + ")");
+} return string wout;
+given txt_fixture given wd_types given pend_setup given init_frame given init_frame2 given txt_reset (6, "+", "a", "b"):("t0") then (import pend):(["word t0 = ci128_add((fp + 16), a, b);"])
+given txt_fixture given wd_types given pend_setup given init_frame given init_frame2 given txt_reset (7, "/", "a", "b"):("t0") then (import pend):(["word t0 = ci128_divide(0, 0, (fp + 16), a, b);"])

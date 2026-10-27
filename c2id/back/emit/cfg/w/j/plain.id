@@ -1,0 +1,34 @@
+// A statement with no control flow of its own. When it is a call that never
+// returns (front/diag/noret), the block ends there with the program's answer,
+// and what follows lands in a fresh block nothing reaches. When it calls a
+// function that may exit, the block is cut after it instead: the runner looks
+// at the exit status between blocks, so the statements after the call never run
+// once the callee has exited.
+walk_plain(int id) {
+  add_lowered(id);
+  int nr = stmt_noreturn(id);
+  walk_end(id, nr);
+} return void;
+given walk_ast_fixture (5):() then cur_stmts:([5])
+given walk_ast_fixture (3):() then cur_stmts:([3])
+given walk_ast_fixture (5):() then calls add_lowered:[1]
+given walk_ast_fixture (5):() then calls stmt_noreturn:[1]
+
+walk_end(int id, int nr) {
+  if(nr == 1) {
+    walk_halt();
+  } else {
+    walk_cut(id);
+  }
+} return void;
+given walk_ast_fixture (5, 1):() then (import bkind)[0]:("end") then (import bex)[0]:(-1)
+given noret_init given walk_ast_fixture (5, 0):() then (import bkind)[0]:("none") then len((import bkind)):(1)
+given walk_ast_fixture (5, 1):() then calls walk_halt:[1]
+given noret_init given walk_ast_fixture (5, 0):() then calls walk_cut:[1]
+
+walk_halt() {
+  int c = (import curb)[0];
+  do_return2(c, 0 - 1);
+} return void;
+given walk_ast_fixture ():() then (import bkind)[0]:("end") then (import bex)[0]:(-1) then cur_blk:(1)
+given walk_ast_fixture ():() then len((import bkind)):(2)

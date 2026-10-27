@@ -1,0 +1,13 @@
+fl_from_i(int to, int from, string s) {
+  string fnm = "cfl_of_int(";
+  if(type_size(from) == 8 && ty_signed(from) == 0) {
+    fnm = "cfl_of_uint(";
+  }
+  string flv = name_val(fnm + s + ")");
+} chain (int to, int from, string s) {
+  if(ty_fkind(to) == 1) {
+    flv = name_val("cfl_rnd32(" + flv + ")");
+  }
+} return string flv;
+given txt_fixture given pend_setup given fl_types (6, 0, "t5"):("t0") then (import pend)[0]:("word t0 = cfl_of_int(t5);")
+given txt_fixture given pend_setup given fl_types (7, 3, "t5"):("t1") then (import pend)[1]:("word t1 = cfl_rnd32(t0);")

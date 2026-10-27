@@ -1,0 +1,27 @@
+// `__auto_type __cl_pN = &name;` for one cleanup variable, in the block being read.
+cl_ptr1(int[] cq_l, string cq_name, string[] cq_out) {
+  string cq_p = cl_fresh("__cl_p");
+  int cq_d = cl_addr(cq_p, cq_name);
+  push(cq_l, cq_d);
+} chain (int[] cq_l, string cq_name, string[] cq_out) {
+  push(cq_out, cq_p);
+} return void;
+given cl_fix ([], "v", []):([17], "v", ["__cl_p0"])
+given cl_fix ([], "v", []):([17], "v", ["__cl_p0"]) then (import nk)[16]:("decl")
+
+// The statements wrapped for each cleanup, the last declared inside the earlier ones
+// (the cleanups run in the reverse order of the declarations). The block that comes
+// out is the outermost.
+cl_wrap_all(int[] cw_rest, string[] cw_fs, string[] cw_ps) {
+  int[] cw_cur = cw_rest;
+  int cw_k = len(cw_fs) - 1;
+  int cw_b = 0 - 1;
+} chain (int[] cw_rest, string[] cw_fs, string[] cw_ps) {
+  while(cw_k >= 0) {
+    cw_b = cl_wrap(cw_cur, cw_fs[cw_k], cw_ps[cw_k]);
+    cw_cur = [cw_b];
+    cw_k = cw_k - 1;
+  }
+} return int cw_b;
+given boot_a ([], ["f"], ["p"]):(4)
+given boot_a ([], ["f", "g"], ["p", "q"]):(9)

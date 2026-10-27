@@ -1,0 +1,34 @@
+// The FILE's bytes written to its path if anything changed since the last time:
+// 0, or -1 when the path will not open.
+rt_wsync(word rwf) {
+  word rwfl = peek64(rwf + 48);
+  word rwv = 0;
+  if((rwfl & 32) != 0) {
+    rwv = rt_wsave(rwf, rwfl);
+  }
+} return word rwv;
+
+rt_wsave(word rwf, word rwfl) {
+  word rwp = peek64(rwf + 40);
+  word rwn = c_strlen(rwp);
+  string rwt = str_of_mem(rwp, rwn);
+} chain (word rwf, word rwfl) {
+  word rwd = peek64(rwf);
+  int rwz = peek32(rwf + 8);
+  word rwv = fs_save(rwt, rwd, rwz);
+} chain (word rwf, word rwfl) {
+  if(rwv >= 0) {
+    poke64(rwf + 48, rwfl - 32);
+    rwv = 0;
+  }
+} return word rwv;
+
+// Every writable FILE still open, saved: the program is ending.
+rt_wall() {
+  word rwc = (import rtwf)[0];
+  word rwx = 0;
+  while(rwc != 0) {
+    rwx = rt_wsync(rwc);
+    rwc = peek64(rwc + 56);
+  }
+} return void;

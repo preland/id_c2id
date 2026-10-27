@@ -1,0 +1,41 @@
+// An integer literal as the 64-bit word it spells, with the type C gives it.
+// The parser's own cell is an int and has cut a wide literal, but the spelling is
+// kept in ns, so it is decoded again here. A character constant or an enumerator
+// is spelled `#` and its code (const_spell), an int; a floating literal is 0.
+cw_num(int e) {
+  string cn_s = (import ns)[e];
+  word cn_v = (import na)[e];
+  integer_list_set((import cwty), 0, 9);
+} chain (int e) {
+  if(cw_isint(cn_s) == 1) {
+    cn_v = cw_lit(cn_s);
+  }
+} return word cn_v;
+given boot_a given exprfix stdin "7;" ((import extop)):(7) then (import cwty)[0]:(9)
+given boot_a given exprfix stdin "'a';" ((import extop)):(97) then (import cwty)[0]:(9)
+given boot_a given exprfix stdin "4000000000;" ((import extop)):(4000000000) then (import cwty)[0]:(17)
+given boot_a given exprfix stdin "0x80000000;" ((import extop)):(2147483648) then (import cwty)[0]:(8)
+
+cw_isint(string ii_s) {
+  int ii_ok = 0;
+  if(len(ii_s) > 0 && is_float_lit(ii_s) == 0 && character_code_at(ii_s, 0) >= 48 && character_code_at(ii_s, 0) <= 57) {
+    ii_ok = 1;
+  }
+} return int ii_ok;
+("12"):(1)
+("#97"):(0)
+("1.5"):(0)
+(""):(0)
+
+cw_lit(string lt_s) {
+  int lt_r = cw_radix(lt_s);
+  int lt_i = cw_start(lt_s, lt_r);
+  word lt_v = cw_digits(lt_s, lt_i, lt_r);
+} chain (string lt_s) {
+  int lt_t = cw_lty(lt_v, lt_s, lt_r);
+  integer_list_set((import cwty), 0, lt_t);
+} return word lt_v;
+given boot_a ("12"):(12) then (import cwty)[0]:(9)
+given boot_a ("18446744073709551615u"):(-1) then (import cwty)[0]:(16)
+given boot_a ("0xffffffffff"):(1099511627775) then (import cwty)[0]:(17)
+given boot_a ("2147483647"):(2147483647) then (import cwty)[0]:(9)

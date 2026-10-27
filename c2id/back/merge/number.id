@@ -1,0 +1,35 @@
+// A number met while rewriting: it takes the next position in the function, and
+// becomes a parameter name when the mask has a `1` there.
+
+mg_number(string mgbody, string mgmask, int[] mgctr) {
+  int mgpos = mgctr[0];
+  integer_list_set(mgctr, 0, mgpos + 1);
+  string mgr = mgbody;
+} chain (string mgbody, string mgmask, int[] mgctr) {
+  if(str_sub(mgmask, mgpos, 1) == "1") {
+    mgr = (import mgzp)[1] + mgpos;
+  }
+} return string mgr;
+given mg_setup given mg_setup_c ("7", "01", [1]):("lv1")
+given mg_setup given mg_setup_c ("7", "01", [0]):("7")
+
+mg_copy(string[] mglines, string[] mgout, int mgs, int mge) {
+  while(mgs <= mge) {
+    push(mgout, mg_calls(mglines[mgs]));
+    mgs = mgs + 1;
+  }
+} return string[] mgout;
+given mg_setup given mg_setup_c (["a", "b", "c"], ["z"], 1, 2):(["z", "b", "c"])
+given mg_setup given mg_setup_c (["a", "b"], [], 1, 0):([])
+given mg_fixture (["x", "  nxt = blk1_1(fp);"], [], 1, 1):(["  nxt = blk1_0(fp, 9, 5);"])
+
+mg_emit_fn(string[] mglines, string[] mgout, int mgf) {
+  if((import mgzfm)[mgf] != string_repeat("0", len((import mgzfm)[mgf]))) {
+    mgout = mg_rewrite(mglines, mgout, mgf);
+  } else {
+    push(mgout, mglines[(import mgzfs)[mgf]]);
+    mgout = mg_copy(mglines, mgout, (import mgzfs)[mgf] + 1, (import mgzfe)[mgf]);
+  }
+} return string[] mgout;
+given mg_fixture (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], [], 0):(["blk1_0(word fp, word lv1, word lv2) {", "  word k0 = 0;", "  poke64(fp + 40, lv1);", "} return word lv2;"])
+given mg_fixture (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], [], 1):(["blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;"])

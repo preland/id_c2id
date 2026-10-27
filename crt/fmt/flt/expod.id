@@ -1,0 +1,7 @@
+fe_tail(int fex, string fel, string fen) {
+  int fea = fe_abs(fex);
+  string fed = fe_dig(fea);
+  string fet = fel + fen + fed;
+} return string fet;
+(5, "e", "+"):("e+05")
+(-12, "E", "-"):("E-12")

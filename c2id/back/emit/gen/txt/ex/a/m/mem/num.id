@@ -1,0 +1,37 @@
+// The arithmetic behind text_bin: -1 means "not a result I can write", which is
+// every operator but `+`, `*` and a `-` that stays non-negative.
+
+bin_num(string bnl_nl, string bnl_nop, string bnl_nr, string bnl_nt) {
+  int bnl_x = to_int(bnl_nl);
+  int bnl_y = to_int(bnl_nr);
+  int bnl_v = bin_calc(bnl_x, bnl_nop, bnl_y);
+} chain (string bnl_nl, string bnl_nop, string bnl_nr, string bnl_nt) {
+  string bnl_nout = bnl_nt;
+  if(bnl_v >= 0) {
+    bnl_nout = "" + bnl_v;
+  }
+} return string bnl_nout;
+("2", "+", "3", "(2 + 3)"):("5")
+("2", "<<", "3", "(2 << 3)"):("(2 << 3)")
+
+bin_calc(int bnl_ca, string bnl_cop, int bnl_cb) {
+  int bnl_cv = bin_sub(bnl_ca, bnl_cop, bnl_cb);
+  if(bnl_cop == "+") {
+    bnl_cv = bnl_ca + bnl_cb;
+  }
+  if(bnl_cop == "*") {
+    bnl_cv = bnl_ca * bnl_cb;
+  }
+} return int bnl_cv;
+(2, "+", 3):(5)
+(2, "*", 3):(6)
+(2, "<<", 3):(-1)
+
+bin_sub(int bnl_sa, string bnl_sop, int bnl_sb) {
+  int bnl_sv = -1;
+  if(bnl_sop == "-" && bnl_sa >= bnl_sb) {
+    bnl_sv = bnl_sa - bnl_sb;
+  }
+} return int bnl_sv;
+(5, "-", 3):(2)
+(3, "-", 5):(-1)

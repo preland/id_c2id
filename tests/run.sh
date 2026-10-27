@@ -4,11 +4,15 @@
 # For every C source in tests/c/:
 #   1. compile it with cc, run it, record stdout + exit status  (the oracle)
 #   2. translate it with c2id, build the id with idc, run it
-#   3. require the two to agree byte for byte
+#   3. require the two to agree byte for byte, standard output and standard
+#      error each on its own, so a write to the wrong stream is a difference
 #
 # A case that c2id cannot yet translate is reported as SKIP, not PASS -- the
 # whole point of this harness is that the status ledger in docs/STATUS.md
-# never gets ahead of the evidence.
+# never gets ahead of the evidence. A case NAME.c may have a NAME.in (its standard
+# input), a NAME.trap (the program must exit 1 and say the lines on stderr; the C
+# oracle is not run) or a NAME.refuse (lines the refusal must contain: the case then passes
+# only if c2id fails and says them).
 #
 # usage: tests/run.sh [name-substring ...]
 
@@ -17,7 +21,7 @@ set -uo pipefail
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 work=$here/build/tests
 idc=${IDC:-$here/../idc/bin/idc}
-c2id=${C2ID:-$here/tools/c2id.sh}
+c2id=${C2ID_SH:-$here/tools/c2id.sh}
 
 mkdir -p "$work"
 
@@ -32,14 +36,14 @@ matches() {
     return 1
 }
 
-# ---- structural lint: id's rule of 3 on the source trees, checked without
+# ---- structural lint: id's layout rules on the source trees, checked without
 # compiling so that layout mistakes in a half-written module surface early.
-if "$here/tools/lint3.sh" >"$work/lint.out" 2>&1; then
+if "$idc" "$here/c2id" --check >"$work/lint.out" 2>&1 && "$idc" "$here/crt" --check >>"$work/lint.out" 2>&1; then
     echo "PASS  layout-rule-of-3"
     pass=$((pass + 1))
 else
     echo "FAIL  layout-rule-of-3"
-    sed 's/^/    /' "$work/lint.out" | head -10
+    grep -v ': warning:' "$work/lint.out" | sed 's/^/    /' | head -10
     fail=$((fail + 1)); failed_names+=("layout-rule-of-3")
 fi
 
@@ -48,7 +52,7 @@ fi
 if "$here/tests/frontend/build.sh" >"$work/fe.err" 2>&1; then
     got=$(printf 'if (p->len > 0) { total += arr[i].n; } else { return -1; }\n' \
           | "$here/build/frontend/parse")
-    want='0: (if  a3 (block  a0 (expr  a9)) (block  a0 (return  a13)))'
+    want='0: (if  a9 (block  a0 (expr  a15)) (block  a0 (return  a19)))'
     if [[ $got == "$want" ]]; then
         echo "PASS  frontend-integration"
         pass=$((pass + 1))
@@ -93,13 +97,81 @@ for src in "$here"/tests/c/*.c; do
     name=$(basename "$src" .c)
     matches "$name" || continue
 
+    # A NAME.cflags file holds extra flags for the oracle; -funsigned-char among
+    # them makes c2id's plain char unsigned too (C2ID_UNSIGNED_CHAR, which the
+    # kernel's preprocessed files need, since they do not record the flag).
+    cflags=""
+    [[ -f ${src%.c}.cflags ]] && cflags=$(< "${src%.c}.cflags")
+    uchar=0
+    [[ $cflags == *-funsigned-char* ]] && uchar=1
+    export C2ID_UNSIGNED_CHAR=$uchar
+
     # ---- 1. the oracle: what the real C compiler does
-    if ! cc -std=gnu11 -w -o "$work/$name.ref" "$src" 2>"$work/$name.ccerr"; then
+    # shellcheck disable=SC2086
+    if ! cc -std=gnu11 -w $cflags -o "$work/$name.ref" "$src" -lm 2>"$work/$name.ccerr"; then
         echo "ERROR $name: reference C does not compile"
         sed 's/^/    /' "$work/$name.ccerr" | head -5
         fail=$((fail + 1)); failed_names+=("$name"); continue
     fi
-    "$work/$name.ref" > "$work/$name.refout" 2>&1
+
+    # A case with a .refuse file is a program c2id must refuse: the translation
+    # has to fail, and every line of the file has to appear in what it said. It
+    # is not run, since the point is that no id program comes out of it.
+    if [[ -f ${src%.c}.refuse ]]; then
+        if [[ ! -x $c2id ]]; then
+            skip=$((skip + 1)); continue
+        fi
+        rm -rf "$work/$name.id"
+        if "$c2id" "$src" "$work/$name.id" > "$work/$name.c2iderr" 2>&1; then
+            echo "FAIL  $name: c2id translated a program it has to refuse"
+            fail=$((fail + 1)); failed_names+=("$name"); continue
+        fi
+        missing=""
+        while IFS= read -r want; do
+            [[ -z $want ]] && continue
+            grep -qF -- "$want" "$work/$name.c2iderr" || missing="$missing [$want]"
+        done < "${src%.c}.refuse"
+        if [[ -n $missing ]]; then
+            echo "FAIL  $name: the refusal does not say:$missing"
+            sed 's/^/    /' "$work/$name.c2iderr" | head -6
+            fail=$((fail + 1)); failed_names+=("$name"); continue
+        fi
+        echo "PASS  $name (refused)"
+        pass=$((pass + 1)); continue
+    fi
+
+    # A case with a .trap file is a program that has no defined C behaviour (it
+    # recurses forever): its oracle is not run. The port has to be translated
+    # and built, exit with status 1, and say every line of the file on stderr.
+    if [[ -f ${src%.c}.trap ]]; then
+        rm -rf "$work/$name.id"
+        if ! "$c2id" "$src" "$work/$name.id" > "$work/$name.c2iderr" 2>&1 \
+            || ! "$idc" "$work/$name.id" --allow-untested -o "$work/$name.out" > "$work/$name.idcerr" 2>&1; then
+            echo "FAIL  $name: does not translate and build"
+            fail=$((fail + 1)); failed_names+=("$name"); continue
+        fi
+        "$work/$name.out" > "$work/$name.gotout" 2> "$work/$name.goterr" < /dev/null
+        gotstatus=$?
+        missing=""
+        while IFS= read -r want; do
+            [[ -z $want ]] && continue
+            grep -qF -- "$want" "$work/$name.goterr" || missing="$missing [$want]"
+        done < "${src%.c}.trap"
+        if [[ $gotstatus -ne 1 || -n $missing ]]; then
+            echo "FAIL  $name: exit status $gotstatus (expected 1), stderr lacks:$missing"
+            fail=$((fail + 1)); failed_names+=("$name"); continue
+        fi
+        echo "PASS  $name (trapped)"
+        pass=$((pass + 1)); continue
+    fi
+
+    # A .in file is the program's standard input and a .args file its arguments,
+    # one per line, for the oracle and the port alike.
+    stdin_file=/dev/null
+    [[ -f ${src%.c}.in ]] && stdin_file=${src%.c}.in
+    args=()
+    [[ -f ${src%.c}.args ]] && mapfile -t args < "${src%.c}.args"
+    "$work/$name.ref" "${args[@]}" > "$work/$name.refout" 2> "$work/$name.referr" < "$stdin_file"
     refstatus=$?
 
     # ---- 2. the port: C -> id -> binary
@@ -116,7 +188,7 @@ for src in "$here"/tests/c/*.c; do
         sed 's/^/    /' "$work/$name.idcerr" | head -5
         fail=$((fail + 1)); failed_names+=("$name"); continue
     fi
-    "$work/$name.out" > "$work/$name.gotout" 2>&1
+    "$work/$name.out" "${args[@]}" > "$work/$name.gotout" 2> "$work/$name.goterr" < "$stdin_file"
     gotstatus=$?
 
     # ---- 3. compare
@@ -124,7 +196,7 @@ for src in "$here"/tests/c/*.c; do
         echo "FAIL  $name: exit status $gotstatus, expected $refstatus"
         fail=$((fail + 1)); failed_names+=("$name"); continue
     fi
-    if ! diff -u "$work/$name.refout" "$work/$name.gotout" > "$work/$name.diff"; then
+    if ! diff -u "$work/$name.refout" "$work/$name.gotout" > "$work/$name.diff" || ! diff -u "$work/$name.referr" "$work/$name.goterr" >> "$work/$name.diff"; then
         echo "FAIL  $name: output differs"
         sed 's/^/    /' "$work/$name.diff" | head -12
         fail=$((fail + 1)); failed_names+=("$name"); continue

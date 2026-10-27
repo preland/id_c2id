@@ -1,0 +1,54 @@
+// Comparison. ld_mcmp orders two finite or infinite operands by magnitude
+// (exponent, a denormal's read as 1, then significand): 0 less, 1 equal, 2
+// greater. ld_scmp adds the signs (and makes the two zeros equal), ld_cmp gives
+// 3 for an unordered pair (a NaN). cld_cmp answers 0 or 1 for the operator lxo:
+// 0 <, 1 <=, 2 >, 3 >=, 4 ==, 5 !=. Its answer is bit (4 * lxo + order) of the
+// table 0xD26431, one nibble per operator holding a bit per order (less, equal,
+// greater, unordered).
+ld_mcmp(word[] lqa, word[] lqb) {
+  ld_fixe(lqa);
+  ld_fixe(lqb);
+  word lxr = (lqa[1] > lqb[1]) + (lqa[1] >= lqb[1]);
+} chain (word[] lqa, word[] lqb) {
+  if(lqa[1] == lqb[1]) {
+    lxr = ult(lqb[2], lqa[2]) + 1 - ult(lqa[2], lqb[2]);
+  }
+} return word lxr;
+([0, 5, -9223372036854775808], [0, 4, -9223372036854775808]):(2)
+([0, 4, -9223372036854775808], [0, 5, -9223372036854775808]):(0)
+([0, 5, -9223372036854775808], [0, 5, -9223372036854775808]):(1)
+([0, 0, 5], [0, 1, 6]):(0)
+
+ld_scmp(word[] lqa, word[] lqb, word lxka, word lxkb) {
+  word lxr = ld_mcmp(lqa, lqb);
+  if(lqa[0] == 1) {
+    lxr = 2 - lxr;
+  }
+  if(lqa[0] != lqb[0]) {
+    lxr = 2 - 2 * lqa[0];
+  }
+} chain (word[] lqa, word[] lqb, word lxka, word lxkb) {
+  if(lxka == 0 && lxkb == 0) {
+    lxr = 1;
+  }
+} return word lxr;
+([0, 5, -9223372036854775808], [1, 5, -9223372036854775808], 1, 1):(2)
+([1, 5, -9223372036854775808], [0, 5, -9223372036854775808], 1, 1):(0)
+([1, 6, -9223372036854775808], [1, 5, -9223372036854775808], 1, 1):(0)
+([0, 0, 0], [1, 0, 0], 0, 0):(1)
+
+ld_cmp(word lxa, word lxb) {
+  word[] lqa = ld_get(lxa);
+  word[] lqb = ld_get(lxb);
+  word lxka = ld_kind(lqa[1], lqa[2]);
+} chain (word lxa, word lxb) {
+  word lxkb = ld_kind(lqb[1], lqb[2]);
+  word lxr = 3;
+  if(lxka < 3 && lxkb < 3) {
+    lxr = ld_scmp(lqa, lqb, lxka, lxkb);
+  }
+} return word lxr;
+given ld_cells ((import ldx), (import ldy)):(2)
+given ld_cells ((import ldy), (import ldx)):(0)
+given ld_cells ((import ldx), (import ldx)):(1)
+given ld_cells given ld_cset((import ldz), -4611686018427387904, 32767) ((import ldx), (import ldz)):(3)

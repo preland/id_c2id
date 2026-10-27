@@ -1,0 +1,33 @@
+// The scanning loop itself.
+
+// Just past the newline that ends this line -- used only by line markers,
+// which must not let the whitespace path count that newline.
+eol_end(word base, int i) {
+  int e = eol_pos(base, i);
+  int r = e + 1;
+} return int r;
+given lex_src_fixture ((import gb), 0):(15)
+given lex_src_fixture ((import gb), 23):(32)
+
+// `base` is the store address of source byte 0 and `n` its length. Each step
+// consumes one token (or one run of whitespace, one comment, one line
+// marker) and returns the next index.
+scan_src(word base, int i, int n) {
+  while(i < n) {
+    i = scan_one(base, i);
+  }
+} return void;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 0, 4):() then len((import tkind)):(1)
+given init_tokens given init_lines given lex_src_fixture ((import gb), 4, 4):() then len((import tkind)):(0)
+
+// The pad block. Several scanners look one or two bytes ahead, and the store
+// is bounds-checked, so eight zero bytes are allocated immediately behind the
+// source copy; every lookahead past the end then reads 0, which every
+// predicate rejects and ch_eof() names.
+lex_mem(word base, int n) {
+  alloc(8);
+  scan_src(base, 0, n);
+  add_tok("eof", "");
+} return void;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 4):() then len((import tkind)):(2)
+given init_tokens given init_lines given lex_src_fixture ((import gb), 0):() then len((import tkind)):(1)

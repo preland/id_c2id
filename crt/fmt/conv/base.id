@@ -29,7 +29,7 @@ digit_ch(int d, int upper) {
 (10, 1):("A")
 
 lookup_digit(string tbl, int d) {
-  int idx = charat(tbl, d);
+  int idx = character_code_at(tbl, d);
   string out = ch_of(idx);
 } return string out;
 ("0123456789abcdef", 10):("a")

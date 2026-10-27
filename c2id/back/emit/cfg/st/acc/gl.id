@@ -1,0 +1,24 @@
+// Where a global variable lives. Globals share one region of the flat store,
+// `gbase`, allocated once at start-up; a global is `gbase + off`, and off is
+// laid out here as each declaration is read, the way a struct's members are:
+// each aligned to its own type, in declaration order. A function has no
+// storage, so its offset is -1.
+gl_alloc(int r) {
+  int off = 0 - 1;
+  if((import nk)[r] != "fn") {
+    off = gl_take(r);
+  }
+} return int off;
+given init_tu given tynode_fix (4):(-1)
+given init_tu given tynode_fix (3):(0) then (import gsz)[0]:(12)
+given init_tu given tynode_fix (0):(0)
+
+gl_take(int r) {
+  int al = type_align(r);
+  int off = align_up((import gsz)[0], al);
+  int sz = type_size(r);
+} chain (int r) {
+  integer_list_set((import gsz), 0, off + sz);
+} return int off;
+given init_tu given tynode_fix (0):(0) then (import gsz)[0]:(4)
+given init_tu given tynode_fix (3):(0) then (import gsz)[0]:(12)

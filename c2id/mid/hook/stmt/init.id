@@ -1,0 +1,28 @@
+lower_decl(int id) {
+  if((import nk)[id] == "decl" && (import na)[id] >= 0) {
+    lower_init(id);
+  }
+} return void;
+given low_fix given string_list_set((import nk), 12, "decl") given integer_list_set((import na), 12, 9) (12):() then calls lower_init:(12) then len((import bkind)):(4)
+given low_fix given string_list_set((import nk), 12, "decl") given integer_list_set((import na), 12, -1) (12):() then calls lower_init:[0] then len((import bkind)):(1)
+
+// A brace initializer is not an expression; its elements are lowered where
+// they are stored (back/link/data/boot/init).
+lower_init(int id) {
+  int a = (import na)[id];
+  if((import nk)[a] != "init") {
+    int r = lower_val(a);
+    integer_list_set((import na), id, r);
+  } else {
+    init_stx(a);
+  }
+} return void;
+given low_fix given string_list_set((import nk), 12, "decl") given integer_list_set((import na), 12, 9) (12):() then (import na)[12]:(19)
+given low_fix given string_list_set((import nk), 12, "decl") given string_list_set((import nk), 11, "init") given integer_list_set((import na), 12, 11) (12):() then (import na)[12]:(11) then len((import bkind)):(1)
+
+lower_top2(int e) {
+  int k = top_kind(e);
+  int r = lower_top3(e, k);
+} return int r;
+given low_fix (17):(17) then calls lower_call:(17)
+given low_fix (9):(19) then calls lower_val:(9)

@@ -1,0 +1,31 @@
+// __sync_val_compare_and_swap: the object takes axn if it holds axe; the old value comes back.
+c___c2id_vcas(word axp, word axe, word axn, word axs) {
+  word axm = rt_axmask(axe, axs);
+  word axc = c___c2id_load(axp, axs);
+  if(axc == axm) {
+    word axz = c___c2id_store(axp, axn, axs);
+  }
+} return word axc;
+
+// __sync_bool_compare_and_swap: whether the swap happened.
+c___c2id_bcas(word axp, word axe, word axn, word axs) {
+  word axm = rt_axmask(axe, axs);
+  word axc = c___c2id_load(axp, axs);
+  word axr = 0;
+} chain (word axp, word axe, word axn, word axs) {
+  if(axc == axm) {
+    word axz = c___c2id_store(axp, axn, axs);
+    axr = 1;
+  }
+} return word axr;
+
+// __atomic_test_and_set: the object becomes 1; answers whether it was set before.
+c___c2id_tas(word axp, word axs) {
+  word axc = c___c2id_load(axp, axs);
+  word axz = c___c2id_store(axp, 1, axs);
+  word axr = 0;
+} chain (word axp, word axs) {
+  if(axc != 0) {
+    axr = 1;
+  }
+} return word axr;

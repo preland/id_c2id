@@ -1,0 +1,34 @@
+// Folding empty jumps away. A block with no statements whose only job is to go
+// somewhere else would be emitted as a function with no effect and a constant
+// result, which id rejects; so every edge into one is pointed at where it
+// leads, and the block itself is not emitted.
+
+thread_blk(int b) {
+  int n = 0;
+  while(n < len((import bkind)) && empty_jump(b) == 1) {
+    b = jump_to(b);
+    n = n + 1;
+  }
+} return int b;
+given cond_body_fixture (1):(3)
+given cond_body_fixture (0):(3)
+given cfg_body_fixture (0):(0)
+given cfg_body_fixture (1):(1)
+
+// A cycle made only of empty jumps (`for (;;);`) leads nowhere else, so its
+// blocks are still emitted.
+skip_blk(int b) {
+  int ok = is_dead(b);
+  if(empty_jump(b) == 1) {
+    ok = threads_away(b);
+  }
+} return int ok;
+given cfg_body_fixture (0):(0) then calls is_dead:(0)
+given cfg_body_fixture (1):(1) then calls is_dead:(1)
+
+threads_away(int b) {
+  int dest = thread_blk(b);
+  int ok = 1 - empty_jump(dest);
+} return int ok;
+given cfg_body_fixture (0):(1) then calls thread_blk:(0)
+given cfg_body_fixture (1):(1) then calls thread_blk:(1)

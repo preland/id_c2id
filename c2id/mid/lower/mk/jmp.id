@@ -1,0 +1,47 @@
+// setjmp. The call is not a call: it saves where a longjmp has to come back to,
+// and the value it answers is read after, in a block of its own, because that is
+// where the function goes on after a longjmp. A frame temporary t is that value:
+//
+//   __c2id_setjmp(env, &t, offset of t in the frame, number of the next block);
+//   goto next;   next: ... t ...
+//
+// The runtime stores 0 in t then, and longjmp's value when it jumps back
+// (rt/libc/jump.id). The function's runner has to take the jump
+// (back/link/fn/tree/jump.id), which sjf says it has to be told.
+lower_jmp(int e) {
+  int r = e;
+  if(find_str((import jmp_names), call_name(e)) >= 0) {
+    r = lower_setjmp(e);
+  }
+} return int r;
+given low_fix given exprfix stdin "setjmp(x);" ((import extop)):(22)
+given low_fix given exprfix stdin "f(x);" ((import extop)):((import extop)) then len((import bkind)):(1)
+
+lower_setjmp(int e) {
+  int[] args = (import nl)[e];
+  int t = new_temp((import stdty)[0]);
+  int rb = new_block();
+} chain (int e) {
+  int ta = newleaf("un", t, 0, "&", "");
+  int off = frame_off((import ns)[t]);
+  int tn = mk_num(off);
+} chain (int e) {
+  int bn = mk_num(rb);
+  int cf = mk_var("__c2id_setjmp");
+  int cn = newlist("call", cf, 0, "", [args[0], ta, tn, bn]);
+} chain (int e) {
+  jmp_split(cn, rb);
+} return int t;
+given low_fix given exprfix stdin "setjmp(x);" ((import extop)):(22) then (import sjf)[0]:(1)
+given low_fix given exprfix stdin "setjmp(x);" ((import extop)):(22) then len((import bkind)):(2)
+
+jmp_split(int cn, int rb) {
+  effect_stmt(cn);
+  int c = cur_blk();
+  term_jmp(c, rb);
+} chain (int cn, int rb) {
+  set_cur(rb);
+  integer_list_set((import sjf), 0, 1);
+} return void;
+given low_fix given push_bterm (6, 1):() then (import sjf)[0]:(1)
+given low_fix given push_bterm (6, 1):() then (import bsa)[0]:(1)

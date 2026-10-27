@@ -1,0 +1,27 @@
+// More bytes for a FILE that has none left: standard input is read again,
+// anything else has nothing more. Answers how many bytes are now available.
+rt_fill(word rs) {
+  word got = 0;
+  if(peek64(rs + 24) == 1) {
+    got = rt_refill(rs);
+  }
+} return word got;
+
+rt_refill(word rs) {
+  int rrd = stdio_read_some_mem(peek64(rs), 4096);
+  word got = 0;
+  if(rrd > 0) {
+    got = rrd;
+  }
+} chain (word rs) {
+  poke64(rs + 8, got);
+  poke64(rs + 16, 0);
+} return word got;
+
+// How many bytes can be read from a FILE now, reading more if it is empty.
+rt_avail(word rs) {
+  word rhave = peek64(rs + 8) - peek64(rs + 16);
+  if(rhave <= 0) {
+    rhave = rt_fill(rs);
+  }
+} return word rhave;

@@ -1,0 +1,36 @@
+// Parameters live in the callee's frame like locals, but each takes a whole
+// 8-byte slot starting at fp + 8, whatever its C type: the caller stores the
+// canonical 64-bit value there (wrap.id), and a narrower load of the low bytes
+// reads it back, the machine being little-endian.
+bind_params(int ft) {
+  int[] tys = (import nl)[ft];
+  string[] names = string_split((import ns)[ft], ",");
+  int i = 0;
+} chain (int ft) {
+  while(i < len(tys)) {
+    bind_one(names, tys, i);
+    i = i + 1;
+  }
+  note_ret(ft);
+  bind_va(ft);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, int b) { return a; }" (9):() then (import lvnames):(["a", "b"]) then (import lvoff):([8, 16])
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { return 0; }" (8):() then len((import lvoff)):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a, ...) { return a; }" (8):() then (import lvnames):(["a", "__va"]) then (import lvoff):([8, 16])
+given boot_a given boot_b given lexfix given tu_load stdin "int f(char a, long b) { return 0; }" (9):() then (import lvtys):([7, 8])
+
+bind_one(string[] names, int[] tys, int i) {
+  string pn = names[i];
+  bind_param(pn, tys[i]);
+} return void;
+given txt_fixture given init_frame given init_frame2 (["a", "b"], [0, 5], 1):() then (import lvnames):(["b"]) then (import lvoff):([8]) then (import lvtys):([5])
+given txt_fixture given init_frame given init_frame2 (["a", "b"], [0, 5], 0):() then (import lvnames):(["a"]) then (import frsz)[0]:(16) then (import lvtys):([0])
+
+bind_param(string pname, int ty) {
+  push((import lvtys), ty);
+  int sz = par_slot(ty);
+  add_slot(pname, (import frsz)[0], sz);
+} return void;
+given txt_fixture given init_frame given init_frame2 ("p", 0):() then (import lvnames):(["p"]) then (import lvtys):([0]) then (import lvoff):([8])
+given txt_fixture given init_frame given init_frame2 given bind_param("q", 5) ("p", 0):() then (import lvoff):([8, 16]) then (import lvtys):([5, 0])
+given boot_a given boot_b given lexfix given tu_load stdin "struct Q { char c[13]; } q;" ("p", 6):() then (import frsz)[0]:(24)

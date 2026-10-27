@@ -1,0 +1,36 @@
+// `a op b` for text operands: `+ 0`, `- 0`, `* 1`, a leading `0 +` or `1 *` are
+// dropped, `* 0` is 0, and `0 - b` is kept. Two decimal literals under `+`, `-` or `*` are one literal: `1 * 3` is `3`
+// and the id compiler would refuse the product as an operation that cannot
+// change its value (E0409). A literal longer than nine digits is left alone so
+// the arithmetic cannot overflow.
+
+text_bin(string bnl_a, string bnl_op, string bnl_b) {
+  string bnl_s = bin_mul(bnl_a, bnl_op, bnl_b);
+  if(bin_small(bnl_a) == 1) {
+    bnl_s = bin_pair(bnl_a, bnl_op, bnl_b, bnl_s);
+  }
+} return string bnl_s;
+("0", "+", "8"):("8")
+("1", "*", "3"):("3")
+("2", "+", "3"):("5")
+("X", "*", "0"):("0")
+("X", "+", "8"):("(X + 8)")
+
+bin_pair(string bnl_pl, string bnl_pop, string bnl_pr, string bnl_pt) {
+  string bnl_pout = bnl_pt;
+  if(bin_small(bnl_pr) == 1) {
+    bnl_pout = bin_num(bnl_pl, bnl_pop, bnl_pr, bnl_pt);
+  }
+} return string bnl_pout;
+("2", "*", "3", "(2 * 3)"):("6")
+("2", "*", "Y", "(2 * Y)"):("(2 * Y)")
+
+bin_small(string bnl_t) {
+  int bnl_ok = mg_all_digits(bnl_t);
+  if(len(bnl_t) > 9) {
+    bnl_ok = 0;
+  }
+} return int bnl_ok;
+("15"):(1)
+("1234567890"):(0)
+("k5"):(0)

@@ -1,0 +1,33 @@
+// The frame pass gives a call of a function that returns a struct or union its
+// hidden first argument, nb being 1 once it has one (mid/lower/mk/sret.id).
+bind_sret(int id, string kn) {
+  if(kn == "call") {
+    sret_call(id);
+    atom_call(id);
+    ovf_call(id);
+  }
+  tof_other(id, kn);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int x; }; struct P f(void); int g(void) { return f().x; }" (15, "call"):() then (import nb)[15]:(1)
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int x; }; struct P f(void); int g(void) { return f().x; }" (15, "var"):() then (import nb)[15]:(0)
+
+sret_call(int e) {
+  int ft = ex_ty((import na)[e]);
+  int rt = fn_ret(ft);
+  if(ty_agg(rt) == 1) {
+    sret_slot(e, rt);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int x; }; struct P f(void); int g(void) { return f().x; }" (15):() then (import nb)[15]:(1)
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int x; }; int f(void); int g(void) { return f(); }" (15):() then (import nb)[15]:(0)
+given boot_a given boot_b given lexfix given tu_load stdin "long double f(void); int g(void) { return f(); }" (14):() then (import nb)[14]:(1)
+
+sret_slot(int e, int rt) {
+  if((import nb)[e] == 0) {
+    sret_arg(e, rt);
+  } else {
+    sret_keep(e, rt);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int x; }; struct P f(void); int g(void) { return f().x; }" (15, 6):() then (import nl)[15]:([20])
+given boot_a given boot_b given lexfix given tu_load given sret_arg(15, 6) given txt_reset stdin "struct P { int x; }; struct P f(void); int g(void) { return f().x; }" (15, 6):() then (import lvnames):(["__tmp0"]) then (import nl)[15]:([20])

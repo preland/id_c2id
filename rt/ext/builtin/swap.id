@@ -1,0 +1,21 @@
+// The compiler builtins C code reaches for. A translated program calls them as
+// `c___builtin_NAME`, like any other function it does not define.
+
+// Reverse the four bytes of a 32-bit value (zero-extended in, zero-extended out).
+c___builtin_bswap32(word bv) {
+  word lo = ((bv & 255) << 24) | ((bv & 65280) << 8);
+  word hi = ((bv >> 8) & 65280) | ((bv >> 24) & 255);
+  word r = lo | hi;
+} return word r;
+
+// Reverse the eight bytes of a 64-bit value.
+c___builtin_bswap64(word bv) {
+  word lo = c___builtin_bswap32(bv & 4294967295);
+  word hi = c___builtin_bswap32(ushr(bv, 32));
+  word r = (lo << 32) | hi;
+} return word r;
+
+// `x` is an expectation hint for the optimizer; the value is x.
+c___builtin_expect(word xv, word hint) {
+  word r = xv;
+} return word r;

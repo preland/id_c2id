@@ -19,7 +19,7 @@ re_grow(word p, word n) {
   }
 } return word q;
 given crt_heap_fixture ((import p0), 16):((import p0)) then calls re_move:[1]
-given crt_heap_fixture ((import p0), 999):(0) then calls re_move:[0]
+given crt_heap_fixture ((import p0), 2147483648):(0) then calls re_move:[0]
 
 // Always copies to a fresh block; there is no in-place grow. Correct, and
 // the shrink case still gets a smaller block back.

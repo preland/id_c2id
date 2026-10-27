@@ -1,0 +1,23 @@
+// The callee takes the runtime function's name and the call the new arguments:
+// the operation, the operands, the pointer and the three infos.
+ovf_set(int id, int k, int[] args, int ai, int bi, int ri) {
+  int[] lst = ovf_list(args, k, ai, bi, ri);
+  int c = (import na)[id];
+  string_list_set((import ns), c, "__c2id_ovf");
+} chain (int id, int k, int[] args, int ai, int bi, int ri) {
+  atom_fill(id, lst);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (18, 0, [14, 15, 17], 9, 9, 9):() then (import ns)[13]:("__c2id_ovf") then (import nl)[18]:([21, 14, 15, 17, 22, 23, 24])
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (18, 2, [14, 15, 17], 9, 9, 9):() then (import nl)[18]:([21, 14, 15, 17, 22, 23, 24])
+
+ovf_list(int[] args, int k, int ai, int bi, int ri) {
+  int[] lst = [];
+  atom_push(lst, (import ovf_ops)[k]);
+  list_extend(lst, args);
+} chain (int[] args, int k, int ai, int bi, int ri) {
+  atom_push(lst, ai);
+  atom_push(lst, bi);
+  atom_push(lst, ri);
+} return int[] lst;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" ([14, 15, 17], 0, 9, 9, 9):([21, 14, 15, 17, 22, 23, 24])
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" ([14, 15, 17], 2, 8, 17, 16):([21, 14, 15, 17, 22, 23, 24])

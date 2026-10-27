@@ -1,0 +1,34 @@
+// The exponent: e or E, an optional sign, digits. Its size is clamped, far past
+// what any long double can hold, so that a silly one cannot overflow a word.
+ld_lmin(word lxv) {
+  word lxr = lxv;
+  if(lxv > 100000) {
+    lxr = 100000;
+  }
+} return word lxr;
+(100001):(100000)
+(200000):(100000)
+
+ld_lexd(string lbs, int bxj) {
+  word lxv = 0;
+  int bxc = character_code_at(lbs, bxj);
+  while(bxc >= 48 && bxc <= 57) {
+    lxv = ld_lmin(lxv * 10 + bxc - 48);
+    bxj = bxj + 1;
+    bxc = character_code_at(lbs, bxj);
+  }
+} return word lxv;
+("e123", 1):(123)
+("e", 1):(0)
+("e99999999", 1):(100000)
+
+ld_lexv(string lbs, word[] lqp, int bxi) {
+  int bxc = character_code_at(lbs, bxi);
+  int bxj = bxi + (bxc == 43) + (bxc == 45);
+  word lxv = ld_lexd(lbs, bxj);
+} chain (string lbs, word[] lqp, int bxi) {
+  lqp[2] = lqp[2] + lxv - 2 * lxv * (bxc == 45);
+} return void;
+("e-5", [0, 0, 10, 0, 0, 0], 1):("e-5", [0, 0, 5, 0, 0, 0], 1)
+("e+3", [0, 0, 10, 0, 0, 0], 1):("e+3", [0, 0, 13, 0, 0, 0], 1)
+("e4", [0, 0, 1, 0, 0, 0], 1):("e4", [0, 0, 5, 0, 0, 0], 1)

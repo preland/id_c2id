@@ -1,0 +1,13 @@
+// The `}` that ends a block, or the end of the file where it should be. A parse
+// error has already been reported, and has moved the cursor past the last token,
+// when there is nothing left to say.
+block_close(int[] pos) {
+  if(at_text(pos, "}")) {
+    advance(pos);
+  } else if(pos[0] < len((import ttext))) {
+    diag_halt(pos, "the file ends before the '}' that closes a block: the program is incomplete");
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "}" ([0]):([1])
+given boot_a given boot_b given lexfix stdin "# 5 \"u.c\"\nx" ([1]):() then (import dgmsg):(["u.c:5: error: the file ends before the '}' that closes a block: the program is incomplete"])
+given boot_a given boot_b given lexfix stdin "x" ([2]):() then len((import dgmsg)):(0)

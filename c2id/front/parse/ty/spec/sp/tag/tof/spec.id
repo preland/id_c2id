@@ -1,0 +1,24 @@
+// `typeof(T)` is T; `typeof(expr)` and `__auto_type` are the type of an
+// expression, which is known only once the function's locals are (the frame pass
+// resolves them, mid/pass/frame/tof/), so here they are a "tof" or "auto" type
+// node. The spelling is read as a specifier where a typedef name would be.
+spec_tof(int[] pos, int[] sp) {
+  int ok = 0;
+  if(at_in(pos, (import tof_words))) {
+    ok = tof_spec(pos, sp);
+  } else {
+    ok = spec_td(pos, sp);
+  }
+} return int ok;
+given boot_a given boot_b given ty_setup given lexfix stdin "typeof ( int ) x" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1)
+given ty_setup given lexfix stdin "xyz" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(0)
+
+tof_spec(int[] pos, int[] sp) {
+  string kw = cur_text(pos);
+  advance(pos);
+  int ty = tof_type(pos, kw);
+} chain (int[] pos, int[] sp) {
+  integer_list_set(sp, 10, ty);
+} return int 1;
+given boot_a given boot_b given ty_setup given lexfix stdin "typeof ( int )" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1) then calls tof_type:([4], "typeof")
+given boot_a given boot_b given ty_setup given lexfix stdin "__auto_type x" ([0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1]):(1) then calls tof_type:([1], "__auto_type")

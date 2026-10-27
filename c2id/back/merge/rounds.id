@@ -1,0 +1,20 @@
+// The merge passes run as rounds until the text stops changing. A merge renames
+// the calls to the functions it removed, and that can make two other functions
+// (a `dsp` that called two `dsp`s, a block that called `c_die` or `c_quit`) differ
+// only in literals where a pass before them saw different names. Each round names
+// its parameters with a longer prefix (`lv`, `lvw`, ...), so a function merged
+// again never gets a parameter name it already has.
+
+mg_round(string mgtext, string mgpfx) {
+  string mgblk = mg_pass(mgtext, "blk", mgpfx);
+  string mgdsp = mg_pass(mgblk, "dsp", mgpfx);
+  string mgrun = mg_pass(mgdsp, "run", mgpfx);
+} chain (string mgtext, string mgpfx) {
+  string mgcfam = mg_pass(mgrun, "c_", mgpfx);
+  string mgr = mg_pass(mgcfam, "ind", mgpfx);
+} return string mgr;
+("==== FILE a.id\nblk1_0(word fp) {\n  word k0 = 0;\n  poke64(fp, 7);\n} return word 3;\nblk1_1(word fp) {\n  word k1 = 1;\n  poke64(fp, 9);\n} return word 3;\n", "lv"):("==== FILE a.id\nblk1_0(word fp, word lv0) {\n  word k0 = 0;\n  poke64(fp, lv0);\n} return word 3;\n")
+("x\n", "lv"):("x\n")
+("==== FILE a.id\nc_a() {\n  word r = run1(fp, 8);\n} return word r;\nc_b() {\n  word r = run1(fp, 16);\n} return word r;\nc_c() {\n  word r = c_b();\n} return word r;\n", "lv"):("==== FILE a.id\nc_a(word lv0) {\n  word r = run1(fp, lv0);\n} return word r;\nc_c() {\n  word r = c_a(16);\n} return word r;\n")
+("==== FILE a.id\nind0_0_2(word f) {\n  word r = 0;\n  if(f < 19) { r = c_a(24); } else { r = c_a(808); }\n} return word r;\nind0_2_4(word f) {\n  word r = 0;\n  if(f < 21) { r = c_a(2); } else { r = c_a(24); }\n} return word r;\nind0_0_4(word f) {\n  word r = 0;\n  if(f < 20) { r = ind0_0_2(f); } else { r = ind0_2_4(f); }\n} return word r;\n", "lv"):("==== FILE a.id\nind0_0_2(word f, word lv1, word lv2, word lv3) {\n  word r = 0;\n  if(f < lv1) { r = c_a(lv2); } else { r = c_a(lv3); }\n} return word r;\nind0_0_4(word f) {\n  word r = 0;\n  if(f < 20) { r = ind0_0_2(f, 19, 24, 808); } else { r = ind0_0_2(f, 21, 2, 24); }\n} return word r;\n")
+("==== FILE a.id\nblk1_0(word fp) {\n  word k0 = 0;\n  word t0 = cld_lit(fp, \"0.5\");\n} return word 3;\nblk1_1(word fp) {\n  word k1 = 1;\n  word t0 = cld_lit(fp, \"3.5\");\n} return word 5;\n", "lv"):("==== FILE a.id\nblk1_0(word fp, string lvs0, word lv1) {\n  word k0 = 0;\n  word t0 = cld_lit(fp, lvs0);\n} return word lv1;\n")

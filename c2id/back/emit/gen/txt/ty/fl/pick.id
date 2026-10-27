@@ -1,0 +1,13 @@
+// The binary operators' first question after short-circuit: is a floating-point
+// operand involved. If so the whole operator is crt's (fl_bin_txt); otherwise
+// the integer and pointer rules decide (bin1).
+bin_pick(int id) {
+  string s = "";
+  if(fl_is_bin(id) == 1) {
+    s = fl_bin_txt(id);
+  } else {
+    s = wd_pick(id);
+  }
+} return string s;
+given txt_fixture given pend_setup given fl_fixture given fl_bin_fixture ((import flb)):("t2")
+given txt_fixture given pend_setup given fl_fixture given fl_bin_fixture ((import fli_b)):("t0")

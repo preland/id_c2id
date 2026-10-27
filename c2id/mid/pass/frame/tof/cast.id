@@ -1,0 +1,21 @@
+// A cast or a sizeof of a type written with typeof(expr): the type is known once
+// the operand is bound, which is when bind_sret asks. A sizeof of an expression
+// has no type of its own (nb is 0) and is left alone.
+tof_other(int id, string kn) {
+  if((kn == "cast" || kn == "sizeof") && (import nb)[id] > 0) {
+    tof_cast(id);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return (typeof(a))a; }" (12, "cast"):() then calls tof_cast:(12)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return (typeof(a))a; }" (12, "sizeof"):() then calls tof_cast:(12)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return (typeof(a))a; }" (12, "var"):() then calls tof_cast:[0]
+
+tof_cast(int id) {
+  int ty = (import nb)[id];
+  if(tof_has(ty) == 1) {
+    int ibound = tof_resolve(id, ty);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return (typeof(a))a; }" (12):() then calls tof_resolve:(12, 10)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (15):() then calls tof_resolve:(15, 13)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(int a) { return (int)a; }" (12):() then calls tof_resolve:[0]

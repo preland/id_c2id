@@ -1,0 +1,32 @@
+// The dispatch tree over a function's live blocks: a node splits its range in
+// two on the block number, one `if`/`else` of two calls, so no block function
+// exceeds three actions and a leaf is the block function itself.
+emit_tree(int fn, int[] live, int lo, int hi) {
+  string tnm = tree_name(fn, live, lo, hi);
+  if(hi - lo > 1) {
+    emit_node(fn, live, lo, hi);
+  }
+} return string tnm;
+given init_gfn (2, [0, 1, 3], 2, 3):("blk2_3(fp)") then prints:("")
+given init_gfn (0, [0, 2], 0, 2):("dsp0_0_2(fp, pc)") then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ndsp0_0_2(word fp, word pc) {\n  word nxt = 0 - 1;\n  if(pc < 2) { nxt = blk0_0(fp); } else { nxt = blk0_2(fp); }\n} return word nxt;\n")
+
+tree_name(int fn, int[] live, int lo, int hi) {
+  string tnm = "dsp" + fn + "_" + lo + "_" + hi + "(fp, pc)";
+  if(hi - lo == 1) {
+    tnm = "blk" + fn + "_" + live[lo] + "(fp)";
+  }
+} return string tnm;
+(2, [0, 1, 3], 0, 3):("dsp2_0_3(fp, pc)")
+(2, [0, 1, 3], 2, 3):("blk2_3(fp)")
+
+emit_node(int fn, int[] live, int lo, int hi) {
+  int mid = (lo + hi) / 2;
+  string lnm = emit_tree(fn, live, lo, mid);
+  string rnm = emit_tree(fn, live, mid, hi);
+} chain (int fn, int[] live, int lo, int hi) {
+  string tnm = "dsp" + fn + "_" + lo + "_" + hi;
+  int cut = live[mid];
+  emit_dsp(tnm, cut, lnm, rnm);
+} return void;
+given init_gfn (0, [0, 2], 0, 2):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ndsp0_0_2(word fp, word pc) {\n  word nxt = 0 - 1;\n  if(pc < 2) { nxt = blk0_0(fp); } else { nxt = blk0_2(fp); }\n} return word nxt;\n")
+given init_gfn (1, [0, 1, 3], 0, 3):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ndsp1_1_3(word fp, word pc) {\n  word nxt = 0 - 1;\n  if(pc < 3) { nxt = blk1_1(fp); } else { nxt = blk1_3(fp); }\n} return word nxt;\ndsp1_0_3(word fp, word pc) {\n  word nxt = 0 - 1;\n  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = dsp1_1_3(fp, pc); }\n} return word nxt;\n")

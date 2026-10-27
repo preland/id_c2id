@@ -1,0 +1,23 @@
+// Prefix ++ and --.
+
+parse_unary2(int[] pos) {
+  int node = 0;
+  if(at_incdec(pos)) {
+    node = pre_incdec(pos);
+  } else {
+    node = parse_unary3(pos);
+  }
+} return int node;
+given boot_a given lexfix stdin "++x;" ([0]):(1) then calls pre_incdec:[1]
+given boot_a given lexfix stdin "x;" ([0]):(0) then calls parse_unary3:[1]
+
+// C says the operand of a prefix ++/-- is a unary-expression, not a
+// cast-expression -- `++(int)x` is not C. That single difference from
+// unary_op is why this is its own function.
+pre_incdec(int[] pos) {
+  string op = cur_text(pos);
+  advance(pos);
+  int id = incdec_node(pos, op);
+} return int id;
+given boot_a given lexfix stdin "++x;" ([0]):(1)
+given boot_a given lexfix stdin "--y;" ([0]):(1)

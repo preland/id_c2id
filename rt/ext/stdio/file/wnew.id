@@ -1,0 +1,33 @@
+// An empty file made on disk, and the FILE that holds it; 0 when the path will
+// not open for writing.
+rt_wfresh(word rpath) {
+  word rwn = c_strlen(rpath);
+  string rwt = str_of_mem(rpath, rwn);
+  word rwv = fs_save(rwt, rpath, 0);
+} chain (word rpath) {
+  word rwf = 0;
+  if(rwv >= 0) {
+    rwf = rt_wnew();
+  }
+} return word rwf;
+
+rt_wnew() {
+  word rwd = kmalloc(16);
+  word rwf = kmalloc(64);
+  poke64(rwf, rwd);
+} chain () {
+  poke64(rwf + 8, 0);
+  poke64(rwf + 16, 0);
+  poke64(rwf + 24, 2);
+} chain () {
+  poke64(rwf + 32, 16);
+  poke64(rwf + 48, 0);
+  poke64(rwf + 56, 0);
+} return word rwf;
+
+rt_wbound(word rwf, word rpath, word rwfl) {
+  word rwg = 0;
+  if(rwf != 0) {
+    rwg = rt_wbind(rwf, rpath, rwfl);
+  }
+} return word rwg;

@@ -1,0 +1,31 @@
+// The precision of an integer conversion is its minimum number of digits, padded
+// with zeros; a value of 0 with a precision of 0 has no digits at all.
+prec_fix(string dgt, word[] fs) {
+  int pk = fs[9] - len(dgt);
+  string pz = rep_ch("0", pk) + dgt;
+  if(fs[9] == 0 && dgt == "0") {
+    pz = "";
+  }
+} return string pz;
+("42", [0, 0, 0, 0, 0, 0, 0, 0, 1, 5]):("00042")
+("0", [0, 0, 0, 0, 0, 0, 0, 0, 1, 0]):("")
+("42", [0, 0, 0, 0, 0, 0, 0, 0, 1, 1]):("42")
+
+prec_pad(string dgt, word[] fs) {
+  string pp = dgt;
+  if(fs[8] != 0) {
+    pp = prec_fix(dgt, fs);
+  }
+} return string pp;
+("42", [0, 0, 0, 0, 0, 0, 0, 0, 1, 4]):("0042")
+("42", [0, 0, 0, 0, 0, 0, 0, 0, 0, 4]):("42")
+
+// Whether the 0 flag pads with zeros: not when a precision was given.
+dec_z(word[] fs) {
+  int dz = 1;
+  if(fs[8] != 0) {
+    dz = 0;
+  }
+} return int dz;
+([0, 0, 0, 0, 0, 0, 0, 0, 1, 0]):(0)
+([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):(1)

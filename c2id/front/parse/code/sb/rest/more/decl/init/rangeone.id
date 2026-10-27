@@ -1,0 +1,27 @@
+init_span(int[] l, int e, int hi) {
+  int k = (import nb)[e] + 1;
+  if(hi - k >= (import range_max)) {
+    diag_node(e, "designator range lists too many elements: c2id stores each element of a range on its own, at most " + (import range_max));
+    k = hi + 1;
+  }
+  while(k <= hi) {
+    k = init_next(l, e, k);
+  }
+} return void;
+given dinit_fix ([], 1, 3):([2, 3])
+given dinit_fix given lexfix stdin "x" ([], 1, 100000):([]) then len((import dgmsg)):(1)
+
+init_next(int[] l, int e, int k) {
+  int d = init_clone(e, k);
+  push(l, d);
+  int knext = k + 1;
+} return int knext;
+given dinit_fix ([], 1, 2):(3) then calls init_clone:(1, 2)
+given dinit_fix ([], 1, 5):(6) then calls init_clone:(1, 5)
+
+init_clone(int e, int k) {
+  int v = (import na)[e];
+  int d = newleaf("dinit", v, k, "", "");
+} return int d;
+given dinit_fix (1, 3):(2) then (import nb)[2]:(3)
+given dinit_fix (1, 4):(2) then (import nb)[2]:(4)

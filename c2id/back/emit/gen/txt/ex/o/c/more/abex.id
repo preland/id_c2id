@@ -1,0 +1,30 @@
+// The text of each operand of a two-child node, and the address form of
+// the first -- split out for the same reason as abty.id, and shared just
+// as widely across ex/d, ex/a, ex/o and st.
+
+kid_ex(int[] kids, int id) {
+  int a = kids[id];
+  string s = ex_txt(a);
+} return string s;
+given txt_fixture ((import na), 0):("NEEDS_CFG_prim") then calls ex_txt:(4)
+given txt_fixture ((import na), 1):("NEEDS_CFG_prim") then calls ex_txt:(4)
+given txt_fixture ((import nb), 0):("NEEDS_CFG_prim") then calls ex_txt:(1)
+given txt_fixture ((import nb), 1):("NEEDS_CFG_prim") then calls ex_txt:(0)
+
+a_addr(int id) {
+  int a = (import na)[id];
+  string s = addr_txt(a);
+} return string s;
+given txt_fixture (0):("NOT_AN_LVALUE_prim") then calls addr_txt:(4)
+given txt_fixture (1):("NOT_AN_LVALUE_prim") then calls addr_txt:(4)
+
+// The text of one operand of a two-child node, converted to ty -- what an
+// unsigned division or comparison needs so that an `int` operand arrives as
+// the 32-bit pattern the usual arithmetic conversions give it, not as a
+// sign-extended 64-bit word that outranks every unsigned value.
+kid_cv(int[] kids, int id, int ty) {
+  string s = kid_ex(kids, id);
+  string out = conv_txt(ty, s);
+} return string out;
+given txt_fixture given pend_setup ((import na), 0, 0):("t0")
+given txt_fixture given pend_setup ((import na), 0, 5):("NEEDS_CFG_prim")

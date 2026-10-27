@@ -1,0 +1,21 @@
+// The word that opens an attribute group, and for an asm the qualifiers that
+// may stand between it and its `(`: `asm volatile (`, `asm goto (`.
+skip_head(int[] pos) {
+  string s = cur_text(pos);
+  advance(pos);
+  if(list_string_index((import asm_words), s) >= 0) {
+    skip_asm_quals(pos);
+  }
+} return void;
+given lexfix stdin "asm volatile (x)" ([0]):([2])
+given lexfix stdin "__attribute__ (x)" ([0]):([1])
+
+skip_asm_quals(int[] pos) {
+  while(at_in(pos, (import asm_quals)) == 1) {
+    advance(pos);
+  }
+} return void;
+given lexfix stdin "volatile goto (x)" ([0]):([2])
+given lexfix stdin "volatile (x)" ([0]):([1])
+given lexfix stdin "(x)" ([0]):([0])
+

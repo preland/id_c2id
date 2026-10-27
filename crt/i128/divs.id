@@ -1,0 +1,16 @@
+// a / b and a % b, unsigned (wqsigned 0) or signed (1), quotient (wqremainder 0)
+// or remainder (1). One function because the four differ only in those two
+// literals. The result is written to wqd, which may be an operand.
+ci128_divide(word wqsigned, int wqremainder, word wqd, word wqa, word wqb) {
+  word[] wqu = wq_load(wqa, wqb, wqsigned);
+  wq_udivmod(wqu);
+  wq_out(wqd, wqu, wqremainder);
+} return word wqd;
+given wq_cells (1, 0, (import wqz), (import wqx), (import wqy)):((import wqz)) then peek64((import wqz)):(-1) then peek64((import wqzh)):(0)
+given wq_cells given ld_cset((import wqx), 0, -4) (1, 0, (import wqz), (import wqx), (import wqy)):((import wqz)) then peek64((import wqz)):(0) then peek64((import wqzh)):(-2)
+given wq_cells (1, 1, (import wqz), (import wqx), (import wqy)):((import wqz)) then peek64((import wqz)):(1) then peek64((import wqzh)):(0)
+given wq_cells given ld_cset((import wqx), 5, -1) (1, 1, (import wqz), (import wqx), (import wqy)):((import wqz)) then peek64((import wqz)):(-1) then peek64((import wqzh)):(-1)
+given wq_cells (0, 0, (import wqz), (import wqx), (import wqy)):((import wqz)) then peek64((import wqz)):(-1) then peek64((import wqzh)):(0)
+given wq_cells (0, 0, (import wqz), (import wqy), (import wqx)):((import wqz)) then peek64((import wqz)):(0) then peek64((import wqzh)):(0)
+given wq_cells (0, 1, (import wqz), (import wqx), (import wqy)):((import wqz)) then peek64((import wqz)):(1) then peek64((import wqzh)):(0)
+given wq_cells (0, 1, (import wqz), (import wqy), (import wqx)):((import wqz)) then peek64((import wqz)):(2) then peek64((import wqzh)):(0)

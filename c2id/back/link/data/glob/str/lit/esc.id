@@ -1,0 +1,20 @@
+// A backslash escape: find where it ends, decode it with the same function a
+// character constant uses (chr_val), and splice `" + chr(v) + "` into the
+// expression. A NUL (`\0`) cannot be a string, so it is spelled as a name no
+// program defines and the build says so.
+lit_esc(string raw, string[] acc, int i) {
+  int j = esc_end(raw, i);
+  string seq = str_sub(raw, i, j - i);
+  int v = chr_val(seq);
+} chain (string raw, string[] acc, int i) {
+  lit_code(acc, v);
+} return int j;
+("\"a\\nb\"", ["\"a"], 2):(4) then calls lit_code:(["\"a\" + chr(10) + \""], 10)
+("\"\\x41\"", ["\""], 1):(5) then calls lit_code:(["\"\" + chr(65) + \""], 65)
+
+lit_code(string[] acc, int v) {
+  string piece = acc[0] + chr(34) + " + chr(" + v + ") + " + chr(34);
+  string_list_set(acc, 0, piece);
+} return void;
+(["\"a"], 10):(["\"a\" + chr(10) + \""], 10)
+(["\""], 0):(["\"\" + chr(0) + \""], 0)

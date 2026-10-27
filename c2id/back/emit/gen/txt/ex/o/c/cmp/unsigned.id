@@ -1,0 +1,28 @@
+// ucmp_txt's two pieces, split out because the operand order it decides
+// and the final negation it hands off to ucmp_neg each nest calls that
+// ucmp_txt has no room left to name.
+
+ucmp_body(int id) {
+  string s = "";
+  int cty = pair_uty(id);
+  string op = (import ns)[id];
+} chain (int id) {
+  if(op == ">" || op == "<=") {
+    string exb = kid_cv((import nb), id, cty);
+    string exa = kid_cv((import na), id, cty);
+    s = ult_txt(exb, exa);
+  } else {
+    string exa2 = kid_cv((import na), id, cty);
+    string exb2 = kid_cv((import nb), id, cty);
+    s = ult_txt(exa2, exb2);
+  }
+} return string s;
+given txt_fixture given pend_setup (0):("t2")
+given txt_fixture given pend_setup (5):("t2")
+
+ucmp_final(string s, int id) {
+  string op = (import ns)[id];
+  string out = ucmp_neg(s, op);
+} return string out;
+given txt_fixture ("X", 0):("X")
+given txt_fixture ("X", 5):("X")

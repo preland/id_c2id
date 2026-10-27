@@ -1,0 +1,38 @@
+
+// A lone `void` parameter means "no parameters" and is dropped. Array and
+// function parameter types decay to pointers, as C says they do, so a
+// caller comparing argument types never has to special-case them.
+
+param_push(int[] ps, int inner) {
+  int r = decay(inner);
+  if(is_void(r) == 0) {
+    push(ps, r);
+    push((import pnq), (import dname)[0]);
+  }
+} return void;
+given ty_setup given tynode_fix ([], 0):([0])
+given ty_setup given tynode_fix ([], 1):([])
+
+is_void(int inner) {
+  int ok = 0;
+  if((import nk)[inner] == "prim" && (import ns)[inner] == "void") {
+    ok = 1;
+  }
+} return int ok;
+given tynode_fix (2):(0)
+given tynode_fix (4):(0)
+given tynode_fix (1):(1)
+given tynode_fix (0):(0)
+
+decay(int inner) {
+  int r = inner;
+  if((import nk)[inner] == "arr") {
+    int a = (import na)[inner];
+    r = newleaf("ptr", a, 0, "", "");
+  } else {
+    r = decay2(inner);
+  }
+} return int r;
+given tynode_fix (3):(6) then calls newleaf:("ptr", 0, 0, "", "")
+given tynode_fix (4):(6) then calls newleaf:("ptr", 4, 0, "", "")
+given tynode_fix (0):(0)

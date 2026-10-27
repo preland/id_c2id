@@ -1,0 +1,31 @@
+// A rounded denormal whose significand reached 2^63 is the smallest normal.
+ld_efix(word[] lqw) {
+  if(lqw[1] == 0 && lqw[2] < 0) {
+    lqw[1] = 1;
+  }
+} return void;
+([0, 0, -9223372036854775808, 0]):([0, 1, -9223372036854775808, 0])
+([1, 0, -9223372036854775807, 0]):([1, 1, -9223372036854775807, 0])
+
+// The two words of the result: the significand, and sign and exponent; an
+// exponent of 32767 or more is an infinity.
+ld_fin(word[] lqw) {
+  word lxs = lqw[0] << 15;
+  word[] lqr = [lqw[2], lxs | lqw[1]];
+  if(lqw[1] >= 32767) {
+    lqr = [(import ldtop), lxs | 32767];
+  }
+} return word[] lqr;
+([1, 100, -9223372036854775808, 0]):([-9223372036854775808, 32868])
+([0, 32768, -9223372036854775808, 0]):([-9223372036854775808, 32767])
+
+ld_pack2(word[] lqw) {
+  ld_nrm(lqw);
+  ld_dnrm(lqw);
+  ld_rnd(lqw);
+} chain (word[] lqw) {
+  ld_efix(lqw);
+  word[] lqr = ld_fin(lqw);
+} return word[] lqr;
+([0, 16383, 0, 1]):([-9223372036854775808, 16256])
+([1, 16384, 3, 0]):([-4611686018427387904, 49090])

@@ -1,0 +1,14 @@
+// Multiplication and division work on normalised operands: a finite non-zero
+// [sign, exponent, significand] has its significand shifted up until the top bit
+// is set and the exponent lowered by the shift (a denormal's exponent being
+// read as 1), so the exponent can go below 1 and even below 0.
+ld_fixn(word[] lqa) {
+  word lxe = lqa[1] + (lqa[1] == 0);
+  word lxk = ld_clz(lqa[2]);
+  lqa[2] = lqa[2] << lxk;
+} chain (word[] lqa) {
+  lqa[1] = lxe - lxk;
+} return void;
+([0, 5, 1]):([0, -58, -9223372036854775808])
+([0, 0, 1]):([0, -62, -9223372036854775808])
+

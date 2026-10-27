@@ -1,0 +1,26 @@
+// `enum`, its attributes, and its tag (empty for an enum with no tag).
+enum_head(int[] pos) {
+  advance(pos);
+  skip_attrs(pos);
+  string tag = take_ident(pos);
+} return string tag;
+given lexfix stdin "enum x" ([0]):("x")
+given lexfix stdin "enum { y }" ([0]):("")
+
+// One registered enumerator, "answer" -> 42, for en_add's own cases and for
+// has_enum/enum_val's found branch.
+answer_enum_fix() {
+  ty_setup();
+  en_add("answer", 42);
+} return void;
+():() then calls en_add:("answer", 42)
+():() then calls ty_setup:()
+
+// enum_val("answer") specifically, a zero-argument witness of what en_add
+// actually left (en_add itself calls nothing else, so there is no
+// delegation to record).
+check_answer_enum() {
+  int r = enum_val("answer");
+} return int r;
+given ty_setup ():(0)
+given answer_enum_fix ():(42)

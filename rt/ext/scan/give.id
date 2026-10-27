@@ -1,0 +1,26 @@
+// Store a value through the next argument, unless the conversion had a `*`.
+rt_give(word rv, word rsup, word rlen, word[] rargs, word[] rst) {
+  if(rsup == 0) {
+    word rp = rt_arg(rargs, rst);
+    rt_store(rp, rv, rlen);
+    word_list_set(rst, 2, rst[2] + 1);
+  }
+} return void;
+
+// The next argument.
+rt_arg(word[] rargs, word[] rst) {
+  int rk = rst[3];
+  word rp = rargs[rk];
+  word_list_set(rst, 3, rst[3] + 1);
+} return word rp;
+
+// A value stored at the width of the object the argument points at.
+rt_store(word rp, word rv, word rlen) {
+  if(rlen == 1) {
+    poke8(rp, rv);
+  } else if(rlen == 2) {
+    poke16(rp, rv);
+  } else {
+    rt_store2(rp, rv, rlen);
+  }
+} return void;

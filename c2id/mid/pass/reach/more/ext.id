@@ -1,0 +1,8 @@
+// Function i is a root of a unit with no main when it has external linkage.
+reach_ext(int rx_i) {
+  if((import fstat)[rx_i] == 0) {
+    reach_mark(rx_i);
+  }
+} return void;
+given gl_setup given reach_init(2) given list_fill((import fstat), 2, 0) given integer_list_set((import fstat), 1, 1) (0):() then (import reach):([1, 0])
+given gl_setup given reach_init(2) given list_fill((import fstat), 2, 0) given integer_list_set((import fstat), 1, 1) (1):() then (import reach):([0, 0])

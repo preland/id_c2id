@@ -1,0 +1,35 @@
+// Folding every member of a group into its head's mask: the head's mask ends up
+// `1` wherever any member differs from the head.
+
+mg_orc(string mgxa, string mgxb) {
+  string mgr = "0";
+  if(mgxa == "2" || mgxb == "2") {
+    mgr = "2";
+  } else if(mgxa == "1" || mgxb == "1") {
+    mgr = "1";
+  }
+} return string mgr;
+("1", "0"):("1")
+("0", "2"):("2")
+("2", "0"):("2")
+("0", "0"):("0")
+
+mg_masks() {
+  int mgf = 0;
+  while(mgf < len((import mgzfg))) {
+    mg_fold(mgf);
+    mgf = mgf + 1;
+  }
+} return void;
+given mg_fixture_collect ():() then (import mgzfm)[0]:("011")
+given mg_fixture_collect ():() then (import mgzfm)[1]:("000")
+
+mg_fold(int mgf) {
+  int mgh = (import mgzfg)[mgf];
+  if(mgh != mgf) {
+    string mgd = mg_diff((import mgzfl)[mgh], (import mgzfl)[mgf]);
+    string_list_set((import mgzfm), mgh, mg_or((import mgzfm)[mgh], mgd));
+  }
+} return void;
+given mg_fixture_collect (1):() then (import mgzfm)[0]:("011")
+given mg_fixture_collect (0):() then (import mgzfm)[0]:("000")

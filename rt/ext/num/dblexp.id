@@ -1,0 +1,22 @@
+rt_dexp2(word rs, word[] rdsc, word rsave) {
+  word_list_set(rdsc, 1, rdsc[1] + 1);
+  rt_dsign(rs, rdsc);
+  rt_dback(rs, rdsc, rsave);
+} return void;
+
+rt_dback(word rs, word[] rdsc, word rsave) {
+  word rdcn = rt_ddig(rs, rdsc);
+  if(rdcn == 0) {
+    word_list_set(rdsc, 1, rsave);
+  }
+} return void;
+
+rt_dword(word rs, word[] rdsc) {
+  word rch = peek8(rs + rdsc[1]) | 32;
+  if(rch == 105) {
+    rt_dinf(rs, rdsc);
+  }
+  if(rch == 110) {
+    rt_dtake(rs, rdsc, "nan");
+  }
+} return void;

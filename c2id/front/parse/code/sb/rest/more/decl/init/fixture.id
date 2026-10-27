@@ -1,0 +1,9 @@
+// A range of two elements, lo and hi = 3, and the fixture the cases of this
+// file build their nodes with: the value 5 (node 0) and `[1 ... 3] = 5` (node 1).
+dinit_fix() {
+  boot_a();
+  int v = newleaf("num", 5, 0, "5", "");
+  int d = newlist("dinit", v, 1, "", [3]);
+} return void;
+():() then len((import nk)):(2)
+():() then (import nb)[1]:(1)

@@ -1,0 +1,12 @@
+// A binary operator without a floating-point operand: crt/i128's when a 128-bit one
+// is there, else the integer and pointer rules (bin1).
+wd_pick(int id) {
+  string wout = "";
+  if(wd_is_bin(id) == 1) {
+    wout = wd_bin_txt(id);
+  } else {
+    wout = bin1(id);
+  }
+} return string wout;
+given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (21):("t0")
+given txt_fixture given fl_fixture given wd_fixture given pend_setup given init_frame given init_frame2 given txt_reset (14):("t2")

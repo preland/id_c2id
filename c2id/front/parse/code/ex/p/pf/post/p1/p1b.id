@@ -1,0 +1,26 @@
+// A loop condition such as postfix_tail's, ce_eloop's or skip_attrs's: whether the current token is
+// one of words. It is re-evaluated every iteration, so cur_text(pos) cannot be named once before the
+// loop and must not be re-read as part of the while condition itself, which is why this is a named step.
+// postfix.id already holds 3 functions, and post/ has no room for a sibling
+// file, so postfix.id was promoted into this directory to make room.
+
+at_in(int[] pos, string[] words) {
+  string s = cur_text(pos);
+  int ok = list_string_index(words, s) >= 0;
+} return int ok;
+given boot_a given lexfix stdin "(" ([0], ["(", "[", ".", "->", "++", "--"]):(1)
+given boot_a given lexfix stdin ";" ([0], ["(", "[", ".", "->", "++", "--"]):(0)
+given boot_a given lexfix stdin "!x;" ([0], ["!", "~", "+", "-", "*", "&"]):(1)
+given boot_a given lexfix stdin "x;" ([0], ["!", "~", "+", "-", "*", "&"]):(0)
+given lexfix stdin "__alignof__" ([0], ["__alignof__", "__alignof", "_Alignof", "alignof"]):(1)
+given lexfix stdin "sizeof" ([0], ["__alignof__", "__alignof", "_Alignof", "alignof"]):(0)
+given lexfix stdin "goto" ([0], ["volatile", "__volatile__", "__volatile", "inline", "__inline__", "__inline", "goto"]):(1)
+given lexfix stdin "x" ([0], ["volatile", "__volatile__", "__volatile", "inline", "__inline__", "__inline", "goto"]):(0)
+given lexfix stdin "__attribute__" ([0], ["__attribute__", "__attribute", "__asm__", "__asm", "asm", "__declspec", "_Alignas"]):(1)
+given lexfix stdin "x" ([0], ["__attribute__", "__attribute", "__asm__", "__asm", "asm", "__declspec", "_Alignas"]):(0)
+given lexfix stdin "__typeof__" ([0], ["typeof", "__typeof__", "__typeof", "typeof_unqual", "__typeof_unqual__", "__auto_type"]):(1)
+given lexfix stdin "int" ([0], ["typeof", "__typeof__", "__typeof", "typeof_unqual", "__typeof_unqual__", "__auto_type"]):(0)
+given boot_a given lexfix stdin "+" ([0], ["+", "-", "<<", ">>", "|", "&", "^"]):(1)
+given boot_a given lexfix stdin ")" ([0], ["+", "-", "<<", ">>", "|", "&", "^"]):(0)
+given lexfix stdin "*" ([0], ["*", "/", "%"]):(1)
+given lexfix stdin "+" ([0], ["*", "/", "%"]):(0)

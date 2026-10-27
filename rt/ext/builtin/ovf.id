@@ -1,0 +1,33 @@
+// __builtin_add_overflow, __builtin_sub_overflow and __builtin_mul_overflow and
+// their typed spellings. The translator (mid/pass/frame/ovf) rewrites each call
+// into c___c2id_ovf(op, a, b, p, ainfo, binfo, rinfo): op is 0 add, 1 sub, 2
+// mul, and an info is the size of a type in bytes times two, plus one when the
+// type is signed. The operation is done exactly -- a sign and a magnitude that
+// may carry out of 64 bits -- the low bits of the exact result are stored
+// through p in the width of its type, and the answer is 1 when the exact result
+// does not fit that type, 0 when it does.
+c___c2id_ovf(word ovfo, word ovfa, word ovfb, word ovfp, word ovfai, word ovfbi, word ovfri) {
+  word[] ovfx = ovf_exact(ovfo, ovfa, ovfb, ovfai, ovfbi);
+  word ovff = ovf_fits(ovfx, ovfri);
+  ovf_store(ovfp, ovfx, ovfri);
+} chain (word ovfo, word ovfa, word ovfb, word ovfp, word ovfai, word ovfbi, word ovfri) {
+  word ovfr = 1 - ovff;
+} return word ovfr;
+
+ovf_exact(word ovfo, word ovfa, word ovfb, word ovfai, word ovfbi) {
+  word[] ovfda = ovf_dec(ovfa, ovfai);
+  word[] ovfdb = ovf_dec(ovfb, ovfbi);
+  word[] ovfx = ovf_apply(ovfo, ovfda, ovfdb);
+} return word[] ovfx;
+
+ovf_dec(word ovfv, word ovfi) {
+  word ovfn = ovf_norm(ovfv, ovfi);
+  word ovfs = 0;
+  word ovfm = ovfn;
+} chain (word ovfv, word ovfi) {
+  if((ovfi & 1) == 1 && ovfn < 0) {
+    ovfs = 1;
+    ovfm = 0 - ovfn;
+  }
+  word[] ovfd = [ovfs, ovfm];
+} return word[] ovfd;

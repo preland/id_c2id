@@ -1,0 +1,13 @@
+cfl_div(word a, word b) {
+  float cfz = float_of_bits(a) / float_of_bits(b);
+  word cfr = bits_of_float(cfz);
+} return word cfr;
+(4609434218613702656, 4612248968380809216):(4604180019048437077)
+(4609434218613702656, 4602678819172646912):(4613937818241073152)
+
+cfl_neg(word a) {
+  word cfm = 0 - 9223372036854775807 - 1;
+  word cfr = a ^ cfm;
+} return word cfr;
+(4609434218613702656):(-4613937818241073152)
+(0):(-9223372036854775808)

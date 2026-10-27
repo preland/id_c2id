@@ -1,0 +1,10 @@
+// Each chunk made counts against a 64 MiB stack, the size the stack had before
+// it grew on demand. Without the cap, runaway recursion would take the whole
+// store before anything trapped.
+rt_budget(word sz) {
+  word used = peek64((import rtc) + 32) + sz;
+  if(used > 67108864) {
+    fail("stack overflow: the call stack passed 64 MiB (unbounded recursion?)");
+  }
+  poke64((import rtc) + 32, used);
+} return void;

@@ -1,0 +1,33 @@
+// A conversion: past the `%`, then the optional `*`, the width, the length
+// modifier and the conversion letter.
+rt_conv(word rstr, word rfmt, word[] rargs, word[] rst) {
+  word_list_set(rst, 1, rst[1] + 1);
+  word rsup = rt_star(rfmt, rst);
+  word rwid = rt_width(rfmt, rst);
+} chain (word rstr, word rfmt, word[] rargs, word[] rst) {
+  word rlen = rt_lenmod(rfmt, rst);
+  word rcv = peek8(rfmt + rst[1]);
+  word_list_set(rst, 1, rst[1] + 1);
+} chain (word rstr, word rfmt, word[] rargs, word[] rst) {
+  rt_do(rstr, rcv, rsup, rwid, rlen, rargs, rst);
+} return void;
+
+// 1 when the conversion has a `*`, which reads without storing.
+rt_star(word rfmt, word[] rst) {
+  word rsup = 0;
+  if(peek8(rfmt + rst[1]) == 42) {
+    rsup = 1;
+    word_list_set(rst, 1, rst[1] + 1);
+  }
+} return word rsup;
+
+// The field width, 0 when there is none.
+rt_width(word rfmt, word[] rst) {
+  word rw = 0;
+  word rch = peek8(rfmt + rst[1]);
+  while(rch >= 48 && rch <= 57) {
+    rw = rw * 10 + rch - 48;
+    word_list_set(rst, 1, rst[1] + 1);
+    rch = peek8(rfmt + rst[1]);
+  }
+} return word rw;

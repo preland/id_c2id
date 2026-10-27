@@ -1,0 +1,34 @@
+// The names of the n parameters just read, comma-terminated and left in pnj[0]
+// for fn_make ("a,b," for two, "," for one unnamed one): a parameter list is
+// read innermost-first, so each fn_params takes exactly the names its own
+// parameters pushed and leaves its outer ones alone.
+pn_take(int n) {
+  int pb = len((import pnq)) - n;
+  string joined = pn_join(pb);
+  string_list_set((import pnj), 0, joined);
+} chain (int n) {
+  while(len((import pnq)) > pb) {
+    pop((import pnq));
+  }
+} return void;
+given ty_setup given pn_fixture (2):() then (import pnj)[0]:("a,b,")
+given ty_setup given pn_fixture (1):() then (import pnj)[0]:("b,")
+
+// The names from index pb on, each followed by a comma.
+pn_join(int pb) {
+  string out = "";
+  int i = pb;
+  while(i < len((import pnq))) {
+    out = out + (import pnq)[i] + ",";
+    i = i + 1;
+  }
+} return string out;
+given ty_setup given pn_fixture (0):("a,b,")
+given ty_setup given pn_fixture (1):("b,")
+
+pn_fixture() {
+  push((import pnq), "a");
+  push((import pnq), "b");
+} return void;
+given ty_setup ():() then len((import pnq)):(2)
+given ty_setup ():() then (import pnq)[1]:("b")

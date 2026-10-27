@@ -1,0 +1,36 @@
+// A cast from `from` to `to` when either is 128-bit (the text s is the value). To a
+// 128-bit type from an integer: sign-extended for a signed source, zero-extended for
+// an unsigned one or a pointer, into a temporary; from another 128-bit type the same
+// address (the bits are the same whatever the signedness). From one to an integer:
+// the low word, narrowed as any word is, and "is not zero" for _Bool.
+wd_cvt(int to, int from, string s) {
+  int wkt = wd_kind(to);
+  int wkf = wd_kind(from);
+  string wout = wd_cvt2(to, from, s, wkt, wkf);
+} return string wout;
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset given wd_types (6, 0, "x"):("t0") then (import pend):(["word t0 = ci128_of_s((fp + 16), x);"])
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset given wd_types (0, 7, "x"):("t1") then (import pend):(["word t0 = peek64(x);", "word t1 = sx_bits(t0, 32);"])
+
+wd_cvt2(int to, int from, string s, int wkt, int wkf) {
+  string wout = s;
+  if(wkt > 0 && wkf == 0) {
+    wout = wd_from(from, s, wkt);
+  }
+  if(wkt == 0 && wkf > 0) {
+    wout = wd_to(to, s);
+  }
+} return string wout;
+given txt_fixture given wd_types (6, 7, "x", 1, 2):("x")
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset given wd_types (6, 4, "x", 1, 0):("t0")
+
+wd_from(int from, string s, int wkt) {
+  string wfn = "ci128_of_u(";
+  if(ty_signed(from) == 1) {
+    wfn = "ci128_of_s(";
+  }
+  string wdst = wd_tmp(wkt);
+} chain (int from, string s, int wkt) {
+  string wout = name_val(wfn + wdst + ", " + s + ")");
+} return string wout;
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset (0, "x", 1):("t0") then (import pend):(["word t0 = ci128_of_s((fp + 16), x);"])
+given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset (3, "x", 2):("t0") then (import pend):(["word t0 = ci128_of_u((fp + 16), x);"])

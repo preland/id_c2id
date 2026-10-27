@@ -1,0 +1,36 @@
+// strtol over the runtime's own digits. The scan state is a list of five words,
+// shared by every step:
+//
+//     rst[0]  offset of the next byte to read
+//     rst[1]  the base (0 until the prefix has been read)
+//     rst[2]  1 when a minus sign was read
+//     rst[3]  the value so far, wrapping as C's unsigned arithmetic does
+//     rst[4]  how many digits were read
+//
+// A value past the range of long wraps instead of clamping, and errno is not
+// set; strtoul, atoi, atol and the long long spellings are include/stdlib.h's
+// macros over this one.
+c_strtol(word rs, word rend, word rbase) {
+  word[] rst = rt_num(rs, rbase);
+  rt_endp(rs, rend, rst);
+  word rv = rt_signed(rst, 2, 3);
+} return word rv;
+
+// Skip white space, read the sign and the prefix, then the digits.
+rt_num(word rs, word rbase) {
+  word[] rst = [(import wzero), rbase, (import wzero), (import wzero), (import wzero)];
+  rt_lead(rs, rst);
+  rt_acc(rs, rst);
+} return word[] rst;
+
+// Where the scan stopped, stored through rend unless it is NULL: just after the
+// last digit, or the start of the string when there were none.
+rt_endp(word rs, word rend, word[] rst) {
+  word rpos = 0;
+  if(rst[4] > 0) {
+    rpos = rst[0];
+  }
+  if(rend != 0) {
+    poke64(rend, rs + rpos);
+  }
+} return void;

@@ -1,15 +1,16 @@
-// Walk the implicit list from the first block until a free block is big
-// enough. `r` is both the answer and the early-exit flag.
+// Next fit: the search starts at the rover, the block the last allocation or
+// free touched, and wraps to the first block only if nothing past it fits. A
+// first-fit walk from the start crossed every block ever handed out for each
+// request; this one almost always stops on the first or second. When the wrap
+// finds nothing either, the heap grows by an island.
 find_fit(word need) {
-  word h = (import crt_heap) + 16;
-  word r = 0;
-  while(r == 0 && h != 0) {
-    r = fit_at(h, need);
-    h = walk_next(h);
-  }
-} return word r;
+  word hrv = peek64((import crt_heap));
+  word r = fit_from(hrv, need, 0);
+  word w = fit_wrap(r, hrv, need);
+} return word w;
 given crt_heap_fixture (32):((import h0))
-given crt_heap_fixture (999):(0)
+given crt_heap_fixture (999):((import hnext))
+given crt_heap_fixture (2147483648):(0)
 
 fit_at(word h, word need) {
   word r = 0;
@@ -20,13 +21,15 @@ fit_at(word h, word need) {
 given crt_heap_fixture ((import h0), 32):((import h0))
 given crt_heap_fixture ((import h0), 999):(0)
 
-// The block after `h` in address order, or 0 if `h` is the last one.
+// The block after `h` in address order, going on into the next island when `h`
+// ends one, or 0 if `h` is the last block there is.
 walk_next(word h) {
   word nx = h + bsize(h);
-  word r = 0;
-  if(nx < heap_end()) {
-    r = nx;
+  word r = nx;
+  if(peek64(nx) == 0) {
+    r = peek64(nx + 8);
   }
 } return word r;
 given crt_heap_fixture4 ((import h0)):((import h1))
+given crt_heap_grown(32) ((import h0)):((import hnext))
 given crt_heap_fixture ((import h0)):(0)

@@ -1,0 +1,44 @@
+// Walking the statement tree. C has fifteen statement forms and `id` allows
+// three actions per block, so the choice is made one question at a time down
+// a chain of functions -- the same shape the parser uses. Each link asks
+// about exactly one node kind; the last link is the default, which appends
+// the statement to the block being filled.
+//
+// The invariant the whole walker rests on: **the current block is never
+// terminated**. Anything that ends a block (`return`, `goto`, `break`,
+// `continue`) opens a fresh one immediately, so no terminator is ever written
+// twice and unreachable code still has somewhere to go -- it may yet contain
+// a label that a goto jumps to.
+
+walk_list(int[] ids) {
+  int i = 0;
+  while(i < len(ids)) {
+    walk_stmt(ids[i]);
+    i = i + 1;
+  }
+} return void;
+given walk_ast_fixture ([0]):() then calls walk_stmt:(0)
+given walk_ast_fixture ([5]):() then calls walk_stmt:(5)
+given walk_ast_fixture ([]):() then calls walk_stmt:[0]
+given walk_ast_fixture ([0]):() then calls walk_stmt:[1]
+
+walk_stmt(int id) {
+  if((import nk)[id] == "block") {
+    int[] l = (import nl)[id];
+    walk_list(l);
+  } else {
+    walk_stmt2(id);
+  }
+} return void;
+given walk_ast_fixture (7):() then calls walk_list:([])
+given walk_ast_fixture (5):() then calls walk_stmt2:(5)
+
+walk_stmt2(int id) {
+  if((import nk)[id] == "if") {
+    do_if(id);
+  } else {
+    walk_stmt3(id);
+  }
+} return void;
+given walk_ast_fixture (8):() then calls do_if:(8)
+given walk_ast_fixture (5):() then calls walk_stmt3:(5)

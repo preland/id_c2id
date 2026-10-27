@@ -1,0 +1,18 @@
+c_sin(word a) {
+  float cmx = float_of_bits(a);
+  float cmz = float_sin(cmx);
+  word cmr = bits_of_float(cmz);
+} return word cmr;
+
+c_cos(word a) {
+  float cmx = float_of_bits(a);
+  float cmz = float_cos(cmx);
+  word cmr = bits_of_float(cmz);
+} return word cmr;
+
+c_tan(word a) {
+  float cmx = float_of_bits(a);
+  float cmz = float_tan(cmx);
+  word cmr = bits_of_float(cmz);
+} return word cmr;
+

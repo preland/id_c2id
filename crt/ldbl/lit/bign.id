@@ -1,0 +1,39 @@
+ld_bign(string lbs) {
+  word[] lqx = [0];
+  word[] lqs = [0, 0];
+  int bxc = character_code_at(lbs, 0);
+} chain (string lbs) {
+  ld_bscan(lbs, lqx, lqs, (bxc == 43) + (bxc == 45));
+  int bxk = lqs[1];
+  bn_mul(lqx, dg_pw(10, bxk), lqs[0]);
+} return word[] lqx;
+("12.5"):([125])
+("-1234567890123"):([1912276171, 287])
+
+// The value of the decimal reading lqp of the text, when it has too many digits
+// or too large a power of ten for ld_fast: the digits times 5^X (X > 0) or over
+// 5^-X (X < 0) as a quotient of two big integers (ld_qdiv), times 2^X; its
+// quotient bits and the remainder's sticky bit are an exact significand for
+// ld_pack. The exponent: the quotient has t bits (66 or 67), the 2^s scaling
+// ld_qdiv used is undone, and the top bit of the high word stands for
+// 2^(exponent - 16383).
+ld_qpack(word[] lqp, word[] lqq, word lxs) {
+  word lxt = 66 + ((lqq[0] >> 2) & 1);
+  word lxh = ld_shlh(lqq[0], lqq[1], 128 - lxt);
+  word lxo = (lqq[1] << (128 - lxt)) | lqq[2];
+} chain (word[] lqp, word[] lqq, word lxs) {
+  word[] lqw = [0, lqp[2] - lxs + lxt + 16382, lxh, lxo];
+  word[] lqr = ld_pack(lqw);
+} return word[] lqr;
+([0, 0, 0, 0, 0, 0], [2, 0, 0], 0):([-9223372036854775808, 16448])
+([0, 0, 0, 0, 0, 0], [2, 8, 0], 0):([-9223372036854775806, 16448])
+
+ld_five(word[] lqn, word[] lqd, word lxx) {
+  if(lxx > 0) {
+    bn_mul5(lqn, lxx);
+  } else {
+    bn_mul5(lqd, 0 - lxx);
+  }
+} return void;
+([1], [1], 2):([25], [1], 2)
+([1], [1], -2):([1], [25], -2)

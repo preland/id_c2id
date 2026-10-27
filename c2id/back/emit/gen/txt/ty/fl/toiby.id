@@ -1,0 +1,14 @@
+// The conversion of a floating-point value s to the integer type `to` by the
+// crt function fnm (fnu when `to` is an unsigned 64-bit type), its text without
+// the closing bracket, then the width conversion.
+fl_toi_by(int to, string s, string fnm, string fnu) {
+  string fno = fnm;
+  if(type_size(to) == 8 && ty_signed(to) == 0) {
+    fno = fnu;
+  }
+  string raw = name_val(fno + s + ")");
+} chain (int to, string s, string fnm, string fnu) {
+  string flv = conv_txt(to, raw);
+} return string flv;
+given txt_fixture given pend_setup given fl_types (3, "t5", "f(", "g("):("t0") then (import pend)[0]:("word t0 = g(t5);")
+given txt_fixture given pend_setup given fl_types (0, "t5", "f(", "g("):("t1") then (import pend)[0]:("word t0 = f(t5);")

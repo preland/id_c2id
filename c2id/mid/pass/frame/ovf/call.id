@@ -1,0 +1,34 @@
+// A call of a GCC overflow builtin is rewritten here, once the frame pass has
+// bound its arguments, because the types of the operands and of the object the
+// result goes in come from their expressions (conf.id, ovf_names). It becomes a
+// call of c___c2id_ovf (rt/ext/builtin/ovf.id) with the operation and the three
+// types as extra arguments.
+ovf_call(int id) {
+  int c = (import na)[id];
+  int k = ovf_index(c);
+  if(k >= 0) {
+    ovf_arg(id, k);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (18):() then (import ns)[13]:("__c2id_ovf")
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (17):() then (import ns)[13]:("__builtin_add_overflow")
+
+// Which builtin a callee names, or -1.
+ovf_index(int c) {
+  string ovfnm = ovf_callee(c);
+  int k = find_str((import ovf_names), ovfnm);
+} return int k;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (13):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (14):(-1)
+
+// A call with other than three arguments is refused.
+ovf_arg(int id, int k) {
+  int[] args = (import nl)[id];
+  if(len(args) != 3) {
+    diag_node(id, (import ovf_names)[k] + " takes 3 arguments: the two operands and a pointer to the result");
+  } else {
+    ovf_make(id, k, args);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (18, 0):() then (import ns)[13]:("__c2id_ovf")
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b); }" (16, 0):() then len((import dgmsg)):(1)

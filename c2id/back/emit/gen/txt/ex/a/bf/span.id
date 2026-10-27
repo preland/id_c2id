@@ -1,0 +1,33 @@
+// The unit a bit-field is read through. In an ordinary record no field crosses
+// the edge of the aligned unit of its declared type, so that unit is the one. In
+// a packed record (parse/ty/dcl/r/pk/) a field may start anywhere and run over
+// that edge; then the unit is the bytes it spans, from the byte it starts in,
+// widened to 1, 2, 4 or 8 bytes so that one load or store reaches all of it.
+bfx_cross(int bc_n, int bc_sz, int bc_w) {
+  int bc_x = 0;
+  if(bc_n % (8 * bc_sz) + bc_w > 8 * bc_sz) {
+    bc_x = 1;
+  }
+} return int bc_x;
+(3, 4, 5):(0)
+(30, 4, 5):(1)
+
+bfx_unit(int bu_n, int bu_sz, int bu_w) {
+  int bu_u = bu_sz;
+  if(bfx_cross(bu_n, bu_sz, bu_w) == 1) {
+    bu_u = bfx_bytes(bu_n % 8 + bu_w);
+  }
+} return int bu_u;
+(3, 4, 5):(4)
+(30, 4, 5):(2)
+(28, 8, 40):(8)
+
+bfx_uoff(int bo_n, int bo_sz, int bo_w) {
+  int bo_u = (bo_n / (8 * bo_sz)) * bo_sz;
+  if(bfx_cross(bo_n, bo_sz, bo_w) == 1) {
+    bo_u = bo_n / 8;
+  }
+} return int bo_u;
+(3, 4, 5):(0)
+(36, 4, 5):(4)
+(30, 4, 5):(3)

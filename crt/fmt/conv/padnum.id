@@ -1,0 +1,33 @@
+// A number's text in its field. pnp is its prefix (a sign, 0x), pnd the rest;
+// the field is fs[3] wide. Left-justified (-) pads on the right with spaces;
+// otherwise the pad goes on the left, as zeros between prefix and digits when
+// the 0 flag is set and pnz allows it (an integer with a precision, and an
+// infinity or NaN, are padded with spaces), else as spaces before the prefix.
+pn_left(string pnp, string pnd, int pnk, int pnz, word[] fs) {
+  string pno = rep_ch(" ", pnk) + pnp + pnd;
+  if(pnz == 1 && fs[2] != 0) {
+    pno = pnp + rep_ch("0", pnk) + pnd;
+  }
+} return string pno;
+("-", "42", 3, 1, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]):("-00042")
+("-", "42", 3, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("   -42")
+("-", "42", 3, 0, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]):("   -42")
+
+pn_fill(string pnp, string pnd, int pnk, int pnz, word[] fs) {
+  string pno = pn_left(pnp, pnd, pnk, pnz, fs);
+  if(fs[1] != 0) {
+    pno = pnp + pnd + rep_ch(" ", pnk);
+  }
+} return string pno;
+("-", "42", 2, 1, [0, 1, 1, 0, 0, 0, 0, 0, 0, 0]):("-42  ")
+("", "42", 2, 1, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]):("0042")
+
+pad_num(string pnp, string pnd, int pnz, word[] fs) {
+  int pnk = fs[3] - len(pnp) - len(pnd);
+  string pno = pnp + pnd;
+  if(pnk > 0) {
+    pno = pn_fill(pnp, pnd, pnk, pnz, fs);
+  }
+} return string pno;
+("-", "42", 1, [0, 0, 0, 6, 0, 0, 0, 0, 0, 0]):("   -42")
+("-", "42", 1, [0, 0, 0, 2, 0, 0, 0, 0, 0, 0]):("-42")

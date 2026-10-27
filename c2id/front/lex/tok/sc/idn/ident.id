@@ -1,0 +1,38 @@
+// Identifiers -- and the one place where an identifier turns out not to be
+// one, because it was the `L` / `u` / `U` / `u8` prefix of a literal.
+//
+// Keywords are NOT separated out: the parser decides by text, so `int` and
+// `while` arrive as ordinary `id` tokens.
+
+scan_ident(word base, int i) {
+  int e = ident_end(base, i);
+  int r = ident_pick(base, i, e);
+} return int r;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 2):(4) then calls add_tok:("id", "ab")
+given init_tokens given init_lines given lex_src_fixture ((import gb), 23):(23) then calls add_tok:("id", "")
+
+// The quote test comes first so the common case never pays for the slice.
+ident_pick(word base, int i, int e) {
+  int ni = 0;
+  if((peek8(base + e) == (import ch_dq) || peek8(base + e) == (import ch_sq)) && is_pfx_at(base, i, e)) {
+    ni = scan_quoted(base, i, e);
+  } else {
+    ni = emit_ident(base, i, e);
+  }
+} return int ni;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 39, 41):(44) then calls add_tok:("str", "u8\"z\"")
+given init_tokens given init_lines given lex_src_fixture ((import gb), 2, 4):(4) then calls add_tok:("id", "ab")
+
+// `__extension__` only silences a pedantic warning; it is dropped here so that
+// no later stage sees it between a `typedef`, a declaration or an expression
+// and what follows.
+emit_ident(word base, int i, int e) {
+  string s = slice(base, i, e);
+  if(s != "__extension__") {
+    add_tok("id", s);
+  }
+} return int e;
+given init_tokens given init_lines given lex_src_fixture ((import gb), 2, 4):(4) then calls add_tok:("id", "ab")
+given init_tokens given init_lines given lex_src_fixture ((import xb), 0, 13):(13) then len((import tkind)):(0)
+given init_tokens given init_lines given lex_src_fixture ((import xb), 14, 15):(15) then len((import tkind)):(1)
+given init_tokens given init_lines given lex_src_fixture ((import gb), 23, 23):(23) then calls add_tok:("id", "")

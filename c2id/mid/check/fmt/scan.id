@@ -1,0 +1,45 @@
+// The first conversion in a format literal (quotes included) that the runtime
+// does not implement, as its offset, or -1 when every one is supported. scan is
+// 0 for the printf family and 1 for sscanf, whose conversions differ.
+fmt_bad(string lit, int scan) {
+  int i = 0;
+  int bad = 0 - 1;
+  while(i < len(lit) && bad < 0) {
+    int j = fmt_end(lit, i);
+    bad = fmt_isbad(lit, i, j, scan);
+    i = j;
+  }
+} return int bad;
+("\"%d %s\"", 0):(-1)
+("\"x=%5.2a\"", 0):(3)
+("\"100%%f\"", 0):(-1)
+("\"%ld %lu %-08zx %c\"", 0):(-1)
+("\"ab %.*a\"", 0):(4)
+("\"%d %*d %n\"", 1):(-1)
+("\"%d %[a-z]\"", 1):(4)
+
+// Where the item at i ends: one past a plain character, or just after a
+// whole conversion.
+fmt_end(string lit, int i) {
+  int j = i + 1;
+  if(character_code_at(lit, i) == 37) {
+    j = fmt_skip(lit, i + 1);
+  }
+  if(character_code_at(lit, i) == 37 && j < len(lit)) {
+    j = j + 1;
+  }
+} return int j;
+("ab", 0):(1)
+("%d", 0):(2)
+("%%", 0):(2)
+("%5.2f", 0):(5)
+
+// Past the flag, width, precision and length characters from j.
+fmt_skip(string lit, int j) {
+  int k = j;
+  while(k < len(lit) && is_fmtmod(character_code_at(lit, k)) == 1) {
+    k = k + 1;
+  }
+} return int k;
+("%5.2f", 1):(4)
+("%d", 1):(1)

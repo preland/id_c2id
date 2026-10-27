@@ -1,0 +1,32 @@
+// The initializers of the globals that are not static: `void (*ops[])(void) = { f, g };`
+// makes f and g reachable without anything calling them. A static global's
+// initializer is read only when something reached names the global (reach_global).
+reach_inits(int i) {
+  while(i < len((import dinit))) {
+    reach_root(i);
+    i = i + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_init(1) given greach_init stdin "int f(void) { return 1; } int (*p)(void) = f;" (0):() then (import reach):([1])
+given boot_a given boot_b given lexfix given tu_load given reach_init(1) given greach_init stdin "int f(void) { return 1; } int (*p)(void) = f;" (2):() then (import reach):([0])
+given boot_a given boot_b given lexfix given tu_load given reach_init(1) given greach_init stdin "int f(void) { return 1; } static int (*p)(void) = f;" (0):() then (import reach):([0])
+
+// Walk statement or expression node id. A name that is a defined function is
+// reached; every other node is followed into the children its kind has.
+reach_scan(int id) {
+  if(id >= 0 && (import nk)[id] == "var") {
+    reach_name((import ns)[id]);
+  } else if(id >= 0) {
+    reach_kids(id, (import nk)[id]);
+  }
+} return void;
+given boot_a given boot_b given exprfix given tu_add("f", 0, 0) given tu_add("g", 0, 0) given reach_init(2) stdin "f;" ((import extop)):() then (import reach):([1, 0])
+given boot_a given boot_b given exprfix given tu_add("f", 0, 0) given tu_add("g", 0, 0) given reach_init(2) stdin "g(f);" ((import extop)):() then (import reach):([1, 1])
+
+reach_name(string name) {
+  int i = find_str((import fnames), name);
+  reach_mark(i);
+  reach_gname(name);
+} return void;
+given boot_a given boot_b given tu_add("f", 0, 0) given reach_init(1) ("f"):() then (import reach):([1])
+given boot_a given boot_b given tu_add("f", 0, 0) given reach_init(1) ("g"):() then (import reach):([0])

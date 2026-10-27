@@ -1,0 +1,37 @@
+// One interior node of the dispatch tree.
+emit_dsp(string tnm, int cut, string lnm, string rnm) {
+  emit_mark();
+  print(tnm + "(word fp, word pc) {");
+  print("  word nxt = 0 - 1;");
+} chain (string tnm, int cut, string lnm, string rnm) {
+  print("  if(pc < " + cut + ") { nxt = " + lnm + "; } else { nxt = " + rnm + "; }");
+  print("} return word nxt;");
+} return void;
+given init_gfn ("dsp0_0_2", 2, "blk0_0(fp)", "blk0_2(fp)"):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\ndsp0_0_2(word fp, word pc) {\n  word nxt = 0 - 1;\n  if(pc < 2) { nxt = blk0_0(fp); } else { nxt = blk0_2(fp); }\n} return word nxt;\n")
+given init_gfn given integer_list_set((import gfn), 0, 1) ("d", 5, "l", "r"):() then prints:("d(word fp, word pc) {\n  word nxt = 0 - 1;\n  if(pc < 5) { nxt = l; } else { nxt = r; }\n} return word nxt;\n")
+
+// The runner: start at the first live block and follow the answers until one
+// says -1. Blocks return here rather than tail-calling each other, so a loop of
+// any length runs in constant stack. `chk` is 1 for a function that may exit,
+// whose runner looks at the exit status before each block; the runner of any
+// other function cannot be stopped by one, and does not look.
+emit_run(int fn, string root, int first, int chk) {
+  emit_mark();
+  print("run" + fn + "(word fp) {");
+  print("  word pc = " + first + ";");
+} chain (int fn, string root, int first, int chk) {
+  string cond = pick_when(chk, 1, "pc >= 0 && peek64((import rtxc)) == 0", "pc >= 0");
+  print("  while(" + cond + ") { pc = " + root + "; }");
+  print("  word r = peek64(fp);");
+} chain (int fn, string root, int first, int chk) {
+  print("} return word r;");
+} return void;
+given init_gfn (3, "dsp3_0_2(fp, pc)", 0, 1):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nrun3(word fp) {\n  word pc = 0;\n  while(pc >= 0 && peek64((import rtxc)) == 0) { pc = dsp3_0_2(fp, pc); }\n  word r = peek64(fp);\n} return word r;\n")
+given init_gfn (0, "blk0_4(fp)", 4, 0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nrun0(word fp) {\n  word pc = 4;\n  while(pc >= 0) { pc = blk0_4(fp); }\n  word r = peek64(fp);\n} return word r;\n")
+
+// The frame is a whole number of 8-byte words, so the stack stays aligned.
+frame_bytes() {
+  int sz = align_up((import frsz)[0], 8);
+} return int sz;
+given init_frame given init_frame2 ():(8)
+given init_frame given init_frame2 given integer_list_set((import frsz), 0, 12) ():(16)

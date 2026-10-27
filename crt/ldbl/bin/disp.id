@@ -1,0 +1,38 @@
+// The four arithmetic operations behind one entry, by the code lxo: 0 add, 1
+// subtract, 2 multiply, 3 divide. NaNs and invalid operands are settled first
+// (ld_nanres), whatever the operation; then the operation's own special cases
+// and finite path.
+ld_bin4(word[] lqa, word[] lqb, word lxka, word lxkb, word lxo) {
+  word[] lqr = [];
+  if(lxo == 2) {
+    lqr = ld_mul3(lqa, lqb, lxka, lxkb);
+  } else {
+    lqr = ld_div3(lqa, lqb, lxka, lxkb);
+  }
+} return word[] lqr;
+([0, 16383, -4611686018427387904], [0, 16384, -9223372036854775808], 1, 1, 2):([-4611686018427387904, 16384])
+([0, 16384, -4611686018427387904], [0, 16384, -9223372036854775808], 1, 1, 3):([-4611686018427387904, 16383])
+
+ld_bin3(word[] lqa, word[] lqb, word lxka, word lxkb, word lxo) {
+  word[] lqr = [];
+  if(lxo < 2) {
+    lqr = ld_sum3(lqa, lqb, lxka, lxkb, lxo);
+  } else {
+    lqr = ld_bin4(lqa, lqb, lxka, lxkb, lxo);
+  }
+} return word[] lqr;
+([0, 16383, -4611686018427387904], [0, 16383, -4611686018427387904], 1, 1, 0):([-4611686018427387904, 16384])
+([0, 16383, -4611686018427387904], [0, 16383, -4611686018427387904], 1, 1, 1):([0, 0])
+([0, 16383, -4611686018427387904], [0, 16383, -4611686018427387904], 1, 1, 2):([-8070450532247928832, 16384])
+
+ld_bin2(word[] lqa, word[] lqb, word lxo) {
+  word lxka = ld_kind(lqa[1], lqa[2]);
+  word lxkb = ld_kind(lqb[1], lqb[2]);
+  word[] lqr = ld_nanres(lqa, lqb, lxka, lxkb);
+} chain (word[] lqa, word[] lqb, word lxo) {
+  if(len(lqr) == 0) {
+    lqr = ld_bin3(lqa, lqb, lxka, lxkb, lxo);
+  }
+} return word[] lqr;
+([0, 16383, -9223372036854775808], [0, 32767, -4611686018427387904], 0):([-4611686018427387904, 32767])
+([0, 16383, -4611686018427387904], [0, 16383, -4611686018427387904], 0):([-4611686018427387904, 16384])

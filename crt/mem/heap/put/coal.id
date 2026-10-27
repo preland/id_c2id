@@ -1,11 +1,12 @@
 coal_next(word h) {
-  word nx = walk_next(h);
+  word nx = adj_next(h);
   if(nx != 0 && bused(nx) == 0) {
     merge_blk(h, nx);
   }
 } return void;
 given crt_heap_fixture4 ((import h0)):() then h0_word:(64) then calls merge_blk:[1]
 given crt_heap_fixture ((import h0)):() then h0_word:(64) then calls merge_blk:[0]
+given crt_heap_grown(32) ((import h0)):() then h0_word:(64) then calls merge_blk:[0]
 
 // The back link is read directly rather than through an accessor: it is the
 // only reader, and the heap's function budget is spent elsewhere.

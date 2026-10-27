@@ -1,0 +1,18 @@
+// The bits set in a value lim bits wide.
+rt_popc(word pcv, word pcl) {
+  word pcn = 0;
+  word pci = 0;
+  while(pci < pcl) {
+    pcn = pcn + (ushr(pcv, pci) & 1);
+    pci = pci + 1;
+  }
+} return word pcn;
+
+c___builtin_popcount(word pcv) {
+  word pcn = rt_popc(pcv, 32);
+} return word pcn;
+
+c___builtin_popcountll(word pcv) {
+  word pch = ushr(pcv, 32);
+  word pcn = c___builtin_popcount(pcv) + c___builtin_popcount(pch);
+} return word pcn;

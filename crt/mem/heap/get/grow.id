@@ -1,0 +1,37 @@
+// Add an island to the heap: the first block of a new island at least `need`
+// bytes long, or 0 when `need` is more than a gigabyte, which no program of
+// this size means to ask for.
+grow_heap(word need) {
+  word r = 0;
+  if(need <= 1073741824) {
+    r = grow_isl(need);
+  }
+} return word r;
+given crt_heap_fixture (32):((import hnext)) then isl0_off:(96)
+given crt_heap_fixture (2147483648):(0) then isl0_off:(0)
+
+// The island's bytes: `need` rounded to 8, and never less than a mebibyte, so
+// a heap that grows does so in steps rather than one block at a time.
+isl_size(word need) {
+  word sz = align8(need);
+  if(sz < 1048576) {
+    sz = 1048576;
+  }
+} return word sz;
+(32):(1048576)
+(2097153):(2097160)
+
+// Lay the island down as one free block, chain the previous last sentinel to
+// it, and make it the last. The store hands out zeroed bytes, so the new
+// sentinel (size 0, link 0) needs no writing.
+grow_isl(word need) {
+  word sz = isl_size(need);
+  word ibase = alloc(sz + 16);
+  word last = peek64((import crt_heap) + 8);
+} chain (word need) {
+  poke64(last + 8, ibase);
+  poke64((import crt_heap) + 8, ibase + sz);
+  init_rest(ibase, sz, 0);
+} return word ibase;
+given crt_heap_fixture (32):((import hnext)) then sent_off:(1048672) then isl0_off:(96)
+given crt_heap_fixture (2097153):((import hnext)) then isl1_word:(2097160)

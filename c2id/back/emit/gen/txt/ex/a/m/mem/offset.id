@@ -1,0 +1,13 @@
+// mem_addr's offset lookup, split out because member_off's two arguments
+// -- rec_of(id) and s_of(id) -- both have to be named before it can be
+// called, and mem_addr has no room left once the UNKNOWN_MEMBER_ fallback
+// and the if are counted.
+mem_col_at(int[] col, int id) {
+  int r = rec_of(id);
+  string name = (import ns)[id];
+  int off = member_col(col, r, name);
+} return int off;
+given txt_fixture given ty_setup ((import syoff), 0):(-1) then calls rec_of:(0)
+given txt_fixture given ty_setup ((import syoff), 5):(-1) then calls rec_of:(5)
+given txt_fixture given ty_setup ((import syids), 0):(-1) then calls rec_of:(0)
+given txt_fixture given ty_setup ((import syids), 5):(-1) then calls rec_of:(5)

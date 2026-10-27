@@ -1,0 +1,24 @@
+// %f %e %g (and the capitals) read a floating-point number the way strtod does,
+// into a double through `%lf` and a float through `%f`. A field width is not
+// applied.
+rt_do4(word rstr, word rcv, word rsup, word rlen, word[] rargs, word[] rst) {
+  if(is_fconv(rcv) == 1) {
+    rt_float(rstr, rsup, rlen, rargs, rst);
+  } else {
+    rt_pct(rstr, rcv, rst);
+  }
+} return void;
+
+rt_float(word rstr, word rsup, word rlen, word[] rargs, word[] rst) {
+  word[] rdsc = rt_dscan(rstr + rst[0]);
+  word rin = peek8(rstr + rst[0] + rdsc[1]);
+  rt_gotflt(rstr, rdsc, rin, rsup, rlen, rargs, rst);
+} return void;
+
+rt_gotflt(word rstr, word[] rdsc, word rin, word rsup, word rlen, word[] rargs, word[] rst) {
+  if(rdsc[2] == 0) {
+    rt_stop(rst, rin);
+  } else {
+    rt_putflt(rstr, rdsc, rsup, rlen, rargs, rst);
+  }
+} return void;

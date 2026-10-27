@@ -1,0 +1,33 @@
+// %e: d.ddde+XX. fe_mant lays out the mantissa digits (fes holds ffp + 1 of
+// them): the point and the digits after it, which a precision of 0 drops unless
+// the # flag asks for the point.
+fe_mant(string fes, int ffp, int fea) {
+  string fem = str_sub(fes, 0, 1);
+  string fet = str_sub(fes, 1, ffp);
+  if(ffp > 0 || fea > 0) {
+    fem = fem + "." + fet;
+  }
+} return string fem;
+("1234567", 6, 0):("1.234567")
+("1", 0, 0):("1")
+("1", 0, 1):("1.")
+
+// The exponent letter: E for %E and %G, e otherwise.
+fe_letter(int fec) {
+  string fel = "e";
+  if(fec == 69 || fec == 71) {
+    fel = "E";
+  }
+} return string fel;
+(101):("e")
+(69):("E")
+(71):("E")
+
+fe_sign(int fex) {
+  string fen = "+";
+  if(fex < 0) {
+    fen = "-";
+  }
+} return string fen;
+(5):("+")
+(-3):("-")

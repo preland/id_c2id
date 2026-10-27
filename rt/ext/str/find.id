@@ -1,0 +1,26 @@
+// The address of byte ri of rs when it equals rch (as an unsigned char), else 0.
+rt_at(word rs, word ri, word rch) {
+  word rres = 0;
+  if(peek8(rs + ri) == (rch & 255)) {
+    rres = rs + ri;
+  }
+} return word rres;
+
+// strrchr: the last byte equal to rch, the terminating NUL counting.
+c_strrchr(word rs, word rch) {
+  word rlast = 0;
+  word ri = 0;
+  word rn = c_strlen(rs);
+} chain (word rs, word rch) {
+  while(ri <= rn) {
+    rlast = rt_last(rs, ri, rch, rlast);
+    ri = ri + 1;
+  }
+} return word rlast;
+
+rt_last(word rs, word ri, word rch, word rlast) {
+  word rres = rt_at(rs, ri, rch);
+  if(rres == 0) {
+    rres = rlast;
+  }
+} return word rres;

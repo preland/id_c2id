@@ -1,0 +1,24 @@
+// `_Generic(x, T: a, default: b)` picks an arm by the type of x, which is not
+// known where the parser reads it. It becomes a "refuse" node, refused if the
+// function holding it is reached, and its parenthesis is skipped so that the
+// refusal is the only thing said about it.
+parse_id(int[] pos) {
+  int node = 0;
+  if(at_text(pos, "_Generic")) {
+    node = parse_generic(pos);
+  } else {
+    node = parse_var(pos);
+  }
+} return int node;
+given boot_a given boot_b given lexfix stdin "x;" ([0]):(6) then calls parse_var:[1]
+given boot_a given boot_b given lexfix stdin "_Generic ( 1 , int : 5 ) ;" ([0]):(6) then calls parse_generic:[1]
+
+parse_generic(int[] pos) {
+  int tk = pos[0];
+  advance(pos);
+  skip_paren(pos);
+} chain (int[] pos) {
+  int id = refuse_node("_Generic is not translated: it picks an arm by the type of its first operand, and c2id has the type of an expression only after the parser has read the function", tk);
+} return int id;
+given boot_a given boot_b given lexfix stdin "_Generic ( 1 , int : 5 ) ;" ([0]):(6) then (import nk)[6]:("refuse")
+given boot_a given boot_b given lexfix stdin "_Generic ( 1 , int : 5 ) ;" ([0]):(6) then (import ns)[6]:("_Generic is not translated: it picks an arm by the type of its first operand, and c2id has the type of an expression only after the parser has read the function")

@@ -1,0 +1,14 @@
+// The exponent letters are exp_codes in conf.id.
+
+// Membership of one of two codes: `+` and `-` are the exponent signs, `x` and
+// `X` the hexadecimal marks.
+int_either(int c, int code_a, int code_b) {
+  int ok = 0;
+  if(c == code_a || c == code_b) {
+    ok = 1;
+  }
+} return int ok;
+(43, 43, 45):(1)
+(44, 43, 45):(0)
+(120, 120, 88):(1)
+(89, 120, 88):(0)

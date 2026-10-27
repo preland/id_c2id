@@ -1,0 +1,28 @@
+lower_bin(int e) {
+  int r = e;
+  if((import ns)[e] == ",") {
+    r = lower_comma(e);
+  } else {
+    r = lower_bin2(e);
+  }
+} return int r;
+given low_fix (15):(7) then calls lower_comma:(15)
+given low_fix (9):(19) then calls lower_sc:(9)
+
+lower_bin2(int e) {
+  int r = e;
+  if(sc_kind((import ns)[e]) > 0) {
+    r = lower_sc(e);
+  } else {
+    r = lower_kid2(e);
+  }
+} return int r;
+given low_fix (10):(19) then calls lower_sc:(10)
+given low_fix given exprfix stdin "a + b;" ((import extop)):((import extop)) then calls lower_kid2:(21)
+
+lower_kid1(int e) {
+  int a = lower_val((import na)[e]);
+  integer_list_set((import na), e, a);
+} return int e;
+given low_fix (13):(13) then (import na)[13]:(6) then len((import bkind)):(1)
+given low_fix given exprfix stdin "-(a && b);" ((import extop)):((import extop)) then (import na)[22]:(23) then len((import bkind)):(4)

@@ -1,0 +1,37 @@
+// What a printed line costs in actions (docs/SPEC.md section 9): a comment
+// nothing, an `if` with an `else` two (the `if` and the `else`), anything else
+// one.
+out_weight(string line) {
+  int w = 1;
+  if(string_starts_with(line, "  //") == 1) {
+    w = 0;
+  } else {
+    w = else_weight(line);
+  }
+} return int w;
+("  // x: fp + 8, 4 bytes"):(0)
+("  word t0 = 1;"):(1)
+("  if(f < 4) { r = a; } else { r = b; }"):(2)
+
+else_weight(string line) {
+  int w = 1;
+  if(string_find(line, "} else {") >= 0) {
+    w = 2;
+  }
+} return int w;
+("  if(f < 4) { r = a; } else { r = b; }"):(2)
+("  while(c) { r = a; }"):(1)
+
+// The break between two segments of a generated function. A segment must have
+// exactly three actions before a chain (E0204), so a segment with one action
+// left whose next line costs two (an if with an else) is padded with `blank`:
+// that line cannot be moved up into the room, the one case `blank` is allowed.
+emit_brk(int n) {
+  if(n == 2) {
+    print("  blank;");
+  }
+  print("} chain (" + (import chp)[0] + ") {");
+  integer_list_set((import obn), 0, 0);
+} return void;
+given init_gfn (2):() then prints:("  blank;\n} chain (word fp) {\n") then (import obn)[0]:(0)
+given init_gfn (3):() then prints:("} chain (word fp) {\n") then (import obn)[0]:(0)

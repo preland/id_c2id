@@ -1,0 +1,31 @@
+// `register long v asm("rdx");` makes v the machine register, not a variable:
+// reading it gets whatever the hardware holds. A plain `asm("name")` after a
+// declarator only renames a symbol and is skipped. reg_walk looks back from the
+// asm for `register` in the same declaration, stopping at the end of the
+// previous one or at a `)`, which would make this a function's label. The
+// variable is noted by name in regnames and refused where a reached function
+// uses it (mid/check/extra.id), since a header declares such variables whether
+// or not anything reads them.
+reg_scan(int[] pos, int ast) {
+  if(list_string_index((import asm_words), (import ttext)[ast]) >= 0) {
+    reg_walk(ast);
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "register long v asm(\"rdx\");" ([5], 3):() then (import regnames):(["v"])
+given boot_a given boot_b given lexfix stdin "long v asm(\"rdx\");" ([5], 2):() then len((import regnames)):(0)
+
+reg_walk(int ast) {
+  int j = ast - 1;
+  int found = 0;
+  while(j >= 0 && found == 0 && reg_stop(j) == 0) {
+    found = reg_hit(j);
+    j = j - 1;
+  }
+} chain (int ast) {
+  if(found == 1) {
+    push((import regnames), (import ttext)[ast - 1]);
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "register long v asm(\"rdx\");" (3):() then (import regnames):(["v"])
+given boot_a given boot_b given lexfix stdin "long v asm(\"rdx\");" (2):() then len((import regnames)):(0)
+given boot_a given boot_b given lexfix stdin "register long f(int a) asm(\"rdx\");" (7):() then len((import regnames)):(0)

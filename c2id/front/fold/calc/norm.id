@@ -1,0 +1,31 @@
+// A value in the canonical form of its type: cut to the type's width, then sign
+// extended for a signed type and left zero extended for an unsigned one; an
+// 8-byte type is its 64 bits as they are. This is what C's conversion does, and
+// what makes `(unsigned char)300` 44 and `(char)200` -56.
+cw_lowmask(int lm_b) {
+  word lm_one = 1;
+  word lm_m = (lm_one << lm_b) - 1;
+} return word lm_m;
+(8):(255)
+(32):(4294967295)
+
+cw_mask(int mk_s) {
+  word mk_m = 0 - 1;
+  if(mk_s < 8) {
+    mk_m = cw_lowmask(mk_s * 8);
+  }
+} return word mk_m;
+(1):(255)
+(8):(-1)
+
+cw_sext(word sx_u, word sx_m, int sx_s) {
+  word sx_r = sx_u;
+  if(sx_s == 1 && sx_m > 0) {
+    word sx_b = (sx_m >> 1) + 1;
+    sx_r = (sx_u ^ sx_b) - sx_b;
+  }
+} return word sx_r;
+(255, 255, 1):(-1)
+(255, 255, 0):(255)
+(127, 255, 1):(127)
+(1, -1, 1):(1)

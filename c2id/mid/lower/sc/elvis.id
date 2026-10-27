@@ -1,0 +1,19 @@
+// `c ?: y` has the same node as its condition and its middle arm. The condition
+// is lowered once and kept in a temporary, which both the test and the middle
+// arm then read, so that what the condition computes is computed once.
+tern_once(int e, int c0) {
+  int c = c0;
+  if((import na)[e] == (import nb)[e]) {
+    c = tern_hoist(e, c0);
+  }
+} return int c;
+given low_fix given integer_list_set((import na), 11, 6) given integer_list_set((import nb), 11, 6) (11, 7):(19) then calls tern_hoist:(11, 7)
+given low_fix given integer_list_set((import na), 11, 6) given integer_list_set((import nb), 11, 4) (11, 7):(7) then calls tern_hoist:[0]
+
+tern_hoist(int e, int c0) {
+  int et = ex_ty(c0);
+  int t = hoist_temp(c0, et);
+  integer_list_set((import nb), e, t);
+} return int t;
+given low_fix (11, 7):(19) then (import nb)[11]:(19)
+given low_fix (11, 6):(19) then calls hoist_temp:(6, 0)

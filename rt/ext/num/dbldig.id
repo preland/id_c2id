@@ -1,0 +1,25 @@
+rt_ddig(word rs, word[] rdsc) {
+  word rdcn = 0;
+  word rch = peek8(rs + rdsc[1]);
+  while(c_isdigit(rch) == 1) {
+    word_list_set(rdsc, 1, rdsc[1] + 1);
+    rdcn = rdcn + 1;
+    rch = peek8(rs + rdsc[1]);
+  }
+} return word rdcn;
+
+rt_dtail(word rs, word[] rdsc, word rdcn) {
+  if(rdcn > 0) {
+    word_list_set(rdsc, 2, 1);
+    rt_dexp(rs, rdsc);
+  } else {
+    rt_dword(rs, rdsc);
+  }
+} return void;
+rt_dexp(word rs, word[] rdsc) {
+  word rch = peek8(rs + rdsc[1]);
+  word rsave = rdsc[1];
+  if(rch == 101 || rch == 69) {
+    rt_dexp2(rs, rdsc, rsave);
+  }
+} return void;

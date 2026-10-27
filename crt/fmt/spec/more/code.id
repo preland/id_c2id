@@ -1,21 +1,25 @@
 take_len(word c, word[] st, word[] fs) {
   word code = len_code(c, fs[4]);
-  wset(fs, 4, code);
-  wset(st, 0, st[0] + 1);
+  word_list_set(fs, 4, code);
+  word_list_set(st, 0, st[0] + 1);
 } return void;
 (108, [0], [0, 0, 0, 0, 0]):(108, [1], [0, 0, 0, 0, 3])
 (104, [0], [0, 0, 0, 0, 0]):(104, [1], [0, 0, 0, 0, 2])
 
 // 'l' and 'z' both mean 64-bit here, so both give 3; 'll' is 'l' twice and
-// lands on 3 again.
+// lands on 3 again. 'L' is 4, a long double.
 len_code(word c, word prev) {
   word r = 3;
   if(c == 104) {
     r = hh_code(prev);
   }
+  if(c == 76) {
+    r = 4;
+  }
 } return word r;
 (108, 0):(3)
 (104, 2):(1)
+(76, 0):(4)
 
 // 'h' means 16-bit, but a second 'h' means 8-bit.
 hh_code(word prev) {

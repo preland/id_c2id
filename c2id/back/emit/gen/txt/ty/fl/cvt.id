@@ -1,0 +1,37 @@
+// The text that converts value s from type `from` to type `to`, when either is
+// floating point. An integer is converted to double exactly (unsigned 64-bit
+// ones by crt's cfl_of_uint, which takes the top bit as a magnitude), a double
+// to an integer truncates toward zero (a value out of range is undefined in C
+// and is whatever the hardware gives), a double to a float rounds to nearest
+// even, and a float to a double is the same word.
+fl_cvt(int to, int from, string s) {
+  int kt = ty_fkind(to);
+  int kf = ty_fkind(from);
+  string out = fl_cvt1(to, from, s, kt, kf);
+} return string out;
+given txt_fixture given pend_setup given fl_types (6, 0, "t5"):("t0") then (import pend)[0]:("word t0 = cfl_of_int(t5);")
+given txt_fixture given pend_setup given fl_types (0, 6, "t5"):("t1") then (import pend)[0]:("word t0 = cfl_to_int(t5);")
+given txt_fixture given pend_setup given fl_types (7, 6, "t5"):("t0") then (import pend)[0]:("word t0 = cfl_rnd32(t5);")
+given txt_fixture given pend_setup given fl_types (6, 7, "t5"):("t5")
+
+fl_cvt2(int to, int from, string s, int kt, int kf) {
+  string out = "";
+  if(kt == 0) {
+    out = fl_to_i(to, s);
+  } else {
+    out = fl_cvt3(to, from, s, kt, kf);
+  }
+} return string out;
+given txt_fixture given pend_setup given fl_types (2, 6, "t5", 0, 2):("t0") then (import pend)[0]:("word t0 = cfl_to_int(t5);")
+given txt_fixture given pend_setup given fl_types (6, 0, "t5", 2, 0):("t0") then (import pend)[0]:("word t0 = cfl_of_int(t5);")
+
+fl_cvt3(int to, int from, string s, int kt, int kf) {
+  string out = s;
+  if(kf == 0) {
+    out = fl_from_i(to, from, s);
+  } else {
+    out = fl_narrow(kt, kf, s);
+  }
+} return string out;
+given txt_fixture given pend_setup given fl_types (6, 3, "t5", 2, 0):("t0") then (import pend)[0]:("word t0 = cfl_of_uint(t5);")
+given txt_fixture given pend_setup given fl_types (7, 0, "t5", 1, 0):("t1") then (import pend)[1]:("word t1 = cfl_rnd32(t0);")

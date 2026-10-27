@@ -1,0 +1,22 @@
+// Ending the program. id has no exit call, so exit() records its status plus one
+// in the word rtxc, and every runner that can reach an exit stops at its next
+// block; the generated `main` then answers that status, or the low byte of what
+// C's main returned. The word is zero until then.
+c_exit(word code) {
+  int status = (code & 255) + 1;
+  poke64((import rtxc), status);
+} return void;
+
+rt_status(word r) {
+  int status = r & 255;
+  word rtxs = peek64((import rtxc));
+  if(rtxs != 0) {
+    status = rtxs - 1;
+  }
+} chain (word r) {
+  rt_wall();
+} return int status;
+
+c_abort() {
+  poke64((import rtxc), 135);
+} return void;

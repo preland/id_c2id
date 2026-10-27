@@ -1,0 +1,7 @@
+fd_make(word fdb, word[] fdz) {
+  word[] fdm = fd_state(fdb);
+  word[] fdg = fd_big(fdm);
+  string fds = fd_text(fdg, fdm, fdz);
+} return string fds;
+(4609434218613702656, [0]):("15")
+(4604930618986332160, [0]):("75")

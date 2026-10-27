@@ -1,0 +1,28 @@
+// sgn_txt's condition and uop_txt's two pieces, split out because each
+// nests a call its caller has no room left to name.
+
+// Whether id's own C type is signed -- sgn_txt tests this in its
+// condition, so ex_ty(id) has to be named before ty_signed can take it.
+is_signed_self(int id) {
+  int ty = ex_ty(id);
+  int ok = ty_signed(ty);
+} return int ok;
+given txt_fixture (0):(1) then calls ex_ty:(0)
+given txt_fixture (5):(1) then calls ex_ty:(5)
+
+uop_fn(int id) {
+  string op = (import ns)[id];
+  string name = ufn_name(op);
+} return string name;
+given txt_fixture given uop_fixture (6):("udiv")
+given txt_fixture given uop_fixture (7):("umod")
+
+uop_body(int id, string name) {
+  int ty = ex_ty(id);
+  string exa = kid_cv((import na), id, ty);
+  string exb = kid_cvb(id, name, ty);
+} chain (int id, string name) {
+  string s = name_val(name + "(" + exa + ", " + exb + ")");
+} return string s;
+given txt_fixture given pend_setup (0, "udiv"):("t2")
+given txt_fixture given pend_setup (5, "umod"):("t2")

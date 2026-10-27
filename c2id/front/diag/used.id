@@ -1,0 +1,14 @@
+// An attribute list holding `used` keeps the function or variable it is on whatever
+// its linkage, so a unit with no main starts from it as from an external one (a
+// kernel initcall is `static ... __attribute__((used)) = fn`). usedk is cleared when
+// each external declaration begins (item_reset); once set, statk stays 0.
+used_scan(int[] pos, int ast) {
+  int us_hit = attr_find(ast, pos[0], (import used_attr));
+  if(us_hit >= 0) {
+    integer_list_set((import usedk), 0, 1);
+    integer_list_set((import statk), 0, 0);
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "__attribute__ ( ( used ) )" ([6], 0):() then (import usedk):([1])
+given boot_a given boot_b given lexfix stdin "__attribute__ ( ( unused ) )" ([6], 0):() then (import usedk):([0])
+given boot_a given boot_b given lexfix given integer_list_set((import statk), 0, 1) stdin "__attribute__ ( ( used ) )" ([6], 0):() then (import statk):([0])

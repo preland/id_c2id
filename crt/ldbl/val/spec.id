@@ -1,0 +1,21 @@
+// Results that are not numbers: an infinity or a zero of sign lxs, and the
+// indefinite NaN the x87 answers an invalid operation with (negative, quiet,
+// payload zero; lxs is 1).
+ld_inf(word lxs) {
+  word[] lqr = [(import ldtop), (lxs << 15) | 32767];
+} return word[] lqr;
+(0):([-9223372036854775808, 32767])
+(1):([-9223372036854775808, 65535])
+
+ld_indef(word lxs) {
+  word[] lqr = ld_inf(lxs);
+  lqr[0] = (import ldqnan);
+} return word[] lqr;
+(1):([-4611686018427387904, 65535])
+(0):([-4611686018427387904, 32767])
+
+ld_zero(word lxs) {
+  word[] lqr = [0, lxs << 15];
+} return word[] lqr;
+(0):([0, 0])
+(1):([0, 32768])

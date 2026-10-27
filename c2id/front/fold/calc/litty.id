@@ -1,0 +1,41 @@
+// C's type for an integer literal: the first of int, unsigned int, long,
+// unsigned long that holds the value and that the spelling allows. A `u` rules
+// out the signed ones, an `l` the 4-byte ones, and a decimal literal without a
+// `u` never becomes unsigned int (but does become unsigned long, as in gcc, when
+// nothing signed holds it).
+cw_lty(word ty_w, string ty_s, int ty_r) {
+  int ty_u = has_ch(ty_s, 117, 85);
+  int ty_l = has_ch(ty_s, 108, 76);
+  int ty_d = ty_r == 10;
+} chain (word ty_w, string ty_s, int ty_r) {
+  int ty_t = cw_pickt(ty_w, ty_d, ty_u, ty_l);
+} return int ty_t;
+(5, "5", 10):(9)
+(4294967295, "4294967295", 10):(17)
+(4294967295, "0xffffffff", 16):(8)
+(5, "5ul", 10):(16)
+
+cw_pickt(word pt_w, int pt_d, int pt_u, int pt_l) {
+  int[] pt_c = [9, 8, 17, 16];
+  int pt_i = 3;
+  int pt_t = 16;
+} chain (word pt_w, int pt_d, int pt_u, int pt_l) {
+  while(pt_i >= 0) {
+    pt_t = cw_best(pt_t, pt_c[pt_i], pt_w, pt_d, pt_u, pt_l);
+    pt_i = pt_i - 1;
+  }
+} return int pt_t;
+(5, 1, 0, 0):(9)
+(5, 1, 1, 0):(8)
+(5, 1, 0, 1):(17)
+(2147483648, 0, 0, 0):(8)
+
+cw_best(int bs_cur, int bs_cand, word bs_w, int bs_d, int bs_u, int bs_l) {
+  int bs_r = bs_cur;
+  int bs_ok = cw_cand(bs_w, bs_cand, bs_d, bs_u, bs_l);
+  if(bs_ok == 1) {
+    bs_r = bs_cand;
+  }
+} return int bs_r;
+(16, 9, 5, 1, 0, 0):(9)
+(16, 9, 5, 1, 0, 1):(16)

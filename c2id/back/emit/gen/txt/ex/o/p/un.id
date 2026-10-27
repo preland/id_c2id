@@ -1,0 +1,36 @@
+// The two remaining unary forms.
+
+// `-e` and `~e` both take the promoted operand type and both narrow back to
+// it, which is why `-x` on an `unsigned int` is a large positive number and
+// not a negative one.
+pre_txt(int id, string op) {
+  int ty = ex_ty(id);
+  string txt = pre_inner(id, op);
+  string out = conv_txt(ty, txt);
+} return string out;
+given txt_fixture given pend_setup (0, "~"):("t0") then calls pre_inner:(0, "~")
+given txt_fixture given pend_setup (5, "0 - "):("t0") then calls pre_inner:(5, "0 - ")
+
+// The parenthesised "op operand" text, split out so pre_txt can name
+// ex_ty(id) and the whole inner expression as two separate values without
+// exceeding the block's action budget.
+pre_inner(int id, string op) {
+  int a = (import na)[id];
+  string s = "(" + op + ex_txt(a) + ")";
+} return string s;
+given txt_fixture (0, "~"):("(~NEEDS_CFG_prim)")
+given txt_fixture (0, "-"):("(-NEEDS_CFG_prim)")
+
+// Prefix `++`/`--` is a compound assignment; unary `+` is the promotion and
+// nothing else.
+incdec_txt(int id) {
+  string exa = kid_ex((import na), id);
+  string s = self_conv(id, exa);
+  if((import ns)[id] == "++" || (import ns)[id] == "--") {
+    int a = (import na)[id];
+    string op = (import ns)[id];
+    s = step_txt(a, op);
+  }
+} return string s;
+given txt_fixture given pend_setup (0):("t0") then calls kid_ex:((import na), 0)
+given txt_fixture given pend_setup (5):("t0") then calls kid_ex:((import na), 5)

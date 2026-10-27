@@ -1,0 +1,24 @@
+// The type of each operand of a binary-ish node, split out because id
+// forbids a call nested inside another call's argument list --
+// ex_ty(a_of(id)) needs a_of(id) named before it can be passed on. Shared
+// by ty/r/bin.id, ex/o/b/bin/dispatch.id, ex/o/c/cmp/compare.id and
+// ex/o/p/ptr/arith.id, which all need the type of one or both operands of
+// a two-child node.
+
+kid_ty(int[] kids, int id) {
+  int a = kids[id];
+  int ty = ex_ty(a);
+} return int ty;
+given txt_fixture ((import na), 0):(0) then calls ex_ty:(4)
+given txt_fixture ((import na), 1):(0) then calls ex_ty:(4)
+given txt_fixture ((import nb), 0):(0) then calls ex_ty:(1)
+given txt_fixture ((import nb), 1):(0) then calls ex_ty:(0)
+
+// The usual arithmetic conversions applied to both operands of id.
+pair_uty(int id) {
+  int aty = kid_ty((import na), id);
+  int bty = kid_ty((import nb), id);
+  int uty = usual_ty(aty, bty);
+} return int uty;
+given txt_fixture (0):(0) then calls usual_ty:(0, 0)
+given txt_fixture given pair_fixture (7):(2) then calls usual_ty:(2, 0)

@@ -1,0 +1,1 @@
+954_refuse_cleanup.c:4: error: a variable with a cleanup attribute is declared where c2id does not know the scope it ends

@@ -1,0 +1,21 @@
+mx_close() {
+  int more = 1;
+  while(more > 0) {
+    more = mx_pass();
+  }
+} return void;
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int puts(char *s); void f(void) { exit(1); } void g(void) { f(); } void h(void) { g(); } void k(void) { puts(\"a\"); }" ():() then (import mxnames):(["exit", "abort", "_Exit", "longjmp", "_longjmp", "f", "g", "h"])
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int puts(char *s); void f(void) { puts(\"a\"); }" ():() then len((import mxnames)):(5)
+
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { p(); } void g(void) { f(); } int h(void) { return 0; }" ():() then (import mxnames):(["exit", "abort", "_Exit", "longjmp", "_longjmp", "f", "g"])
+
+mx_fixture() {
+  export int mxb = (import fbodies)[0];
+  export int[] mxl = (import nl)[mxb];
+  export int mxs = mxl[0];
+} chain () {
+  export int mxc = (import na)[mxs];
+  export int mxv = (import na)[mxc];
+} return void export mxb;
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { exit(1); }" ():() then (import mxb):(13)
+given noret_init given boot_a given boot_b given lexfix given tu_load stdin "int x; void f(void) { exit(1); }" ():() then (import mxb):(14)

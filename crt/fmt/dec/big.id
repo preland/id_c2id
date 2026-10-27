@@ -1,0 +1,37 @@
+// Exact decimal digits of a double, for %f %e %g. A big non-negative integer is
+// a word list of its decimal digits, least significant first, one per cell; the
+// only operation needed is multiplying it by a small word, which makes it a
+// product of powers of 2 (a double's mantissa shifted left) or of 5 (shifted
+// right: m / 2^k is m * 5^k / 10^k, so the digits of m * 5^k with k of them
+// after the point). Nothing is rounded here; fmt/flt rounds the digits.
+//
+// One digit of the product: digit dgi times dgm plus the carry in dgc[0]. The
+// new digit is pushed on dgo and the carry out put back in dgc[0].
+dg_acc(word[] dgs, word[] dgo, word[] dgc, int dgi, word dgm) {
+  word dgv = dgs[dgi] * dgm + dgc[0];
+  push(dgo, dgv % 10);
+  word_list_set(dgc, 0, dgv / 10);
+} return void;
+([5], [], [0], 0, 3):([5], [5], [1])
+([9], [], [4], 0, 2):([9], [2], [2])
+
+// What is left of the carry, one digit at a time.
+dg_tail(word[] dgo, word[] dgc) {
+  while(dgc[0] > 0) {
+    push(dgo, dgc[0] % 10);
+    word_list_set(dgc, 0, dgc[0] / 10);
+  }
+} return void;
+([5], [12]):([5, 2, 1], [0])
+([7], [0]):([7], [0])
+
+dg_run(word[] dgs, word dgm, word[] dgo, word[] dgc) {
+  int dgi = 0;
+  while(dgi < len(dgs)) {
+    dg_acc(dgs, dgo, dgc, dgi, dgm);
+    dgi = dgi + 1;
+  }
+  dg_tail(dgo, dgc);
+} return void;
+([5], 3, [], [0]):([5], 3, [5, 1], [0])
+([9, 9], 11, [], [0]):([9, 9], 11, [9, 8, 0, 1], [0])

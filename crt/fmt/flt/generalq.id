@@ -1,0 +1,11 @@
+// glibc keeps the # flag's trailing zeros out of a %g whose rounding carried into
+// the next power of ten (999999.5 is 1.e+06, not 1.00000e+06): fea becomes 2.
+fg_quirk(int fea, int fgc) {
+  int fgq = fea;
+  if(fea == 1 && fgc > 0) {
+    fgq = 2;
+  }
+} return int fgq;
+(1, 1):(2)
+(1, 0):(1)
+(0, 1):(0)

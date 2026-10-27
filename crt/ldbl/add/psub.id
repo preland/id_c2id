@@ -1,0 +1,29 @@
+// An exact zero from a difference is +0 (round to nearest).
+ld_zsgn(word[] lqw) {
+  if(lqw[2] == 0 && lqw[3] == 0) {
+    lqw[0] = 0;
+  }
+} return void;
+([1, 5, 0, 0]):([0, 5, 0, 0])
+([1, 9, 0, 0]):([0, 9, 0, 0])
+
+// Different signs: lxx minus lxh:lxl, borrowing across the words.
+ld_psub(word[] lqw, word lxx, word lxh, word lxl) {
+  lqw[3] = 0 - lxl;
+  lqw[2] = lxx - lxh - (lxl != 0);
+  ld_zsgn(lqw);
+} return void;
+([0, 100, 0, 0], 10, 3, 0):([0, 100, 7, 0], 10, 3, 0)
+([0, 100, 0, 0], 10, 3, 5):([0, 100, 6, -5], 10, 3, 5)
+([1, 100, 0, 0], 5, 5, 0):([0, 100, 0, 0], 5, 5, 0)
+
+ld_asum2(word[] lqx, word lxh, word lxl, word lxd) {
+  word[] lqw = [lqx[0], lqx[1], 0, 0];
+  if(lxd == 0) {
+    ld_padd(lqw, lqx[2], lxh, lxl);
+  } else {
+    ld_psub(lqw, lqx[2], lxh, lxl);
+  }
+} return word[] lqw;
+([0, 100, 10], 3, 0, 0):([0, 100, 13, 0])
+([0, 100, 10], 3, 0, 1):([0, 100, 7, 0])

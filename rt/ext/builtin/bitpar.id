@@ -1,0 +1,15 @@
+c___builtin_parity(word pcv) {
+  word pcn = rt_popc(pcv, 32) & 1;
+} return word pcn;
+
+c___builtin_parityll(word pcv) {
+  word pch = ushr(pcv, 32);
+  word pcn = (c___builtin_parity(pcv) + c___builtin_parity(pch)) & 1;
+} return word pcn;
+(7):(1)
+(1099511627776):(1)
+(1099511627780):(0)
+
+c___builtin_bswap16(word pcv) {
+  word pcn = ((pcv & 255) << 8) | ((pcv >> 8) & 255);
+} return word pcn;

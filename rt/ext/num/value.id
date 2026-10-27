@@ -1,0 +1,11 @@
+// The number a scan or an overflow record holds at slot rsv, negated when the
+// flag at slot rsf says a minus came first.
+rt_signed(word[] rsg, int rsf, int rsv) {
+  word rsr = rsg[rsv];
+  if(rsg[rsf] == 1) {
+    rsr = 0 - rsr;
+  }
+} return word rsr;
+([1, 5], 0, 1):(-5)
+([0, 5], 0, 1):(5)
+([7, 0, 1, 9], 2, 3):(-9)

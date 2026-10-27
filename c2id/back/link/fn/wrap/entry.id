@@ -1,0 +1,45 @@
+// The wrapper other code calls: `c_NAME(a0, a1, ...)` takes a frame off the
+// stack, stores the arguments in the parameter slots (8 bytes each, from fp +
+// 8), runs the function, gives the frame back and answers fp + 0.
+emit_wrap(int fn, string name, int np, int sz) {
+  string plist = wrap_plist(fn, np);
+  string idn = fn_idname(name);
+  emit_mark();
+} chain (int fn, string name, int np, int sz) {
+  emit_head(plist, idn + "(" + plist + ") {");
+  emit_out("  word fp = rt_enter(" + sz + ");");
+  wrap_args(np, fn);
+} chain (int fn, string name, int np, int sz) {
+  wrap_va(fn, np);
+  emit_out("  word r = run" + fn + "(fp);");
+  wrap_end(fn, sz);
+} chain (int fn, string name, int np, int sz) {
+  emit_cut("} return word r;");
+} return void;
+given boot_a given boot_b given init_gfn (0, "f", 0, 8):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_f() {\n  word fp = rt_enter(8);\n  word r = run0(fp);\n  rt_leave(8);\n} return word r;\n")
+given boot_a given boot_b given init_gfn (2, "g", 2, 24):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_g(word a0, word a1) {\n  word fp = rt_enter(24);\n  poke64(fp + 8, a0);\n  poke64(fp + 16, a1);\n} chain (word a0, word a1) {\n  word r = run2(fp);\n  rt_leave(24);\n} return word r;\n")
+
+// `word a0, word a1`
+wrap_params(int np) {
+  string out = "";
+  int i = 0;
+  while(i < np) {
+    out = out + sep_before(i, ", ") + "word a" + i;
+    i = i + 1;
+  }
+} return string out;
+(0):("")
+(2):("word a0, word a1")
+
+wrap_args(int np, int fn) {
+  int i = 0;
+  while(i < np) {
+    int wk = wrap_kind(fn, i);
+    wrap_arg(fn, i, wk);
+    i = i + 1;
+  }
+  wrap_sret(fn);
+} return void;
+given boot_a given boot_b given init_gfn (1, 0):() then prints:("  poke64(fp + 8, a0);\n")
+given boot_a given boot_b given init_gfn (4, 0):() then prints:("  poke64(fp + 8, a0);\n  poke64(fp + 16, a1);\n  poke64(fp + 24, a2);\n} chain (word fp) {\n  poke64(fp + 32, a3);\n")
+given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "struct Q { int c; }; struct Q f(int a) { struct Q q; return q; }" (2, 0):() then prints:("  poke64(fp + 8, a0);\n  poke64(fp + 16, a1);\n  poke64(fp, a0);\n")

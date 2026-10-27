@@ -14,10 +14,9 @@ guessing wastes a lot of time.
   The `return` clause after the closing brace is **free** and may compute.
 * **Nesting depth 2.** Function body is depth 0; `while { if { } }` is legal,
   one more level is not.
-* **3 functions per file. 3 entries per directory** (`.id` files +
-  subdirectories). **Non-`.id` files are free** — put as many `.md` notes as
-  you like. So a leaf directory holds 9 functions; a tree of depth *L* holds
-  9 × 3^L.
+* **3 functions per file.** Directories have no entry limit (the old
+  3-entries rule, E0701, is retired); layout checks are E0702..E0707 in
+  `docs/ERRORS.md`.
 * **A name has one type across the whole program**, parameters included.
 * **Variables are function-private** unless `export`ed; others read them with
   `(import name)`.
@@ -30,7 +29,7 @@ guessing wastes a lot of time.
   ternary, or character literals.
 
 Build with `bin/idc`. It enforces every rule above and reports
-`file:line: error:` diagnostics; `idc.py` is bootstrap-only now and there is
+`file:line: error:` diagnostics; there is no compiler other than `bin/idc` and there is
 no fallback. One thing worth knowing: if `bin/idc` says
 `internal error: the self-hosted compiler emitted C that does not compile`,
 the C compiler's own diagnostic is printed just above it — that is usually a
@@ -58,7 +57,7 @@ side_effects_only() {
 walk(string src) {
   int i = 0;
   while(i < len(src)) {
-    handle(charat(src, i));
+    handle(character_code_at(src, i));
     i = i + 1;
   }
 } return void;
@@ -88,7 +87,7 @@ find_ch(string src, int i, int c) {
 
 probe(string src, int i, int c) {
   int r = 0 - 1;
-  if(charat(src, i) == c) {
+  if(character_code_at(src, i) == c) {
     r = i;
   }
 } return int r;
@@ -311,7 +310,7 @@ There is no substring builtin; write one:
 slice(string src, int a, int b) {
   string out = "";
   while(a < b) {
-    out = out + chr(charat(src, a));
+    out = out + chr(character_code_at(src, a));
     a = a + 1;
   }
 } return string out;

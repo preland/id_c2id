@@ -1,0 +1,24 @@
+// A stream is the number rt/libc/io.id gives it: 1 stdout, 2 stderr, 3 stdin.
+// Text for stdout goes to put and text for stderr to rt_err; text for a FILE
+// from fopen goes into it if it was opened for writing, and nowhere if not.
+rt_emit(word f, string txt) {
+  if(f == 2) {
+    rt_err(txt);
+  } else if(f == 1) {
+    put(txt);
+  } else if(f > 3) {
+    rt_wstr(f, txt);
+  }
+} return void;
+
+c_fprintf(word f, word fmt, word[] args) {
+  string txt = c_format(fmt, args);
+  rt_emit(f, txt);
+  int plen = len(txt);
+} return word plen;
+
+c_fputs(word s, word f) {
+  word n = c_strlen(s);
+  string txt = str_of_mem(s, n);
+  rt_emit(f, txt);
+} return word n;

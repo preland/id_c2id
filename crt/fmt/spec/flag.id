@@ -8,21 +8,20 @@ scan_flags(word fmt, word[] st, word[] fs) {
 given crt_fmt_fixture ((import fmtbuf), [0], [0, 0, 0, 0, 0]):((import fmtbuf), [2], [0, 1, 1, 0, 0])
 given crt_fmt_fixture ((import fmtbuf), [2], [0, 0, 0, 0, 0]):((import fmtbuf), [2], [0, 0, 0, 0, 0])
 
-// '-' and '0'. C's other flags ('+', ' ', '#') are not implemented; they are
-// not recognised here, so they fall through to the conversion character and
-// come out echoed literally rather than silently ignored.
+// The flags: '-' '0' '+' ' ' and '#'.
 is_flag(word c) {
   int go = 0;
-  if(c == 45 || c == 48) {
+  if(c == 45 || c == 48 || c == 43 || c == 32 || c == 35) {
     go = 1;
   }
 } return int go;
 (45):(1)
 (100):(0)
+(43):(1)
 
 take_flag(word c, word[] st, word[] fs) {
   set_flag(c, fs);
-  wset(st, 0, st[0] + 1);
+  word_list_set(st, 0, st[0] + 1);
 } return void;
 (45, [0], [0, 0, 0, 0, 0]):(45, [1], [0, 1, 0, 0, 0])
 (48, [0], [0, 0, 0, 0, 0]):(48, [1], [0, 0, 1, 0, 0])

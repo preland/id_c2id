@@ -1,0 +1,27 @@
+// A lone `;` is an empty block rather than a node kind of its own, so nothing
+// downstream needs a case for it. leaf_after is that empty block, or a number
+// leaf for a token that is consumed as a placeholder (overflow.id's former bad_advance).
+leaf_after(int[] pos, string kind, string text) {
+  advance(pos);
+  int id = newleaf(kind, 0, 0, text, "");
+} return int id;
+given boot_a given lexfix stdin ";" ([0], "block", ""):(0) then calls newleaf:("block", 0, 0, "", "")
+given boot_a given lexfix stdin "; ;" ([0], "block", ""):(0) then calls newleaf:("block", 0, 0, "", "")
+given boot_a given lexfix stdin ";" ([0], "num", "0"):(0)
+given boot_a given lexfix stdin "x" ([0], "num", "0"):(0)
+
+parse_label(int[] pos) {
+  string name = cur_text(pos);
+  advance(pos);
+  int id = label_close(pos, name);
+} return int id;
+given boot_a given lexfix stdin "foo: x;" ([0]):(0)
+given boot_a given lexfix stdin "bar: y;" ([0]):(0)
+
+parse_expr_stmt(int[] pos) {
+  int a = parse_expr(pos);
+  skip_tok(pos, ";");
+  int id = newleaf("expr", a, 0, "", "");
+} return int id;
+given boot_a given lexfix stdin "x;" ([0]):(1)
+given boot_a given lexfix stdin "y;" ([0]):(1)

@@ -1,0 +1,25 @@
+// The two arms of fl_bin_txt: a long double's, or the words of a double or float.
+fl_bin_pick(int id, int rt) {
+  string out = "";
+  if(ty_fkind(rt) == 3) {
+    out = ld_bin_txt(id, rt);
+  } else {
+    out = fl_bin_dbl(id, rt);
+  }
+} return string out;
+given txt_fixture given pend_setup given fl_fixture given fl_bin_fixture ((import flb), 6):("t2") then (import pend)[2]:("word t2 = cfl_add(t0, t1);")
+given txt_fixture given pend_setup given fl_fixture given ld_fixture given init_frame given init_frame2 given txt_reset ((import ldb), 10):("t3") then (import pend)[3]:("word t3 = cld_arith(0, (fp + 48), t0, t2);")
+
+fl_bin_dbl(int id, int rt) {
+  int ca = fl_coerce(rt, (import na)[id]);
+  int cb = fl_coerce(rt, (import nb)[id]);
+  string fnm = fl_opname((import ns)[id]);
+} chain (int id, int rt) {
+  string sa = ex_txt(ca);
+  string sb = ex_txt(cb);
+  string s = name_val(fnm + "(" + sa + ", " + sb + ")");
+} chain (int id, int rt) {
+  string out = fl_round(id, s);
+} return string out;
+given txt_fixture given pend_setup given fl_fixture given fl_bin_fixture ((import flc), 6):("t2") then (import pend)[2]:("word t2 = cfl_lt(t0, t1);")
+given txt_fixture given pend_setup given fl_fixture given fl_bin_fixture ((import flg), 7):("t5") then (import pend)[5]:("word t5 = cfl_rnd32(t4);")

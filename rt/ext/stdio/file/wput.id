@@ -1,0 +1,26 @@
+// Bytes written to a FILE: at its position, or at the end for one opened to
+// append. Nothing is written to a FILE that is not writable (a file opened for
+// reading, a stream number): the answer is 0 bytes.
+rt_wput(word rwf, word rptr, word rn) {
+  word rwk = 0;
+  if(peek64(rwf + 24) == 2) {
+    rwk = rt_wadd(rwf, rptr, rn);
+  }
+} return word rwk;
+
+rt_wadd(word rwf, word rptr, word rn) {
+  word rwfl = peek64(rwf + 48);
+  word rwk = 0;
+  if((rwfl & 8) != 0) {
+    rwk = rt_wcopy(rwf, rptr, rn);
+  }
+} return word rwk;
+
+rt_wcopy(word rwf, word rptr, word rn) {
+  word rwpos = rt_wpos(rwf);
+  word rwend = rwpos + rn;
+  word rwd = rt_wgrow(rwf, rwend);
+} chain (word rwf, word rptr, word rn) {
+  word rwx = c_memcpy(rwd + rwpos, rptr, rn);
+  rt_wset(rwf, rwend);
+} return word rn;

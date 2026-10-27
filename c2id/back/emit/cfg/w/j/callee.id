@@ -1,0 +1,34 @@
+call_listed(int e, string[] nrs) {
+  int hit = 0;
+  if((import nk)[e] == "call") {
+    int f = (import na)[e];
+    hit = name_listed(f, nrs);
+  }
+} return int hit;
+given boot_a given noret_init given noret_fixture ((import nrc), (import nrnames)):(1)
+given boot_a given noret_init given noret_fixture ((import nrd), (import nrnames)):(0)
+
+name_listed(int f, string[] nrs) {
+  int hit = 0;
+  if(f >= 0 && (import nk)[f] == "var") {
+    string name = (import ns)[f];
+    hit = find_str(nrs, name) >= 0;
+  }
+} return int hit;
+given boot_a given noret_init given noret_fixture ((import nrv), (import nrnames)):(1)
+given boot_a given noret_init given noret_fixture ((import nrw), (import nrnames)):(0)
+given boot_a given noret_init given noret_fixture (-1, (import nrnames)):(0)
+
+noret_fixture() {
+  int[] empty = [];
+  export int nrv = newleaf("var", 0, 0, "exit", "");
+  export int nrw = newleaf("var", 0, 0, "puts", "");
+} chain () {
+  export int nrc = newnode("call", nrv, 0, "", "", empty, empty);
+  export int nrd = newnode("call", nrw, 0, "", "", empty, empty);
+  export int nre = newnode("expr", nrc, 0, "", "", empty, empty);
+} chain () {
+  export int nrf = newnode("expr", nrd, 0, "", "", empty, empty);
+} return void;
+given boot_a given noret_init given noret_fixture ():() then len((import nk)):(12)
+given boot_a given noret_init given noret_fixture ():() then (import nk)[11]:("expr")

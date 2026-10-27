@@ -1,0 +1,27 @@
+// The declaration's type with the stand-in replaced by the type found, through
+// the pointers and arrays declarators put around it (`typeof(x) *p[3]`).
+// Anything else around the stand-in (a function type) is left, and refused.
+tof_store(int id, int ty, int rty) {
+  int nty = tof_subst(ty, rty);
+  integer_list_set((import nb), id, nty);
+  tof_left(id, nty);
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (15, 13, 0):() then (import nb)[15]:(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int f(void) { int a = 1; __auto_type b = a; return b; }" (15, 13, 5):() then (import nb)[15]:(5)
+
+tof_subst(int ty, int rty) {
+  int r = rty;
+  if((import nk)[ty] == "ptr" || (import nk)[ty] == "arr") {
+    r = tof_wrap(ty, rty);
+  }
+} return int r;
+given tynode_fix (0, 1):(1) then calls tof_wrap:[0]
+given tynode_fix (2, 1):(6) then calls tof_wrap:(2, 1)
+
+tof_wrap(int ty, int rty) {
+  int inner = (import na)[ty];
+  int sub = tof_subst(inner, rty);
+  int r = newleaf((import nk)[ty], sub, (import nb)[ty], "", "");
+} return int r;
+given tynode_fix (2, 1):(6)
+given tynode_fix (3, 2):(6)

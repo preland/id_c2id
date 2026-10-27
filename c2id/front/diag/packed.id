@@ -1,0 +1,47 @@
+// The attributes that change what a type is, not how it is compiled: `packed`
+// removes the padding between members, so every offset and the size differ from
+// the ones c2id lays out, and a vector or a mode type is not an integer of the
+// size c2id knows. Skipping them would run a program that is wrong, so they are
+// refused where written, in an __attribute__ (an asm operand named mode is not
+// one). `packed` on a union, or on a struct with one member, changes nothing
+// and is skipped (packed2.id), which is how lz4 spells an unaligned load.
+// aligned is skipped: it changes an address or a size only by padding, which a
+// program cannot depend on without printing it.
+packed_scan(int[] pos, int ast) {
+  int i = ast;
+  while(i < pos[0] && str_either((import ttext)[ast], "__attribute__", "__attribute") == 1) {
+    packed_at(i, ast);
+    i = i + 1;
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "__attribute__((packed))" ([6], 0):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix stdin "__attribute__((unused))" ([6], 0):() then len((import dgmsg)):(0)
+given boot_a given boot_b given lexfix stdin "__asm__((mode))" ([6], 0):() then len((import dgmsg)):(0)
+
+packed_at(int tk, int ast) {
+  if(find_str((import packed_names), (import ttext)[tk]) >= 0 && packed_fits(tk, ast) == 0) {
+    diag_tok(tk, "attribute '" + (import ttext)[tk] + "' changes the layout or the type, which c2id does not model: the program would run and be wrong");
+  }
+  if(find_str((import bad_attrs), (import ttext)[tk]) >= 0) {
+    diag_tok(tk, "attribute '" + (import ttext)[tk] + "' runs, replaces or renames code, which c2id does not translate: the program would run and be wrong");
+  }
+  if(find_str((import cleanup_attrs), (import ttext)[tk]) >= 0) {
+    cleanup_note(tk);
+  }
+} return void;
+given boot_a given boot_b given lexfix stdin "# 3 \"p.c\"\nx __attribute__((constructor(f)))" (4, 1):() then (import dgmsg):(["p.c:3: error: attribute 'constructor' runs, replaces or renames code, which c2id does not translate: the program would run and be wrong"])
+given boot_a given boot_b given lexfix stdin "# 3 \"p.c\"\nx __attribute__((cleanup(f)))" (4, 1):() then (import dgmsg):(["p.c:3: error: attribute 'cleanup' runs, replaces or renames code, which c2id does not translate: the program would run and be wrong"])
+given boot_a given boot_b given lexfix stdin "# 3 \"p.c\"\nx __attribute__((packed))" (4, 1):() then (import dgmsg):(["p.c:3: error: attribute 'packed' changes the layout or the type, which c2id does not model: the program would run and be wrong"])
+given boot_a given boot_b given lexfix stdin "aligned" (0, 0):() then len((import dgmsg)):(0)
+
+str_either(string s, string sel_a, string sel_b) {
+  int ok = 0;
+  if(s == sel_a || s == sel_b) {
+    ok = 1;
+  }
+} return int ok;
+("++", "++", "--"):(1)
+("--", "++", "--"):(1)
+("x", "++", "--"):(0)
+("__attribute__", "__attribute__", "__attribute"):(1)
+("__asm__", "__attribute__", "__attribute"):(0)

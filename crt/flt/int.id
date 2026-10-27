@@ -1,0 +1,24 @@
+cfl_of_int(word a) {
+  float cfx = a + 0.0;
+  word cfr = bits_of_float(cfx);
+} return word cfr;
+(5):(4617315517961601024)
+(-5):(-4606056518893174784)
+
+cfl_of_uint(word a) {
+  float cfx = a + 0.0;
+  if(a < 0) {
+    word cfh = ushr(a, 1) | (a & 1);
+    cfx = (cfh + 0.0) * 2.0;
+  }
+  word cfr = bits_of_float(cfx);
+} return word cfr;
+(5):(4617315517961601024)
+(-1):(4895412794951729152)
+
+cfl_to_int(word a) {
+  float cfx = float_of_bits(a);
+  word cfr = cfx;
+} return word cfr;
+(4620580627691444634):(7)
+(-4602791409163331174):(-7)

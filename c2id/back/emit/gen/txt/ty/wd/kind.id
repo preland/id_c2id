@@ -1,0 +1,29 @@
+// 128-bit integers, as the emitter sees them. Like a long double one is 16 bytes and
+// no word holds it, so it is handled as a struct is (ty_agg): its value in an
+// expression is the address of its bytes, a store copies them, and an operation hands
+// crt/i128 the address of a 16-byte frame temporary for the result and the addresses
+// of its operands, the call's value being that address.
+//
+// wd_kind: 0 for any other type, 1 for __int128, 2 for unsigned __int128.
+wd_kind(int ty) {
+  int wk = 0;
+  if((import nk)[ty] == "prim") {
+    wk = wd_named((import ns)[ty]);
+  }
+} return int wk;
+given txt_fixture given wd_types (6):(1)
+given txt_fixture given wd_types (7):(2)
+given txt_fixture given wd_types (0):(0)
+
+wd_named(string wn) {
+  int wk = 0;
+  if(wn == "__int128") {
+    wk = 1;
+  }
+  if(wn == "unsigned __int128") {
+    wk = 2;
+  }
+} return int wk;
+("__int128"):(1)
+("unsigned __int128"):(2)
+("int"):(0)

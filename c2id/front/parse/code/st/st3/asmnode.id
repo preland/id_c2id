@@ -1,0 +1,12 @@
+// What an `asm` statement becomes: nothing when skipping it is sound, else a
+// "refuse" node saying why, which is refused if the function is reached.
+asm_node(string why, int tk) {
+  int id = 0;
+  if(why == "") {
+    id = newleaf("block", 0, 0, "", "");
+  } else {
+    id = refuse_node(why, tk);
+  }
+} return int id;
+given boot_a given lexfix stdin "x" ("", 0):(0) then (import nk)[0]:("block")
+given boot_a given lexfix stdin "x" ("no", 0):(0) then (import nk)[0]:("refuse")

@@ -1,0 +1,38 @@
+// How many bytes hold the enumerators from lo to hi: as unsigned when lo is not
+// negative, signed otherwise.
+enum_bytes(int eb_lo, int eb_hi) {
+  int eb_w = 0;
+  if(eb_lo >= 0) {
+    eb_w = enum_ubytes(eb_hi);
+  } else {
+    eb_w = enum_sbytes(eb_lo, eb_hi);
+  }
+} return int eb_w;
+(0, 255):(1)
+(-1, 128):(2)
+
+enum_ubytes(int eu_hi) {
+  int eu_w = 4;
+  if(eu_hi <= 65535) {
+    eu_w = 2;
+  }
+  if(eu_hi <= 255) {
+    eu_w = 1;
+  }
+} return int eu_w;
+(255):(1)
+(256):(2)
+(65536):(4)
+
+enum_sbytes(int er_lo, int er_hi) {
+  int er_w = 4;
+  if(er_lo >= 0 - 32768 && er_hi <= 32767) {
+    er_w = 2;
+  }
+  if(er_lo >= 0 - 128 && er_hi <= 127) {
+    er_w = 1;
+  }
+} return int er_w;
+(-128, 127):(1)
+(-129, 127):(2)
+(-1, 40000):(4)

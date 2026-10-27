@@ -1,0 +1,23 @@
+// The last link of the chain, and the jumps. `expr` and `decl` -- and any
+// node kind that is not control flow -- fall through to add_stmt.
+walk_stmt12(int id) {
+  if((import nk)[id] == "continue") {
+    do_jump((import ctgt));
+  } else {
+    walk_plain(id);
+  }
+} return void;
+given walk_ast_fixture (4):() then calls do_jump:((import ctgt))
+given walk_ast_fixture (5):() then cur_stmts:([5])
+given walk_ast_fixture (5):() then calls walk_plain:[1]
+
+do_jump(int[] tgts) {
+  int c = (import curb)[0];
+  int b = top_of(tgts);
+  jmp_open(c, b);
+} return void;
+given walk_ast_fixture ((import btgt)):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(-1) then cur_blk:(1)
+given loop_pushed_fixture ((import btgt)):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(99)
+given walk_ast_fixture ((import ctgt)):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(-1)
+given loop_pushed_fixture ((import ctgt)):() then (import bkind)[0]:("jmp") then (import bsa)[0]:(98)
+

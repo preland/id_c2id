@@ -13,13 +13,13 @@ init_rest(word h, word rest, word p) {
   bsetprev(h, p);
   fix_prev(h + rest, h);
 } return void;
-given crt_heap_fixture ((import h0), 32, 777):() then h0_word:(32) then h0_prev:(777) then calls bsetprev:[2]
+given crt_heap_fixture4 ((import h0), 32, 777):() then h0_word:(32) then h0_prev:(777) then calls bsetprev:[2]
 given crt_heap_fixture ((import h0), 64, 555):() then h0_word:(64) then h0_prev:(555) then calls bsetprev:[1]
 
 // Set a back link only if there really is a block there -- `h` may be the
-// end of the heap, which is not a block at all.
+// end of an island, where the sentinel is not a block.
 fix_prev(word h, word p) {
-  if(h < heap_end()) {
+  if(peek64(h) != 0) {
     bsetprev(h, p);
   }
 } return void;

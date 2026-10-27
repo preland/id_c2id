@@ -1,0 +1,31 @@
+// fgets: up to n - 1 bytes, stopping after a newline, then a NUL; NULL when
+// nothing was left to read.
+c_fgets(word rbuf, word rn, word rfile) {
+  word rs = rt_stream(rfile);
+  word got = rt_line(rbuf, rn, rs);
+  word rres = 0;
+} chain (word rbuf, word rn, word rfile) {
+  if(got > 0) {
+    poke8(rbuf + got, 0);
+    rres = rbuf;
+  }
+} return word rres;
+
+// The bytes of one line into rbuf: until a newline has been stored, the stream
+// ends, or only room for the NUL is left.
+rt_line(word rbuf, word rn, word rs) {
+  word got = 0;
+  word rch = 0;
+  while(rch >= 0 && rch != 10 && got < rn - 1) {
+    rch = c_fgetc(rs);
+    got = rt_keep(rbuf, got, rch);
+  }
+} return word got;
+
+rt_keep(word rbuf, word got, word rch) {
+  word n = got;
+  if(rch >= 0) {
+    poke8(rbuf + got, rch);
+    n = got + 1;
+  }
+} return word n;

@@ -1,0 +1,29 @@
+// The quotient of two big integers to 66 or 67 bits, for a decimal literal too
+// long or too far from 1 for ld_fast. The numerator is scaled by 2^s (or the
+// denominator by 2^-s) so that the quotient lies between 2^65 and 2^67, then
+// found by restoring division one bit at a time, 67 steps: each compares the
+// remainder with the denominator shifted up by 66 and by one place less each time.
+// lqq is [quotient high bits, quotient low word]; the remainder is left in lqr.
+ld_max0(word lxv) {
+  word lxr = lxv;
+  if(lxv < 0) {
+    lxr = 0;
+  }
+} return word lxr;
+(-1):(0)
+(-3):(0)
+
+ld_qput(word[] lqq, word lxb) {
+  lqq[0] = (lqq[0] << 1) | ushr(lqq[1], 63);
+  lqq[1] = (lqq[1] << 1) | lxb;
+} return void;
+([0, 1], 1):([0, 3], 1)
+([1, -9223372036854775808], 0):([3, 0], 0)
+
+ld_qsub(word[] lqr, word[] lqb, word lxg) {
+  if(lxg >= 1) {
+    bn_sub(lqr, lqb);
+  }
+} return void;
+([10], [3], 2):([7], [3], 2)
+([7], [7], 1):([0], [7], 1)

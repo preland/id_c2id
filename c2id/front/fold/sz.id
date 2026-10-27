@@ -1,0 +1,42 @@
+// A conditional picks an arm, sizeof is the size of its type (an unsigned long);
+// a name that is not an enumerator (and so not folded by the parser), a `sizeof` of
+// an expression and anything else that is not a constant is 0 with cunk set, which
+// ce_expr turns into a refusal.
+cw_ev6(int e) {
+  word e6_v = 0;
+  if((import nk)[e] == "sizeof" && ((import nb)[e] != 0 || (import na)[e] == 0)) {
+    e6_v = sizeof_meas(e, (import nb)[e]);
+    seg_fold(e);
+    integer_list_set((import cwty), 0, 16);
+  } else {
+    e6_v = cw_ev7(e);
+  }
+} return word e6_v;
+given boot_a given exprfix stdin "sizeof(int);" ((import extop)):(4) then (import cwty)[0]:(16)
+given boot_a given exprfix stdin "x;" ((import extop)):(0) then (import cunk)[0]:(1)
+given boot_a given exprfix stdin "sizeof(int);" ((import extop)):(4) then (import cunk)[0]:(0)
+
+// The value of a node cw_ev6 could not fold. `sizeof` of a string literal is its
+// bytes and the NUL, which needs no type; anything else is not a constant the
+// folder knows, and sets cunk (ce_expr turns that into a refusal).
+cw_ev7(int e) {
+  word e7_v = 0;
+  if((import nk)[e] == "sizeof" && cv_is_str((import na)[e]) == 1) {
+    e7_v = cv_strsz((import na)[e]);
+    integer_list_set((import cwty), 0, 16);
+  } else {
+    integer_list_set((import cunk), 0, 1);
+    integer_list_set((import cwty), 0, 9);
+  }
+} return word e7_v;
+given boot_a given exprfix stdin "sizeof(\"hello\");" (1):(6) then (import cunk)[0]:(0)
+given boot_a given exprfix stdin "x;" (0):(0) then (import cunk)[0]:(1)
+
+cv_is_str(int a) {
+  int ok = 0;
+  if(a >= 0 && (import nk)[a] == "str") {
+    ok = 1;
+  }
+} return int ok;
+given boot_a given exprfix stdin "\"hi\";" ((import extop)):(1)
+given boot_a given exprfix stdin "x;" ((import extop)):(0)

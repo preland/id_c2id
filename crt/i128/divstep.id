@@ -1,0 +1,34 @@
+// Sets bit wqi of the quotient.
+wq_setq(word[] wqu, word wqi) {
+  word wqo = 1;
+  if(wqi >= 64) {
+    wqu[5] = wqu[5] | (wqo << (wqi - 64));
+  } else {
+    wqu[4] = wqu[4] | (wqo << wqi);
+  }
+} return void;
+([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 3):([0, 0, 0, 0, 8, 0, 0, 0, 0, 0])
+([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 65):([0, 0, 0, 0, 0, 2, 0, 0, 0, 0])
+
+// Takes the divisor off the remainder, and sets the quotient bit, when it fits.
+wq_trysub(word[] wqu, word wqi) {
+  if(wq_ge(wqu) == 1) {
+    wq_sub(wqu);
+    wq_setq(wqu, wqi);
+  }
+} return void;
+([0, 0, 3, 0, 0, 0, 7, 0, 0, 0], 1):([0, 0, 3, 0, 2, 0, 4, 0, 0, 0])
+([0, 0, 3, 0, 0, 0, 2, 0, 0, 0], 1):([0, 0, 3, 0, 0, 0, 2, 0, 0, 0])
+
+// One bit of the quotient, from the most significant: the next dividend bit comes
+// into the remainder, and the divisor comes off it if it fits.
+wq_step(word[] wqu, word wqi) {
+  word wqt = wq_bit(wqu, wqi);
+  wqu[7] = (wqu[7] << 1) | ushr(wqu[6], 63);
+  wqu[6] = (wqu[6] << 1) | wqt;
+} chain (word[] wqu, word wqi) {
+  wq_trysub(wqu, wqi);
+} return void;
+([5, 0, 3, 0, 0, 0, 0, 0, 0, 0], 2):([5, 0, 3, 0, 0, 0, 1, 0, 0, 0])
+([5, 0, 1, 0, 0, 0, 1, 0, 0, 0], 0):([5, 0, 1, 0, 1, 0, 2, 0, 0, 0])
+([1, 0, 0, 100, 0, 0, -1, 1, 0, 0], 0):([1, 0, 0, 100, 0, 0, -1, 3, 0, 0])

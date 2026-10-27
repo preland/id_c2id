@@ -1,0 +1,29 @@
+// `static` among a declaration's specifiers marks each declarator it declares
+// (the decl node's nt), so the frame pass can tell a local from one that
+// outlives its call.
+mark_static(int[] l, int st0) {
+  int hit = static_head(st0);
+  int i = 0;
+  while(hit == 1 && i < len(l)) {
+    string_list_set((import nt), l[i], "static");
+    i = i + 1;
+  }
+} return void;
+given boot_a given exprfix stdin "static x;" ([0], 0):() then (import nt)[0]:("static")
+given boot_a given exprfix stdin "x;" ([0], 0):() then (import nt)[0]:("")
+
+// 1 when `static` comes before the first declarator, scanning the tokens from st0.
+static_head(int st0) {
+  int k = st0;
+  int hit = 0;
+  while(k < len((import ttext)) && hit == 0 && list_string_index((import declstop_words), (import ttext)[k]) < 0) {
+    if((import ttext)[k] == "static") {
+      hit = 1;
+    }
+    k = k + 1;
+  }
+} return int hit;
+given lexfix stdin "static int x;" (0):(1)
+given lexfix stdin "int static x;" (0):(1)
+given lexfix stdin "int x = static_y;" (0):(0)
+

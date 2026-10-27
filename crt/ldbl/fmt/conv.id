@@ -1,0 +1,39 @@
+// %Lf %Le %Lg, laid out as fl_conv lays out a double: sign, then the digits in
+// the style of the conversion letter (or inf and nan, capitals for E F G), then
+// the padding. lfm and lfe are the significand and the sign and exponent word.
+fl_digitsl(word lfm, word lfe, int flc, word[] fs) {
+  word[] flz = [(import wzero)];
+  string ds = fd_makel(lfm, lfe, flz);
+  string flt = fl_style(ds, flz, flc, fs);
+} return string flt;
+(-4611686018427387904, 16383, 102, [0, 0, 0, 0, 0, 0, 0, 0, 1, 2]):("1.50")
+(-7378697629483820646, 16380, 102, [0, 0, 0, 0, 0, 0, 0, 0, 1, 25]):("0.1500000000000000000054210")
+
+fl_bodyl(word lfm, word lfe, int flc, word[] fs) {
+  string fls = "inf";
+  if((lfm << 1) != 0) {
+    fls = "nan";
+  }
+  if(flc < 97) {
+    fls = fl_caps(fls);
+  }
+} chain (word lfm, word lfe, int flc, word[] fs) {
+  if(fl_finitel(lfe) == 1) {
+    fls = fl_digitsl(lfm, lfe, flc, fs);
+  }
+} return string fls;
+(-9223372036854775808, 32767, 102, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("inf")
+(-4611686018427387904, 32767, 70, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("NAN")
+(-4611686018427387904, 16383, 102, [0, 0, 0, 0, 0, 0, 0, 0, 1, 1]):("1.5")
+
+fl_convl(word lfm, word lfe, int flc, word[] fs) {
+  int fln = ushr(lfe, 15) & 1;
+  string fle = fl_sign(fln, fs);
+  string flt = fl_bodyl(lfm, lfe, flc, fs);
+} chain (word lfm, word lfe, int flc, word[] fs) {
+  int flg = fl_finitel(lfe);
+  string flo = pad_num(fle, flt, flg, fs);
+} return string flo;
+(-4611686018427387904, 16383, 102, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]):("1.500000")
+(-4611686018427387904, 49151, 101, [0, 0, 0, 0, 0, 0, 0, 0, 1, 2]):("-1.50e+00")
+(-4611686018427387904, 16383, 102, [0, 0, 0, 10, 0, 0, 0, 0, 1, 2]):("      1.50")

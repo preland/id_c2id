@@ -1,0 +1,20 @@
+// %d %i %u %x %X %o: the digits are read by the same scan strtol uses.
+rt_int(word rstr, word rb, word rsup, word rlen, word[] rargs, word[] rst) {
+  word[] rnm = rt_num(rstr + rst[0], rb);
+  word rin = peek8(rstr + rst[0] + rnm[0]);
+  rt_gotint(rnm, rin, rsup, rlen, rargs, rst);
+} return void;
+
+rt_gotint(word[] rnm, word rin, word rsup, word rlen, word[] rargs, word[] rst) {
+  if(rnm[4] == 0) {
+    rt_stop(rst, rin);
+  } else {
+    rt_putint(rnm, rsup, rlen, rargs, rst);
+  }
+} return void;
+
+rt_putint(word[] rnm, word rsup, word rlen, word[] rargs, word[] rst) {
+  word rv = rt_signed(rnm, 2, 3);
+  word_list_set(rst, 0, rst[0] + rnm[0]);
+  rt_give(rv, rsup, rlen, rargs, rst);
+} return void;

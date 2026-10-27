@@ -1,0 +1,18 @@
+defer_say(int dy_i) {
+  if((import pdsg)[dy_i] == 0) {
+    diag_tok((import pdtk)[dy_i], (import pdmsg)[dy_i]);
+  }
+} return void;
+given boot_a given boot_b given lexfix given defer_tok(0, "m", 0) (0):() then len((import dgmsg)):(1)
+given boot_a given boot_b given lexfix given defer_tok(0, "m", 1) (0):() then len((import dgmsg)):(0)
+
+defer_has(int dh_i) {
+  int dh_n = 0;
+  while(dh_i < len((import pdsg))) {
+    dh_n = dh_n + (import pdsg)[dh_i];
+    dh_i = dh_i + 1;
+  }
+} return int dh_n;
+given boot_a given defer_tok(1, "a", 0) given defer_tok(2, "b", 1) (0):(1)
+given boot_a given defer_tok(1, "a", 1) given defer_tok(2, "b", 1) (0):(2)
+given boot_a given defer_tok(1, "a", 0) (0):(0)

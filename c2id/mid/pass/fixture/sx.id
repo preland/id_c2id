@@ -1,0 +1,15 @@
+// Nodes for the statement-expression lowering cases, made after low_fix's: a
+// literal 4 (19), an expression statement of it (20), `x = y;` as a statement
+// (21), a statement expression of the first (22), one of the second and then
+// the first (23), and a block holding the first (24).
+sx_fix() {
+  export int sx_four = newleaf("num", 4, 0, "4", "");
+  export int sx_e4 = newnode("expr", (import sx_four), 0, "", "", [0], [0]);
+  export int sx_exy = newnode("expr", 14, 0, "", "", [0], [0]);
+} chain () {
+  export int sx_one = newnode("stmtx", 0, 0, "", "", [(import sx_e4)], [0]);
+  export int sx_two = newnode("stmtx", 0, 0, "", "", [(import sx_exy), (import sx_e4)], [0]);
+  export int sx_blk = newnode("block", 0, 0, "", "", [(import sx_e4)], [0]);
+} return void;
+given low_fix ():() then calls newnode:("stmtx", 0, 0, "", "", [20], [0])
+given low_fix ():() then calls newnode:("stmtx", 0, 0, "", "", [21, 20], [0])

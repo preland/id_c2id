@@ -1,0 +1,7 @@
+// The head of a function: sets the parameter list its continuations restate.
+emit_head(string params, string line) {
+  string_list_set((import chp), 0, params);
+  emit_cut(line);
+} return void;
+given init_gfn ("word fp", "blk0_0(word fp) {"):() then prints:("blk0_0(word fp) {\n")
+given init_gfn ("word a0", "c_f(word a0) {"):() then (import chp)[0]:("word a0")

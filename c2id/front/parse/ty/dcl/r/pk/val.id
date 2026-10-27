@@ -1,0 +1,9 @@
+// 0 when there is no aligned attribute (av_g < 0).
+attr_value(int av_g) {
+  int av_n = 0;
+  if(av_g >= 0) {
+    av_n = attr_arg(av_g);
+  }
+} return int av_n;
+given boot_a given boot_b given lexfix stdin "( aligned ( 4 ) )" (1):(4)
+given boot_a given boot_b given lexfix stdin "( aligned ( 4 ) )" (-1):(0)

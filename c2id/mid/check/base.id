@@ -1,0 +1,22 @@
+// What a pointer or array finally points at.
+ty_base(int ty) {
+  int bt = ty;
+  while((import nk)[bt] == "ptr" || (import nk)[bt] == "arr") {
+    bt = (import na)[bt];
+  }
+} return int bt;
+given boot_a given boot_b given lexfix given tu_load stdin "int **p;" (8):(6)
+given boot_a given boot_b given lexfix given tu_load stdin "int **p;" (7):(6)
+given boot_a given boot_b given lexfix given tu_load stdin "int **p;" (6):(6)
+
+// A name that is a declared function, used as a value (a callback passed along):
+// nothing providing it, or only the runtime (see chk_unres and chk_rtval).
+chk_fnval(int id) {
+  string name = (import ns)[id];
+  chk_unres(name, id);
+  chk_rtval(name, id);
+} chain (int id) {
+  chk_vaval(name, id);
+} return void;
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int nosuch(int); int main(void) { return nosuch(1); }" (12):() then (import unres):(["nosuch"])
+given boot_a given boot_b given lexfix given tu_load given reach_all stdin "int printf(int); int main(void) { return printf(1); }" (12):() then len((import unres)):(0)

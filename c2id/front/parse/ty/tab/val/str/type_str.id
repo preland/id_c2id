@@ -1,0 +1,42 @@
+
+// type_str: a readable, unambiguous rendering of a type node. C's own
+// declarator syntax is not readable, so this prints prefix form instead:
+//
+//   int              int
+//   int *            *int
+//   int a[3][4]      [3][4]int
+//   int (*f)(char)   *(*char)->int
+
+type_str(int ty) {
+  string s = "";
+  if((import nk)[ty] == "prim") {
+    s = (import ns)[ty];
+  } else {
+    s = ts2(ty);
+  }
+} return string s;
+given tynode_fix (0):("int")
+given tynode_fix (2):("*int")
+
+ts2(int ty) {
+  string s = "";
+  if((import nk)[ty] == "ptr") {
+    int a = (import na)[ty];
+    s = "*" + type_str(a);
+  } else {
+    s = ts3(ty);
+  }
+} return string s;
+given tynode_fix (2):("*int")
+given tynode_fix (0):("?")
+
+ts3(int ty) {
+  string s = "";
+  if((import nk)[ty] == "arr") {
+    s = ts_arr(ty);
+  } else {
+    s = ts4(ty);
+  }
+} return string s;
+given tynode_fix (3):("[3]int")
+given tynode_fix (0):("?")

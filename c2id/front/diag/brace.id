@@ -1,0 +1,26 @@
+// Token indices of a brace group, found by counting braces from bsm end. The
+// attribute checks (packed.id) use them to see what a `packed` is attached to.
+
+// The `{` that the `}` at token close matches.
+brace_open(int close) {
+  int bxi = close;
+  int depth = 1;
+  while(depth > 0 && bxi > 0) {
+    bxi = bxi - 1;
+    depth = depth + bracket_delta((import ttext)[bxi], "}", "{");
+  }
+} return int bxi;
+given boot_a given boot_b given lexfix stdin "{ { } }" (3):(0)
+given boot_a given boot_b given lexfix stdin "{ { } }" (2):(1)
+
+// The `}` that the `{` at token open matches.
+brace_close(int open) {
+  int bxi = open;
+  int depth = 1;
+  while(depth > 0 && bxi < len((import ttext)) - 1) {
+    bxi = bxi + 1;
+    depth = depth - bracket_delta((import ttext)[bxi], "}", "{");
+  }
+} return int bxi;
+given boot_a given boot_b given lexfix stdin "{ { } }" (0):(3)
+given boot_a given boot_b given lexfix stdin "{ { } }" (1):(2)

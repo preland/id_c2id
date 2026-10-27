@@ -1,0 +1,9 @@
+// The name a callee spells, or "" when it is not a plain name.
+ovf_callee(int c) {
+  string ovfnm = "";
+  if(c >= 0 && (import nk)[c] == "var") {
+    ovfnm = (import ns)[c];
+  }
+} return string ovfnm;
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (13):("__builtin_add_overflow")
+given boot_a given boot_b given lexfix given tu_load stdin "int g(int a, int b) { int r; return __builtin_add_overflow(a, b, \&r); }" (17):("")

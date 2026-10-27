@@ -1,0 +1,24 @@
+// The type of `c ? a : b`: the two arms meet at the usual arithmetic
+// conversions' common type (`n ? x : 0` with a double x is a double, and
+// `n ? 0 : 1L + k` is a long, not the int the then-arm alone would say).
+cond_ty(int id) {
+  int b = (import nb)[id];
+  int[] el = (import nl)[id];
+  int tb = ex_ty(b);
+} chain (int id) {
+  int te = ex_ty(el[0]);
+  int ty = fl_cond(tb, te);
+} return int ty;
+given txt_fixture given fl_fixture given fl_cond_fixture ((import flq)):(6)
+given txt_fixture given fl_fixture given fl_cond_fixture ((import fln)):(0)
+
+fl_cond(int tb, int te) {
+  int r = tb;
+  if(tb != te) {
+    r = usual_ty(tb, te);
+  }
+} return int r;
+given txt_fixture given fl_types (0, 6):(6)
+given txt_fixture (1, 0):(1)
+given txt_fixture (0, 2):(2)
+given txt_fixture (2, 0):(2)

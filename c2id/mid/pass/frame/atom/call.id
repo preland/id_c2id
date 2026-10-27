@@ -1,0 +1,39 @@
+// A call of a GCC atomic or __sync builtin is rewritten here, once the frame pass
+// has bound its arguments, because the size and the type of the object it works
+// on come from the type of its first argument (conf.id, atom_names). The program
+// has one thread, so the call becomes a call of the plain operation in
+// rt/ext/builtin, with the object's size added; a fence or a lock-free test
+// becomes a constant.
+atom_call(int id) {
+  int c = (import na)[id];
+  int k = atom_index(c);
+  if(k >= 0) {
+    atom_arg(id, k);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14):() then (import nk)[14]:("cast")
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14):() then (import ns)[10]:("__c2id_load")
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (11):() then (import nk)[14]:("call")
+
+// Which builtin a callee names, or -1.
+atom_index(int c) {
+  int k = -1;
+  if(c >= 0 && (import nk)[c] == "var") {
+    k = find_str((import atom_names), (import ns)[c]);
+  }
+} return int k;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (10):(0)
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (11):(-1)
+given boot_a given boot_b given lexfix given tu_load stdin "unsigned char c; int g(void) { return __atomic_fetch_add(&c, 3, 0); }" (10):(4)
+
+// A call with fewer arguments than the builtin takes is refused.
+atom_arg(int id, int k) {
+  int[] args = (import nl)[id];
+  if(len(args) < (import atom_arity)[k]) {
+    diag_node(id, (import atom_names)[k] + " takes at least " + (import atom_arity)[k] + " arguments");
+  } else {
+    atom_make(id, k, args);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x, 0); }" (14, 0):() then (import nk)[14]:("cast")
+given boot_a given boot_b given lexfix given tu_load stdin "int x; int g(void) { return __atomic_load_n(&x); }" (13, 0):() then len((import dgmsg)):(1)

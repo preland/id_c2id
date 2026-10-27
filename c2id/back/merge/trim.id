@@ -1,0 +1,22 @@
+// A file whose every block function was merged away would be written empty, so
+// its `==== FILE` marker is dropped when no line follows it before the next
+// marker or the end.
+
+mg_trim(string[] mgout) {
+  string[] mgkept = [];
+  int mgi = 0;
+  while(mgi < len(mgout)) {
+    mgkept = mg_trim_one(mgout, mgkept, mgi);
+    mgi = mgi + 1;
+  }
+} return string[] mgkept;
+(["==== FILE a", "==== FILE b", "x"]):(["==== FILE b", "x"])
+(["x", "==== FILE a"]):(["x"])
+
+mg_trim_one(string[] mgout, string[] mgkept, int mgi) {
+  if(mg_keep(mgout, mgi) == 1) {
+    push(mgkept, mgout[mgi]);
+  }
+} return string[] mgkept;
+(["==== FILE a", "x"], [], 0):(["==== FILE a"])
+(["==== FILE a"], ["q"], 0):(["q"])

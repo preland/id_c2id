@@ -1,0 +1,32 @@
+// The id function a C call lands on. A function the program defines, or one the
+// runtime provides under the C name, is `c_NAME`; the three allocator calls are
+// crt's own kmalloc/kfree/krealloc, which already do what C's do.
+callee_name(string op) {
+  int k = find_str((import libc_names), op);
+  string fnm = "c_" + op;
+  if(k >= 0) {
+    fnm = (import libc_crt)[k];
+  }
+} chain (string op) {
+  if(find_str((import fnames), op) >= 0) {
+    fnm = fn_idname(op);
+  }
+} return string fnm;
+given init_tu ("malloc"):("kmalloc")
+given init_tu ("foo"):("c_foo")
+given init_tu given list_string_insert((import fnames), 0, "memcmp") ("memcmp"):("u_memcmp")
+given init_tu given list_string_insert((import fnames), 0, "malloc") ("malloc"):("u_malloc")
+
+// How many arguments a variadic runtime function takes before its `...`, or -1
+// for a function that is not variadic. id has no varargs: the rest arrive in
+// one `word[]` (crt/README.md, section 4).
+va_fixed(string op) {
+  int k = find_str((import va_names), op);
+  int fixed = 0 - 1;
+  if(k >= 0) {
+    fixed = (import va_fixed_n)[k];
+  }
+} return int fixed;
+("printf"):(1)
+("snprintf"):(3)
+("puts"):(-1)

@@ -1,0 +1,28 @@
+init_one(int i, int a, string addr, string name) {
+  if(a >= 0) {
+    init_stmts((import dtys)[i], addr, a, 0);
+  } else {
+    std_init(name, addr);
+  }
+} return void;
+given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" (0, 7, "A", "x"):() then (import pend):(["poke32(A, 5);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int stdout;" (0, -1, "A", "stdout"):() then (import pend):(["poke64(A, 1);"])
+
+// stdout, stderr and stdin are the small numbers rt/libc/io.id decides on.
+std_init(string name, string addr) {
+  int k = find_str((import std_names), name);
+  if(k >= 0) {
+    pend_raw("poke64(" + addr + ", " + (import std_vals)[k] + ");");
+  }
+} return void;
+given pend_setup ("stdout", "A"):() then (import pend):(["poke64(A, 1);"])
+given pend_setup ("stdin", "B"):() then (import pend):(["poke64(B, 3);"])
+given pend_setup ("other", "A"):() then len((import pend)):(0)
+
+// A statement the block emitter prints verbatim before the one it is building.
+pend_raw(string line) {
+  push((import pend), line);
+  push((import pendc), "");
+} return void;
+given pend_setup ("a;"):() then (import pend):(["a;"]) then (import pendc):([""])
+given pend_setup given pend_raw("a;") ("b;"):() then (import pend):(["a;", "b;"])

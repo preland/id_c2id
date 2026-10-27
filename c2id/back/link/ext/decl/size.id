@@ -1,0 +1,36 @@
+// `int a[] = {1, 2, 3};` and `char s[] = "abc";` declare an array whose length is
+// the initializer's: a type with bound -1 (what `[]` parses to) is replaced by
+// one with the real count, so the array has the storage and the sizeof it should.
+complete_arr(int ty, int a) {
+  int r = ty;
+  if(a >= 0 && (import nk)[ty] == "arr" && (import nb)[ty] < 0) {
+    int n = arr_len(a);
+    r = newleaf("arr", (import na)[ty], n, "", "");
+  }
+} return int r;
+given boot_a given boot_b given lexfix given tu_load stdin "int g[] = { [2] = 5, 6 };" (7, 12):(14) then calls newleaf:("arr", 6, 4, "", "")
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (8, 11):(8)
+given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" (6, 7):(6)
+
+// How many elements an initializer gives: a brace list's (counting designated
+// positions), or a string literal's bytes and its terminator.
+arr_len(int a) {
+  int n = 0;
+  if((import nk)[a] == "init") {
+    n = init_count((import nl)[a]);
+  } else {
+    n = str_count(a);
+  }
+} return int n;
+given boot_a given boot_b given lexfix given tu_load stdin "int g[] = { [2] = 5, 6 };" (12):(4)
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { char s[8] = \"ab\"; char c = 65; }" (12):(3)
+
+str_count(int a) {
+  int n = 0;
+  if((import nk)[a] == "str") {
+    int[] bs = lit_bytes((import ns)[a]);
+    n = len(bs) + 1;
+  }
+} return int n;
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { char s[8] = \"ab\"; char c = 65; }" (12):(3)
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { char s[8] = \"ab\"; char c = 65; }" (10):(0)

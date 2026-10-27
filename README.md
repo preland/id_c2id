@@ -2,7 +2,7 @@
 
 `c2id` translates preprocessed C into [`id`](../idc), a deliberately tiny
 language that allows 3 actions per block, 2 levels of nesting, 3 functions per
-file and 3 entries per directory, and has no structs, no pointers, and no
+file, and has no structs, no pointers, and no
 bitwise operators. `c2id` is not a translation exercise bolted onto `id` from
 the outside — it is itself written in `id`, obeying every one of those rules
 with no exemptions.
@@ -50,10 +50,10 @@ modelled directly: a flat, bounds-checked byte memory plus a 64-bit `word`.
   edges in the graph — no special-casing in the emitter, and nesting never
   exceeds 2 because a basic block is straight-line code.
 * **No exemptions from `id`'s rules.** The generated project obeys the same
-  3-action, 2-nesting, 3-function, 3-entry, one-name-one-type, and
+  3-action, 2-nesting, 3-function, one-name-one-type, and
   duplicate-logic rules as hand-written `id`. A block over 3 actions is split
   into a chain of ordinary functions; the project layout scheme fills
-  directories under the rule of 3 automatically.
+  directories three files at a time automatically.
 * **Memory-safe by construction.** Every load and store goes through a
   bounds-checked primitive (`peek8/16/32/64`, `poke8/16/32/64`), so an
   out-of-bounds access traps instead of corrupting memory.
@@ -70,14 +70,15 @@ its directory map, its name→type registry, its node layout: `c2id/NOTES.md`.
 | `docs/EMITTER.md` | the emitter's spec: frames, CFG construction, calls, project layout |
 | `docs/ID_EXTENSIONS.md` | what `id` itself had to gain, and why each addition is unavoidable |
 | `docs/ID_CHEATSHEET.md` | how to write `id` without relearning it the slow way |
-| `docs/SELFHOST.md` | making `bin/idc` the compiler and retiring `idc.py` to bootstrap |
-| `docs/STATUS.md` | the honest ledger: what works, what does not |
-| `docs/CONTINUING.md` | what a person picking this up next needs to know |
-| `c2id/` | the C→`id` compiler itself, written in `id` (`lex/`, `parse/`, `emit/`) |
+| `docs/SELFHOST.md` | making `bin/idc` the compiler and retiring `idc.py` (since deleted) |
+| `docs/STATUS.md` | the honest ledger: what works, what does not, and the command that shows each |
+| `c2id/` | the C→`id` compiler itself, written in `id`: `front/` (`lex`, `parse`, `fold`), `mid/` (`hook`, `lower`, `pass`), `back/` (`emit`, `ind`, `link`) |
 | `c2id/NOTES.md` | the ABI: directory map, name→type registry, AST node layout |
 | `crt/` | C-semantics runtime (integer widths, memory, string/format helpers), in `id` |
-| `tools/` | thin bash drivers: `c2id.sh`, `check.sh`, `idprobe.sh`, `lint3.sh` |
-| `tests/` | the differential corpus (`tests/c/`), the front-end harness (`tests/frontend/`), and the lowering reference (`tests/lowering/`) |
+| `rt/` | the libc a translated program links against (`libc/`, `ext/`: printf family, ctype, stdio, builtins), in `id` |
+| `include/` | the only system header path `c2id.sh` gives the preprocessor |
+| `tools/` | thin bash drivers: `c2id.sh`, `check.sh`, `idprobe.sh` |
+| `tests/` | the differential cases (`tests/c/`), the front-end harness (`tests/frontend/`), and the lowering reference (`tests/lowering/`) |
 
 ## Running it
 
@@ -87,10 +88,21 @@ inside this checkout, that's `../idc/bin/idc`.
 
 ```sh
 tools/c2id.sh <in.c|in.i> <outdir>   # compile one translation unit
+../idc/bin/idc c2id                  # build the translator itself
 tools/check.sh                       # everything to run before committing
 ```
 
-`tools/check.sh` runs `tools/lint3.sh` (id's rule of 3 over `c2id/` and
+`idc c2id` runs under the default test requirement: every function in `c2id/`
+carries two passing cases (`docs/TESTS.md` in the umbrella), so a build that
+exits 0 means they all ran. Run it with `IDSTD_HOME` set to the idstd you mean
+to build against; `c2id` calls idstd (`lget`, `str_slice`, `list_string_insert`, ...)
+rather than keeping its own copies, and `idc` rejects a function whose logic
+matches an idstd one, so an idstd change can break this build in either
+direction. A call that quietly changes meaning when idstd does is what the cases
+exist to catch: `str_slice` went from (start, end) to (start, count), and three
+of `c2id`'s calls to it were wrong until cases ran them.
+
+`tools/check.sh` runs `idc --check` (id's structural rules over `c2id/` and
 `crt/`), `tools/idprobe.sh` (is there a usable `id` toolchain with the
 systems extensions this needs — `word`, `alloc`, `peek*`/`poke*`?), and
 `tests/run.sh` (the differential harness: compile with `cc`, translate with
@@ -100,19 +112,21 @@ folded into the pass count.
 
 ## Status
 
-Early. See `docs/STATUS.md` for exactly which stages build and pass tests, and
-which do not and why — a row there says "works" only if a command in `tests/`
-runs and passes.
+See `docs/STATUS.md` for exactly which stages build and pass tests, and which
+do not and why — a row there says "works" only if a command shows it.
 
-The front end (lexer, expression parser, statement parser, frame layout)
-compiles and runs end to end, and the emitter now emits real block functions
-rather than stubs: a small C program translates, and building the result names
-**7 defects in three classes** rather than failing generally. That count, and
-what each class is, is in `docs/STATUS.md`.
+C programs of real size translate, build with `idc` and run: the corpus in
+`docs/STATUS.md` (inih, the libmd digests, xxhash, lz4, miniz's inflate, and the
+programs in `tests/c/`) matches `gcc -O2` on stdout and exit status. What c2id
+cannot translate correctly it refuses, at translate time, with `file:line` and the
+construct's name, and writes nothing:
+inline asm that does anything, variable length arrays, `_Generic`, a struct passed through `...`, an `fopen` mode outside r, w and a with b and `+`, the address of a variadic runtime function, signals, termios, 128-bit integers, `packed` structs, and
+every called function that neither the program nor the runtime provides, all
+listed at once. `tests/run.sh` has a case for each (`tests/c/9*.c`, with a
+`.refuse` file naming the lines the refusal must contain). The translation is also slow, by the nature of the design (one flat
+bounds-checked store, one dispatch loop per call): `docs/STATUS.md` has the
+measured ratios against `gcc -O2`.
 
-It was 96 until `c2id`, `crt/` and the emitter were brought onto two rules
-`docs/SPEC.md` settles in `bin/idc`'s favour and `idc.py` never enforced — a call
-is never an argument to a call, and a return clause is a name or a literal.
-`c2id`'s own source broke them 519 times and `crt/` 77; both are at 0, and
-`c2id` is built with `bin/idc` everywhere. See the umbrella's `docs/GAPS.md`
-B6/B7/B8.
+`c2id` itself obeys every `id` rule with no exemption, test cases included, and
+is built with `bin/idc` everywhere. See the umbrella's `docs/GAPS.md`
+B6/B7/B8 for the rules `idc.py` never enforced.

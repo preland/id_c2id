@@ -1,0 +1,14 @@
+c_isnan(word a) {
+  float cmx = float_of_bits(a);
+  int cmk = float_is_undefined(cmx);
+} return int cmk;
+
+c_isinf(word a) {
+  float cmx = float_of_bits(a);
+  int cmk = float_is_infinite(cmx);
+} return int cmk;
+
+c_isfinite(word a) {
+  float cmx = float_of_bits(a);
+  int cmk = float_is_finite(cmx);
+} return int cmk;

@@ -1,0 +1,48 @@
+// Converting to a C type, loading, and storing.
+
+// Put a 64-bit value into the canonical form of `ty`. This is one operation
+// wearing three hats: it is what a cast does, what an arithmetic result needs
+// (an `int` addition wraps at 32 bits, so `2147483647 + 1` is negative), and
+// what a load of a narrow type needs. An 8-byte type needs nothing -- the
+// value is already exactly 64 bits -- and neither does a pointer, an array or
+// a record, none of which is a number.
+conv_txt(int ty, string s) {
+  string out = s;
+  if((import nk)[ty] == "prim" && load_wid(ty) < 8 && ty_fkind(ty) == 0) {
+    string head = cvt_name(ty);
+    string bits = cvt_suffix(ty);
+    out = name_val(head + "(" + s + ", " + bits + ")");
+  }
+} return string out;
+given txt_fixture given pend_setup (0, "X"):("t0")
+given txt_fixture (5, "Y"):("Y")
+
+// peek8/16/32/64 zero-extend, so a signed narrow load needs sx*; the zx* on
+// an unsigned one is a no-op the store already performed, and is emitted
+// anyway so that the generated text says what type it is reading.
+load_plain(int ty, string s) {
+  string bits = cvt_suffix(ty);
+  string raw = name_val("peek" + bits + "(" + s + ")");
+  string out = load_conv(ty, raw);
+} return string out;
+given txt_fixture given pend_setup (0, "ADDR"):("t1")
+given txt_fixture given pend_setup (5, "ADDR2"):("t0")
+
+// poke truncates to its width, which is exactly C's conversion on assignment:
+// `char c = 300` leaves 44 behind either way. A record is never a number: its
+// value is the source's address, so what is stored is its bytes.
+store_plain(int ty, string s, string out) {
+  int w = load_wid(ty);
+  string bits = wid_bits(w);
+  string txt = "poke" + bits + "(" + s + ", " + out + ")";
+} chain (int ty, string s, string out) {
+  int recsz = type_size(ty);
+  if(ty_agg(ty) == 1) {
+    txt = "c_memcpy(" + s + ", " + out + ", " + recsz + ")";
+  }
+} return string txt;
+given txt_fixture (0, "A", "B"):("poke32(A, B)")
+given txt_fixture (5, "A", "B"):("poke64(A, B)")
+given txt_fixture given ldt_types (6, "A", "B"):("c_memcpy(A, B, 16)")
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b; }; struct P p;" (6, "A", "B"):("c_memcpy(A, B, 8)")
+given boot_a given boot_b given lexfix given tu_load stdin "struct Q { char c[5]; int d; }; struct Q q;" (6, "X", "Y"):("c_memcpy(X, Y, 12)")

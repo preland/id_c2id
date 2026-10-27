@@ -1,0 +1,18 @@
+// Three 128-bit cells in the flat store for the cases of crt/i128: wqx holds
+// 2^65 - 1 (low word -1, high word 1), wqy holds 2 and wqz is zero, each 16 bytes
+// apart. A case's own arguments are literals and an address only exists once
+// something has built it, so they are a setup (docs/TESTS.md, "Module state").
+wq_cells() {
+  word wqb = alloc(48);
+  export word wqx = wqb;
+  export word wqy = wqb + 16;
+} chain () {
+  export word wqz = wqb + 32;
+  ld_cset(wqb, -1, 1);
+  ld_cset(wqb + 16, 2, 0);
+} chain () {
+  export word wqzh = wqb + 40;
+} return void export wqx;
+given wq_cells ():() then peek64((import wqz)):(0)
+given wq_cells ():() then peek64((import wqzh)):(0)
+
