@@ -1,0 +1,34 @@
+// Finding the block functions in the generated text. A block function is a
+// line `blkN_M(...) {` at the left margin, running to the next line that begins
+// `} return`. Every other line (file markers, dispatch functions, the drivers)
+// is passed through untouched by the merge pass, apart from the calls in it.
+
+mg_collect(string[] mglines) {
+  int mgi = 0;
+  int mgn = len(mglines);
+  while(mgi < mgn) {
+    mgi = mg_visit(mglines, mgi);
+  }
+} return void;
+given mg_setup given mg_setup_c (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"]):() then len((import mgzfs)):(2)
+given mg_setup given mg_setup_c (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"]):() then (import mgzfg)[1]:(0)
+
+mg_visit(string[] mglines, int mgi) {
+  int mgnext = mgi + 1;
+  if(mg_is_head(mglines[mgi]) == 1) {
+    mgnext = mg_func_end(mglines, mgi) + 1;
+    mg_record(mglines, mgi, mgnext - 1);
+  }
+} return int mgnext;
+given mg_setup given mg_setup_c (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], 0):(1)
+given mg_setup given mg_setup_c (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], 1):(5)
+
+mg_is_head(string mgline) {
+  int mgres = 0;
+  if(string_starts_with(mgline, "blk") == 1 && string_ends_with(mgline, ") {") == 1) {
+    mgres = 1;
+  }
+} return int mgres;
+("blk4_1(word fp) {"):(1)
+("  nxt = blk4_1(fp);"):(0)
+("blkx"):(0)

@@ -1,0 +1,40 @@
+// The merge pass's state, one list per column. A block function is recorded as
+// the f-th entry of mgzfs (first line), mgzfe (last line), mgzfn (name), mgzfl
+// (comma-ended list of its numbers), mgzfg (index of its group's head) and mgzfm
+// (the head's mask of numbers that differ in the group). mgzk.. maps a shape to
+// the first function with it, mgznk.. maps a name to its index.
+
+mg_setup() {
+  export string[] mgzk = [];
+  export int[] mgzv = [];
+  export int[] mgzu = [];
+} chain () {
+  export int[] mgzc = [];
+  export string[] mgznk = [];
+  export int[] mgznv = [];
+} chain () {
+  export int[] mgznu = [];
+  export int[] mgznc = [];
+  mg_setup_b();
+} return void export mgzk;
+():() then len((import mgzfs)):(0)
+():() then len((import mgznk)):(0)
+
+mg_setup_b() {
+  export int[] mgzfs = [];
+  export int[] mgzfe = [];
+  export string[] mgzfn = [];
+} chain () {
+  export string[] mgzfl = [];
+  export int[] mgzfg = [];
+  export string[] mgzfm = [];
+} return void export mgzfs;
+():() then len((import mgzfm)):(0)
+():() then len((import mgzfn)):(0)
+
+mg_setup_c() {
+  hash_map_initialize((import mgzk), (import mgzv), (import mgzu), (import mgzc));
+  hash_map_initialize((import mgznk), (import mgznv), (import mgznu), (import mgznc));
+} return void;
+given mg_setup ():() then hash_map_count((import mgzc)):(0)
+given mg_setup ():() then hash_map_count((import mgznc)):(0)

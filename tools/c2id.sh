@@ -66,6 +66,8 @@ else
 fi
 
 "$c2id_bin" < "$work/in.i" > "$work/out.txt"
+"$c2id_bin" --merge < "$work/out.txt" > "$work/merged.txt"
+mv "$work/merged.txt" "$work/out.txt"
 # A program c2id refuses makes it exit 1 after naming each refusal on stderr; with
 # set -e this script stops there, and no project is written.
 

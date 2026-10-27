@@ -1,0 +1,40 @@
+// The rest of the tokenizer: the end of a string literal, and whether a token
+// is a plain whole number (the only thing the merge pass turns into a
+// parameter; a float, a hex number or a string must match exactly to merge).
+
+mg_str_end(string mgtx, int mgi) {
+  int mgc = character_code_at(mgtx, mgi);
+  while(mgc >= 0 && mgc != 34) {
+    if(mgc == 92) {
+      mgi = mgi + 1;
+    }
+    mgi = mgi + 1;
+    mgc = character_code_at(mgtx, mgi);
+  }
+  int mgres = mgi;
+} chain (string mgtx, int mgi) {
+  if(mgc == 34) {
+    mgres = mgi + 1;
+  }
+} return int mgres;
+("\"ab\" x", 1):(4)
+("ab", 0):(2)
+("a\\\"b\"", 0):(5)
+
+
+mg_all_digits(string mgtk) {
+  int mgi = 0;
+  int mgok = 0;
+  while(character_is_digit(character_code_at(mgtk, mgi)) == 1) {
+    mgi = mgi + 1;
+    mgok = 1;
+  }
+} chain (string mgtk) {
+  if(character_code_at(mgtk, mgi) >= 0) {
+    mgok = 0;
+  }
+} return int mgok;
+("15"):(1)
+("k25"):(0)
+("1.5"):(0)
+("0x1f"):(0)

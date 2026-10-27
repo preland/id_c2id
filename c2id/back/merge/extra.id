@@ -1,0 +1,35 @@
+// The values a call site must now pass, and the parameters a merged function
+// takes: both are the items of a comma-ended list picked by a mask.
+
+mg_extra(string mgmask, string mglit) {
+  string[] mgxs = string_split(mglit, ",");
+  string mgr = "";
+  int mgk = 0;
+} chain (string mgmask, string mglit) {
+  while(mgk < len(mgmask)) {
+    mgr = mgr + mg_pick(str_sub(mgmask, mgk, 1), ", " + mgxs[mgk]);
+    mgk = mgk + 1;
+  }
+} return string mgr;
+("011", "40,9,5,"):(", 9, 5")
+("000", "40,9,5,"):("")
+
+mg_names(int mgn) {
+  string mgr = "";
+  int mgk = 0;
+  while(mgk < mgn) {
+    mgr = mgr + "word lv" + mgk + ",";
+    mgk = mgk + 1;
+  }
+} return string mgr;
+(2):("word lv0,word lv1,")
+(0):("")
+
+mg_pick(string mgflag, string mgtext) {
+  string mgr = "";
+  if(mgflag == "1") {
+    mgr = mgtext;
+  }
+} return string mgr;
+("1", "x"):("x")
+("0", "x"):("")

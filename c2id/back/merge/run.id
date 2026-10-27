@@ -1,0 +1,50 @@
+// The merge pass: c2id --merge reads the `==== FILE` stream c2id wrote and
+// writes it again with the block functions that differ only in the values of
+// their literals folded into one.
+//
+// id rejects two functions with the same logic (E0402) and two that differ only
+// in literals (E0407), and a translated C program has many blocks that do
+// (`blk42_3` and `blk41_6`, each loading a local and storing it in the result).
+// Each group keeps the first of its functions, with one extra `word` parameter
+// `lv<k>` for each literal that differs, and every call to a member passes that
+// member's values. Literals that agree across the group stay literals.
+//
+// The tag line each segment begins with (back/link/fn/wrap/head.id) is left out
+// of the comparison and kept in the surviving function, which is also why the
+// merged function is never one operation (E0408): its tag local is unused.
+//
+// This is a stage of its own, run over the finished stream, because the stream
+// is printed as it is generated and a function cannot be changed once printed.
+
+mg_merge(string mgtext) {
+  mg_setup();
+  mg_setup_c();
+  string[] mglines = string_split(mgtext, "\n");
+} chain (string mgtext) {
+  mg_collect(mglines);
+  mg_masks();
+  string[] mgout = mg_emit_all(mglines);
+} chain (string mgtext) {
+  string[] mgkept = mg_trim(mgout);
+  string mgr = string_join(mgkept, "\n");
+} return string mgr;
+("==== FILE a.id\nblk1_0(word fp) {\n  word k0 = 0;\n  poke64(fp + 40, 7);\n} return word 3;\nblk1_1(word fp) {\n  word k1 = 1;\n  poke64(fp + 40, 9);\n} return word 5;\ndsp(word fp, word pc) {\n  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }\n} return word nxt;\n"):("==== FILE a.id\nblk1_0(word fp, word lv1, word lv2) {\n  word k0 = 0;\n  poke64(fp + 40, lv1);\n} return word lv2;\ndsp(word fp, word pc) {\n  if(pc < 1) { nxt = blk1_0(fp, 7, 3); } else { nxt = blk1_0(fp, 9, 5); }\n} return word nxt;\n")
+("==== FILE a.id\nblk1_0(word fp) {\n  word k0 = 0;\n  poke64(fp, 7);\n} return word 3;\ndsp(word fp, word pc) {\n  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }\n} return word nxt;\n==== FILE b.id\nblk1_1(word fp) {\n  word k1 = 1;\n  poke64(fp, 7);\n} return word 3;\n"):("==== FILE a.id\nblk1_0(word fp) {\n  word k0 = 0;\n  poke64(fp, 7);\n} return word 3;\ndsp(word fp, word pc) {\n  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_0(fp); }\n} return word nxt;\n")
+
+mg_main() {
+  string mgtext = read_all();
+  string mgprinted = mg_merge(mgtext);
+  put(mgprinted);
+} return void;
+stdin "x\n" ():() then prints:("x\n")
+stdin "" ():() then prints:("")
+
+mg_dispatch(int argc, string[] argv) {
+  if(argc >= 2 && argv[1] == "--merge") {
+    mg_main();
+  } else {
+    run();
+  }
+} return void;
+stdin "ab\n" (2, ["c2id", "--merge"]):() then prints:("ab\n")
+given boot_a given boot_b stdin "int x;" (1, ["c2id"]):() then calls parse_one:[1]

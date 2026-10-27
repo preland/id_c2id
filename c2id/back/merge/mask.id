@@ -1,0 +1,38 @@
+// Which of a group's numbers differ. A mask is a string with one `0` or `1` per
+// number of the function, `1` where two members disagree. Only those become
+// parameters; a number every member agrees on stays a literal in the body.
+
+mg_diff(string mgla, string mglb) {
+  string[] mgxla = string_split(mgla, ",");
+  string[] mgxlb = string_split(mglb, ",");
+  string mgr = "";
+} chain (string mgla, string mglb) {
+  int mgk = 0;
+  while(mgk < len(mgxla) - 1) {
+    mgr = mgr + mg_flag(mgxla[mgk], mgxlb[mgk]);
+    mgk = mgk + 1;
+  }
+} return string mgr;
+("40,7,3,", "40,9,5,"):("011")
+("1,2,", "1,2,"):("00")
+("", ""):("")
+
+mg_flag(string mgsa, string mgsb) {
+  string mgr = "0";
+  if(mgsa != mgsb) {
+    mgr = "1";
+  }
+} return string mgr;
+("7", "9"):("1")
+("7", "7"):("0")
+
+mg_or(string mgma, string mgmb) {
+  string mgr = "";
+  int mgk = 0;
+  while(mgk < len(mgma)) {
+    mgr = mgr + mg_orc(str_sub(mgma, mgk, 1), str_sub(mgmb, mgk, 1));
+    mgk = mgk + 1;
+  }
+} return string mgr;
+("010", "001"):("011")
+("00", "00"):("00")

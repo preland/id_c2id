@@ -1,0 +1,33 @@
+// Rewriting a group's head: its name, its parameters (each `} chain (...) {`
+// restates them), and every number whose mask flag is `1`, which becomes the
+// parameter `lv<k>` for the k-th number of the function.
+
+mg_rewrite(string[] mglines, string[] mgout, int mgf) {
+  int mgs = (import mgzfs)[mgf];
+  string mgpar = mg_new_params(mglines[mgs], (import mgzfm)[mgf]);
+  push(mgout, string_before(mglines[mgs], "(") + "(" + mgpar + ") {");
+} chain (string[] mglines, string[] mgout, int mgf) {
+  int[] mgctr = [0];
+  mgout = mg_body(mglines, mgout, mgf, mgpar, mgctr);
+} return string[] mgout;
+given mg_fixture (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], [], 0):(["blk1_0(word fp, word lv1, word lv2) {", "  word k0 = 0;", "  poke64(fp + 40, lv1);", "} return word lv2;"])
+given mg_fixture (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], ["z"], 0):(["z", "blk1_0(word fp, word lv1, word lv2) {", "  word k0 = 0;", "  poke64(fp + 40, lv1);", "} return word lv2;"])
+
+mg_body(string[] mglines, string[] mgout, int mgf, string mgpar, int[] mgctr) {
+  int mgi = (import mgzfs)[mgf] + 1;
+  while(mgi <= (import mgzfe)[mgf]) {
+    push(mgout, mg_body_line(mglines[mgi], (import mgzfm)[mgf], mgpar, mgctr));
+    mgi = mgi + 1;
+  }
+} return string[] mgout;
+given mg_fixture (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], ["z"], 0, "word fp, word lv1, word lv2", [0]):(["z", "  word k0 = 0;", "  poke64(fp + 40, lv1);", "} return word lv2;"])
+given mg_fixture (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], [], 0, "p", [0]):(["  word k0 = 0;", "  poke64(fp + 40, lv1);", "} return word lv2;"])
+
+mg_body_line(string mgline, string mgmask, string mgpar, int[] mgctr) {
+  string mgr = mgline;
+  if(mg_is_tag(mgline) == 0) {
+    mgr = mg_nontag(mgline, mgmask, mgpar, mgctr);
+  }
+} return string mgr;
+("  word k0 = 0;", "011", "p", [0]):("  word k0 = 0;")
+("  poke64(fp + 40, 7);", "011", "p", [0]):("  poke64(fp + 40, lv1);")

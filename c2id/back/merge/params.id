@@ -1,0 +1,18 @@
+// The head line of a merged function and its parameter list. A function whose
+// mask has no `1` is a head with nothing to add (a lone block, or the exact
+// duplicates of one) and is copied as it is.
+
+mg_params(string mgmask) {
+  string mgnames = mg_names(len(mgmask));
+  string mgr = mg_extra(mgmask, mgnames);
+} return string mgr;
+("011"):(", word lv1, word lv2")
+("000"):("")
+
+mg_new_params(string mghead, string mgmask) {
+  string mgold = string_before(string_after(mghead, "("), ")");
+  string mgr = mgold + mg_params(mgmask);
+} return string mgr;
+("blk1_0(word fp) {", "011"):("word fp, word lv1, word lv2")
+("blk1_0(word fp) {", "000"):("word fp")
+

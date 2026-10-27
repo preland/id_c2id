@@ -1,0 +1,39 @@
+// Writing the merged text out line by line. A block function is emitted once,
+// at the place its group's head stood, and a later member is dropped; every
+// other line is copied with its calls to merged functions rewritten.
+
+mg_emit_all(string[] mglines) {
+  string[] mgout = [];
+  int[] mgcur = [0];
+  int mgi = 0;
+} chain (string[] mglines) {
+  while(mgi < len(mglines)) {
+    mgi = mg_emit_at(mglines, mgout, mgi, mgcur);
+  }
+} return string[] mgout;
+given mg_fixture (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"]):(["==== FILE a.id", "blk1_0(word fp, word lv1, word lv2) {", "  word k0 = 0;", "  poke64(fp + 40, lv1);", "} return word lv2;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp, 7, 3); } else { nxt = blk1_0(fp, 9, 5); }", "} return word nxt;"])
+given mg_fixture (["q"]):(["q"])
+
+mg_emit_at(string[] mglines, string[] mgout, int mgi, int[] mgcur) {
+  int mgnext = mgi + 1;
+  if(mg_is_head(mglines[mgi]) == 1) {
+    mgnext = mg_emit_block(mglines, mgout, mgcur);
+  } else {
+    push(mgout, mg_calls(mglines[mgi]));
+  }
+} return int mgnext;
+given mg_fixture (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], [], 1, [0]):(5)
+given mg_fixture (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], [], 0, [0]):(1)
+
+mg_emit_block(string[] mglines, string[] mgout, int[] mgcur) {
+  int mgf = mgcur[0];
+  integer_list_set(mgcur, 0, mgf + 1);
+  int mgh = (import mgzfg)[mgf];
+} chain (string[] mglines, string[] mgout, int[] mgcur) {
+  if(mgh == mgf) {
+    mgout = mg_emit_fn(mglines, mgout, mgf);
+  }
+  int mgnext = (import mgzfe)[mgf] + 1;
+} return int mgnext;
+given mg_fixture (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], [], [0]):(5)
+given mg_fixture (["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], [], [1]):(9)

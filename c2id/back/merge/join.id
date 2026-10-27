@@ -1,0 +1,37 @@
+// A line's pieces turned back into text. Mode 0 is the line's shape, each
+// number written `#`; mode 1 is the list of its numbers, each followed by a
+// comma. Two functions with the same shape and the same comma-counted list
+// length are the same function up to the values of their numbers.
+
+mg_join(string[] mgpl, int mgmode) {
+  string mgr = "";
+  int mgi = 0;
+  while(mgi < len(mgpl)) {
+    mgr = mgr + mg_piece(mgpl[mgi], mgmode);
+    mgi = mgi + 1;
+  }
+} return string mgr;
+(["tx", "t ", "n15", "t;"], 0):("x #;")
+(["tx", "t ", "n15", "t;", "n3"], 1):("15,3,")
+([], 0):("")
+
+mg_piece(string mgpc, int mgmode) {
+  string mgbody = str_sub(mgpc, 1, len(mgpc) - 1);
+  string mgr = mg_on_text(mgbody, mgmode);
+  if(string_starts_with(mgpc, "n") == 1) {
+    mgr = mg_on_number(mgbody, mgmode);
+  }
+} return string mgr;
+("tab", 0):("ab")
+("n42", 0):("#")
+("n42", 1):("42,")
+("tab", 1):("")
+
+mg_on_text(string mgbody, int mgmode) {
+  string mgr = "";
+  if(mgmode == 0) {
+    mgr = mgbody;
+  }
+} return string mgr;
+("ab", 0):("ab")
+("ab", 1):("")

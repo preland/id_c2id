@@ -1,0 +1,44 @@
+// Cutting one line of generated id into tokens.
+//
+// The merge pass (merge/run.id) has to tell a number the program means from a
+// digit that is only part of a name (`blk42_3`, `peek64`, `k25`) or sits inside
+// a string, so it cuts a line into tokens first: a quoted string, a run of name
+// characters and dots (a number, a name, `1.5`, `0x1f`), or a single other
+// character.
+
+mg_tok_end(string mgtx, int mgi) {
+  int mgc = character_code_at(mgtx, mgi);
+  int mgj = mgi + 1;
+  if(mgc == 34) {
+    mgj = mg_str_end(mgtx, mgi + 1);
+  }
+} chain (string mgtx, int mgi) {
+  if(character_is_name_part(mgc) == 1) {
+    mgj = mg_word_end(mgtx, mgi + 1);
+  }
+} return int mgj;
+("ab12 cd", 0):(4)
+("x = 15;", 4):(6)
+("say \"a b\" z", 4):(9)
+("a(b", 1):(2)
+
+mg_word_end(string mgtx, int mgi) {
+  while(mg_in_word(mgtx, mgi) == 1) {
+    mgi = mgi + 1;
+  }
+} return int mgi;
+("blk4_1(fp)", 0):(6)
+("1.5;", 0):(3)
+("  x", 0):(0)
+
+mg_in_word(string mgtx, int mgi) {
+  int mgc = character_code_at(mgtx, mgi);
+  int mgres = character_is_name_part(mgc);
+  if(mgc == 46) {
+    mgres = 1;
+  }
+} return int mgres;
+("a.b", 1):(1)
+("ab", 2):(0)
+("a_1", 1):(1)
+("a b", 1):(0)

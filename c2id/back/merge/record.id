@@ -1,0 +1,37 @@
+// Recording one block function: where it starts and ends, its name, the list of
+// its numbers, and which earlier function (or itself) it has the same shape as.
+// The shape-to-first-function table is the hash map mgk/mgv/mgu/mgc.
+
+mg_func_end(string[] mglines, int mgi) {
+  mgi = mgi + 1;
+  while(mgi < len(mglines) && string_starts_with(mglines[mgi], "} return") == 0) {
+    mgi = mgi + 1;
+  }
+} return int mgi;
+(["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], 1):(4)
+(["==== FILE a.id", "blk1_0(word fp) {", "  word k0 = 0;", "  poke64(fp + 40, 7);", "} return word 3;", "blk1_1(word fp) {", "  word k1 = 1;", "  poke64(fp + 40, 9);", "} return word 5;", "dsp(word fp, word pc) {", "  if(pc < 1) { nxt = blk1_0(fp); } else { nxt = blk1_1(fp); }", "} return word nxt;"], 5):(8)
+(["blk1_0(word fp) {", "x"], 0):(2)
+
+mg_record(string[] mglines, int mgs, int mge) {
+  string mgkey = mg_func_text(mglines, mgs, mge, 0);
+  string mglit = mg_func_text(mglines, mgs, mge, 1);
+  string mgname = string_before(mglines[mgs], "(");
+} chain (string[] mglines, int mgs, int mge) {
+  int mgf = len((import mgzfs));
+  mg_store(mgs, mge, mgname, mglit);
+  mg_group(mgkey, mgname, mgf);
+} return void;
+given mg_setup given mg_setup_c (["blk1_0(word fp) {", "  poke64(fp, 7);", "} return word 3;"], 0, 2):() then (import mgzfn)[0]:("blk1_0")
+given mg_setup given mg_setup_c (["blk1_0(word fp) {", "  poke64(fp, 7);", "} return word 3;"], 0, 2):() then (import mgzfl)[0]:("7,3,")
+
+mg_store(int mgs, int mge, string mgname, string mglit) {
+  push((import mgzfs), mgs);
+  push((import mgzfe), mge);
+  push((import mgzfn), mgname);
+} chain (int mgs, int mge, string mgname, string mglit) {
+  push((import mgzfl), mglit);
+  int mgnum = len(string_split(mglit, ",")) - 1;
+  push((import mgzfm), string_repeat("0", mgnum));
+} return void;
+given mg_setup given mg_setup_c (2, 5, "blk2_0", "4,5,"):() then (import mgzfe)[0]:(5)
+given mg_setup given mg_setup_c (2, 5, "blk2_0", "4,5,"):() then (import mgzfm)[0]:("00")

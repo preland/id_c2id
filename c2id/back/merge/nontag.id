@@ -1,0 +1,36 @@
+// One line of a merged function that is not a tag: a `} chain (...) {` line
+// restates the new parameter list, any other line has its flagged numbers
+// replaced. The counter in mgctr is the position of the next number in the
+// function, carried from line to line.
+
+mg_nontag(string mgline, string mgmask, string mgpar, int[] mgctr) {
+  string mgr = mg_sub_line(mgline, mgmask, mgctr);
+  if(string_starts_with(mgline, "} chain (") == 1) {
+    mgr = "} chain (" + mgpar + ") {";
+  }
+} return string mgr;
+("} chain (word fp) {", "011", "word fp, word lv1", [0]):("} chain (word fp, word lv1) {")
+("  x = 5;", "1", "p", [0]):("  x = lv0;")
+
+mg_sub_line(string mgline, string mgmask, int[] mgctr) {
+  string[] mgpcs = mg_pieces(mgline);
+  string mgr = "";
+  int mgi = 0;
+} chain (string mgline, string mgmask, int[] mgctr) {
+  while(mgi < len(mgpcs)) {
+    mgr = mgr + mg_sub_piece(mgpcs[mgi], mgmask, mgctr);
+    mgi = mgi + 1;
+  }
+} return string mgr;
+("  poke(40, 7);", "01", [0]):("  poke(40, lv1);")
+("  poke(40, 7);", "00", [0]):("  poke(40, 7);")
+
+mg_sub_piece(string mgpc, string mgmask, int[] mgctr) {
+  string mgbody = str_sub(mgpc, 1, len(mgpc) - 1);
+  string mgr = mgbody;
+  if(string_starts_with(mgpc, "n") == 1) {
+    mgr = mg_number(mgbody, mgmask, mgctr);
+  }
+} return string mgr;
+("tab", "1", [0]):("ab")
+("n5", "1", [0]):("lv0")

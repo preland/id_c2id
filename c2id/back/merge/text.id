@@ -1,0 +1,38 @@
+// A block function's lines as one string, for comparing two of them: mode 0
+// is the shape (name blanked to `@`, tag lines gone, every number `#`) and
+// mode 1 the comma-separated list of its numbers, in order.
+
+mg_func_text(string[] mglines, int mgs, int mge, int mgmode) {
+  string mgr = mg_head_text(mglines[mgs], mgmode);
+  int mgi = mgs + 1;
+  while(mgi <= mge) {
+    mgr = mgr + mg_line_text(mglines[mgi], mgmode);
+    mgi = mgi + 1;
+  }
+} return string mgr;
+(["blk4_1(word fp) {", "  word k3 = 3;", "  poke64(fp + 40, 7);", "} return word 3;"], 0, 3, 0):("@word fp) {\n  poke64(fp + #, #);\n} return word #;\n")
+(["blk4_1(word fp) {", "  word k3 = 3;", "  poke64(fp + 40, 7);", "} return word 3;"], 0, 3, 1):("40,7,3,")
+
+mg_head_text(string mgline, int mgmode) {
+  string mgr = "";
+  if(mgmode == 0) {
+    mgr = "@" + string_after(mgline, "(") + "\n";
+  }
+} return string mgr;
+("blk4_1(word fp) {", 0):("@word fp) {\n")
+("blk4_1(word fp) {", 1):("")
+
+mg_line_text(string mgline, int mgmode) {
+  string mgr = "";
+  string mgnl = "\n";
+  if(mgmode == 1) {
+    mgnl = "";
+  }
+} chain (string mgline, int mgmode) {
+  if(mg_is_tag(mgline) == 0) {
+    mgr = mg_join(mg_pieces(mgline), mgmode) + mgnl;
+  }
+} return string mgr;
+("  poke64(fp + 40, 7);", 0):("  poke64(fp + #, #);\n")
+("  poke64(fp + 40, 7);", 1):("40,7,")
+("  word k3 = 3;", 0):("")

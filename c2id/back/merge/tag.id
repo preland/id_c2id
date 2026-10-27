@@ -1,0 +1,35 @@
+// The first line of every segment of a block function is `  word kN = N;`, a
+// number no other segment holds (back/link/fn/wrap/head.id). It tells blocks
+// apart, which is the opposite of what the merge pass wants, so the pass leaves
+// those lines out of a function's shape and of its list of numbers, and keeps
+// them as they are in the one function it leaves behind.
+
+mg_on_number(string mgbody, int mgmode) {
+  string mgr = "#";
+  if(mgmode == 1) {
+    mgr = mgbody + ",";
+  }
+} return string mgr;
+("7", 0):("#")
+("7", 1):("7,")
+
+mg_is_tag(string mgline) {
+  int mgres = 0;
+  if(string_starts_with(mgline, "  word k") == 1) {
+    mgres = mg_tag_body(string_strip_prefix(mgline, "  word k"));
+  }
+} return int mgres;
+("  word k25 = 25;"):(1)
+("  word kx = 25;"):(0)
+("  word t0 = 25;"):(0)
+
+mg_tag_body(string mgresest) {
+  string mgdig = string_before(mgresest, " ");
+  int mgres = 0;
+  if(mgresest == mgdig + " = " + mgdig + ";" && mg_all_digits(mgdig) == 1) {
+    mgres = 1;
+  }
+} return int mgres;
+("3 = 3;"):(1)
+("3 = 4;"):(0)
+("a = a;"):(0)

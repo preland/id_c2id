@@ -7,7 +7,7 @@
 main(int argc, string[] argv) {
   boot_a();
   boot_b();
-  run();
+  mg_dispatch(argc, argv);
 } chain (int argc, string[] argv) {
   int dstat = diag_status();
 } return int dstat;
