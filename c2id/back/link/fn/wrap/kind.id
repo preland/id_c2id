@@ -21,7 +21,7 @@ given boot_a given boot_b given lexfix given tu_load stdin "struct Q { int c[3];
 
 wrap_poke(int fn, int i, string src) {
   int off = wrap_off(fn, i);
-  emit_out("  poke64(fp + " + off + ", " + src + ");");
+  emit_out("  poke64(" + text_sum("fp", off) + ", " + src + ");");
 } return void;
 given boot_a given boot_b given init_gfn (0, 0, "a0"):() then prints:("  poke64(fp + 8, a0);\n")
 given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "struct Q { char c[13]; } q; int f(int a, struct Q b, long c) { return a; }" (0, 2, "a2"):() then prints:("  poke64(fp + 32, a2);\n")

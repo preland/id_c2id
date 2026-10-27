@@ -33,7 +33,7 @@ given txt_fixture (5):("(NEEDS_CFG_prim  (NEEDS_CFG_prim * 4))") then calls ptr_
 ptr_off2(int a, int b, string op) {
   int sz = ptr_off2_sz(a);
   string exb = ex_txt(b);
-  string out = "(" + ex_txt(a) + " " + op + " " + scale_txt(exb, sz, "*") + ")";
+  string out = text_bin(ex_txt(a), op, scale_txt(exb, sz, "*"));
 } return string out;
 given txt_fixture (1, 4, "+"):("(NEEDS_CFG_prim + (NEEDS_CFG_prim * 4))")
 given txt_fixture (0, 5, "-"):("(NEEDS_CFG_prim - (NEEDS_CFG_ptr * 4))")

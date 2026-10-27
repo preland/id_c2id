@@ -8,7 +8,7 @@ mem_plain(int id) {
   int off = mem_col_at((import syoff), id);
   string s = "UNKNOWN_MEMBER_" + (import ns)[id];
   if(off >= 0) {
-    s = "(" + base_txt(id) + " + " + off + ")";
+    s = text_plus(base_txt(id), off);
   }
 } return string s;
 given txt_fixture given ty_setup (0):("UNKNOWN_MEMBER_int")
@@ -29,12 +29,23 @@ given txt_fixture (1):("NOT_AN_LVALUE_prim") then calls a_addr:(1)
 
 // Scaling by an element size, for `*` in pointer addition and `/` in pointer
 // subtraction. A size of 1 -- char, and every void * the kernel casts through
-// -- emits nothing, which keeps byte-pointer arithmetic readable.
+// -- emits nothing, which keeps byte-pointer arithmetic readable. A text of 0
+// stays 0 and a text of 1 under `*` is the size itself, because `1 * 8` and
+// `0 * 4` are operations that cannot change their value (E0409).
 scale_txt(string s, int sz, string op) {
   string out = s;
   if(sz != 1) {
     out = "(" + s + " " + op + " " + sz + ")";
+    if(s == "0") {
+      out = s;
+    }
+    if(s == "1" && op == "*") {
+      out = "" + sz;
+    }
   }
 } return string out;
 ("X", 1, "*"):("X")
 ("X", 4, "*"):("(X * 4)")
+("0", 4, "*"):("0")
+("1", 8, "*"):("8")
+("1", 8, "/"):("(1 / 8)")

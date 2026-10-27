@@ -13,7 +13,7 @@ given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "struc
 wrap_copy(int fn, int i) {
   int off = wrap_off(fn, i);
   int rsz = wrap_rsz(fn, i);
-  emit_out("  c_memcpy(fp + " + off + ", a" + i + ", " + rsz + ");");
+  emit_out("  c_memcpy(" + text_sum("fp", off) + ", a" + i + ", " + rsz + ");");
 } return void;
 given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "struct Q { char c[13]; } q; int f(int a, struct Q b) { return a; }" (0, 1):() then prints:("  c_memcpy(fp + 16, a1, 13);\n")
 given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "struct Q { int c[3]; } q; int f(struct Q b, struct Q d) { return 1; }" (0, 1):() then prints:("  c_memcpy(fp + 24, a1, 12);\n")

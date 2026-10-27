@@ -5,16 +5,16 @@ emit_bytes(int j, int[] bs) {
     i = i + 1;
   }
 } return void;
-given init_gfn (1, [97, 0, 98]):() then prints:("  poke8(lit_p1 + 0, 97);\n  poke8(lit_p1 + 2, 98);\n")
-given init_gfn (2, [10]):() then prints:("  poke8(lit_p2 + 0, 10);\n")
+given init_gfn (1, [97, 0, 98]):() then prints:("  poke8(lit_p1, 97);\n  poke8(lit_p1 + 2, 98);\n")
+given init_gfn (2, [10]):() then prints:("  poke8(lit_p2, 10);\n")
 
 emit_byte(int j, int bv, int i) {
   if(bv != 0) {
-    emit_out("  poke8(lit_p" + j + " + " + i + ", " + bv + ");");
+    emit_out("  poke8(" + text_sum("lit_p" + j, i) + ", " + bv + ");");
   }
 } return void;
 given init_gfn (0, 97, 3):() then prints:("  poke8(lit_p0 + 3, 97);\n")
-given init_gfn (1, 98, 0):() then prints:("  poke8(lit_p1 + 0, 98);\n")
+given init_gfn (1, 98, 0):() then prints:("  poke8(lit_p1, 98);\n")
 given init_gfn (0, 0, 3):() then prints:("")
 
 // A literal with no NUL: the string, then its address in the slot.

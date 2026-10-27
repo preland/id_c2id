@@ -27,7 +27,7 @@ wrap_va(int fn, int np) {
   if(fn_variadic(fn) == 1) {
     int off = wrap_off(fn, np);
     emit_out("  word vb = rt_va_pack(va);");
-    emit_out("  poke64(fp + " + off + ", vb);");
+    emit_out("  poke64(" + text_sum("fp", off) + ", vb);");
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load given init_gfn stdin "int f(int a, ...) { return a; }" (0, 1):() then prints:("  word vb = rt_va_pack(va);\n  poke64(fp + 16, vb);\n")

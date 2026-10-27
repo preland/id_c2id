@@ -26,8 +26,8 @@ given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; in
 member_at(int row, string addr) {
   string s = bfx_marker(row, addr);
   if(s == "") {
-    s = addr + " + " + (import syoff)[row];
+    s = text_sum(addr, (import syoff)[row]);
   }
 } return string s;
-given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b : 4; }; struct P p;" (0, "A"):("A + 0")
+given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b : 4; }; struct P p;" (0, "A"):("A")
 given boot_a given boot_b given lexfix given tu_load stdin "struct P { int a; int b : 4; }; struct P p;" (1, "A"):("BF|(A + 4)|4|0|4|s")

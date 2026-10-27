@@ -9,7 +9,7 @@ init_stmts(int ty, string addr, int ex, int zf) {
   }
 } return void;
 given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" (6, "A", 7, 0):() then (import pend):(["poke32(A, 5);"])
-given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (8, "A", 11, 1):() then (import pend):(["c_memset(A, 0, 12);", "poke32(A + 0, 1);", "poke32(A + 4, 2);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (8, "A", 11, 1):() then (import pend):(["c_memset(A, 0, 12);", "poke32(A, 1);", "poke32(A + 4, 2);"])
 
 // A single value into a scalar, or a string literal into a char array.
 init_plain(int ty, string addr, int ex) {

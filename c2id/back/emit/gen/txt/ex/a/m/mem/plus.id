@@ -1,0 +1,45 @@
+// Every address the emitter builds is a base plus a constant offset, and the
+// offset is often 0 (a struct's first member, an array's first element). The
+// id compiler refuses `e + 0` as an operation that cannot change its value
+// (E0409), so a generated program that wrote it would not build. These three
+// build the sum and leave it out when it would be that operation; every emitter
+// site that adds an offset goes through one of them.
+
+// The sum without parentheses, for the sites that splice it into a larger
+// text themselves (`fp + 8`).
+text_sum(string sum_base, int sum_offset) {
+  string sum_text = sum_base;
+  if(sum_offset != 0) {
+    sum_text = sum_base + " + " + sum_offset;
+  }
+} return string sum_text;
+("fp", 0):("fp")
+("fp", 8):("fp + 8")
+
+// The sum in parentheses, for an address that is used as an operand.
+text_plus(string sum_base, int sum_offset) {
+  string sum_text = sum_base;
+  if(sum_offset != 0) {
+    sum_text = "(" + sum_base + " + " + sum_offset + ")";
+  }
+} return string sum_text;
+("p", 0):("p")
+("p", 4):("(p + 4)")
+
+// `a op b` for text operands: a `+` or `-` with a 0 operand that would leave
+// the other side unchanged drops the operation. `0 - b` is not `b`, so only a
+// leading 0 under `+` is dropped.
+text_bin(string bin_left, string bin_op, string bin_right) {
+  string sum_text = "(" + bin_left + " " + bin_op + " " + bin_right + ")";
+  if(bin_right == "0" && (bin_op == "+" || bin_op == "-")) {
+    sum_text = bin_left;
+  }
+  if(bin_left == "0" && bin_op == "+") {
+    sum_text = bin_right;
+  }
+} return string sum_text;
+("X", "+", "0"):("X")
+("X", "-", "0"):("X")
+("0", "+", "Y"):("Y")
+("0", "-", "Y"):("(0 - Y)")
+("X", "+", "8"):("(X + 8)")

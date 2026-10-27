@@ -25,5 +25,5 @@ decl_store(int id, int off) {
     s = decl_scalar(id, off, b);
   }
 } return string s;
-given txt_fixture (0, 0):("poke32(fp + 0, NEEDS_CFG_prim);")
+given txt_fixture (0, 0):("poke32(fp, NEEDS_CFG_prim);")
 given txt_fixture (0, 16):("poke32(fp + 16, NEEDS_CFG_prim);")

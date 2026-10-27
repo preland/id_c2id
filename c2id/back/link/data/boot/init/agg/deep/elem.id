@@ -5,7 +5,7 @@ init_elem_at(int et, int esz, string addr, int[] items, int j, int k) {
   int idx = item_idx(it, k);
   int val = item_val(it);
 } chain (int et, int esz, string addr, int[] items, int j, int k) {
-  init_stmts(et, addr + " + " + (idx * esz), val, 0);
+  init_stmts(et, text_sum(addr, idx * esz), val, 0);
   int nxt = idx + 1;
 } return int nxt;
 given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (6, 4, "A", [9, 10], 1, 1):(2) then (import pend):(["poke32(A + 4, 2);"])

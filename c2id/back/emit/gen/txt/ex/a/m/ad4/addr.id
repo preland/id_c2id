@@ -21,7 +21,7 @@ var_addr(string name) {
   int off = frame_off(name);
   string s = glob_addr(name);
   if(off >= 0) {
-    s = "fp + " + off;
+    s = text_sum("fp", off);
   }
 } return string s;
 given gl_setup given init_frame given init_frame2 ("x"):("g_x")

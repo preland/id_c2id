@@ -5,8 +5,8 @@ init_arr(int ty, string addr, int ex, int zf) {
 } chain (int ty, string addr, int ex, int zf) {
   init_items(et, addr, items);
 } return void;
-given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (8, "A", 11, 1):() then (import pend):(["c_memset(A, 0, 12);", "poke32(A + 0, 1);", "poke32(A + 4, 2);"])
-given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (8, "A", 11, 0):() then (import pend):(["poke32(A + 0, 1);", "poke32(A + 4, 2);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (8, "A", 11, 1):() then (import pend):(["c_memset(A, 0, 12);", "poke32(A, 1);", "poke32(A + 4, 2);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (8, "A", 11, 0):() then (import pend):(["poke32(A, 1);", "poke32(A + 4, 2);"])
 
 // A local aggregate holds whatever the frame did; a global was zeroed when the
 // region was made.
@@ -29,5 +29,5 @@ init_items(int et, string addr, int[] items) {
     j = j + 1;
   }
 } return void;
-given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (6, "A", [9, 10]):() then (import pend):(["poke32(A + 0, 1);", "poke32(A + 4, 2);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int a[3] = {1, 2};" (6, "A", [9, 10]):() then (import pend):(["poke32(A, 1);", "poke32(A + 4, 2);"])
 given boot_a given boot_b given lexfix given tu_load stdin "int g[] = { [2] = 5, 6 };" (6, "A", [10, 11]):() then (import pend):(["poke32(A + 8, 5);", "poke32(A + 12, 6);"])
