@@ -10,7 +10,7 @@ call_args(int[] ids, int id) {
   string out = ind_prefix(callee, rest);
 } return string out;
 given boot_a given boot_b given exprfix stdin "f(1, 2);" ([7, 8], (import extop)):("1, 2")
-given boot_a given boot_b given exprfix stdin "printf(\"x\", 1);" ([7, 8], (import extop)):("t0, [t1]") then (import pend):(["word t0 = peek64((import gbase) + 0);", "word t1 = 1;"])
+given boot_a given boot_b given exprfix stdin "printf(\"x\", 1);" ([7, 8], (import extop)):("t0, [t1]") then (import pend):(["word t0 = peek64((import gbase));", "word t1 = 1;"])
 
 call_args2(int[] ids, int k, int n) {
   string out = "";

@@ -27,7 +27,7 @@ given boot_a given boot_b given lexfix given tu_load stdin "char s[8] = \"abc\";
 // `char s[8] = "abc";`: the array is cleared, then the literal's bytes copied in.
 init_chars(int ty, string addr, int ex) {
   int j = str_slot((import ns)[ex]);
-  string src = name_val("peek64((import gbase) + " + (import soff)[j] + ")");
+  string src = name_val("peek64(" + gbase_at((import soff)[j]) + ")");
   int sz = type_size(ty);
 } chain (int ty, string addr, int ex) {
   pend_raw("c_memset(" + addr + ", 0, " + sz + ");");

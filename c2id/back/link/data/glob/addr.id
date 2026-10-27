@@ -1,0 +1,11 @@
+// The text of the address `off` bytes into the global region. At offset 0 it is
+// `gbase` itself: `(import gbase) + 0` is an operation that cannot change its
+// value (E0409), so a generated program that wrote it would not build.
+gbase_at(int off) {
+  string s = "(import gbase)";
+  if(off != 0) {
+    s = "(import gbase) + " + off;
+  }
+} return string s;
+(0):("(import gbase)")
+(8):("(import gbase) + 8")

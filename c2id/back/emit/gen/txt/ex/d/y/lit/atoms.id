@@ -9,10 +9,10 @@
 // an `id` string would need an escape this program would then have to know.
 str_txt(int id) {
   int j = str_slot((import ns)[id]);
-  string out = name_val("peek64((import gbase) + " + (import soff)[j] + ")");
+  string out = name_val("peek64(" + gbase_at((import soff)[j]) + ")");
 } return string out;
-given txt_fixture given pend_setup (0):("t0") then calls name_val:("peek64((import gbase) + 0)")
-given txt_fixture given pend_setup (5):("t0") then calls name_val:("peek64((import gbase) + 0)")
+given txt_fixture given pend_setup (0):("t0") then calls name_val:("peek64((import gbase))")
+given txt_fixture given pend_setup (5):("t0") then calls name_val:("peek64((import gbase))")
 
 // A cast is exactly the width conversion (a floating-point type on either side is
 // fl_cvt's), which is the same operation an

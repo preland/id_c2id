@@ -11,13 +11,13 @@ emit_boot() {
   int np = main_np();
   emit_main(gtot, np);
 } return void;
-given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 8, 0);\n  poke32((import gbase) + 0, 5);\n} return void;\nmain(int argc, string[] argv) {\n  word k1 = 1;\n  rt_boot(8);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  word rv = rt_args(argc, argv);\n  word r = 0;\n} chain (int argc, string[] argv) {\n  word k3 = 3;\n  int rc = rt_status(r);\n  flush();\n} return int rc;\n")
-given boot_a given boot_b given lexfix given tu_load stdin "int main(int a, int b) { return 0; }" ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 0, 0);\n} return void;\nmain(int argc, string[] argv) {\n  word k1 = 1;\n  rt_boot(0);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  word rv = rt_args(argc, argv);\n  word r = c_main(argc, rv);\n} chain (int argc, string[] argv) {\n  word k3 = 3;\n  int rc = rt_status(r);\n  flush();\n} return int rc;\n")
+given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 8, 0);\n  poke32((import gbase), 5);\n} return void;\nmain(int argc, string[] argv) {\n  word k1 = 1;\n  rt_boot(8);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  word rv = rt_args(argc, argv);\n  word r = 0;\n} chain (int argc, string[] argv) {\n  word k3 = 3;\n  int rc = rt_status(r);\n  flush();\n} return int rc;\n")
+given boot_a given boot_b given lexfix given tu_load stdin "int main(int a, int b) { return 0; }" ():() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase), 0);\n} return void;\nmain(int argc, string[] argv) {\n  word k1 = 1;\n  rt_boot(0);\n  c_globals();\n} chain (int argc, string[] argv) {\n  word k2 = 2;\n  word rv = rt_args(argc, argv);\n  word r = c_main(argc, rv);\n} chain (int argc, string[] argv) {\n  word k3 = 3;\n  int rc = rt_status(r);\n  flush();\n} return int rc;\n")
 
 emit_globals(int gtot) {
   emit_mark();
   emit_head("", "c_globals() {");
-  emit_out("  poke64((import gbase) + " + gtot + ", 0);");
+  emit_out("  poke64(" + gbase_at(gtot) + ", 0);");
 } chain (int gtot) {
   emit_gframe();
   emit_slits();
@@ -25,8 +25,8 @@ emit_globals(int gtot) {
 } chain (int gtot) {
   emit_cut("} return void;");
 } return void;
-given init_tu given init_frame given init_frame2 (0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 0, 0);\n} return void;\n")
-given init_tu given init_frame given init_frame2 given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) given pend_raw("poke32(A, 5);") (16):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 16, 0);\n  string lit_s0 = \"ab\";\n} chain () {\n  word k1 = 1;\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 0, lit_p0);\n} chain () {\n  word k2 = 2;\n  poke32(A, 5);\n} return void;\n")
+given init_tu given init_frame given init_frame2 (0):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase), 0);\n} return void;\n")
+given init_tu given init_frame given init_frame2 given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) given pend_raw("poke32(A, 5);") (16):() then prints:("==== FILE b/ax/bx/cx/dx/ex/fx/gx/hx/fa.id\nc_globals() {\n  word k0 = 0;\n  poke64((import gbase) + 16, 0);\n  string lit_s0 = \"ab\";\n} chain () {\n  word k1 = 1;\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase), lit_p0);\n} chain () {\n  word k2 = 2;\n  poke32(A, 5);\n} return void;\n")
 
 emit_slits() {
   int j = 0;
@@ -36,5 +36,5 @@ emit_slits() {
   }
 } return void;
 given init_tu given list_string_insert((import slits), 0, "\"x\"") given list_insert((import soff), 0, 8) ():() then prints:("  string lit_s0 = \"x\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 8, lit_p0);\n")
-given init_tu given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) ():() then prints:("  string lit_s0 = \"ab\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 0, lit_p0);\n")
+given init_tu given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) ():() then prints:("  string lit_s0 = \"ab\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase), lit_p0);\n")
 given init_tu ():() then prints:("")

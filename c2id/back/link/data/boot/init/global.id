@@ -8,8 +8,8 @@ emit_ginits() {
     i = i + 1;
   }
 } return void;
-given boot_a given boot_b given lexfix given tu_load stdin "int x = 5; int y = 6;" ():() then (import pend):(["poke32((import gbase) + 0, 5);", "poke32((import gbase) + 4, 6);"])
-given boot_a given boot_b given lexfix given tu_load stdin "int stdout; int y;" ():() then (import pend):(["poke64((import gbase) + 0, 1);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int x = 5; int y = 6;" ():() then (import pend):(["poke32((import gbase), 5);", "poke32((import gbase) + 4, 6);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int stdout; int y;" ():() then (import pend):(["poke64((import gbase), 1);"])
 
 emit_ginit(int i) {
   int off = (import goff)[i];
@@ -17,7 +17,7 @@ emit_ginit(int i) {
     init_global(i, off);
   }
 } return void;
-given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" (0):() then (import pend):(["poke32((import gbase) + 0, 5);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" (0):() then (import pend):(["poke32((import gbase), 5);"])
 given boot_a given boot_b given lexfix given tu_load stdin "int x = 5; int f(void) { return 0; }" (1):() then len((import pend)):(0)
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "static int x = 5; int main(void) { return 0; }" (0):() then len((import pend)):(0)
 given boot_a given boot_b given lexfix given tu_load given reach_all stdin "static int x = 5; int main(void) { return x; }" (0):() then len((import pend)):(1)
@@ -25,9 +25,9 @@ given boot_a given boot_b given lexfix given tu_load given reach_all stdin "stat
 init_global(int i, int off) {
   string name = (import dnames)[i];
   int a = (import dinit)[i];
-  string addr = "(import gbase) + " + off;
+  string addr = gbase_at(off);
 } chain (int i, int off) {
   init_one(i, a, addr, name);
 } return void;
-given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" (0, 0):() then (import pend):(["poke32((import gbase) + 0, 5);"])
+given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" (0, 0):() then (import pend):(["poke32((import gbase), 5);"])
 given boot_a given boot_b given lexfix given tu_load stdin "int x = 5;" (0, 8):() then (import pend):(["poke32((import gbase) + 8, 5);"])

@@ -16,7 +16,7 @@ decl_agg(int id, int off, int ty, int a) {
   string s = "// " + (import ns)[id] + ": initialised";
 } return string s;
 given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { int a[3] = {1, 2}; int x = 5; }" (15, 8, 11, 14):("// a: initialised") then (import pend):(["c_memset(fp + 8, 0, 12);", "poke32(fp + 8 + 0, 1);", "poke32(fp + 8 + 4, 2);"])
-given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { char s[8] = \"ab\"; char c = 65; }" (13, 16, 11, 12):("// s: initialised") then (import pend):(["word t0 = peek64((import gbase) + 0);", "c_memset(fp + 16, 0, 8);", "c_strcpy(fp + 16, t0);"])
+given boot_a given boot_b given lexfix given tu_load stdin "void f(void) { char s[8] = \"ab\"; char c = 65; }" (13, 16, 11, 12):("// s: initialised") then (import pend):(["word t0 = peek64((import gbase));", "c_memset(fp + 16, 0, 8);", "c_strcpy(fp + 16, t0);"])
 
 decl_scalar(int id, int off, int ty) {
   int da = (import na)[id];

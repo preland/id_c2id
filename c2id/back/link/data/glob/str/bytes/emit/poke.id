@@ -23,7 +23,7 @@ emit_slit_text(int j) {
   emit_out("  string lit_s" + j + " = " + lexpr + ";");
   emit_out("  word lit_p" + j + " = mem_of_str(lit_s" + j + ");");
 } chain (int j) {
-  emit_out("  poke64((import gbase) + " + (import soff)[j] + ", lit_p" + j + ");");
+  emit_out("  poke64(" + gbase_at((import soff)[j]) + ", lit_p" + j + ");");
 } return void;
-given init_tu given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) (0):() then prints:("  string lit_s0 = \"ab\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 0, lit_p0);\n")
+given init_tu given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) (0):() then prints:("  string lit_s0 = \"ab\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase), lit_p0);\n")
 given init_tu given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) given list_string_insert((import slits), 1, "\"cd\"") given list_insert((import soff), 1, 8) (1):() then prints:("  string lit_s1 = \"cd\";\n  word lit_p1 = mem_of_str(lit_s1);\n  poke64((import gbase) + 8, lit_p1);\n")

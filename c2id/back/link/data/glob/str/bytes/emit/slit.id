@@ -6,8 +6,8 @@ emit_slit(int j) {
   int z = bytes_nul(bs);
   emit_slit_as(j, z, bs);
 } return void;
-given init_tu given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) (0):() then prints:("  string lit_s0 = \"ab\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 0, lit_p0);\n")
-given init_tu given list_string_insert((import slits), 0, "\"a\\0b\"") given list_insert((import soff), 0, 0) (0):() then prints:("  word lit_p0 = alloc(4);\n  poke8(lit_p0 + 0, 97);\n  poke8(lit_p0 + 2, 98);\n} chain (word fp) {\n  word k0 = 0;\n  poke64((import gbase) + 0, lit_p0);\n")
+given init_tu given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) (0):() then prints:("  string lit_s0 = \"ab\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase), lit_p0);\n")
+given init_tu given list_string_insert((import slits), 0, "\"a\\0b\"") given list_insert((import soff), 0, 0) (0):() then prints:("  word lit_p0 = alloc(4);\n  poke8(lit_p0 + 0, 97);\n  poke8(lit_p0 + 2, 98);\n} chain (word fp) {\n  word k0 = 0;\n  poke64((import gbase), lit_p0);\n")
 
 emit_slit_as(int j, int z, int[] bs) {
   if(z > 0) {
@@ -16,15 +16,15 @@ emit_slit_as(int j, int z, int[] bs) {
     emit_slit_text(j);
   }
 } return void;
-given init_tu given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) (0, 0, [97, 98]):() then prints:("  string lit_s0 = \"ab\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase) + 0, lit_p0);\n")
-given init_tu given list_string_insert((import slits), 0, "\"a\\0\"") given list_insert((import soff), 0, 0) (0, 1, [97, 0]):() then prints:("  word lit_p0 = alloc(3);\n  poke8(lit_p0 + 0, 97);\n  poke64((import gbase) + 0, lit_p0);\n")
+given init_tu given list_string_insert((import slits), 0, "\"ab\"") given list_insert((import soff), 0, 0) (0, 0, [97, 98]):() then prints:("  string lit_s0 = \"ab\";\n  word lit_p0 = mem_of_str(lit_s0);\n  poke64((import gbase), lit_p0);\n")
+given init_tu given list_string_insert((import slits), 0, "\"a\\0\"") given list_insert((import soff), 0, 0) (0, 1, [97, 0]):() then prints:("  word lit_p0 = alloc(3);\n  poke8(lit_p0 + 0, 97);\n  poke64((import gbase), lit_p0);\n")
 
 emit_slit_bytes(int j, int[] bs) {
   int n = len(bs) + 1;
   emit_out("  word lit_p" + j + " = alloc(" + n + ");");
   emit_bytes(j, bs);
 } chain (int j, int[] bs) {
-  emit_out("  poke64((import gbase) + " + (import soff)[j] + ", lit_p" + j + ");");
+  emit_out("  poke64(" + gbase_at((import soff)[j]) + ", lit_p" + j + ");");
 } return void;
-given init_tu given list_string_insert((import slits), 0, "\"a\\0\"") given list_insert((import soff), 0, 0) (0, [97, 0]):() then prints:("  word lit_p0 = alloc(3);\n  poke8(lit_p0 + 0, 97);\n  poke64((import gbase) + 0, lit_p0);\n")
-given init_tu given list_string_insert((import slits), 0, "\"\\0\"") given list_insert((import soff), 0, 0) (0, [0]):() then prints:("  word lit_p0 = alloc(2);\n  poke64((import gbase) + 0, lit_p0);\n")
+given init_tu given list_string_insert((import slits), 0, "\"a\\0\"") given list_insert((import soff), 0, 0) (0, [97, 0]):() then prints:("  word lit_p0 = alloc(3);\n  poke8(lit_p0 + 0, 97);\n  poke64((import gbase), lit_p0);\n")
+given init_tu given list_string_insert((import slits), 0, "\"\\0\"") given list_insert((import soff), 0, 0) (0, [0]):() then prints:("  word lit_p0 = alloc(2);\n  poke64((import gbase), lit_p0);\n")

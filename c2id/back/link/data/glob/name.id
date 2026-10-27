@@ -6,7 +6,7 @@ glob_addr(string name) {
   int i = find_str((import dnames), name);
   string s = "g_" + name;
   if(i >= 0) {
-    s = "(import gbase) + " + (import goff)[i];
+    s = gbase_at((import goff)[i]);
   }
 } chain (string name) {
   if(i >= 0 && (import goff)[i] < 0) {
