@@ -16,7 +16,7 @@ given crt_str_fixture ((import cs), 120):(0)
 // "found" flag.
 chr_hit(word s, word i, word cw) {
   word x = 0;
-  if(peek8(s + i) == zx8(cw)) {
+  if(peek8(s + i) == zx_bits(cw, 8)) {
     x = s + i;
   }
 } return word x;

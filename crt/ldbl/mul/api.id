@@ -12,7 +12,7 @@ ld_mfin(word[] lqa, word[] lqb) {
 ([1, 16383, -9223372036854775808], [0, 16384, -9223372036854775808]):([-9223372036854775808, 49152])
 
 ld_mul3(word[] lqa, word[] lqb, word lxka, word lxkb) {
-  word[] lqr = ld_mspec(lqa, lqb, lxka, lxkb);
+  word[] lqr = ld_spec(lqa, lqb, lxka, lxkb, 0);
   if(len(lqr) == 0) {
     lqr = ld_mfin(lqa, lqb);
   }

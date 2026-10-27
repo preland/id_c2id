@@ -12,7 +12,7 @@ next_arg(word[] args, word[] st) {
   word v = 0;
   if(st[1] < len(args)) {
     int k = st[1];
-    v = lgetw(args, k);
+    v = args[k];
   }
   word_list_set(st, 1, st[1] + 1);
 } return word v;

@@ -13,19 +13,19 @@ given txt_fixture given pend_setup given init_frame given init_frame2 given txt_
 given txt_fixture given pend_setup given init_frame given init_frame2 given txt_reset given wd_types (6, "+", "a", "b"):("t0")
 
 wd_cmp_txt(int wt, int wk, string wsa, string wsb) {
-  string wfn = "ci128_cmpu";
+  string wsg = "0";
   if(ty_signed(wt) == 1) {
-    wfn = "ci128_cmps";
+    wsg = "1";
   }
-  string wout = name_val(wfn + "(" + wsa + ", " + wsb + ", " + wk + ")");
+  string wout = name_val("ci128_compare(" + wsg + ", " + wsa + ", " + wsb + ", " + wk + ")");
 } return string wout;
-given txt_fixture given pend_setup given wd_types (6, 2, "a", "b"):("t0") then (import pend):(["word t0 = ci128_cmps(a, b, 2);"])
-given txt_fixture given pend_setup given wd_types (7, 0, "a", "b"):("t0") then (import pend):(["word t0 = ci128_cmpu(a, b, 0);"])
+given txt_fixture given pend_setup given wd_types (6, 2, "a", "b"):("t0") then (import pend):(["word t0 = ci128_compare(1, a, b, 2);"])
+given txt_fixture given pend_setup given wd_types (7, 0, "a", "b"):("t0") then (import pend):(["word t0 = ci128_compare(0, a, b, 0);"])
 
 wd_arith(int wt, string wop, string wsa, string wsb) {
   string wfn = wd_fn(wt, wop);
   string wdst = wd_tmp(wd_kind(wt));
-  string wout = name_val(wfn + "(" + wdst + ", " + wsa + ", " + wsb + ")");
+  string wout = name_val(wfn + wdst + ", " + wsa + ", " + wsb + ")");
 } return string wout;
 given txt_fixture given wd_types given pend_setup given init_frame given init_frame2 given txt_reset (6, "+", "a", "b"):("t0") then (import pend):(["word t0 = ci128_add((fp + 16), a, b);"])
-given txt_fixture given wd_types given pend_setup given init_frame given init_frame2 given txt_reset (7, "/", "a", "b"):("t0") then (import pend):(["word t0 = ci128_divu((fp + 16), a, b);"])
+given txt_fixture given wd_types given pend_setup given init_frame given init_frame2 given txt_reset (7, "/", "a", "b"):("t0") then (import pend):(["word t0 = ci128_divide(0, 0, (fp + 16), a, b);"])

@@ -10,7 +10,8 @@ conv_txt(int ty, string s) {
   string out = s;
   if((import nk)[ty] == "prim" && load_wid(ty) < 8 && ty_fkind(ty) == 0) {
     string head = cvt_name(ty);
-    out = name_val(head + "(" + s + ")");
+    string bits = cvt_suffix(ty);
+    out = name_val(head + "(" + s + ", " + bits + ")");
   }
 } return string out;
 given txt_fixture given pend_setup (0, "X"):("t0")

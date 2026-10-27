@@ -11,7 +11,7 @@ sent_off() {
   word x = peek64((import crt_heap) + 8) - (import crt_heap);
 } return word x;
 given crt_heap_fixture ():(80)
-given crt_heap_fixture5 ():(1048672)
+given crt_heap_grown(32) ():(1048672)
 
 // The first island's sentinel link: the first block of the island after it, or
 // 0 when there is none.
@@ -23,4 +23,4 @@ isl0_off() {
   }
 } return word r;
 given crt_heap_fixture ():(0)
-given crt_heap_fixture5 ():(96)
+given crt_heap_grown(32) ():(96)

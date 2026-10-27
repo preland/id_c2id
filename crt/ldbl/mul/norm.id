@@ -12,28 +12,3 @@ ld_fixn(word[] lqa) {
 ([0, 5, 1]):([0, -58, -9223372036854775808])
 ([0, 0, 1]):([0, -62, -9223372036854775808])
 
-// A product with an infinity or a zero in it, lxs being the sign of the result:
-// zero times infinity is the indefinite NaN, an infinity or a zero stays
-// itself. [] when both operands are finite and non-zero.
-ld_mspec2(word lxs, word lxka, word lxkb) {
-  word[] lqr = ld_zero(lxs);
-  if(lxka == 2 || lxkb == 2) {
-    lqr = ld_inf(lxs);
-  }
-  if((lxka == 2 && lxkb == 0) || (lxka == 0 && lxkb == 2)) {
-    lqr = ld_indef(1);
-  }
-} return word[] lqr;
-(0, 2, 1):([-9223372036854775808, 32767])
-(1, 0, 1):([0, 32768])
-(0, 2, 0):([-4611686018427387904, 65535])
-(0, 0, 2):([-4611686018427387904, 65535])
-
-ld_mspec(word[] lqa, word[] lqb, word lxka, word lxkb) {
-  word[] lqr = [];
-  if(lxka == 2 || lxkb == 2 || lxka == 0 || lxkb == 0) {
-    lqr = ld_mspec2(lqa[0] ^ lqb[0], lxka, lxkb);
-  }
-} return word[] lqr;
-([0, 16383, -9223372036854775808], [0, 16383, -9223372036854775808], 1, 1):([])
-([1, 32767, -9223372036854775808], [0, 16383, -9223372036854775808], 2, 1):([-9223372036854775808, 65535])

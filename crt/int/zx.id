@@ -1,25 +1,13 @@
 // Zero-extension, i.e. truncation to a narrower width with the result read
-// as unsigned. Each is a single mask, so each is written out rather than
-// routed through a shared helper: the mask *is* the whole content, and three
-// masks are three different functions.
+// as unsigned: a single mask of `bits` ones. The width is a parameter because
+// the three widths differ only in that literal.
 
-// zx8(0xff) = 255, zx8(0 - 1) = 255
-zx8(word v) {
-  word x = v & 0xff;
+zx_bits(word v, int bits) {
+  word mask = (1 << bits) - 1;
+  word x = v & mask;
 } return word x;
-(0xff):(255)
-(0x100):(0)
-
-// zx16(0 - 1) = 65535
-zx16(word v) {
-  word x = v & 0xffff;
-} return word x;
-(0xffff):(65535)
-(0x10000):(0)
-
-// zx32(0 - 1) = 4294967295
-zx32(word v) {
-  word x = v & 0xffffffff;
-} return word x;
-(0xffffffff):(4294967295)
-(0x100000000):(0)
+(0xff, 8):(255)
+(0x100, 8):(0)
+(0xffff, 16):(65535)
+(0x100000000, 32):(0)
+(0xffffffff, 32):(4294967295)

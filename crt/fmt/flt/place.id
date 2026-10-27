@@ -6,7 +6,7 @@
 fx_ip(string rds, int fxx) {
   string fxi = "0";
   if(fxx >= 0) {
-    fxi = str_slice(rds, 0, fxx + 1);
+    fxi = str_sub(rds, 0, fxx + 1);
   }
 } return string fxi;
 ("12345", 1):("12")
@@ -25,7 +25,7 @@ fx_fp(string rds, int fxx) {
 
 fx_tail(string rds, int fxx) {
   int fxm = len(rds) - fxx;
-  string fxf = str_slice(rds, fxx + 1, fxm - 1);
+  string fxf = str_sub(rds, fxx + 1, fxm - 1);
 } return string fxf;
 ("12345", 1):("345")
 ("12345", 4):("")

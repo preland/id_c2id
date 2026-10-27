@@ -8,7 +8,7 @@ fe_exp(int fex, int fec) {
 (100, 101):("e+100")
 
 fe_fin(string fer, int fex, int ffp, int fec, int fea) {
-  string fes = str_slice(fer, 0, ffp + 1);
+  string fes = str_sub(fer, 0, ffp + 1);
   string fem = fe_mant(fes, ffp, fea);
   string fet = fem + fe_exp(fex, fec);
 } return string fet;

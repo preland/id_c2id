@@ -13,7 +13,7 @@
 c_strtol(word rs, word rend, word rbase) {
   word[] rst = rt_num(rs, rbase);
   rt_endp(rs, rend, rst);
-  word rv = rt_value(rst);
+  word rv = rt_signed(rst, 2, 3);
 } return word rv;
 
 // Skip white space, read the sign and the prefix, then the digits.

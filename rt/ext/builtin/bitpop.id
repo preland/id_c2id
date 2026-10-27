@@ -13,5 +13,6 @@ c___builtin_popcount(word pcv) {
 } return word pcn;
 
 c___builtin_popcountll(word pcv) {
-  word pcn = rt_popc(pcv, 64);
+  word pch = ushr(pcv, 32);
+  word pcn = c___builtin_popcount(pcv) + c___builtin_popcount(pch);
 } return word pcn;

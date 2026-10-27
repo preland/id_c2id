@@ -1,6 +1,0 @@
-// sx32(0x80000000) = -2147483648, sx32(0xffffffff) = -1
-sx32(word v) {
-  word x = sx_bits(v, 32);
-} return word x;
-(0x80000000):(-2147483648)
-(0xffffffff):(-1)

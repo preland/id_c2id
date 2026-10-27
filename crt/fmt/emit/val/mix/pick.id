@@ -1,9 +1,9 @@
 narrow_s2(word v, word lm) {
   word res = v;
   if(lm == 1) {
-    res = sx8(v);
+    res = sx_bits(v, 8);
   } else if(lm == 2) {
-    res = sx16(v);
+    res = sx_bits(v, 16);
   }
 } return word res;
 (255, 1):(-1)

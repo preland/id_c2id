@@ -6,17 +6,25 @@ c_isdigit(word cv) {
     r = 1;
   }
 } return word r;
+(48):(1)
+(58):(0)
 
 c_isupper(word cv) {
+  word lw = c_tolower(cv);
   word r = 0;
-  if(cv >= 65 && cv <= 90) {
+  if(lw != cv) {
     r = 1;
   }
 } return word r;
+(65):(1)
+(97):(0)
 
 c_islower(word cv) {
+  word up = c_toupper(cv);
   word r = 0;
-  if(cv >= 97 && cv <= 122) {
+  if(up != cv) {
     r = 1;
   }
 } return word r;
+(97):(1)
+(65):(0)

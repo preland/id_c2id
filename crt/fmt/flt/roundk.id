@@ -3,7 +3,7 @@ rd_keep2(string rds, int rdt, int rdn) {
   if(rdt >= rdn) {
     rdy = rds + rep_ch("0", rdt - rdn);
   } else {
-    rdy = str_slice(rds, 0, rdt);
+    rdy = str_sub(rds, 0, rdt);
   }
 } return string rdy;
 ("12345", 3, 5):("123")

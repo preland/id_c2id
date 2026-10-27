@@ -1,32 +1,40 @@
-// A quotient with a zero or an infinity in it, lxs being the sign of the
-// result: zero over zero and infinity over infinity are the indefinite NaN;
-// infinity over a number, and a number over zero, are an infinity; a number
-// over infinity, and zero over a number, are zero.
-ld_dspec2(word lxs, word lxka, word lxkb) {
+// A product or a quotient with a zero or an infinity in it, lxs being the sign
+// of the result. lxz is 0 for a product and 2 for a quotient: the kind of the
+// second operand that makes zero times infinity, or infinity over infinity and
+// zero over zero, the indefinite NaN; the other special kinds are an infinity
+// (a product with an infinity in it; a quotient with an infinite dividend or a
+// zero divisor) or zero.
+ld_spec2(word lxs, word lxka, word lxkb, word lxz) {
   word[] lqr = ld_zero(lxs);
-  if(lxka == 2 || lxkb == 0) {
+  if(lxka == 2 || lxkb == 2 - lxz) {
     lqr = ld_inf(lxs);
   }
-  if((lxka == 2 && lxkb == 2) || (lxka == 0 && lxkb == 0)) {
+  if((lxka == 2 && lxkb == lxz) || (lxka == 0 && lxkb == 2 - lxz)) {
     lqr = ld_indef(1);
   }
 } return word[] lqr;
-(0, 2, 1):([-9223372036854775808, 32767])
-(1, 1, 2):([0, 32768])
-(0, 2, 2):([-4611686018427387904, 65535])
-(0, 1, 0):([-9223372036854775808, 32767])
+(0, 2, 1, 0):([-9223372036854775808, 32767])
+(1, 0, 1, 0):([0, 32768])
+(0, 2, 0, 0):([-4611686018427387904, 65535])
+(0, 0, 2, 0):([-4611686018427387904, 65535])
+(0, 2, 1, 2):([-9223372036854775808, 32767])
+(1, 1, 2, 2):([0, 32768])
+(0, 2, 2, 2):([-4611686018427387904, 65535])
+(0, 1, 0, 2):([-9223372036854775808, 32767])
 
-ld_dspec(word[] lqa, word[] lqb, word lxka, word lxkb) {
+ld_spec(word[] lqa, word[] lqb, word lxka, word lxkb, word lxz) {
   word[] lqr = [];
   if(lxka == 2 || lxkb == 2 || lxka == 0 || lxkb == 0) {
-    lqr = ld_dspec2(lqa[0] ^ lqb[0], lxka, lxkb);
+    lqr = ld_spec2(lqa[0] ^ lqb[0], lxka, lxkb, lxz);
   }
 } return word[] lqr;
-([0, 16383, -9223372036854775808], [0, 16383, -9223372036854775808], 1, 1):([])
-([0, 16383, -9223372036854775808], [1, 0, 0], 1, 0):([-9223372036854775808, 65535])
+([0, 16383, -9223372036854775808], [0, 16383, -9223372036854775808], 1, 1, 2):([])
+([0, 16383, -9223372036854775808], [1, 0, 0], 1, 0, 2):([-9223372036854775808, 65535])
+([0, 16383, -9223372036854775808], [0, 16383, -9223372036854775808], 1, 1, 0):([])
+([1, 32767, -9223372036854775808], [0, 16383, -9223372036854775808], 2, 1, 0):([-9223372036854775808, 65535])
 
 ld_div3(word[] lqa, word[] lqb, word lxka, word lxkb) {
-  word[] lqr = ld_dspec(lqa, lqb, lxka, lxkb);
+  word[] lqr = ld_spec(lqa, lqb, lxka, lxkb, 2);
   if(len(lqr) == 0) {
     lqr = ld_dfin(lqa, lqb);
   }

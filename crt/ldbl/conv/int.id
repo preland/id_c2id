@@ -4,19 +4,13 @@
 ld_ofu(word lxu, word lxs) {
   word[] lqr = [0, 0];
   if(lxu != 0) {
-    lqr = ld_ofu2(lxu, lxs);
+    lqr = ld_ofshift(lxu, lxs, 16446);
   }
 } return word[] lqr;
 (1, 0):([-9223372036854775808, 16383])
 (3, 1):([-4611686018427387904, 49152])
 (0, 1):([0, 0])
 
-ld_ofu2(word lxu, word lxs) {
-  word lxk = ld_clz(lxu);
-  word[] lqr = [lxu << lxk, (lxs << 15) | (16446 - lxk)];
-} return word[] lqr;
-(1, 0):([-9223372036854775808, 16383])
-(-1, 0):([-1, 16446])
 
 cld_of_uint(word lxd, word lxu) {
   word[] lqr = ld_ofu(lxu, 0);

@@ -3,22 +3,15 @@
 isl1_word() {
   word x = peek64((import crt_heap) + 96);
 } return word x;
-given crt_heap_fixture5 ():(1048576)
-given crt_heap_fixture6 ():(2097152)
+given crt_heap_grown(32) ():(1048576)
+given crt_heap_grown(2097152) ():(2097152)
 
-// A heap that has grown once: the 64-byte island and, after its sentinel, a
-// mebibyte island at hnext.
-crt_heap_fixture5() {
+// A heap that has grown once, by a request of hreq bytes (32 gives the 64-byte island and, after its sentinel, a
+// mebibyte island at hnext; more than a mebibyte gives one that large).
+crt_heap_grown(int hreq) {
   crt_heap_fixture();
-  grow_heap(32);
+  grow_heap(hreq);
 } return void;
-():() then prints:("")
-():() then eprints:("")
+(32):() then prints:("")
+(2097152):() then eprints:("")
 
-// The same, grown by a request bigger than a mebibyte.
-crt_heap_fixture6() {
-  crt_heap_fixture();
-  grow_heap(2097152);
-} return void;
-():() then prints:("")
-():() then eprints:("")

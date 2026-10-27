@@ -21,16 +21,15 @@ load_wid(int ty) {
 given txt_fixture (4):(1)
 given txt_fixture (2):(8)
 
-// sx8 / sx16 / sx32 for a signed type, zx8 / zx16 / zx32 for an unsigned one.
+// sx_bits for a signed type, zx_bits for an unsigned one, called with the width.
 // This is the single most likely source of a silently wrong answer in the
-// whole emitter: a missing sx32 gives 4294967295 where C gives -1, and every
+// whole emitter: a missing sx_bits(v, 32) gives 4294967295 where C gives -1, and every
 // small test still passes.
 cvt_name(int ty) {
-  string s = "zx";
+  string s = "zx_bits";
   if(ty_signed(ty) == 1) {
-    s = "sx";
+    s = "sx_bits";
   }
-  string out = cvt_full(s, ty);
-} return string out;
-given txt_fixture (0):("sx32")
-given txt_fixture (1):("zx32")
+} return string s;
+given txt_fixture (0):("sx_bits")
+given txt_fixture (1):("zx_bits")

@@ -8,7 +8,7 @@ emit_ret(int e) {
   flush_pend();
   emit_out("  poke64(fp, " + txt + ");");
 } return void;
-given txt_fixture given pend_setup (0):() then prints:("  word t0 = sx32(NEEDS_CFG_prim);\n  poke64(fp, t0);\n")
+given txt_fixture given pend_setup (0):() then prints:("  word t0 = sx_bits(NEEDS_CFG_prim, 32);\n  poke64(fp, t0);\n")
 given txt_fixture given pend_setup (-1):() then prints:("  poke64(fp, 0);\n")
 
 emit_cond(int b) {

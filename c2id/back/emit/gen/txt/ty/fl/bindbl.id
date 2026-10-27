@@ -8,7 +8,7 @@ fl_bin_pick(int id, int rt) {
   }
 } return string out;
 given txt_fixture given pend_setup given fl_fixture given fl_bin_fixture ((import flb), 6):("t2") then (import pend)[2]:("word t2 = cfl_add(t0, t1);")
-given txt_fixture given pend_setup given fl_fixture given ld_fixture given init_frame given init_frame2 given txt_reset ((import ldb), 10):("t3") then (import pend)[3]:("word t3 = cld_add((fp + 48), t0, t2);")
+given txt_fixture given pend_setup given fl_fixture given ld_fixture given init_frame given init_frame2 given txt_reset ((import ldb), 10):("t3") then (import pend)[3]:("word t3 = cld_arith(0, (fp + 48), t0, t2);")
 
 fl_bin_dbl(int id, int rt) {
   int ca = fl_coerce(rt, (import na)[id]);

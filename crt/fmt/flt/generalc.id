@@ -21,7 +21,7 @@ fg_pick(string fgs, int fgx, int fgp, int fec, int fea) {
 
 fg_fin(string fer, int ffx0, int fgp, int fec, int fea) {
   int fgx = ffx0 + len(fer) - fgp;
-  string fgs = str_slice(fer, 0, fgp);
+  string fgs = str_sub(fer, 0, fgp);
   int fgq = fg_quirk(fea, fgx - ffx0);
 } chain (string fer, int ffx0, int fgp, int fec, int fea) {
   string fgt = fg_pick(fgs, fgx, fgp, fec, fgq);

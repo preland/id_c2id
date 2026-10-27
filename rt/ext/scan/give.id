@@ -10,7 +10,7 @@ rt_give(word rv, word rsup, word rlen, word[] rargs, word[] rst) {
 // The next argument.
 rt_arg(word[] rargs, word[] rst) {
   int rk = rst[3];
-  word rp = lgetw(rargs, rk);
+  word rp = rargs[rk];
   word_list_set(rst, 3, rst[3] + 1);
 } return word rp;
 

@@ -1,16 +1,12 @@
 // a < b, a <= b, a > b, a >= b, a == b, a != b as 0 or 1 for the operator's code
-// 0 to 5, signed (cmps) or unsigned (cmpu).
-ci128_cmps(word wqa, word wqb, int wqop) {
-  word wqr = wq_rel(wq_order(wqa, wqb, 1), wqop);
+// 0 to 5, signed (wqsigned 1) or unsigned (0).
+ci128_compare(int wqsigned, word wqa, word wqb, int wqop) {
+  word wqr = wq_rel(wq_order(wqa, wqb, wqsigned), wqop);
 } return word wqr;
-given wq_cells ((import wqx), (import wqy), 2):(1)
-given wq_cells given ld_cset((import wqy), 0, -1) ((import wqx), (import wqy), 0):(0)
-
-ci128_cmpu(word wqa, word wqb, int wqop) {
-  word wqr = wq_rel(wq_order(wqa, wqb, 0), wqop);
-} return word wqr;
-given wq_cells ((import wqx), (import wqy), 2):(1)
-given wq_cells given ld_cset((import wqy), 0, -1) ((import wqx), (import wqy), 0):(1)
+given wq_cells (1, (import wqx), (import wqy), 2):(1)
+given wq_cells given ld_cset((import wqy), 0, -1) (1, (import wqx), (import wqy), 0):(0)
+given wq_cells (0, (import wqx), (import wqy), 2):(1)
+given wq_cells given ld_cset((import wqy), 0, -1) (0, (import wqx), (import wqy), 0):(1)
 
 wq_rel(word wqd, int wqop) {
   int[] wqk = [wqd < 0, wqd <= 0, wqd > 0, wqd >= 0, wqd == 0, wqd != 0];

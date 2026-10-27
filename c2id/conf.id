@@ -99,10 +99,10 @@ string[] bi_special = ["__builtin_constant_p", "__builtin_choose_expr", "__built
 string[] wide_names = ["__int128", "__uint128_t", "__int128_t"];
 string[] wide_prims = ["__int128", "unsigned __int128"];
 string[] wide_kinds = ["num", "var", "bin", "un", "post", "call", "idx", "mem", "cast", "cond", "assign"];
-string[] ld_fns = ["cld_add", "cld_sub", "cld_mul", "cld_div"];
+string[] ld_fns = ["cld_arith(0, ", "cld_arith(1, ", "cld_arith(2, ", "cld_arith(3, "];
 string[] wd_ops = ["+", "-", "*", "/", "%", "&", "|", "^", "<<", ">>"];
-string[] wd_sfn = ["ci128_add", "ci128_sub", "ci128_mul", "ci128_divs", "ci128_mods", "ci128_and", "ci128_or", "ci128_xor", "ci128_shl", "ci128_sar"];
-string[] wd_ufn = ["ci128_add", "ci128_sub", "ci128_mul", "ci128_divu", "ci128_modu", "ci128_and", "ci128_or", "ci128_xor", "ci128_shl", "ci128_shr"];
+string[] wd_sfn = ["ci128_add(", "ci128_sub(", "ci128_mul(", "ci128_divide(1, 0, ", "ci128_divide(1, 1, ", "ci128_and(", "ci128_or(", "ci128_xor(", "ci128_shl(", "ci128_sar("];
+string[] wd_ufn = ["ci128_add(", "ci128_sub(", "ci128_mul(", "ci128_divide(0, 0, ", "ci128_divide(0, 1, ", "ci128_and(", "ci128_or(", "ci128_xor(", "ci128_shl(", "ci128_shr("];
 string[] wd_cmp_ops = ["<", "<=", ">", ">=", "==", "!="];
 string[] fl_ops = ["+", "-", "*", "/", "<", "<=", ">", ">=", "==", "!="];
 string[] fl_fns = ["cfl_add", "cfl_sub", "cfl_mul", "cfl_div", "cfl_lt", "cfl_le", "cfl_gt", "cfl_ge", "cfl_eq", "cfl_ne"];

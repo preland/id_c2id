@@ -3,7 +3,7 @@
 narrow_u(word v, word lm) {
   word res = v;
   if(lm == 0) {
-    res = zx32(v);
+    res = zx_bits(v, 32);
   } else {
     res = narrow_u2(v, lm);
   }
@@ -15,9 +15,9 @@ narrow_u(word v, word lm) {
 narrow_u2(word v, word lm) {
   word res = v;
   if(lm == 1) {
-    res = zx8(v);
+    res = zx_bits(v, 8);
   } else if(lm == 2) {
-    res = zx16(v);
+    res = zx_bits(v, 16);
   }
 } return word res;
 (255, 1):(255)

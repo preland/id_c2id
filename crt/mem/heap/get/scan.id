@@ -38,4 +38,4 @@ adj_next(word h) {
   }
 } return word r;
 given crt_heap_fixture4 ((import h0)):((import h1))
-given crt_heap_fixture5 ((import h0)):(0)
+given crt_heap_grown(32) ((import h0)):(0)

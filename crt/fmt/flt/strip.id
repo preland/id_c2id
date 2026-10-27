@@ -1,28 +1,18 @@
-// %g drops the zeros that end the digits. rd_zeros counts them; rd_cut keeps at
+// %g drops the zeros that end the digits. rd_trailing counts them; rd_cut keeps at
 // least rdm characters; rd_strip puts the two together.
-rd_zeros(string rds) {
-  int rdn = 0;
-  int rdi = len(rds) - 1;
-  while(rdi >= 0 && character_code_at(rds, rdi) == 48) {
-    rdn = rdn + 1;
-    rdi = rdi - 1;
-  }
-} return int rdn;
-("1200"):(2)
-("12"):(0)
 
 rd_cut(string rds, int rdq, int rdm) {
   int rdn = len(rds) - rdq;
   if(rdn < rdm) {
     rdn = rdm;
   }
-  string rdv = str_slice(rds, 0, rdn);
+  string rdv = str_sub(rds, 0, rdn);
 } return string rdv;
 ("1200", 2, 0):("12")
 ("000", 3, 1):("0")
 
 rd_strip(string rds, int rdm) {
-  int rdq = rd_zeros(rds);
+  int rdq = rd_trailing(rds, 48);
   string rdv = rd_cut(rds, rdq, rdm);
 } return string rdv;
 ("1200", 0):("12")

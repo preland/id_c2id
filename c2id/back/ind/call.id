@@ -23,5 +23,5 @@ ind_prefix(int callee, string rest) {
   }
 } return string out;
 given boot_a given boot_b given exprfix stdin "f;" ((import extop), "1, 2"):("1, 2")
-given boot_a given boot_b given exprfix given bind_param("p", 0) stdin "p;" ((import extop), "1"):("t1, 1") then (import pend):(["word t0 = peek32(fp + 8);", "word t1 = sx32(t0);"])
+given boot_a given boot_b given exprfix given bind_param("p", 0) stdin "p;" ((import extop), "1"):("t1, 1") then (import pend):(["word t0 = peek32(fp + 8);", "word t1 = sx_bits(t0, 32);"])
 given boot_a given boot_b given exprfix given bind_param("p", 0) stdin "p;" ((import extop), ""):("t1")

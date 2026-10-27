@@ -1,5 +1,5 @@
 rd_head(string rdy, int rdb) {
-  string rdh = str_slice(rdy, 0, rdb - 1);
+  string rdh = str_sub(rdy, 0, rdb - 1);
   int rdc = character_code_at(rdy, rdb - 1) + 1;
   string rdv = rdh + chr(rdc);
 } return string rdv;
@@ -18,7 +18,7 @@ rd_bump(string rdy, int rdb, int rdn) {
 
 // The decimal string plus one: 129 -> 130, 99 -> 100, "" -> 1.
 rd_inc(string rdy) {
-  int rdn = rd_nines(rdy);
+  int rdn = rd_trailing(rdy, 57);
   int rdb = len(rdy) - rdn;
   string rdv = rd_bump(rdy, rdb, rdn);
 } return string rdv;

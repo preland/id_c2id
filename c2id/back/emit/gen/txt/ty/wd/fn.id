@@ -7,6 +7,6 @@ wd_fn(int wt, string wop) {
     wfn = (import wd_sfn)[wi];
   }
 } return string wfn;
-given txt_fixture given wd_types (6, "/"):("ci128_divs")
-given txt_fixture given wd_types (7, "/"):("ci128_divu")
-given txt_fixture given wd_types (6, ">>"):("ci128_sar")
+given txt_fixture given wd_types (6, "/"):("ci128_divide(1, 0, ")
+given txt_fixture given wd_types (7, "/"):("ci128_divide(0, 0, ")
+given txt_fixture given wd_types (6, ">>"):("ci128_sar(")

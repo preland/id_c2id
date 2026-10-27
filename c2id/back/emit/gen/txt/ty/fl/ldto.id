@@ -12,9 +12,9 @@ ld_to(int to, int kt, string s) {
   if(kt == 0) {
     out = ld_toi(to, s);
   } else {
-    out = name_val(pick_when(kt, 2, "cld_to_dbl", "cld_to_flt") + "(" + s + ")");
+    out = name_val("ld_nar(" + s + pick_when(kt, 2, ", 53, 0 - 1022", ", 24, 0 - 126") + ")");
   }
 } return string out;
-given txt_fixture given pend_setup (0, 0, "t5"):("t1") then (import pend)[0]:("word t0 = cld_to_int(t5);")
-given txt_fixture given pend_setup (6, 2, "t5"):("t0") then (import pend)[0]:("word t0 = cld_to_dbl(t5);")
-given txt_fixture given pend_setup (7, 1, "t5"):("t0") then (import pend)[0]:("word t0 = cld_to_flt(t5);")
+given txt_fixture given pend_setup (0, 0, "t5"):("t1") then (import pend)[0]:("word t0 = cld_to_integer(63, t5);")
+given txt_fixture given pend_setup (6, 2, "t5"):("t0") then (import pend)[0]:("word t0 = ld_nar(t5, 53, 0 - 1022);")
+given txt_fixture given pend_setup (7, 1, "t5"):("t0") then (import pend)[0]:("word t0 = ld_nar(t5, 24, 0 - 126);")

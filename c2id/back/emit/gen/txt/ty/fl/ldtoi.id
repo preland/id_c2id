@@ -3,9 +3,9 @@ ld_toi(int to, string s) {
   if((import ns)[to] == "_Bool") {
     out = name_val("cld_nz(" + s + ")");
   } else {
-    out = fl_toi_by(to, s, "cld_to_int(", "cld_to_uint(");
+    out = fl_toi_by(to, s, "cld_to_integer(63, ", "cld_to_integer(64, ");
   }
 } return string out;
 given txt_fixture given pend_setup given string_list_set((import ns), 1, "_Bool") (1, "t5"):("t0") then (import pend)[0]:("word t0 = cld_nz(t5);")
-given txt_fixture given pend_setup (0, "t5"):("t1") then (import pend)[0]:("word t0 = cld_to_int(t5);")
-given txt_fixture given pend_setup (3, "t5"):("t0") then (import pend)[0]:("word t0 = cld_to_uint(t5);")
+given txt_fixture given pend_setup (0, "t5"):("t1") then (import pend)[0]:("word t0 = cld_to_integer(63, t5);")
+given txt_fixture given pend_setup (3, "t5"):("t0") then (import pend)[0]:("word t0 = cld_to_integer(64, t5);")

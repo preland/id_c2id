@@ -25,7 +25,7 @@ sdec(word v) {
 narrow_s(word v, word lm) {
   word res = v;
   if(lm == 0) {
-    res = sx32(v);
+    res = sx_bits(v, 32);
   } else {
     res = narrow_s2(v, lm);
   }
